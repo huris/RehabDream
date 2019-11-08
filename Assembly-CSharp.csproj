@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor.cs" />
      <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\DoctorDataManager.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
      <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
+     <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
      <Compile Include="Assets\Scripts\Patient.cs" />
      <Compile Include="Assets\Scripts\PatientAddButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientAddExitButtonScript.cs" />

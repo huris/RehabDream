@@ -300,9 +300,9 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check doctor register
-    public DatabaseReturn DoctorRegister(long DoctorID, string DoctorName, string DoctorPassword)  // Register
+    public DatabaseReturn DoctorRegister(Doctor doctor)  // Register
     {
-        if (DoctorID <= 0 || DoctorName == "" || DoctorPassword == "")   // input Null
+        if (doctor.DoctorID <= 0 || doctor.DoctorName == "" || doctor.DoctorPassword == "")   // input Null
         {
             Debug.Log("@UserManager: Register DoctorInfo NullInput");
             return DatabaseReturn.NullInput;
@@ -310,14 +310,8 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         try
         {
-            if (DoctorLogin(DoctorID, DoctorPassword) == DatabaseReturn.Success)
-            {
-                Debug.Log("@UserManager: DoctorInfo AlreadyExist");
-                return DatabaseReturn.AlreadyExist;
-            }
-
             DoctorDatabase.InsertValues("DoctorInfo", //table name
-                                        new String[] { DoctorID.ToString(), AddSingleQuotes(DoctorName), AddSingleQuotes(MD5Encrypt(DoctorPassword)) }
+                                        new String[] { doctor.DoctorID.ToString(), AddSingleQuotes(doctor.DoctorName), AddSingleQuotes(MD5Encrypt(doctor.DoctorPassword)) }
                                         );
 
             Debug.Log("@UserManager: Register DoctorInfo Success");
@@ -326,6 +320,37 @@ public class DoctorDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Register DoctorInfo SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+    // check DoctorInfo
+    public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
+    {
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                // 患者用户名存在
+                Debug.Log("@UserManager: DoctorInfo Existence!");
+                return DatabaseReturn.Fail;
+            }
+            else
+            {
+                // 患者用户名不存在
+                Debug.Log("@UserManager: DoctorInfo will be created!");
+                return DatabaseReturn.Success;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: DoctorInfo SqliteException");
             DoctorDatabase?.CloseConnection();
             return DatabaseReturn.Fail;
         }
@@ -554,12 +579,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check patient register
-    public DatabaseReturn PatientRegister(long PatientID, string PatientName, string PatientPassword, long DoctorID,
-        long PatientAge, string PatientSex, long PatientHeight, long PatientWeight)
+    public DatabaseReturn PatientRegister(Patient patient)
     {
-        if (PatientID <= 0 || PatientName == "" || PatientPassword == "" ||
-            DoctorID <= 0 || PatientAge < 0 || PatientSex == "" ||
-           PatientHeight < 0 || PatientWeight < 0)   // input Null
+        if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientPassword == "" ||
+            patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "" ||
+            patient.PatientHeight < 0 || patient.PatientWeight < 0)   // input Null
         {
             Debug.Log("@UserManager: Register PatientInfo NullInput");
             return DatabaseReturn.NullInput;
@@ -567,14 +591,8 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         try
         {
-            if (CheckPatient(PatientID) == DatabaseReturn.Fail)
-            {
-                Debug.Log("@UserManager: PatientInfo AlreadyExist");
-                return DatabaseReturn.AlreadyExist;
-            }
-
             SqliteDataReader reader;    //sql读取器
-            string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+            string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + patient.PatientDoctorID.ToString();
 
             reader = DoctorDatabase.ExecuteQuery(QueryString);
             reader.Read();
@@ -582,8 +600,8 @@ public class DoctorDatabaseManager : MonoBehaviour
             if (reader.HasRows)
             {
                 PatientDatabase.InsertValues("PatientInfo", //table name
-                                   new String[] { PatientID.ToString(), AddSingleQuotes(PatientName), AddSingleQuotes(MD5Encrypt(PatientPassword)),
-                                                    DoctorID.ToString(), PatientAge.ToString(),AddSingleQuotes(PatientSex),PatientHeight.ToString(),PatientWeight.ToString() }
+                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(MD5Encrypt(patient.PatientPassword)),
+                                                  patient.PatientDoctorID.ToString(), patient.PatientAge.ToString(),AddSingleQuotes(patient.PatientSex),patient.PatientHeight.ToString(),patient.PatientWeight.ToString() }
                                    );
 
                 Debug.Log("@UserManager: Register PatientInfo Success");

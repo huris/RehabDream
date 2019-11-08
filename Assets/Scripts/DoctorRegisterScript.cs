@@ -7,33 +7,34 @@ using System;
 
 public class DoctorRegisterScript : MonoBehaviour {
 
-    public InputField DoctorID;     // 医生账号
+    public Text DoctorID;     // 医生账号
     public InputField DoctorPassword;    // 医生密码
     public InputField DoctorName;    // 医生姓名
+    public long TryDoctorID;
 
-    public GameObject UserNameErrorInput;   // 账号由10位以下组成
     public GameObject ErrorInformation;   // 输入内容为空
-    public GameObject UserNameAlreadyExist;   // 账号已存在
     public GameObject RegisterSuccess;   // 账号注册成功
 
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
-        DoctorID = GameObject.Find("DoctorID/InputField").GetComponent<InputField>();    //  绑定账号
-        DoctorPassword = GameObject.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
-        DoctorName = GameObject.Find("DoctorName/InputField").GetComponent<InputField>();    //  绑定姓名
+        DoctorID = transform.Find("DoctorID/DoctorIDItem").GetComponent<Text>();    //  绑定账号
+        DoctorPassword = transform.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
+        DoctorName = transform.Find("DoctorName/InputField").GetComponent<InputField>();    //  绑定姓名
 
-        UserNameErrorInput = GameObject.Find("UserNameErrorInput");   // 绑定错误信息
-        UserNameErrorInput.SetActive(false);     // 设置语句刚开始处于未激活状态
-
-        ErrorInformation = GameObject.Find("ErrorInput");   // 绑定错误信息
+        ErrorInformation = transform.Find("ErrorInput").gameObject;   // 绑定错误信息
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
 
-        UserNameAlreadyExist = GameObject.Find("UserNameAlreadyExist");   // 绑定错误信息
-        UserNameAlreadyExist.SetActive(false);     // 设置语句刚开始处于未激活状态
-
-        RegisterSuccess = GameObject.Find("RegisterSuccess");   // 绑定错误信息
+        RegisterSuccess = transform.Find("RegisterSuccess").gameObject;   // 绑定错误信息
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
+
+
+        TryDoctorID = GetRandom(1000, 9999);  // 患者账号为6位
+        while (DoctorDatabaseManager.instance.CheckDoctor(TryDoctorID) != DoctorDatabaseManager.DatabaseReturn.Success)
+        {
+            TryDoctorID = GetRandom(1000, 9999);  // 直到找到一个不重复DoctorID
+        }
+        DoctorID.text = TryDoctorID.ToString();
     }
 
     // Update is called once per frame
@@ -46,35 +47,30 @@ public class DoctorRegisterScript : MonoBehaviour {
     {
         try
         {
-            if (long.Parse(DoctorID.text) >= 10000000000)
+            ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
+            RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
+
+            Doctor doctor = new Doctor();
+            doctor.SetDoctorMessage(TryDoctorID, DoctorPassword.text, DoctorName.text);
+
+            DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
+
+            if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
             {
-                UserNameErrorInput.SetActive(true);
+                //print("成功");
+                RegisterSuccess.SetActive(true);
+
+                StartCoroutine(DelayTime(3));
             }
-            else
+            else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
             {
-
-                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(long.Parse(DoctorID.text), DoctorName.text, DoctorPassword.text);
-
-                if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
-                {
-                    //print("成功");
-                    RegisterSuccess.SetActive(true);
-
-                    StartCoroutine(DelayTime(3));
-                }
-                else if (RETURN == DoctorDatabaseManager.DatabaseReturn.AlreadyExist)
-                {
-                    UserNameAlreadyExist.SetActive(true);
-                }
-                else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
-                {
-                    ErrorInformation.SetActive(true);
-                }
+                ErrorInformation.SetActive(true);
             }
+            
         }
         catch (Exception e) // 抛出异常
         {
-            UserNameErrorInput.SetActive(true);
+            ErrorInformation.SetActive(true);
         }
     }
 
@@ -84,5 +80,26 @@ public class DoctorRegisterScript : MonoBehaviour {
 
         // 如果登录成功,则进入医生管理界面
         SceneManager.LoadScene("01-DoctorLogin");
+    }
+
+    /// <summary>
+    /// 生成随机数
+    /// </summary>
+    /// <param name="minVal">最小值（包含）</param>
+    /// <param name="maxVal">最大值（不包含）</param>
+    /// <returns></returns>
+    public static long GetRandom(long minVal, long maxVal)
+    {
+        //这样产生0 ~ 100的强随机数（不含100）
+        long m = maxVal - minVal;
+        long rnd = long.MinValue;
+        decimal _base = (decimal)long.MaxValue;
+        byte[] rndSeries = new byte[8];
+        System.Security.Cryptography.RNGCryptoServiceProvider rng
+        = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        rng.GetBytes(rndSeries);
+        long l = BitConverter.ToInt64(rndSeries, 0);
+        rnd = (long)(Math.Abs(l) / _base * m);
+        return minVal + rnd;
     }
 }

@@ -8,8 +8,10 @@ public class PatientItemScript : MonoBehaviour {
 
     public GameObject Prefab;
 
-    void Start()
+    void OnEnable()
     {
+        print(DoctorDataManager.instance.Patients.Count);
+
         if(this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
         {
             for (int i=this.transform.childCount-1;i>= DoctorDataManager.instance.Patients.Count; i--)
