@@ -29,4 +29,9 @@ public class Patient {
         this.PatientHeight = PatientHeight;
         this.PatientWeight = PatientWeight;
     }
+
+    public void setPatientPassword(string NewPassword)
+    {
+        this.PatientPassword = NewPassword;
+    }
 }

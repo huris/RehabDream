@@ -16,6 +16,7 @@ public class PatientItemScript : MonoBehaviour {
     public GameObject PatientListBG;
     public GameObject PatientAdd;
     public GameObject PatienPhysicalConditionsQuery;
+    public GameObject PatientPasswordModify;
 
     void OnEnable()
     {
@@ -48,7 +49,10 @@ public class PatientItemScript : MonoBehaviour {
             this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientAge.ToString();
             this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientID.ToString();
 
-            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(OnButtonClick);  // 为button添加监听函数
+            // 为button添加监听函数
+            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
+            this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientPasswordModifyButtonOnClick);    // 修改患者密码
+
         }
 
         if (DoctorDataManager.instance.Patients.Count != 0)
@@ -77,14 +81,13 @@ public class PatientItemScript : MonoBehaviour {
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
         PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
         PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
-
+        PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
     }
 	void Update () {
       
     }
-    void OnButtonClick()
+    void PhysicalConditionsQueryButtonOnClick()
     {
-        // Transform trans = EventSystem.current.transform;
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
@@ -95,5 +98,17 @@ public class PatientItemScript : MonoBehaviour {
         PatientListBG.SetActive(false);
         PatientAdd.SetActive(false);
         PatienPhysicalConditionsQuery.SetActive(true);
+    }
+
+    void PatientPasswordModifyButtonOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        
+        PatientInfo.SetActive(false);
+        PatientListBG.SetActive(false);
+        PatientPasswordModify.SetActive(true);
     }
 }

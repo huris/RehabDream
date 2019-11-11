@@ -622,11 +622,10 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // Modify Patient Information
-    public DatabaseReturn PatientModify(long PatientID, string PatientName, string PatientPassword, long DoctorID,
-        long PatientAge, string PatientSex, long PatientHeight, long PatientWeight)
+    public DatabaseReturn PatientModify(Patient patient)
     {
         SqliteDataReader reader;    //sql读取器
-        string QueryString = "SELECT * FROM PatientInfo where PatientID=" + PatientID.ToString();
+        string QueryString = "SELECT * FROM PatientInfo where PatientID=" + patient.PatientID.ToString();
 
         try
         {
@@ -634,7 +633,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+                QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + patient.PatientDoctorID.ToString();
 
                 reader = DoctorDatabase.ExecuteQuery(QueryString);
                 reader.Read();
@@ -642,10 +641,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                 if (reader.HasRows)
                 {
                     // 用户名存在
-                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(PatientName) + " , PatientPassword=" +
-                    AddSingleQuotes(MD5Encrypt(PatientPassword)) + " , DoctorID=" + DoctorID.ToString() + " , PatientAge=" +
-                    PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(PatientSex) + " , PatientHeight=" + PatientHeight.ToString() +
-                    " , PatientWeight=" + PatientWeight.ToString() + " where PatientID=" + PatientID.ToString();
+                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
+                    AddSingleQuotes(MD5Encrypt(patient.PatientPassword)) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
+                    patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
+                    " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
                     PatientDatabase.ExecuteQuery(QueryString);
 
                     Debug.Log("@UserManager: Modify PatientDatabase Success");
