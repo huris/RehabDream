@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PatientPasswordModifyButtonScript : MonoBehaviour {
 
     public Text PatientName;
-    public Text NewPassword;
-    public Text NewPasswordAgain;
+    public InputField NewPassword;
+    public InputField NewPasswordAgain;
 
     public GameObject ModifyError;
     public GameObject ModifySuccess;
@@ -23,10 +23,11 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
         PatientName = transform.parent.Find("ModifyPatientName/PatientName").GetComponent<Text>();
         PatientName.text = DoctorDataManager.instance.patient.PatientName;
 
-        print(transform.parent.name);
+        NewPassword = transform.parent.Find("NewPassword/InputField").GetComponent<InputField>();
+        NewPassword.text = "";
 
-        NewPassword = transform.parent.Find("NewPassword/InputField").GetComponent<Text>();
-        NewPasswordAgain = transform.parent.Find("NewPasswordAgain/InputField").GetComponent<Text>();
+        NewPasswordAgain = transform.parent.Find("NewPasswordAgain/InputField").GetComponent<InputField>();
+        NewPasswordAgain.text = "";
 
         ModifyError = transform.parent.Find("PatientPasswordModifyError").gameObject;
         ModifyNull = transform.parent.Find("PatientPasswordModifyNull").gameObject;
@@ -48,8 +49,6 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
 
     public void PatientPasswordModifyButtonOnClick()
     {
-        print(NewPassword.text);
-        print(NewPasswordAgain.text);
         if (NewPassword.text == "" || NewPasswordAgain.text == "")
         {
             ModifyError.SetActive(false) ;
