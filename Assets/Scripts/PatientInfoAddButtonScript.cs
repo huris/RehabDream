@@ -23,6 +23,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
     public GameObject PatientAdd;
     public GameObject PatientInfo;
     public GameObject PatientListBG;
+    public GameObject PatientQuery;
 
     // Use this for initialization
     void OnEnable()
@@ -45,6 +46,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
+        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
 
         TryPatientID = GetRandom(100000, 999999);  // 患者账号为6位
         while (DoctorDatabaseManager.instance.CheckPatient(TryPatientID) != DoctorDatabaseManager.DatabaseReturn.Success)
@@ -64,7 +66,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
     {
         try
         {
-           
+
             ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
             RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
 
@@ -81,16 +83,16 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             {
                 //print("成功");
                 RegisterSuccess.SetActive(true);
-                    
+
                 DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                
+
                 StartCoroutine(DelayTime(3));
             }
             else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
             {
                 ErrorInformation.SetActive(true);
             }
-            
+
         }
         catch (Exception e) // 抛出异常
         {
@@ -102,8 +104,17 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
 
+        PatientName.text = "";
+        PatientAge.text = "";
+        Man.isOn = false;
+        Woman.isOn = false;
+        PatientHeight.text = "";
+        PatientWeight.text = "";
+        PatientPassword.text = "";
+
         // 如果注册成功,则进入医生管理界面
         PatientAdd.SetActive(false);
+        PatientQuery.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);
     }

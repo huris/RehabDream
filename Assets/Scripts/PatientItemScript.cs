@@ -8,9 +8,11 @@ public class PatientItemScript : MonoBehaviour {
 
     public GameObject Prefab;
 
+    public Scrollbar PatientListScrollBar;
+
     void OnEnable()
     {
-        print(DoctorDataManager.instance.Patients.Count);
+        // print(DoctorDataManager.instance.Patients.Count);
 
         if(this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
         {
@@ -47,8 +49,17 @@ public class PatientItemScript : MonoBehaviour {
         //childGame.GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(OnButtonClick);
 
         ////获取到父物体，设置为父物体的子物体
+        if(this.transform.childCount <= 7)
+        {
+            this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f);
+        }
+        else
+        {
+            this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f + (this.transform.childCount - 7) * 70.2f);
+        }
 
-
+        PatientListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
+        PatientListScrollBar.value = 1;
     }
 	void Update () {
       

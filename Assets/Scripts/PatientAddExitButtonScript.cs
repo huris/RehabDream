@@ -11,9 +11,9 @@ public class PatientAddExitButtonScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        PatientAdd = GameObject.Find("Canvas/Background/FunctionUI/PatentInfoManagerUI/PatientAdd");
-        PatientInfo = GameObject.Find("Canvas/Background/FunctionUI/PatentInfoManagerUI/PatientInfo");
-        PatientListBG = GameObject.Find("Canvas/Background/FunctionUI/PatentInfoManagerUI/PatientListBG");
+        PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
+        PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
+        PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
     }
 
     // Update is called once per frame

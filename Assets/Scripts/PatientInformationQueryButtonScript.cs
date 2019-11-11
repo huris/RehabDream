@@ -11,6 +11,10 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
     public Toggle Man;
     public Toggle Woman;
 
+    public GameObject PatientQuery;
+    public GameObject PatientInfo;
+    public GameObject PatientListBG;
+
     // Use this for initialization
     void Start() {
 
@@ -18,6 +22,10 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         PatientAge = transform.parent.Find("QueryPatientAge/InputField").GetComponent<InputField>();
         Man = transform.parent.Find("QueryPatientSex/Man").GetComponent<Toggle>();
         Woman = transform.parent.Find("QueryPatientSex/Woman").GetComponent<Toggle>();
+
+        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
+        PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
+        PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
     }
 
     // Update is called once per frame
@@ -31,11 +39,19 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         if (Man.isOn) PatientSex = "男";
         else if (Woman.isOn) PatientSex = "女";
 
-        print(PatientSex);
-        print(PatientAge.text);
-        print(DoctorDataManager.instance.doctor.DoctorID);
-
+        if (PatientAge.text == "") PatientAge.text = "0"; 
+        
         DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientSex, long.Parse(PatientAge.text, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowLeadingSign), DoctorDataManager.instance.doctor.DoctorID);
-       
+
+        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[0];
+
+        PatientName.text = "";
+        PatientAge.text = "";
+        Man.isOn = false;
+        Woman.isOn = false;
+        
+        PatientQuery.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
     }
 }

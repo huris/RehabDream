@@ -12,12 +12,12 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
     public Text PatientWeight;
 
     // Use this for initialization
-    void Start () {
-        PatientName = GameObject.Find("Canvas/Background/FunctionUI/TrainingCoditionQueryUI/PatientInfo/Name/PatientName").GetComponent<Text>();
-        PatientSex = GameObject.Find("Canvas/Background/FunctionUI/TrainingCoditionQueryUI/PatientInfo/Sex/PatientSex").GetComponent<Text>();
-        PatientAge = GameObject.Find("Canvas/Background/FunctionUI/TrainingCoditionQueryUI/PatientInfo/Age/PatientAge").GetComponent<Text>();
-        PatientHeight = GameObject.Find("Canvas/Background/FunctionUI/TrainingCoditionQueryUI/PatientInfo/Height/PatientHeight").GetComponent<Text>();
-        PatientWeight = GameObject.Find("Canvas/Background/FunctionUI/TrainingCoditionQueryUI/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
+    void OnEnable () {
+        PatientName = transform.Find("Name/PatientName").GetComponent<Text>();
+        PatientSex = transform.Find("Sex/PatientSex").GetComponent<Text>();
+        PatientAge = transform.Find("Age/PatientAge").GetComponent<Text>();
+        PatientHeight = transform.Find("Height/PatientHeight").GetComponent<Text>();
+        PatientWeight = transform.Find("Weight/PatientWeight").GetComponent<Text>();
 
         PatientName.text = DoctorDataManager.instance.patient.PatientName;
         PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
