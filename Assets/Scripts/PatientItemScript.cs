@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PatientItemScript : MonoBehaviour {
@@ -47,7 +48,7 @@ public class PatientItemScript : MonoBehaviour {
             this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientAge.ToString();
             this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientID.ToString();
 
-            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate() { OnButtonClick(i);});  // 为button添加监听函数
+            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(OnButtonClick);  // 为button添加监听函数
         }
 
         if (DoctorDataManager.instance.Patients.Count != 0)
@@ -81,12 +82,13 @@ public class PatientItemScript : MonoBehaviour {
 	void Update () {
       
     }
-    void OnButtonClick(int index)
+    void OnButtonClick()
     {
-        print(DoctorDataManager.instance.Patients.Count);
-        print(index);
+        // Transform trans = EventSystem.current.transform;
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[index];
+        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
 
         PatientQuery.SetActive(false);
         PatientInfo.SetActive(false);
