@@ -10,6 +10,12 @@ public class PatientItemScript : MonoBehaviour {
 
     public Scrollbar PatientListScrollBar;
 
+    public GameObject PatientQuery;
+    public GameObject PatientInfo;
+    public GameObject PatientListBG;
+    public GameObject PatientAdd;
+    public GameObject PatienPhysicalConditionsQuery;
+
     void OnEnable()
     {
         // print(DoctorDataManager.instance.Patients.Count);
@@ -33,11 +39,15 @@ public class PatientItemScript : MonoBehaviour {
         for (int i = 0; i < DoctorDataManager.instance.Patients.Count; i++)
         {
             this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
+
+            this.transform.GetChild(i).name = i.ToString();   // 重新命名使得之后可以调用button不同的方法
             
             this.transform.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientName;
             this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientSex;
             this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientAge.ToString();
             this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientID.ToString();
+
+            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate() { OnButtonClick(i);});  // 为button添加监听函数
         }
 
         if (DoctorDataManager.instance.Patients.Count != 0)
@@ -60,12 +70,28 @@ public class PatientItemScript : MonoBehaviour {
 
         PatientListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
         PatientListScrollBar.value = 1;
+
+        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
+        PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
+        PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
+        PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
+        PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
+
     }
 	void Update () {
       
     }
-    void OnButtonClick()
+    void OnButtonClick(int index)
     {
-       
+        print(DoctorDataManager.instance.Patients.Count);
+        print(index);
+
+        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[index];
+
+        PatientQuery.SetActive(false);
+        PatientInfo.SetActive(false);
+        PatientListBG.SetActive(false);
+        PatientAdd.SetActive(false);
+        PatienPhysicalConditionsQuery.SetActive(true);
     }
 }

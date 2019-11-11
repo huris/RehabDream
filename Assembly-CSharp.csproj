@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\PatienPhysicalConditionsQueryExitButtonScript.cs" />
+     <Compile Include="Assets\PatienPhysicalConditionsQueryScript.cs" />
      <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor.cs" />
      <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />

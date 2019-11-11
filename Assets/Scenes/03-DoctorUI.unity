@@ -13003,7 +13003,7 @@ GameObject:
   - component: {fileID: 657804062}
   - component: {fileID: 657804061}
   m_Layer: 5
-  m_Name: QueryText
+  m_Name: PatienPhysicalConditionsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15842,9 +15842,9 @@ RectTransform:
   m_LocalPosition: {x: -753, y: 298, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1064208677}
   - {fileID: 945787828}
   - {fileID: 1886042920}
-  - {fileID: 1064208677}
   - {fileID: 1467713859}
   - {fileID: 1321190480}
   - {fileID: 924312431}
@@ -19584,7 +19584,7 @@ RectTransform:
   m_Children:
   - {fileID: 1575790360}
   m_Father: {fileID: 765882447}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21443,7 +21443,7 @@ RectTransform:
   m_Children:
   - {fileID: 1930463692}
   m_Father: {fileID: 765882447}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -23411,6 +23411,7 @@ GameObject:
   - component: {fileID: 1168149736}
   - component: {fileID: 1168149735}
   - component: {fileID: 1168149734}
+  - component: {fileID: 1168149737}
   m_Layer: 5
   m_Name: PatienPhysicalConditionsQueryExitButton
   m_TagString: Untagged
@@ -23475,7 +23476,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1168149735}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1168149737}
+        m_MethodName: PatienPhysicalConditionsQueryExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1168149735
@@ -23511,6 +23523,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1168149732}
+--- !u!114 &1168149737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168149732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a0cb066c0685f489efb012c9ab5943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PatienPhysicalConditionsQuery: {fileID: 0}
+  PatientInfo: {fileID: 0}
+  PatientListBG: {fileID: 0}
 --- !u!1 &1169219961
 GameObject:
   m_ObjectHideFlags: 0
@@ -25585,6 +25611,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
   PatientListScrollBar: {fileID: 0}
+  PatientQuery: {fileID: 0}
+  PatientInfo: {fileID: 0}
+  PatientListBG: {fileID: 0}
+  PatientAdd: {fileID: 0}
+  PatienPhysicalConditionsQuery: {fileID: 0}
 --- !u!222 &1291456986
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38325,7 +38356,7 @@ RectTransform:
   m_Children:
   - {fileID: 257971407}
   m_Father: {fileID: 765882447}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -40429,6 +40460,7 @@ GameObject:
   - component: {fileID: 1992762549}
   - component: {fileID: 1992762551}
   - component: {fileID: 1992762550}
+  - component: {fileID: 1992762552}
   m_Layer: 5
   m_Name: PatienPhysicalConditionsQuery
   m_TagString: Untagged
@@ -40494,6 +40526,22 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1992762548}
+--- !u!114 &1992762552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1992762548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0315e070f551667468810cb72c798633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PatientName: {fileID: 0}
+  PatientSex: {fileID: 0}
+  PatientAge: {fileID: 0}
+  PatientHeight: {fileID: 0}
+  PatientWeight: {fileID: 0}
 --- !u!1 &1994316818
 GameObject:
   m_ObjectHideFlags: 0
