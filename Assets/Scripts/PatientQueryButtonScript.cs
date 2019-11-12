@@ -9,6 +9,7 @@ public class PatientQueryButtonScript : MonoBehaviour {
     public GameObject PatientInfo;
     public GameObject PatientListBG;
     public GameObject PatientAdd;
+    public GameObject PatientModify;
 
     public InputField PatientName;
     public string PatientSex;
@@ -22,6 +23,7 @@ public class PatientQueryButtonScript : MonoBehaviour {
         PatientInfo = transform.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.Find("PatientListBG").gameObject;
         PatientAdd = transform.parent.Find("PatientAdd").gameObject;
+        PatientModify = transform.parent.Find("PatientModify").gameObject;
 
         PatientName = transform.parent.Find("PatientQuery/QueryPatientName/InputField").GetComponent<InputField>();
         PatientAge = transform.parent.Find("PatientQuery/QueryPatientAge/InputField").GetComponent<InputField>();
@@ -45,6 +47,7 @@ public class PatientQueryButtonScript : MonoBehaviour {
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
         PatientAdd.SetActive(false);
+        PatientModify.SetActive(false);
     }
 
 }

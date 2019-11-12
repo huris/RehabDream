@@ -53,6 +53,8 @@
   <ItemGroup>
      <Compile Include="Assets\PatienPhysicalConditionsQueryExitButtonScript.cs" />
      <Compile Include="Assets\PatienPhysicalConditionsQueryScript.cs" />
+     <Compile Include="Assets\PatientModifyExitButtonScript.cs" />
+     <Compile Include="Assets\PatientModifyInitScript.cs" />
      <Compile Include="Assets\PatientPasswordExitButtonScript.cs" />
      <Compile Include="Assets\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />

@@ -6,11 +6,12 @@ public class DisplayAllPatientScript : MonoBehaviour {
 
     public GameObject PatientList;  // 让PatientList重新激活一下，刷新界面
     
-    public GameObject PatientQuery;
     public GameObject PatientInfo;
     public GameObject PatientListBG;
 
+    public GameObject PatientQuery;
     public GameObject PatientAdd;
+    public GameObject PatientModify;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +22,7 @@ public class DisplayAllPatientScript : MonoBehaviour {
         PatientListBG = transform.parent.Find("PatientListBG").gameObject;
 
         PatientAdd = transform.parent.Find("PatientAdd").gameObject;
+        PatientModify = transform.parent.Find("PatientModify").gameObject;
     }
 	
 	// Update is called once per frame
@@ -36,6 +38,7 @@ public class DisplayAllPatientScript : MonoBehaviour {
 
         PatientQuery.SetActive(false);
         PatientAdd.SetActive(false);
+        PatientModify.SetActive(false);
 
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);

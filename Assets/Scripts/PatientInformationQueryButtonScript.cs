@@ -43,8 +43,6 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         
         DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientSex, long.Parse(PatientAge.text, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowLeadingSign), DoctorDataManager.instance.doctor.DoctorID);
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[0];
-
         PatientName.text = "";
         PatientAge.text = "";
         Man.isOn = false;
