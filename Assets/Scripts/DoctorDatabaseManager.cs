@@ -862,11 +862,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read GravityCenterRecord
-    public List<Tuple<long, Vector3, string>> ReadGravityCenterRecord(long PatientID)
+    public List<GravityCenter> ReadGravityCenterRecord(long PatientID)
     {
         SqliteDataReader reader;    //sql读取器
-        List<Tuple<long, Vector3, string>> result = new List<Tuple<long, Vector3, string>>(); //返回值
-        string QueryString = "SELECT * FROM GravityCenter,PatientRecord where PatientID=" + PatientID.ToString() + " and GravityCenter.TrainingID=PatientRecord.TrainingID";
+        List<GravityCenter> result = new List<GravityCenter>(); //返回值
+        string QueryString = "SELECT * FROM GravityCenter,PatientRecord where PatientID=" + PatientID.ToString() + " and GravityCenter.TrainingID=PatientRecord.TrainingID order by TrainingID";
 
         try
         {
@@ -881,7 +881,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     string[] XYZ = Coordinate.Split(',');
                     Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
 
-                    var res = new Tuple<long, Vector3, string>(
+                    var res = new GravityCenter();
+                    res.SetCompleteGravityCenter(
                     reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     CoordinateVector3,
                     reader.GetString(reader.GetOrdinal("Time"))

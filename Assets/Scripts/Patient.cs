@@ -16,6 +16,8 @@ public class Patient {
     public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
     public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
 
+    public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
+
     //set PatientName,PatientID
     public void SetPatientMessage(long PatientID, string PatientName)
     {

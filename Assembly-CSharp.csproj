@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\DoctorRegisterExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
      <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\GravityCenter.cs" />
      <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
      <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryExitButtonScript.cs" />
@@ -84,6 +85,7 @@
      <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\TrainingPlan.cs" />
      <Compile Include="Assets\Scripts\TrainingPlay.cs" />
+     <Compile Include="Assets\TrainEvaluationInitScript.cs" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
