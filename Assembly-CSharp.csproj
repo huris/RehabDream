@@ -82,6 +82,8 @@
      <Compile Include="Assets\Scripts\PatientQueryExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
+     <Compile Include="Assets\Scripts\TrainingPlan.cs" />
+     <Compile Include="Assets\Scripts\TrainingPlay.cs" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

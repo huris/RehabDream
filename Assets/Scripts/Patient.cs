@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Patient {
+
+
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
     public long PatientDoctorID { get; private set; } = 0;
@@ -11,6 +13,9 @@ public class Patient {
     public string PatientSex { get; private set; } = "男";
     public long PatientHeight { get; private set; } = 0;
     public long PatientWeight { get; private set; } = 0;
+
+    public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
+    public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
 
     //set PatientName,PatientID
     public void SetPatientMessage(long PatientID, string PatientName)

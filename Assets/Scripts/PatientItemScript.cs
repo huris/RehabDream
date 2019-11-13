@@ -23,7 +23,10 @@ public class PatientItemScript : MonoBehaviour {
     public Toggle TrainingPlanMakingToggle;
 
     public GameObject PatientInfoDelete;
+    public Text PatientInfoDeleteText;
+
     public GameObject PatientPlanDelete;
+    public Text PatientPlanDeleteText;
 
     void OnEnable()
     {
@@ -93,7 +96,10 @@ public class PatientItemScript : MonoBehaviour {
         PatientModify = transform.parent.parent.Find("PatientModify").gameObject;
 
         PatientInfoDelete = transform.parent.parent.Find("PatientInfoDelete").gameObject;
+        PatientInfoDeleteText = transform.parent.parent.Find("PatientInfoDelete/Text").GetComponent<Text>();
+
         PatientPlanDelete = transform.parent.parent.Find("PatientPlanDelete").gameObject;
+        PatientPlanDeleteText = transform.parent.parent.Find("PatientPlanDelete/Text").GetComponent<Text>();
     }
 
     void Start()
@@ -161,10 +167,36 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.TempPatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
 
-        DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID);
+        PatientInfoDeleteText.text = "是否删除病人（" + DoctorDataManager.instance.TempPatient.PatientName + "）训练计划?";
+
+        PatientPlanDelete.SetActive(true);
+        PatientInfo.SetActive(false);
+        PatientListBG.SetActive(false);
+
     }
+
+    public void TrainingPlanDeleteExitButtonOnClick()
+    {
+        PatientPlanDelete.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
+    }
+
+    public void TrainingPlanDeleteYesButtonOnclick()
+    {
+        DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.TempPatient.PatientID);
+
+        DoctorDataManager.instance.Patients[DoctorDataManager.instance.TempPatientIndex].trainingPlan.SetPlanIsMaking(false);
+
+        PatientPlanDelete.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
+    }
+
+
 
     void PatientModifyButtonOnClick()
     {
@@ -187,14 +219,29 @@ public class PatientItemScript : MonoBehaviour {
 
         DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
 
-        DoctorDatabaseManager.instance.PatientDelete(DoctorDataManager.instance.TempPatient.PatientID);
+        PatientInfoDeleteText.text = "是否删除病人（"+ DoctorDataManager.instance.TempPatient.PatientName+ "）信息?";
 
-        DoctorDataManager.instance.Patients.Remove(DoctorDataManager.instance.TempPatient);
+        PatientInfoDelete.SetActive(true);
+        PatientInfo.SetActive(false);
+        PatientListBG.SetActive(false);
     }
 
     public void PatientDeleteExitButtonOnClick()
     {
+        PatientInfoDelete.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
+    }
 
+    public void PatientDeleteYesButtonOnclick()
+    {
+        DoctorDatabaseManager.instance.PatientDelete(DoctorDataManager.instance.TempPatient.PatientID);
+
+        DoctorDataManager.instance.Patients.Remove(DoctorDataManager.instance.TempPatient);
+
+        PatientInfoDelete.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
     }
 }
 

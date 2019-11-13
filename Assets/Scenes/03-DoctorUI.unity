@@ -663,7 +663,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 17291855}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: PatientDeleteExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &17291855
@@ -1747,7 +1758,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 67786254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 29, z: 0}
+  m_LocalPosition: {x: 3.5, y: 29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1857007691}
@@ -1755,8 +1766,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011444, y: 29}
-  m_SizeDelta: {x: 607.5, y: 103.6}
+  m_AnchoredPosition: {x: 3.5, y: 29}
+  m_SizeDelta: {x: 754.7, y: 103.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &67786256
 MonoBehaviour:
@@ -1779,10 +1790,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 57
+    m_FontSize: 37
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 57
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -5161,7 +5172,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 239225626}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: TrainingPlanDeleteExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &239225626
@@ -7513,7 +7535,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 315384189}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: TrainingPlanDeleteExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &315384189
@@ -13063,7 +13096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &604533012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16615,7 +16648,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 709124058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000030517578, y: 30, z: 0}
+  m_LocalPosition: {x: 3.5, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 604533012}
@@ -16623,8 +16656,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000024796, y: 30}
-  m_SizeDelta: {x: 555.9, y: 103.6}
+  m_AnchoredPosition: {x: 3.5, y: 30}
+  m_SizeDelta: {x: 766.3, y: 103.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &709124060
 MonoBehaviour:
@@ -16647,10 +16680,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 57
+    m_FontSize: 37
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 57
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -19933,7 +19966,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 848570917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: PatientDeleteYesButtonOnclick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &848570917
@@ -28381,7 +28425,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1275382127}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: TrainingPlanDeleteYesButtonOnclick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1275382127
@@ -28699,6 +28754,10 @@ MonoBehaviour:
   PatientModify: {fileID: 0}
   TrainingConditionQueryToggle: {fileID: 0}
   TrainingPlanMakingToggle: {fileID: 0}
+  PatientInfoDelete: {fileID: 0}
+  PatientInfoDeleteText: {fileID: 0}
+  PatientPlanDelete: {fileID: 0}
+  PatientPlanDeleteText: {fileID: 0}
 --- !u!222 &1291456986
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -29383,7 +29442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1321190480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33179,7 +33238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1467713859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35430,7 +35489,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1540631466}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291456984}
+        m_MethodName: PatientDeleteExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1540631466
@@ -36232,7 +36302,7 @@ Prefab:
     - target: {fileID: 224719555462413082, guid: 78f2baa79cb105046b0623d1bcf31f8d,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.9800415
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224719555462413082, guid: 78f2baa79cb105046b0623d1bcf31f8d,
         type: 2}

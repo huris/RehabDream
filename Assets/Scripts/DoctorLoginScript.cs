@@ -37,7 +37,7 @@ public class DoctorLoginScript : MonoBehaviour {
                 DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorInfo(long.Parse(DoctorID.text));
 
                 DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                
+
                 SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
             }
             else  // 如果账号密码不正确,则提示
