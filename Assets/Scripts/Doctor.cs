@@ -17,4 +17,9 @@ public class Doctor{
         this.DoctorPassword = DoctorPassword;
         this.DoctorName = DoctorName;
     }
+
+    public void SetDoctorPassword(string DoctorPassword)
+    {
+        this.DoctorPassword = DoctorPassword;
+    }
 }

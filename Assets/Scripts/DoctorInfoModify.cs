@@ -46,8 +46,8 @@ public class DoctorInfoModify : MonoBehaviour {
         {
             if (MD5Encrypt(OldPassword.text) == DoctorDataManager.instance.doctor.DoctorPassword)
             {
-          
-                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorModify(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName, NewPassword.text);
+                DoctorDataManager.instance.doctor.SetDoctorPassword(NewPassword.text);
+                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorModify(DoctorDataManager.instance.doctor);
 
                 if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
                 {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Patient {
 
-
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
     public long PatientDoctorID { get; private set; } = 0;

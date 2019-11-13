@@ -13,6 +13,16 @@ public class TrainingPlay
     public long GameCount { get; private set; } = 0;
 
 
+    public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long SuccessCount, long GameCount)
+    {
+        this.TrainingID = TrainingID;
+        this.TrainingStartTime = TrainingStartTime;
+        this.TrainingEndTime = TrainingEndTime;
+        this.TrainingDifficulty = TrainingDifficulty;
+        this.SuccessCount = SuccessCount;
+        this.GameCount = GameCount;
+    }
+
     // set TrainingID, Max_SuccessCount
     public void SetTrainingID(long TrainingID)
     {
