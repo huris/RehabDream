@@ -775,6 +775,50 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read PatientRecord
+    public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + "and TrainingStartTime <= " + AddSingleQuotes(StartTime) + " and TrainingEndTime >= " + AddSingleQuotes(EndTime);
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new TrainingPlay();
+                    res.SetCompleteTrainingPlay(
+                       reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                       reader.GetString(reader.GetOrdinal("TrainingStartTime")),
+                       reader.GetString(reader.GetOrdinal("TrainingEndTime")),
+                       reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
+                       reader.GetInt64(reader.GetOrdinal("SuccessCount")),
+                       reader.GetInt64(reader.GetOrdinal("GameCount"))
+                       );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read PatientRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read PatientRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read PatientRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
 
     // read PatientRecord
     public List<TrainingPlay> ReadPatientRecord(long PatientID)
