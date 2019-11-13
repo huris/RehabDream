@@ -51,12 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PatienPhysicalConditionsQueryExitButtonScript.cs" />
-     <Compile Include="Assets\PatienPhysicalConditionsQueryScript.cs" />
-     <Compile Include="Assets\PatientModifyExitButtonScript.cs" />
-     <Compile Include="Assets\PatientModifyInitScript.cs" />
-     <Compile Include="Assets\PatientPasswordExitButtonScript.cs" />
-     <Compile Include="Assets\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor.cs" />
      <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
@@ -72,12 +66,18 @@
      <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
      <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
+     <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryScript.cs" />
      <Compile Include="Assets\Scripts\Patient.cs" />
      <Compile Include="Assets\Scripts\PatientAddButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientAddExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientInfoAddButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientInformationQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientItemScript.cs" />
+     <Compile Include="Assets\Scripts\PatientModifyExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\PatientModifyInitScript.cs" />
+     <Compile Include="Assets\Scripts\PatientPasswordExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientQueryExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\SqliteHelper.cs" />

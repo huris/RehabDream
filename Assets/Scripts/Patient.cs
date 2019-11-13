@@ -34,4 +34,13 @@ public class Patient {
     {
         this.PatientPassword = NewPassword;
     }
+
+    public void ModifyPatientInfo(string PatientName, string PatientSex, long PatientAge, long PatientHeight, long PatientWeight)
+    {
+        this.PatientName = PatientName;
+        this.PatientSex = PatientSex;
+        this.PatientAge = PatientAge;
+        this.PatientHeight = PatientHeight;
+        this.PatientWeight = PatientWeight;
+    }
 }

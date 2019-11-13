@@ -39,6 +39,7 @@ public class DoctorDataManager : MonoBehaviour {
     //[Header("PatientMessage")]
     public Patient patient = new Patient();
     public Patient TempPatient = new Patient();
+    public int TempPatientIndex = 0;
 
     // PatientID, PatientName, PatientPassword, DoctorID, PatientAge, PatientSex, PatientHeight, PatientWeight
     public List<Patient> Patients = new List<Patient>();

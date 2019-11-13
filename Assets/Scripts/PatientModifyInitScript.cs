@@ -17,6 +17,10 @@ public class PatientModifyInitScript : MonoBehaviour {
     public GameObject ErrorInput;
     public GameObject ModifySuccess;
 
+    public GameObject PatientModify;
+    public GameObject PatientInfo;
+    public GameObject PatientListBG;
+
     // Use this for initialization
     void Start()
     {
@@ -36,6 +40,10 @@ public class PatientModifyInitScript : MonoBehaviour {
         ErrorInput.SetActive(false);
         ModifySuccess = transform.Find("ModifySuccess").gameObject;
         ModifySuccess.SetActive(false);
+
+        PatientModify = transform.parent.Find("PatientModify").gameObject;
+        PatientInfo = transform.parent.Find("PatientInfo").gameObject;
+        PatientListBG = transform.parent.Find("PatientListBG").gameObject;
 
         PatientName.text = DoctorDataManager.instance.TempPatient.PatientName;
         PatientAge.text = DoctorDataManager.instance.TempPatient.PatientAge.ToString();
@@ -63,13 +71,23 @@ public class PatientModifyInitScript : MonoBehaviour {
         {
             ErrorInput.SetActive(true);
         }
-        DoctorDataManager.instance.TempPatient.PatientName = 
+        DoctorDataManager.instance.TempPatient.ModifyPatientInfo(PatientName.text, PatientSex, long.Parse(PatientAge.text), long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
+        DoctorDataManager.instance.Patients[DoctorDataManager.instance.TempPatientIndex] = DoctorDataManager.instance.TempPatient;
 
-        DoctorDataManager.instance.TempPatient.PatientName = PatientName.text;
-        DoctorDataManager.instance.TempPatient.PatientAge = long.Parse(PatientAge.text);
-        PatientHeight.text = DoctorDataManager.instance.TempPatient.PatientHeight.ToString();
-        PatientWeight.text = DoctorDataManager.instance.TempPatient.PatientWeight.ToString();
+        DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.TempPatient);  // 修改数据库
 
+        ErrorInput.SetActive(false);
+        ModifySuccess.SetActive(true);
+
+        StartCoroutine(DelayTime(3));
     }
 
+    IEnumerator DelayTime(int time)
+    {
+        yield return new WaitForSeconds(time);
+
+        PatientModify.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
+    }
 }

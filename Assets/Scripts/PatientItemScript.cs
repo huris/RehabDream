@@ -22,6 +22,9 @@ public class PatientItemScript : MonoBehaviour {
     public Toggle TrainingConditionQueryToggle;
     public Toggle TrainingPlanMakingToggle;
 
+    public GameObject PatientInfoDelete;
+    public GameObject PatientPlanDelete;
+
     void OnEnable()
     {
         // print(DoctorDataManager.instance.Patients.Count);
@@ -61,6 +64,7 @@ public class PatientItemScript : MonoBehaviour {
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
+            this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
 
         }
 
@@ -87,6 +91,9 @@ public class PatientItemScript : MonoBehaviour {
         PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
         PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
         PatientModify = transform.parent.parent.Find("PatientModify").gameObject;
+
+        PatientInfoDelete = transform.parent.parent.Find("PatientInfoDelete").gameObject;
+        PatientPlanDelete = transform.parent.parent.Find("PatientPlanDelete").gameObject;
     }
 
     void Start()
@@ -165,10 +172,28 @@ public class PatientItemScript : MonoBehaviour {
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
         DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        DoctorDataManager.instance.TempPatientIndex = int.Parse(obj.transform.parent.parent.name);
 
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
         PatientModify.SetActive(true);
+
+    }
+
+    void PatientDeleteButtonOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+        DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+
+        DoctorDatabaseManager.instance.PatientDelete(DoctorDataManager.instance.TempPatient.PatientID);
+
+        DoctorDataManager.instance.Patients.Remove(DoctorDataManager.instance.TempPatient);
+    }
+
+    public void PatientDeleteExitButtonOnClick()
+    {
 
     }
 }
