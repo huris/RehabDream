@@ -5,83 +5,77 @@ using UnityEngine.UI;
 
 public class TrainingPlayItemScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public GameObject Prefab;
+
+    public Scrollbar TrainingPlayListScrollBar;
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 
     void OnEnable()
     {
-        if (this.transform.childCount > DoctorDataManager.instance.patient.Train)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
+        if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
         {
-            for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.Patients.Count; i--)
+            if (this.transform.childCount > DoctorDataManager.instance.patient.trainingPlays.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
             {
-                this.transform.GetChild(i).gameObject.SetActive(false);
-                // Destroy(this.transform.GetChild(i).gameObject);
+                for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.patient.trainingPlays.Count; i--)
+                {
+                    this.transform.GetChild(i).gameObject.SetActive(false);
+                    // Destroy(this.transform.GetChild(i).gameObject);
+                }
             }
-        }
-        else   // 否则说明数目不够，需要再生成几个预制体
-        {
-            for (int i = this.transform.childCount; i < DoctorDataManager.instance.Patients.Count; i++)
+            else   // 否则说明数目不够，需要再生成几个预制体
             {
-                Prefab = Resources.Load("Prefabs/PatientItem") as GameObject;
-                Instantiate(Prefab).transform.SetParent(this.transform);
+                for (int i = this.transform.childCount; i < DoctorDataManager.instance.patient.trainingPlays.Count; i++)
+                {
+                    Prefab = Resources.Load("Prefabs/TrainingPlay") as GameObject;
+                    Instantiate(Prefab).transform.SetParent(this.transform);
+                }
             }
+
+            // 在将列表中的内容放入
+            for (int i = 0; i < DoctorDataManager.instance.patient.trainingPlays.Count; i++)
+            {
+                this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
+
+                this.transform.GetChild(i).name = i.ToString();   // 重新命名为0,1,2,3,4...
+
+                this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingID.ToString();
+                this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingDifficulty;
+                this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount.ToString();
+                this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].GameCount.ToString();
+                this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingStartTime;
+                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingEndTime;
+
+                string TrainingEvaluation = "";
+                double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.patient.trainingPlays[i].GameCount;
+
+                if (TrainingEvaluationRate >= 0.95) TrainingEvaluation = "S";
+                else if (TrainingEvaluationRate >= 0.90) TrainingEvaluation = "A";
+                else if (TrainingEvaluationRate >= 0.80) TrainingEvaluation = "B";
+                else if (TrainingEvaluationRate >= 0.70) TrainingEvaluation = "C";
+                else if (TrainingEvaluationRate >= 0.60) TrainingEvaluation = "D";
+                else TrainingEvaluation = "E";
+
+                this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = TrainingEvaluation;
+            }
+
+            if (DoctorDataManager.instance.patient.trainingPlays.Count <= 7)
+            {
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f);
+            }
+            else
+            {
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f + (this.transform.childCount - 7) * 39.4f);
+            }
+
+            TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
+            TrainingPlayListScrollBar.value = 1;
+
         }
-        // 在将列表中的内容放入
-        for (int i = 0; i < DoctorDataManager.instance.Patients.Count; i++)
-        {
-            this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
-
-            this.transform.GetChild(i).name = i.ToString();   // 重新命名使得之后可以调用button不同的方法
-
-            this.transform.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientName;
-            this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientSex;
-            this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientAge.ToString();
-            this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientID.ToString();
-
-            // 为button添加监听函数
-            this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
-            this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientPasswordModifyButtonOnClick);    // 修改患者密码
-            this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
-            this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
-            this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
-            this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
-            this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
-
-        }
-
-        //name = childGame.GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
-        //childGame.GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(OnButtonClick);
-
-        ////获取到父物体，设置为父物体的子物体
-        if (DoctorDataManager.instance.Patients.Count <= 7)
-        {
-            this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f);
-        }
-        else
-        {
-            this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f + (this.transform.childCount - 7) * 70.2f);
-        }
-
-        PatientListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
-        PatientListScrollBar.value = 1;
-
-        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
-        PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
-        PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
-        PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
-        PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
-        PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
-        PatientModify = transform.parent.parent.Find("PatientModify").gameObject;
-
-        PatientInfoDelete = transform.parent.parent.Find("PatientInfoDelete").gameObject;
-        PatientInfoDeleteText = transform.parent.parent.Find("PatientInfoDelete/Text").GetComponent<Text>();
-
-        PatientPlanDelete = transform.parent.parent.Find("PatientPlanDelete").gameObject;
-        PatientPlanDeleteText = transform.parent.parent.Find("PatientPlanDelete/Text").GetComponent<Text>();
-
-
     }
 	
 	// Update is called once per frame
