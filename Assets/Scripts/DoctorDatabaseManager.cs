@@ -243,7 +243,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             if (reader.HasRows)
             {
                 // 用户名存在
-                QueryString = "UPDATE DoctorInfo SET DoctorName=" + AddSingleQuotes(doctor.DoctorName) + " , DoctorPassword=" + AddSingleQuotes(MD5Encrypt(doctor.DoctorPassword)) + " where DoctorID=" + doctor.DoctorID.ToString();
+                QueryString = "UPDATE DoctorInfo SET DoctorName=" + AddSingleQuotes(doctor.DoctorName) + " , DoctorPassword=" + AddSingleQuotes(doctor.DoctorPassword) + " where DoctorID=" + doctor.DoctorID.ToString();
                 DoctorDatabase.ExecuteQuery(QueryString);
 
                 Debug.Log("@UserManager: Modify DoctorDatabase Success");
@@ -311,7 +311,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         try
         {
             DoctorDatabase.InsertValues("DoctorInfo", //table name
-                                        new String[] { doctor.DoctorID.ToString(), AddSingleQuotes(doctor.DoctorName), AddSingleQuotes(MD5Encrypt(doctor.DoctorPassword)) }
+                                        new String[] { doctor.DoctorID.ToString(), AddSingleQuotes(doctor.DoctorName), AddSingleQuotes(doctor.DoctorPassword) }
                                         );
 
             Debug.Log("@UserManager: Register DoctorInfo Success");
@@ -600,7 +600,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             if (reader.HasRows)
             {
                 PatientDatabase.InsertValues("PatientInfo", //table name
-                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(MD5Encrypt(patient.PatientPassword)),
+                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(patient.PatientPassword),
                                                   patient.PatientDoctorID.ToString(), patient.PatientAge.ToString(),AddSingleQuotes(patient.PatientSex),patient.PatientHeight.ToString(),patient.PatientWeight.ToString() }
                                    );
 
@@ -642,7 +642,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 {
                     // 用户名存在
                     QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
-                    AddSingleQuotes(MD5Encrypt(patient.PatientPassword)) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
+                    AddSingleQuotes(patient.PatientPassword) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
                     patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
                     " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
                     PatientDatabase.ExecuteQuery(QueryString);

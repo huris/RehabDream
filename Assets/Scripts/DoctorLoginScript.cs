@@ -15,8 +15,8 @@ public class DoctorLoginScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        DoctorID = transform.Find("DoctorID/InputField").GetComponent<InputField>();    //  绑定账号
-        DoctorPassword = transform.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
+        DoctorID = transform.Find("DoctorID").GetComponent<InputField>();    //  绑定账号
+        DoctorPassword = transform.Find("DoctorPassword").GetComponent<InputField>();    //  绑定密码
 
         ErrorInformation = transform.Find("ErrorInput").gameObject;   // 绑定错误信息
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态

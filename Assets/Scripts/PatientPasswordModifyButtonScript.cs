@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -66,7 +68,7 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
             ModifyError.SetActive(false);
             ModifySuccess.SetActive(true);
 
-            DoctorDataManager.instance.patient.setPatientPassword(NewPassword.text);
+            DoctorDataManager.instance.patient.setPatientPassword(MD5Encrypt(NewPassword.text));
 
             DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.patient);
 
@@ -82,5 +84,23 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
         PatientPasswordModify.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);
+    }
+
+    /// <summary>
+    /// 用MD5加密字符串
+    /// </summary>
+    /// <param name="password">待加密的字符串</param>
+    /// <returns></returns>
+    public string MD5Encrypt(string password)
+    {
+        MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+        byte[] hashedDataBytes;
+        hashedDataBytes = md5Hasher.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(password));
+        StringBuilder tmp = new StringBuilder();
+        foreach (byte i in hashedDataBytes)
+        {
+            tmp.Append(i.ToString("x2"));
+        }
+        return tmp.ToString();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,7 +77,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             else if (Woman.isOn) PatientSex = "女";
 
             Patient patient = new Patient();
-            patient.setPatientCompleteMessage(TryPatientID, PatientName.text, PatientPassword.text, DoctorDataManager.instance.doctor.DoctorID, long.Parse(PatientAge.text), PatientSex, long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
+            patient.setPatientCompleteMessage(TryPatientID, PatientName.text,MD5Encrypt(PatientPassword.text), DoctorDataManager.instance.doctor.DoctorID, long.Parse(PatientAge.text), PatientSex, long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
 
             DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
 
@@ -140,5 +142,22 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         return minVal + rnd;
     }
 
+    /// <summary>
+    /// 用MD5加密字符串
+    /// </summary>
+    /// <param name="password">待加密的字符串</param>
+    /// <returns></returns>
+    public string MD5Encrypt(string password)
+    {
+        MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+        byte[] hashedDataBytes;
+        hashedDataBytes = md5Hasher.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(password));
+        StringBuilder tmp = new StringBuilder();
+        foreach (byte i in hashedDataBytes)
+        {
+            tmp.Append(i.ToString("x2"));
+        }
+        return tmp.ToString();
+    }
 
 }

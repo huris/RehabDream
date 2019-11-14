@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 public class DoctorRegisterScript : MonoBehaviour {
 
@@ -51,7 +53,7 @@ public class DoctorRegisterScript : MonoBehaviour {
             RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
 
             Doctor doctor = new Doctor();
-            doctor.SetDoctorMessage(TryDoctorID, DoctorPassword.text, DoctorName.text);
+            doctor.SetDoctorMessage(TryDoctorID, MD5Encrypt(DoctorPassword.text), DoctorName.text);
 
             DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
 
@@ -101,5 +103,23 @@ public class DoctorRegisterScript : MonoBehaviour {
         long l = BitConverter.ToInt64(rndSeries, 0);
         rnd = (long)(Math.Abs(l) / _base * m);
         return minVal + rnd;
+    }
+
+    /// <summary>
+    /// 用MD5加密字符串
+    /// </summary>
+    /// <param name="password">待加密的字符串</param>
+    /// <returns></returns>
+    public string MD5Encrypt(string password)
+    {
+        MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+        byte[] hashedDataBytes;
+        hashedDataBytes = md5Hasher.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(password));
+        StringBuilder tmp = new StringBuilder();
+        foreach (byte i in hashedDataBytes)
+        {
+            tmp.Append(i.ToString("x2"));
+        }
+        return tmp.ToString();
     }
 }
