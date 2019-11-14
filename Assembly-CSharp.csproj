@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\DoctorLoginExitButton.cs" />
      <Compile Include="Assets\Scripts\DoctorLoginReturnButton.cs" />
      <Compile Include="Assets\Scripts\DoctorLoginScript.cs" />
+     <Compile Include="Assets\Scripts\DoctorModifyExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\DoctorNameDisplayScript.cs" />
      <Compile Include="Assets\Scripts\DoctorRegisterExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
