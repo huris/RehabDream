@@ -12,6 +12,8 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
     public InputField EndTimeMonth;
     public InputField EndTimeDay;
 
+    public GameObject TrainingPlayList;
+
     // Use this for initialization
     void Start () 
     {
@@ -42,9 +44,9 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
             EndTimeYear.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(0, 4);
             EndTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(4, 6);
             EndTimeDay.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(6, 8);
-
         }
 
+        TrainingPlayList = transform.Find("TrainingData/TrainingDataBG/TrainingPlayList").gameObject;
     }
 
     // Update is called once per frame
@@ -58,9 +60,20 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
         string StartTime = StartTimeYear.text + StartTimeMonth.text + StartTimeDay.text;
         string EndTime = EndTimeYear.text + EndTimeMonth.text + EndTimeDay.text;
 
-        DoctorDataManager.instance.patient.HistoryTrainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.patient.PatientID, StartTime, EndTime);
+        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.patient.PatientID, StartTime, EndTime);
 
+        TrainingPlayList.SetActive(false);
 
+        TrainingPlayList.SetActive(true);
+    }
+
+    public void DisplayAllTrainingButtonOnClick()
+    {
+        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID);
+
+        TrainingPlayList.SetActive(false);
+
+        TrainingPlayList.SetActive(true);
     }
 
 }

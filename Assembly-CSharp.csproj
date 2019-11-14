@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PatientHistoryTrainingScript.cs" />
      <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor.cs" />
      <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
@@ -73,6 +72,7 @@
      <Compile Include="Assets\Scripts\Patient.cs" />
      <Compile Include="Assets\Scripts\PatientAddButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientAddExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\PatientHistoryTrainingScript.cs" />
      <Compile Include="Assets\Scripts\PatientInfoAddButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientInformationQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientItemScript.cs" />
@@ -87,6 +87,7 @@
      <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\TrainingPlan.cs" />
      <Compile Include="Assets\Scripts\TrainingPlay.cs" />
+     <Compile Include="Assets\Scripts\TrainingPlayItemScript.cs" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
