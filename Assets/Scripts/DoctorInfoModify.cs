@@ -8,6 +8,7 @@ using Mono.Data.Sqlite;
 using System;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class DoctorInfoModify : MonoBehaviour {
 
@@ -20,6 +21,10 @@ public class DoctorInfoModify : MonoBehaviour {
     public GameObject NewPasswordIsNotSame;  // 两次密码不一致
 
     public GameObject ModifyPasswordSuccess;   // 修改信息成功
+
+    public EventSystem system;
+    private Selectable SelecInput;   // 当前焦点所处的Input
+    private Selectable NextInput;   // 目标Input
 
     // use this for initialization
     void OnEnable()
@@ -39,12 +44,48 @@ public class DoctorInfoModify : MonoBehaviour {
 
         ModifyPasswordSuccess = transform.Find("ModifyPasswordSuccess").gameObject;    //  修改密码成功绑定
         ModifyPasswordSuccess.SetActive(false);
+
+        system = EventSystem.current;       // 获取当前的事件
     }
 
 
     // update is called once per frame
     void Update()
     {
+        //在Update内监听Tap键的按下
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //是否聚焦Input
+            if (system.currentSelectedGameObject != null)
+            {
+                //获取当前选中的Input
+                SelecInput = system.currentSelectedGameObject.GetComponent<Selectable>();
+                //监听Shift
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                {
+                    //Shift按下则选择出去上方的Input
+                    NextInput = SelecInput.FindSelectableOnUp();
+                    //上边没有找左边的
+                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnLeft();
+                }
+                else
+                {
+                    //没按shift就找下边的Input
+                    NextInput = SelecInput.FindSelectableOnDown();
+                    //或者右边的
+                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnRight();
+                }
+            }
+
+            //下一个Input不空的话就聚焦
+            if (NextInput != null) NextInput.Select();
+        }
+
+        // 按回车键进行登录
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ModifyOnclick();
+        }
     }
 
     public void ModifyOnclick()   // 点击修改按钮

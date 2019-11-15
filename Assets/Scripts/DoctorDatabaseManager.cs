@@ -750,7 +750,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Patient> result = new List<Patient>(); //返回值
-        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientID ASC";
+        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName ASC";
         
         try
         {
@@ -805,7 +805,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         if (PatientSex != "") QueryString += " and PatientSex=" + AddSingleQuotes(PatientSex);
         if (PatientAge != 0) QueryString += " and PatientAge=" + PatientAge.ToString();
 
-        QueryString += " ORDER BY PatientID ASC";
+        QueryString += " ORDER BY PatientName ASC";
 
         try
         {
