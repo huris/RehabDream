@@ -400,7 +400,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM TrainingPlan where PatientID=" + PatientID.ToString();
 
-        TrainingPlan trainingPlan = null;
+        TrainingPlan trainingPlan = new TrainingPlan();
 
         try
         {
@@ -409,15 +409,18 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
-                trainingPlan = new TrainingPlan();
                 trainingPlan.SetTrainingPlan(
-                    reader.GetString(reader.GetOrdinal("PlanDifficult")),
+                    reader.GetString(reader.GetOrdinal("PlanDifficulty")),
                     reader.GetInt64(reader.GetOrdinal("GameCount")),
-                    reader.GetInt64(reader.GetOrdinal("PlanCount")));               
+                    reader.GetInt64(reader.GetOrdinal("PlanCount")));
+
+                trainingPlan.SetPlanIsMaking(true);
+
                 return trainingPlan;
             }
             else
             {
+                trainingPlan.SetPlanIsMaking(false);
                 return trainingPlan;
             }
         }
@@ -425,6 +428,8 @@ public class DoctorDatabaseManager : MonoBehaviour
         {
             Debug.Log("@UserManager: MakePatientTrainingPlan SqliteException");
             DoctorDatabase?.CloseConnection();
+
+            trainingPlan.SetPlanIsMaking(false);
             return trainingPlan;
         }
     }

@@ -106,7 +106,9 @@ public class PatientItemScript : MonoBehaviour {
     {
         if (DoctorDataManager.instance.Patients.Count != 0)
         {
-            DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[0];
+            //print(DoctorDataManager.instance.Patients.Count);
+            DoctorDataManager.instance.SetPatientCompleteInformation(0);
+            //print(DoctorDataManager.instance.patient.PatientName);
         }
     }
 
@@ -118,7 +120,9 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
+        DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
 
         PatientQuery.SetActive(false);
         PatientInfo.SetActive(false);
@@ -132,8 +136,10 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
-        
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
+        DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
+
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
         PatientPasswordModify.SetActive(true);
@@ -144,7 +150,9 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
+        DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
 
         TrainingConditionQueryToggle = transform.parent.parent.parent.parent.Find("FunctionManager/TrainingCoditionQueryItem").GetComponent<Toggle>();
         TrainingConditionQueryToggle.isOn = true;
@@ -155,7 +163,9 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
+        DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
 
         TrainingPlanMakingToggle = transform.parent.parent.parent.parent.Find("FunctionManager/TrainingPlanMakingItem").GetComponent<Toggle>();
         TrainingPlanMakingToggle.isOn = true;
@@ -167,7 +177,8 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        //DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
         DoctorDataManager.instance.TempPatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
 
         PatientInfoDeleteText.text = "是否删除病人（" + DoctorDataManager.instance.TempPatient.PatientName + "）训练计划?";

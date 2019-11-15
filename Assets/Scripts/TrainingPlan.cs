@@ -9,11 +9,9 @@ public class TrainingPlan{
     //[Header("TrainingPlan")]
 
     public bool PlanIsMaking { get; private set; } = false;
-    public string PlanDifficulty { get; private set; } = "初级";
-    public long GameCount { get; private set; } = 10;
-    public long PlanCount { get; private set; } = 10;
-
-    public long MaxSuccessCount { get; private set; } = 0;
+    public string PlanDifficulty { get; private set; } = "未制定计划";
+    public long GameCount { get; private set; } = 0;
+    public long PlanCount { get; private set; } = 0;
 
     // set PlanDifficulty, GameCount, PlanCount
     public void SetTrainingPlan(string PlanDifficulty, long GameCount, long PlanCount)

@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{8DE10EE4-B36D-BE94-D53D-FA079209D7FA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,95 +52,95 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
-     <Compile Include="Assets\Scripts\Doctor.cs" />
-     <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
-     <Compile Include="Assets\Scripts\DoctorDataManager.cs" />
-     <Compile Include="Assets\Scripts\DoctorInfoModify.cs" />
-     <Compile Include="Assets\Scripts\DoctorInfoModifyButton.cs" />
-     <Compile Include="Assets\Scripts\DoctorLoginExitButton.cs" />
-     <Compile Include="Assets\Scripts\DoctorLoginReturnButton.cs" />
-     <Compile Include="Assets\Scripts\DoctorLoginScript.cs" />
-     <Compile Include="Assets\Scripts\DoctorModifyExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\DoctorNameDisplayScript.cs" />
-     <Compile Include="Assets\Scripts\DoctorRegisterExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
-     <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\GravityCenter.cs" />
-     <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
-     <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryScript.cs" />
-     <Compile Include="Assets\Scripts\Patient.cs" />
-     <Compile Include="Assets\Scripts\PatientAddButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientAddExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientHistoryTrainingScript.cs" />
-     <Compile Include="Assets\Scripts\PatientInfoAddButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientInformationQueryButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientItemScript.cs" />
-     <Compile Include="Assets\Scripts\PatientModifyExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientModifyInitScript.cs" />
-     <Compile Include="Assets\Scripts\PatientPasswordExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientPasswordModifyButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientQueryButtonScript.cs" />
-     <Compile Include="Assets\Scripts\PatientQueryExitButtonScript.cs" />
-     <Compile Include="Assets\Scripts\SqliteHelper.cs" />
-     <Compile Include="Assets\Scripts\TrainEvaluationInitScript.cs" />
-     <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
-     <Compile Include="Assets\Scripts\TrainingDataInitScript.cs" />
-     <Compile Include="Assets\Scripts\TrainingPlan.cs" />
-     <Compile Include="Assets\Scripts\TrainingPlanMakingDataInitScript.cs" />
-     <Compile Include="Assets\Scripts\TrainingPlay.cs" />
-     <Compile Include="Assets\Scripts\TrainingPlayItemScript.cs" />
-     <None Include="Assets\Plugins\UWP\Attribution.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.PerformanceTesting">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="nunit.framework">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Timeline">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UIAutomation">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.GoogleAudioSpatializer">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.HoloLens">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.Sqlite">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.Tds">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
- </Reference>
- <Reference Include="System.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor.cs" />
+    <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
+    <Compile Include="Assets\Scripts\DoctorDataManager.cs" />
+    <Compile Include="Assets\Scripts\DoctorInfoModify.cs" />
+    <Compile Include="Assets\Scripts\DoctorInfoModifyButton.cs" />
+    <Compile Include="Assets\Scripts\DoctorLoginExitButton.cs" />
+    <Compile Include="Assets\Scripts\DoctorLoginReturnButton.cs" />
+    <Compile Include="Assets\Scripts\DoctorLoginScript.cs" />
+    <Compile Include="Assets\Scripts\DoctorModifyExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\DoctorNameDisplayScript.cs" />
+    <Compile Include="Assets\Scripts\DoctorRegisterExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
+    <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\GravityCenter.cs" />
+    <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
+    <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryScript.cs" />
+    <Compile Include="Assets\Scripts\Patient.cs" />
+    <Compile Include="Assets\Scripts\PatientAddButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientAddExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientHistoryTrainingScript.cs" />
+    <Compile Include="Assets\Scripts\PatientInfoAddButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientInformationQueryButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientItemScript.cs" />
+    <Compile Include="Assets\Scripts\PatientModifyExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientModifyInitScript.cs" />
+    <Compile Include="Assets\Scripts\PatientPasswordExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientPasswordModifyButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientQueryButtonScript.cs" />
+    <Compile Include="Assets\Scripts\PatientQueryExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\SqliteHelper.cs" />
+    <Compile Include="Assets\Scripts\TrainEvaluationInitScript.cs" />
+    <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
+    <Compile Include="Assets\Scripts\TrainingDataInitScript.cs" />
+    <Compile Include="Assets\Scripts\TrainingPlan.cs" />
+    <Compile Include="Assets\Scripts\TrainingPlanMakingDataInitScript.cs" />
+    <Compile Include="Assets\Scripts\TrainingPlay.cs" />
+    <Compile Include="Assets\Scripts\TrainingPlayItemScript.cs" />
+    <None Include="Assets\Plugins\UWP\Attribution.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceTesting">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Tds">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -149,5 +150,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

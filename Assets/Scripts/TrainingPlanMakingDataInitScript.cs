@@ -12,6 +12,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
     public GameObject PlanMakingSuccess;
     public GameObject PlanMakingFail;
+    public GameObject PlanDeleteSuccess;
 
     public Toggle PatientInfoManagerToggle;
 
@@ -39,6 +40,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         PlanMakingFail = transform.Find("PlanMakingFail").gameObject;
         PlanMakingFail.SetActive(false);
+
+        PlanDeleteSuccess = transform.Find("PlanDeleteSuccess").gameObject;
+        PlanDeleteSuccess.SetActive(false);
 
         PatientInfoManagerToggle = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
@@ -83,20 +87,29 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
     public void TrainingPlanMakingButtonOnClick()
     {
-        print(DifficultInt2String[TrainingDifficult.value]);
-        print(GameCount.text);
-        print(PlanCount.text);
+        PlanMakingFail.SetActive(false);
+        PlanMakingSuccess.SetActive(false);
+        PlanDeleteSuccess.SetActive(false);
 
         TrainingPlan trainingPlan = new TrainingPlan();
         trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
 
-        DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.MakePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID, trainingPlan);
+        DoctorDatabaseManager.DatabaseReturn RETURN;  // 返回修改训练计划结果
+
+        if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+        {
+            RETURN = DoctorDatabaseManager.instance.ModifyPatientTrainingPlan(DoctorDataManager.instance.patient.PatientID, trainingPlan);
+        }
+        else
+        {
+            RETURN = DoctorDatabaseManager.instance.MakePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID, trainingPlan);
+        }
 
         if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
         {
             DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(true);
+            DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
-            PlanMakingFail.SetActive(false);
             PlanMakingSuccess.SetActive(true);
 
             StartCoroutine(DelayTime(3));
@@ -105,7 +118,33 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
         {
             PlanMakingFail.SetActive(true);
         }
+        
     }
+
+    public void TrainingPlanDeleteButtonOnClick()
+    {
+        PlanMakingFail.SetActive(false);
+        PlanMakingSuccess.SetActive(false);
+        PlanDeleteSuccess.SetActive(false);
+
+        DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID);
+
+        if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+        {
+            DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(false);
+            DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
+
+            PlanDeleteSuccess.SetActive(true);
+
+            StartCoroutine(DelayTime(3));
+        }
+        else
+        {
+            PlanMakingFail.SetActive(true);
+        }
+        
+    }
+
 
     IEnumerator DelayTime(int time)
     {

@@ -10,6 +10,8 @@ public class DoctorDataManager : MonoBehaviour {
 
     //[Header("PatientMessage")]
     public Patient patient = new Patient();
+    public int PatientIndex = 0;
+
     public Patient TempPatient = new Patient();
     public int TempPatientIndex = 0;
 
@@ -33,6 +35,16 @@ public class DoctorDataManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    // 对单个患者进行赋值
+    public void SetPatientCompleteInformation(int PatientIndex)
+    {
+        this.patient = this.Patients[PatientIndex];
+ 
+        this.PatientIndex = PatientIndex;
+        this.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.patient.PatientID);
+        this.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID);
     }
 
 }
