@@ -88,6 +88,7 @@
      <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\TrainingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\TrainingPlan.cs" />
+     <Compile Include="Assets\Scripts\TrainingPlanMakingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\TrainingPlay.cs" />
      <Compile Include="Assets\Scripts\TrainingPlayItemScript.cs" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />

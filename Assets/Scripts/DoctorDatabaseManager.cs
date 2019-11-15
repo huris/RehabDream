@@ -393,6 +393,44 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Patient's Training Plan
+    public TrainingPlan ReadPatientTrainingPlan(long PatientID)
+    {
+
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM TrainingPlan where PatientID=" + PatientID.ToString();
+
+        TrainingPlan trainingPlan = null;
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                trainingPlan = new TrainingPlan();
+                trainingPlan.SetTrainingPlan(
+                    reader.GetString(reader.GetOrdinal("PlanDifficult")),
+                    reader.GetInt64(reader.GetOrdinal("GameCount")),
+                    reader.GetInt64(reader.GetOrdinal("PlanCount")));               
+                return trainingPlan;
+            }
+            else
+            {
+                return trainingPlan;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: MakePatientTrainingPlan SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return trainingPlan;
+        }
+    }
+
+
+
     // make Patient's Training Plan
     public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
     {
@@ -544,6 +582,18 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    //public void DeleteCS(long PatientID)
+    //{
+    //    SqliteDataReader reader;    //sql读取器
+    //    string QueryString = "DELETE FROM TrainingPlan where PatientID=" + PatientID.ToString();
+
+    //    reader = DoctorDatabase.ExecuteQuery(QueryString);
+
+
+    //}
+
+
+
     // Delete PatientInfo
     public DatabaseReturn PatientDelete(long PatientID)  // Delete
     {
@@ -563,8 +613,21 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
+                // 删除患者信息
                 QueryString = "DELETE FROM PatientInfo where PatientID=" + PatientID.ToString();
                 PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者重心数据
+                QueryString = "DELETE FROM GravityCenter where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=GravityCenter.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者训练记录
+                QueryString = "DELETE FROM PatientRecord where PatientID=" + PatientID.ToString();
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者训练计划
+                QueryString = "DELETE FROM TrainingPlan where PatientID=" + PatientID.ToString();
+                DoctorDatabase.ExecuteQuery(QueryString);
             }
 
             Debug.Log("@UserManager: Delete PatientInfo Success");

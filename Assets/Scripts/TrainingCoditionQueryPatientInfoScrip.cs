@@ -39,6 +39,13 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
         PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
 
         TrainingPlanNullText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingPlanNullText").gameObject;
+        TrainingDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/TrainingDifficulty").gameObject;
+        TrainingDifficultyText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingDifficulty/Text").GetComponent<Text>();
+        GameCount = transform.Find("TrainingPlan/TrainingPlanImage/GameCount").gameObject;
+        GameCountText = transform.Find("TrainingPlan/TrainingPlanImage/GameCount/Text").GetComponent<Text>();
+        PlanCount = transform.Find("TrainingPlan/TrainingPlanImage/PlanCount").gameObject;
+        PlanCountText = transform.Find("TrainingPlan/TrainingPlanImage/PlanCount/Text").GetComponent<Text>();
+
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {
             TrainingPlanNullText.SetActive(false);
@@ -53,12 +60,6 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             GameCount.SetActive(false);
             PlanCount.SetActive(false);
         }
-        TrainingDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/TrainingDifficulty").gameObject;
-        TrainingDifficultyText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingDifficulty/TrainingDifficultyText").GetComponent<Text>();
-        GameCount = transform.Find("TrainingPlan/TrainingPlanImage/GameCount").gameObject;
-        GameCountText = transform.Find("TrainingPlan/TrainingPlanImage/GameCount/GameCountText").GetComponent<Text>();
-        PlanCount = transform.Find("TrainingPlan/TrainingPlanImage/PlanCount").gameObject;
-        PlanCountText = transform.Find("TrainingPlan/TrainingPlanImage/PlanCount/PlanCountText").GetComponent<Text>();
 
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {

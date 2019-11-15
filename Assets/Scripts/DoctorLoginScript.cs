@@ -20,6 +20,8 @@ public class DoctorLoginScript : MonoBehaviour {
 
         ErrorInformation = transform.Find("ErrorInput").gameObject;   // 绑定错误信息
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
+
+        //DoctorDatabaseManager.instance.DeleteCS(241283);   // 数据库测试
     }
 	
 	// Update is called once per frame
