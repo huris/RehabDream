@@ -54,8 +54,13 @@ public class DoctorDatabaseManager : MonoBehaviour
             Debug.Log("@DataManager: Singleton created.");
 
         }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
 
         DontDestroyOnLoad(this);
+
     }
 
     // Use this for initialization
@@ -326,7 +331,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check DoctorInfo
-    public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
+        public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
     {
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
@@ -596,7 +601,6 @@ public class DoctorDatabaseManager : MonoBehaviour
 
 
     //}
-
 
 
     // Delete PatientInfo

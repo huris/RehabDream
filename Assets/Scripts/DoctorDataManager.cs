@@ -34,7 +34,7 @@ public class DoctorDataManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this);
     }
 
     // 对单个患者进行赋值

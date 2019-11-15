@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine.EventSystems;
 
 public class DoctorRegisterScript : MonoBehaviour {
 
@@ -16,6 +17,13 @@ public class DoctorRegisterScript : MonoBehaviour {
 
     public GameObject ErrorInformation;   // 输入内容为空
     public GameObject RegisterSuccess;   // 账号注册成功
+
+    public EventSystem system;
+
+    private Selectable SelecInput;   // 当前焦点所处的Input
+    private Selectable NextInput;   // 目标Input
+
+    public bool EnterKeyIsAlreadyInput = false;  // 判断回车是否已经被按下，防止连续两次输入回车出问题
 
     // Use this for initialization
     void OnEnable()
@@ -37,21 +45,57 @@ public class DoctorRegisterScript : MonoBehaviour {
             TryDoctorID = GetRandom(1000, 9999);  // 直到找到一个不重复DoctorID
         }
         DoctorID.text = TryDoctorID.ToString();
+
+        system = EventSystem.current;       // 获取当前的事件
     }
 
     // Update is called once per frame
     void Update()
     {
-        //print(instance.DoctorID);
+        //在Update内监听Tap键的按下
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //是否聚焦Input
+            if (system.currentSelectedGameObject != null)
+            {
+                //获取当前选中的Input
+                SelecInput = system.currentSelectedGameObject.GetComponent<Selectable>();
+                //监听Shift
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                {
+                    //Shift按下则选择出去上方的Input
+                    NextInput = SelecInput.FindSelectableOnUp();
+                    //上边没有找左边的
+                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnLeft();
+                }
+                else
+                {
+                    //没按shift就找下边的Input
+                    NextInput = SelecInput.FindSelectableOnDown();
+                    //或者右边的
+                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnRight();
+                }
+            }
+
+            //下一个Input不空的话就聚焦
+            if (NextInput != null) NextInput.Select();
+        }
+
+        // 按回车键进行登录
+        if (Input.GetKeyDown(KeyCode.Return) && EnterKeyIsAlreadyInput == false)
+        {
+            EnterKeyIsAlreadyInput = true;
+            RegisterOnClick();
+        }
     }
 
     public void RegisterOnClick()   // 点击注册按钮,进入医生注册界面
     {
+        ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
+        RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
+
         try
         {
-            ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
-            RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
-
             Doctor doctor = new Doctor();
             doctor.SetDoctorMessage(TryDoctorID, MD5Encrypt(DoctorPassword.text), DoctorName.text);
 
@@ -79,6 +123,8 @@ public class DoctorRegisterScript : MonoBehaviour {
     IEnumerator DelayTime(int time)
     {
         yield return new WaitForSeconds(time);
+
+        EnterKeyIsAlreadyInput = false;   // 需要改回来
 
         // 如果登录成功,则进入医生管理界面
         SceneManager.LoadScene("01-DoctorLogin");

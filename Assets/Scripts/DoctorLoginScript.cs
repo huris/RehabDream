@@ -29,6 +29,8 @@ public class DoctorLoginScript : MonoBehaviour {
 
         system = EventSystem.current;       // 获取当前的事件
 
+
+
         //DoctorDatabaseManager.instance.DeleteCS(241283);   // 数据库测试
     }
 
