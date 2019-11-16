@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bbece6b1a8c19468554e102c41d46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PatientIndex: 0
   TempPatientIndex: 0
 --- !u!1 &620873675
 GameObject:
@@ -1937,6 +1938,7 @@ MonoBehaviour:
   DoctorID: {fileID: 0}
   DoctorPassword: {fileID: 0}
   ErrorInformation: {fileID: 0}
+  system: {fileID: 0}
 --- !u!1 &1861441094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,13 +2078,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1898496641}
   m_TextComponent: {fileID: 748538890}
   m_Placeholder: {fileID: 1101397237}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:

@@ -12,11 +12,13 @@ public class DoctorRegisterScript : MonoBehaviour {
 
     public Text DoctorID;     // 医生账号
     public InputField DoctorPassword;    // 医生密码
+    public InputField DoctorPasswordAgain;    // 医生密码确认
     public InputField DoctorName;    // 医生姓名
     public long TryDoctorID;
 
     public GameObject ErrorInformation;   // 输入内容为空
     public GameObject RegisterSuccess;   // 账号注册成功
+    public GameObject DoctorPasswordIsNotSame;  // 两次密码输入不一致
 
     public EventSystem system;
 
@@ -30,14 +32,17 @@ public class DoctorRegisterScript : MonoBehaviour {
     {
         DoctorID = transform.Find("DoctorID/DoctorIDItem").GetComponent<Text>();    //  绑定账号
         DoctorPassword = transform.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
+        DoctorPasswordAgain = transform.Find("DoctorPasswordAgain/InputField").GetComponent<InputField>();    //  绑定密码
         DoctorName = transform.Find("DoctorName/InputField").GetComponent<InputField>();    //  绑定姓名
 
         ErrorInformation = transform.Find("ErrorInput").gameObject;   // 绑定错误信息
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
 
-        RegisterSuccess = transform.Find("RegisterSuccess").gameObject;   // 绑定错误信息
+        RegisterSuccess = transform.Find("RegisterSuccess").gameObject;   // 绑定成功信息
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
 
+        DoctorPasswordIsNotSame = transform.Find("DoctorPasswordIsNotSame").gameObject;  // 绑定错误信息
+        DoctorPasswordIsNotSame.SetActive(false);
 
         TryDoctorID = GetRandom(1000, 9999);  // 患者账号为6位
         while (DoctorDatabaseManager.instance.CheckDoctor(TryDoctorID) != DoctorDatabaseManager.DatabaseReturn.Success)
@@ -93,26 +98,33 @@ public class DoctorRegisterScript : MonoBehaviour {
     {
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
+        DoctorPasswordIsNotSame.SetActive(false);
 
         try
         {
-            Doctor doctor = new Doctor();
-            doctor.SetDoctorMessage(TryDoctorID, MD5Encrypt(DoctorPassword.text), DoctorName.text);
-
-            DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
-
-            if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+            if(DoctorPassword.text != DoctorPasswordAgain.text)
             {
-                //print("成功");
-                RegisterSuccess.SetActive(true);
-
-                StartCoroutine(DelayTime(3));
+                DoctorPasswordIsNotSame.SetActive(true);
             }
-            else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
+            else
             {
-                ErrorInformation.SetActive(true);
+                Doctor doctor = new Doctor();
+                doctor.SetDoctorMessage(TryDoctorID, MD5Encrypt(DoctorPassword.text), DoctorName.text);
+
+                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
+
+                if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+                {
+                    //print("成功");
+                    RegisterSuccess.SetActive(true);
+
+                    StartCoroutine(DelayTime(3));
+                }
+                else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
+                {
+                    ErrorInformation.SetActive(true);
+                }
             }
-            
         }
         catch (Exception e) // 抛出异常
         {
