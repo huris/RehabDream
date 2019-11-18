@@ -29,6 +29,9 @@ public class PatientItemScript : MonoBehaviour {
     public GameObject PatientPlanDelete;
     public Text PatientPlanDeleteText;
 
+    public GameObject PatientHaveNoPlan;
+    public Text PatientHaveNoPlanText;
+
     void OnEnable()
     {
         // print(DoctorDataManager.instance.Patients.Count);
@@ -89,19 +92,33 @@ public class PatientItemScript : MonoBehaviour {
         PatientListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
         PatientListScrollBar.value = 1;
 
-        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
+        PatientInfo.SetActive(true);
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
+        PatientListBG.SetActive(true);
+
+        PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
+        PatientQuery.SetActive(false);
         PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
+        PatientAdd.SetActive(false);
         PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
+        PatienPhysicalConditionsQuery.SetActive(false);
         PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
+        PatientPasswordModify.SetActive(false);
         PatientModify = transform.parent.parent.Find("PatientModify").gameObject;
+        PatientModify.SetActive(false);
 
         PatientInfoDelete = transform.parent.parent.Find("PatientInfoDelete").gameObject;
+        PatientInfoDelete.SetActive(false);
         PatientInfoDeleteText = transform.parent.parent.Find("PatientInfoDelete/Text").GetComponent<Text>();
 
         PatientPlanDelete = transform.parent.parent.Find("PatientPlanDelete").gameObject;
+        PatientPlanDelete.SetActive(false);
         PatientPlanDeleteText = transform.parent.parent.Find("PatientPlanDelete/Text").GetComponent<Text>();
+
+        PatientHaveNoPlan = transform.parent.parent.Find("PatientHaveNoPlan").gameObject;
+        PatientHaveNoPlan.SetActive(false);
+        PatientHaveNoPlanText = transform.parent.parent.Find("PatientHaveNoPlan/Text").GetComponent<Text>();
     }
 
     void Start()
@@ -179,20 +196,32 @@ public class PatientItemScript : MonoBehaviour {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
         // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
 
-        //DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
-        DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
+        DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        // DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
         DoctorDataManager.instance.TempPatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
 
-        PatientInfoDeleteText.text = "是否删除病人（" + DoctorDataManager.instance.TempPatient.PatientName + "）训练计划?";
+        PatientHaveNoPlanText.text = "该患者（" + DoctorDataManager.instance.TempPatient.PatientName + "）未制定训练计划";
+        PatientPlanDeleteText.text = "是否删除患者（" + DoctorDataManager.instance.TempPatient.PatientName + "）训练计划?";
 
-        PatientPlanDelete.SetActive(true);
+        if (DoctorDataManager.instance.TempPatient.trainingPlan.PlanIsMaking) PatientPlanDelete.SetActive(true);
+        else PatientHaveNoPlan.SetActive(true);
+
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
 
     }
 
+    public void PatientHaveNoPlanTextButtonOnClick()
+    {
+        PatientHaveNoPlan.SetActive(false);
+        PatientPlanDelete.SetActive(false);
+        PatientInfo.SetActive(true);
+        PatientListBG.SetActive(true);
+    }
+
     public void TrainingPlanDeleteExitButtonOnClick()
     {
+        PatientHaveNoPlan.SetActive(false);
         PatientPlanDelete.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);
@@ -203,6 +232,11 @@ public class PatientItemScript : MonoBehaviour {
         DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.TempPatient.PatientID);
 
         DoctorDataManager.instance.Patients[DoctorDataManager.instance.TempPatientIndex].trainingPlan.SetPlanIsMaking(false);
+
+        if (DoctorDataManager.instance.patient.PatientID == DoctorDataManager.instance.TempPatient.PatientID) {
+            DoctorDataManager.instance.patient = DoctorDataManager.instance.TempPatient;
+            DoctorDataManager.instance.PatientIndex = DoctorDataManager.instance.TempPatientIndex;
+        }
 
         PatientPlanDelete.SetActive(false);
         PatientInfo.SetActive(true);
@@ -232,7 +266,7 @@ public class PatientItemScript : MonoBehaviour {
 
         DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
 
-        PatientInfoDeleteText.text = "是否删除病人（"+ DoctorDataManager.instance.TempPatient.PatientName+ "）信息?";
+        PatientInfoDeleteText.text = "是否删除患者（"+ DoctorDataManager.instance.TempPatient.PatientName+ "）信息?";
 
         PatientInfoDelete.SetActive(true);
         PatientInfo.SetActive(false);
@@ -251,6 +285,11 @@ public class PatientItemScript : MonoBehaviour {
         DoctorDatabaseManager.instance.PatientDelete(DoctorDataManager.instance.TempPatient.PatientID);
 
         DoctorDataManager.instance.Patients.Remove(DoctorDataManager.instance.TempPatient);
+
+        if (DoctorDataManager.instance.patient.PatientID == DoctorDataManager.instance.TempPatient.PatientID)
+        {
+            DoctorDataManager.instance.SetPatientCompleteInformation(0);
+        }
 
         PatientInfoDelete.SetActive(false);
         PatientInfo.SetActive(true);

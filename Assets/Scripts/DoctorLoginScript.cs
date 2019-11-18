@@ -21,6 +21,7 @@ public class DoctorLoginScript : MonoBehaviour {
 
     // Use this for initialization
     void OnEnable () {
+
         DoctorID = transform.Find("DoctorID").GetComponent<InputField>();    //  绑定账号
         DoctorPassword = transform.Find("DoctorPassword").GetComponent<InputField>();    //  绑定密码
 

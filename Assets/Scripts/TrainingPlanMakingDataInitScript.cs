@@ -13,6 +13,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     public GameObject PlanMakingSuccess;
     public GameObject PlanMakingFail;
     public GameObject PlanDeleteSuccess;
+    public GameObject PlanDeleteFail;
 
     public Toggle PatientInfoManagerToggle;
 
@@ -43,6 +44,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         PlanDeleteSuccess = transform.Find("PlanDeleteSuccess").gameObject;
         PlanDeleteSuccess.SetActive(false);
+
+        PlanDeleteFail = transform.Find("PlanDeleteFail").gameObject;
+        PlanDeleteFail.SetActive(false);
 
         PatientInfoManagerToggle = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
@@ -90,6 +94,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
         PlanMakingFail.SetActive(false);
         PlanMakingSuccess.SetActive(false);
         PlanDeleteSuccess.SetActive(false);
+        PlanDeleteFail.SetActive(false);
 
         TrainingPlan trainingPlan = new TrainingPlan();
         trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
@@ -110,6 +115,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(true);
             DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
+            DoctorDataManager.instance.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
+            DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
+
             PlanMakingSuccess.SetActive(true);
 
             StartCoroutine(DelayTime(3));
@@ -126,23 +134,30 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
         PlanMakingFail.SetActive(false);
         PlanMakingSuccess.SetActive(false);
         PlanDeleteSuccess.SetActive(false);
+        PlanDeleteFail.SetActive(false);
 
-        DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID);
-
-        if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+        if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {
-            DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(false);
-            DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
+            DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID);
 
-            PlanDeleteSuccess.SetActive(true);
+            if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+            {
+                DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(false);
+                DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
 
-            StartCoroutine(DelayTime(3));
+                PlanDeleteSuccess.SetActive(true);
+
+                StartCoroutine(DelayTime(3));
+            }
+            else
+            {
+                PlanMakingFail.SetActive(true);
+            }
         }
         else
         {
-            PlanMakingFail.SetActive(true);
+            PlanDeleteFail.SetActive(true);
         }
-        
     }
 
 
