@@ -12,11 +12,17 @@ public class Patient {
     public string PatientSex { get; private set; } = "男";
     public long PatientHeight { get; private set; } = 0;
     public long PatientWeight { get; private set; } = 0;
+    public string PatientPinyin { get; private set; } = "";
 
     public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
     public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
 
     public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
+
+    public void SetPatientPinyin(string PatientPinyin)
+    {
+        this.PatientPinyin = PatientPinyin;
+    }
 
     //set PatientName,PatientID
     public void SetPatientMessage(long PatientID, string PatientName)

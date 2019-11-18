@@ -13,6 +13,8 @@ using UnityEngine;
 using Mono.Data.Sqlite;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
+using NPinyin;
 
 public class DoctorDatabaseManager : MonoBehaviour
 {
@@ -123,6 +125,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         Debug.Log("@UserManager: Database Connected.");
     }
+    
 
     //call when quit application, close connection
     //void OnApplicationQuit()
@@ -750,8 +753,9 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Patient> result = new List<Patient>(); //返回值
-        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName ASC";
-        
+        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
+
+        //ORDER BY convert(name using gbk)
         try
         {
             reader = PatientDatabase.ExecuteQuery(QueryString);
@@ -772,6 +776,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetInt64(reader.GetOrdinal("PatientHeight")),
                        reader.GetInt64(reader.GetOrdinal("PatientWeight"))
                        );
+                    res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
                     result.Add(res);
                 } while (reader.Read());
                 Debug.Log("@UserManager:Read Doctor PatientInfo Success" + result);
@@ -827,6 +832,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetInt64(reader.GetOrdinal("PatientHeight")),
                        reader.GetInt64(reader.GetOrdinal("PatientWeight"))
                        );
+                    res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
                     result.Add(res);
                 } while (reader.Read());
 
@@ -1054,5 +1060,5 @@ public class DoctorDatabaseManager : MonoBehaviour
             tmp.Append(i.ToString("x2"));
         }
         return tmp.ToString();
-    } 
+    }
 }

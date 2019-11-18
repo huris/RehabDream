@@ -131,6 +131,9 @@
  <Reference Include="Mono.Data.Tds">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
  </Reference>
+ <Reference Include="NPinyin">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
+ </Reference>
  <Reference Include="System.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>

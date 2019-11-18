@@ -29,8 +29,6 @@ public class DoctorLoginScript : MonoBehaviour {
 
         system = EventSystem.current;       // 获取当前的事件
 
-
-
         //DoctorDatabaseManager.instance.DeleteCS(241283);   // 数据库测试
     }
 
@@ -86,6 +84,11 @@ public class DoctorLoginScript : MonoBehaviour {
                 DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorInfo(long.Parse(DoctorID.text));
 
                 DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+
+                //foreach(var item in DoctorDataManager.instance.Patients)
+                //{
+                //    print(item.PatientPinyin);
+                //}
 
                 SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
             }

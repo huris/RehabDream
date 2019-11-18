@@ -32,7 +32,7 @@ public class PatientItemScript : MonoBehaviour {
     void OnEnable()
     {
         // print(DoctorDataManager.instance.Patients.Count);
-        DoctorDataManager.instance.Patients = DoctorDataManager.instance.Patients.OrderBy(s => s.PatientName).ToList();
+        DoctorDataManager.instance.Patients = DoctorDataManager.instance.Patients.OrderBy(s => s.PatientPinyin).ToList();
 
         if(this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
         {
