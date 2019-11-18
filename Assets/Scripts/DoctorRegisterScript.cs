@@ -30,9 +30,6 @@ public class DoctorRegisterScript : MonoBehaviour {
     // Use this for initialization
     void OnEnable()
     {
-        ErrorInformation.SetActive(false);
-        RegisterSuccess.SetActive(false);
-        DoctorPasswordIsNotSame.SetActive(false);
 
         DoctorID = transform.Find("DoctorID/DoctorIDItem").GetComponent<Text>();    //  绑定账号
         DoctorPassword = transform.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
