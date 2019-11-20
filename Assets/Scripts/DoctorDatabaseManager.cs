@@ -196,7 +196,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check login
-    public DatabaseReturn DoctorLogin(long DoctorID, string DoctorPassword) // DoctorLogin
+    public DatabaseReturn DoctorIDLogin(long DoctorID, string DoctorPassword) // DoctorLogin
     {
         if (DoctorID <= 0)   // input Null
         {
@@ -206,6 +206,42 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString() + " and DoctorPassword=" + AddSingleQuotes(MD5Encrypt(DoctorPassword));
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                // 用户名存在且密码正确
+                Debug.Log("@UserManager: Login DoctorDatabase Success");
+                return DatabaseReturn.Success;
+            }
+            else
+            {
+                // 不存在用户或密码不正确
+                Debug.Log("@UserManager: Login DoctorDatabase Fail");
+                return DatabaseReturn.Fail;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Login DoctorDatabase SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+    public DatabaseReturn DoctorNameLogin(string DoctorName, string DoctorPassword) // DoctorLogin
+    {
+        if (DoctorName == "")   // input Null
+        {
+            Debug.Log("@UserManager: Login DoctorInfo NullInput");
+            return DatabaseReturn.NullInput;
+        }
+
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorName=" + AddSingleQuotes(DoctorName) + " and DoctorPassword=" + AddSingleQuotes(MD5Encrypt(DoctorPassword));
 
         try
         {
@@ -366,11 +402,47 @@ public class DoctorDatabaseManager : MonoBehaviour
 
 
     // read DoctorInformation
-    public Doctor ReadDoctorInfo(long DoctorID)
+    public Doctor ReadDoctorIDInfo(long DoctorID)
     {
         SqliteDataReader reader;    //sql读取器
         Doctor result = null; //返回值
         string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在医生信息
+                result = new Doctor();
+                result.SetDoctorMessage(reader.GetInt64(reader.GetOrdinal("DoctorID")),
+                reader.GetString(reader.GetOrdinal("DoctorPassword")),
+                reader.GetString(reader.GetOrdinal("DoctorName")));
+
+                Debug.Log("@UserManager:Read DoctorInformation Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DoctorInformation Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DoctorInformation SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    // read DoctorInformation
+    public Doctor ReadDoctorNameInfo(string DoctorName)
+    {
+        SqliteDataReader reader;    //sql读取器
+        Doctor result = null; //返回值
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorName=" + AddSingleQuotes(DoctorName);
 
         try
         {
@@ -777,6 +849,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetInt64(reader.GetOrdinal("PatientWeight"))
                        );
                     res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
+
                     result.Add(res);
                 } while (reader.Read());
                 Debug.Log("@UserManager:Read Doctor PatientInfo Success" + result);

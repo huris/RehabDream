@@ -43,6 +43,7 @@ public class DoctorDataManager : MonoBehaviour {
         this.patient = this.Patients[PatientIndex];
  
         this.PatientIndex = PatientIndex;
+
         this.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.patient.PatientID);
         this.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID);
     }

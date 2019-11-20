@@ -11,7 +11,7 @@ public class TrainingPlay
     public string TrainingDifficulty { get; private set; } = "初级";
     public long SuccessCount { get; private set; } = 0;
     public long GameCount { get; private set; } = 0;
-    public long MaxSuccessCount { get; private set; } = 0;
+
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long SuccessCount, long GameCount)
     {

@@ -79,24 +79,50 @@ public class DoctorLoginScript : MonoBehaviour {
         try
         {
             // 判断是否存在该用户且账号密码正确
-            if (DoctorDatabaseManager.instance.DoctorLogin(long.Parse(DoctorID.text), DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
+            if(DoctorID.text[0] >= '0' && DoctorID.text[0] <= '9')    // 如果为数字
             {
-                //print("成功");
-                DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorInfo(long.Parse(DoctorID.text));
+                if (DoctorDatabaseManager.instance.DoctorIDLogin(long.Parse(DoctorID.text), DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
+                {
+                    //print("成功");
+                    DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(long.Parse(DoctorID.text));
 
-                DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                    DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
 
-                //foreach(var item in DoctorDataManager.instance.Patients)
-                //{
-                //    print(item.PatientPinyin);
-                //}
+                    //foreach(var item in DoctorDataManager.instance.Patients)
+                    //{
+                    //    print(item.PatientPinyin);
+                    //}
 
-                SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+                    SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+                }
+                else  // 如果账号密码不正确,则提示
+                {
+                    ErrorInformation.SetActive(true);
+                }
             }
-            else  // 如果账号密码不正确,则提示
+            else    // 否则为输入姓名
             {
-                ErrorInformation.SetActive(true);
+                if (DoctorDatabaseManager.instance.DoctorNameLogin(DoctorID.text, DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
+                {
+
+                    //print("成功");
+                    DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
+
+                    DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+
+                    //foreach(var item in DoctorDataManager.instance.Patients)
+                    //{
+                    //    print(item.PatientPinyin);
+                    //}
+
+                    SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+                }
+                else  // 如果账号密码不正确,则提示
+                {
+                    ErrorInformation.SetActive(true);
+                }
             }
+                       
         }
         catch (Exception e) // 抛出异常
         {

@@ -51,52 +51,88 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Interactive_Pie\WMG_X_Interactive_Pie.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Pie_Ring_Graph\WMG_X_Pie_Ring_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\WMG_X_Plot_Overtime.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Ring_Graph\WMG_X_Ring_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Simple_Pie\WMG_X_Simple_Pie.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_Tutorial_1\WMG_X_Tutorial_1.cs" />
-     <Compile Include="Assets\Graph_Maker\Examples\X_WorldSpace\WMG_X_WorldSpace.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Axis_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Bezier_Band_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Grid.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Hierarchical_Tree.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Pie_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Radar_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Random_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Ring_Graph.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Anim.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Events.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Graph_Tooltip.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_GUI_Functions.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Image_Custom_Mat.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycaster.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycatcher.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Text_Functions.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Change_Obj.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_EnumFlagAttribute.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Enums.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_List.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Reflection.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Util.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Axis.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Bezier_Band.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Compute_Shader.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_ComputeLineGraph_Data.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Data_Source.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Auto_Anim.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Manager.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend_Entry.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Link.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Node.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
-     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
+     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
+     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
+     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundToImage.cs" />
+     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundToRenderer.cs" />
+     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\UserPlaneMover.cs" />
+     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\WebcamSource.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\DepthImageViewer.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\DepthSpriteViewer.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\EggMover.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\EggSpawner.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\HandColorOverlayer.cs" />
+     <Compile Include="Assets\KinectDemos\ColliderDemo\Scripts\JumpTrigger.cs" />
+     <Compile Include="Assets\KinectDemos\FaceTrackingDemo\Scripts\ModelFaceController.cs" />
+     <Compile Include="Assets\KinectDemos\FaceTrackingDemo\Scripts\ModelHatController.cs" />
+     <Compile Include="Assets\KinectDemos\FaceTrackingDemo\Scripts\SetBackgroundImage.cs" />
+     <Compile Include="Assets\KinectDemos\FaceTrackingDemo\Scripts\SetBackgroundRemovalImage.cs" />
+     <Compile Include="Assets\KinectDemos\FaceTrackingDemo\Scripts\SetFaceTexture.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CategorySelector.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\CloudFaceDetector.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\CloudFaceManager.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\CloudWebTools.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\ClientError.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\Face.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\FaceAttributes.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\FaceLandmarks.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\FaceRectangle.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\FacialHair.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\FeatureCoordinate.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\CloudFaceScripts\FaceObjs\HeadPose.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\ModelSelector.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\OverlayController.cs" />
+     <Compile Include="Assets\KinectDemos\FittingRoomDemo\Scripts\UserBodyBlender.cs" />
+     <Compile Include="Assets\KinectDemos\GesturesDemo\Scripts\CubeGestureListener.cs" />
+     <Compile Include="Assets\KinectDemos\GesturesDemo\Scripts\CubePresentationScript.cs" />
+     <Compile Include="Assets\KinectDemos\GesturesDemo\Scripts\ModelGestureListener.cs" />
+     <Compile Include="Assets\KinectDemos\GesturesDemo\Scripts\ModelPresentationScript.cs" />
+     <Compile Include="Assets\KinectDemos\InteractionDemo\Scripts\GrabDropScript.cs" />
+     <Compile Include="Assets\KinectDemos\InteractionDemo\Scripts\GrabRotateScript.cs" />
+     <Compile Include="Assets\KinectDemos\InteractionDemo\Scripts\GuiWindowScript.cs" />
+     <Compile Include="Assets\KinectDemos\MovieSequenceDemo\Scripts\UserMovieSequence.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\HandOverlayer.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\JointOverlayer.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\LinePainter.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\PhotoBoothController.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\PhotoShooter.cs" />
+     <Compile Include="Assets\KinectDemos\OverlayDemo\Scripts\SkeletonOverlayer.cs" />
+     <Compile Include="Assets\KinectDemos\PhysicsDemo\Scripts\BallController.cs" />
+     <Compile Include="Assets\KinectDemos\PhysicsDemo\Scripts\BarrelTrigger.cs" />
+     <Compile Include="Assets\KinectDemos\ProjectorDemo\Scripts\ProjectorCamera.cs" />
+     <Compile Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Matrix.cs" />
+     <Compile Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\ProjectorCameraEnsemble.cs" />
+     <Compile Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\UnityUtilities.cs" />
+     <Compile Include="Assets\KinectDemos\ProjectorDemo\Scripts\SkeletonProjection.cs" />
+     <Compile Include="Assets\KinectDemos\RecorderDemo\Scripts\KinectPlayerController.cs" />
+     <Compile Include="Assets\KinectDemos\RecorderDemo\Scripts\PlayerDetectorController.cs" />
+     <Compile Include="Assets\KinectDemos\SpeechRecognitionDemo\Scripts\BotControlScript.cs" />
+     <Compile Include="Assets\KinectDemos\SpeechRecognitionDemo\Scripts\GameControlScript.cs" />
+     <Compile Include="Assets\KinectDemos\SpeechRecognitionDemo\Scripts\ThirdPersonCamera.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\HandObjectChecker.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\HeightEstimator.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\KinectAudioTracker.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\PoseDetectorScript.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\PoseModelHelper.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\SimpleHolographicCamera.cs" />
+     <Compile Include="Assets\KinectDemos\VariousDemos\Scripts\UserHeadCamera.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\BallMover.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\BallSpawner.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\MousePointOverlayer.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\SceneMeshVisualizer.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserHandVisualizer.cs" />
+     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserMeshVisualizer.cs" />
+     <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
+     <Compile Include="Assets\Scripts\Database\SqliteDatabaseHelper.cs" />
+     <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
      <Compile Include="Assets\Scripts\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor.cs" />
      <Compile Include="Assets\Scripts\DoctorDatabaseManager.cs" />
@@ -111,8 +147,64 @@
      <Compile Include="Assets\Scripts\DoctorRegisterExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\DoctorRegisterScript.cs" />
      <Compile Include="Assets\Scripts\DoctorUIExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Game\GameState.cs" />
+     <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
      <Compile Include="Assets\Scripts\GravityCenter.cs" />
+     <Compile Include="Assets\Scripts\Kinect\AvatarController.cs" />
+     <Compile Include="Assets\Scripts\Kinect\AvatarControllerClassic.cs" />
+     <Compile Include="Assets\Scripts\Kinect\AvatarScaler.cs" />
+     <Compile Include="Assets\Scripts\Kinect\BackgroundColorImage.cs" />
+     <Compile Include="Assets\Scripts\Kinect\BackgroundDepthImage.cs" />
+     <Compile Include="Assets\Scripts\Kinect\BackgroundRemovalManager.cs" />
+     <Compile Include="Assets\Scripts\Kinect\BodySlicer.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Cubeman\CubemanController.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Cubeman\PointmanController.cs" />
+     <Compile Include="Assets\Scripts\Kinect\FacetrackingManager.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Filters\BoneOrientationsConstraint.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Filters\JointPositionsFilter.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Filters\JointVelocitiesFilter.cs" />
+     <Compile Include="Assets\Scripts\Kinect\InteractionInputModule.cs" />
+     <Compile Include="Assets\Scripts\Kinect\InteractionManager.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\DepthSensorInterface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\DummyK2Interface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\Kinect1Interface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\Kinect2Interface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\Kinect2UwpInterface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Interfaces\OpenNI2Interface.cs" />
+     <Compile Include="Assets\Scripts\Kinect\KinectDataServer.cs" />
+     <Compile Include="Assets\Scripts\Kinect\KinectGestures.cs" />
+     <Compile Include="Assets\Scripts\Kinect\KinectInterop.cs" />
+     <Compile Include="Assets\Scripts\Kinect\KinectManager.cs" />
+     <Compile Include="Assets\Scripts\Kinect\KinectRecorderPlayer.cs" />
+     <Compile Include="Assets\Scripts\Kinect\MultiScene\LoadFirstLevel.cs" />
+     <Compile Include="Assets\Scripts\Kinect\MultiScene\LoadLevelWhenNoUser.cs" />
+     <Compile Include="Assets\Scripts\Kinect\MultiScene\LoadLevelWhenUserDetected.cs" />
+     <Compile Include="Assets\Scripts\Kinect\MultiScene\LoadLevelWithDelay.cs" />
+     <Compile Include="Assets\Scripts\Kinect\MultiScene\LocateAvatarsAndGestureListeners.cs" />
+     <Compile Include="Assets\Scripts\Kinect\PortraitBackground.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\FollowUserRotation.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\GetFacePointsDemo.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\GetFaceSmileStatus.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\GetJointPositionDemo.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\JointOrientationView.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\JointPositionView.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\K2SensorChecker.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\MouseControl.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\PointCloudView.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\RaiseHandListener.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\SimpleBackgroundRemoval.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\SimpleGestureListener.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\SimpleInteractionListener.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Samples\SimpleVisualGestureListener.cs" />
+     <Compile Include="Assets\Scripts\Kinect\SpeechErrorHandler.cs" />
+     <Compile Include="Assets\Scripts\Kinect\SpeechManager.cs" />
+     <Compile Include="Assets\Scripts\Kinect\Utilities\AsyncTask.cs" />
+     <Compile Include="Assets\Scripts\Kinect\VisualGestureManager.cs" />
      <Compile Include="Assets\Scripts\LogoutButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Manager\DatabaseManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\DataManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\ManagerLoader.cs" />
+     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\ModifyReturnButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatienPhysicalConditionsQueryScript.cs" />
@@ -129,7 +221,12 @@
      <Compile Include="Assets\Scripts\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\PatientQueryExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
+     <Compile Include="Assets\Scripts\Soccerball\ParabolaPath.cs" />
+     <Compile Include="Assets\Scripts\Soccerball\Shooting.cs" />
+     <Compile Include="Assets\Scripts\Soccerball\SoccerballCreate.cs" />
      <Compile Include="Assets\Scripts\SqliteHelper.cs" />
+     <Compile Include="Assets\Scripts\Track\Track.cs" />
      <Compile Include="Assets\Scripts\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\TrainingDataInitScript.cs" />
@@ -137,13 +234,38 @@
      <Compile Include="Assets\Scripts\TrainingPlanMakingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\TrainingPlay.cs" />
      <Compile Include="Assets\Scripts\TrainingPlayItemScript.cs" />
-     <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
-     <None Include="Assets\Graph_Maker\DOTween\readme.txt" />
-     <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
-     <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
+     <Compile Include="Assets\Scripts\UI\Animator\DoTweenUIAnimation.cs" />
+     <Compile Include="Assets\Scripts\UI\Animator\UIAnimator.cs" />
+     <Compile Include="Assets\Scripts\UI\Button\FistButton.cs" />
+     <Compile Include="Assets\Scripts\UI\GameUIHandle.cs" />
+     <Compile Include="Assets\Scripts\UI\StartUIHandle.cs" />
+     <Compile Include="Assets\Scripts\UI\UIHandle.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\GrassRenderingReservedLayer.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\SetupForGrassRendering.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\VolumeGrass.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\VolumeGrass_CustomMesh.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\WindZoneSync.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\FPSmeter.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Meadow\PropellerMotor.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
+     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+     <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
+     <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
+     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
+     <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
+     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
+     <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
+     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
-     <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
-     <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
+     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
+     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+     <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
+     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
+     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
+     <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
+     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+     <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -175,7 +297,7 @@
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="DOTween">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Graph_Maker/DOTween/DOTween.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
@@ -192,12 +314,25 @@
  <Reference Include="System.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
+ <Reference Include="LZ4Sharp">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/SharpZipLib/ICSharpCode.SharpZipLib.dll</HintPath>
+ </Reference>
+ <Reference Include="Poly2Tri">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{AD14E5E0-21B7-44B3-CD66-EB6F2852D84B}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

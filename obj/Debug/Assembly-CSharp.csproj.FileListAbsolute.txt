@@ -42,3 +42,10 @@ F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csprojAssemb
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.dll
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.pdb
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DOTween.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\LZ4Sharp.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\NPinyin.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Poly2Tri.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DOTween.xml

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PatientItemScript : MonoBehaviour {
@@ -67,7 +68,7 @@ public class PatientItemScript : MonoBehaviour {
 
             // 为button添加监听函数
             this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
-            this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientPasswordModifyButtonOnClick);    // 修改患者密码
+            this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
@@ -150,19 +151,47 @@ public class PatientItemScript : MonoBehaviour {
         PatienPhysicalConditionsQuery.SetActive(true);
     }
 
-    void PatientPasswordModifyButtonOnClick()
+    void PatientStartTraining()
     {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
-        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
-
-        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
         DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
         DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
 
-        PatientInfo.SetActive(false);
-        PatientListBG.SetActive(false);
-        PatientPasswordModify.SetActive(true);
+        if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+        {
+            DataManager.instance.SetUserMessage(DoctorDataManager.instance.patient.PatientID, DoctorDataManager.instance.patient.PatientName, DoctorDataManager.instance.patient.PatientSex);
+            DataManager.instance.SetTrainingPlan(DataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
+
+            TrainingPlay trainingPlay = new TrainingPlay();
+            trainingPlay.SetTrainingID(DoctorDataManager.instance.patient.trainingPlays.Count + 1);
+
+            DoctorDataManager.instance.patient.trainingPlays.Add(trainingPlay);
+
+            DataManager.instance.SetTrainingID(trainingPlay.TrainingID);
+            DataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
+            SceneManager.LoadScene("Game");  // 如果登录成功,则进入医生管理界面
+        }
+        else
+        {
+            PatientHaveNoPlanText.text = "该患者（" + DoctorDataManager.instance.patient.PatientName + "）未制定训练计划\n请先制定计划后开始训练";
+            PatientHaveNoPlan.SetActive(true);
+        }
     }
+
+
+    //void PatientPasswordModifyButtonOnClick()
+    //{
+    //    GameObject obj = EventSystem.current.currentSelectedGameObject;
+    //    // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+    //    //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+    //    DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
+    //    DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
+
+    //    PatientInfo.SetActive(false);
+    //    PatientListBG.SetActive(false);
+    //    PatientPasswordModify.SetActive(true);
+    //}
 
     void TrainingConditionQueryButtonOnClick()
     {

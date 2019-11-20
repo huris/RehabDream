@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Grass soccer
+  m_Shader: {fileID: 4800000, guid: dd1e6a13a51a2b2478d5e3bde346cb22, type: 3}
+  m_ShaderKeywords: GLOBAL_COLORING_OFF IBL_DIFFUSE_OFF IBL_SPEC_OFF WIND
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AuxTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesBackTex:
+        m_Texture: {fileID: 2800000, guid: 940512b3a4823b14ab02ec583ab7dd57, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesTex:
+        m_Texture: {fileID: 2800000, guid: ecd81357759767f4db004bcc7873adaf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CubemapDiff:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CubemapSpec:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlobalColorTex:
+        m_Texture: {fileID: 2800000, guid: ef621a34b2dabb94eae6013e439e3535, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cce782fbebc299644946fd89e0314a4c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 2d21c6f0c554bba44ab35f6d40e89111, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex2:
+        m_Texture: {fileID: 2800000, guid: ef621a34b2dabb94eae6013e439e3535, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexHash:
+        m_Texture: {fileID: 2800000, guid: e425c993ef4f6fa488556f9e9aff79cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - BlockEnd: 0
+    - BlockStart: 1
+    - GRASSDEPTH: 0.25
+    - GRASS_SLICE_NUM: 4
+    - GRASS_SLICE_NUM_INV: 0.25
+    - HEIGHT: 0.25
+    - IBL_DiffDirectStrength: 0.57142854
+    - IBL_DiffStrength: 0
+    - IBL_Gloss: 0.5
+    - IBL_SpecFresnel: 1
+    - IBL_SpecStrength: 2
+    - MAX_RAYDEPTH: 10
+    - PLANE_NUM: 6
+    - PLANE_NUM_INV: 0.14934288
+    - PREMULT: 1.6740001
+    - UV_RATIO: 1.3888888
+    - _AO_border_damp: 0.59
+    - _AO_far: 0.42
+    - _AO_noise_tiling: 0.35
+    - _AO_strength_steep: 0.5
+    - _AO_value: 0.25
+    - _BladesSaturation: 0.57
+    - _Cutoff: 0.64
+    - _DiffFresnel: 0.08
+    - _FloorSaturation: 0.41
+    - _GlobalColoringAdd: 0.22533031
+    - _GlobalColoringMult: 0
+    - _MIP_BIAS: 0.38214287
+    - _MIP_distance_limit: 2.5
+    - _auxtex_modulator_value: 0.15
+    - _blur_distance: 2
+    - _blur_distance_transition: 2
+    - _border_fray_strength: 0.5283019
+    - _border_fray_tiling: 5
+    - _bottom_coloring_border_damp: 0.26415095
+    - _bottom_coloring_distance_fade: 25
+    - _bottom_coloring_far: 0.11320755
+    - _bottom_coloring_noise_tiling: 0.2
+    - _bright: 1
+    - _coloring_noise_tiling: 0.1
+    - _far_distance: 4
+    - _far_distance_transition: 30
+    - _fardistancetiling: 10
+    - _floortiling: 6
+    - _glowing_value: 0.1
+    - _mblur_distance: 3
+    - _mblur_transition: 2
+    - _mblur_val: 0
+    - _mod: 0.05166897
+    - _tiling_factor: 0.72
+    - _view_angle_damper: 0.95
+    - _wind_amp: 0.7
+    - _wind_amp_affector: 3
+    - _wind_const_bend_affector: 0
+    - _wind_freq: 0.06
+    - _wind_freq_affector: 0.3
+    - _wind_speed: 4
+    - _wind_speed_affector: 6
+    - _wind_to_normal: 0.82
+    - mainBlockEnd: 0
+    - mainBlockStart: 1
+    m_Colors:
+    - UVbounds: {r: -54, g: 54, b: -35, a: 35}
+    - _BladesBackColor: {r: 0.9029851, g: 0.9029851, b: 0.9029851, a: 1}
+    - _BladesColor: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
+    - _Color: {r: 0.3441513, g: 0.35820895, b: 0.33682334, a: 1}
+    - _FloorColor: {r: 0.26098543, g: 0.27434078, b: 0.21382444, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _auxtex_tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _bottom_coloring_noise_tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _bottom_coloring_value: {r: 0.0765562, g: 0.14179105, b: 0.01904656, a: 0.5137255}
+    - _coloring_noise_tiling: {r: 0.006, g: 0.006, b: 0.5, a: 0.5}
+    - _coloring_value: {r: 1, g: 1, b: 1, a: 0.21176471}
+    - _mblur_dir: {r: 0, g: -1, b: 0.1, a: 0}
+    - _wind_affector: {r: 0.24309254, g: 2.3683562, b: -0.09448886, a: 0.55}
+    - _wind_dir: {r: 0.124, g: 0.38, b: 0, a: 0}

@@ -13,6 +13,9 @@ public class Patient {
     public long PatientHeight { get; private set; } = 0;
     public long PatientWeight { get; private set; } = 0;
     public string PatientPinyin { get; private set; } = "";
+    public long MaxSuccessCount { get; private set; } = 0;
+
+
 
     public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
     public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
