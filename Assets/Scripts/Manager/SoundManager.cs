@@ -29,15 +29,15 @@ public class SoundManager : MonoBehaviour
     // volume percentage
     private float _bgmVolume
     {
-        get { return DataManager.instance.bgmVolume; }
+        get { return PatientDataManager.instance.bgmVolume; }
     }
     private float _bgsVolume
     {
-        get { return DataManager.instance.bgsVolume; }
+        get { return PatientDataManager.instance.bgsVolume; }
     }
     private float _seVolume
     {
-        get { return DataManager.instance.seVolume; }
+        get { return PatientDataManager.instance.seVolume; }
     }
 
     // Sound type group, used for type list

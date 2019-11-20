@@ -4,7 +4,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-public class SQLiteDatabaseHelper
+public class SQLiteHelper
 {
     /// <summary>
     /// 数据库连接定义
@@ -25,7 +25,7 @@ public class SQLiteDatabaseHelper
     /// 构造函数    
     /// </summary>
     /// <param name="connectionString">数据库连接字符串</param>
-    public SQLiteDatabaseHelper(string connectionString)
+    public SQLiteHelper(string connectionString)
     {
         try
         {

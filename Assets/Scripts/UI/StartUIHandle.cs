@@ -127,22 +127,22 @@ public class StartUIHandle : UIHandle
         string PatientPassword = RegisterPatientPasswordField.text;
 
 
-        DatabaseManager.DatabaseReturn Return = DatabaseManager.instance.Register(PatientID, PatientName, PatientPassword);
+        PatientDatabaseManager.DatabaseReturn Return = PatientDatabaseManager.instance.Register(PatientID, PatientName, PatientPassword);
         switch (Return)
         {
-            case DatabaseManager.DatabaseReturn.Success:                //register success
+            case PatientDatabaseManager.DatabaseReturn.Success:                //register success
                 OnClickCloseRegisterUI();                               //close register UI
                 base.EnableUIButton(StartUI);
                 break;
-            case DatabaseManager.DatabaseReturn.Fail:
+            case PatientDatabaseManager.DatabaseReturn.Fail:
                 break;
-            case DatabaseManager.DatabaseReturn.NullInput:
+            case PatientDatabaseManager.DatabaseReturn.NullInput:
                 RegisterPatientIDField.text = "各表项不应为空";
                 break;
-            case DatabaseManager.DatabaseReturn.AlreadyExist:
+            case PatientDatabaseManager.DatabaseReturn.AlreadyExist:
                 RegisterPatientIDField.text = "用户ID已存在";
                 break;
-            case DatabaseManager.DatabaseReturn.Exception:
+            case PatientDatabaseManager.DatabaseReturn.Exception:
                 RegisterPatientIDField.text = "数据库异常";
                 break;
 
@@ -179,13 +179,13 @@ public class StartUIHandle : UIHandle
         }
         string PatientPassword = LoginPatientPasswordField.text;
 
-        DatabaseManager.DatabaseReturn Return = DatabaseManager.instance.Login(PatientID, PatientPassword);
+        PatientDatabaseManager.DatabaseReturn Return = PatientDatabaseManager.instance.Login(PatientID, PatientPassword);
         switch (Return)
         {
-            case DatabaseManager.DatabaseReturn.Success:    //login success
+            case PatientDatabaseManager.DatabaseReturn.Success:    //login success
 
                 // set PatientID, PatientName
-                DataManager.instance.SetUserMessage(PatientID, DatabaseManager.instance.ReadPatientName(PatientID),DatabaseManager.instance.ReadPatientSex(PatientID));
+                PatientDataManager.instance.SetUserMessage(PatientID, PatientDatabaseManager.instance.ReadPatientName(PatientID), PatientDatabaseManager.instance.ReadPatientSex(PatientID));
 
                 // read TrainingPlan and Set TrainingPlan(PlanDifficulty GameCount PlanCount)
                 SetDataTrainingPlan();
@@ -205,10 +205,10 @@ public class StartUIHandle : UIHandle
                 //Login & Register button setactive(false)
 
                 break;
-            case DatabaseManager.DatabaseReturn.Fail:
+            case PatientDatabaseManager.DatabaseReturn.Fail:
                 LoginPatientIDField.text = "用户ID或用户密码错误";
                 break;
-            case DatabaseManager.DatabaseReturn.NullInput:
+            case PatientDatabaseManager.DatabaseReturn.NullInput:
                 LoginPatientIDField.text = "用户ID、用户密码不能为空";
 
                 break;
@@ -326,13 +326,13 @@ public class StartUIHandle : UIHandle
     public void SetDataPatientRecord()
     {
         // set TrainingID
-        DataManager.instance.SetTrainingID(DatabaseManager.instance.GenerateTrainingID());
+        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID());
 
         // set  MaxSuccessCount
-        DataManager.instance.SetMaxSuccessCount(
-            DatabaseManager.instance.ReadMaxSuccessCount(
-                DataManager.instance.PatientID,
-                DataManager.DifficultyType2Str(DataManager.instance.TrainingDifficulty)
+        PatientDataManager.instance.SetMaxSuccessCount(
+            PatientDatabaseManager.instance.ReadMaxSuccessCount(
+                PatientDataManager.instance.PatientID,
+                PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty)
                 )
             );
     }
@@ -341,10 +341,10 @@ public class StartUIHandle : UIHandle
     public void SetDataTrainingPlan()
     {
         // read TrainingPlan(PlanDifficulty, GameCount, PlanCount)
-        Tuple<string, long, long> TrainingPlan = DatabaseManager.instance.ReadTrainingPlan(DataManager.instance.PatientID);
+        Tuple<string, long, long> TrainingPlan = PatientDatabaseManager.instance.ReadTrainingPlan(PatientDataManager.instance.PatientID);
         // set TrainingPlan(PlanDifficulty, GameCount, PlanCount)
-        DataManager.instance.SetTrainingPlan(
-            DataManager.Str2DifficultyType(TrainingPlan.Item1),
+        PatientDataManager.instance.SetTrainingPlan(
+            PatientDataManager.Str2DifficultyType(TrainingPlan.Item1),
             TrainingPlan.Item2,
             TrainingPlan.Item3
             );
@@ -371,18 +371,18 @@ public class StartUIHandle : UIHandle
     //set PlanDifficultyToggle as Plan
     public void SetPlanDifficultyToggle()
     {
-        switch (DataManager.instance.TrainingDifficulty)
+        switch (PatientDataManager.instance.TrainingDifficulty)
         {
-            case DataManager.DifficultyType.Primary:
+            case PatientDataManager.DifficultyType.Primary:
                 PrimaryToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.General:
+            case PatientDataManager.DifficultyType.General:
                 GeneralToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.Intermediate:
+            case PatientDataManager.DifficultyType.Intermediate:
                 IntermediateToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.Advanced:
+            case PatientDataManager.DifficultyType.Advanced:
                 AdvancedToggle.isOn = true;
                 break;
         }
@@ -393,15 +393,15 @@ public class StartUIHandle : UIHandle
     // set game Tips
     public void SetTipsToggle()
     {
-        SoccerTrackTipsToggle.isOn = DataManager.instance.SoccerTrackTips;
-        WordTipsToggle.isOn = DataManager.instance.WordTips;
+        SoccerTrackTipsToggle.isOn = PatientDataManager.instance.SoccerTrackTips;
+        WordTipsToggle.isOn = PatientDataManager.instance.WordTips;
     }
 
     //set Music Slider
     public void SetMusicVolumeSlider()
     {
-        BgmSlider.value = DataManager.instance.bgmVolume;
-        SeSlider.value = DataManager.instance.seVolume;
+        BgmSlider.value = PatientDataManager.instance.bgmVolume;
+        SeSlider.value = PatientDataManager.instance.seVolume;
     }
 
     //set UI value
@@ -425,7 +425,7 @@ public class StartUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Primary);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Primary);
             Debug.Log("@PrimaryToggle: Primary difficulty is set");
         }
 
@@ -437,7 +437,7 @@ public class StartUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.General);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.General);
             Debug.Log("@GeneralToggle: General difficulty is set");
         }
 
@@ -448,7 +448,7 @@ public class StartUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Intermediate);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Intermediate);
             Debug.Log("@IntermediateToggle: Intermediate difficulty is set");
         }
 
@@ -459,7 +459,7 @@ public class StartUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Advanced);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Advanced);
             Debug.Log("@AdvancedToggle: Advanced difficulty is set");
         }
 
@@ -468,8 +468,8 @@ public class StartUIHandle : UIHandle
     // LimbTips Toggle
     public void OnSoccerTrackTipsToggleValueChanged(bool isOn)
     {
-    
-        DataManager.instance.SetSoccerTrackTipss(isOn);
+
+        PatientDataManager.instance.SetSoccerTrackTipss(isOn);
         Debug.Log("@SoccerTrackTipsToggle: SoccerTrackTipss is set " + isOn.ToString());
      
     }
@@ -478,7 +478,7 @@ public class StartUIHandle : UIHandle
     public void OnWordTipsToggleValueChanged(bool isOn)
     {
 
-        DataManager.instance.SetWordTips(isOn);
+        PatientDataManager.instance.SetWordTips(isOn);
         Debug.Log("@WordTipsToggle: WordTips is set " + isOn.ToString());
 
     }
@@ -492,21 +492,21 @@ public class StartUIHandle : UIHandle
     //bgmVolume Slider
     public void OnbgmSliderValueChange(float value)
     {
-        DataManager.instance.SetbgmVolume(value);
+        PatientDataManager.instance.SetbgmVolume(value);
         Debug.Log("@bgmSlider: change bgmVolume to " + value.ToString());
     }
 
     //bgsVolume Slider
     public void OnbgsSliderValueChange(float value)
     {
-        DataManager.instance.SetbgsVolume(value);
+        PatientDataManager.instance.SetbgsVolume(value);
         Debug.Log("@bgsSlider: change bgsVolume to " + value.ToString());
     }
 
     //seVolume Slider
     public void OnseSliderValueChange(float value)
     {
-        DataManager.instance.SetseVolume(value);
+        PatientDataManager.instance.SetseVolume(value);
         Debug.Log("@seSlider: change seVolume to " + value.ToString());
     }
 
@@ -522,19 +522,19 @@ public class StartUIHandle : UIHandle
         switch (item.name)
         {
             case "PrimaryToggle":
-                DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Primary);
+                PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Primary);
                 Debug.Log("Primary difficulty is set");
                 break;
             case "GeneralToggle":
-                DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.General);
+                PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.General);
                 Debug.Log("General difficulty is set");
                 break;
             case "IntermediateToggle":
-                DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Intermediate);
+                PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Intermediate);
                 Debug.Log("Intermediate difficulty is set");
                 break;
             case "AdvancedToggle":
-                DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Advanced);
+                PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Advanced);
                 Debug.Log("Advanced difficulty is set");
                 break;
             default:
@@ -550,17 +550,17 @@ public class StartUIHandle : UIHandle
         switch (EventSender.name)
         {
             case "bgmVolume":
-                DataManager.instance.SetbgmVolume(value);
+                PatientDataManager.instance.SetbgmVolume(value);
                 SoundManager.instance.SetVolume(SoundManager.SoundType.BGM, value);
                 Debug.Log("change bgmVolume to "+ value.ToString());
                 break;
             case "bgsVolume":
-                DataManager.instance.SetbgsVolume(value);
+                PatientDataManager.instance.SetbgsVolume(value);
                 SoundManager.instance.SetVolume(SoundManager.SoundType.BGS, value);
                 Debug.Log("change bgsVolume " + value.ToString());
                 break;
             case "seVolume":
-                DataManager.instance.SetseVolume(value);
+                PatientDataManager.instance.SetseVolume(value);
                 Debug.Log("change seVolume " + value.ToString());
                 break;
             default:

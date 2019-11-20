@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 跨场景数据、UI数据存在此处
-public class DataManager : MonoBehaviour{
+public class PatientDataManager : MonoBehaviour{
     // Singleton instance holder
-    public static DataManager instance = null;
+    public static PatientDataManager instance = null;
 
 
     public enum DifficultyType

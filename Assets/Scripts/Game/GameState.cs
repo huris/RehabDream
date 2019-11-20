@@ -64,7 +64,7 @@ public class GameState : MonoBehaviour {
     private int _AddCount = 1;
     private float _Gravity = Physics.gravity.y;
 
-    
+
 
 
     // Moore FSM，使用Moore型有限状态机
@@ -103,7 +103,7 @@ public class GameState : MonoBehaviour {
         InitGameObject();
         InitDelegate();
         // set start time
-        DataManager.instance.SetTrainingStartTime();
+        PatientDataManager.instance.SetTrainingStartTime();
 
 
         // 保证切换场景时kinect 与 AvatarController不会失效
@@ -286,8 +286,8 @@ public class GameState : MonoBehaviour {
     public void WriteDatabaseInGame()
     {
         WriteBodyDataThread Thread = new WriteBodyDataThread(
-           DataManager.instance.TrainingID,
-           RecordCaculator.CalculateGravityCenter(DataManager.instance.PatientSex.Equals("男") ? true : false),
+           PatientDataManager.instance.TrainingID,
+           RecordCaculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
            RecordCaculator.LeftArmAngle(),
            RecordCaculator.RightArmAngle(),
            RecordCaculator.LeftLegAngle(),
@@ -306,37 +306,52 @@ public class GameState : MonoBehaviour {
     // write Database after game over
     private void GameOverWriteDatabase()
     {
-        
+
         // set TrainingID
         //DataManager.instance.SetTrainingID(DatabaseManager.instance.GenerateTrainingID());
 
         //write Patient Record
-        DatabaseManager.instance.WritePatientRecord(
-            DataManager.instance.TrainingID,
-            DataManager.instance.PatientID,
-            DataManager.instance.TrainingStartTime.ToString("yyyyMMdd HH:mm:ss"),
-            DataManager.instance.TrainingEndTime.ToString("yyyyMMdd HH:mm:ss"),
-            DataManager.DifficultyType2Str(DataManager.instance.TrainingDifficulty),
-            DataManager.instance.GameCount,
-            DataManager.instance.SuccessCount
+        PatientDatabaseManager.instance.WritePatientRecord(
+            PatientDataManager.instance.TrainingID,
+            PatientDataManager.instance.PatientID,
+            PatientDataManager.instance.TrainingStartTime.ToString("yyyyMMdd HH:mm:ss"),
+            PatientDataManager.instance.TrainingEndTime.ToString("yyyyMMdd HH:mm:ss"),
+            PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty),
+            PatientDataManager.instance.GameCount,
+            PatientDataManager.instance.SuccessCount
+            );
+
+        DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].SetCompleteTrainingPlay(
+            PatientDataManager.instance.TrainingID,
+            PatientDataManager.instance.TrainingStartTime.ToString("yyyyMMdd HH:mm:ss"),
+            PatientDataManager.instance.TrainingEndTime.ToString("yyyyMMdd HH:mm:ss"),
+            PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty),
+            PatientDataManager.instance.SuccessCount,
+            PatientDataManager.instance.GameCount
             );
 
         Debug.Log("@GameState: WritePatientRecord Over");
 
         //update Training Plan
-        DatabaseManager.instance.UpdateTrainingPlan(
-            DataManager.instance.PatientID,
-            DataManager.DifficultyType2Str(DataManager.instance.PlanDifficulty),
-            DataManager.instance.PlanCount - 1
+        PatientDatabaseManager.instance.UpdateTrainingPlan(
+            PatientDataManager.instance.PatientID,
+            PatientDataManager.DifficultyType2Str(PatientDataManager.instance.PlanDifficulty),
+            PatientDataManager.instance.PlanCount - 1
+            );
+
+        DoctorDataManager.instance.patient.trainingPlan.SetPlanCount(
+            PatientDataManager.instance.PlanCount - 1
             );
 
         Debug.Log("@GameState: UpdateTrainingPlan Over");
+
+        DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex] = DoctorDataManager.instance.patient;
     }
 
     //game is over now
     private void GameoverUI()
     {
-        DataManager.instance.SetTrainingEndTime();
+        PatientDataManager.instance.SetTrainingEndTime();
         GameUIHandle.LoadGameoverUI();
        
 
@@ -364,21 +379,21 @@ public class GameState : MonoBehaviour {
     //play cheer up SE
     private void PlayWinSe()
     {
-        SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE,DataManager.instance.seVolume);
+        SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
     }
 
     //SuccessCount+1
     private void AddSuccessCount()
     {
-        DataManager.instance.SetSuccessCount(DataManager.instance.SuccessCount + 1);
-        GameUIHandle.SetSuccessCountText(DataManager.instance.SuccessCount);
+        PatientDataManager.instance.SetSuccessCount(PatientDataManager.instance.SuccessCount + 1);
+        GameUIHandle.SetSuccessCountText(PatientDataManager.instance.SuccessCount);
     }
 
     //FinishCount+1 
     private void AddFinishCount()
     {
-        DataManager.instance.SetFinishCount(DataManager.instance.FinishCount + 1);
-        GameUIHandle.SetTrainingProgress(DataManager.instance.FinishCount, DataManager.instance.GameCount);
+        PatientDataManager.instance.SetFinishCount(PatientDataManager.instance.FinishCount + 1);
+        GameUIHandle.SetTrainingProgress(PatientDataManager.instance.FinishCount, PatientDataManager.instance.GameCount);
     }
 
 
@@ -405,18 +420,18 @@ public class GameState : MonoBehaviour {
     {
         Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
         Vector3 Target= Mid;
-        switch (DataManager.instance.TrainingDifficulty)
+        switch (PatientDataManager.instance.TrainingDifficulty)
         {
-            case DataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
+            case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
                 Target = GeneratePrimaryTarget();
                 break;
-            case DataManager.DifficultyType.General:    // Target is near(left foot, right foot)
+            case PatientDataManager.DifficultyType.General:    // Target is near(left foot, right foot)
                 Target = GenerateGeneralTarget();
                 break;
-            case DataManager.DifficultyType.Intermediate:   // Target is near(left foot, right foot, left hand, right hand)
+            case PatientDataManager.DifficultyType.Intermediate:   // Target is near(left foot, right foot, left hand, right hand)
                 Target = GenerateIntermediateTarget();
                 break;
-            case DataManager.DifficultyType.Advanced:       // any area of gate
+            case PatientDataManager.DifficultyType.Advanced:       // any area of gate
                 Target = GenerateAdvancedTarget();
                 break;
         }
@@ -500,18 +515,18 @@ public class GameState : MonoBehaviour {
     // change size of gate
     private void GenerateGate()
     {
-        switch (DataManager.instance.TrainingDifficulty)
+        switch (PatientDataManager.instance.TrainingDifficulty)
         {
-            case DataManager.DifficultyType.Primary:
+            case PatientDataManager.DifficultyType.Primary:
                 Gate.transform.localScale = new Vector3(1, 0.35f, 1);
                 break;
-            case DataManager.DifficultyType.General:
+            case PatientDataManager.DifficultyType.General:
                 Gate.transform.localScale = new Vector3(1, 0.35f, 1);
                 break;
-            case DataManager.DifficultyType.Intermediate:
+            case PatientDataManager.DifficultyType.Intermediate:
                 Gate.transform.localScale = new Vector3(1, 0.35f, 1);
                 break;
-            case DataManager.DifficultyType.Advanced:
+            case PatientDataManager.DifficultyType.Advanced:
                 Gate.transform.localScale = new Vector3(1, 1, 1);
                 break;
         }
@@ -534,7 +549,7 @@ public class GameState : MonoBehaviour {
         // heigh + 
         HeightestPoint.position = new Vector3(0, Random.Range(MinHeight, MaxHeight), 0);
         // show track
-        if (DataManager.instance.SoccerTrackTips)
+        if (PatientDataManager.instance.SoccerTrackTips)
         {
             ShowSoccerTrackTips(SoccerStart.position,SoccerTarget.position, HeightestPoint.position.y, _Gravity);
         }
@@ -544,7 +559,7 @@ public class GameState : MonoBehaviour {
         }
 
         // set tips in GameUI
-        if (DataManager.instance.WordTips)
+        if (PatientDataManager.instance.WordTips)
         {
             ShowWordTips(_TipsLimb);
         }
@@ -606,7 +621,7 @@ public class GameState : MonoBehaviour {
     // is game finish
     private bool IsFinish()
     {
-        return (DataManager.instance.FinishCount == DataManager.instance.GameCount);
+        return (PatientDataManager.instance.FinishCount == PatientDataManager.instance.GameCount);
     }
 
 

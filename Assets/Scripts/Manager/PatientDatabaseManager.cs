@@ -10,10 +10,10 @@ using Mono.Data.Sqlite;
 using System;
 using System.IO;
 
-public class DatabaseManager : MonoBehaviour {
+public class PatientDatabaseManager : MonoBehaviour {
 
     // Singleton instance holder
-    public static DatabaseManager instance = null;
+    public static PatientDatabaseManager instance = null;
 
     private string UserFolderPath = "Data/";
     private string PatientInfoTableName = "PatientInfo";
@@ -34,8 +34,8 @@ public class DatabaseManager : MonoBehaviour {
         Exception
     }
 
-    private SQLiteDatabaseHelper DoctorDatabase;    //PatientDatabase
-    private SQLiteDatabaseHelper PatientDatabase;    //PatientDatabase
+    private SQLiteHelper DoctorDatabase { get { return DoctorDatabaseManager.instance.GetDoctorDatabase(); } }    //PatientDatabase
+    private SQLiteHelper PatientDatabase { get { return DoctorDatabaseManager.instance.GetPatientDatabase(); } }    //PatientDatabase
 
 
     void Awake()
@@ -58,10 +58,10 @@ public class DatabaseManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        CheckDataFolder();
-        ConnectPatientDatabase();
-        ConnectDoctorDatabase();
-        Debug.Log("@DatabaseManager: DatabaseManager Start.");
+        //CheckDataFolder();
+        //ConnectPatientDatabase();
+        //ConnectDoctorDatabase();
+        //Debug.Log("@DatabaseManager: DatabaseManager Start.");
     }
 
     //call when quit application, close connection
@@ -73,168 +73,168 @@ public class DatabaseManager : MonoBehaviour {
 
 
     //connect  PatientDatabase.db
-    private void ConnectPatientDatabase()
-    {
-        string DbPath = UserFolderPath + "PatientDatabase.db";
-        this.PatientDatabase = new SQLiteDatabaseHelper("Data Source="+ DbPath); //connect PatientDatabase.db
+    //private void ConnectPatientDatabase()
+    //{
+    //    string DbPath = UserFolderPath + "PatientDatabase.db";
+    //    this.PatientDatabase = new SQLiteHelper("Data Source="+ DbPath); //connect PatientDatabase.db
 
-        //check PatientInfoTable
-        if (!this.PatientDatabase.IsTableExists(PatientInfoTableName))  //check PatientInfoTableName table
-        {
-            this.PatientDatabase.CreateTable(
-                PatientInfoTableName,   //table name
-                new String[] {
-                    "PatientID",
-                    "PatientName",
-                    "PatientPassword",
-                    "DoctorID",
-                    "PatientAge",
-                    "PatientSex",
-                    "PatientHeight",
-                    "PatientWeight",
-                    "" },
+    //    //check PatientInfoTable
+    //    if (!this.PatientDatabase.IsTableExists(PatientInfoTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            PatientInfoTableName,   //table name
+    //            new String[] {
+    //                "PatientID",
+    //                "PatientName",
+    //                "PatientPassword",
+    //                "DoctorID",
+    //                "PatientAge",
+    //                "PatientSex",
+    //                "PatientHeight",
+    //                "PatientWeight",
+    //                "" },
 
-                new String[] {
-                    "INTEGER UNIQUE NOT NULL",
-                    "TEXT NOT NULL",
-                    "TEXT NOT NULL",
-                    "INTEGER NOT NULL",
-                    "INTEGER",
-                    "TEXT",
-                    "INTEGER",
-                    "INTEGER",
-                    "PRIMARY KEY(PatientID)" }
-                );
-            Debug.Log("@DatabaseManager: Create PatientInfoTable");
-        }
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "INTEGER",
+    //                "TEXT",
+    //                "INTEGER",
+    //                "INTEGER",
+    //                "PRIMARY KEY(PatientID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create PatientInfoTable");
+    //    }
 
-        //check PatientRecordTable
-        if (!this.PatientDatabase.IsTableExists(PatientRecordTableName))  //check PatientInfoTableName table
-        {
-            this.PatientDatabase.CreateTable(
-                PatientRecordTableName,   //table name
-                new String[] {
-                    "TrainingID",
-                    "PatientID",
-                    "TrainingStartTime",
-                    "TrainingEndTime",
-                    "TrainingDifficulty",
-                    "GameCount",
-                    "SuccessCount",
-                    "" },
+    //    //check PatientRecordTable
+    //    if (!this.PatientDatabase.IsTableExists(PatientRecordTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            PatientRecordTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "PatientID",
+    //                "TrainingStartTime",
+    //                "TrainingEndTime",
+    //                "TrainingDifficulty",
+    //                "GameCount",
+    //                "SuccessCount",
+    //                "" },
 
-                new String[] {
-                    "INTEGER UNIQUE NOT NULL",
-                    "INTEGER NOT NULL",
-                    "TEXT NOT NULL",
-                    "TEXT NOT NULL",
-                    "TEXT NOT NULL",
-                    "INTEGER NOT NULL",
-                    "INTEGER NOT NULL",
-                    "PRIMARY KEY(TrainingID)" }
-                );
-            Debug.Log("@DatabaseManager: Create PatientRecordTable");
-        }
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "PRIMARY KEY(TrainingID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create PatientRecordTable");
+    //    }
 
-        //check GravityCenterTable
-        if (!this.PatientDatabase.IsTableExists(GravityCenterTableName))  //check PatientInfoTableName table
-        {
-            this.PatientDatabase.CreateTable(
-                GravityCenterTableName,   //table name
-                new String[] {
-                    "TrainingID",
-                    "Coordinate",
-                    "Time" },
+    //    //check GravityCenterTable
+    //    if (!this.PatientDatabase.IsTableExists(GravityCenterTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            GravityCenterTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "Coordinate",
+    //                "Time" },
 
-                new String[] {
-                    "INTEGER NOT NULL",
-                    "TEXT NOT NULL",
-                    "TEXT NOT NULL" }
-                );
-            Debug.Log("@DatabaseManager: Create GravityCenterTable");
-        }
+    //            new String[] {
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create GravityCenterTable");
+    //    }
 
 
 
-        //check GravityCenterTable
-        if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
-        {
-            this.PatientDatabase.CreateTable(
-                AnglesTableName,   //table name
-                new String[] {
-                    "TrainingID",
-                    "LeftArmAngle",
-                    "RightArmAngle",
-                    "LeftLegAngle",
-                    "RightLegAngle",
-                    "Time" },
+    //    //check GravityCenterTable
+    //    if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            AnglesTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "LeftArmAngle",
+    //                "RightArmAngle",
+    //                "LeftLegAngle",
+    //                "RightLegAngle",
+    //                "Time" },
 
-                new String[] {
-                    "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "TEXT NOT NULL" }
-                );
-            Debug.Log("@DatabaseManager: Create AnglesTable");
-        }
+    //            new String[] {
+    //                "INTEGER NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "TEXT NOT NULL" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create AnglesTable");
+    //    }
 
-        Debug.Log("@DatabaseManager: Connect PatientAccount.db");
-    }
+    //    Debug.Log("@DatabaseManager: Connect PatientAccount.db");
+    //}
 
 
     //connect  DoctorDatabase.db
-    private void ConnectDoctorDatabase()
-    {
-        string DbPath = UserFolderPath + "DoctorDatabase.db";
-        this.DoctorDatabase = new SQLiteDatabaseHelper("Data Source=" + DbPath); //connect DoctorDatabase.db
+    //private void ConnectDoctorDatabase()
+    //{
+    //    string DbPath = UserFolderPath + "DoctorDatabase.db";
+    //    this.DoctorDatabase = new SQLiteHelper("Data Source=" + DbPath); //connect DoctorDatabase.db
 
-        //check DoctorInfoTable
-        if (!this.DoctorDatabase.IsTableExists(DoctorInfoTableName))  //check DoctorInfoTableName table
-        {
-            this.DoctorDatabase.CreateTable(
-                DoctorInfoTableName,   //table name
-                new String[] {
-                    "DoctorID",
-                    "DoctorName",
-                    "DoctorPassword",
-                    "" },
+    //    //check DoctorInfoTable
+    //    if (!this.DoctorDatabase.IsTableExists(DoctorInfoTableName))  //check DoctorInfoTableName table
+    //    {
+    //        this.DoctorDatabase.CreateTable(
+    //            DoctorInfoTableName,   //table name
+    //            new String[] {
+    //                "DoctorID",
+    //                "DoctorName",
+    //                "DoctorPassword",
+    //                "" },
 
-                new String[] {
-                    "INTEGER UNIQUE NOT NULL",
-                    "TEXT NOT NULL",
-                    "TEXT NOT NULL",
-                    "PRIMARY KEY(DoctorID)" }
-                );
-            Debug.Log("@DatabaseManager: Create DoctorInfoTableName");
-        }
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "PRIMARY KEY(DoctorID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create DoctorInfoTableName");
+    //    }
 
-        //check TrainingPlanTable
-        if (!this.DoctorDatabase.IsTableExists(TrainingPlanTableName))  //check TrainingPlanTable table
-        {
-            this.DoctorDatabase.CreateTable(
-                TrainingPlanTableName,   //table name
-                new String[] {
-                    "PatientID",
-                    "PlanDifficulty",
-                    "GameCount",
-                    "PlanCount",
-                    ""},
+    //    //check TrainingPlanTable
+    //    if (!this.DoctorDatabase.IsTableExists(TrainingPlanTableName))  //check TrainingPlanTable table
+    //    {
+    //        this.DoctorDatabase.CreateTable(
+    //            TrainingPlanTableName,   //table name
+    //            new String[] {
+    //                "PatientID",
+    //                "PlanDifficulty",
+    //                "GameCount",
+    //                "PlanCount",
+    //                ""},
 
-                new String[] {
-                    "INTEGER UNIQUE NOT NULL",
-                    "TEXT NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
-                    "PRIMARY KEY(PatientID)" }
-                );
-            Debug.Log("@DatabaseManager: Create TrainingPlanTable");
-        }
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "PRIMARY KEY(PatientID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create TrainingPlanTable");
+    //    }
 
 
-        Debug.Log("@DatabaseManager: Connect DoctorDatabase.db");
-    }
+    //    Debug.Log("@DatabaseManager: Connect DoctorDatabase.db");
+    //}
 
     //check login
     public DatabaseReturn Login(long PatientID, string PatientPassword) //login
@@ -262,7 +262,7 @@ public class DatabaseManager : MonoBehaviour {
 
                 new String[] {
                     PatientID.ToString(), 
-                    AddSingleQuotes(SQLiteDatabaseHelper.MD5Encrypt(PatientPassword))   //md5加密
+                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientPassword))   //md5加密
                     }
                 );
 
@@ -425,7 +425,7 @@ public class DatabaseManager : MonoBehaviour {
                 new String[] {
                     PatientID.ToString(),
                     AddSingleQuotes(PatientName),
-                    AddSingleQuotes(SQLiteDatabaseHelper.MD5Encrypt(PatientPassword)),  //md5加密
+                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientPassword)),  //md5加密
                     0.ToString(),
                     0.ToString(),
                     "NULL",

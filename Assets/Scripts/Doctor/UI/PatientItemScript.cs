@@ -159,16 +159,16 @@ public class PatientItemScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {
-            DataManager.instance.SetUserMessage(DoctorDataManager.instance.patient.PatientID, DoctorDataManager.instance.patient.PatientName, DoctorDataManager.instance.patient.PatientSex);
-            DataManager.instance.SetTrainingPlan(DataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
+            PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.patient.PatientID, DoctorDataManager.instance.patient.PatientName, DoctorDataManager.instance.patient.PatientSex);
+            PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 
             TrainingPlay trainingPlay = new TrainingPlay();
             trainingPlay.SetTrainingID(DoctorDataManager.instance.patient.trainingPlays.Count + 1);
 
             DoctorDataManager.instance.patient.trainingPlays.Add(trainingPlay);
 
-            DataManager.instance.SetTrainingID(trainingPlay.TrainingID);
-            DataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
+            PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);
+            PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
             SceneManager.LoadScene("Game");  // 如果登录成功,则进入医生管理界面
         }
         else

@@ -131,14 +131,13 @@
      <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserHandVisualizer.cs" />
      <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserMeshVisualizer.cs" />
      <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
-     <Compile Include="Assets\Scripts\Database\SqliteDatabaseHelper.cs" />
+     <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Doctor.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
-     <Compile Include="Assets\Scripts\Doctor\Data\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginExitButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginReturnButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginScript.cs" />
@@ -225,9 +224,9 @@
      <Compile Include="Assets\Scripts\Kinect\SpeechManager.cs" />
      <Compile Include="Assets\Scripts\Kinect\Utilities\AsyncTask.cs" />
      <Compile Include="Assets\Scripts\Kinect\VisualGestureManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\DatabaseManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\DataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\ManagerLoader.cs" />
+     <Compile Include="Assets\Scripts\Manager\PatientDatabaseManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\PatientDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
      <Compile Include="Assets\Scripts\Soccerball\ParabolaPath.cs" />

@@ -117,7 +117,7 @@ public class GameUIHandle : UIHandle
     //可能为pause界面的exit按钮，也可能为Gameover界面的exit按钮
     public void OnClickExit()
     {
-        DataManager.instance.ResetGameData();
+        PatientDataManager.instance.ResetGameData();
         // reset PatientRecord
         SetDataPatientRecord();
         // reset TrainingPlan
@@ -135,12 +135,12 @@ public class GameUIHandle : UIHandle
     public void OnClickRestartButton()   
     {
         // reset game data
-        DataManager.instance.ResetGameData();
+        PatientDataManager.instance.ResetGameData();
         // reset PatientRecord
         SetDataPatientRecord();
 
         // 再来一次游戏时，保留不变PlanDifficulty,GameCount，仅令PlanCount--（可能为负）
-        DataManager.instance.SetPlanCount(DataManager.instance.PlanCount - 1);
+        PatientDataManager.instance.SetPlanCount(PatientDataManager.instance.PlanCount - 1);
 
         Debug.Log("@GameUIHandle: Restart success");
         LoadScene("Game");
@@ -160,10 +160,10 @@ public class GameUIHandle : UIHandle
     //set General Comment of GameoverUI
     public void SetGeneralComment()
     {
-        SuccessCountText.text = "成功次数  " + DataManager.instance.SuccessCount.ToString();
-        GameCountText.text = "训练总量  " + DataManager.instance.GameCount.ToString();
-        TrainingDifficulty.text = "训练难度  " + DataManager.DifficultyType2Str(DataManager.instance.PlanDifficulty);
-        TrainingTime.text = "训练时长  " + ((int)(DataManager.instance.TrainingEndTime - DataManager.instance.TrainingStartTime).TotalSeconds).ToString();
+        SuccessCountText.text = "成功次数  " + PatientDataManager.instance.SuccessCount.ToString();
+        GameCountText.text = "训练总量  " + PatientDataManager.instance.GameCount.ToString();
+        TrainingDifficulty.text = "训练难度  " + PatientDataManager.DifficultyType2Str(PatientDataManager.instance.PlanDifficulty);
+        TrainingTime.text = "训练时长  " + ((int)(PatientDataManager.instance.TrainingEndTime - PatientDataManager.instance.TrainingStartTime).TotalSeconds).ToString();
         Debug.Log("@GameUIHandle: Set GeneralComment success");
     }
 
@@ -171,13 +171,13 @@ public class GameUIHandle : UIHandle
     public void SetDataPatientRecord()
     {
         // set TrainingID
-        DataManager.instance.SetTrainingID(DatabaseManager.instance.GenerateTrainingID());
+        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID());
 
         // set  MaxSuccessCount
-        DataManager.instance.SetMaxSuccessCount(
-            DatabaseManager.instance.ReadMaxSuccessCount(
-                DataManager.instance.PatientID,
-                DataManager.DifficultyType2Str(DataManager.instance.TrainingDifficulty)
+        PatientDataManager.instance.SetMaxSuccessCount(
+            PatientDatabaseManager.instance.ReadMaxSuccessCount(
+                PatientDataManager.instance.PatientID,
+                PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty)
                 )
             );
     }
@@ -186,10 +186,10 @@ public class GameUIHandle : UIHandle
     public void SetDataTrainingPlan()
     {
         // read TrainingPlan(PlanDifficulty, GameCount, PlanCount)
-        Tuple<string, long, long> TrainingPlan = DatabaseManager.instance.ReadTrainingPlan(DataManager.instance.PatientID);
+        Tuple<string, long, long> TrainingPlan = PatientDatabaseManager.instance.ReadTrainingPlan(PatientDataManager.instance.PatientID);
         // set TrainingPlan(PlanDifficulty, GameCount, PlanCount)
-        DataManager.instance.SetTrainingPlan(
-            DataManager.Str2DifficultyType(TrainingPlan.Item1),
+        PatientDataManager.instance.SetTrainingPlan(
+            PatientDataManager.Str2DifficultyType(TrainingPlan.Item1),
             TrainingPlan.Item2,
             TrainingPlan.Item3
             );
@@ -248,9 +248,9 @@ public class GameUIHandle : UIHandle
     //set Text of GameUI
     public void InitGameUIText()
     {
-        SetPatientInfoText(DataManager.instance.PatientName,DataManager.instance.MaxSuccessCount);
-        SetTrainingProgress(DataManager.instance.FinishCount, DataManager.instance.GameCount);
-        SetSuccessCountText(DataManager.instance.SuccessCount);
+        SetPatientInfoText(PatientDataManager.instance.PatientName, PatientDataManager.instance.MaxSuccessCount);
+        SetTrainingProgress(PatientDataManager.instance.FinishCount, PatientDataManager.instance.GameCount);
+        SetSuccessCountText(PatientDataManager.instance.SuccessCount);
     }
 
     //set PlanDifficultyToggle as Plan
@@ -261,18 +261,18 @@ public class GameUIHandle : UIHandle
         IntermediateToggle.isOn = false;
         AdvancedToggle.isOn = false;
 
-        switch (DataManager.instance.TrainingDifficulty)
+        switch (PatientDataManager.instance.TrainingDifficulty)
         {
-            case DataManager.DifficultyType.Primary:
+            case PatientDataManager.DifficultyType.Primary:
                 PrimaryToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.General:        
+            case PatientDataManager.DifficultyType.General:        
                 GeneralToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.Intermediate:
+            case PatientDataManager.DifficultyType.Intermediate:
                 IntermediateToggle.isOn = true;
                 break;
-            case DataManager.DifficultyType.Advanced:
+            case PatientDataManager.DifficultyType.Advanced:
                 AdvancedToggle.isOn = true;
                 break;
         }
@@ -282,15 +282,15 @@ public class GameUIHandle : UIHandle
     // set game Tips
     public void SetTipsToggle()
     {
-        SoccerTrackTipsToggle.isOn = DataManager.instance.SoccerTrackTips;
-        WordTipsToggle.isOn = DataManager.instance.WordTips;
+        SoccerTrackTipsToggle.isOn = PatientDataManager.instance.SoccerTrackTips;
+        WordTipsToggle.isOn = PatientDataManager.instance.WordTips;
     }
 
     //set Music Slider
     public void SetMusicVolumeSlider()
     {
-        BgmSlider.value = DataManager.instance.bgmVolume;
-        SeSlider.value = DataManager.instance.seVolume;
+        BgmSlider.value = PatientDataManager.instance.bgmVolume;
+        SeSlider.value = PatientDataManager.instance.seVolume;
     }
 
 
@@ -342,7 +342,7 @@ public class GameUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Primary);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Primary);
             Debug.Log("@PrimaryToggle: Primary difficulty is set");
         }
 
@@ -354,7 +354,7 @@ public class GameUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.General);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.General);
             Debug.Log("@GeneralToggle: General difficulty is set");
         }
 
@@ -365,7 +365,7 @@ public class GameUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Intermediate);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Intermediate);
             Debug.Log("@IntermediateToggle: Intermediate difficulty is set");
         }
 
@@ -376,7 +376,7 @@ public class GameUIHandle : UIHandle
     {
         if (isOn)
         {
-            DataManager.instance.SetPlanDifficulty(DataManager.DifficultyType.Advanced);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Advanced);
             Debug.Log("@AdvancedToggle: Advanced difficulty is set");
         }
 
@@ -386,7 +386,7 @@ public class GameUIHandle : UIHandle
     public void OnSoccerTrackTipsToggleValueChanged(bool isOn)
     {
 
-        DataManager.instance.SetSoccerTrackTipss(isOn);
+        PatientDataManager.instance.SetSoccerTrackTipss(isOn);
         Debug.Log("@SoccerTrackTipsToggle: SoccerTrackTipss is set " + isOn.ToString());
 
     }
@@ -395,7 +395,7 @@ public class GameUIHandle : UIHandle
     public void OnWordTipsToggleValueChanged(bool isOn)
     {
 
-        DataManager.instance.SetWordTips(isOn);
+        PatientDataManager.instance.SetWordTips(isOn);
         Debug.Log("@WordTipsToggle: WordTips is set " + isOn.ToString());
 
     }
@@ -409,21 +409,21 @@ public class GameUIHandle : UIHandle
     //bgmVolume Slider
     public void OnbgmSliderValueChange(float value)
     {
-        DataManager.instance.SetbgmVolume(value);
+        PatientDataManager.instance.SetbgmVolume(value);
         Debug.Log("@bgmSlider: change bgmVolume to " + value.ToString());
     }
 
     //bgsVolume Slider
     public void OnbgsSliderValueChange(float value)
     {
-        DataManager.instance.SetbgsVolume(value);
+        PatientDataManager.instance.SetbgsVolume(value);
         Debug.Log("@bgsSlider: change bgsVolume to " + value.ToString());
     }
 
     //seVolume Slider
     public void OnseSliderValueChange(float value)
     {
-        DataManager.instance.SetseVolume(value);
+        PatientDataManager.instance.SetseVolume(value);
         Debug.Log("@seSlider: change seVolume to " + value.ToString());
     }
 

@@ -63,7 +63,7 @@ public class WriteBodyDataThread
     private void WriteGravityCenter()
     {
        
-        DatabaseManager.instance.WriteGravityCenter(
+        PatientDatabaseManager.instance.WriteGravityCenter(
             _TrainingID,
             _GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
             _Time.ToString("yyyyMMdd HH:mm:ss")
@@ -75,7 +75,7 @@ public class WriteBodyDataThread
     // write angles to database
     private void WriteAngles()
     {
-        DatabaseManager.instance.WriteAngles(
+        PatientDatabaseManager.instance.WriteAngles(
             _TrainingID,
             _LeftArmAngle,
             _RightArmAngle,
