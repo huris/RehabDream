@@ -127,7 +127,7 @@ public class GameUIHandle : UIHandle
         SetDataTrainingPlan();
 
         Debug.Log("@GameUIHandle: Exit success");
-        LoadScene("Start");
+        LoadScene("03-DoctorUI");
     }
 
 
