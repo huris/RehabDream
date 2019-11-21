@@ -33,9 +33,7 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
         if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
         {
             int FirstTrainingPlay = 0;
-            int LastTrainingPlay = 0;
-
-            LastTrainingPlay = DoctorDataManager.instance.patient.trainingPlays.Count - 1;
+            int LastTrainingPlay = DoctorDataManager.instance.patient.trainingPlays.Count - 1;
 
             StartTimeYear.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(0,4);
             StartTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(4, 6);
