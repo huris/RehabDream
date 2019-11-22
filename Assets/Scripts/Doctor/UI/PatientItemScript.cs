@@ -159,6 +159,10 @@ public class PatientItemScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {
+            //print(DoctorDataManager.instance.patient.PatientID);
+            //print(DoctorDataManager.instance.patient.PatientName);
+            //print(DoctorDataManager.instance.patient.PatientSex);
+            
             PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.patient.PatientID, DoctorDataManager.instance.patient.PatientName, DoctorDataManager.instance.patient.PatientSex);
             PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 
