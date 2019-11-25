@@ -15,6 +15,9 @@ public class PointmanController : MonoBehaviour
 	[Tooltip("Whether the pointman is facing the player or not.")]
 	public bool mirroredMovement = false;
 
+	[Tooltip("Whether to use the joint positions in Kinect coordinate system, or in world space.")]
+	public bool useKinectPositions = false;
+
 	[Tooltip("Rate at which the pointman will move through the scene.")]
 	public float moveRate = 1f;
 
@@ -303,7 +306,7 @@ public class PointmanController : MonoBehaviour
 		} 
 		else
 		{
-			return manager.GetJointPosition(userID, iJoint);
+			return !useKinectPositions ? manager.GetJointPosition(userID, iJoint) : manager.GetJointKinectPosition(userID, iJoint);
 		}
 	}
 

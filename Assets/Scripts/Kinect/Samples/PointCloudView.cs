@@ -17,6 +17,7 @@ public class PointCloudView : MonoBehaviour
     private int[] triangles;
 
 	private KinectManager manager = null;
+	private Vector3 colorImageScale = Vector3.one;
 
 	private Vector2[] colorCoords = null;
 	private ushort[] depthData = null;
@@ -40,6 +41,7 @@ public class PointCloudView : MonoBehaviour
 			
 			colorWidth = manager.GetColorImageWidth();
 			colorHeight = manager.GetColorImageHeight();
+			colorImageScale = manager.GetColorImageScale();
 			
 			CreateMesh(depthWidth / SampleSize, depthHeight / SampleSize);
         }
@@ -71,7 +73,7 @@ public class PointCloudView : MonoBehaviour
 				float yScaled = y * scaleY - centerY;
 
 				vertices[index] = new Vector3(xScaled, -yScaled, 0);
-                uvs[index] = new Vector2(((float)x / (float)width), ((float)y / (float)height));
+				uvs[index] = new Vector2((colorImageScale.x * (float)x / (float)width), (colorImageScale.y * (float)y / (float)height));
 
                 // Skip the last row/col
                 if (x != (width - 1) && y != (height - 1))
@@ -103,7 +105,9 @@ public class PointCloudView : MonoBehaviour
             return;
 
 		// get color texture
-		gameObject.GetComponent<Renderer>().material.mainTexture = manager.GetUsersClrTex();
+		Material matRenderer = gameObject.GetComponent<Renderer>().material;
+		matRenderer.mainTexture = manager.GetUsersClrTex();
+		matRenderer.SetTextureScale("_MainTex", manager.GetColorImageScale());
 
 		// update the mesh
 		UpdateMesh();
@@ -128,7 +132,7 @@ public class PointCloudView : MonoBehaviour
 					
 					// Update UV mapping with CDRP
 					Vector2 colorCoord = colorCoords[(y * depthWidth) + x];
-					uvs[smallIndex] = new Vector2(colorCoord.x / colorWidth, colorCoord.y / colorHeight);
+					uvs[smallIndex] = new Vector2(colorImageScale.x * colorCoord.x / colorWidth, colorImageScale.y * colorCoord.y / colorHeight);
 				}
 			}
 			

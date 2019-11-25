@@ -16,7 +16,7 @@ public class BoneOrientationsConstraint
 	// list of joint constraints
     private readonly List<BoneOrientationConstraint> jointConstraints = new List<BoneOrientationConstraint>();
 
-	private GUIText debugText;
+	private UnityEngine.UI.Text debugText;
 
 	private long frameNum = 0;
 	//private float currentTime = 0f;
@@ -27,7 +27,7 @@ public class BoneOrientationsConstraint
     {
     }
 
-	public void SetDebugText(GUIText debugText)
+	public void SetDebugText(UnityEngine.UI.Text debugText)
 	{
 		this.debugText = debugText;
 	}

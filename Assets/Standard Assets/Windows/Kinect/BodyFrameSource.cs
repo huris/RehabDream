@@ -1,4 +1,4 @@
-#if !(UNITY_WSA_10_0 && NETFX_CORE)
+#if (UNITY_STANDALONE_WIN)
 using RootSystem = System;
 using System.Linq;
 using System.Collections.Generic;

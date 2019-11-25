@@ -64,6 +64,12 @@ public class InteractionManager : MonoBehaviour
 	[Tooltip("Index of the player, tracked by this component. 0 means the 1st player, 1 - the 2nd one, 2 - the 3rd one, etc.")]
 	public int playerIndex = 0;
 	
+	[Tooltip("Whether the left hand interaction is allowed.")]
+	public bool leftHandInteraction = true;
+
+	[Tooltip("Whether the right hand interaction is allowed.")]
+	public bool rightHandInteraction = true;
+
 	[Tooltip("The image that may be used to show the hand-moved cursor on the screen or not. The sprite textures below need to be set too.")]
 	public Image guiHandCursor;
 
@@ -98,8 +104,8 @@ public class InteractionManager : MonoBehaviour
 	[Tooltip("List of the interaction listeners in the scene. If the list is empty, the available interaction listeners will be detected at scene start up.")]
 	public List<MonoBehaviour> interactionListeners;
 
-	[Tooltip("GUI-Text to display the interaction-manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the interaction-manager debug messages.")]
+	public Text debugText;
 
 	// tracked userId
 	private long playerUserID = 0;
@@ -435,7 +441,7 @@ public class InteractionManager : MonoBehaviour
 				// was the left hand interacting till now
 				bool wasLeftHandInteracting = isLeftHandInteracting;
 
-				if(isleftIboxValid && //bLeftHandPrimaryNow &&
+				if(isleftIboxValid && leftHandInteraction && //bLeftHandPrimaryNow &&
 				   kinectManager.GetJointTrackingState(playerUserID, (int)KinectInterop.JointType.HandLeft) != KinectInterop.TrackingState.NotTracked)
 				{
 					leftHandPos = kinectManager.GetJointPosition(playerUserID, (int)KinectInterop.JointType.HandLeft);
@@ -541,7 +547,7 @@ public class InteractionManager : MonoBehaviour
 				// was the right hand interacting till now
 				bool wasRightHandInteracting = isRightHandInteracting;
 
-				if(isRightIboxValid && //bRightHandPrimaryNow &&
+				if(isRightIboxValid && rightHandInteraction && //bRightHandPrimaryNow &&
 				   kinectManager.GetJointTrackingState(playerUserID, (int)KinectInterop.JointType.HandRight) != KinectInterop.TrackingState.NotTracked)
 				{
 					rightHandPos = kinectManager.GetJointPosition(playerUserID, (int)KinectInterop.JointType.HandRight);
@@ -992,7 +998,7 @@ public class InteractionManager : MonoBehaviour
 				}
 
 				guiHandCursor.sprite = cursorTexture;
-				guiHandCursor.rectTransform.position = posSprite;
+				guiHandCursor.rectTransform.anchoredPosition = posSprite;
 
 				if (cursorProgressBar) 
 				{

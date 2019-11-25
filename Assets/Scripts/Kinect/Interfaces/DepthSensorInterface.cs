@@ -57,8 +57,8 @@ public interface DepthSensorInterface
 	// performs sensor-specific fixes of joint positions and orientations
 	void FixJointOrientations(KinectInterop.SensorData sensorData, ref KinectInterop.BodyData bodyData);
 
-	// checks if the given body is turned around or not
-	bool IsBodyTurned(ref KinectInterop.BodyData bodyData);
+//	// checks if the given body is turned around or not
+//	bool IsBodyTurned(ref KinectInterop.BodyData bodyData);
 
 	// returns depth frame coordinates for the given 3d space point
 	Vector2 MapSpacePointToDepthCoords(KinectInterop.SensorData sensorData, Vector3 spacePos);
@@ -81,17 +81,17 @@ public interface DepthSensorInterface
 	// returns true on success, false otherwise
 	bool MapColorFrameToDepthCoords (KinectInterop.SensorData sensorData, ref Vector2[] vDepthCoords);
 
-	// returns the index of the given joint in joint's array
-	int GetJointIndex(KinectInterop.JointType joint);
+//	// returns the index of the given joint in joint's array
+//	int GetJointIndex(KinectInterop.JointType joint);
 	
 //	// returns the joint at given index
 //	KinectInterop.JointType GetJointAtIndex(int index);
 	
-	// returns the parent joint of the given joint
-	KinectInterop.JointType GetParentJoint(KinectInterop.JointType joint);
+//	// returns the parent joint of the given joint
+//	KinectInterop.JointType GetParentJoint(KinectInterop.JointType joint);
 	
-	// returns the next joint in the hierarchy, as to the given joint
-	KinectInterop.JointType GetNextJoint(KinectInterop.JointType joint);
+//	// returns the next joint in the hierarchy, as to the given joint
+//	KinectInterop.JointType GetNextJoint(KinectInterop.JointType joint);
 
 	// returns true if the face tracking is supported by this interface, false otherwise
 	bool IsFaceTrackingAvailable(ref bool bNeedRestart);
@@ -132,6 +132,9 @@ public interface DepthSensorInterface
 
 	// gets the SU values for the specified user. returns true on success, false otherwise
 	bool GetShapeUnits(long userId, ref Dictionary<KinectInterop.FaceShapeDeformations, float> afSU);
+
+	// gets the available face properties for the specified user. returns true on success, false otherwise
+	bool GetFaceProperties(long userId, ref Dictionary<string, string> faceProps);
 
 	// returns the length of model's vertices array for the specified user
 	int GetFaceModelVerticesCount(long userId);

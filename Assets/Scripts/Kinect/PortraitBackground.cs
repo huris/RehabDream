@@ -6,10 +6,14 @@ using System.Collections;
 /// </summary>
 public class PortraitBackground : MonoBehaviour 
 {
-	[Tooltip("Whether to use the depth-image resolution in the calculation, instead of the color-image resolution.")]
-	private bool useDepthImageResolution = false;
+//	[Tooltip("Whether to use the depth-image resolution in the calculation, instead of the color-image resolution.")]
+//	private bool useDepthImageResolution = false;
+
+	[Tooltip("Target aspect ratio. If left at 0:0, it will determine the aspect ratio from the current screen resolution")]
+	public Vector2 targetAspectRatio = Vector2.zero;  // new Vector2 (9f, 16f);
 
 	private bool isInitialized = false;
+	private Rect pixelInsetRect;
 	private Rect backgroundRect;
 	private Rect inScreenRect;
 	private Rect shaderUvRect;
@@ -79,43 +83,56 @@ public class PortraitBackground : MonoBehaviour
 		KinectManager kinectManager = KinectManager.Instance;
 		if(kinectManager && kinectManager.IsInitialized())
 		{
+			// determine the target screen aspect ratio
+			float screenAspectRatio = targetAspectRatio != Vector2.zero ? (targetAspectRatio.x / targetAspectRatio.y) : 
+				((float)Screen.width / (float)Screen.height);
+
 			float fFactorDW = 0f;
-			if(!useDepthImageResolution)
+//			if(!useDepthImageResolution)
 			{
 				fFactorDW = (float)kinectManager.GetColorImageWidth() / (float)kinectManager.GetColorImageHeight() -
-					(float)kinectManager.GetColorImageHeight() / (float)kinectManager.GetColorImageWidth();
+					//(float)kinectManager.GetColorImageHeight() / (float)kinectManager.GetColorImageWidth();
+					screenAspectRatio;
 			}
-			else
-			{
-				fFactorDW = (float)kinectManager.GetDepthImageWidth() / (float)kinectManager.GetDepthImageHeight() -
-					(float)kinectManager.GetDepthImageHeight() / (float)kinectManager.GetDepthImageWidth();
-			}
+//			else
+//			{
+//				fFactorDW = (float)kinectManager.GetDepthImageWidth() / (float)kinectManager.GetDepthImageHeight() -
+//					(float)kinectManager.GetDepthImageHeight() / (float)kinectManager.GetDepthImageWidth();
+//			}
 
 			float fDeltaWidth = (float)Screen.height * fFactorDW;
 			float dOffsetX = -fDeltaWidth / 2f;
 
 			float fFactorSW = 0f;
-			if(!useDepthImageResolution)
+//			if(!useDepthImageResolution)
 			{
 				fFactorSW = (float)kinectManager.GetColorImageWidth() / (float)kinectManager.GetColorImageHeight();
 			}
-			else
-			{
-				fFactorSW = (float)kinectManager.GetDepthImageWidth() / (float)kinectManager.GetDepthImageHeight();
-			}
+//			else
+//			{
+//				fFactorSW = (float)kinectManager.GetDepthImageWidth() / (float)kinectManager.GetDepthImageHeight();
+//			}
 
 			float fScreenWidth = (float)Screen.height * fFactorSW;
 			float fAbsOffsetX = fDeltaWidth / 2f;
 
+			pixelInsetRect = new Rect(dOffsetX, 0, fDeltaWidth, 0);
+			backgroundRect = new Rect(dOffsetX, 0, fScreenWidth, Screen.height);
+
+			inScreenRect = new Rect(fAbsOffsetX, 0, fScreenWidth - fDeltaWidth, Screen.height);
+			shaderUvRect = new Rect(fAbsOffsetX / fScreenWidth, 0, (fScreenWidth - fDeltaWidth) / fScreenWidth, 1);
+
 			GUITexture guiTexture = GetComponent<GUITexture>();
 			if(guiTexture)
 			{
-				guiTexture.pixelInset = new Rect(dOffsetX, 0, fDeltaWidth, 0);
+				guiTexture.pixelInset = pixelInsetRect;
 			}
 
-			backgroundRect = new Rect(dOffsetX, 0, fScreenWidth, Screen.height);
-			inScreenRect = new Rect(fAbsOffsetX, 0, fScreenWidth - fDeltaWidth, Screen.height);
-			shaderUvRect = new Rect(fAbsOffsetX / fScreenWidth, 0, (fScreenWidth - fDeltaWidth) / fScreenWidth, 1);
+			UnityEngine.UI.RawImage rawImage = GetComponent<UnityEngine.UI.RawImage>();
+			if(rawImage)
+			{
+				rawImage.uvRect = shaderUvRect;
+			}
 
 			isInitialized = true;
 		}

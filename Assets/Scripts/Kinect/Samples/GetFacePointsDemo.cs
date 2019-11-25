@@ -1,4 +1,4 @@
-﻿#if !(UNITY_WSA_10_0 && NETFX_CORE)
+﻿#if (UNITY_STANDALONE_WIN)
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,8 +16,11 @@ public class GetFacePointsDemo : MonoBehaviour
 	[Tooltip("Transform used to show the selected face point in space.")]
 	public Transform facePointTransform;
 	
-	[Tooltip("GUI-Text to display face-information messages.")]
-	public GUIText faceInfoText;
+	[Tooltip("Camera used to overlay face point transform over the color background.")]
+	public Camera foregroundCamera;
+
+	[Tooltip("UI-Text to display face-information messages.")]
+	public UnityEngine.UI.Text faceInfoText;
 
 	private KinectManager manager = null;
 	private FacetrackingManager faceManager = null;
@@ -28,11 +31,25 @@ public class GetFacePointsDemo : MonoBehaviour
 
 
 	// returns the face point coordinates or Vector3.zero if not found
-	public Vector3 GetFacePoint(HighDetailFacePoints pointType)
+	/// <summary>
+	/// Gets the face point coordinates in Kinect or world coordinates.
+	/// </summary>
+	/// <returns>The face point.</returns>
+	/// <param name="pointType">Point type.</param>
+	/// <param name="bWorldCoords">If set to <c>true</c> returns the point in world coordinates, otherwise in Kinect coordinates.</param>
+	public Vector3 GetFacePoint(HighDetailFacePoints pointType, bool bWorldCoords)
 	{
 		if(dictFacePoints != null && dictFacePoints.ContainsKey(pointType))
 		{
-			return dictFacePoints[pointType];
+			if (bWorldCoords) 
+			{
+				Matrix4x4 kinectToWorld = manager.GetKinectToWorldMatrix();
+				return kinectToWorld.MultiplyPoint3x4(dictFacePoints[pointType]);
+			} 
+			else 
+			{
+				return dictFacePoints[pointType];
+			}
 		}
 
 		return Vector3.zero;
@@ -86,13 +103,13 @@ public class GetFacePointsDemo : MonoBehaviour
 			{
 				if (faceManager.GetUserFaceVertices(userId, ref faceVertices)) 
 				{
-					Matrix4x4 kinectToWorld = manager.GetKinectToWorldMatrix();
+					//Matrix4x4 kinectToWorld = manager.GetKinectToWorldMatrix();
 					HighDetailFacePoints[] facePoints = (HighDetailFacePoints[])System.Enum.GetValues(typeof(HighDetailFacePoints));
 
 					for (int i = 0; i < facePoints.Length; i++) 
 					{
 						HighDetailFacePoints point = facePoints[i];
-						dictFacePoints[point] = kinectToWorld.MultiplyPoint3x4(faceVertices[(int)point]);
+						dictFacePoints [point] = faceVertices[(int)point]; // kinectToWorld.MultiplyPoint3x4(faceVertices[(int)point]);
 					}
 				}
 			}
@@ -102,6 +119,10 @@ public class GetFacePointsDemo : MonoBehaviour
 		if(faceVertices != null && faceVertices[(int)facePoint] != Vector3.zero)
 		{
 			Vector3 facePointPos = faceVertices [(int)facePoint];
+			if (foregroundCamera) 
+			{
+				facePointPos = GetOverlayPosition(facePointPos);
+			}
 
 			if (facePointTransform) 
 			{
@@ -115,6 +136,49 @@ public class GetFacePointsDemo : MonoBehaviour
 			}
 		}
 
+	}
+
+	// returns the color-camera overlay position for the given face point
+	private Vector3 GetOverlayPosition(Vector3 facePointPos)
+	{
+		// get the background rectangle (use the portrait background, if available)
+		Rect backgroundRect = foregroundCamera.pixelRect;
+		PortraitBackground portraitBack = PortraitBackground.Instance;
+
+		if(portraitBack && portraitBack.enabled)
+		{
+			backgroundRect = portraitBack.GetBackgroundRect();
+		}
+
+		Vector3 posColorOverlay = Vector3.zero;
+		if(manager && facePointPos != Vector3.zero)
+		{
+			// 3d position to depth
+			Vector2 posDepth = manager.MapSpacePointToDepthCoords(facePointPos);
+			ushort depthValue = manager.GetDepthForPixel((int)posDepth.x, (int)posDepth.y);
+
+			if(posDepth != Vector2.zero && depthValue > 0)
+			{
+				// depth pos to color pos
+				Vector2 posColor = manager.MapDepthPointToColorCoords(posDepth, depthValue);
+
+				if(!float.IsInfinity(posColor.x) && !float.IsInfinity(posColor.y))
+				{
+					float xScaled = (float)posColor.x * backgroundRect.width / manager.GetColorImageWidth();
+					float yScaled = (float)posColor.y * backgroundRect.height / manager.GetColorImageHeight();
+
+					float xScreen = backgroundRect.x + xScaled;
+					float yScreen = backgroundRect.y + backgroundRect.height - yScaled;
+
+					Plane cameraPlane = new Plane(foregroundCamera.transform.forward, foregroundCamera.transform.position);
+					float zDistance = cameraPlane.GetDistanceToPoint(facePointPos);
+
+					posColorOverlay = foregroundCamera.ScreenToWorldPoint(new Vector3(xScreen, yScreen, zDistance));
+				}
+			}
+		}
+
+		return posColorOverlay;
 	}
 
 

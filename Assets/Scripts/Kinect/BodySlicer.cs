@@ -81,7 +81,8 @@ public class BodySlicer : MonoBehaviour
 	private long lastDepthFrameTime;
 
 	private BodySliceData[] bodySlices = new BodySliceData[(int)BodySlice.COUNT];
-	private Texture2D depthImage;
+	private Texture2D depthImageBuf = null;
+	private Texture2D depthImage = null;
 
 	
 	/// <summary>
@@ -218,7 +219,7 @@ public class BodySlicer : MonoBehaviour
 	{
 		if(displayBodySlices && depthImage)
 		{
-			Rect depthImageRect = new Rect(0, Screen.height, 256, -212);
+			Rect depthImageRect = new Rect(0, Screen.height, depthImage.width / 2, -depthImage.height / 2);
 			GUI.DrawTexture(depthImageRect, depthImage);
 		}
 	}
@@ -290,20 +291,28 @@ public class BodySlicer : MonoBehaviour
 			// display body slices
 			if(displayBodySlices)
 			{
-				depthImage = manager.GetUsersLblTex();
+				Texture usersLblTex = manager.GetUsersLblTex();
 
-				if(depthImage)
+				if (depthImageBuf == null && usersLblTex != null) 
 				{
-					depthImage = GameObject.Instantiate(depthImage) as Texture2D;
+					depthImageBuf = new Texture2D(usersLblTex.width, usersLblTex.height, TextureFormat.ARGB32, false);
+					depthImage = new Texture2D(usersLblTex.width, usersLblTex.height, TextureFormat.ARGB32, false);
+				}
 
-					DrawBodySlice(bodySlices[(int)BodySlice.HEIGHT]);
+				if(depthImageBuf != null && usersLblTex != null)
+				{
+					//depthImage = GameObject.Instantiate(depthImage) as Texture2D;
+					Graphics.CopyTexture(usersLblTex, depthImageBuf);
 
-					DrawBodySlice(bodySlices[(int)BodySlice.TORSO_1]);
-					DrawBodySlice(bodySlices[(int)BodySlice.TORSO_2]);
-					DrawBodySlice(bodySlices[(int)BodySlice.TORSO_3]);
-					DrawBodySlice(bodySlices[(int)BodySlice.TORSO_4]);
+					DrawBodySlice(depthImageBuf, bodySlices[(int)BodySlice.HEIGHT]);
 
-					depthImage.Apply();
+					DrawBodySlice(depthImageBuf, bodySlices[(int)BodySlice.TORSO_1]);
+					DrawBodySlice(depthImageBuf, bodySlices[(int)BodySlice.TORSO_2]);
+					DrawBodySlice(depthImageBuf, bodySlices[(int)BodySlice.TORSO_3]);
+					DrawBodySlice(depthImageBuf, bodySlices[(int)BodySlice.TORSO_4]);
+
+					depthImageBuf.Apply();
+					Graphics.CopyTexture(depthImageBuf, depthImage);
 				}
 			}
 		}
@@ -312,12 +321,12 @@ public class BodySlicer : MonoBehaviour
 	}
 
 
-	private void DrawBodySlice(BodySliceData bodySlice)
+	private void DrawBodySlice(Texture2D imageTex, BodySliceData bodySlice)
 	{
-		if(depthImage && bodySlice.isSliceValid && 
+		if(imageTex && bodySlice.isSliceValid && 
 		   bodySlice.startDepthPoint != Vector2.zero && bodySlice.endDepthPoint != Vector2.zero)
 		{
-			KinectInterop.DrawLine(depthImage, (int)bodySlice.startDepthPoint.x, (int)bodySlice.startDepthPoint.y, 
+			KinectInterop.DrawLine(imageTex, (int)bodySlice.startDepthPoint.x, (int)bodySlice.startDepthPoint.y, 
 			         (int)bodySlice.endDepthPoint.x, (int)bodySlice.endDepthPoint.y, Color.red);
 		}
 	}

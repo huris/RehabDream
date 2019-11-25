@@ -10,8 +10,8 @@ public class KinectRecorderPlayer : MonoBehaviour
 	[Tooltip("Path to the file used to record or replay the recorded data.")]
 	public string filePath = "BodyRecording.txt";
 
-	[Tooltip("GUI-Text to display information messages.")]
-	public GUIText infoText;
+	[Tooltip("UI-Text to display information messages.")]
+	public UnityEngine.UI.Text infoText;
 
 	[Tooltip("Whether to start playing the recorded data, right after the scene start.")]
 	public bool playAtStart = false;

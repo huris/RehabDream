@@ -56,6 +56,13 @@ public class LocateAvatarsAndGestureListeners : MonoBehaviour
 				}
 			}
 
+			// check for gesture manager
+			if (manager.gestureListeners.Count > 0 && manager.gestureManager == null) 
+			{
+				Debug.Log("Found " + manager.gestureListeners.Count + " gesture listener(s), but no gesture manager in the scene. Adding KinectGestures-component...");
+				manager.gestureManager = manager.gameObject.AddComponent<KinectGestures>();
+			}
+
 		}
 	}
 	

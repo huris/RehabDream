@@ -6,11 +6,11 @@ public class SimpleVisualGestureListener : MonoBehaviour, VisualGestureListenerI
 	[Tooltip("Index of the player, tracked by this component. 0 means the 1st player, 1 - the 2nd one, 2 - the 3rd one, etc.")]
 	public int playerIndex = 0;
 
-	[Tooltip("GUI-Text to display the discrete gesture information.")]
-	public GUIText discreteInfo;
+	[Tooltip("UI-Text to display the discrete gesture information.")]
+	public UnityEngine.UI.Text discreteInfo;
 
-	[Tooltip("GUI-Text to display the continuous gesture information.")]
-	public GUIText continuousInfo;
+	[Tooltip("UI-Text to display the continuous gesture information.")]
+	public UnityEngine.UI.Text continuousInfo;
 
 
 	private bool discreteGestureDisplayed;

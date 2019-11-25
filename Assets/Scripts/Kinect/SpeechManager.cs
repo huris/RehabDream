@@ -40,8 +40,8 @@ public class SpeechManager : MonoBehaviour
 	[Tooltip("List of the speech recognition listeners in the scene. If the list is empty, the available gesture listeners will be detected at the scene start up.")]
 	public List<MonoBehaviour> speechRecognitionListeners;
 
-	[Tooltip("GUI-Text to display the speech-manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the speech-manager debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 	// Is currently listening
 	private bool isListening;
@@ -299,10 +299,10 @@ public class SpeechManager : MonoBehaviour
 #else
 						System.Threading.Tasks.Task task = null;
 
-//						UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-//						{
+						UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+						{
 							task = CopyGrammarFileToStorageAsync(grammarFileName, sResText);
-//						}, true);
+						}, true);
 						
 						while (task != null && !task.IsCompleted && !task.IsFaulted)
 						{

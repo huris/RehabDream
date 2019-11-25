@@ -6,8 +6,8 @@ public class SimpleInteractionListener : MonoBehaviour, InteractionListenerInter
 	[Tooltip("Index of the player, tracked by this component. 0 means the 1st player, 1 - the 2nd one, 2 - the 3rd one, etc.")]
 	public int playerIndex = 0;
 
-	[Tooltip("GUI-Text to display the interaction information.")]
-	public GUIText interactionInfo;
+	[Tooltip("UI-Text to display the interaction information.")]
+	public UnityEngine.UI.Text interactionInfo;
 
 	private bool intInfoDisplayed;
 	private float intInfoTime;

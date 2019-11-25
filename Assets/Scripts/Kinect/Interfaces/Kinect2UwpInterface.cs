@@ -1,4 +1,4 @@
-﻿#if UNITY_WSA_10_0 && NETFX_CORE
+﻿#if (UNITY_WSA && NETFX_CORE)
 using UnityEngine;
 using System.Collections;
 
@@ -140,16 +140,19 @@ public class Kinect2UwpInterface : DepthSensorInterface
         sensorData.colorImageWidth = 1920;
         sensorData.colorImageHeight = 1080;
 
+		// flip color image vertically
+		sensorData.colorImageScale = new Vector3(1f, -1f, 1f);
+
         sensorData.depthImageWidth = 512;
         sensorData.depthImageHeight = 424;
 
         _saveLatestFrames = bUseMultiSource;
 
         Task task = null;
-//        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-//           {
-               task = InitializeKinect();
-//           }, true);
+        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+        {
+            task = InitializeKinect();
+        }, true);
 
         while (task != null && !task.IsCompleted)
         {
@@ -358,11 +361,14 @@ public class Kinect2UwpInterface : DepthSensorInterface
 
     public void CloseSensor(KinectInterop.SensorData sensorData)
     {
-//        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-//        {
-            _kinectSensor?.CloseAsync();
-            Debug.Log("UWP-K2 sensor closed");
-//        }, true);
+        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+        {
+			if(_kinectSensor != null)
+			{
+				_kinectSensor?.CloseAsync();
+				Debug.Log("UWP-K2 sensor closed");
+			}
+        }, true);
 
         if (_depthPlaneCoordsBuf != null)
         {
@@ -498,12 +504,12 @@ public class Kinect2UwpInterface : DepthSensorInterface
                         // cache the body joints (following the advice of Brian Chasalow)
                         //Dictionary<Windows.Kinect.JointType, Windows.Kinect.Joint> bodyJoints = body.Joints;
 
-                        // calculate the inter-frame time
-                        float frameTime = 0f;
-                        if (bodyFrame.bTurnAnalisys && bodyFrame.liPreviousTime > 0)
-                        {
-                            frameTime = (float)(bodyFrame.liRelativeTime - bodyFrame.liPreviousTime) / 100000000000;
-                        }
+//                        // calculate the inter-frame time
+//                        float frameTime = 0f;
+//                        if (bodyFrame.bTurnAnalisys && bodyFrame.liPreviousTime > 0)
+//                        {
+//                            frameTime = (float)(bodyFrame.liRelativeTime - bodyFrame.liPreviousTime) / 100000000000;
+//                        }
 
                         for (int j = 0; j < sensorData.jointCount; j++)
                         {
@@ -1090,6 +1096,11 @@ public class Kinect2UwpInterface : DepthSensorInterface
 		return false;
 	}
 
+	public bool GetFaceProperties(long userId, ref Dictionary<string, string> faceProps)
+	{
+		return false;
+	}
+
 	public int GetFaceModelVerticesCount (long userId)
 	{
 		return 0;
@@ -1136,10 +1147,10 @@ public class Kinect2UwpInterface : DepthSensorInterface
         {
             if(speechRecognizeTask == null)
             {
-//                UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-//                {
+                UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+                {
                     speechRecognizeTask = RecognizeSpeechAsync();
-//                }, true);
+                }, true);
             }
 
             if (speechRecognizeTask != null)
@@ -1207,10 +1218,10 @@ public class Kinect2UwpInterface : DepthSensorInterface
 	{
         Task<int> task = null;
 
-//        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-//        {
+        UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+        {
             task = LoadGrammarFileAsync(sFileName);
-//        }, true);
+        }, true);
 
         while (task != null && !task.IsCompleted && !task.IsFaulted)
         {

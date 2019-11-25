@@ -12,7 +12,7 @@ public class SimpleBackgroundRemoval : MonoBehaviour
 
 
 	// the foreground texture
-	private Texture2D foregroundTex;
+	private Texture foregroundTex;
 	
 	// rectangle taken by the foreground texture (in pixels)
 	private Rect foregroundRect;

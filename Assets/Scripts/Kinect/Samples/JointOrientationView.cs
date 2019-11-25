@@ -17,8 +17,8 @@ public class JointOrientationView : MonoBehaviour
 	[Tooltip("Smooth factor used for the joint orientation smoothing.")]
 	public float smoothFactor = 5f;
 
-	[Tooltip("GUI-Text to display the current joint rotation.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the current joint rotation.")]
+	public UnityEngine.UI.Text debugText;
 	
 	private Quaternion initialRotation = Quaternion.identity;
 

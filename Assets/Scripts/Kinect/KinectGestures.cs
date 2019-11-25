@@ -131,6 +131,9 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
         RaisedRightHorizontalLeftHand,   // by Andrzej W
         RaisedLeftHorizontalRightHand, 
 
+		TouchRightElbow,   // suggested by Nayden N.
+		TouchLeftElbow,
+
 		UserGesture1 = 101,
 		UserGesture2 = 102,
 		UserGesture3 = 103,
@@ -171,6 +174,9 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 	protected int leftHandIndex;
 	protected int rightHandIndex;
 		
+	protected int leftFingerIndex;
+	protected int rightFingerIndex;
+
 	protected int leftElbowIndex;
 	protected int rightElbowIndex;
 		
@@ -197,31 +203,36 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 	/// <param name="manager">The KinectManager instance</param>
 	public virtual int[] GetNeededJointIndexes(KinectManager manager)
 	{
-		leftHandIndex = manager.GetJointIndex(KinectInterop.JointType.HandLeft);
-		rightHandIndex = manager.GetJointIndex(KinectInterop.JointType.HandRight);
+//		if (manager == null)
+//			return new int[0];
 		
-		leftElbowIndex = manager.GetJointIndex(KinectInterop.JointType.ElbowLeft);
-		rightElbowIndex = manager.GetJointIndex(KinectInterop.JointType.ElbowRight);
+		leftHandIndex = (int)KinectInterop.JointType.HandLeft;
+		rightHandIndex = (int)KinectInterop.JointType.HandRight;
 		
-		leftShoulderIndex = manager.GetJointIndex(KinectInterop.JointType.ShoulderLeft);
-		rightShoulderIndex = manager.GetJointIndex(KinectInterop.JointType.ShoulderRight);
-		
-		hipCenterIndex = manager.GetJointIndex(KinectInterop.JointType.SpineBase);
-		shoulderCenterIndex = manager.GetJointIndex(KinectInterop.JointType.SpineShoulder);
+		leftFingerIndex = (int)KinectInterop.JointType.HandTipLeft;
+		rightFingerIndex = (int)KinectInterop.JointType.HandTipRight;
 
-		leftHipIndex = manager.GetJointIndex(KinectInterop.JointType.HipLeft);
-		rightHipIndex = manager.GetJointIndex(KinectInterop.JointType.HipRight);
-
-		leftKneeIndex = manager.GetJointIndex(KinectInterop.JointType.KneeLeft);
-		rightKneeIndex = manager.GetJointIndex(KinectInterop.JointType.KneeRight);
+		leftElbowIndex = (int)KinectInterop.JointType.ElbowLeft;
+		rightElbowIndex = (int)KinectInterop.JointType.ElbowRight;
 		
-		leftAnkleIndex = manager.GetJointIndex(KinectInterop.JointType.AnkleLeft);
-		rightAnkleIndex = manager.GetJointIndex(KinectInterop.JointType.AnkleRight);
+		leftShoulderIndex = (int)KinectInterop.JointType.ShoulderLeft;
+		rightShoulderIndex = (int)KinectInterop.JointType.ShoulderRight;
+		
+		hipCenterIndex = (int)KinectInterop.JointType.SpineBase;
+		shoulderCenterIndex = (int)KinectInterop.JointType.SpineShoulder;
+
+		leftHipIndex = (int)KinectInterop.JointType.HipLeft;
+		rightHipIndex = (int)KinectInterop.JointType.HipRight;
+
+		leftKneeIndex = (int)KinectInterop.JointType.KneeLeft;
+		rightKneeIndex = (int)KinectInterop.JointType.KneeRight;
+		
+		leftAnkleIndex = (int)KinectInterop.JointType.AnkleLeft;
+		rightAnkleIndex = (int)KinectInterop.JointType.AnkleRight;
 		
 		int[] neededJointIndexes = {
-			leftHandIndex, rightHandIndex, leftElbowIndex, rightElbowIndex, leftShoulderIndex, rightShoulderIndex,
-			hipCenterIndex, shoulderCenterIndex, leftHipIndex, rightHipIndex, leftKneeIndex, rightKneeIndex, 
-			leftAnkleIndex, rightAnkleIndex
+			leftHandIndex, rightHandIndex, leftFingerIndex, rightFingerIndex, leftElbowIndex, rightElbowIndex, leftShoulderIndex, rightShoulderIndex,
+			hipCenterIndex, shoulderCenterIndex, leftHipIndex, rightHipIndex, leftKneeIndex, rightKneeIndex, leftAnkleIndex, rightAnkleIndex
 		};
 
 		return neededJointIndexes;
@@ -532,7 +543,7 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 						break;
 				}
 				break;
-				
+
 			// check for raised left hand & horizontal right hand 
 			case Gestures.RaisedLeftHorizontalRightHand:
 				switch(gestureData.state)
@@ -562,6 +573,58 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 						Vector3 jointPos = jointsPos[gestureData.joint];
 						CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, KinectInterop.Constants.PoseCompleteDuration);
 						break;
+				}
+				break;
+
+			// check for TouchedRightElbow
+			case Gestures.TouchRightElbow:
+				switch(gestureData.state)
+				{
+				case 0:  // gesture detection
+					if(jointsTracked[leftFingerIndex] && jointsTracked[rightElbowIndex] &&
+						Vector3.Distance(jointsPos[leftFingerIndex], jointsPos[rightElbowIndex]) <= 0.12f)
+					{
+						SetGestureJoint(ref gestureData, timestamp, leftFingerIndex, jointsPos[leftFingerIndex]);
+					}
+					
+					//Debug.Log ("TRE0 - Distance: " + Vector3.Distance(jointsPos[leftFingerIndex], jointsPos[rightElbowIndex]));
+					break;
+
+				case 1:  // gesture complete
+					bool isInPose = jointsTracked[leftFingerIndex] && jointsTracked[rightElbowIndex] &&
+						Vector3.Distance(jointsPos[leftFingerIndex], jointsPos[rightElbowIndex]) <= 0.12f;
+
+					//Debug.Log ("TRE1 - Distance: " + Vector3.Distance(jointsPos[leftFingerIndex], jointsPos[rightElbowIndex]) + ", progress: " + gestureData.progress);
+
+					Vector3 jointPos = jointsPos[gestureData.joint];
+					CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 1.5f /**KinectInterop.Constants.PoseCompleteDuration*/);
+					break;
+				}
+				break;
+
+			// check for TouchedLeftElbow
+			case Gestures.TouchLeftElbow:
+				switch(gestureData.state)
+				{
+				case 0:  // gesture detection
+					if(jointsTracked[rightFingerIndex] && jointsTracked[leftElbowIndex] &&
+						Vector3.Distance(jointsPos[rightFingerIndex], jointsPos[leftElbowIndex]) <= 0.12f)
+					{
+						SetGestureJoint(ref gestureData, timestamp, rightFingerIndex, jointsPos[rightFingerIndex]);
+					}
+
+					//Debug.Log ("TLE0 - Distance: " + Vector3.Distance(jointsPos[rightFingerIndex], jointsPos[leftElbowIndex]));
+					break;
+
+				case 1:  // gesture complete
+					bool isInPose = jointsTracked[rightFingerIndex] && jointsTracked[leftElbowIndex] &&
+						Vector3.Distance(jointsPos[rightFingerIndex], jointsPos[leftElbowIndex]) <= 0.12f;
+
+					//Debug.Log ("TLE1- Distance: " + Vector3.Distance(jointsPos[rightFingerIndex], jointsPos[leftElbowIndex]));
+
+					Vector3 jointPos = jointsPos[gestureData.joint];
+					CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 1.5f /**KinectInterop.Constants.PoseCompleteDuration*/);
+					break;
 				}
 				break;
 

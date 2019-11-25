@@ -56,22 +56,54 @@
      <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\VolumeGrass_MakeGrassTexture.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\VolumeGrassEditor.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\VolumeGrassMaterialInspector.cs" />
+     <None Include="Assets\K2Examples\Resources\BlurShader.shader" />
+     <None Include="Assets\K2Examples\Resources\AstraCoordMapper.compute" />
+     <None Include="Assets\K2Examples\Resources\MedianShader.shader" />
+     <None Include="Assets\K2Examples\Resources\Gradient.shader" />
+     <None Include="Assets\K2Examples\Resources\DepthShader.shader" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
+     <None Include="Assets\K2Examples\Resources\Body2DepthShader.shader" />
+     <None Include="Assets\K2Examples\Resources\SpeechGrammar.grxml.txt" />
+     <None Include="Assets\K2Examples\Resources\BlurShader3.shader" />
+     <None Include="Assets\K2Examples\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
+     <None Include="Assets\K2Examples\Resources\Body2ColorShader.shader" />
+     <None Include="Assets\K2Examples\Resources\Depth2ColorShaderNN.shader" />
+     <None Include="Assets\K2Examples\Resources\Color2BodyShaderNN.shader" />
+     <None Include="Assets\K2Examples\Resources\Depth2BodyShaderNN.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
+     <None Include="Assets\K2Examples\Resources\ForegroundBlendShader.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
-     <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
-     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
+     <None Include="Assets\K2Examples\Resources\BlurShader2.shader" />
+     <None Include="Assets\K2Examples\Resources\Body2ColorShaderInv.shader" />
+     <None Include="Assets\K2Examples\Resources\Body2DepthShaderInv.shader" />
+     <None Include="Assets\K2Examples\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
+     <None Include="Assets\K2Examples\Resources\CoordMapper.compute" />
+     <None Include="Assets\K2Examples\Resources\Depth2ColorShader.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
-     <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
-     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+     <None Include="Assets\K2Examples\Resources\Erode.shader" />
+     <None Include="Assets\K2Examples\Resources\BodyShader.shader" />
+     <None Include="Assets\K2Examples\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
+     <None Include="Assets\K2Examples\Resources\Dilate.shader" />
+     <None Include="Assets\K2Examples\Resources\Body2DepthShaderNN.shader" />
+     <None Include="Assets\K2Examples\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
+     <None Include="Assets\K2Examples\Resources\BlurShader5.shader" />
+     <None Include="Assets\K2Examples\Plugins\Android\Assets\OSIG_Readme.txt" />
+     <None Include="Assets\K2Examples\_Readme\License.txt" />
+     <None Include="Assets\K2Examples\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
+     <None Include="Assets\K2Examples\Resources\Body2DepthShaderInvNN.shader" />
+     <None Include="Assets\K2Examples\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+     <None Include="Assets\K2Examples\Resources\Color2BodyShader.shader" />
+     <None Include="Assets\K2Examples\Resources\BlurShader4.shader" />
+     <None Include="Assets\K2Examples\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\K2Examples\KinectDemos\VisualizerDemo\Attribution.txt" />
+     <None Include="Assets\K2Examples\Resources\AstraSpaceMapper.compute" />
+     <None Include="Assets\K2Examples\_Readme\致盗版使用者-ToPiracyUsers.txt" />
      <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
+     <None Include="Assets\K2Examples\Resources\BlurShader1.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -158,6 +190,9 @@
  </Reference>
  <Reference Include="System.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="nuitrack.net">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/Interfaces/Nuitrack/nuitrack.net.dll</HintPath>
  </Reference>
  <Reference Include="LZ4Sharp">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>

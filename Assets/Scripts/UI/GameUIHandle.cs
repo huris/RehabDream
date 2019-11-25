@@ -118,6 +118,7 @@ public class GameUIHandle : UIHandle
     public void OnClickExit()
     {
         PatientDataManager.instance.ResetGameData();
+
         // reset PatientRecord
         SetDataPatientRecord();
         // reset TrainingPlan

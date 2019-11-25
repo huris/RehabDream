@@ -28,16 +28,26 @@ public class BackgroundRemovalManager : MonoBehaviour
 	[Tooltip("Color used to paint pixels, where the foreground color data is not available.")]
 	private Color32 defaultColor = new Color32(64, 64, 64, 255);
 
-	[Tooltip("(Advanced) Number of erode iterations used by the erode/dilate filter.")]
-	[Range(0, 9)]
-	public int erodeIterations = 0; // 3;
+    [Tooltip("(Advanced) Number of iterations used by the alpha texture's erode filter 0.")]
+    [Range(0, 9)]
+    public int erodeIterations0 = 0;  // 1
 
-	[Tooltip("(Advanced) Number of dilate iterations used by the erode/dilate filter.")]
+    [Tooltip("(Advanced) Number of iterations used by the alpha texture's dilate filter 1.")]
 	[Range(0, 9)]
-	public int dilateIterations = 0; // 3;
+	public int dilateIterations = 0;  // 3;
 
-	[Tooltip("GUI-Text to display the BR-Manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("(Advanced) Number of iterations used by the alpha texture's erode filter 2.")]
+	[Range(0, 9)]
+	public int erodeIterations = 0;  // 4;
+
+	[Tooltip("(Advanced) Body blur filter applied to the alpha texture.")]
+	public KinectInterop.BrBlurType bodyBlurFilter = KinectInterop.BrBlurType.Blur;
+
+	[Tooltip("(Advanced) Color applied to the body contour after the filters.")]
+	public Color bodyContourColor = Color.black;
+
+	[Tooltip("UI-Text to display the BR-Manager debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 	// buffer for the raw foreground image
 	private byte[] foregroundImage;
@@ -91,8 +101,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 	/// <returns>The foreground image texture.</returns>
 	public Texture GetForegroundTex()
 	{ 
-		bool bHiResSupported = sensorData != null && sensorData.sensorInterface != null ?
-			sensorData.sensorInterface.IsBRHiResSupported() : false;
+//		bool bHiResSupported = sensorData != null && sensorData.sensorInterface != null ?
+//			sensorData.sensorInterface.IsBRHiResSupported() : false;
 		bool bKinect1Int = sensorData != null && sensorData.sensorInterface != null ?
 			(sensorData.sensorInterface.GetSensorPlatform() == KinectInterop.DepthSensorPlatform.KinectSDKv1) : false;
 
@@ -100,7 +110,7 @@ public class BackgroundRemovalManager : MonoBehaviour
 		{
 			return sensorData.alphaBodyTexture;
 		}
-		else if(sensorData != null && bHiResSupported && !bKinect1Int && sensorData.color2DepthTexture)
+		else if(sensorData != null /**&& bHiResSupported*/ && !bKinect1Int && sensorData.color2DepthTexture)
 		{
 			return sensorData.color2DepthTexture;
 		}
@@ -138,7 +148,7 @@ public class BackgroundRemovalManager : MonoBehaviour
 		instance = this;
 	}
 
-	void Start() 
+	public void Start() 
 	{
 		try 
 		{
@@ -221,6 +231,19 @@ public class BackgroundRemovalManager : MonoBehaviour
 					rectHeight = Mathf.Round(rectWidth * neededFgRect.height / neededFgRect.width);
 				
 				foregroundRect = new Rect((cameraRect.width - rectWidth) / 2, cameraRect.height - (cameraRect.height - rectHeight) / 2, rectWidth, -rectHeight);
+
+				// apply color image scale
+				if(sensorData.colorImageScale.x < 0f)
+				{
+					foregroundRect.x = cameraRect.width - (cameraRect.width - rectWidth) / 2;
+					foregroundRect.width = -foregroundRect.width;
+				}
+
+				if(sensorData.colorImageScale.y > 0f)
+				{
+					foregroundRect.y = (cameraRect.height - rectHeight) / 2;
+					foregroundRect.height = -foregroundRect.height;
+				}
 			}
 
 			isBrInited = true;
@@ -285,9 +308,12 @@ public class BackgroundRemovalManager : MonoBehaviour
 				sensorData.selectedBodyIndex = 255;
 			}
 
-			// erode & dilate iterations
-			sensorData.erodeIterations = erodeIterations;
-			sensorData.dilateIterations = dilateIterations;
+			// filter parameters
+			sensorData.erodeIterations0 = erodeIterations0;
+			sensorData.dilateIterations1 = dilateIterations;
+            sensorData.erodeIterations2 = erodeIterations;
+            sensorData.alphaBlurType = bodyBlurFilter;
+			sensorData.bodyContourColor = bodyContourColor;
 
 			// update the background removal
 			bool bSuccess = sensorData.sensorInterface.UpdateBackgroundRemoval(sensorData, colorCameraResolution, defaultColor, computeBodyTexOnly);
@@ -326,8 +352,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 			}
 
 			// update the foreground texture
-			bool bHiResSupported = sensorData != null && sensorData.sensorInterface != null ?
-				sensorData.sensorInterface.IsBRHiResSupported() : false;
+//			bool bHiResSupported = sensorData != null && sensorData.sensorInterface != null ?
+//				sensorData.sensorInterface.IsBRHiResSupported() : false;
 			bool bKinect1Int = sensorData != null && sensorData.sensorInterface != null ?
 				(sensorData.sensorInterface.GetSensorPlatform() == KinectInterop.DepthSensorPlatform.KinectSDKv1) : false;
 
@@ -335,7 +361,7 @@ public class BackgroundRemovalManager : MonoBehaviour
 			{
 				GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
 			}
-			else if(sensorData != null && bHiResSupported && !bKinect1Int && sensorData.color2DepthTexture)
+			else if(sensorData != null /**&& bHiResSupported*/ && !bKinect1Int && sensorData.color2DepthTexture)
 			{
 				//GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
 				GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);

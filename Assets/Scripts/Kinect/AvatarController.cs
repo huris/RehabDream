@@ -27,9 +27,12 @@ public class AvatarController : MonoBehaviour
 	[Tooltip("Whether the avatar's root motion is applied by other component or script.")]
 	public bool externalRootMotion = false;
 
-    [Tooltip("Whether the head rotation is controlled externally (e.g. by VR-headset)" )]
+    [Tooltip("Whether the head rotation is controlled externally (e.g. by VR-headset)." )]
     public bool externalHeadRotation = false;
 	
+	[Tooltip("Whether the hand and finger rotations are controlled externally (e.g. by LeapMotion controller)" )]
+	public bool externalHandRotations = false;
+
 	[Tooltip("Whether the finger orientations are allowed or not.")]
 	public bool fingerOrientations = false;
 	
@@ -48,24 +51,31 @@ public class AvatarController : MonoBehaviour
 	[Tooltip("Whether the avatar's position should match the color image (in Pos-rel-to-camera mode only).")]
 	public bool posRelOverlayColor = false;
 	
+	[Tooltip("Plane used to render the color camera background to overlay.")]
+	public Transform backgroundPlane;
+
 	[Tooltip("Whether z-axis movement needs to be inverted (Pos-Relative mode only).")]
 	public bool posRelInvertedZ = false;
 	
 	[Tooltip("Whether the avatar's feet must stick to the ground.")]
 	public bool groundedFeet = false;
 
-	[Tooltip("Whether to apply the humanoid muscle limits or not.")]
+	[Tooltip("Whether to apply the humanoid model's muscle limits or not.")]
 	public bool applyMuscleLimits = false;
 
 	[Tooltip("Whether to flip left and right, relative to the sensor.")]
 	public bool flipLeftRight = false;
 
 
-	[Tooltip("Vertical offset of the avatar with respect to the position of user's spine-base.")]
+    [Tooltip("Horizontal offset of the avatar with respect to the position of user's spine-base.")]
+    [Range(-0.5f, 0.5f)]
+    public float horizontalOffset = 0f;
+
+    [Tooltip("Vertical offset of the avatar with respect to the position of user's spine-base.")]
 	[Range(-0.5f, 0.5f)]
 	public float verticalOffset = 0f;
 
-	[Tooltip("Forward (Z) offset of the avatar with respect to the position of user's spine-base.")]
+	[Tooltip("Forward offset of the avatar with respect to the position of user's spine-base.")]
 	[Range(-0.5f, 0.5f)]
 	public float forwardOffset = 0f;
 
@@ -79,7 +89,8 @@ public class AvatarController : MonoBehaviour
 
 	// Variable to hold all them bones. It will initialize the same size as initialRotations.
 	protected Transform[] bones;
-	
+	protected Transform[] fingerBones;
+
 	// Rotations of the bones when the Kinect tracking starts.
 	protected Quaternion[] initialRotations;
 	protected Quaternion[] localRotations;
@@ -134,6 +145,10 @@ public class AvatarController : MonoBehaviour
 	private float fFootDistance = 0f;
 	private float fFootDistanceTime = 0f;
 
+	// background plane rectangle
+	private Rect planeRect = new Rect();
+	private bool planeRectSet = false;
+
 
 	/// <summary>
 	/// Gets the number of bone transforms (array length).
@@ -151,7 +166,7 @@ public class AvatarController : MonoBehaviour
 	/// <param name="index">Index</param>
 	public Transform GetBoneTransform(int index)
 	{
-		if(index >= 0 && index < bones.Length)
+		if(index >= 0 && bones != null && index < bones.Length)
 		{
 			return bones[index];
 		}
@@ -292,7 +307,31 @@ public class AvatarController : MonoBehaviour
 		return boneIndex;
 	}
 	
-	
+	/// <summary>
+	/// Gets the number of finger bone transforms (array length).
+	/// </summary>
+	/// <returns>The number of finger bone transforms.</returns>
+	public int GetFingerTransformCount()
+	{
+		return fingerBones != null ? fingerBones.Length : 0;
+	}
+
+	/// <summary>
+	/// Gets the finger bone transform by index.
+	/// </summary>
+	/// <returns>The finger bone transform.</returns>
+	/// <param name="index">Index</param>
+	public Transform GetFingerTransform(int index)
+	{
+		if(index >= 0 && index < fingerBones.Length)
+		{
+			return fingerBones[index];
+		}
+
+		return null;
+	}
+
+
 	// transform caching gives performance boost since Unity calls GetComponent<Transform>() each time you call transform 
 	private Transform _transformCache;
 	public new Transform transform
@@ -360,6 +399,9 @@ public class AvatarController : MonoBehaviour
 
 			humanPoseHandler = new HumanPoseHandler(animatorComponent.avatar, rootTransform);
 			humanPoseHandler.GetHumanPose(ref humanPose);
+
+			initialHipsPosition = (humanPose.bodyPosition - rootTransform.position);  // hipsTransform.position
+			initialHipsRotation = humanPose.bodyRotation;
 		}
 	}
 
@@ -401,7 +443,8 @@ public class AvatarController : MonoBehaviour
 
 		if (isPoseChanged) 
 		{
-			Quaternion localBodyRot = Quaternion.Inverse(transform.rotation) * humanPose.bodyRotation;
+			//Quaternion localBodyRot = Quaternion.Inverse(transform.rotation) * humanPose.bodyRotation;
+			Quaternion localBodyRot = Quaternion.Inverse(initialHipsRotation) * humanPose.bodyRotation;
 
 			// recover the body position & orientation
 			//humanPose.bodyPosition = Vector3.zero;
@@ -429,6 +472,17 @@ public class AvatarController : MonoBehaviour
 		if(kinectManager == null)
 		{
 			kinectManager = KinectManager.Instance;
+		}
+
+		// get the background plane rectangle if needed 
+		if (backgroundPlane && !planeRectSet && kinectManager && kinectManager.IsInitialized ()) 
+		{
+			planeRectSet = true;
+
+			planeRect.width = 10f * Mathf.Abs(backgroundPlane.localScale.x);
+			planeRect.height = 10f * Mathf.Abs(backgroundPlane.localScale.z);
+			planeRect.x = backgroundPlane.position.x - planeRect.width / 2f;
+			planeRect.y = backgroundPlane.position.y - planeRect.height / 2f;
 		}
 		
 		// move the avatar to its Kinect position
@@ -472,11 +526,18 @@ public class AvatarController : MonoBehaviour
 				KinectInterop.JointType joint = !(mirroredMovement ^ flipLeftRight) ? 
 					boneIndex2JointMap[boneIndex] : boneIndex2MirrorJointMap[boneIndex];
 				
-                if( externalHeadRotation && joint == KinectInterop.JointType.Head )   // skip head if moved externally
-                {
-                    continue;
-                }
-                
+				if(externalHeadRotation && joint == KinectInterop.JointType.Head)   // skip head if moved externally
+				{
+					continue;
+				}
+
+				if(externalHandRotations &&    // skip hands if moved externally
+					(joint == KinectInterop.JointType.WristLeft || joint == KinectInterop.JointType.WristRight ||
+						joint == KinectInterop.JointType.HandLeft || joint == KinectInterop.JointType.HandRight))
+				{
+					continue;
+				}
+
 				TransformBone(UserID, joint, boneIndex, !(mirroredMovement ^ flipLeftRight));
 			}
 			else if(specIndex2JointMap.ContainsKey(boneIndex))
@@ -553,11 +614,11 @@ public class AvatarController : MonoBehaviour
 		transform.position = initialPosition;
 		transform.rotation = initialRotation;
 
-		if (bones[0]) 
-		{
-			bones[0].localPosition = initialHipsPosition;
-			bones[0].localRotation = initialHipsRotation;
-		}
+//		if (bones[0]) 
+//		{
+//			bones[0].localPosition = initialHipsPosition;
+//			bones[0].localRotation = initialHipsRotation;
+//		}
     }
 	
 	/// <summary>
@@ -650,63 +711,72 @@ public class AvatarController : MonoBehaviour
 		Transform boneTransform = bones[boneIndex];
 		if(boneTransform == null || kinectManager == null)
 			return;
-		
-		if(!kinectManager.IsJointTracked(userId, (int)joint) || 
-		   !kinectManager.IsJointTracked(userId, (int)jointParent))
-		{
-			return;
-		}
+
+		// get joint tracking state
+		bool isJointTracked = kinectManager.IsJointTracked(userId, (int)joint);
 
 		if(boneIndex >= 27 && boneIndex <= 30)
 		{
 			// fingers or thumbs
-			if(fingerOrientations)
+			if(fingerOrientations && !externalHandRotations)
 			{
-				TransformSpecialBoneFingers(userId, (int)joint, boneIndex, flip);
+				TransformSpecialBoneFingers(userId, (int)joint, boneIndex, flip, isJointTracked);
 			}
 
 			return;
 		}
-		
-		Vector3 jointDir = kinectManager.GetJointDirection(userId, (int)joint, false, true);
-		Quaternion jointRotation = jointDir != Vector3.zero ? Quaternion.FromToRotation(baseDir, jointDir) : Quaternion.identity;
-		
-		if(!flip)
-		{
-			Vector3 mirroredAngles = jointRotation.eulerAngles;
-			mirroredAngles.y = -mirroredAngles.y;
-			mirroredAngles.z = -mirroredAngles.z;
 
-			jointRotation = Quaternion.Euler(mirroredAngles);
-		}
-		
-		if(jointRotation != Quaternion.identity)
-		{
-			// Smoothly transition to the new rotation
-			Quaternion newRotation = Kinect2AvatarRot(jointRotation, boneIndex);
-			
-			if(externalRootMotion)
-			{
-				newRotation = transform.rotation * newRotation;
-			}
-			
-			if(smoothFactor != 0f)
-				boneTransform.rotation = Quaternion.Slerp(boneTransform.rotation, newRotation, smoothFactor * Time.deltaTime);
-			else
-				boneTransform.rotation = newRotation;
-		}
-		
-	}
+        if (!isJointTracked || !kinectManager.IsJointTracked(userId, (int)jointParent))
+        {
+            return;
+        }
 
-	// Apply the rotations tracked by kinect to fingers (one joint = multiple bones)
-	protected void TransformSpecialBoneFingers(Int64 userId, int joint, int boneIndex, bool flip)
+        // if the user is turned, tracking of special bones may be incorrect 
+        bool userTurned = kinectManager.IsUserTurnedAround(userId);
+        if (userTurned)
+        {
+            return;
+        }
+
+        Vector3 jointDir = kinectManager.GetJointDirection(userId, (int)joint, userTurned, true).normalized;
+        Quaternion jointRotation = jointDir != Vector3.zero ? Quaternion.FromToRotation(baseDir, jointDir) : Quaternion.identity;
+
+        if (!flip)
+        {
+            Vector3 mirroredAngles = jointRotation.eulerAngles;
+            mirroredAngles.y = -mirroredAngles.y;
+            mirroredAngles.z = -mirroredAngles.z;
+
+            jointRotation = Quaternion.Euler(mirroredAngles);
+        }
+
+        if (jointRotation != Quaternion.identity)
+        {
+            // Smoothly transition to the new rotation
+            Quaternion newRotation = Kinect2AvatarRot(jointRotation, boneIndex);
+
+            if (externalRootMotion)
+            {
+                newRotation = transform.rotation * newRotation;
+            }
+
+            if (smoothFactor != 0f)
+                boneTransform.rotation = Quaternion.Slerp(boneTransform.rotation, newRotation, smoothFactor * Time.deltaTime);
+            else
+                boneTransform.rotation = newRotation;
+        }
+
+    }
+
+    // Apply the rotations tracked by kinect to fingers (one joint = multiple bones)
+    protected void TransformSpecialBoneFingers(Int64 userId, int joint, int boneIndex, bool flip, bool isJointTracked)
 	{
 		// check for hand grips
 		if(joint == (int)KinectInterop.JointType.HandTipLeft || joint == (int)KinectInterop.JointType.ThumbLeft)
 		{
 			if(lastLeftHandEvent == InteractionManager.HandEventType.Grip)
 			{
-				if(!bLeftFistDone)
+				if(!bLeftFistDone && !kinectManager.IsUserTurnedAround(userId))
 				{
 					float angleSign = !mirroredMovement /**(boneIndex == 27 || boneIndex == 29)*/ ? -1f : -1f;
 					float angleRot = angleSign * 60f;
@@ -727,7 +797,7 @@ public class AvatarController : MonoBehaviour
 		{
 			if(lastRightHandEvent == InteractionManager.HandEventType.Grip)
 			{
-				if(!bRightFistDone)
+				if(!bRightFistDone && !kinectManager.IsUserTurnedAround(userId))
 				{
 					float angleSign = !mirroredMovement /**(boneIndex == 27 || boneIndex == 29)*/ ? -1f : -1f;
 					float angleRot = angleSign * 60f;
@@ -747,7 +817,7 @@ public class AvatarController : MonoBehaviour
 
 		// get the animator component
 		//Animator animatorComponent = GetComponent<Animator>();
-		if(!animatorComponent)
+		if(!animatorComponent || !isJointTracked)
 			return;
 		
 		// Get Kinect joint orientation
@@ -859,15 +929,25 @@ public class AvatarController : MonoBehaviour
 		// use the color overlay position if needed
 		if(posRelativeToCamera && posRelOverlayColor)
 		{
-			Rect backgroundRect = posRelativeToCamera.pixelRect;
-			PortraitBackground portraitBack = PortraitBackground.Instance;
-			
-			if(portraitBack && portraitBack.enabled)
+			if(backgroundPlane && planeRectSet)
 			{
-				backgroundRect = portraitBack.GetBackgroundRect();
+				// get the plane overlay position
+				trans = kinectManager.GetJointPosColorOverlay(UserID, (int)KinectInterop.JointType.SpineBase, planeRect);
+				trans.z = backgroundPlane.position.z - posRelativeToCamera.transform.position.z - 0.1f;  // 10cm offset
 			}
-			
-			trans = kinectManager.GetJointPosColorOverlay(UserID, (int)KinectInterop.JointType.SpineBase, posRelativeToCamera, backgroundRect);
+			else 
+			{
+				Rect backgroundRect = posRelativeToCamera.pixelRect;
+				PortraitBackground portraitBack = PortraitBackground.Instance;
+
+				if(portraitBack && portraitBack.enabled)
+				{
+					backgroundRect = portraitBack.GetBackgroundRect();
+				}
+
+				trans = kinectManager.GetJointPosColorOverlay(UserID, (int)KinectInterop.JointType.SpineBase, posRelativeToCamera, backgroundRect);
+			}
+
 			if(flipLeftRight)
 				trans.x = -trans.x;
 		}
@@ -932,7 +1012,18 @@ public class AvatarController : MonoBehaviour
 			targetPos.y = bodyRoot != null ? bodyRoot.position.y : transform.position.y;
 		}
 
-		if (verticalMovement && verticalOffset != 0f && 
+        // added by r618
+        if (horizontalOffset != 0f &&
+            bones[5] != null && bones[11] != null)
+        {
+            // { 5, HumanBodyBones.LeftUpperArm},
+            // { 11, HumanBodyBones.RightUpperArm},
+            //Vector3 dirSpine = bones[5].position - bones[11].position;
+            Vector3 dirShoulders = bones[11].position - bones[5].position;
+            targetPos += dirShoulders.normalized * horizontalOffset;
+        }
+
+        if (verticalMovement && verticalOffset != 0f && 
 			bones[0] != null && bones[3] != null) 
 		{
 			Vector3 dirSpine = bones[3].position - bones[0].position;
@@ -1082,6 +1173,17 @@ public class AvatarController : MonoBehaviour
 			
 			bones[boneIndex] = animatorComponent ? animatorComponent.GetBoneTransform(boneIndex2MecanimMap[boneIndex]) : null;
 		}
+
+		// map finger bones, too
+		fingerBones = new Transform[fingerIndex2MecanimMap.Count];
+
+		for (int boneIndex = 0; boneIndex < fingerBones.Length; boneIndex++)
+		{
+			if (!fingerIndex2MecanimMap.ContainsKey(boneIndex)) 
+				continue;
+
+			fingerBones[boneIndex] = animatorComponent ? animatorComponent.GetBoneTransform(fingerIndex2MecanimMap[boneIndex]) : null;
+		}
 	}
 	
 	// Capture the initial rotations of the bones
@@ -1097,8 +1199,8 @@ public class AvatarController : MonoBehaviour
 		initialPosition = transform.position;
 		initialRotation = transform.rotation;
 
-		initialHipsPosition = bones[0] ? bones[0].localPosition : Vector3.zero;
-		initialHipsRotation = bones[0] ? bones[0].localRotation : Quaternion.identity;
+//		initialHipsPosition = bones[0] ? bones[0].localPosition : Vector3.zero;
+//		initialHipsRotation = bones[0] ? bones[0].localRotation : Quaternion.identity;
 
 //		if(offsetNode != null)
 //		{
@@ -1201,6 +1303,7 @@ public class AvatarController : MonoBehaviour
 //			newRotation = offsetNode.transform.rotation * newRotation;
 //		}
 //		else
+		if (!externalRootMotion)  // fix by Mathias Parger
 		{
 			newRotation = initialRotation * newRotation;
 		}
@@ -1549,6 +1652,50 @@ public class AvatarController : MonoBehaviour
 				HumanBodyBones.RightThumbIntermediate,
 				HumanBodyBones.RightThumbDistal,
 			}},
+	};
+
+
+	protected static readonly Dictionary<int, HumanBodyBones> fingerIndex2MecanimMap = new Dictionary<int, HumanBodyBones>
+	{
+		{0, HumanBodyBones.LeftThumbProximal},
+		{1, HumanBodyBones.LeftThumbIntermediate},
+		{2, HumanBodyBones.LeftThumbDistal},
+
+		{3, HumanBodyBones.LeftIndexProximal},
+		{4, HumanBodyBones.LeftIndexIntermediate},
+		{5, HumanBodyBones.LeftIndexDistal},
+
+		{6, HumanBodyBones.LeftMiddleProximal},
+		{7, HumanBodyBones.LeftMiddleIntermediate},
+		{8, HumanBodyBones.LeftMiddleDistal},
+
+		{9, HumanBodyBones.LeftRingProximal},
+		{10, HumanBodyBones.LeftRingIntermediate},
+		{11, HumanBodyBones.LeftRingDistal},
+
+		{12, HumanBodyBones.LeftLittleProximal},
+		{13, HumanBodyBones.LeftLittleIntermediate},
+		{14, HumanBodyBones.LeftLittleDistal},
+
+		{15, HumanBodyBones.RightThumbProximal},
+		{16, HumanBodyBones.RightThumbIntermediate},
+		{17, HumanBodyBones.RightThumbDistal},
+
+		{18, HumanBodyBones.RightIndexProximal},
+		{19, HumanBodyBones.RightIndexIntermediate},
+		{20, HumanBodyBones.RightIndexDistal},
+
+		{21, HumanBodyBones.RightMiddleProximal},
+		{22, HumanBodyBones.RightMiddleIntermediate},
+		{23, HumanBodyBones.RightMiddleDistal},
+
+		{24, HumanBodyBones.RightRingProximal},
+		{25, HumanBodyBones.RightRingIntermediate},
+		{26, HumanBodyBones.RightRingDistal},
+
+		{27, HumanBodyBones.RightLittleProximal},
+		{28, HumanBodyBones.RightLittleIntermediate},
+		{29, HumanBodyBones.RightLittleDistal}
 	};
 
 }

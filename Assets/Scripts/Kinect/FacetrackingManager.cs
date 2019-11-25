@@ -42,7 +42,7 @@ public class FacetrackingManager : MonoBehaviour
 	[Tooltip("Whether to move the face model mesh, to be the same as user's head position.")]
 	public bool moveModelMesh = false;
 
-	[Tooltip("Camera that may be used to overlay face mesh over the color background.")]
+	[Tooltip("Camera used to overlay face mesh over the color background.")]
 	public Camera foregroundCamera;
 
 	[Tooltip("Scale factor for the face mesh.")]
@@ -53,13 +53,13 @@ public class FacetrackingManager : MonoBehaviour
 	[Range(-0.5f, 0.5f)]
 	public float verticalMeshOffset = 0f;
 
-	[Tooltip("GUI-Text to display the FT-manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the FT-manager debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 //	// nose and head transforms
 //	public Transform noseTransform;
 //	public Transform headTransform;
-//	public GUIText debugText2;
+//	public UnityEngine.UI.Text debugText2;
 
 
 	// Is currently tracking user's face
@@ -86,6 +86,7 @@ public class FacetrackingManager : MonoBehaviour
 	private Vector2[] avModelUV = null;
 	private bool bGotModelVertices = false;
 	//private bool bGotModelVerticesFromDC = false;
+	private bool bGotModelUV = false;
 
 	private int[] avModelTriangles = null;
 	private bool bGotModelTriangles = false;
@@ -129,6 +130,7 @@ public class FacetrackingManager : MonoBehaviour
 	// whether UpdateFaceModelMesh() is running
 	private bool updateFaceMeshStarted = false;
 
+	private Material faceMeshMaterial = null;
 	private RenderTexture faceMeshTexture = null;
 	private Vector3 nosePos = Vector3.zero;
 
@@ -178,6 +180,11 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="userId">User ID</param>
 	public bool IsTrackingFace(long userId)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			return isTrackingFace;
+		}
+
 		if(sensorData != null && sensorData.sensorInterface != null)
 		{
 			return sensorData.sensorInterface.IsFaceTracked(userId);
@@ -229,6 +236,11 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="bMirroredMovement">If set to <c>true</c> returns mirorred head position.</param>
 	public Vector3 GetHeadPosition(long userId, bool bMirroredMovement)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			return GetHeadPosition(bMirroredMovement);
+		}
+
 		Vector3 vHeadPos = Vector3.zero;
 		bool bGotPosition = sensorData.sensorInterface.GetHeadPosition(userId, ref vHeadPos);
 
@@ -276,6 +288,11 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="bMirroredMovement">If set to <c>true</c> returns mirorred head rotation.</param>
 	public Quaternion GetHeadRotation(long userId, bool bMirroredMovement)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			return GetHeadRotation(bMirroredMovement);
+		}
+
 		Quaternion vHeadRot = Quaternion.identity;
 		bool bGotRotation = sensorData.sensorInterface.GetHeadRotation(userId, ref vHeadRot);
 
@@ -345,6 +362,12 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="dictAnimUnits">Animation units dictionary, to get the results.</param>
 	public bool GetUserAnimUnits(long userId, ref Dictionary<KinectInterop.FaceShapeAnimations, float> dictAnimUnits)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			dictAnimUnits = dictAU;
+			return bGotAU;
+		}
+
 		if(sensorData != null && sensorData.sensorInterface != null)
 		{
 			bool bGotIt = sensorData.sensorInterface.GetAnimUnits(userId, ref dictAnimUnits);
@@ -354,6 +377,23 @@ public class FacetrackingManager : MonoBehaviour
 		return false;
 	}
 	
+	/// <summary>
+	/// Gets the available face properties for the specified user.
+	/// </summary>
+	/// <returns><c>true</c>, if the user's face is tracked, <c>false</c> otherwise.</returns>
+	/// <param name="userId">User ID</param>
+	/// <param name="dictAnimUnits">Face properties dictionary, to get the results.</param>
+	public bool GetUserFaceProperties(long userId, ref Dictionary<string, string> faceProps)
+	{
+		if(sensorData != null && sensorData.sensorInterface != null)
+		{
+			bool bGotIt = sensorData.sensorInterface.GetFaceProperties(userId, ref faceProps);
+			return bGotIt;
+		}
+
+		return false;
+	}
+
 	/// <summary>
 	/// Determines whether there are valid shape units.
 	/// </summary>
@@ -386,6 +426,12 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="dictShapeUnits">Shape units dictionary, to get the results.</param>
 	public bool GetUserShapeUnits(long userId, ref Dictionary<KinectInterop.FaceShapeDeformations, float> dictShapeUnits)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			dictShapeUnits = dictSU;
+			return bGotSU;
+		}
+
 		if(sensorData != null && sensorData.sensorInterface != null)
 		{
 			bool bGotIt = sensorData.sensorInterface.GetShapeUnits(userId, ref dictShapeUnits);
@@ -443,6 +489,11 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="userId">User ID</param>
 	public int GetUserFaceVertexCount(long userId)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			return GetFaceModelVertexCount();
+		}
+
 		if(sensorData != null && sensorData.sensorInterface != null)
 		{
 			int iVertCount = sensorData.sensorInterface.GetFaceModelVerticesCount(userId);
@@ -460,6 +511,12 @@ public class FacetrackingManager : MonoBehaviour
 	/// <param name="avVertices">Reference to array of vertices, to get the result.</param>
 	public bool GetUserFaceVertices(long userId, ref Vector3[] avVertices)
 	{
+		if (userId != 0 && userId == primaryUserID) 
+		{
+			avVertices = GetFaceModelVertices();
+			return (avModelVertices != null);
+		}
+
 		if(sensorData != null && sensorData.sensorInterface != null)
 		{
 			bool bGotIt = sensorData.sensorInterface.GetFaceModelVertices(userId, ref avVertices);
@@ -496,6 +553,28 @@ public class FacetrackingManager : MonoBehaviour
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Gets the face model UV-array, if it is available; null otherwise
+	/// </summary>
+	/// <returns>The face model UV-array, or null.</returns>
+	public Vector2[] GetFaceModelUV()
+	{
+		if (bGotModelUV) 
+		{
+			return avModelUV;
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Resets the face model UV-array. This is to request new UV-array estimation, when the 'Textured model mesh' is set to FaceRectangle.
+	/// </summary>
+	public void ResetFaceModelUV()
+	{
+		bGotModelUV = false;
 	}
 
 
@@ -686,7 +765,7 @@ public class FacetrackingManager : MonoBehaviour
 			{
 				if(isTrackingFace)
 				{
-					debugText.text = "Tracking - BodyID: " + primaryUserID;
+					debugText.text = "BodyID: " + primaryUserID;
 				}
 				else
 				{
@@ -712,6 +791,7 @@ public class FacetrackingManager : MonoBehaviour
 			bGotModelVertices = sensorData.sensorInterface.GetFaceModelVertices(0, ref avModelVertices);
 
 			avModelUV = new Vector2[iNumVertices];
+			bGotModelUV = false;
 
 			if(!bGotModelVertices)
 				return false;
@@ -763,6 +843,16 @@ public class FacetrackingManager : MonoBehaviour
 				return false;
 		}
 
+		if (!faceMeshMaterial && faceModelMesh) 
+		{
+			faceMeshMaterial = faceModelMesh.GetComponent<MeshRenderer>().material;
+
+			if (faceMeshMaterial && faceMeshMaterial.mainTexture) 
+			{
+				faceMeshMaterial.mainTexture.wrapMode = TextureWrapMode.Clamp;  // TextureWrapMode.Repeat; // 
+			}
+		}
+
 		if (faceModelMesh) 
 		{
 			Mesh mesh = new Mesh();
@@ -799,7 +889,7 @@ public class FacetrackingManager : MonoBehaviour
 			if (!faceMeshTexture && kinectManager && texColorMap) 
 			{
 				faceMeshTexture = new RenderTexture (texColorMap.width, texColorMap.height, 0);
-				faceModelMesh.GetComponent<MeshRenderer>().material.mainTexture = faceMeshTexture;  // kinectManager.GetUsersClrTex();
+				faceMeshMaterial.mainTexture = faceMeshTexture;  // kinectManager.GetUsersClrTex();
 			}
 
 			if (faceMeshTexture && texColorMap) 
@@ -810,17 +900,23 @@ public class FacetrackingManager : MonoBehaviour
 		}
 		else if (texturedModelMesh == TextureType.FaceRectangle) 
 		{
-			if (faceMeshTexture != null) 
-			{
-				faceMeshTexture = null;
-			}
+//			if (faceMeshTexture != null) 
+//			{
+//				faceMeshTexture.Release();
+//				faceMeshTexture = null;
+//			}
 		}
 		else if(texturedModelMesh == TextureType.None)
 		{
-			if (faceModelMesh.GetComponent<MeshRenderer>().material.mainTexture != null) 
+			if (faceMeshMaterial.mainTexture != null) 
 			{
+				faceMeshMaterial.mainTexture = null;
+			}
+
+			if (faceMeshTexture != null) 
+			{
+				faceMeshTexture.Release();
 				faceMeshTexture = null;
-				faceModelMesh.GetComponent<MeshRenderer>().material.mainTexture = null;
 			}
 		}
 	}
@@ -914,10 +1010,15 @@ public class FacetrackingManager : MonoBehaviour
 
 							//bool bGotFaceRect = sensorData.sensorInterface.GetFaceRect(userId, ref faceRect);
 							bool faceRectValid = /**bGotFaceRect &&*/ faceRect.width > 0 && faceRect.height > 0;
+							int lastValidUVIndex = -1;  // new code by Andrew Stern
 
 							for(int i = 0; i < avModelVertices.Length; i++)
 							{
-								Vector2 posDepth = kinectManager.MapSpacePointToDepthCoords(avModelVertices[i]);
+								Vector2 posDepth = Vector2.zero;
+								if(texturedModelMesh == TextureType.ColorMap || !bGotModelUV)
+								{
+									posDepth = kinectManager.MapSpacePointToDepthCoords(avModelVertices[i]);
+								}
 
 								bool bUvSet = false;
 								if(posDepth != Vector2.zero)
@@ -930,22 +1031,39 @@ public class FacetrackingManager : MonoBehaviour
 										if(texturedModelMesh == TextureType.ColorMap)
 										{
 											avModelUV[i] = new Vector2(posColor.x / colorWidth, posColor.y / colorHeight);
+											lastValidUVIndex = i;   // new code by Andrew Stern
 											bUvSet = true;
 										}
 										else if(texturedModelMesh == TextureType.FaceRectangle && faceRectValid)
 										{
-											avModelUV[i] = new Vector2(Mathf.Clamp01((posColor.x - faceRect.x) / faceRect.width), 
-												-Mathf.Clamp01((posColor.y - faceRect.y) / faceRect.height));
+											if(!bGotModelUV)
+											{
+												avModelUV[i] = new Vector2(/**Mathf.Clamp01*/((posColor.x - faceRect.x) / faceRect.width), 
+													/**Mathf.Clamp01*/(1f - (posColor.y - faceRect.y) / faceRect.height));
+												lastValidUVIndex = i;   // new code by Andrew Stern
+											}
+
 											bUvSet = true;
 										}
 									}
 								}
 
-								if(!bUvSet)
+								if(texturedModelMesh == TextureType.ColorMap && !bUvSet)
 								{
-									avModelUV[i] = Vector2.zero;
+									if (lastValidUVIndex >= 0) // new code by Andrew Stern
+									{
+										avModelUV[i] = new Vector2(avModelUV[lastValidUVIndex].x, avModelUV[lastValidUVIndex].y);
+									}
+									else
+									{
+										// original code
+										avModelUV[i] = Vector2.zero;
+									}
 								}
 							}
+
+							if(lastValidUVIndex >= 0)  // check for valid run
+								bGotModelUV = true;
 						}
 					}
 
@@ -1083,11 +1201,11 @@ public class FacetrackingManager : MonoBehaviour
 	}
 
 	// gets face basic parameters as csv line
-	public string GetFaceParamsAsCsv()
+	public string GetFaceParamsAsCsv(char delimiter)
 	{
 		// create the output string
 		StringBuilder sbBuf = new StringBuilder();
-		const char delimiter = ',';
+		//const char delimiter = ',';
 
 		if (bGotHeadPos || bGotHeadRot)
 		{
@@ -1137,19 +1255,20 @@ public class FacetrackingManager : MonoBehaviour
 			}
 
 			// shape units
-			sbBuf.Append (bGotSU ? "1" : "0").Append(delimiter);
-
-			if (bGotSU) 
-			{
-				int enumCount = Enum.GetNames (typeof(KinectInterop.FaceShapeDeformations)).Length;
-				sbBuf.Append (enumCount).Append(delimiter);
-
-				for (int i = 0; i < enumCount; i++) 
-				{
-					float dictValue = dictSU [(KinectInterop.FaceShapeDeformations)i];
-					sbBuf.AppendFormat ("{0:F3}", dictValue).Append (delimiter);
-				}
-			}
+			sbBuf.Append("0");  // don't send SUs, to save space
+//			sbBuf.Append (bGotSU ? "1" : "0").Append(delimiter);
+//
+//			if (bGotSU) 
+//			{
+//				int enumCount = Enum.GetNames (typeof(KinectInterop.FaceShapeDeformations)).Length;
+//				sbBuf.Append (enumCount).Append(delimiter);
+//
+//				for (int i = 0; i < enumCount; i++) 
+//				{
+//					float dictValue = dictSU [(KinectInterop.FaceShapeDeformations)i];
+//					sbBuf.AppendFormat ("{0:F3}", dictValue).Append (delimiter);
+//				}
+//			}
 
 			// any other parameters...
 		}
@@ -1164,13 +1283,13 @@ public class FacetrackingManager : MonoBehaviour
 	}
 
 	// sets basic face parameters from a csv line
-	public bool SetFaceParamsFromCsv(string sCsvLine)
+	public bool SetFaceParamsFromCsv(string sCsvLine, char[] delimiters)
 	{
 		if(sCsvLine.Length == 0)
 			return false;
 
 		// split the csv line in parts
-		char[] delimiters = { ',' };
+		//char[] delimiters = { ',' };
 		string[] alCsvParts = sCsvLine.Split(delimiters);
 
 		if(alCsvParts.Length < 1 || alCsvParts[0] != "fp")
@@ -1453,6 +1572,8 @@ public class FacetrackingManager : MonoBehaviour
 
 				avModelUV[i] = new Vector2(x, y);
 			}
+
+			bGotModelUV = true;
 		}
 
 		return true;

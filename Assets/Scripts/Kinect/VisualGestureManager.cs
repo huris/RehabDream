@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-#if !(UNITY_WSA_10_0 && NETFX_CORE)
+#if (UNITY_STANDALONE_WIN)
 using Microsoft.Kinect.VisualGestureBuilder;
 using Windows.Kinect;
 #endif
@@ -44,6 +44,7 @@ public struct VisualGestureData
 	public string gestureName;
 	public bool isDiscrete;
 	public bool isContinuous;
+	public bool isStarted;
 	public bool isComplete;
 	//public bool isResetting;
 	public bool isProcessed;
@@ -66,14 +67,17 @@ public class VisualGestureManager : MonoBehaviour
 	[Tooltip("List of the tracked visual gestures. If left empty, all gestures found in the database will be tracked.")]
 	public List<string> gestureNames = new List<string>();
 
-	[Tooltip("Minimum confidence required, to consider discrete gestures as completed. Confidence varies between 0.0 and 1.0.")]
-	public float minConfidence = 0.1f;
+	[Tooltip("Minimum confidence required, to consider discrete gestures as completed.")]
+	public float minConfidence = 0.7f;
+
+	[Tooltip("Minimum progress required, to consider continuous gestures as in-progress.")]
+	public float minProgress = 0.1f;
 
 	[Tooltip("List of the visual gesture listeners in the scene. If the list is empty, the available gesture listeners will be detected at the scene start up.")]
 	public List<MonoBehaviour> visualGestureListeners;
 	
-	[Tooltip("GUI-Text to display the VG-manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the VG-manager debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 
 	// primary user ID, as reported by KinectManager
@@ -82,7 +86,7 @@ public class VisualGestureManager : MonoBehaviour
 	// gesture data holders for each tracked gesture
 	private Dictionary<string, VisualGestureData> gestureData = new Dictionary<string, VisualGestureData>();
 
-#if !(UNITY_WSA_10_0 && NETFX_CORE)
+#if (UNITY_STANDALONE_WIN)
 
 	// gesture frame source which should be tied to a body tracking ID
 	private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -187,12 +191,14 @@ public class VisualGestureManager : MonoBehaviour
 		{
 			VisualGestureData data = gestureData[gestureName];
 			
-			if(data.userId != 0 && data.isDiscrete && data.isComplete && /**!data.isProcessed &&*/ data.confidence >= minConfidence)
+			if(data.userId != 0 && data.isDiscrete && data.isComplete /**&& !data.isProcessed*/ /**&& data.confidence >= minConfidence*/)
 			{
 				if(bResetOnComplete)
 				{
 					//data.isResetting = true;
 					data.isProcessed = true;
+					data.isStarted = false;
+
 					gestureData[gestureName] = data;
 				}
 
@@ -376,6 +382,7 @@ public class VisualGestureManager : MonoBehaviour
 					data.isDiscrete = (discrete != 0);
 					data.isContinuous = (continuous != 0);
 					data.isComplete = (complete != 0);
+					data.isStarted = (complete != 0);
 
 					data.confidence = confidence;
 					float prevProgress = data.progress;
@@ -391,7 +398,7 @@ public class VisualGestureManager : MonoBehaviour
 					}
 					else if(data.isContinuous)
 					{
-						if(data.isProcessed && data.progress >= minConfidence && data.progress != prevProgress)
+						if(data.isProcessed && data.progress >= minProgress && ((int)data.progress != (int)prevProgress))
 						{
 							//data.isResetting = false;
 							data.isProcessed = false;
@@ -414,7 +421,7 @@ public class VisualGestureManager : MonoBehaviour
 		instance = this;
 	}
 
-#if !(UNITY_WSA_10_0 && NETFX_CORE)
+#if (UNITY_STANDALONE_WIN)
 
 	void Start() 
 	{
@@ -519,7 +526,7 @@ public class VisualGestureManager : MonoBehaviour
 					{
 						VisualGestureData data = gestureData[gestureName];
 
-						if(data.userId != 0 && !data.isProcessed && data.isComplete && data.confidence >= minConfidence)
+						if(data.userId != 0 && !data.isProcessed && data.isComplete /**&& data.confidence >= minConfidence*/)
 						{
 							//Debug.Log(gestureName + "-gesture detected.");
 							int userIndex = kinectManager ? kinectManager.GetUserIndexById(data.userId) : -1;
@@ -530,11 +537,13 @@ public class VisualGestureManager : MonoBehaviour
 								{
 									//data.isResetting = true;
 									data.isProcessed = true;
+									data.isStarted = false;
+
 									gestureData[gestureName] = data;
 								}
 							}
 						}
-						else if(data.userId != 0 && !data.isProcessed && data.progress >= minConfidence)
+						else if(data.userId != 0 && !data.isProcessed && data.progress >= minProgress)
 						{
 							//Debug.Log(gestureName + "-gesture progres: " + data.progress);
 							int userIndex = kinectManager ? kinectManager.GetUserIndexById(data.userId) : -1;
@@ -608,6 +617,8 @@ public class VisualGestureManager : MonoBehaviour
 		if(kinectSensor == null)
 			return false;
 
+		Debug.Log ("GestureDB: " + gestureDatabase);
+
 		if(gestureDatabase == string.Empty)
 		{
 			Debug.LogError("Please specify gesture database file!");
@@ -624,7 +635,7 @@ public class VisualGestureManager : MonoBehaviour
 				File.WriteAllBytes(gestureDatabase, textRes.bytes);
 			}
 		}
-		
+
 		// create the vgb source
 		vgbFrameSource = VisualGestureBuilderFrameSource.Create(kinectSensor, 0);
 
@@ -658,6 +669,7 @@ public class VisualGestureManager : MonoBehaviour
 					if(!gestureNames.Contains(sGestureName))
 					{
 						gestureNames.Add(sGestureName);
+						Debug.Log ("Detect gesture: " + sGestureName);
 					}
 
 					if(!gestureData.ContainsKey(sGestureName))
@@ -719,6 +731,7 @@ public class VisualGestureManager : MonoBehaviour
 						VisualGestureData data = gestureData[gesture.Name];
 
 						data.userId = 0;
+						data.isStarted = false;
 						data.isComplete = false;
 						//data.isResetting = false;
 						data.isProcessed = false;
@@ -750,12 +763,17 @@ public class VisualGestureManager : MonoBehaviour
 						DiscreteGestureResult result = discreteResults[gesture];
 						VisualGestureData data = gestureData[gesture.Name];
 
+						if (result.Detected && result.Confidence < 0.2f) 
+						{
+							data.isStarted = true;
+						}
+
 						data.userId = vgbFrameSource.IsTrackingIdValid ? (long)vgbFrameSource.TrackingId : 0;
-						data.isComplete = result.Detected;
+						data.isComplete = data.isStarted && result.Detected && (result.Confidence >= minConfidence);
 						data.confidence = result.Confidence;
 						data.timestamp = Time.realtimeSinceStartup;
 
-						//Debug.Log(string.Format ("{0} - {1}, confidence: {2:F0}%", data.gestureName, data.isComplete ? "Yes" : "No", data.confidence * 100f));
+						//Debug.Log(string.Format ("{0} - {1}, confidence: {2:F0}%", data.gestureName, result.Detected ? "Detected" : "NotDetected", result.Confidence * 100f));
 
 						if(data.isProcessed && !data.isComplete)
 						{
@@ -782,7 +800,7 @@ public class VisualGestureManager : MonoBehaviour
 						data.progress = result.Progress;
 						data.timestamp = Time.realtimeSinceStartup;
 
-						if(data.isProcessed && data.progress >= minConfidence && data.progress != prevProgress)
+						if(data.isProcessed && data.progress >= minProgress && ((int)data.progress != (int)prevProgress))
 						{
 							//data.isResetting = false;
 							data.isProcessed = false;

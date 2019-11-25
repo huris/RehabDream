@@ -1,4 +1,4 @@
-﻿#if !(UNITY_WSA_10_0 && NETFX_CORE)
+﻿#if (UNITY_STANDALONE_WIN)
 using UnityEngine;
 using System.Collections;
 
@@ -8,8 +8,8 @@ public class GetFaceSmileStatus : MonoBehaviour
 	[Tooltip("Index of the player, tracked by this component. 0 means the 1st player, 1 - the 2nd one, 2 - the 3rd one, etc.")]
 	public int playerIndex = 0;
 
-	[Tooltip("GUI-Text to display the FT-manager debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text to display the FT-manager debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 	[Tooltip("Currently detected smile status.")]
 	public Windows.Kinect.DetectionResult smileStatus = Windows.Kinect.DetectionResult.Unknown;

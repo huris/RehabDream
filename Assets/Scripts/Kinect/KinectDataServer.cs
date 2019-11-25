@@ -28,14 +28,14 @@ public class KinectDataServer : MonoBehaviour
 	[Tooltip("Transform representing this sensor's position and rotation in world space. If missing, the sensor height and angle settings from KinectManager-component are used.")]
 	public Transform sensorTransform;
 
-	[Tooltip("GUI-texture used to display the tracked users on scene background.")]
-	public GUITexture backgroundImage;
+	[Tooltip("RawImage used to display the tracked users on scene background.")]
+	public RawImage backgroundImage;
 
-	[Tooltip("GUI-Text to display connection status messages.")]
-	public GUIText connStatusText;
+	[Tooltip("UI-Text to display connection status messages.")]
+	public Text connStatusText;
 
-	[Tooltip("GUI-Text to display server status messages.")]
-	public GUIText serverStatusText;
+	[Tooltip("UI-Text to display server status messages.")]
+	public Text serverStatusText;
 
 	[Tooltip("UI-Text to display server console.")]
 	public Text consoleMessages;
@@ -62,7 +62,7 @@ public class KinectDataServer : MonoBehaviour
 //	private int sendFtNextOfs = 0;
 
 	private KinectManager manager;
-//	private FacetrackingManager faceManager;
+	private FacetrackingManager faceManager;
 	private VisualGestureManager gestureManager;
 	private SpeechManager speechManager;
 
@@ -141,6 +141,28 @@ public class KinectDataServer : MonoBehaviour
 	}
 
 
+	// enables or disables the face-tracking component
+	public void EnableFaceTracking(bool bEnable)
+	{
+		FacetrackingManager facetrackingManager = gameObject.GetComponent<FacetrackingManager>();
+
+		if (facetrackingManager) 
+		{
+			facetrackingManager.enabled = bEnable;
+			LogToConsole("Face tracking is " + (bEnable ? "enabled" : "disabled"));
+
+			if (bEnable) 
+			{
+				StartCoroutine(CheckFacetrackingManager());
+			}
+		} 
+		else 
+		{
+			LogErrorToConsole("FacetrackingManager-component not found.");
+		}
+	}
+
+
 	// checks if SpeechManager is initialized or not
 	private IEnumerator CheckSpeechManager()
 	{
@@ -179,6 +201,29 @@ public class KinectDataServer : MonoBehaviour
 			sStatusMsg = "VisualGestureManager not initialized! Check the log-file for details.";
 		else
 			LogToConsole("VisualGestureManager is ready.");
+
+		if (sStatusMsg.Length > 0) 
+		{
+			LogErrorToConsole(sStatusMsg);
+		}
+	}
+
+
+	// checks if FacetrackingManager is initialized or not
+	private IEnumerator CheckFacetrackingManager()
+	{
+		// wait for 2 seconds
+		yield return new WaitForSeconds(2f);
+
+		string sStatusMsg = string.Empty;
+		FacetrackingManager facetrackingManager = FacetrackingManager.Instance;
+
+		if (!facetrackingManager)
+			sStatusMsg = "FacetrackingManager is missing!";
+		else if(!facetrackingManager.IsFaceTrackingInitialized())
+			sStatusMsg = "FacetrackingManager not initialized! Check the log-file for details.";
+		else
+			LogToConsole("FacetrackingManager is ready.");
 
 		if (sStatusMsg.Length > 0) 
 		{
@@ -273,7 +318,7 @@ public class KinectDataServer : MonoBehaviour
 			// set broadcast data
 			string sBroadcastData = string.Empty;
 
-#if !UNITY_WSA
+#if (UNITY_STANDALONE_WIN)
 			try 
 			{
 				string strHostName = System.Net.Dns.GetHostName();
@@ -372,6 +417,7 @@ public class KinectDataServer : MonoBehaviour
 				localScale.y = -1f;
 
 				backgroundImage.transform.localScale = localScale;
+				backgroundImage.color = Color.white;
 			}
 		}
 
@@ -418,10 +464,10 @@ public class KinectDataServer : MonoBehaviour
 			backgroundImage.texture = manager ? manager.GetUsersLblTex() : null;
 		}
 
-//		if(faceManager == null)
-//		{
-//			faceManager = FacetrackingManager.Instance;
-//		}
+		if(faceManager == null)
+		{
+			faceManager = FacetrackingManager.Instance;
+		}
 
 		if (gestureManager == null) 
 		{
@@ -553,10 +599,16 @@ public class KinectDataServer : MonoBehaviour
 			if(sBodyFrame.Length > 0 && dictConnection.Count > 0)
 			{
 				StringBuilder sbSendMessage = new StringBuilder();
+				bool bFaceParamsRequested = IsFaceParamsRequested();
 
 				sbSendMessage.Append(manager.GetWorldMatrixData(delimiter)).Append('|');
 				sbSendMessage.Append(sBodyFrame).Append('|');
 				sbSendMessage.Append(manager.GetBodyHandData(ref liRelTime, delimiter)).Append('|');
+
+				if(bFaceParamsRequested && faceManager && faceManager.IsFaceTrackingInitialized())
+				{
+					sbSendMessage.Append(faceManager.GetFaceParamsAsCsv(delimiter)).Append('|');
+				}
 
 				if(gestureManager && gestureManager.IsVisualGestureInitialized())
 				{
@@ -743,6 +795,29 @@ public class KinectDataServer : MonoBehaviour
 		return bytes;
 	}
 
+	// checks whether face params data was requested by any connection
+	private bool IsFaceParamsRequested()
+	{
+		bool bFaceParams = false;
+
+		foreach (int connId in alConnectionId) 
+		{
+			HostConnection conn = dictConnection [connId];
+
+			if (conn.keepAlive && conn.reqDataType != null) 
+			{
+				if (conn.reqDataType.Contains (",fp")) 
+				{
+					bFaceParams = true;
+					break;
+				}
+			}
+		}
+
+		return bFaceParams;
+	}
+
+
 //	// checks whether facetracking data was requested by any connection
 //	private void CheckFacetrackRequests(out bool bFaceParams, out bool bFaceVertices, out bool bFaceUvs, out bool bFaceTriangles)
 //	{
@@ -754,13 +829,13 @@ public class KinectDataServer : MonoBehaviour
 //
 //			if (conn.keepAlive && conn.reqDataType != null) 
 //			{
-//				if (conn.reqDataType.Contains ("fp,"))
+//				if (conn.reqDataType.Contains (",fp"))
 //					bFaceParams = true;
-//				if (conn.reqDataType.Contains ("fv,"))
+//				if (conn.reqDataType.Contains (",fv"))
 //					bFaceVertices = true;
-//				if (conn.reqDataType.Contains ("fu,"))
+//				if (conn.reqDataType.Contains (",fu"))
 //					bFaceUvs = true;
-//				if (conn.reqDataType.Contains ("ft,"))
+//				if (conn.reqDataType.Contains (",ft"))
 //					bFaceTriangles = true;
 //			}
 //		}

@@ -13,8 +13,8 @@ public class LoadLevelWithDelay : MonoBehaviour
 	[Tooltip("Whether to check for initialized KinectManager or not.")]
 	public bool validateKinectManager = true;
 
-	[Tooltip("GUI-Text used to display the debug messages.")]
-	public GUIText debugText;
+	[Tooltip("UI-Text used to display the debug messages.")]
+	public UnityEngine.UI.Text debugText;
 
 	private float timeToLoadLevel = 0f;
 	private bool levelLoaded = false;

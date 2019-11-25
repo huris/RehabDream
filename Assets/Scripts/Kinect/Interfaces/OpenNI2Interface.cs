@@ -1037,5 +1037,9 @@ public class OpenNI2Interface : DepthSensorInterface
 	{
 		return KinectInterop.PollForegroundFrame(sensorData, isHiResPrefered, defaultColor, bLimitedUsers, alTrackedIndexes, ref foregroundImage);
 	}
-	
+
+    public bool GetFaceProperties(long userId, ref Dictionary<string, string> faceProps)
+    {
+        throw new NotImplementedException();
+    }
 }

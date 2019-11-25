@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DummyK2Interface : DepthSensorInterface
 {
+
+	private FacetrackingManager faceManager = null;
+	private bool bFaceManagerAvailable = false;
+	private bool bFaceTrackingInited = false;
+
+
 	public KinectInterop.DepthSensorPlatform GetSensorPlatform ()
 	{
 		return KinectInterop.DepthSensorPlatform.DummyK2;
@@ -10,7 +17,15 @@ public class DummyK2Interface : DepthSensorInterface
 
 	public bool InitSensorInterface (bool bCopyLibs, ref bool bNeedRestart)
 	{
+		bool bOnceRestarted = bNeedRestart;
 		bNeedRestart = false;
+
+		if(!bCopyLibs)
+		{
+			// skip this interface on the 1st pass
+			return bOnceRestarted;
+		}
+
 		return true;
 	}
 
@@ -43,8 +58,16 @@ public class DummyK2Interface : DepthSensorInterface
 		sensorData.colorImageWidth = 1920;
 		sensorData.colorImageHeight = 1080;
 
+		// flip color image vertically
+		sensorData.colorImageScale = new Vector3(1f, -1f, 1f);
+
 		sensorData.depthImageWidth = 512;
 		sensorData.depthImageHeight = 424;
+
+		// look for face-tracking manager
+		faceManager = GameObject.FindObjectOfType<FacetrackingManager>();
+		bFaceManagerAvailable = faceManager != null;
+		bFaceTrackingInited = false;
 
 		Debug.Log("DummyK2-sensor opened");
 
@@ -129,119 +152,122 @@ public class DummyK2Interface : DepthSensorInterface
 		return false;
 	}
 
-	public int GetJointIndex (KinectInterop.JointType joint)
-	{
-		return (int)joint;
-	}
+//	public int GetJointIndex (KinectInterop.JointType joint)
+//	{
+//		return (int)joint;
+//	}
 
-	public KinectInterop.JointType GetParentJoint (KinectInterop.JointType joint)
-	{
-		switch(joint)
-		{
-		case KinectInterop.JointType.SpineBase:
-			return KinectInterop.JointType.SpineBase;
+//	public KinectInterop.JointType GetParentJoint (KinectInterop.JointType joint)
+//	{
+//		switch(joint)
+//		{
+//			case KinectInterop.JointType.SpineBase:
+//				return KinectInterop.JointType.SpineBase;
+//
+//			case KinectInterop.JointType.Neck:
+//				return KinectInterop.JointType.SpineShoulder;
+//
+//			case KinectInterop.JointType.SpineShoulder:
+//				return KinectInterop.JointType.SpineMid;
+//
+//			case KinectInterop.JointType.ShoulderLeft:
+//			case KinectInterop.JointType.ShoulderRight:
+//				return KinectInterop.JointType.SpineShoulder;
+//
+//			case KinectInterop.JointType.HipLeft:
+//			case KinectInterop.JointType.HipRight:
+//				return KinectInterop.JointType.SpineBase;
+//
+//			case KinectInterop.JointType.HandTipLeft:
+//				return KinectInterop.JointType.HandLeft;
+//
+//			case KinectInterop.JointType.ThumbLeft:
+//				return KinectInterop.JointType.WristLeft;
+//
+//			case KinectInterop.JointType.HandTipRight:
+//				return KinectInterop.JointType.HandRight;
+//
+//			case KinectInterop.JointType.ThumbRight:
+//				return KinectInterop.JointType.WristRight;
+//		}
+//
+//		return (KinectInterop.JointType)((int)joint - 1);
+//	}
 
-		case KinectInterop.JointType.Neck:
-			return KinectInterop.JointType.SpineShoulder;
-
-		case KinectInterop.JointType.SpineShoulder:
-			return KinectInterop.JointType.SpineMid;
-
-		case KinectInterop.JointType.ShoulderLeft:
-		case KinectInterop.JointType.ShoulderRight:
-			return KinectInterop.JointType.SpineShoulder;
-
-		case KinectInterop.JointType.HipLeft:
-		case KinectInterop.JointType.HipRight:
-			return KinectInterop.JointType.SpineBase;
-
-		case KinectInterop.JointType.HandTipLeft:
-			return KinectInterop.JointType.HandLeft;
-
-		case KinectInterop.JointType.ThumbLeft:
-			return KinectInterop.JointType.WristLeft;
-
-		case KinectInterop.JointType.HandTipRight:
-			return KinectInterop.JointType.HandRight;
-
-		case KinectInterop.JointType.ThumbRight:
-			return KinectInterop.JointType.WristRight;
-		}
-
-		return (KinectInterop.JointType)((int)joint - 1);
-	}
-
-	public KinectInterop.JointType GetNextJoint (KinectInterop.JointType joint)
-	{
-		switch(joint)
-		{
-		case KinectInterop.JointType.SpineBase:
-			return KinectInterop.JointType.SpineMid;
-		case KinectInterop.JointType.SpineMid:
-			return KinectInterop.JointType.SpineShoulder;
-		case KinectInterop.JointType.SpineShoulder:
-			return KinectInterop.JointType.Neck;
-		case KinectInterop.JointType.Neck:
-			return KinectInterop.JointType.Head;
-
-		case KinectInterop.JointType.ShoulderLeft:
-			return KinectInterop.JointType.ElbowLeft;
-		case KinectInterop.JointType.ElbowLeft:
-			return KinectInterop.JointType.WristLeft;
-		case KinectInterop.JointType.WristLeft:
-			return KinectInterop.JointType.HandLeft;
-		case KinectInterop.JointType.HandLeft:
-			return KinectInterop.JointType.HandTipLeft;
-
-		case KinectInterop.JointType.ShoulderRight:
-			return KinectInterop.JointType.ElbowRight;
-		case KinectInterop.JointType.ElbowRight:
-			return KinectInterop.JointType.WristRight;
-		case KinectInterop.JointType.WristRight:
-			return KinectInterop.JointType.HandRight;
-		case KinectInterop.JointType.HandRight:
-			return KinectInterop.JointType.HandTipRight;
-
-		case KinectInterop.JointType.HipLeft:
-			return KinectInterop.JointType.KneeLeft;
-		case KinectInterop.JointType.KneeLeft:
-			return KinectInterop.JointType.AnkleLeft;
-		case KinectInterop.JointType.AnkleLeft:
-			return KinectInterop.JointType.FootLeft;
-
-		case KinectInterop.JointType.HipRight:
-			return KinectInterop.JointType.KneeRight;
-		case KinectInterop.JointType.KneeRight:
-			return KinectInterop.JointType.AnkleRight;
-		case KinectInterop.JointType.AnkleRight:
-			return KinectInterop.JointType.FootRight;
-		}
-
-		return joint;  // in case of end joint - Head, HandTipLeft, HandTipRight, FootLeft, FootRight
-	}
+//	public KinectInterop.JointType GetNextJoint (KinectInterop.JointType joint)
+//	{
+//		switch(joint)
+//		{
+//			case KinectInterop.JointType.SpineBase:
+//				return KinectInterop.JointType.SpineMid;
+//			case KinectInterop.JointType.SpineMid:
+//				return KinectInterop.JointType.SpineShoulder;
+//			case KinectInterop.JointType.SpineShoulder:
+//				return KinectInterop.JointType.Neck;
+//			case KinectInterop.JointType.Neck:
+//				return KinectInterop.JointType.Head;
+//
+//			case KinectInterop.JointType.ShoulderLeft:
+//				return KinectInterop.JointType.ElbowLeft;
+//			case KinectInterop.JointType.ElbowLeft:
+//				return KinectInterop.JointType.WristLeft;
+//			case KinectInterop.JointType.WristLeft:
+//				return KinectInterop.JointType.HandLeft;
+//			case KinectInterop.JointType.HandLeft:
+//				return KinectInterop.JointType.HandTipLeft;
+//
+//			case KinectInterop.JointType.ShoulderRight:
+//				return KinectInterop.JointType.ElbowRight;
+//			case KinectInterop.JointType.ElbowRight:
+//				return KinectInterop.JointType.WristRight;
+//			case KinectInterop.JointType.WristRight:
+//				return KinectInterop.JointType.HandRight;
+//			case KinectInterop.JointType.HandRight:
+//				return KinectInterop.JointType.HandTipRight;
+//
+//			case KinectInterop.JointType.HipLeft:
+//				return KinectInterop.JointType.KneeLeft;
+//			case KinectInterop.JointType.KneeLeft:
+//				return KinectInterop.JointType.AnkleLeft;
+//			case KinectInterop.JointType.AnkleLeft:
+//				return KinectInterop.JointType.FootLeft;
+//
+//			case KinectInterop.JointType.HipRight:
+//				return KinectInterop.JointType.KneeRight;
+//			case KinectInterop.JointType.KneeRight:
+//				return KinectInterop.JointType.AnkleRight;
+//			case KinectInterop.JointType.AnkleRight:
+//				return KinectInterop.JointType.FootRight;
+//		}
+//
+//		return joint;  // in case of end joint - Head, HandTipLeft, HandTipRight, FootLeft, FootRight
+//	}
 
 	public bool IsFaceTrackingAvailable (ref bool bNeedRestart)
 	{
-		return false;
+		bNeedRestart = false;
+		return bFaceManagerAvailable;
 	}
 
 	public bool InitFaceTracking (bool bUseFaceModel, bool bDrawFaceRect)
 	{
-		return false;
+		bFaceTrackingInited = true;
+		return bFaceTrackingInited;
 	}
 
 	public void FinishFaceTracking ()
 	{
+		bFaceTrackingInited = false;
 	}
 
 	public bool UpdateFaceTracking ()
 	{
-		return false;
+		return bFaceTrackingInited;
 	}
 
 	public bool IsFaceTrackingActive ()
 	{
-		return false;
+		return bFaceTrackingInited;
 	}
 
 	public bool IsDrawFaceRect ()
@@ -279,6 +305,11 @@ public class DummyK2Interface : DepthSensorInterface
 	}
 
 	public bool GetShapeUnits (long userId, ref System.Collections.Generic.Dictionary<KinectInterop.FaceShapeDeformations, float> afSU)
+	{
+		return false;
+	}
+
+	public bool GetFaceProperties(long userId, ref Dictionary<string, string> faceProps)
 	{
 		return false;
 	}

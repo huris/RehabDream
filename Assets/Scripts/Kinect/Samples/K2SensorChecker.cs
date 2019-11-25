@@ -1,4 +1,4 @@
-﻿#if !(UNITY_WSA_10_0 && NETFX_CORE)
+﻿#if (UNITY_STANDALONE_WIN)
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +7,8 @@ using System;
 public class K2SensorChecker : MonoBehaviour 
 {
 
-	[Tooltip("GUI-Text to display information messages.")]
-	public GUIText infoText;
+	[Tooltip("UI-Text to display information messages.")]
+	public UnityEngine.UI.Text infoText;
 
 
 	// the sensor interface

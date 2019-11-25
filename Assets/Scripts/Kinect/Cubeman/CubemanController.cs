@@ -59,6 +59,8 @@ public class CubemanController : MonoBehaviour
 
 	private Vector3 initialPosition;
 	private Quaternion initialRotation;
+
+	private Vector3 initialPosUser = Vector3.zero;
 	private Vector3 initialPosOffset = Vector3.zero;
 	private Int64 initialPosUserID = 0;
 	
@@ -129,6 +131,7 @@ public class CubemanController : MonoBehaviour
 		{
 			initialPosUserID = 0;
 			initialPosOffset = Vector3.zero;
+			initialPosUser = Vector3.zero;
 
 			// reset the pointman position and rotation
 			if(transform.position != initialPosition)
@@ -167,14 +170,22 @@ public class CubemanController : MonoBehaviour
 			initialPosUserID = userID;
 			//initialPosOffset = transform.position - (verticalMovement ? posPointMan * moveRate : new Vector3(posPointMan.x, 0, posPointMan.z) * moveRate);
 			initialPosOffset = posPointMan;
+
+			initialPosUser = initialPosition;
+			if (verticalMovement)
+				initialPosUser.y = 0f;  // posPointManMP.y provides the vertical position in this case
 		}
 
 		Vector3 relPosUser = (posPointMan - initialPosOffset);
 		relPosUser.z =!mirroredMovement ? -relPosUser.z : relPosUser.z;
 
-		transform.position = initialPosOffset + 
-			(verticalMovement ? relPosUser * moveRate : new Vector3(relPosUser.x, 0, relPosUser.z) * moveRate);
+//		transform.position = initialPosOffset + 
+//			(verticalMovement ? relPosUser * moveRate : new Vector3(relPosUser.x, 0, relPosUser.z) * moveRate);
+		transform.position = verticalMovement ? initialPosUser + posPointManMP * moveRate : 
+			initialPosUser + new Vector3(posPointManMP.x, 0, posPointManMP.z) * moveRate;
 		
+		//Debug.Log (userID + ", pos: " + posPointMan + ", ipos: " + initialPosUser + ", rpos: " + posPointManMP + ", tpos: " + transform.position);
+
 		// update the local positions of the bones
 		for(int i = 0; i < bones.Length; i++) 
 		{

@@ -9,8 +9,8 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 	[Tooltip("Index of the player, tracked by this component. 0 means the 1st player, 1 - the 2nd one, 2 - the 3rd one, etc.")]
 	public int playerIndex = 0;
 
-	[Tooltip("GUI-Text to display gesture-listener messages and gesture information.")]
-	public GUIText gestureInfo;
+	[Tooltip("UI-Text to display gesture-listener messages and gesture information.")]
+	public UnityEngine.UI.Text gestureInfo;
 	
 	// private bool to track if progress message has been displayed
 	private bool progressDisplayed;
@@ -24,13 +24,16 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 
 		// as an example - detect these user specific gestures
 		KinectManager manager = KinectManager.Instance;
+		manager.DetectGesture(userId, KinectGestures.Gestures.SwipeLeft);
+		manager.DetectGesture(userId, KinectGestures.Gestures.SwipeRight);
+
 		manager.DetectGesture(userId, KinectGestures.Gestures.Jump);
 		manager.DetectGesture(userId, KinectGestures.Gestures.Squat);
 
 		manager.DetectGesture(userId, KinectGestures.Gestures.LeanLeft);
 		manager.DetectGesture(userId, KinectGestures.Gestures.LeanRight);
-		manager.DetectGesture(userId, KinectGestures.Gestures.LeanForward);
-		manager.DetectGesture(userId, KinectGestures.Gestures.LeanBack);
+//		manager.DetectGesture(userId, KinectGestures.Gestures.LeanForward);
+//		manager.DetectGesture(userId, KinectGestures.Gestures.LeanBack);
 
 		//manager.DetectGesture(userId, KinectGestures.Gestures.Run);
 
