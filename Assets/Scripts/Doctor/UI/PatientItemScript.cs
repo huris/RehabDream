@@ -144,6 +144,8 @@ public class PatientItemScript : MonoBehaviour {
         DoctorDataManager.instance.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
         DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
 
+
+
         PatientQuery.SetActive(false);
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
