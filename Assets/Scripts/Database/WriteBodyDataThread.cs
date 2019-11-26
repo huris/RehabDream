@@ -17,7 +17,7 @@ public class WriteBodyDataThread
     //暂时存储要插入数据库的值
     private long _TrainingID;
     private Vector3 _GraivtyCenter;
-    private float[] _Angles = new float[12];
+    private float[] _Angles = new float[13];
     private DateTime _Time;
     private Thread _WriteDatabaseThread;
 
@@ -36,6 +36,7 @@ public class WriteBodyDataThread
         float RightAnkleAngle,
         float LeftHipAngle,
         float RightHipAngle,
+        float HipAngle,
         DateTime Time)
     {
         _TrainingID = TrainingID;
@@ -52,6 +53,7 @@ public class WriteBodyDataThread
         _Angles[9] = RightAnkleAngle;
         _Angles[10] = LeftHipAngle;
         _Angles[11] = RightHipAngle;
+        _Angles[12] = HipAngle;
         _Time = Time;
         _WriteDatabaseThread = new Thread(WriteDatabase);
         //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Init");

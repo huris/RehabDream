@@ -390,6 +390,19 @@ public class AvatarCaculator : MonoBehaviour
     }
 
 
+    // 胯部夹角
+    public float HipAngle()
+    {
+        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+
+        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
+                          _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+
+        return CaculateAngle(LeftLegVector, RightLegVector, 180);
+    }
+
+
 
     // Unity为左手系，故叉乘满足左手法则，以axis方向为叉乘后的正方向 
     public float CaculateAngle(Vector3 from, Vector3 to, float range=180)
