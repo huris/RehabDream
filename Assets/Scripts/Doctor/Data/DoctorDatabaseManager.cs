@@ -301,10 +301,14 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "RightKneeAngle",
                     "LeftAnkleAngle",
                     "RightAnkleAngle",
+                    "LeftHipAngle",
+                    "RightHipAngle",
                     "Time" },
 
                 new String[] {
                     "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",

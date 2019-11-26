@@ -298,6 +298,8 @@ public class GameState : MonoBehaviour {
            RecordCaculator.RightKneeAngle(),
            RecordCaculator.LeftAnkleAngle(),
            RecordCaculator.RightAnkleAngle(),
+           RecordCaculator.LeftHipAngle(),
+           RecordCaculator.RightHipAngle(),
            System.DateTime.Now);
 
         Thread.StartThread();

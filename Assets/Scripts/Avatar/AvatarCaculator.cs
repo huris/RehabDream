@@ -326,24 +326,70 @@ public class AvatarCaculator : MonoBehaviour
     // 左踝关节角度
     public float LeftAnkleAngle()
     {
-        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
+        Vector3 LeftShankVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
                            _Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
-        Vector3 LeftShankVector = _Animator.GetBoneTransform(HumanBodyBones.LeftToes).position -
+        Vector3 LeftFootVector = _Animator.GetBoneTransform(HumanBodyBones.LeftToes).position -
                             _Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
 
-        return CaculateAngle(LeftLegVector, LeftShankVector, 180);
+        return CaculateAngle(LeftShankVector, LeftFootVector, 180);
     }
 
     // 右踝关节角度
     public float RightAnkleAngle()
     {
-        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
+        Vector3 RightShankVector = _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
                            _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
-        Vector3 RightShankVector = _Animator.GetBoneTransform(HumanBodyBones.RightToes).position -
+        Vector3 RightFootVector = _Animator.GetBoneTransform(HumanBodyBones.RightToes).position -
                             _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
 
-        return CaculateAngle(RightLegVector, RightShankVector, 180);
+        return CaculateAngle(RightShankVector, RightShankVector, 180);
     }
+
+    // 左腿与竖直平面夹角
+    public float LeftHipAngle()
+    {
+        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+
+        if (LeftLegVector.x < 0)    // LeftLegVector与-x同向
+        {
+            //竖直平面法向量
+            Vector3 NormalVector = new Vector3(-1, 0, 0);
+            return -1 * (90.0f - CaculateAngle(LeftLegVector, NormalVector, 180));
+        }
+        else    // LeftLegVector与+x同向
+        {
+            //竖直平面法向量
+            Vector3 NormalVector = new Vector3(+1, 0, 0);
+            return 90.0f - CaculateAngle(LeftLegVector, NormalVector, 180);
+        }
+        
+    }
+
+
+
+    // 右腿与竖直平面夹角
+    public float RightHipAngle()
+    {
+        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+
+        if (RightLegVector.x < 0)    // RightLegVector与-x同向
+        {
+            //竖直平面法向量
+            Vector3 NormalVector = new Vector3(-1, 0, 0);
+            return -1 * (90.0f - CaculateAngle(RightLegVector, NormalVector, 180));
+        }
+        else    // RightLegVector与+x同向
+        {
+            //竖直平面法向量
+            Vector3 NormalVector = new Vector3(+1, 0, 0);
+            return 90.0f - CaculateAngle(RightLegVector, NormalVector, 180);
+        }
+
+    }
+
+
 
     // Unity为左手系，故叉乘满足左手法则，以axis方向为叉乘后的正方向 
     public float CaculateAngle(Vector3 from, Vector3 to, float range=180)

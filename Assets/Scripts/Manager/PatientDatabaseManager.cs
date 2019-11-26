@@ -564,6 +564,8 @@ public class PatientDatabaseManager : MonoBehaviour {
                     Angles[7].ToString(),   //FLOAT RightKneeAngle
                     Angles[8].ToString(),   //FLOAT LeftAnkleAngle
                     Angles[9].ToString(),   //FLOAT RightAnkleAngle
+                    Angles[10].ToString(),   //FLOAT LeftHipAngle
+                    Angles[11].ToString(),   //FLOAT RightHipAngle
                     AddSingleQuotes(Time)       //STRING Time
                 }
             );
