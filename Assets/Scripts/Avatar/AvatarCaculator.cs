@@ -342,7 +342,7 @@ public class AvatarCaculator : MonoBehaviour
         Vector3 RightFootVector = _Animator.GetBoneTransform(HumanBodyBones.RightToes).position -
                             _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
 
-        return CaculateAngle(RightShankVector, RightShankVector, 180);
+        return CaculateAngle(RightShankVector, RightFootVector, 180);
     }
 
     // 左腿与竖直平面夹角
