@@ -1,0 +1,236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Grass meadow
+  m_Shader: {fileID: 4800000, guid: dd1e6a13a51a2b2478d5e3bde346cb22, type: 3}
+  m_ShaderKeywords: GLOBAL_COLORING_OFF IBL_DIFFUSE_OFF IBL_SPEC_OFF WIND
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AuxTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesBackTex:
+        m_Texture: {fileID: 2800000, guid: 93eda2d85c038db46969c41941ba3fa9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesBumpTex:
+        m_Texture: {fileID: 2800000, guid: 2e46fdd9352fd1748808341bebbbf66f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesDissolveTex:
+        m_Texture: {fileID: 2800000, guid: 37f33ad2d26f4334da00156f6fd32a58, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BladesTex:
+        m_Texture: {fileID: 2800000, guid: f04efd140837c724a9fb9184ba8725c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CubemapDiff:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CubemapSpec:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DensityTex:
+        m_Texture: {fileID: 2800000, guid: 5380da2c0f1cca143a930653339e1c18, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlobalColorTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightModBumpTex:
+        m_Texture: {fileID: 2800000, guid: b18a264a62fd4c647b72328ea3c4ee32, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightModTex:
+        m_Texture: {fileID: 2800000, guid: 02e8a68cc9616074b9814a091e7e1923, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 03c0b183b917bf344b67b3e1a9769a15, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 2d21c6f0c554bba44ab35f6d40e89111, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex2:
+        m_Texture: {fileID: 2800000, guid: 2d21c6f0c554bba44ab35f6d40e89111, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexHash:
+        m_Texture: {fileID: 2800000, guid: e425c993ef4f6fa488556f9e9aff79cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: b53090efcfd9e6847994cf810aab0b65, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - BlockEnd: 0
+    - BlockStart: 1
+    - GRASSDEPTH: 0.25
+    - GRASS_SLICE_NUM: 4
+    - GRASS_SLICE_NUM_INV: 0.25
+    - HEIGHT: 0.25
+    - IBL_DiffDirectStrength: 0.9113924
+    - IBL_DiffStrength: 0.18196203
+    - IBL_Gloss: 0.53571427
+    - IBL_SpecFresnel: 0.8354431
+    - IBL_SpecStrength: 0.30379748
+    - MAX_RAYDEPTH: 10
+    - MAX_RAYDEPTHD: 100
+    - PLANE_NUM: 5.1
+    - PLANE_NUM_INV: 0.08984629
+    - PREMULT: 2.78253
+    - UV_RATIO: 0.8333333
+    - _AO_border_damp: 0.59538877
+    - _AO_by_density: 0.48214284
+    - _AO_distance_fade: 186.76
+    - _AO_far: 0.42857137
+    - _AO_noise_tiling: 0.35
+    - _AO_strength_steep: 0.5
+    - _AO_value: 0.25000003
+    - _BladesSaturation: 0.5714286
+    - _BumpScale: 1
+    - _CellSizeX: 0.5
+    - _CellSizeZ: 0.5
+    - _Cutoff: 0.64285713
+    - _DensityBias: 0
+    - _DensityOffset: 0
+    - _DensitySlope: 1
+    - _DetailNormalMapScale: 1
+    - _DiffFresnel: 0.088607594
+    - _DstBlend: 0
+    - _FloorSaturation: 0.4181736
+    - _GlobalBottomColoring: 0
+    - _GlobalBottomColoringTop: 0
+    - _GlobalColoringAdd: 0
+    - _GlobalColoringMult: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _MIP_BIAS: 0.38214287
+    - _MIP_distance_limit: 2.28
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Shininess: 0.06906985
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    - _auxtex_modulator_value: 0
+    - _blur_distance: -0.4
+    - _blur_distance_transition: 2.03
+    - _border_fray_strength: 0.41509435
+    - _border_fray_tiling: 3
+    - _bottom_coloring_border_damp: 0.644392
+    - _bottom_coloring_distance_fade: 20
+    - _bottom_coloring_far: 0.32142857
+    - _bottom_coloring_noise_tiling: 0.3
+    - _bottom_coloring_strengthA: 0.48214287
+    - _bottom_coloring_strengthB: 1
+    - _bottom_coloring_strength_steep: 0.46428567
+    - _bottom_coloring_value: 0.2857143
+    - _bright: 1
+    - _closedistancetiling: 3
+    - _coloring_noise_tiling: 0.1
+    - _far_distance: 4
+    - _far_distance_transition: 20
+    - _fardistancetiling: 1
+    - _floortiling: 3
+    - _glowing_value: 0.11785714
+    - _height_mod_bump_strength: 0
+    - _height_mod_distance: 6
+    - _height_mod_strength: 0.0625
+    - _mblur_distance: 3
+    - _mblur_transition: 2
+    - _mblur_val: 0
+    - _mod: 9.15
+    - _noise_normal_strength: 1.0714285
+    - _normal_noise_tiling: 0.3
+    - _tiling_factor: 1.2
+    - _view_angle_damper: 0.95
+    - _wind_amp: 0.7
+    - _wind_amp_affector: 3
+    - _wind_const_bend_affector: 0
+    - _wind_freq: 0.06
+    - _wind_freq_affector: 0.3
+    - _wind_speed: 4
+    - _wind_speed_affector: 6
+    - _wind_to_normal: 0.82142854
+    - detailNormalStrength: 1
+    m_Colors:
+    - UVbounds: {r: 16.244322, g: 179.42819, b: 17.803394, a: 171.40674}
+    - _BladesBackColor: {r: 1, g: 0, b: 0, a: 1}
+    - _BladesColor: {r: 0.70000005, g: 0.70000005, b: 0.70000005, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FloorColor: {r: 0.56098586, g: 0.56206894, b: 0.4835446, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Range: {r: 0, g: 0, b: 200, a: 200}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _auxtex_tiling: {r: 0.0072786086, g: 0.0078076366, b: -12.21793, a: -14.842551}
+    - _bottom_coloring_noise_tiling: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _bottom_coloring_value: {r: 0, g: 0, b: 0, a: 0.37254903}
+    - _coloring_noise_tiling: {r: 0.015, g: 0.015, b: 0, a: 0}
+    - _coloring_value: {r: 0.51048946, g: 1, b: 0, a: 0.7019608}
+    - _mblur_dir: {r: 0, g: -1, b: 0.1, a: 0}
+    - _wind_affector: {r: 114.37739, g: 5.9584036, b: 66.30014, a: 3}
+    - _wind_dir: {r: 0.124123275, g: 0.38016632, b: 0, a: 0}
+    - _wind_dir_affector: {r: 5, g: 7.71, b: 0, a: 0}
