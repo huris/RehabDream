@@ -10,11 +10,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameState : MonoBehaviour {
+public class GameState : MonoBehaviour
+{
 
 
     [Header("GameObjects in Game")]
-    public GameObject Soccer;       
+    public GameObject Soccer;
     public GameObject Gate;
     public GameObject TrackRoot;
     public Transform SoccerStart;
@@ -44,7 +45,7 @@ public class GameState : MonoBehaviour {
 
     [Header("Other Classes")]
     public AvatarCaculator RecordCaculator;
-    public AvatarController GoalkeeperController; 
+    public AvatarController GoalkeeperController;
     public GameUIHandle GameUIHandle;
 
     [Header("Time Count")]
@@ -64,7 +65,7 @@ public class GameState : MonoBehaviour {
     private int _AddCount = 1;
     private float _Gravity = Physics.gravity.y;
 
-    
+
 
 
     // Moore FSM，使用Moore型有限状态机
@@ -94,11 +95,12 @@ public class GameState : MonoBehaviour {
 
     void Awake()
     {
-        
+
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         InitGameObject();
         InitDelegate();
@@ -113,15 +115,16 @@ public class GameState : MonoBehaviour {
             KinectManager.Instance.avatarControllers.Add(GoalkeeperController);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         // Prepare --> Shoot --> SessionOver(take a rest) --> Prepare --> Shoot --> SessionOver(take a rest) ...... --> GameOver
         switch (_state)
         {
             case State.Prepare:
                 // prepare for next session
-                if (PrepareTimeOver()==true)    //prepare time is over, state transform from Prepare to Shoot
+                if (PrepareTimeOver() == true)    //prepare time is over, state transform from Prepare to Shoot
                 {
                     _OnPrepare2Shoot?.Invoke();
                 }
@@ -135,7 +138,7 @@ public class GameState : MonoBehaviour {
                 {
                     _OnSessionOver2GameOver?.Invoke();
                 }
-                else if (SessionRestTimeOver()==true)    //rest time is over, state transform form SessionOver to Prepare
+                else if (SessionRestTimeOver() == true)    //rest time is over, state transform form SessionOver to Prepare
                 {
                     _OnSessionOver2Prepare?.Invoke();
                 }
@@ -315,7 +318,7 @@ public class GameState : MonoBehaviour {
     // write Database after game over
     private void GameOverWriteDatabase()
     {
-        
+
         // set TrainingID
         //DataManager.instance.SetTrainingID(DatabaseManager.instance.GenerateTrainingID());
 
@@ -347,7 +350,7 @@ public class GameState : MonoBehaviour {
     {
         PatientDataManager.instance.SetTrainingEndTime();
         GameUIHandle.LoadGameoverUI();
-       
+
 
     }
 
@@ -373,7 +376,7 @@ public class GameState : MonoBehaviour {
     //play cheer up SE
     private void PlayWinSe()
     {
-        SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE,PatientDataManager.instance.seVolume);
+        SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
     }
 
     //SuccessCount+1
@@ -397,7 +400,7 @@ public class GameState : MonoBehaviour {
     #region Generate and Reset Shoot
 
     // show the path of soccerball
-    private void ShowSoccerTrackTips(Vector3 start,Vector3 end, float height,float gravity)
+    private void ShowSoccerTrackTips(Vector3 start, Vector3 end, float height, float gravity)
     {
         TrackRoot.SetActive(true);
         _Track.GenerateTrack(start, end, height, gravity);
@@ -413,7 +416,7 @@ public class GameState : MonoBehaviour {
     private Vector3 GenerateTarget()
     {
         Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target= Mid;
+        Vector3 Target = Mid;
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
             case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
@@ -545,7 +548,7 @@ public class GameState : MonoBehaviour {
         // show track
         if (PatientDataManager.instance.SoccerTrackTips)
         {
-            ShowSoccerTrackTips(SoccerStart.position,SoccerTarget.position, HeightestPoint.position.y, _Gravity);
+            ShowSoccerTrackTips(SoccerStart.position, SoccerTarget.position, HeightestPoint.position.y, _Gravity);
         }
         else
         {
@@ -561,7 +564,7 @@ public class GameState : MonoBehaviour {
         {
             ShowWordTips("");
         }
-        
+
         Debug.Log("@GameState: GenerateShoot Over");
     }
 
@@ -596,7 +599,7 @@ public class GameState : MonoBehaviour {
     }
 
     //game pause
-    public void Pause() 
+    public void Pause()
     {
         _oldstate = _state;
         _state = State.Pause;
@@ -605,7 +608,7 @@ public class GameState : MonoBehaviour {
 
 
     //game continue
-    public void Continue()  
+    public void Continue()
     {
         _state = _oldstate;
         _Shooting.ContinueShooting();
@@ -648,7 +651,7 @@ public class GameState : MonoBehaviour {
         {
             _RestTimeCount = 0f;
             return true;
-            
+
         }
     }
 
@@ -659,13 +662,13 @@ public class GameState : MonoBehaviour {
         _RecordTimeCount += Time.deltaTime;
         if (_RecordTimeCount < RecordTime)
         {
-             return false;
+            return false;
         }
         else
         {
             _RecordTimeCount = 0f;
             return true;
-           
+
         }
     }
 }

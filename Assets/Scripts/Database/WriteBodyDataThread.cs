@@ -23,9 +23,9 @@ public class WriteBodyDataThread
 
     public WriteBodyDataThread(
         long TrainingID,
-        Vector3 GraivtyCenter, 
-        float LeftArmAngle, 
-        float RightArmAngle, 
+        Vector3 GraivtyCenter,
+        float LeftArmAngle,
+        float RightArmAngle,
         float LeftLegAngle,
         float RightLegAngle,
         float LeftElbowAngle,
@@ -77,13 +77,13 @@ public class WriteBodyDataThread
     // write Gravity Center
     private void WriteGravityCenter()
     {
-       
+
         PatientDatabaseManager.instance.WriteGravityCenter(
             _TrainingID,
             _GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
             _Time.ToString("yyyyMMdd HH:mm:ss")
         );
-        
+
 
     }
 
@@ -95,7 +95,7 @@ public class WriteBodyDataThread
             _Angles,
             _Time.ToString("yyyyMMdd HH:mm:ss")
         );
-        
+
     }
 
     // 调用可能反而性能下降
@@ -105,5 +105,5 @@ public class WriteBodyDataThread
         GC.Collect();
     }
 
-   
+
 }

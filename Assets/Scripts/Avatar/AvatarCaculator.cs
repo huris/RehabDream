@@ -54,7 +54,7 @@ public class AvatarCaculator : MonoBehaviour
     //public bool IsMale = true;
 
     // mass of each segment / total mass
-    private static float[] MaleMi = 
+    private static float[] MaleMi =
         {
         0.0862f,    //Head
         0.1682f,    //upperbody
@@ -156,12 +156,12 @@ public class AvatarCaculator : MonoBehaviour
 
     // 新增节段法计算人体重心
     //Calculate Gravity Center using Avatar
-    public Vector3 CalculateGravityCenter(bool IsMale) 
+    public Vector3 CalculateGravityCenter(bool IsMale)
     {
 
         Vector3 HeadTop;    //can't get headTop from avatar
         Vector3 Head = _Animator.GetBoneTransform(HumanBodyBones.Head).position;
-        Vector3 Neck= _Animator.GetBoneTransform(HumanBodyBones.Neck).position;
+        Vector3 Neck = _Animator.GetBoneTransform(HumanBodyBones.Neck).position;
         Vector3 Chest = _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
         Vector3 RightUpperArm = _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
         Vector3 LeftUpperArm = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
@@ -219,7 +219,7 @@ public class AvatarCaculator : MonoBehaviour
 
 
     // return gravity center of segment
-    private Vector3 Center(Vector3 up, Vector3 low,float LCS)
+    private Vector3 Center(Vector3 up, Vector3 low, float LCS)
     {
 
         return up - LCS * (up - low);
@@ -233,11 +233,11 @@ public class AvatarCaculator : MonoBehaviour
 
         Vector3 LeftArmVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
                             _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
-        Vector3 BodyVector= _Animator.GetBoneTransform(HumanBodyBones.Hips).position-
+        Vector3 BodyVector = _Animator.GetBoneTransform(HumanBodyBones.Hips).position -
                             _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
         return CaculateAngle(BodyVector, LeftArmVector, 180);
-        
+
     }
 
     public float RightArmAngle()
@@ -249,7 +249,7 @@ public class AvatarCaculator : MonoBehaviour
                             _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
         return CaculateAngle(RightArmVector, BodyVector, 180);
-       
+
     }
 
     public float LeftLegAngle()
@@ -261,7 +261,7 @@ public class AvatarCaculator : MonoBehaviour
                             _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
         return CaculateAngle(BodyVector, LeftLegVector, 180);
-        
+
     }
 
     public float RightLegAngle()
@@ -273,7 +273,7 @@ public class AvatarCaculator : MonoBehaviour
                             _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
         return CaculateAngle(RightLegVector, BodyVector, 180);
-        
+
     }
 
     // 左肘关节角度
@@ -286,7 +286,7 @@ public class AvatarCaculator : MonoBehaviour
                            _Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
 
         return CaculateAngle(LeftForearmVector, LeftArmVector, 180);
-       
+
     }
 
     // 右肘关节角度
@@ -363,7 +363,7 @@ public class AvatarCaculator : MonoBehaviour
             Vector3 NormalVector = new Vector3(+1, 0, 0);
             return 90.0f - CaculateAngle(LeftLegVector, NormalVector, 180);
         }
-        
+
     }
 
 
@@ -405,7 +405,7 @@ public class AvatarCaculator : MonoBehaviour
 
 
     // Unity为左手系，故叉乘满足左手法则，以axis方向为叉乘后的正方向 
-    public float CaculateAngle(Vector3 from, Vector3 to, float range=180)
+    public float CaculateAngle(Vector3 from, Vector3 to, float range = 180)
     {
 
         float Angle = Vector3.Angle(from, to);
