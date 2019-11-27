@@ -10,7 +10,8 @@ using Mono.Data.Sqlite;
 using System;
 using System.IO;
 
-public class PatientDatabaseManager : MonoBehaviour {
+public class PatientDatabaseManager : MonoBehaviour
+{
 
     // Singleton instance holder
     public static PatientDatabaseManager instance = null;
@@ -65,7 +66,8 @@ public class PatientDatabaseManager : MonoBehaviour {
     }
 
     //call when quit application, close connection
-    void OnApplicationQuit() {
+    void OnApplicationQuit()
+    {
         PatientDatabase?.CloseConnection();
         DoctorDatabase?.CloseConnection();
         Debug.Log("@DatabaseManager: Close Connection.");
@@ -76,7 +78,7 @@ public class PatientDatabaseManager : MonoBehaviour {
     //check login
     public DatabaseReturn Login(long PatientID, string PatientPassword) //login
     {
-        
+
         SqliteDataReader reader;    //sql读取器
 
         try
@@ -98,7 +100,7 @@ public class PatientDatabaseManager : MonoBehaviour {
                     },
 
                 new String[] {
-                    PatientID.ToString(), 
+                    PatientID.ToString(),
                     AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientPassword))   //md5加密
                     }
                 );
@@ -121,11 +123,11 @@ public class PatientDatabaseManager : MonoBehaviour {
             return DatabaseReturn.Exception;
         }
 
-        
+
     }
 
     //Read PatientName
-    public string ReadPatientName(long PatientID) 
+    public string ReadPatientName(long PatientID)
     {
         string PatientName = "PatientName";
         SqliteDataReader reader;    //sql读取器
@@ -200,7 +202,7 @@ public class PatientDatabaseManager : MonoBehaviour {
 
 
             if (reader.Read() && reader.HasRows && reader[0] != null && reader[0] != DBNull.Value)
-            {   
+            {
                 PatientSex = reader[0].ToString();
                 Debug.Log("@DatabaseManager: Read PatientSex Success");
             }
@@ -316,7 +318,7 @@ public class PatientDatabaseManager : MonoBehaviour {
             }
 
 
-        
+
         }
         catch (SqliteException e)
         {
@@ -336,13 +338,13 @@ public class PatientDatabaseManager : MonoBehaviour {
     //default return:0
     public long ReadMaxSuccessCount(long PatientID, string TrainingDifficulty)
     {
-        
+
         SqliteDataReader reader;    //sql读取器
         long MaxSuccessCount = 0;
-        
+
         try
         {
-            
+
             //read Max_SuccessCount
             reader = PatientDatabase.ReadTable(
                 PatientRecordTableName,
@@ -395,10 +397,10 @@ public class PatientDatabaseManager : MonoBehaviour {
         //try
         //{
 
-            //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
-            PatientDatabase.InsertValues(
-                PatientRecordTableName, //table name
-                new String[] {
+        //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
+        PatientDatabase.InsertValues(
+            PatientRecordTableName, //table name
+            new String[] {
                     TrainingID.ToString(),
                     PatientID.ToString(),
                     AddSingleQuotes(TrainingStartTime),
@@ -406,11 +408,11 @@ public class PatientDatabaseManager : MonoBehaviour {
                     AddSingleQuotes(TrainingDifficulty),
                     GameCount.ToString(),
                     SuccessCount.ToString()
-                }
-            );
-            
-            Debug.Log("@DatabaseManager: Write PatientRecord Success");
-            return DatabaseReturn.Success;
+            }
+        );
+
+        Debug.Log("@DatabaseManager: Write PatientRecord Success");
+        return DatabaseReturn.Success;
         //}
         //catch (SqliteException e)
         {
@@ -423,7 +425,7 @@ public class PatientDatabaseManager : MonoBehaviour {
     // read TrainingPlan for patient(PatientID)
     // return: PlanDifficulty GameCount PlanCount
     // default return: "Primary",10,10
-    public Tuple<string, long , long> ReadTrainingPlan(long PatientID)
+    public Tuple<string, long, long> ReadTrainingPlan(long PatientID)
     {
         SqliteDataReader reader;    //sql读取器
         string PlanDifficulty = "初级";
@@ -453,18 +455,18 @@ public class PatientDatabaseManager : MonoBehaviour {
 
             if (reader.Read() && reader.HasRows)
             {   //存在用户训练任务
-                
+
 
                 PlanDifficulty = reader.GetString(reader.GetOrdinal("PlanDifficulty"));
                 GameCount = reader.GetInt64(reader.GetOrdinal("GameCount"));
                 PlanCount = reader.GetInt64(reader.GetOrdinal("PlanCount"));
-                    
-                  
-                Debug.Log("@DatabaseManager:Read TrainingPlan Success " + PlanDifficulty +" " + GameCount.ToString() +" " +PlanCount.ToString());
+
+
+                Debug.Log("@DatabaseManager:Read TrainingPlan Success " + PlanDifficulty + " " + GameCount.ToString() + " " + PlanCount.ToString());
 
             }
             else
-            {       
+            {
                 Debug.Log("@DatabaseManager: Read TrainingPlan NULL");
             }
         }
@@ -499,7 +501,7 @@ public class PatientDatabaseManager : MonoBehaviour {
             DoctorDatabase.DeleteValuesAND(
                 TrainingPlanTableName,
                 new string[] { "PlanCount" },
-                new string[] { "<="},
+                new string[] { "<=" },
                 new string[] { 0.ToString() }
                 );
 
@@ -534,7 +536,7 @@ public class PatientDatabaseManager : MonoBehaviour {
 
             //Debug.Log("@DatabaseManager: Write GravityCenter");
             return DatabaseReturn.Success;
-            
+
         }
         catch (SqliteException e)
         {
@@ -564,6 +566,9 @@ public class PatientDatabaseManager : MonoBehaviour {
                     Angles[7].ToString(),   //FLOAT RightKneeAngle
                     Angles[8].ToString(),   //FLOAT LeftAnkleAngle
                     Angles[9].ToString(),   //FLOAT RightAnkleAngle
+                    Angles[10].ToString(),   //FLOAT LeftHipAngle
+                    Angles[11].ToString(),   //FLOAT RightHipAngle
+                    Angles[12].ToString(),  //FLOAT HipAngle
                     AddSingleQuotes(Time)       //STRING Time
                 }
             );

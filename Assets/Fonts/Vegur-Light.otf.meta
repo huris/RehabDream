@@ -3,12 +3,14 @@ guid: 7e221e22483dc4423bde6a5e33e85a39
 timeCreated: 1478456818
 licenseType: Store
 TrueTypeFontImporter:
+  externalObjects: {}
   serializedVersion: 4
   fontSize: 16
   forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
+  fontName: Vegur
   fontNames:
   - Vegur
   fallbackFontReferences:

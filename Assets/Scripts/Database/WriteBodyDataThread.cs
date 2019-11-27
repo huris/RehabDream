@@ -17,15 +17,15 @@ public class WriteBodyDataThread
     //暂时存储要插入数据库的值
     private long _TrainingID;
     private Vector3 _GraivtyCenter;
-    private float[] _Angles = new float[10];
+    private float[] _Angles = new float[13];
     private DateTime _Time;
     private Thread _WriteDatabaseThread;
 
     public WriteBodyDataThread(
         long TrainingID,
-        Vector3 GraivtyCenter, 
-        float LeftArmAngle, 
-        float RightArmAngle, 
+        Vector3 GraivtyCenter,
+        float LeftArmAngle,
+        float RightArmAngle,
         float LeftLegAngle,
         float RightLegAngle,
         float LeftElbowAngle,
@@ -34,6 +34,9 @@ public class WriteBodyDataThread
         float RightKneeAngle,
         float LeftAnkleAngle,
         float RightAnkleAngle,
+        float LeftHipAngle,
+        float RightHipAngle,
+        float HipAngle,
         DateTime Time)
     {
         _TrainingID = TrainingID;
@@ -48,6 +51,9 @@ public class WriteBodyDataThread
         _Angles[7] = RightKneeAngle;
         _Angles[8] = LeftAnkleAngle;
         _Angles[9] = RightAnkleAngle;
+        _Angles[10] = LeftHipAngle;
+        _Angles[11] = RightHipAngle;
+        _Angles[12] = HipAngle;
         _Time = Time;
         _WriteDatabaseThread = new Thread(WriteDatabase);
         //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Init");
@@ -71,13 +77,13 @@ public class WriteBodyDataThread
     // write Gravity Center
     private void WriteGravityCenter()
     {
-       
+
         PatientDatabaseManager.instance.WriteGravityCenter(
             _TrainingID,
             _GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
             _Time.ToString("yyyyMMdd HH:mm:ss")
         );
-        
+
 
     }
 
@@ -89,7 +95,7 @@ public class WriteBodyDataThread
             _Angles,
             _Time.ToString("yyyyMMdd HH:mm:ss")
         );
-        
+
     }
 
     // 调用可能反而性能下降
@@ -99,5 +105,5 @@ public class WriteBodyDataThread
         GC.Collect();
     }
 
-   
+
 }
