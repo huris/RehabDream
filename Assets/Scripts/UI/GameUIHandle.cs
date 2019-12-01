@@ -58,7 +58,7 @@ public class GameUIHandle : UIHandle
     public GameState GameState;
 
     private float _GestureTimeCount=0;
-    public float _DetectTime = 3.0f;
+    private float _DetectTime = 3.0f;
 
     // Use this for initialization
     void Start()
@@ -80,23 +80,36 @@ public class GameUIHandle : UIHandle
     // Update is called once per frame
     void Update()
     {
-
-
         if (KinectDetectUI.activeSelf==true)
         {
             SetKinectStatus();
-            //Debug.Log(PatientGestureListener.Instance.GetTposeLastTime());
-            if (PatientGestureListener.Instance.TposeContinue(_DetectTime))
-            {
-                SetKinectDetectProgress(PatientGestureListener.Instance.GetTposeLastTime() / _DetectTime);
+
+            long userId = KinectManager.Instance.GetPrimaryUserID();
+
+            if (userId == 0)
+            {      // 是否人物被检测到
+                _GestureTimeCount = 0;
             }
             else
             {
-                SetKinectDetectProgress(1); 
-                OnClickDirectStart();
-            }
+                var leftHandState = KinectManager.Instance.GetLeftHandState(userId);
+                var rightHandState = KinectManager.Instance.GetRightHandState(userId);
+
+                // 检测到左右手均握拳
+                if(leftHandState == KinectInterop.HandState.Closed && rightHandState== KinectInterop.HandState.Closed)
+                {
+                     if (GestureOver())
+                     {
+                        SetKinectDetectProgress(1);
+                        OnClickDirectStart();
+                     }
+                     else
+                     {
+                        SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
+                     }
+                }
+            }     
         }
-     
     }
 
     #region KinectDetectUI Button
@@ -285,6 +298,22 @@ public class GameUIHandle : UIHandle
     public void SetKinectDetectProgress(float value)
     {
         KinectDetectUIProgressSlider.value = value;
+    }
+
+    // KinectDetect Gesture is over
+    public bool GestureOver()
+    {
+        _GestureTimeCount += Time.deltaTime;
+        if (_GestureTimeCount < _DetectTime)
+        {
+            return false;
+        }
+        else
+        {
+            _GestureTimeCount = 0f;
+            return true;
+
+        }
     }
 
 
