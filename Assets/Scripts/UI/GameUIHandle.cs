@@ -112,7 +112,8 @@ public class GameUIHandle : UIHandle
     // 
     public void OnClickQuitGame()
     {
-        base.LoadScene("Start");
+        //base.LoadScene("Start");
+        base.LoadScene("03-DoctorUI");
     }
 
     #endregion
@@ -168,7 +169,8 @@ public class GameUIHandle : UIHandle
         SetDataTrainingPlan();
 
         Debug.Log("@GameUIHandle: Exit success");
-        LoadScene("Start");
+        //LoadScene("Start");
+        base.LoadScene("03-DoctorUI");
     }
 
 

@@ -3080,7 +3080,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1129169900}
         m_MethodName: OnbgmSliderValueChange
         m_Mode: 0
         m_Arguments:
@@ -15369,7 +15369,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1855786427}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1192853fbea8e8f42bd49c0a0a74fa0d, type: 3}
   m_Name: 
@@ -16596,7 +16596,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1129169900}
         m_MethodName: OnseSliderValueChange
         m_Mode: 0
         m_Arguments:
