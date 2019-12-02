@@ -333,6 +333,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\Editor\WMG_X_Plot_Overtime_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Axis_Graph_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Bezier_Band_Graph_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_E_Util.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_EnumFlagDrawer.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Hierarchical_Tree_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Legend_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Pie_Graph_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Pie_Graph_Slice_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Prefab_Gen.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Radar_Graph_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Ring_Graph_E.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Series_E.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\GrassTextureDataPreset.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\VolumeGrass_CustomMeshEditor.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\Editor\VolumeGrass_MakeGrassTexture.cs" />
@@ -343,6 +356,11 @@
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
     <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
     <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
