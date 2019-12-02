@@ -58,6 +58,52 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Interactive_Pie\WMG_X_Interactive_Pie.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Pie_Ring_Graph\WMG_X_Pie_Ring_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\WMG_X_Plot_Overtime.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Ring_Graph\WMG_X_Ring_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Simple_Pie\WMG_X_Simple_Pie.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_Tutorial_1\WMG_X_Tutorial_1.cs" />
+     <Compile Include="Assets\Graph_Maker\Examples\X_WorldSpace\WMG_X_WorldSpace.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Axis_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Bezier_Band_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Grid.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Hierarchical_Tree.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Pie_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Radar_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Random_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Ring_Graph.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Anim.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Events.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Graph_Tooltip.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_GUI_Functions.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Image_Custom_Mat.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycaster.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycatcher.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Text_Functions.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Change_Obj.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_EnumFlagAttribute.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Enums.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_List.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Reflection.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Util.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Axis.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Bezier_Band.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Compute_Shader.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_ComputeLineGraph_Data.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Data_Source.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Auto_Anim.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Manager.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend_Entry.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Link.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Node.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
+     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
      <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
@@ -134,6 +180,7 @@
      <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
+     <Compile Include="Assets\Scripts\Doctor\Data\Angle.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Doctor.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
@@ -250,21 +297,103 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Dynamic.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_LargeData.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_PieChart.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Test.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo00_CheatSheet.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo10_LineChart.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo11_AddSinCurve.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo12_CustomDrawing.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo13_LineSimple.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo20_BarChart.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo30_PieChart.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo50_Scatter.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo60_Heatmap.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo70_Gauge.cs" />
+     <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
+     <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
+     <Compile Include="Assets\XCharts\Runtime\BarChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\ChartComponent.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Axis.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\DataZoom.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Grid.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Legend.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Radar.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Serie.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Series.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Settings.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Theme.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Title.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\Tooltip.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Main\VisualMap.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\MainComponent.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AreaStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLabel.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLine.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisName.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisSplitArea.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisTick.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\Emphasis.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\GaugeAxis.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\GaugePointer.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\IconStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\ItemStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\LineArrow.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\LineStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\Location.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieAnimation.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieData.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieLabel.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieSymbol.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\TextStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\TitleStyle.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\SubComponent.cs" />
+     <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\AxisPool.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\BaseChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawBar.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawHeatmap.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawLine.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawScatter.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\LabelObject.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\ListPool.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\ObjectPool.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\SerieLabelPool.cs" />
+     <Compile Include="Assets\XCharts\Runtime\LineChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\PieChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\RadarChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\ScatterChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Utility\ChartCached.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Utility\ChartDrawer.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Utility\ChartHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Utility\XChartsMgr.cs" />
+     <Compile Include="Assets\XCharts\XChartsDemo\Runtime\Demo.cs" />
+     <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
+     <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
      <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
      <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
+     <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
+     <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
      <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
      <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+     <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
      <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -297,31 +426,31 @@
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="DOTween">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Sqlite">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Tds">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
  </Reference>
  <Reference Include="NPinyin">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="LZ4Sharp">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Scripts/Kinect/SharpZipLib/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/SharpZipLib/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="Poly2Tri">
- <HintPath>C:/Users/Admin/Desktop/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>

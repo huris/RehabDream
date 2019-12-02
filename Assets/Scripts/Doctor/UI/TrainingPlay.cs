@@ -12,6 +12,7 @@ public class TrainingPlay
     public long SuccessCount { get; private set; } = 0;
     public long GameCount { get; private set; } = 0;
 
+    public List<Angle> angles = new List<Angle>();      // 患者角度
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long SuccessCount, long GameCount)
     {
