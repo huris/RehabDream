@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ArmChart.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -104,6 +105,7 @@
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
+     <Compile Include="Assets\JointFeedbackInit.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
      <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />

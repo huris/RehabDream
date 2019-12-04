@@ -1236,6 +1236,61 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Angle
+    public List<Angle> ReadAngleRecord(long PatientID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Angle> result = new List<Angle>(); //返回值
+        string QueryString = "SELECT * FROM Angles,PatientRecord where PatientID=" + PatientID.ToString() + " and Angles.TrainingID=PatientRecord.TrainingID order by TrainingID";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Angle();
+                    res.SetCompleteAngles(
+                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    reader.GetFloat(reader.GetOrdinal("LeftArmAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightArmAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftLegAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightLegAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftElbowAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightElbowAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftKneeAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightKneeAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftHipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightHipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("HipAngle")),
+                    reader.GetString(reader.GetOrdinal("Time"))
+                    );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read AnglesRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read AnglesRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read AnglesRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+
+
+
     // create Data/
     private void CheckDataFolder()
     {
