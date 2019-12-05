@@ -1266,6 +1266,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetFloat(reader.GetOrdinal("LeftHipAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightHipAngle")),
                     reader.GetFloat(reader.GetOrdinal("HipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftAnkleAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightAnkleAngle")),
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
                     result.Add(res);

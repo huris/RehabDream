@@ -14,6 +14,8 @@ public class TrainingPlay
 
     public List<Angle> angles = new List<Angle>();      // 患者角度
 
+    public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
+
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long SuccessCount, long GameCount)
     {
         this.TrainingID = TrainingID;

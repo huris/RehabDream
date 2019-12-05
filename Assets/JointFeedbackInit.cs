@@ -19,6 +19,7 @@ namespace XCharts
         private LineChart HipChart;    // 髋关节
         private Serie LeftHipSerie;
         private Serie RightHipSerie;
+        private Serie HipSerie;
 
         private LineChart LegChart;    // 腿与躯干
         private Serie LeftLegSerie;
@@ -32,6 +33,7 @@ namespace XCharts
         private Serie LeftAnkleSerie;
         private Serie RightAnkleSerie;
 
+        private long AngleCount;
 
         // Use this for initialization
         void Start()
@@ -41,10 +43,12 @@ namespace XCharts
 
         void OnEnable()
         {
-            //if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
-            //{
-            //    DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.PatientID);
-            //}
+
+            if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
+            {
+                DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.PatientID);
+                AngleCount = DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles.Count;
+            }
 
             ArmChart = transform.Find("ArmChart").GetComponent<LineChart>();
             if (ArmChart == null) ArmChart = transform.Find("ArmChart").gameObject.AddComponent<LineChart>();
@@ -116,6 +120,7 @@ namespace XCharts
 
             LeftHipSerie = HipChart.AddSerie(SerieType.Line, "左");
             RightHipSerie = HipChart.AddSerie(SerieType.Line, "右");
+            HipSerie = HipChart.AddSerie(SerieType.Line, "胯部");
 
             LeftHipSerie.lineType = LineType.Smooth;
             LeftHipSerie.lineStyle.width = 2;
@@ -128,6 +133,12 @@ namespace XCharts
             RightHipSerie.lineStyle.opacity = 0.8f;
             RightHipSerie.symbol.size = 4;
             RightHipSerie.symbol.selectedSize = 5;
+
+            HipSerie.lineType = LineType.Smooth;
+            HipSerie.lineStyle.width = 2;
+            HipSerie.lineStyle.opacity = 0.8f;
+            HipSerie.symbol.size = 4;
+            HipSerie.symbol.selectedSize = 5;
 
 
             KneeChart = transform.Find("KneeChart").GetComponent<LineChart>();
@@ -171,27 +182,29 @@ namespace XCharts
             RightAnkleSerie.symbol.size = 4;
             RightAnkleSerie.symbol.selectedSize = 5;
 
-            // DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles.Count
-            for (int i = 0; i < 20; i++)
+            //
+            for (int i = 0; i < 30; i++)
             {
                 //chart.AddXAxisData("x" + (i + 1));
-                ArmChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                ArmChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                ArmChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftArmAngle);
+                ArmChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightArmAngle);
 
-                ElbowChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                ElbowChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                ElbowChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftElbowAngle);
+                ElbowChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightElbowAngle);
 
-                LegChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                LegChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                LegChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftLegAngle);
+                LegChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightLegAngle);
 
-                HipChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                HipChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                HipChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftHipAngle);
+                HipChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightHipAngle);
+                HipChart.AddData(2, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].HipAngle);
 
-                KneeChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                KneeChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                KneeChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftKneeAngle);
+                KneeChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightKneeAngle);
 
-                AnkleChart.AddData(0, UnityEngine.Random.Range(30, 90));
-                AnkleChart.AddData(1, UnityEngine.Random.Range(30, 90));
+                print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
+                AnkleChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
+                AnkleChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightAnkleAngle);
             }
 
 
