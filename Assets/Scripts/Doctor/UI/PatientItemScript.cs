@@ -124,7 +124,7 @@ public class PatientItemScript : MonoBehaviour {
 
     void Start()
     {
-        if (DoctorDataManager.instance.Patients.Count != 0)
+        if (DoctorDataManager.instance.Patients.Count > 0)
         {
             //print(DoctorDataManager.instance.Patients.Count);
             DoctorDataManager.instance.SetPatientCompleteInformation(0);

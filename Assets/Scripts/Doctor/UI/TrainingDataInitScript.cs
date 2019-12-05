@@ -16,9 +16,10 @@ public class TrainingDataInitScript : MonoBehaviour {
     {
         NoTrainingData = transform.Find("NoTrainingData").gameObject;
 
-        if (DoctorDataManager.instance.patient.trainingPlays.Count > 0) NoTrainingData.SetActive(false);
-        else NoTrainingData.SetActive(true);
+		DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID);
 
+		if (DoctorDataManager.instance.patient.trainingPlays.Count > 0) NoTrainingData.SetActive(false);
+        else NoTrainingData.SetActive(true);
     }
 	
 	// Update is called once per frame
