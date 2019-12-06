@@ -27,8 +27,9 @@ namespace XCharts
 		{
 			if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
 			{
-				DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(DoctorDataManager.instance.patient.PatientID);
+				DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count-1].TrainingID);
 				GravityCenterCount = DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters.Count;
+				//print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[0].TrainingID);
 			}
 
 			GravityCenterChart = transform.Find("GravityCenterChart").GetComponent<LineChart>();
@@ -47,7 +48,8 @@ namespace XCharts
 			for (int i = 0; i < 30; i++)
 			{
 				//chart.AddXAxisData("x" + (i + 1)); 
-				GravityCenterChart.AddData(0, Vector3.Distance(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[i].Coordinate, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[0].Coordinate));
+				print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[i].Coordinate);
+				GravityCenterChart.AddData(0, 1000 * Vector3.Distance(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[i].Coordinate, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[0].Coordinate));
 			}
 
 		}
