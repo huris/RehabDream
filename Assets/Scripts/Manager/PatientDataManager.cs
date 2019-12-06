@@ -174,8 +174,6 @@ public class PatientDataManager : MonoBehaviour{
     {
         this.SuccessCount = 0;
         this.FinishCount = 0;
-        this.SoccerTrackTips = true;
-        this.WordTips = true;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
