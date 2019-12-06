@@ -24,7 +24,6 @@ namespace XCharts
         [SerializeField] private int m_SubTextFontSize;
         [SerializeField] private float m_ItemGap;
         [SerializeField] private Location m_Location;
-        [SerializeField] private FontStyle m_FontStyle;
 
         /// <summary>
         /// [default:true]
@@ -32,8 +31,6 @@ namespace XCharts
         /// 是否显示标题组件。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
-
-        public FontStyle textFontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
         /// <summary>
         /// The main title text, supporting for \n for newlines.
         /// 主标题文本，支持使用 \n 换行。
@@ -80,7 +77,6 @@ namespace XCharts
                     m_SubText = "",
                     m_SubTextFontSize = 14,
                     m_ItemGap = 8,
-                    m_FontStyle = FontStyle.Bold,
                     m_Location = Location.defaultTop
                 };
                 return title;
@@ -94,7 +90,6 @@ namespace XCharts
             m_SubText = title.subText;
             m_SubTextFontSize = title.subTextFontSize;
             m_ItemGap = title.itemGap;
-            m_FontStyle = title.textFontStyle;
             m_Location.Copy(title.location);
         }
 
@@ -126,8 +121,7 @@ namespace XCharts
                 m_SubText.Equals(other.subText) &&
                 m_SubTextFontSize == other.subTextFontSize &&
                 m_ItemGap == other.itemGap &&
-                m_Location.Equals(other.location) &&
-                m_FontStyle == other.textFontStyle;
+                m_Location.Equals(other.location);
         }
 
         public static bool operator ==(Title left, Title right)

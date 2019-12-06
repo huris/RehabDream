@@ -1,6 +1,10 @@
 
 # 更新日志
 
+* (2019.12.06) 修复数据过小时`AxisLabel`直接科学计数法显示的问题
+* (2019.12.04) 优化和完善数据更新`UpdateData`接口
+* (2019.12.03) 增加圆环饼图的圆角支持，参数：`serie.arcShaped`
+* (2019.12.03) 增加数据更新动画,参数：`serie.animation.updateAnimation`
 * (2019.11.30) 增加`GaugeChart`仪表盘
 * (2019.11.22) 修复`BarChart`清空数据重新赋值后`SerieLabel`显示异常的问题
 * (2019.11.16) 修复`SerieLabel`设置`color`等参数不生效的问题

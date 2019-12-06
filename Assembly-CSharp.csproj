@@ -305,6 +305,7 @@
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo_PieChart.cs" />
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Test.cs" />
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo00_CheatSheet.cs" />
+     <Compile Include="Assets\XCharts\Demo\Runtime\Demo01_UpdateData.cs" />
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo10_LineChart.cs" />
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo11_AddSinCurve.cs" />
      <Compile Include="Assets\XCharts\Demo\Runtime\Demo12_CustomDrawing.cs" />
