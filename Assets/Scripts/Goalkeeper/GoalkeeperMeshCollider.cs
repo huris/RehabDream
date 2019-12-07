@@ -7,29 +7,56 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Threading;
 //generate mesh collider of goalkeeper
 public class GoalkeeperMeshCollider : MonoBehaviour
 {
-    public SkinnedMeshRenderer meshRenderer;    // skinned mesh render of goalkeeper
-    public MeshCollider meshcollider;           // mesh collider of goalkeeper
-    void Awake()
-    {
-        meshcollider = gameObject.GetComponent<MeshCollider>();
-    }
+    public static int ColliderNum = 5;
+    public SkinnedMeshRenderer[] MeshRenderers;    // skinned mesh renders of goalkeeper
+    public MeshCollider[] MeshColliders;           // mesh colliders of goalkeeper
+    private Thread _WriteDatabaseThread;
+    private float _UpdateTime = 0.1f;
+    private float _UpdateTimeCount = 0f;
 
 
     // Use this for initialization
     void Start()
     {
-
+    
     }
 
     // Update is called once per frame
     void Update()
     {
-        Mesh colliderMesh = new Mesh();
-        meshRenderer.BakeMesh(colliderMesh); //更新mesh
-        meshcollider.sharedMesh = colliderMesh; //将新的mesh赋给meshcollider
+        if (UpdateTimeOver())
+        {
+            UpdateColliders();
+        }
+    }
 
+    // udpate mesh collider
+    private void UpdateColliders()
+    {
+        for (int i = 0; i < ColliderNum; i++)
+        {
+            Mesh colliderMesh = new Mesh();
+            MeshRenderers[i].BakeMesh(colliderMesh); //更新mesh
+            MeshColliders[i].sharedMesh = colliderMesh; //将新的mesh赋给meshcollider
+        }
+    }
+
+    // update mesh collider after _UpdateTime
+    private bool UpdateTimeOver()
+    {
+        _UpdateTimeCount += Time.deltaTime;
+        if (_UpdateTimeCount >= _UpdateTime)
+        {
+            _UpdateTimeCount = 0f;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

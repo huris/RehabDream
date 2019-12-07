@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: b5124ecf4106ca341ae17252ff5d205b
+guid: d1ed63377410d0d4fa0dc8f3cb32012d
+timeCreated: 1575622861
+licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -17,11 +19,11 @@ ModelImporter:
     100022: Mesh1_027
     100024: Mesh1_029
     100026: Mesh1_032
-    100028: "\u56FE\u5F62001"
-    100030: "\u56FE\u5F62002"
-    100032: "\u5BF9\u8C61001"
-    100034: "\u5BF9\u8C61002"
-    100036: Soccer-Ball-rig
+    100028: Soccer-Ball-rig
+    100030: "\u56FE\u5F62001"
+    100032: "\u56FE\u5F62002"
+    100034: "\u5BF9\u8C61001"
+    100036: "\u5BF9\u8C61002"
     100038: "\u5BF9\u8C61003"
     400000: //RootNode
     400002: Mesh1_001
@@ -37,27 +39,12 @@ ModelImporter:
     400022: Mesh1_027
     400024: Mesh1_029
     400026: Mesh1_032
-    400028: "\u56FE\u5F62001"
-    400030: "\u56FE\u5F62002"
-    400032: "\u5BF9\u8C61001"
-    400034: "\u5BF9\u8C61002"
-    400036: Soccer-Ball-rig
+    400028: Soccer-Ball-rig
+    400030: "\u56FE\u5F62001"
+    400032: "\u56FE\u5F62002"
+    400034: "\u5BF9\u8C61001"
+    400036: "\u5BF9\u8C61002"
     400038: "\u5BF9\u8C61003"
-    2100000: Escaleras
-    2100002: Aluminio_Gris
-    2100004: Escaleras_Grises
-    2100006: Blacktop_New
-    2100008: Aluminum
-    2100010: Fencing_Chain_Link
-    2100012: Publ
-    2100014: Vidrio_Transparente
-    2100016: Aluminio_Cyan
-    2100018: Porteria
-    2100020: Blinds_Roman_Hobbled_Blue
-    2100022: Red_Porteria
-    2100024: Butaca_Azul_Oscuro
-    2100026: Grass_D_200cm
-    2100028: Fabric_Linen
     2300000: Mesh1_001
     2300002: Mesh1_002
     2300004: Mesh1_003
@@ -71,11 +58,11 @@ ModelImporter:
     2300020: Mesh1_027
     2300022: Mesh1_029
     2300024: Mesh1_032
-    2300026: "\u56FE\u5F62001"
-    2300028: "\u56FE\u5F62002"
-    2300030: "\u5BF9\u8C61001"
-    2300032: "\u5BF9\u8C61002"
-    2300034: Soccer-Ball-rig
+    2300026: Soccer-Ball-rig
+    2300028: "\u56FE\u5F62001"
+    2300030: "\u56FE\u5F62002"
+    2300032: "\u5BF9\u8C61001"
+    2300034: "\u5BF9\u8C61002"
     2300036: "\u5BF9\u8C61003"
     3300000: Mesh1_001
     3300002: Mesh1_002
@@ -90,11 +77,11 @@ ModelImporter:
     3300020: Mesh1_027
     3300022: Mesh1_029
     3300024: Mesh1_032
-    3300026: "\u56FE\u5F62001"
-    3300028: "\u56FE\u5F62002"
-    3300030: "\u5BF9\u8C61001"
-    3300032: "\u5BF9\u8C61002"
-    3300034: Soccer-Ball-rig
+    3300026: Soccer-Ball-rig
+    3300028: "\u56FE\u5F62001"
+    3300030: "\u56FE\u5F62002"
+    3300032: "\u5BF9\u8C61001"
+    3300034: "\u5BF9\u8C61002"
     3300036: "\u5BF9\u8C61003"
     4300000: Mesh1_001
     4300002: Mesh1_002
@@ -115,88 +102,89 @@ ModelImporter:
     4300032: "\u56FE\u5F62002"
     4300034: Soccer-Ball-rig
     4300036: "\u5BF9\u8C61003"
-    2186277476908879412: ImportLogs
+    7400000: Take 001
+    9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Aluminio_Cyan
-    second: {fileID: 2100000, guid: 3feaa8dc1e8bb0d479b9ec17e27fc296, type: 2}
+    second: {fileID: 2100000, guid: 15fd7a0245ee13c48b5a4518fa57d3ce, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Aluminio_Gris
-    second: {fileID: 2100000, guid: c30d460b54b0384419a97a53aa2c2d85, type: 2}
+    second: {fileID: 2100000, guid: 8295efc2b8e6f764b892e21c19064d6d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Aluminum
-    second: {fileID: 2100000, guid: 4877ca14ca8e82c4cab743a6e143b145, type: 2}
+    second: {fileID: 2100000, guid: 605fc404dbf96514cab769cf364719ec, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Blacktop_New
-    second: {fileID: 2100000, guid: 6bebc7afaa6135e4fb04c0201854dd98, type: 2}
+    second: {fileID: 2100000, guid: 640836f113f20a14bab9d3591d446aeb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Blinds_Roman_Hobbled_Blue
-    second: {fileID: 2100000, guid: 1ed83845e270f49479dc06045ed7d75d, type: 2}
+    second: {fileID: 2100000, guid: 29d911bcbf7c10b4d80e1855500c492a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Butaca_Azul_Oscuro
-    second: {fileID: 2100000, guid: be812f01e50df5245827ecc24f84d620, type: 2}
+    second: {fileID: 2100000, guid: 54a96f6935809224d84d03ecfa7ac8c3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Escaleras
-    second: {fileID: 2100000, guid: ee3125c0f4508b04e8dc457a37e995c0, type: 2}
+    second: {fileID: 2100000, guid: f59da450ce5087146adadbe0fa7518c1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Escaleras_Grises
-    second: {fileID: 2100000, guid: 36e0ee0c245e8b743bc5908dd7318592, type: 2}
+    second: {fileID: 2100000, guid: 92b0775858c9e0f419821c7414d3e84a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Fabric_Linen
-    second: {fileID: 2100000, guid: 89522c73cee15fd488a409c16849b5f7, type: 2}
+    second: {fileID: 2100000, guid: b2f4a2243d24b9c488b1231ec9c13a5a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Fencing_Chain_Link
-    second: {fileID: 2100000, guid: 5fef425f8c211ca40b83cfa3db5b15a5, type: 2}
+    second: {fileID: 2100000, guid: 5b0a341a8b1cfb9408d56268ac7dabe5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Grass_D_200cm
-    second: {fileID: 2100000, guid: 6a681cf187a4d2244b06f3168715e52c, type: 2}
+    second: {fileID: 2100000, guid: 51d136999e551dd4cabc9ea1ef334935, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 20476599c703125499084db4475309ed, type: 2}
+    second: {fileID: 2100000, guid: 8ecedb571f5e90142886edb40ecbb13d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Porteria
-    second: {fileID: 2100000, guid: e26677424e5afae46956a6c0c42c5b50, type: 2}
+    second: {fileID: 2100000, guid: f23bd320b7c023c4f8aed03bb0347729, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Publ
-    second: {fileID: 2100000, guid: 436690510afdcb442988a4429190bf20, type: 2}
+    second: {fileID: 2100000, guid: 213a192345b6967448d11a576ac1352e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Red_Porteria
-    second: {fileID: 2100000, guid: 207315d7341ce4a46a87b91b45bfbffe, type: 2}
+    second: {fileID: 2100000, guid: 082e8fdec18b6fb4991f899aa34ab77b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Vidrio_Transparente
-    second: {fileID: 2100000, guid: 64d5428264c090c4a92dc68dff08ee23, type: 2}
+    second: {fileID: 2100000, guid: 6ab16b142f3f2bd4fb9dad3ecfb10fbf, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -234,7 +222,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
@@ -268,7 +256,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
