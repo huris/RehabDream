@@ -76,12 +76,15 @@ namespace XCharts
                     if (sd.show && serie.pieRoseType == RoseType.Area) showdataCount++;
                     sd.canShowLabel = false;
                 }
+                bool dataChanging = false;
+                float updateDuration = serie.animation.GetUpdateAnimationDuration();
                 for (int n = 0; n < data.Count; n++)
                 {
                     if (!serie.animation.NeedAnimation(n)) break;
                     var serieData = data[n];
                     serieData.index = n;
-                    float value = serieData.data[1];
+                    float value = serieData.GetCurrData(1, updateDuration);
+                    if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
                     serieData.runtimePieStartAngle = startDegree;
@@ -168,6 +171,10 @@ namespace XCharts
                     serie.animation.CheckSymbol(Time.deltaTime * symbolSpeed, serie.symbol.size);
                     RefreshChart();
                 }
+                if (dataChanging)
+                {
+                    RefreshChart();
+                }
             }
             DrawLabelLine(vh);
             DrawLabelBackground(vh);
@@ -177,7 +184,7 @@ namespace XCharts
         private void DrawArcShape(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
             Color color, ref float drawStartDegree, ref float drawEndDegree)
         {
-            if (serie.arcShaped)
+            if (serie.arcShaped && serieData.runtimePieInsideRadius > 0)
             {
                 var width = (serieData.runtimePieOutsideRadius - serieData.runtimePieInsideRadius) / 2;
                 var radius = serieData.runtimePieInsideRadius + width;

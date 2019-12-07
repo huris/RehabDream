@@ -26,7 +26,7 @@ namespace XCharts
         [SerializeField] private float m_Duration = 1000;
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField] private float m_Delay = 0;
-        [SerializeField] private bool m_UpdateAnimation = false;
+        [SerializeField] private bool m_UpdateAnimation = true;
         [SerializeField] private float m_UpdateDuration = 500;
         [SerializeField] private float m_ActualDuration;
 
@@ -158,7 +158,7 @@ namespace XCharts
 #if UNITY_EDITOR
             if (!Application.isPlaying) return true;
 #endif
-            return !enable || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
+            return !enable || m_IsEnd || (m_CurrDataProgress > m_DestDataProgress && m_CurrDetailProgress > m_DestDetailProgress);
         }
 
         public bool IsInDelay()

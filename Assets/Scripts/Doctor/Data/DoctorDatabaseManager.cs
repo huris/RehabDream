@@ -1191,11 +1191,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read GravityCenterRecord
-    public List<GravityCenter> ReadGravityCenterRecord(long PatientID)
+    public List<GravityCenter> ReadGravityCenterRecord(long TrainingID)
     {
         SqliteDataReader reader;    //sql读取器
         List<GravityCenter> result = new List<GravityCenter>(); //返回值
-        string QueryString = "SELECT * FROM GravityCenter,PatientRecord where PatientID=" + PatientID.ToString() + " and GravityCenter.TrainingID=PatientRecord.TrainingID order by TrainingID";
+        string QueryString = "SELECT * FROM GravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
 
         try
         {
@@ -1237,11 +1237,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read Angle
-    public List<Angle> ReadAngleRecord(long PatientID)
+    public List<Angle> ReadAngleRecord(long TrainingID)
     {
         SqliteDataReader reader;    //sql读取器
         List<Angle> result = new List<Angle>(); //返回值
-        string QueryString = "SELECT * FROM Angles,PatientRecord where PatientID=" + PatientID.ToString() + " and Angles.TrainingID=PatientRecord.TrainingID order by TrainingID";
+        string QueryString = "SELECT * FROM Angles where TrainingID=" + TrainingID.ToString() + " order by Time";
 
         try
         {
