@@ -15,23 +15,33 @@ namespace XCharts
     public class Demo_Test : MonoBehaviour
     {
         private float updateTime = 0;
-        CoordinateChart chart;
+        BaseChart chart;
         void Awake()
         {
-            chart = gameObject.GetComponent<CoordinateChart>();
-            if (chart == null)
-            {
-                chart = gameObject.AddComponent<CoordinateChart>();
-            }
+            chart = gameObject.GetComponent<BaseChart>();
         }
 
         void Update()
         {
             updateTime += Time.deltaTime;
-            if (updateTime > 2)
+            if (chart && updateTime > 2)
             {
                 updateTime = 0;
-                chart.UpdateData(0, Random.Range(0, 5), Random.Range(10, 90));
+                var serie = chart.series.GetSerie(0);
+                serie.animation.updateAnimation = true;
+                var dataCount = serie.dataCount;
+                if (chart is HeatmapChart)
+                {
+                    var dimension = serie.GetSerieData(0).data.Count - 1;
+                    for (int i = 0; i < dataCount; i++)
+                    {
+                        chart.UpdateData(0, i, dimension, Random.Range(0, 10));
+                    }
+                }
+                else
+                {
+                    chart.UpdateData(0, Random.Range(0, dataCount), Random.Range(10, 90));
+                }
             }
         }
     }
