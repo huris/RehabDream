@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Assets",
+    "\\Assets\\Scripts"
   ],
+  "SelectedNode": "\\Assets\\Scripts\\Soccerball",
   "PreviewInSolutionExplorer": false
 }
