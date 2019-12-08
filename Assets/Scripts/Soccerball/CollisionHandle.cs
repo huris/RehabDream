@@ -23,6 +23,7 @@ public class CollisionHandle : MonoBehaviour
     [Header("Tag")]
     public const string GateTrigger = "GateTrigger";
     public const string GoalkeeperTrigger = "GoalkeeperTrigger";
+    public const string NetTrigger = "NetTrigger";
 
     // Use this for initialization
     void Start()
@@ -39,14 +40,14 @@ public class CollisionHandle : MonoBehaviour
     // happen when soccer collider
     private void OnTriggerEnter(Collider other)
     {
-        if (SessionOver) // this session is over
-        {
-            return;
-        }
 
         switch (other.tag)
         {
             case GateTrigger:  //Goalkeeper fail
+                if (SessionOver) //if this session is over
+                {
+                    return;
+                }
                 OnGoalkeeperFail?.Invoke();
                 SessionOver = true;
                 Debug.Log("Goalkeeper fail");
@@ -65,19 +66,22 @@ public class CollisionHandle : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (SessionOver) //if this session is over
-        {
-            return;
-        }
         switch (other.gameObject.tag)
         {
 
             case GoalkeeperTrigger:    //Goalkeeper win
+                if (SessionOver) //if this session is over
+                {
+                    return;
+                }
                 OnGoalkeeperWin?.Invoke();
                 SessionOver = true;
                 Debug.Log("Goalkeeper win!!!!!!!!!!!!!!");
                 break;
 
+            case NetTrigger:
+                Debug.Log("Crash net!");
+                break;
             default:
 
                 break;
