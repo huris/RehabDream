@@ -18,6 +18,7 @@ public class GameState : MonoBehaviour
     public GameObject Soccer;
     public GameObject Gate;
     public GameObject TrackRoot;
+    public GameObject GoalKeeper;
     public Transform SoccerStart;
     public Transform HeightestPoint;
     public Transform SoccerTarget;
@@ -44,19 +45,19 @@ public class GameState : MonoBehaviour
 
 
     [Header("Other Classes")]
-    public AvatarCaculator RecordCaculator;
-    public AvatarController GoalkeeperController;
     public GameUIHandle GameUIHandle;
 
     [Header("Time Count")]
-    private float SessionRestTime = 3.0f;
-    private float PrepareTime = 3.0f;
-    private float AddSuccessCountTime = 1.0f;
-    private float RecordTime = 0.2f;
+    private float _SessionRestTime = 3.0f;
+    private float _PrepareTime = 3.0f;
+    private float _AddSuccessCountTime = 1.0f;
+    private float _RecordTime = 0.2f;
 
     private Track _Track;
     private Shooting _Shooting;
     private CollisionHandle _CollisionHandle;
+    private AvatarCaculator _RecordCaculator;
+    private AvatarController _GoalkeeperController;
 
 
     private string _TipsLimb = "";
@@ -109,10 +110,10 @@ public class GameState : MonoBehaviour
 
 
         // 保证切换场景时kinect 与 AvatarController不会失效
-        GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
-        if (!KinectManager.Instance.avatarControllers.Contains(GoalkeeperController))
+        _GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
+        if (!KinectManager.Instance.avatarControllers.Contains(_GoalkeeperController))
         {
-            KinectManager.Instance.avatarControllers.Add(GoalkeeperController);
+            KinectManager.Instance.avatarControllers.Add(_GoalkeeperController);
         }
     }
 
@@ -274,7 +275,7 @@ public class GameState : MonoBehaviour
     private void ShowAddSuccessCountText()
     {
         //Debug.Log("StartCoroutine");
-        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(_AddCount, AddSuccessCountTime));
+        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(_AddCount, _AddSuccessCountTime));
     }
 
     private void Shoot2SessionOverFunc()
@@ -290,20 +291,20 @@ public class GameState : MonoBehaviour
     {
         WriteBodyDataThread Thread = new WriteBodyDataThread(
            PatientDataManager.instance.TrainingID,
-           RecordCaculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
-           RecordCaculator.LeftArmAngle(),
-           RecordCaculator.RightArmAngle(),
-           RecordCaculator.LeftLegAngle(),
-           RecordCaculator.RightLegAngle(),
-           RecordCaculator.LeftElbowAngle(),
-           RecordCaculator.RightElbowAngle(),
-           RecordCaculator.LeftKneeAngle(),
-           RecordCaculator.RightKneeAngle(),
-           RecordCaculator.LeftAnkleAngle(),
-           RecordCaculator.RightAnkleAngle(),
-           RecordCaculator.LeftHipAngle(),
-           RecordCaculator.RightHipAngle(),
-           RecordCaculator.HipAngle(),
+           _RecordCaculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
+           _RecordCaculator.LeftArmAngle(),
+           _RecordCaculator.RightArmAngle(),
+           _RecordCaculator.LeftLegAngle(),
+           _RecordCaculator.RightLegAngle(),
+           _RecordCaculator.LeftElbowAngle(),
+           _RecordCaculator.RightElbowAngle(),
+           _RecordCaculator.LeftKneeAngle(),
+           _RecordCaculator.RightKneeAngle(),
+           _RecordCaculator.LeftAnkleAngle(),
+           _RecordCaculator.RightAnkleAngle(),
+           _RecordCaculator.LeftHipAngle(),
+           _RecordCaculator.RightHipAngle(),
+           _RecordCaculator.HipAngle(),
            System.DateTime.Now);
 
         Thread.StartThread();
@@ -594,6 +595,8 @@ public class GameState : MonoBehaviour
         _Shooting = Soccer.GetComponent<Shooting>();
         _CollisionHandle = Soccer.GetComponent<CollisionHandle>();
         _Track = TrackRoot.GetComponent<Track>();
+        _GoalkeeperController = GoalKeeper.GetComponent<AvatarController>();
+        _RecordCaculator = GoalKeeper.GetComponent<AvatarCaculator>();
 
         GenerateGate();
     }
@@ -627,7 +630,7 @@ public class GameState : MonoBehaviour
     private bool SessionRestTimeOver()
     {
         _RestTimeCount += Time.deltaTime;
-        if (_RestTimeCount >= SessionRestTime)
+        if (_RestTimeCount >= _SessionRestTime)
         {
             _RestTimeCount = 0f;
             return true;
@@ -643,7 +646,7 @@ public class GameState : MonoBehaviour
     private bool PrepareTimeOver()
     {
         _RestTimeCount += Time.deltaTime;
-        if (_RestTimeCount < PrepareTime)
+        if (_RestTimeCount < _PrepareTime)
         {
             return false;
         }
@@ -660,7 +663,7 @@ public class GameState : MonoBehaviour
     private bool RecordTimeOver()
     {
         _RecordTimeCount += Time.deltaTime;
-        if (_RecordTimeCount < RecordTime)
+        if (_RecordTimeCount < _RecordTime)
         {
             return false;
         }
