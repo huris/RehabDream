@@ -48,190 +48,190 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\mscorlib.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.dll</HintPath>
     </Reference>
     <Reference Include="System.XML">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.XML.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.XML.dll</HintPath>
     </Reference>
     <Reference Include="System.Core">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Core.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\Microsoft.CSharp.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Runtime.Serialization.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Runtime.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Xml.Linq.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Xml.Linq.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UNETModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WebModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StyleSheetsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GridModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticlesLegacyModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WindModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceTesting">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Timeline">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets/Demigiant/DOTween/DOTween.dll</HintPath>
@@ -261,10 +261,10 @@
       <HintPath>Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/China/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/China/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +274,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ArmChart.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -281,6 +282,54 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Interactive_Pie\WMG_X_Interactive_Pie.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Pie_Ring_Graph\WMG_X_Pie_Ring_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\WMG_X_Plot_Overtime.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Ring_Graph\WMG_X_Ring_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Simple_Pie\WMG_X_Simple_Pie.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_Tutorial_1\WMG_X_Tutorial_1.cs" />
+    <Compile Include="Assets\Graph_Maker\Examples\X_WorldSpace\WMG_X_WorldSpace.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Axis_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Bezier_Band_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Grid.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Hierarchical_Tree.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Pie_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Radar_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Random_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Graphs\WMG_Ring_Graph.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Anim.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Events.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Graph_Tooltip.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_GUI_Functions.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Image_Custom_Mat.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycaster.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Raycatcher.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\GUIDependent\WMG_Text_Functions.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Change_Obj.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_EnumFlagAttribute.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Enums.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_List.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Reflection.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\Utils\WMG_Util.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Axis.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Bezier_Band.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Compute_Shader.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_ComputeLineGraph_Data.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Data_Source.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Auto_Anim.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Graph_Manager.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Legend_Entry.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Link.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Node.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
+    <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
+    <Compile Include="Assets\GravityCenterInitScript.cs" />
+    <Compile Include="Assets\JointFeedbackInit.cs" />
     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
@@ -357,6 +406,7 @@
     <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
     <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
     <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\Angle.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Doctor.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
@@ -463,6 +513,51 @@
     <Compile Include="Assets\Scripts\UI\GameUIHandle.cs" />
     <Compile Include="Assets\Scripts\UI\StartUIHandle.cs" />
     <Compile Include="Assets\Scripts\UI\UIHandle.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\TrackballGroupAttribute.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\AmbientOcclusionComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\BloomComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\BuiltinDebugViewsComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\ChromaticAberrationComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\ColorGradingComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\DepthOfFieldComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\DitheringComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\FogComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\FxaaComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\GrainComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\MotionBlurComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\TaaComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\UserLutComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Components\VignetteComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\AmbientOcclusionModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\AntialiasingModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\BloomModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\BuiltinDebugViewsModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\ColorGradingModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\DepthOfFieldModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\DitheringModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\EyeAdaptationModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\FogModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\GrainModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\MotionBlurModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\ScreenSpaceReflectionModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\UserLutModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Models\VignetteModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\PostProcessingBehaviour.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\PostProcessingComponent.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\PostProcessingContext.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\PostProcessingModel.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\PostProcessingProfile.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\ColorGradingCurve.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
+    <Compile Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\GrassRenderingReservedLayer.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\SetupForGrassRendering.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\VolumeGrass.cs" />
@@ -473,11 +568,94 @@
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Dynamic.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_LargeData.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_PieChart.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Test.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo00_CheatSheet.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo01_UpdateData.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo10_LineChart.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo11_AddSinCurve.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo12_CustomDrawing.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo13_LineSimple.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo20_BarChart.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo30_PieChart.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo50_Scatter.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo60_Heatmap.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo70_Gauge.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\BarChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\ChartComponent.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Axis.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\DataZoom.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Grid.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Legend.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Radar.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Serie.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Series.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Settings.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Theme.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Title.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Tooltip.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\VisualMap.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\MainComponent.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AreaStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLabel.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLine.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisName.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisSplitArea.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisTick.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\Emphasis.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\GaugeAxis.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\GaugePointer.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\IconStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\ItemStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\LineArrow.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\LineStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\Location.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieAnimation.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieData.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieLabel.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieSymbol.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\TextStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Sub\TitleStyle.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\SubComponent.cs" />
+    <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\AxisPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\BaseChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawBar.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawHeatmap.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawLine.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawScatter.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\LabelObject.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\ListPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\ObjectPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\SerieLabelPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\LineChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\PieChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\RadarChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\ScatterChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Utility\ChartCached.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Utility\ChartDrawer.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Utility\ChartHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Utility\XChartsMgr.cs" />
+    <Compile Include="Assets\XCharts\XChartsDemo\Runtime\Demo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
     <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
     <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
@@ -486,6 +664,47 @@
     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
     <None Include="Assets\Plugins\UWP\Attribution.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
     <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
     <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />

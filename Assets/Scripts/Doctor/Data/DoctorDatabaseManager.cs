@@ -1191,11 +1191,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read GravityCenterRecord
-    public List<GravityCenter> ReadGravityCenterRecord(long PatientID)
+    public List<GravityCenter> ReadGravityCenterRecord(long TrainingID)
     {
         SqliteDataReader reader;    //sql读取器
         List<GravityCenter> result = new List<GravityCenter>(); //返回值
-        string QueryString = "SELECT * FROM GravityCenter,PatientRecord where PatientID=" + PatientID.ToString() + " and GravityCenter.TrainingID=PatientRecord.TrainingID order by TrainingID";
+        string QueryString = "SELECT * FROM GravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
 
         try
         {
@@ -1235,6 +1235,63 @@ public class DoctorDatabaseManager : MonoBehaviour
             return result;
         }
     }
+
+    // read Angle
+    public List<Angle> ReadAngleRecord(long TrainingID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Angle> result = new List<Angle>(); //返回值
+        string QueryString = "SELECT * FROM Angles where TrainingID=" + TrainingID.ToString() + " order by Time";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Angle();
+                    res.SetCompleteAngles(
+                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    reader.GetFloat(reader.GetOrdinal("LeftArmAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightArmAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftLegAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightLegAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftElbowAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightElbowAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftKneeAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightKneeAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftHipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightHipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("HipAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftAnkleAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightAnkleAngle")),
+                    reader.GetString(reader.GetOrdinal("Time"))
+                    );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read AnglesRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read AnglesRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read AnglesRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+
+
 
     // create Data/
     private void CheckDataFolder()
