@@ -525,7 +525,7 @@ public class GameState : MonoBehaviour
                 Gate.transform.localScale = new Vector3(1, 0.35f, 1);
                 break;
             case PatientDataManager.DifficultyType.Advanced:
-                Gate.transform.localScale = new Vector3(1, 1, 1);
+                Gate.transform.localScale = new Vector3(1, 0.7f, 1);
                 break;
         }
     }
