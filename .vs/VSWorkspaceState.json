@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Assets",
+    "\\Assets\\Scripts",
+    "\\Assets\\Scripts\\Soccerball"
   ],
+  "SelectedNode": "\\Assets\\Scripts\\Soccerball\\CollisionHandle.cs",
   "PreviewInSolutionExplorer": false
 }
