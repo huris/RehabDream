@@ -56,7 +56,7 @@ public class GameState : MonoBehaviour
     private Track _Track;
     private Shooting _Shooting;
     private CollisionHandle _CollisionHandle;
-    private AvatarCaculator _RecordCaculator;
+    private AvatarCaculator _Caculator;
     private AvatarController _GoalkeeperController;
 
 
@@ -65,6 +65,9 @@ public class GameState : MonoBehaviour
     private float _RecordTimeCount = 0;
     private int _AddCount = 1;
     private float _Gravity = Physics.gravity.y;
+    private float _MinDis = 0.1f;
+    private float _MinGate = 0.35f;
+    private float _MaxGate = 0.75f;
 
 
 
@@ -81,6 +84,12 @@ public class GameState : MonoBehaviour
 
     private delegate void SessionOver2GameOver(); // what will happen when state transform from SessionOver to GameOver
     private event SessionOver2GameOver _OnSessionOver2GameOver;
+
+    private delegate void Win();  // CheckObeyRules is true
+    private event Win _Win;
+
+    private delegate void Fail();  
+    private event Fail _Fail;
 
     public enum State
     {
@@ -206,32 +215,52 @@ public class GameState : MonoBehaviour
         InitSessionOver2Prepare();
         InitSessionOver2GameOver();
 
+        InitGoalkeeperWinDelegate();
+        InitGoalkeeperFailDelegate();
         InitWinDelegate();
         InitFailDelegate();
     }
 
-    //Set Win delegate event
-    private void InitWinDelegate()
+    //check if player obey rules
+    private void InitGoalkeeperWinDelegate()
     {
-        _CollisionHandle.OnGoalkeeperWin += this.WriteDatabaseInGame;
-        _CollisionHandle.OnGoalkeeperWin += this.PlayWinSe;
-        _CollisionHandle.OnGoalkeeperWin += this.ShowAddSuccessCountText;
-        _CollisionHandle.OnGoalkeeperWin += this.AddSuccessCount;
-        _CollisionHandle.OnGoalkeeperWin += this.AddFinishCount;
-
-        // 能否这样使用？，可以使用下一行替代
-        _CollisionHandle.OnGoalkeeperWin += _OnShoot2SessionOver.Invoke;
-        //_CollisionHandle.OnGoalkeeperWin += Shoot2SessionOverFunc;
+        _CollisionHandle.OnGoalkeeperWin += this.CheckObeyRules;
     }
 
-    //Set Fail delegate event
-    private void InitFailDelegate()
+    //Set OnGoalkeeperFail delegate event
+    private void InitGoalkeeperFailDelegate()
     {
         _CollisionHandle.OnGoalkeeperFail += this.WriteDatabaseInGame;
         _CollisionHandle.OnGoalkeeperFail += this.AddFinishCount;
 
         // 能否这样使用？，可以使用下一行替代
         _CollisionHandle.OnGoalkeeperFail += this._OnShoot2SessionOver.Invoke;
+        //_CollisionHandle.OnGoalkeeperFail += Shoot2SessionOverFunc;
+    }
+
+
+    //Set Win delegate event
+    private void InitWinDelegate()
+    {
+        _Win += this.WriteDatabaseInGame;
+        _Win += this.PlayWinSe;
+        _Win += this.ShowAddSuccessCountText;
+        _Win += this.AddSuccessCount;
+        _Win += this.AddFinishCount;
+
+        // 能否这样使用？，可以使用下一行替代
+        _Win += _OnShoot2SessionOver.Invoke;
+        //_CollisionHandle.OnGoalkeeperWin += Shoot2SessionOverFunc;
+    }
+
+    //Set Fail delegate event
+    private void InitFailDelegate()
+    {
+        _Fail += this.WriteDatabaseInGame;
+        _Fail += this.AddFinishCount;
+
+        // 能否这样使用？，可以使用下一行替代
+        _Fail += this._OnShoot2SessionOver.Invoke;
         //_CollisionHandle.OnGoalkeeperFail += Shoot2SessionOverFunc;
     }
 
@@ -285,26 +314,76 @@ public class GameState : MonoBehaviour
         ResetShoot();
     }
 
+    // check if player obey rules
+    private void CheckObeyRules()
+    {
+        if(PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
+            PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
+        {
+            this._Win?.Invoke();
+            return;
+        }
+
+        HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
+        if(_TipsLimb.Equals(Point2Limb(Point)))
+        {
+            this._Win?.Invoke();
+            return;
+        }
+        else if (_Caculator.CloseEnough(Soccer.transform.position,_TipsLimb,MinDis))
+        {
+
+        }
+        else
+        {
+            this._Fail.Invoke();
+        }
+    }
+
+    private string Point2Limb(HumanBodyBones Point)
+    {
+        if (Point == HumanBodyBones.RightHand || Point == HumanBodyBones.RightLowerArm || Point == HumanBodyBones.RightUpperArm || Point == HumanBodyBones.RightShoulder)
+        {
+            Debug.Log("@GameState: Nearest 右手");
+            return "右手";
+        }
+        else if (Point == HumanBodyBones.LeftHand || Point == HumanBodyBones.LeftLowerArm || Point == HumanBodyBones.LeftUpperArm || Point == HumanBodyBones.LeftShoulder)
+        {
+            Debug.Log("@GameState: Nearest 左手");
+            return "左手";
+        }
+        else if (Point == HumanBodyBones.LeftToes || Point == HumanBodyBones.LeftFoot || Point == HumanBodyBones.LeftLowerLeg || Point == HumanBodyBones.LeftUpperLeg)
+        {
+            Debug.Log("@GameState: Nearest 左脚");
+            return "左脚";
+        }
+        else
+        {
+            Debug.Log("@GameState: Nearest 右脚");
+            return "右脚";
+        }
+    }
+
 
     // use Thread to write database
     public void WriteDatabaseInGame()
     {
         WriteBodyDataThread Thread = new WriteBodyDataThread(
            PatientDataManager.instance.TrainingID,
-           _RecordCaculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
-           _RecordCaculator.LeftArmAngle(),
-           _RecordCaculator.RightArmAngle(),
-           _RecordCaculator.LeftLegAngle(),
-           _RecordCaculator.RightLegAngle(),
-           _RecordCaculator.LeftElbowAngle(),
-           _RecordCaculator.RightElbowAngle(),
-           _RecordCaculator.LeftKneeAngle(),
-           _RecordCaculator.RightKneeAngle(),
-           _RecordCaculator.LeftAnkleAngle(),
-           _RecordCaculator.RightAnkleAngle(),
-           _RecordCaculator.LeftHipAngle(),
-           _RecordCaculator.RightHipAngle(),
-           _RecordCaculator.HipAngle(),
+           _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
+           _Caculator.LeftArmAngle(),
+           _Caculator.RightArmAngle(),
+           _Caculator.LeftLegAngle(),
+           _Caculator.RightLegAngle(),
+           _Caculator.LeftElbowAngle(),
+           _Caculator.RightElbowAngle(),
+           _Caculator.LeftKneeAngle(),
+           _Caculator.RightKneeAngle(),
+           _Caculator.LeftAnkleAngle(),
+           _Caculator.RightAnkleAngle(),
+           _Caculator.LeftHipAngle(),
+           _Caculator.RightHipAngle(),
+           _Caculator.HipAngle(),
            System.DateTime.Now);
 
         Thread.StartThread();
@@ -596,7 +675,7 @@ public class GameState : MonoBehaviour
         _CollisionHandle = Soccer.GetComponent<CollisionHandle>();
         _Track = TrackRoot.GetComponent<Track>();
         _GoalkeeperController = GoalKeeper.GetComponent<AvatarController>();
-        _RecordCaculator = GoalKeeper.GetComponent<AvatarCaculator>();
+        _Caculator = GoalKeeper.GetComponent<AvatarCaculator>();
 
         GenerateGate();
     }
