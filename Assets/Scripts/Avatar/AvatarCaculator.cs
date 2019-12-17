@@ -419,4 +419,112 @@ public class AvatarCaculator : MonoBehaviour
         }
     }
 
+    // the point nearest to soccerball
+    public HumanBodyBones NearestPoint(Vector3 SoccerballPosition)
+    {
+        HumanBodyBones[] array = new HumanBodyBones[]{
+            HumanBodyBones.RightHand,
+            HumanBodyBones.RightLowerArm,
+            HumanBodyBones.RightUpperArm,
+            HumanBodyBones.RightShoulder,
+
+            HumanBodyBones.LeftHand,
+            HumanBodyBones.LeftLowerArm,
+            HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.LeftShoulder,
+
+            HumanBodyBones.RightToes,
+            HumanBodyBones.RightFoot,
+            HumanBodyBones.RightLowerLeg,
+            HumanBodyBones.RightUpperLeg,
+
+            HumanBodyBones.LeftToes,
+            HumanBodyBones.LeftFoot,
+            HumanBodyBones.LeftLowerLeg,
+            HumanBodyBones.LeftUpperLeg
+        };
+
+        HumanBodyBones Nearest = HumanBodyBones.RightHand;
+        float disance = (_Animator.GetBoneTransform(Nearest).position - SoccerballPosition).sqrMagnitude;
+        foreach (HumanBodyBones point in array)
+        {
+            Vector3 position = _Animator.GetBoneTransform(point).position;
+            float disance_now = (position - SoccerballPosition).sqrMagnitude;
+            if (disance_now < disance)
+            {
+                disance = disance_now;
+                Nearest = point;
+            }
+        }
+
+        return Nearest;
+
+    }
+
+    // is soccerball close enough to Limb
+    public bool CloseEnough(Vector3 SoccerballPosition, string Limb, float MixDis = 0.1f)
+    {
+        HumanBodyBones[] RightHandArray = new HumanBodyBones[]
+        {
+            HumanBodyBones.RightHand,
+            HumanBodyBones.RightLowerArm,
+            HumanBodyBones.RightUpperArm,
+            HumanBodyBones.RightShoulder
+        };
+
+        HumanBodyBones[] LeftHandArray = new HumanBodyBones[]
+        {
+            HumanBodyBones.LeftHand,
+            HumanBodyBones.LeftLowerArm,
+            HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.LeftShoulder
+        };
+
+        HumanBodyBones[] RightFootArray = new HumanBodyBones[]
+        {
+            HumanBodyBones.RightToes,
+            HumanBodyBones.RightFoot,
+            HumanBodyBones.RightLowerLeg,
+            HumanBodyBones.RightUpperLeg,
+        };
+
+        HumanBodyBones[] LeftFootArray = new HumanBodyBones[]{
+            HumanBodyBones.LeftToes,
+            HumanBodyBones.LeftFoot,
+            HumanBodyBones.LeftLowerLeg,
+            HumanBodyBones.LeftUpperLeg
+        };
+
+        HumanBodyBones[] Array;
+        if (Limb.Equals("左手"))
+        {
+            Array = LeftHandArray;
+        }
+        else if (Limb.Equals("右手"))
+        {
+            Array = RightHandArray;
+        }
+        else if (Limb.Equals("左脚"))
+        {
+            Array = LeftFootArray;
+        }
+        else
+        {
+            Array = RightFootArray;
+        }
+
+
+        foreach (HumanBodyBones point in Array)
+        {
+            Vector3 position = _Animator.GetBoneTransform(point).position;
+            float disance_now = (position - SoccerballPosition).sqrMagnitude;
+            if (disance_now < MixDis)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

@@ -5096,9 +5096,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.05
-  m_Height: 0.3
+  m_Height: 0.35
   m_Direction: 1
-  m_Center: {x: 0, y: 0.1, z: 0}
+  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!1 &753497602
 GameObject:
   m_ObjectHideFlags: 0
@@ -8439,7 +8439,6 @@ GameObject:
   - component: {fileID: 1158813093}
   - component: {fileID: 1158813095}
   - component: {fileID: 1158813094}
-  - component: {fileID: 1158813096}
   m_Layer: 0
   m_Name: Gate
   m_TagString: Untagged
@@ -8513,20 +8512,6 @@ MeshFilter:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1158813092}
-  m_Mesh: {fileID: 4300018, guid: d1ed63377410d0d4fa0dc8f3cb32012d, type: 3}
---- !u!64 &1158813096
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1158813092}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300018, guid: d1ed63377410d0d4fa0dc8f3cb32012d, type: 3}
 --- !u!1 &1159451041
 GameObject:
@@ -11740,7 +11725,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!135 &1438223890
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13525,7 +13510,7 @@ GameObject:
   - component: {fileID: 1644328658}
   m_Layer: 0
   m_Name: mixamorig:RightForeArm
-  m_TagString: Untagged
+  m_TagString: GoalkeeperTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13554,9 +13539,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.05
-  m_Height: 0.3
+  m_Height: 0.35
   m_Direction: 1
-  m_Center: {x: 0, y: 0.1, z: 0}
+  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!1 &1647959340
 GameObject:
   m_ObjectHideFlags: 0
@@ -15603,8 +15588,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1845480776}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.313, y: -0.006, z: -0.025}
-  m_LocalScale: {x: 0.1521996, y: 0.6887074, z: 0.20805548}
+  m_LocalPosition: {x: 5.329, y: -0.006, z: -0.025}
+  m_LocalScale: {x: 0.158918, y: 0.71910834, z: 0.21723947}
   m_Children: []
   m_Father: {fileID: 1158813093}
   m_RootOrder: 0
