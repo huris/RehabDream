@@ -16,28 +16,13 @@ namespace XCharts
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class RadarChart : BaseChart
+    public partial class RadarChart : BaseChart
     {
         private const string INDICATOR_TEXT = "indicator";
 
         [SerializeField] private List<Radar> m_Radars = new List<Radar>();
         private List<Radar> m_CheckRadars = new List<Radar>();
         private bool m_IsEnterLegendButtom;
-
-        public List<Radar> radars { get { return m_Radars; } }
-
-        /// <summary>
-        /// 移除所有数据，包含指示器数据。
-        /// </summary>
-        public override void RemoveData()
-        {
-            base.RemoveData();
-            foreach (var radar in m_Radars)
-            {
-                radar.indicatorList.Clear();
-            }
-            m_CheckRadars.Clear();
-        }
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
@@ -512,7 +497,7 @@ namespace XCharts
             {
                 string key = radar.indicatorList[i].name;
                 float value = serieData.GetData(i);
-                sb.Append("\n");
+                if ((i == 0 && !string.IsNullOrEmpty(serieData.name)) || i > 0) sb.Append("\n");
                 sb.AppendFormat("{0}: {1}", key, ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
             }
             m_Tooltip.UpdateContentText(sb.ToString());
