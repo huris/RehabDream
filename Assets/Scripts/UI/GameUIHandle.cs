@@ -27,6 +27,8 @@ public class GameUIHandle : UIHandle
     public Text GameUITrainProgressText;
     public Text GameUITipsText;
     public Text GameUIAddSuccessCountText;
+    public GameObject Tips;
+    public GameObject WrongLimb;
     public Slider GameUIProgressSlider;
 
     [Header("KinectDetectUI Objects")]
@@ -59,6 +61,7 @@ public class GameUIHandle : UIHandle
 
     private float _GestureTimeCount = 0;
     private float _DetectTime = 3.0f;
+    private float _ShowWrongLimbTime = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -255,7 +258,7 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string TipsLimb)
     {
-        string[] Tipslimbs = new string[] { "左手", "右手", "左脚", "右脚" };
+        string[] Tipslimbs = new string[] { "左手", "右手", "左脚", "右脚", "任意肢体" };
         if (Array.IndexOf(Tipslimbs, TipsLimb)==-1)
         {
             // 不是肢体字符串
@@ -267,6 +270,22 @@ public class GameUIHandle : UIHandle
             GameUITipsText.text = "请使用" + TipsLimb + "阻拦足球";
         }
 
+    }
+
+    // 提示使用了错误肢体
+    public void ShowWrongLimb()
+    {
+        Tips.SetActive(false);
+        WrongLimb.SetActive(true);
+        StartCoroutine(CloseWrongLimb(_ShowWrongLimbTime));
+    }
+
+    // 结束报错
+    private IEnumerator CloseWrongLimb(float ShowWrongLimbTime)
+    {
+        yield return new WaitForSeconds(ShowWrongLimbTime); //先直接返回，之后的代码等待给定的时间周期过完后执行
+        WrongLimb.SetActive(false);
+        Tips.SetActive(true);
     }
 
     // show ShowAddSuccessCountText
