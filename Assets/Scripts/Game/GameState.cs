@@ -337,7 +337,7 @@ public class GameState : MonoBehaviour
         }
         else
         {
-            this.ShowWordTips("使用了错误的肢体");
+            this.ShowWrongLimb();
             this._Fail?.Invoke();
         }
     }
@@ -613,6 +613,12 @@ public class GameState : MonoBehaviour
         GameUIHandle.SetTipsText(TipsLimb);
     }
 
+    // 提示使用了错误肢体
+    private void ShowWrongLimb()
+    {
+        GameUIHandle.ShowWrongLimb();
+    }
+
     // Generate everything for next Shoot
     private void GenerateShoot()
     {
@@ -659,7 +665,7 @@ public class GameState : MonoBehaviour
     public void HideWordTips()
     {
         _TipsLimb = "";
-        //ShowWordTips(_TipsLimb);
+        ShowWordTips(_TipsLimb);
 
     }
 
