@@ -1065,8 +1065,10 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + "and TrainingStartTime <= " + AddSingleQuotes(StartTime) + " and TrainingEndTime >= " + AddSingleQuotes(EndTime) +" order by TrainingEndTime";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) +" order by TrainingEndTime";
+        //string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() +  " order by TrainingEndTime";
 
+        print(QueryString);
         try
         {
             reader = PatientDatabase.ExecuteQuery(QueryString);

@@ -12150,7 +12150,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 455171805}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 543561389}
@@ -15214,7 +15214,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 607177400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1167041295}
@@ -18986,9 +18986,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -33336,9 +33350,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -36465,7 +36493,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1400158534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1688570395}
@@ -40395,9 +40423,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -42281,9 +42323,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -46607,9 +46663,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -49858,9 +49928,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -51069,7 +51153,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1786314828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1122408338}
@@ -52773,9 +52857,23 @@ MonoBehaviour:
     m_DataFromJson: 0
     m_Show: 1
     m_Text: LineChart
-    m_TextFontSize: 16
+    m_TextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 16
+      m_FontStyle: 0
     m_SubText: 
-    m_SubTextFontSize: 14
+    m_SubTextStyle:
+      m_JsonData: 
+      m_DataFromJson: 0
+      m_Rotate: 0
+      m_Offset: {x: 0, y: 0}
+      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_FontSize: 14
+      m_FontStyle: 0
     m_ItemGap: 8
     m_Location:
       m_JsonData: 
@@ -55103,7 +55201,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1907111173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1075854234}
@@ -55793,7 +55891,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922893704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1083235902}
@@ -58226,7 +58324,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2049505574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -24, z: -0}
+  m_LocalPosition: {x: 0, y: -24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 414369509}
