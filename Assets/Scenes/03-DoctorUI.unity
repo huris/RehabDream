@@ -19038,6 +19038,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -19843,6 +19845,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -33402,6 +33405,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -34207,6 +34212,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -40475,6 +40481,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -41280,6 +41288,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -42375,6 +42384,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -43180,6 +43191,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -46715,6 +46727,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -47520,6 +47534,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -49980,6 +49995,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -50785,6 +50802,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
@@ -52909,6 +52927,8 @@ MonoBehaviour:
     m_Show: 1
     m_Type: 0
     m_Formatter: 
+    m_ItemFormatter: 
+    m_TitleFormatter: 
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_MinWidth: 0
@@ -53714,6 +53734,7 @@ MonoBehaviour:
     m_End: 70
     m_StartValue: 0
     m_EndValue: 0
+    m_MinShowNum: 1
     m_ScrollSensitivity: 10
     m_FontSize: 18
     m_FontStyle: 0
