@@ -37,6 +37,7 @@ namespace XCharts
                 GravityCenterChart.title.show = true;
                 GravityCenterChart.title.text = "与 初 始 点 距 离";
                 GravityCenterChart.title.textFontSize = 20;
+                GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
                 GravityCenterChart.title.location.top = 13;
 
                 //chart.title.subText = "前30s";
@@ -53,7 +54,8 @@ namespace XCharts
 
                 GravityCenterChart.tooltip.show = true;
                 GravityCenterChart.tooltip.type = Tooltip.Type.Line;
-                GravityCenterChart.tooltip.formatter = "   第{b}秒   \n重心距离为{c}";
+                GravityCenterChart.tooltip.titleFormatter = "   第{b}秒   ";
+                GravityCenterChart.tooltip.itemFormatter = "重心距离为{c}";
 
                 GravityCenterChart.xAxis0.show = true;
                 GravityCenterChart.xAxis0.type = XAxis.AxisType.Category;
@@ -119,6 +121,7 @@ namespace XCharts
                 GravityCenterChart.dataZoom.supportInside = true;
                 GravityCenterChart.dataZoom.start = 0;
                 GravityCenterChart.dataZoom.end = 100;
+                GravityCenterChart.dataZoom.minShowNum = 30;
 
                 for (int i = 0; i < GravityCenterCount; i++)
                 {
