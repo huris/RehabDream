@@ -419,6 +419,16 @@ public class StartUIHandle : UIHandle
 
     #region Toggles
 
+    // Entry Toggle
+    public void OnEntryToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Entry);
+            Debug.Log("@EntryToggle: Entry difficulty is set");
+        }
+
+    }
 
     // Primary Toggle
     public void OnPrimaryToggleValueChanged(bool isOn)
@@ -521,6 +531,10 @@ public class StartUIHandle : UIHandle
     {
         switch (item.name)
         {
+            case "EntryToggle":
+                PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Entry);
+                Debug.Log("Entry difficulty is set");
+                break;
             case "PrimaryToggle":
                 PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Primary);
                 Debug.Log("Primary difficulty is set");

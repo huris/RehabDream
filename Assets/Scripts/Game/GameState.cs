@@ -317,7 +317,8 @@ public class GameState : MonoBehaviour
     // check if player obey rules
     private void CheckObeyRules()
     {
-        if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
+        if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Entry||
+            PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
             PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
         {
             this._Win?.Invoke();
@@ -325,7 +326,7 @@ public class GameState : MonoBehaviour
         }
 
         HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
-        if (_TipsLimb.Equals(Point2Limb(Point)))
+        if (_TipsLimb.Equals(_Caculator.Point2Limb(Point)))
         {
             Debug.Log("@GameState: Nearest " + _TipsLimb);
             this._Win?.Invoke();
@@ -339,26 +340,6 @@ public class GameState : MonoBehaviour
         {
             this.ShowWrongLimb();
             this._Fail?.Invoke();
-        }
-    }
-
-    private string Point2Limb(HumanBodyBones Point)
-    {
-        if (Point == HumanBodyBones.RightHand || Point == HumanBodyBones.RightLowerArm || Point == HumanBodyBones.RightUpperArm || Point == HumanBodyBones.RightShoulder)
-        {
-            return "右手";
-        }
-        else if (Point == HumanBodyBones.LeftHand || Point == HumanBodyBones.LeftLowerArm || Point == HumanBodyBones.LeftUpperArm || Point == HumanBodyBones.LeftShoulder)
-        {
-            return "左手";
-        }
-        else if (Point == HumanBodyBones.LeftToes || Point == HumanBodyBones.LeftFoot || Point == HumanBodyBones.LeftLowerLeg || Point == HumanBodyBones.LeftUpperLeg)
-        {
-            return "左脚";
-        }
-        else
-        {
-            return "右脚";
         }
     }
 
@@ -497,6 +478,9 @@ public class GameState : MonoBehaviour
         Vector3 Target = Mid;
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:       // Target is near(left shoulder, right shoulder)
+                Target=GenerateEntryTarget();
+                break;
             case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
                 Target = GeneratePrimaryTarget();
                 break;
@@ -512,6 +496,32 @@ public class GameState : MonoBehaviour
         }
         return Target;
     }
+
+
+    // Target is near(left shoulder, right shoulder)
+    private Vector3 GenerateEntryTarget(){
+        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
+        Vector3 Target = Mid;
+        if (Random.Range(0, 2) < 1)
+        {
+            // Target is near left shoulder
+            Vector3 LeftMid = (BottomLeft.position + TopLeft.position) / 2;
+            Target.z = _Caculator.GetLeftUpperArmPosition().z + Random.Range(RandomZmin/2, RandomZmin);
+            Target.y = _Caculator.GetLeftUpperArmPosition().y + Random.Range(0, RandomYmax);
+            this._TipsLimb = "左肩";
+        }
+        else
+        {
+            // Target is near Right shoulder
+            Vector3 RightMid = (BottomRight.position + TopRight.position) / 2;
+            Target.z = _Caculator.GetRightUpperArmPosition().z + Random.Range(RandomZmax / 2, RandomZmax);
+            Target.y = _Caculator.GetRightUpperArmPosition().y + Random.Range(0, RandomYmax);
+            this._TipsLimb = "右肩";
+        }
+        return Target;
+    }
+
+
 
     // Target is near(left hand, right hand)
     private Vector3 GeneratePrimaryTarget()
@@ -592,6 +602,9 @@ public class GameState : MonoBehaviour
     {
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:
+                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                break;
             case PatientDataManager.DifficultyType.Primary:
                 Gate.transform.localScale = new Vector3(1, _MinGate, 1);
                 break;

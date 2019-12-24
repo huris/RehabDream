@@ -3,8 +3,8 @@
     "",
     "\\Assets",
     "\\Assets\\Scripts",
-    "\\Assets\\Scripts\\Soccerball"
+    "\\Assets\\Scripts\\Avatar"
   ],
-  "SelectedNode": "\\Assets\\Scripts\\Soccerball\\CollisionHandle.cs",
+  "SelectedNode": "\\Assets\\Scripts\\Avatar\\AvatarCaculator.cs",
   "PreviewInSolutionExplorer": false
 }

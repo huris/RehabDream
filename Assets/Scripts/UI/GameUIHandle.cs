@@ -43,6 +43,7 @@ public class GameUIHandle : UIHandle
     public Text TrainingTime;
 
     [Header("SettingUI Toggle")]
+    public Toggle EntryToggle;
     public Toggle PrimaryToggle;
     public Toggle GeneralToggle;
     public Toggle IntermediateToggle;
@@ -258,14 +259,18 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string TipsLimb)
     {
-        string[] Tipslimbs = new string[] { "左手", "右手", "左脚", "右脚", "任意肢体" };
+        string[] Tipslimbs = new string[] { "左肩", "右肩","左手", "右手", "左脚", "右脚", "任意肢体" };
         if (Array.IndexOf(Tipslimbs, TipsLimb)==-1)
         {
             // 不是肢体字符串
             GameUITipsText.text = TipsLimb;
         }
-        else
-        {   
+        else if(TipsLimb.Equals("左肩") || TipsLimb.Equals("右肩"))
+        {
+                GameUITipsText.text = "请晃动身体，使用" + TipsLimb + "阻拦足球";
+        }
+        else{   
+            
             // 是肢体字符串
             GameUITipsText.text = "请使用" + TipsLimb + "阻拦足球";
         }
@@ -377,6 +382,7 @@ public class GameUIHandle : UIHandle
     //set PlanDifficultyToggle as Plan
     public void SetPlanDifficultyToggle()
     {
+        EntryToggle.isOn = false;
         PrimaryToggle.isOn = false;
         GeneralToggle.isOn = false;
         IntermediateToggle.isOn = false;
@@ -384,6 +390,9 @@ public class GameUIHandle : UIHandle
 
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:
+                EntryToggle.isOn = true;
+                break;
             case PatientDataManager.DifficultyType.Primary:
                 PrimaryToggle.isOn = true;
                 break;
@@ -458,6 +467,17 @@ public class GameUIHandle : UIHandle
     #region Toggles
 
 
+    // Entry Toggle
+    public void OnEntryToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Entry);
+            Debug.Log("@EntryToggle: Entry difficulty is set");
+        }
+
+    }
+
     // Primary Toggle
     public void OnPrimaryToggleValueChanged(bool isOn)
     {
@@ -468,7 +488,6 @@ public class GameUIHandle : UIHandle
         }
 
     }
-
 
     // General Toggle
     public void OnGeneralToggleValueChanged(bool isOn)
