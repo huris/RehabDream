@@ -184,6 +184,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PlanDifficulty",
                     "GameCount",
                     "PlanCount",
+                    "LaunchSpeed",
+                    "MaxBallSpeed",
+                    "MinBallSpeed",
                     ""},
 
                 new String[] {
@@ -191,6 +194,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create TrainingPlanTable");
@@ -220,6 +226,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PatientSex",
                     "PatientHeight",
                     "PatientWeight",
+                    "PatientSymptom",
                     "" },
 
                 new String[] {
@@ -227,10 +234,11 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
                     "INTEGER",
-                    "TEXT",
                     "INTEGER",
-                    "INTEGER",
+                    "TEXT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientInfoTable");
@@ -249,6 +257,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingDifficulty",
                     "GameCount",
                     "SuccessCount",
+                    "LaunchSpeed",
+                    "MaxBallSpeed",
+                    "MinBallSpeed",
                     "" },
 
                 new String[] {
@@ -259,6 +270,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientRecordTable");
@@ -632,6 +646,50 @@ public class DoctorDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Read DoctorInformation SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    // 读取所有医生信息
+    public List<Doctor> ReadAllDoctorInformation()
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Doctor> result = new List<Doctor>(); //返回值
+        string QueryString = "SELECT * FROM DoctorInfo";
+
+        //ORDER BY convert(name using gbk)
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Doctor();
+                    res.SetDoctorMessage(
+                       reader.GetInt64(reader.GetOrdinal("DoctorID")),
+                       reader.GetString(reader.GetOrdinal("DoctorPassword")),
+                       reader.GetString(reader.GetOrdinal("DoctorName"))
+                       );
+                    res.SetDoctorPinyin(Pinyin.GetPinyin(res.DoctorName));
+
+                    result.Add(res);
+                } while (reader.Read());
+                Debug.Log("@UserManager:Read DoctorInfo Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DoctorInfo Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DoctorInfo SqliteException");
             DoctorDatabase?.CloseConnection();
             return result;
         }
@@ -1097,6 +1155,61 @@ public class DoctorDatabaseManager : MonoBehaviour
             return result;
         }
     }
+
+    // Query Patient Information
+    //public List<Patient> PatientQueryInformation(string PatientName, string PatientDoctor)
+    //{
+    //    //print("!!!!!");
+    //    SqliteDataReader reader;    //sql读取器
+    //    List<Patient> result = new List<Patient>(); //返回值
+    //    string QueryString = "SELECT * FROM PatientInfo where DoctorID=" + DoctorID.ToString();
+
+    //    if (PatientName != "") QueryString += " and PatientName=" + AddSingleQuotes(PatientName);
+    //    if (PatientSex != "") QueryString += " and PatientSex=" + AddSingleQuotes(PatientSex);
+    //    if (PatientAge != 0) QueryString += " and PatientAge=" + PatientAge.ToString();
+
+    //    QueryString += " ORDER BY PatientName ASC";
+
+    //    try
+    //    {
+    //        reader = PatientDatabase.ExecuteQuery(QueryString);
+    //        reader.Read();
+    //        if (reader.HasRows)
+    //        {
+    //            //存在用户训练任务
+    //            do
+    //            {
+    //                var res = new Patient();
+    //                res.setPatientCompleteMessage(
+    //                   reader.GetInt64(reader.GetOrdinal("PatientID")),
+    //                   reader.GetString(reader.GetOrdinal("PatientName")),
+    //                   reader.GetString(reader.GetOrdinal("PatientPassword")),
+    //                   reader.GetInt64(reader.GetOrdinal("DoctorID")),
+    //                   reader.GetInt64(reader.GetOrdinal("PatientAge")),
+    //                   reader.GetString(reader.GetOrdinal("PatientSex")),
+    //                   reader.GetInt64(reader.GetOrdinal("PatientHeight")),
+    //                   reader.GetInt64(reader.GetOrdinal("PatientWeight"))
+    //                   );
+    //                res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
+    //                result.Add(res);
+    //            } while (reader.Read());
+
+    //            Debug.Log("@UserManager:Query PatientInfo Success" + result);
+    //            return result;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("@UserManager: Query PatientInfo Fail");
+    //            return result;
+    //        }
+    //    }
+    //    catch (SqliteException e)
+    //    {
+    //        Debug.Log("@UserManager: Query PatientInfo SqliteException");
+    //        PatientDatabase?.CloseConnection();
+    //        return result;
+    //    }
+    //}
 
     // read PatientRecord
     public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime)

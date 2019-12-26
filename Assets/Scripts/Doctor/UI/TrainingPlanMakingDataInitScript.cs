@@ -59,17 +59,19 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         DifficultString2Int = new Dictionary<string, int>();
         DifficultString2Int.Add("请选择难度", 0);
-        DifficultString2Int.Add("初级", 1);
-        DifficultString2Int.Add("一般", 2);
-        DifficultString2Int.Add("中级", 3);
-        DifficultString2Int.Add("高级", 4);
+        DifficultString2Int.Add("入门", 1);
+        DifficultString2Int.Add("初级", 2);
+        DifficultString2Int.Add("一般", 3);
+        DifficultString2Int.Add("中级", 4);
+        DifficultString2Int.Add("高级", 5);
 
         DifficultInt2String = new Dictionary<int, string>();
         DifficultInt2String.Add(0, "请选择难度");
-        DifficultInt2String.Add(1, "初级");
-        DifficultInt2String.Add(2, "一般");
-        DifficultInt2String.Add(3, "中级");
-        DifficultInt2String.Add(4, "高级");
+        DifficultInt2String.Add(1, "入门");
+        DifficultInt2String.Add(2, "初级");
+        DifficultInt2String.Add(3, "一般");
+        DifficultInt2String.Add(4, "中级");
+        DifficultInt2String.Add(5, "高级");
 
 
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)

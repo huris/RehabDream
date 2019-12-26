@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patient {
+public class Patient
+{
 
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
