@@ -3790,7 +3790,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 531226590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -307, z: 0}
+  m_LocalPosition: {x: 2, y: -276.56177, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1414728490}
@@ -4521,11 +4521,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 546d83055c21ce0458087c3060352691, type: 3}
     m_FontSize: 40
     m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 2
+    m_BestFit: 1
+    m_MinSize: 30
     m_MaxSize: 50
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -8313,6 +8313,7 @@ MonoBehaviour:
   GameCountText: {fileID: 2071136891}
   TrainingDifficulty: {fileID: 1516175941}
   TrainingTime: {fileID: 1647959342}
+  EntryToggle: {fileID: 0}
   PrimaryToggle: {fileID: 839822034}
   GeneralToggle: {fileID: 1975853845}
   IntermediateToggle: {fileID: 1744781137}
@@ -14955,8 +14956,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1752705775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 502, y: 258.5, z: 0}
+  m_LocalScale: {x: 0.784375, y: 0.784375, z: 0.784375}
   m_Children:
   - {fileID: 2123786839}
   - {fileID: 1414728490}

@@ -527,4 +527,49 @@ public class AvatarCaculator : MonoBehaviour
         return false;
     }
 
+
+    public string Point2Limb(HumanBodyBones Point)
+    {
+        if (Point == HumanBodyBones.RightHand || Point == HumanBodyBones.RightLowerArm || Point == HumanBodyBones.RightUpperArm || Point == HumanBodyBones.RightShoulder)
+        {
+            return "右手";
+        }
+        else if (Point == HumanBodyBones.LeftHand || Point == HumanBodyBones.LeftLowerArm || Point == HumanBodyBones.LeftUpperArm || Point == HumanBodyBones.LeftShoulder)
+        {
+            return "左手";
+        }
+        else if (Point == HumanBodyBones.LeftToes || Point == HumanBodyBones.LeftFoot || Point == HumanBodyBones.LeftLowerLeg || Point == HumanBodyBones.LeftUpperLeg)
+        {
+            return "左脚";
+        }
+        else
+        {
+            return "右脚";
+        }
+    }
+
+    // position of left shoulder
+    public Vector3 GetLeftShoulderPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.LeftShoulder).position;
+    }
+
+    // position of Right shoulder
+    public Vector3 GetRightShoulderPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.RightShoulder).position;
+    }
+
+    // position of left upperarm
+    public Vector3 GetLeftUpperArmPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+    }
+
+    // position of right upperarm
+    public Vector3 GetRightUpperArmPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
+    }
+
 }

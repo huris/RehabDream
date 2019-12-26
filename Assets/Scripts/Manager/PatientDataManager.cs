@@ -17,6 +17,7 @@ public class PatientDataManager : MonoBehaviour{
 
     public enum DifficultyType
     {
+        Entry,      //入门
         Primary,    //初级
         General,    //一般
         Intermediate,  //中级
@@ -25,7 +26,7 @@ public class PatientDataManager : MonoBehaviour{
 
     //Read Only
     //[Header("TrainingPlan")]
-    public DifficultyType PlanDifficulty { get; private set; } = DifficultyType.Primary;
+    public DifficultyType PlanDifficulty { get; private set; } = DifficultyType.Entry;
     public DifficultyType TrainingDifficulty => PlanDifficulty;
     public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
@@ -195,6 +196,8 @@ public class PatientDataManager : MonoBehaviour{
     {
         switch (PlanDifficulty)
         {
+            case DifficultyType.Entry:
+                return "入门";
             case DifficultyType.Primary:
                 return "初级";
             case DifficultyType.General:
@@ -213,6 +216,8 @@ public class PatientDataManager : MonoBehaviour{
     {
         switch (str)
         {
+            case "入门":
+                return DifficultyType.Entry;
             case "初级":
                 return DifficultyType.Primary;
             case "一般":
