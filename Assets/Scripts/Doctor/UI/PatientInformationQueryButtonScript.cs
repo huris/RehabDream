@@ -20,6 +20,8 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
     public Dictionary<string, int> DoctorString2Int;
     public Dictionary<int, string> DoctorInt2String;
 
+    public List<string> PatientDoctorName; 
+
     // Use this for initialization
     void OnEnable() {
 
@@ -41,24 +43,18 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
 
         DoctorString2Int = new Dictionary<string, int>();
         DoctorInt2String = new Dictionary<int, string>();
-        //for(int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
-        //{
-        //    DoctorString2Int.Add();
-        //    DoctorInt2String.Add()
-        //}
+        PatientDoctorName = new List<string>();
 
-        //DoctorString2Int.Add("请选择难度", 0);
-        //DoctorString2Int.Add("初级", 1);
-        //DoctorString2Int.Add("一般", 2);
-        //DoctorString2Int.Add("中级", 3);
-        //DoctorString2Int.Add("高级", 4);
+        for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+        {
+            DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
+            DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
+            PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+        }
 
-        
-        //DoctorInt2String.Add(0, "请选择难度");
-        //DoctorInt2String.Add(1, "初级");
-        //DoctorInt2String.Add(2, "一般");
-        //DoctorInt2String.Add(3, "中级");
-        //DoctorInt2String.Add(4, "高级");
+        PatientDoctorName.Add("请输入医生");
+        PatientDoctor.AddOptions(PatientDoctorName);
+        PatientDoctor.value = PatientDoctorName.Count;
     }
 
     // Update is called once per frame
@@ -76,14 +72,15 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
 
         // DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientSex, long.Parse(PatientAge.text, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowLeadingSign), DoctorDataManager.instance.doctor.DoctorID);
 
-        //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, DoctorInt2String[PatientDoctor.value]);
+        // 如果用户没有选择医生，则传入医生工号为-1
+        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
 
         PatientName.text = "";
-        PatientDoctor.value = 0;
+        PatientDoctor.value = PatientDoctorName.Count;
         //PatientAge.text = "";
         //Man.isOn = false;
         //Woman.isOn = false;
-        
+
         PatientQuery.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);

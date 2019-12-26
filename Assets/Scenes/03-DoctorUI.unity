@@ -24918,7 +24918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &924312431
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46331,13 +46331,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PatientName: {fileID: 0}
-  PatientSex: 
-  PatientAge: {fileID: 0}
-  Man: {fileID: 0}
-  Woman: {fileID: 0}
+  PatientDoctor: {fileID: 0}
   PatientQuery: {fileID: 0}
   PatientInfo: {fileID: 0}
   PatientListBG: {fileID: 0}
+  PatientDoctorName: []
 --- !u!1 &1642945529
 GameObject:
   m_ObjectHideFlags: 0
@@ -54948,7 +54946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1854235322
 RectTransform:
   m_ObjectHideFlags: 0

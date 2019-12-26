@@ -551,7 +551,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public DatabaseReturn CheckRoot() // 特判是否存在root账户
     {
         SqliteDataReader reader;    //sql读取器
-        string QueryString = "SELECT * FROM DoctorInfo where DoctorName=root";
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorName='root'";
 
         try
         {
@@ -1156,60 +1156,96 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
-    // Query Patient Information
-    //public List<Patient> PatientQueryInformation(string PatientName, string PatientDoctor)
-    //{
-    //    //print("!!!!!");
-    //    SqliteDataReader reader;    //sql读取器
-    //    List<Patient> result = new List<Patient>(); //返回值
-    //    string QueryString = "SELECT * FROM PatientInfo where DoctorID=" + DoctorID.ToString();
+    //Query Patient Information
+    public List<Patient> PatientQueryInformation(string PatientName, long PatientDoctorID)
+    {
+        //print("!!!!!");
+        SqliteDataReader reader;    //sql读取器
+        List<Patient> result = new List<Patient>(); //返回值
+        string QueryString = "";
 
-    //    if (PatientName != "") QueryString += " and PatientName=" + AddSingleQuotes(PatientName);
-    //    if (PatientSex != "") QueryString += " and PatientSex=" + AddSingleQuotes(PatientSex);
-    //    if (PatientAge != 0) QueryString += " and PatientAge=" + PatientAge.ToString();
+        if(PatientName == "")   // 如果未填患者信息
+        {
+            if(PatientDoctorID == -1)
+            {
+                QueryString = "SELECT * FROM PatientInfo"; 
+            }
+            else
+            {
+                QueryString = "SELECT * FROM PatientInfo WHERE DoctorID = " + PatientDoctorID.ToString();
+            }
+        }
+        else
+        {
+            if (PatientDoctorID == -1)  // 如果未选择医生
+            {
+                // 如果为输入患者病历号
+                if (PatientName[0] >= '0' && PatientName[0] <= '9')
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientID = " + PatientName;
+                }
+                else   // 否则输入的是患者的姓名
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientName = " + AddSingleQuotes(PatientName);
+                }
+            }
+            else
+            {
+                // 如果为输入患者病历号
+                if (PatientName[0] >= '0' && PatientName[0] <= '9')
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientID = " + PatientName + " AND DoctorID = " + PatientDoctorID.ToString();
+                }
+                else   // 否则输入的是患者的姓名
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientName = " + AddSingleQuotes(PatientName) + " AND DoctorID = " + PatientDoctorID.ToString();
 
-    //    QueryString += " ORDER BY PatientName ASC";
+                }
+            }
+        }
 
-    //    try
-    //    {
-    //        reader = PatientDatabase.ExecuteQuery(QueryString);
-    //        reader.Read();
-    //        if (reader.HasRows)
-    //        {
-    //            //存在用户训练任务
-    //            do
-    //            {
-    //                var res = new Patient();
-    //                res.setPatientCompleteMessage(
-    //                   reader.GetInt64(reader.GetOrdinal("PatientID")),
-    //                   reader.GetString(reader.GetOrdinal("PatientName")),
-    //                   reader.GetString(reader.GetOrdinal("PatientPassword")),
-    //                   reader.GetInt64(reader.GetOrdinal("DoctorID")),
-    //                   reader.GetInt64(reader.GetOrdinal("PatientAge")),
-    //                   reader.GetString(reader.GetOrdinal("PatientSex")),
-    //                   reader.GetInt64(reader.GetOrdinal("PatientHeight")),
-    //                   reader.GetInt64(reader.GetOrdinal("PatientWeight"))
-    //                   );
-    //                res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
-    //                result.Add(res);
-    //            } while (reader.Read());
+        QueryString += " ORDER BY PatientName ASC";
 
-    //            Debug.Log("@UserManager:Query PatientInfo Success" + result);
-    //            return result;
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("@UserManager: Query PatientInfo Fail");
-    //            return result;
-    //        }
-    //    }
-    //    catch (SqliteException e)
-    //    {
-    //        Debug.Log("@UserManager: Query PatientInfo SqliteException");
-    //        PatientDatabase?.CloseConnection();
-    //        return result;
-    //    }
-    //}
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Patient();
+                    res.setPatientCompleteMessage(
+                       reader.GetInt64(reader.GetOrdinal("PatientID")),
+                       reader.GetString(reader.GetOrdinal("PatientName")),
+                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetInt64(reader.GetOrdinal("DoctorID")),
+                       reader.GetInt64(reader.GetOrdinal("PatientAge")),
+                       reader.GetString(reader.GetOrdinal("PatientSex")),
+                       reader.GetInt64(reader.GetOrdinal("PatientHeight")),
+                       reader.GetInt64(reader.GetOrdinal("PatientWeight"))
+                       );
+                    res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Query PatientInfo Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Query PatientInfo Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Query PatientInfo SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
 
     // read PatientRecord
     public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime)
