@@ -504,10 +504,40 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check DoctorInfo
-        public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
+    public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
     {
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                // 患者用户名存在
+                Debug.Log("@UserManager: DoctorInfo Existence!");
+                return DatabaseReturn.Fail;
+            }
+            else
+            {
+                // 患者用户名不存在
+                Debug.Log("@UserManager: DoctorInfo will be created!");
+                return DatabaseReturn.Success;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: DoctorInfo SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+    public DatabaseReturn CheckRoot() // 特判是否存在root账户
+    {
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorName=root";
 
         try
         {
@@ -959,8 +989,17 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Patient> result = new List<Patient>(); //返回值
-        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
-
+        string QueryString = "";
+        
+        if(DoctorID == 12345)   // 如果为root账户，则显示所有患者的信息
+        {
+            QueryString = "SELECT * FROM PatientInfo ORDER BY PatientName";
+        }
+        else    // 否则显示对应医生的信息
+        {
+            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
+        }
+            
         //ORDER BY convert(name using gbk)
         try
         {
@@ -1002,7 +1041,6 @@ public class DoctorDatabaseManager : MonoBehaviour
             return result;
         }
     }
-
 
 
     // Query Patient Information
