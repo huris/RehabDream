@@ -583,16 +583,17 @@
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo13_LineSimple.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo20_BarChart.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo30_PieChart.cs" />
+    <Compile Include="Assets\XCharts\Demo\Runtime\Demo40_Radar.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo50_Scatter.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo60_Heatmap.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo70_Gauge.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\RadarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\BarChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\ChartComponent.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Axis.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\DataZoom.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Component\Main\Grid.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Legend.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Radar.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Serie.cs" />
@@ -602,6 +603,7 @@
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Title.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Tooltip.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\VisualMap.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\XGrid.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\MainComponent.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AreaStyle.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLabel.cs" />
@@ -648,7 +650,7 @@
     <Compile Include="Assets\XCharts\Runtime\Utility\ChartDrawer.cs" />
     <Compile Include="Assets\XCharts\Runtime\Utility\ChartHelper.cs" />
     <Compile Include="Assets\XCharts\Runtime\Utility\XChartsMgr.cs" />
-    <Compile Include="Assets\XCharts\XChartsDemo\Runtime\Demo.cs" />
+    <Compile Include="Assets\XChartsDemo\Runtime\Demo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
