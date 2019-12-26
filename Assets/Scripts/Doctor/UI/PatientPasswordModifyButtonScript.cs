@@ -68,7 +68,7 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
             ModifyError.SetActive(false);
             ModifySuccess.SetActive(true);
 
-            DoctorDataManager.instance.patient.setPatientPassword(MD5Encrypt(NewPassword.text));
+            // DoctorDataManager.instance.patient.setPatientPassword(MD5Encrypt(NewPassword.text));
 
             DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.patient);
 

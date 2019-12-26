@@ -220,7 +220,6 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "PatientID",
                     "PatientName",
-                    "PatientPassword",
                     "DoctorID",
                     "PatientAge",
                     "PatientSex",
@@ -231,7 +230,6 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
-                    "TEXT NOT NULL",
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
@@ -950,7 +948,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     // check patient register
     public DatabaseReturn PatientRegister(Patient patient)
     {
-        if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientPassword == "" ||
+        if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientSymptom == "" ||
             patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "" ||
             patient.PatientHeight < 0 || patient.PatientWeight < 0)   // input Null
         {
@@ -969,7 +967,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             if (reader.HasRows)
             {
                 PatientDatabase.InsertValues("PatientInfo", //table name
-                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(patient.PatientPassword),
+                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(patient.PatientSymptom),
                                                   patient.PatientDoctorID.ToString(), patient.PatientAge.ToString(),AddSingleQuotes(patient.PatientSex),patient.PatientHeight.ToString(),patient.PatientWeight.ToString() }
                                    );
 
@@ -1011,7 +1009,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 {
                     // 用户名存在
                     QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
-                    AddSingleQuotes(patient.PatientPassword) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
+                    AddSingleQuotes(patient.PatientSymptom) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
                     patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
                     " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
                     PatientDatabase.ExecuteQuery(QueryString);

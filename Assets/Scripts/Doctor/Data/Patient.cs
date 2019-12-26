@@ -8,7 +8,7 @@ public class Patient
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
     public long PatientDoctorID { get; private set; } = 0;
-    public string PatientPassword { get; private set; } = "123456";
+    public string PatientSymptom { get; private set; } = "Symptom";
     public long PatientAge { get; private set; } = 0;
     public string PatientSex { get; private set; } = "男";
     public long PatientHeight { get; private set; } = 0;
@@ -33,10 +33,10 @@ public class Patient
         this.PatientName = PatientName;
     }
 
-    public void setPatientCompleteMessage(long PatientID, string PatientName, string PatientPassword, long PatientDoctorID, long PatientAge, string PatientSex, long PatientHeight, long PatientWeight){
+    public void setPatientCompleteMessage(long PatientID, string PatientName, string PatientSymptom, long PatientDoctorID, long PatientAge, string PatientSex, long PatientHeight, long PatientWeight){
         this.PatientID = PatientID;
         this.PatientName = PatientName;
-        this.PatientPassword = PatientPassword;
+        this.PatientSymptom = PatientSymptom;
         this.PatientDoctorID = PatientDoctorID;
         this.PatientAge = PatientAge;
         this.PatientSex = PatientSex;
@@ -44,9 +44,9 @@ public class Patient
         this.PatientWeight = PatientWeight;
     }
 
-    public void setPatientPassword(string NewPassword)
+    public void setPatientSymptom(string PatientSymptom)
     {
-        this.PatientPassword = NewPassword;
+        this.PatientSymptom = PatientSymptom;
     }
 
     public void ModifyPatientInfo(string PatientName, string PatientSex, long PatientAge, long PatientHeight, long PatientWeight)
@@ -56,5 +56,25 @@ public class Patient
         this.PatientAge = PatientAge;
         this.PatientHeight = PatientHeight;
         this.PatientWeight = PatientWeight;
+    }
+
+    public void ModifyPatientInfo(string PatientName, string PatientSex, long PatientAge, long PatientHeight, long PatientWeight, string PatientSymptom)
+    {
+        this.PatientName = PatientName;
+        this.PatientSex = PatientSex;
+        this.PatientAge = PatientAge;
+        this.PatientHeight = PatientHeight;
+        this.PatientWeight = PatientWeight;
+        this.PatientSymptom = PatientSymptom;
+    }
+    public void ModifyPatientInfo(string PatientName, string PatientSex, long PatientAge, long PatientHeight, long PatientWeight, string PatientSymptom, long PatientDoctorID)
+    {
+        this.PatientName = PatientName;
+        this.PatientSex = PatientSex;
+        this.PatientAge = PatientAge;
+        this.PatientHeight = PatientHeight;
+        this.PatientWeight = PatientWeight;
+        this.PatientSymptom = PatientSymptom;
+        this.PatientDoctorID = PatientDoctorID;
     }
 }
