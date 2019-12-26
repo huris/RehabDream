@@ -67,7 +67,7 @@ public class GameState : MonoBehaviour
     private float _Gravity = Physics.gravity.y;
     private float _MinDis = 0.1f;
     private float _MinGate = 0.35f;
-    private float _MaxGate = 0.75f;
+    private float _MaxGate = 0.70f;
 
 
 
@@ -88,7 +88,7 @@ public class GameState : MonoBehaviour
     private delegate void Win();  // CheckObeyRules is true
     private event Win _Win;
 
-    private delegate void Fail();  
+    private delegate void Fail();
     private event Fail _Fail;
 
     public enum State
@@ -317,7 +317,8 @@ public class GameState : MonoBehaviour
     // check if player obey rules
     private void CheckObeyRules()
     {
-        if(PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
+        if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Entry||
+            PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
             PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
         {
             this._Win?.Invoke();
@@ -325,42 +326,20 @@ public class GameState : MonoBehaviour
         }
 
         HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
-        if(_TipsLimb.Equals(Point2Limb(Point)))
+        if (_TipsLimb.Equals(_Caculator.Point2Limb(Point)))
         {
+            Debug.Log("@GameState: Nearest " + _TipsLimb);
             this._Win?.Invoke();
-            return;
         }
-        else if (_Caculator.CloseEnough(Soccer.transform.position,_TipsLimb,MinDis))
+        else if (_Caculator.CloseEnough(Soccer.transform.position, _TipsLimb, _MinDis))
         {
-
-        }
-        else
-        {
-            this._Fail.Invoke();
-        }
-    }
-
-    private string Point2Limb(HumanBodyBones Point)
-    {
-        if (Point == HumanBodyBones.RightHand || Point == HumanBodyBones.RightLowerArm || Point == HumanBodyBones.RightUpperArm || Point == HumanBodyBones.RightShoulder)
-        {
-            Debug.Log("@GameState: Nearest 右手");
-            return "右手";
-        }
-        else if (Point == HumanBodyBones.LeftHand || Point == HumanBodyBones.LeftLowerArm || Point == HumanBodyBones.LeftUpperArm || Point == HumanBodyBones.LeftShoulder)
-        {
-            Debug.Log("@GameState: Nearest 左手");
-            return "左手";
-        }
-        else if (Point == HumanBodyBones.LeftToes || Point == HumanBodyBones.LeftFoot || Point == HumanBodyBones.LeftLowerLeg || Point == HumanBodyBones.LeftUpperLeg)
-        {
-            Debug.Log("@GameState: Nearest 左脚");
-            return "左脚";
+            Debug.Log("@GameState: Nearest _MinDis");
+            this._Win?.Invoke();
         }
         else
         {
-            Debug.Log("@GameState: Nearest 右脚");
-            return "右脚";
+            this.ShowWrongLimb();
+            this._Fail?.Invoke();
         }
     }
 
@@ -499,6 +478,9 @@ public class GameState : MonoBehaviour
         Vector3 Target = Mid;
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:       // Target is near(left shoulder, right shoulder)
+                Target=GenerateEntryTarget();
+                break;
             case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
                 Target = GeneratePrimaryTarget();
                 break;
@@ -514,6 +496,32 @@ public class GameState : MonoBehaviour
         }
         return Target;
     }
+
+
+    // Target is near(left shoulder, right shoulder)
+    private Vector3 GenerateEntryTarget(){
+        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
+        Vector3 Target = Mid;
+        if (Random.Range(0, 2) < 1)
+        {
+            // Target is near left shoulder
+            Vector3 LeftMid = (BottomLeft.position + TopLeft.position) / 2;
+            Target.z = _Caculator.GetLeftUpperArmPosition().z + Random.Range(RandomZmin/2, RandomZmin);
+            Target.y = _Caculator.GetLeftUpperArmPosition().y + Random.Range(0, RandomYmax);
+            this._TipsLimb = "左肩";
+        }
+        else
+        {
+            // Target is near Right shoulder
+            Vector3 RightMid = (BottomRight.position + TopRight.position) / 2;
+            Target.z = _Caculator.GetRightUpperArmPosition().z + Random.Range(RandomZmax / 2, RandomZmax);
+            Target.y = _Caculator.GetRightUpperArmPosition().y + Random.Range(0, RandomYmax);
+            this._TipsLimb = "右肩";
+        }
+        return Target;
+    }
+
+
 
     // Target is near(left hand, right hand)
     private Vector3 GeneratePrimaryTarget()
@@ -594,17 +602,20 @@ public class GameState : MonoBehaviour
     {
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:
+                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                break;
             case PatientDataManager.DifficultyType.Primary:
-                Gate.transform.localScale = new Vector3(1, 0.35f, 1);
+                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
                 break;
             case PatientDataManager.DifficultyType.General:
-                Gate.transform.localScale = new Vector3(1, 0.35f, 1);
+                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
                 break;
             case PatientDataManager.DifficultyType.Intermediate:
-                Gate.transform.localScale = new Vector3(1, 0.35f, 1);
+                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
                 break;
             case PatientDataManager.DifficultyType.Advanced:
-                Gate.transform.localScale = new Vector3(1, 1, 1);
+                Gate.transform.localScale = new Vector3(1, _MaxGate, 1);
                 break;
         }
     }
@@ -613,6 +624,12 @@ public class GameState : MonoBehaviour
     private void ShowWordTips(string TipsLimb)
     {
         GameUIHandle.SetTipsText(TipsLimb);
+    }
+
+    // 提示使用了错误肢体
+    private void ShowWrongLimb()
+    {
+        GameUIHandle.ShowWrongLimb();
     }
 
     // Generate everything for next Shoot

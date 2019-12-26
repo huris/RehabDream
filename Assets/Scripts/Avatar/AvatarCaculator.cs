@@ -419,9 +419,10 @@ public class AvatarCaculator : MonoBehaviour
         }
     }
 
-    public HumanBodyBones NearestPoint(Vector3 soccerball)
+    // the point nearest to soccerball
+    public HumanBodyBones NearestPoint(Vector3 SoccerballPosition)
     {
-        HumanBodyBones [] array = new HumanBodyBones[]{
+        HumanBodyBones[] array = new HumanBodyBones[]{
             HumanBodyBones.RightHand,
             HumanBodyBones.RightLowerArm,
             HumanBodyBones.RightUpperArm,
@@ -443,13 +444,13 @@ public class AvatarCaculator : MonoBehaviour
             HumanBodyBones.LeftUpperLeg
         };
 
-
         HumanBodyBones Nearest = HumanBodyBones.RightHand;
-        float disance = (_Animator.GetBoneTransform(Nearest).position - soccerball).sqrMagnitude;
-        foreach (HumanBodyBones point in array) {
+        float disance = (_Animator.GetBoneTransform(Nearest).position - SoccerballPosition).sqrMagnitude;
+        foreach (HumanBodyBones point in array)
+        {
             Vector3 position = _Animator.GetBoneTransform(point).position;
-            float disance_now= (position - soccerball).sqrMagnitude;
-            if(disance_now < disance)
+            float disance_now = (position - SoccerballPosition).sqrMagnitude;
+            if (disance_now < disance)
             {
                 disance = disance_now;
                 Nearest = point;
@@ -460,7 +461,8 @@ public class AvatarCaculator : MonoBehaviour
 
     }
 
-    public bool CloseEnough(Vector3 soccerball, string Limb, float MixDis=0.1f)
+    // is soccerball close enough to Limb
+    public bool CloseEnough(Vector3 SoccerballPosition, string Limb, float MixDis = 0.1f)
     {
         HumanBodyBones[] RightHandArray = new HumanBodyBones[]
         {
@@ -486,7 +488,7 @@ public class AvatarCaculator : MonoBehaviour
             HumanBodyBones.RightUpperLeg,
         };
 
-        HumanBodyBones[] LeftFootArray = new HumanBodyBones[]{   
+        HumanBodyBones[] LeftFootArray = new HumanBodyBones[]{
             HumanBodyBones.LeftToes,
             HumanBodyBones.LeftFoot,
             HumanBodyBones.LeftLowerLeg,
@@ -496,11 +498,11 @@ public class AvatarCaculator : MonoBehaviour
         HumanBodyBones[] Array;
         if (Limb.Equals("左手"))
         {
-            Array = RightHandArray;
+            Array = LeftHandArray;
         }
         else if (Limb.Equals("右手"))
         {
-            Array = LeftHandArray;
+            Array = RightHandArray;
         }
         else if (Limb.Equals("左脚"))
         {
@@ -515,7 +517,7 @@ public class AvatarCaculator : MonoBehaviour
         foreach (HumanBodyBones point in Array)
         {
             Vector3 position = _Animator.GetBoneTransform(point).position;
-            float disance_now = (position - soccerball).sqrMagnitude;
+            float disance_now = (position - SoccerballPosition).sqrMagnitude;
             if (disance_now < MixDis)
             {
                 return true;
@@ -523,6 +525,51 @@ public class AvatarCaculator : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    public string Point2Limb(HumanBodyBones Point)
+    {
+        if (Point == HumanBodyBones.RightHand || Point == HumanBodyBones.RightLowerArm || Point == HumanBodyBones.RightUpperArm || Point == HumanBodyBones.RightShoulder)
+        {
+            return "右手";
+        }
+        else if (Point == HumanBodyBones.LeftHand || Point == HumanBodyBones.LeftLowerArm || Point == HumanBodyBones.LeftUpperArm || Point == HumanBodyBones.LeftShoulder)
+        {
+            return "左手";
+        }
+        else if (Point == HumanBodyBones.LeftToes || Point == HumanBodyBones.LeftFoot || Point == HumanBodyBones.LeftLowerLeg || Point == HumanBodyBones.LeftUpperLeg)
+        {
+            return "左脚";
+        }
+        else
+        {
+            return "右脚";
+        }
+    }
+
+    // position of left shoulder
+    public Vector3 GetLeftShoulderPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.LeftShoulder).position;
+    }
+
+    // position of Right shoulder
+    public Vector3 GetRightShoulderPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.RightShoulder).position;
+    }
+
+    // position of left upperarm
+    public Vector3 GetLeftUpperArmPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+    }
+
+    // position of right upperarm
+    public Vector3 GetRightUpperArmPosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
     }
 
 }

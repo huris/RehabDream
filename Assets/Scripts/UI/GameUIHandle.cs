@@ -27,6 +27,8 @@ public class GameUIHandle : UIHandle
     public Text GameUITrainProgressText;
     public Text GameUITipsText;
     public Text GameUIAddSuccessCountText;
+    public GameObject Tips;
+    public GameObject WrongLimb;
     public Slider GameUIProgressSlider;
 
     [Header("KinectDetectUI Objects")]
@@ -41,6 +43,7 @@ public class GameUIHandle : UIHandle
     public Text TrainingTime;
 
     [Header("SettingUI Toggle")]
+    public Toggle EntryToggle;
     public Toggle PrimaryToggle;
     public Toggle GeneralToggle;
     public Toggle IntermediateToggle;
@@ -57,8 +60,9 @@ public class GameUIHandle : UIHandle
     [Header("GameState")]
     public GameState GameState;
 
-    private float _GestureTimeCount=0;
+    private float _GestureTimeCount = 0;
     private float _DetectTime = 3.0f;
+    private float _ShowWrongLimbTime = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -80,7 +84,7 @@ public class GameUIHandle : UIHandle
     // Update is called once per frame
     void Update()
     {
-        if (KinectDetectUI.activeSelf==true)
+        if (KinectDetectUI.activeSelf == true)
         {
             SetKinectStatus();
 
@@ -96,19 +100,19 @@ public class GameUIHandle : UIHandle
                 var rightHandState = KinectManager.Instance.GetRightHandState(userId);
 
                 // 检测到左右手均握拳
-                if(leftHandState == KinectInterop.HandState.Closed && rightHandState== KinectInterop.HandState.Closed)
+                if (leftHandState == KinectInterop.HandState.Closed && rightHandState == KinectInterop.HandState.Closed)
                 {
-                     if (GestureOver())
-                     {
+                    if (GestureOver())
+                    {
                         SetKinectDetectProgress(1);
                         OnClickDirectStart();
-                     }
-                     else
-                     {
+                    }
+                    else
+                    {
                         SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
-                     }
+                    }
                 }
-            }     
+            }
         }
     }
 
@@ -188,7 +192,7 @@ public class GameUIHandle : UIHandle
 
 
     //Restart game
-    public void OnClickRestartButton()   
+    public void OnClickRestartButton()
     {
         // reset game data
         PatientDataManager.instance.ResetGameData();
@@ -255,15 +259,38 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string TipsLimb)
     {
-        if (TipsLimb == "")
+        string[] Tipslimbs = new string[] { "左肩", "右肩","左手", "右手", "左脚", "右脚", "任意肢体" };
+        if (Array.IndexOf(Tipslimbs, TipsLimb)==-1)
         {
-            GameUITipsText.text = "";
+            // 不是肢体字符串
+            GameUITipsText.text = TipsLimb;
         }
-        else
+        else if(TipsLimb.Equals("左肩") || TipsLimb.Equals("右肩"))
         {
-            GameUITipsText.text = "请使用"+ TipsLimb + "阻拦足球";
+                GameUITipsText.text = "请晃动身体，使用" + TipsLimb + "阻拦足球";
         }
-        
+        else{   
+            
+            // 是肢体字符串
+            GameUITipsText.text = "请使用" + TipsLimb + "阻拦足球";
+        }
+
+    }
+
+    // 提示使用了错误肢体
+    public void ShowWrongLimb()
+    {
+        Tips.SetActive(false);
+        WrongLimb.SetActive(true);
+        StartCoroutine(CloseWrongLimb(_ShowWrongLimbTime));
+    }
+
+    // 结束报错
+    private IEnumerator CloseWrongLimb(float ShowWrongLimbTime)
+    {
+        yield return new WaitForSeconds(ShowWrongLimbTime); //先直接返回，之后的代码等待给定的时间周期过完后执行
+        WrongLimb.SetActive(false);
+        Tips.SetActive(true);
     }
 
     // show ShowAddSuccessCountText
@@ -280,7 +307,7 @@ public class GameUIHandle : UIHandle
     #region SetUIValue according to DataManager
 
     // set patientinfo of GameUI
-    public void SetPatientInfoText(string PatientName,long Max_SuccessCount)
+    public void SetPatientInfoText(string PatientName, long Max_SuccessCount)
     {
         GameUIPatientNameText.text = "用户名：" + PatientName;
         GameUIMaxSuccessCountText.text = Max_SuccessCount.ToString();
@@ -289,7 +316,7 @@ public class GameUIHandle : UIHandle
     // set Progress of game
     public void SetTrainingProgress(long FinishCount, long GameCount)
     {
-        GameUITrainProgressText.text = "训练进度："+ FinishCount.ToString()+ " / "+ GameCount.ToString() + " 次";
+        GameUITrainProgressText.text = "训练进度：" + FinishCount.ToString() + " / " + GameCount.ToString() + " 次";
         GameUIProgressSlider.value = FinishCount / (float)GameCount;
         //Debug.Log("@GameUIHandle: SetProgress = " + FinishCount / (float)GameCount);
     }
@@ -347,7 +374,7 @@ public class GameUIHandle : UIHandle
     //set Text of GameUI
     public void InitGameUIText()
     {
-        SetPatientInfoText(PatientDataManager.instance.PatientName,PatientDataManager.instance.MaxSuccessCount);
+        SetPatientInfoText(PatientDataManager.instance.PatientName, PatientDataManager.instance.MaxSuccessCount);
         SetTrainingProgress(PatientDataManager.instance.FinishCount, PatientDataManager.instance.GameCount);
         SetSuccessCountText(PatientDataManager.instance.SuccessCount);
     }
@@ -355,6 +382,7 @@ public class GameUIHandle : UIHandle
     //set PlanDifficultyToggle as Plan
     public void SetPlanDifficultyToggle()
     {
+        EntryToggle.isOn = false;
         PrimaryToggle.isOn = false;
         GeneralToggle.isOn = false;
         IntermediateToggle.isOn = false;
@@ -362,10 +390,13 @@ public class GameUIHandle : UIHandle
 
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
+            case PatientDataManager.DifficultyType.Entry:
+                EntryToggle.isOn = true;
+                break;
             case PatientDataManager.DifficultyType.Primary:
                 PrimaryToggle.isOn = true;
                 break;
-            case PatientDataManager.DifficultyType.General:        
+            case PatientDataManager.DifficultyType.General:
                 GeneralToggle.isOn = true;
                 break;
             case PatientDataManager.DifficultyType.Intermediate:
@@ -436,6 +467,17 @@ public class GameUIHandle : UIHandle
     #region Toggles
 
 
+    // Entry Toggle
+    public void OnEntryToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.DifficultyType.Entry);
+            Debug.Log("@EntryToggle: Entry difficulty is set");
+        }
+
+    }
+
     // Primary Toggle
     public void OnPrimaryToggleValueChanged(bool isOn)
     {
@@ -446,7 +488,6 @@ public class GameUIHandle : UIHandle
         }
 
     }
-
 
     // General Toggle
     public void OnGeneralToggleValueChanged(bool isOn)

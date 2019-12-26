@@ -43,7 +43,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
 
                 this.transform.GetChild(i).name = i.ToString();   // 重新命名为0,1,2,3,4...
 
-                this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingID.ToString();
+                this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = (i+1).ToString();
                 this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingDifficulty;
                 this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount.ToString();
                 this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].GameCount.ToString();

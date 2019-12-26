@@ -435,8 +435,8 @@
     <Compile Include="Assets\XCharts\Editor\ScatterChartEditor.cs" />
     <Compile Include="Assets\XCharts\Editor\Utility\ChartEditorHelper.cs" />
     <Compile Include="Assets\XCharts\Editor\XChartEditor.cs" />
-    <Compile Include="Assets\XCharts\XChartsDemo\Editor\ChartModuleDrawer.cs" />
-    <Compile Include="Assets\XCharts\XChartsDemo\Editor\DemoEditor.cs" />
+    <Compile Include="Assets\XChartsDemo\Editor\ChartModuleDrawer.cs" />
+    <Compile Include="Assets\XChartsDemo\Editor\DemoEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />

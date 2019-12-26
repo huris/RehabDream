@@ -300,7 +300,7 @@ namespace XCharts
                 return;
             }
 
-            if (string.IsNullOrEmpty(tooltip.formatter))
+            if (tooltip.IsNoFormatter())
             {
                 sb.Length = 0;
                 if (!isCartesian)
@@ -886,7 +886,7 @@ namespace XCharts
 
         private void DrawYAxisTickAndSplit(VertexHelper vh, int yAxisIndex, YAxis yAxis)
         {
-            if (yAxis.show)
+            if (yAxis.NeedShowSplit())
             {
                 var size = yAxis.GetScaleNumber(coordinateWidth, m_DataZoom);
                 var totalWidth = coordinateY;

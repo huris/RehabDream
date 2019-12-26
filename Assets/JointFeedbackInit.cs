@@ -58,6 +58,7 @@ namespace XCharts
                 ArmChart.title.show = true;
                 ArmChart.title.text = "胳 膊 与 躯 干";
                 ArmChart.title.textFontSize = 20;
+                ArmChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ArmChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -74,7 +75,9 @@ namespace XCharts
 
                 ArmChart.tooltip.show = true;
                 ArmChart.tooltip.type = Tooltip.Type.Line;
-                ArmChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                ArmChart.tooltip.titleFormatter = "   第{b}秒   ";
+                ArmChart.tooltip.itemFormatter = "{a}部为{c}";
+
 
                 ArmChart.xAxis0.show = true;
                 ArmChart.xAxis0.type = XAxis.AxisType.Category;
@@ -142,6 +145,7 @@ namespace XCharts
                 ArmChart.dataZoom.supportInside = true;
                 ArmChart.dataZoom.start = 0;
                 ArmChart.dataZoom.end = 100;
+                ArmChart.dataZoom.minShowNum = 30;
 
 
                 ElbowChart = transform.Find("ElbowChart").gameObject.GetComponent<LineChart>();
@@ -154,6 +158,7 @@ namespace XCharts
                 ElbowChart.title.show = true;
                 ElbowChart.title.text = "肘 部 弯 曲";
                 ElbowChart.title.textFontSize = 20;
+                ElbowChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ElbowChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -170,7 +175,8 @@ namespace XCharts
 
                 ElbowChart.tooltip.show = true;
                 ElbowChart.tooltip.type = Tooltip.Type.Line;
-                ElbowChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                ElbowChart.tooltip.titleFormatter = "   第{b}秒   ";
+                ElbowChart.tooltip.itemFormatter = "{a}部为{c}";
 
                 ElbowChart.xAxis0.show = true;
                 ElbowChart.xAxis0.type = XAxis.AxisType.Category;
@@ -238,6 +244,7 @@ namespace XCharts
                 ElbowChart.dataZoom.supportInside = true;
                 ElbowChart.dataZoom.start = 0;
                 ElbowChart.dataZoom.end = 100;
+                ElbowChart.dataZoom.minShowNum = 30;
 
                 LegChart = transform.Find("LegChart").gameObject.GetComponent<LineChart>();
                 if (LegChart == null) LegChart = transform.Find("LegChart").gameObject.AddComponent<LineChart>();
@@ -249,6 +256,7 @@ namespace XCharts
                 LegChart.title.show = true;
                 LegChart.title.text = "腿 部 与 中 垂 线";
                 LegChart.title.textFontSize = 20;
+                LegChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LegChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -265,7 +273,8 @@ namespace XCharts
 
                 LegChart.tooltip.show = true;
                 LegChart.tooltip.type = Tooltip.Type.Line;
-                LegChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                LegChart.tooltip.titleFormatter = "   第{b}秒   ";
+                LegChart.tooltip.itemFormatter = "{a}部为{c}";
 
                 LegChart.xAxis0.show = true;
                 LegChart.xAxis0.type = XAxis.AxisType.Category;
@@ -333,6 +342,7 @@ namespace XCharts
                 LegChart.dataZoom.supportInside = true;
                 LegChart.dataZoom.start = 0;
                 LegChart.dataZoom.end = 100;
+                LegChart.dataZoom.minShowNum = 30;
 
                 HipChart = transform.Find("HipChart").gameObject.GetComponent<LineChart>();
                 if (HipChart == null) HipChart = transform.Find("HipChart").gameObject.AddComponent<LineChart>();
@@ -344,6 +354,7 @@ namespace XCharts
                 HipChart.title.show = true;
                 HipChart.title.text = "髋 关 节";
                 HipChart.title.textFontSize = 20;
+                HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -360,7 +371,8 @@ namespace XCharts
 
                 HipChart.tooltip.show = true;
                 HipChart.tooltip.type = Tooltip.Type.Line;
-                HipChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                HipChart.tooltip.titleFormatter = "   第{b}秒   ";
+                HipChart.tooltip.itemFormatter = "{a}部为{c}";
 
                 HipChart.xAxis0.show = true;
                 HipChart.xAxis0.type = XAxis.AxisType.Category;
@@ -415,7 +427,7 @@ namespace XCharts
                 HipChart.RemoveData();
                 LeftHipSerie = HipChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightHipSerie = HipChart.AddSerie(SerieType.Line, "右");//添加折线
-                HipSerie = HipChart.AddSerie(SerieType.Line, "胯部");//添加折线
+                HipSerie = HipChart.AddSerie(SerieType.Line, "胯");//添加折线
 
                 LeftHipSerie.symbol.type = SerieSymbolType.None;
                 RightHipSerie.symbol.type = SerieSymbolType.None;
@@ -430,6 +442,7 @@ namespace XCharts
                 HipChart.dataZoom.supportInside = true;
                 HipChart.dataZoom.start = 0;
                 HipChart.dataZoom.end = 100;
+                HipChart.dataZoom.minShowNum = 30;
 
                 KneeChart = transform.Find("KneeChart").gameObject.GetComponent<LineChart>();
                 if (KneeChart == null) KneeChart = transform.Find("KneeChart").gameObject.AddComponent<LineChart>();
@@ -441,6 +454,7 @@ namespace XCharts
                 KneeChart.title.show = true;
                 KneeChart.title.text = "膝 关 节";
                 KneeChart.title.textFontSize = 20;
+                KneeChart.title.textStyle.fontStyle = FontStyle.Bold;
                 KneeChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -457,7 +471,8 @@ namespace XCharts
 
                 KneeChart.tooltip.show = true;
                 KneeChart.tooltip.type = Tooltip.Type.Line;
-                KneeChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                KneeChart.tooltip.titleFormatter = "   第{b}秒   ";
+                KneeChart.tooltip.itemFormatter = "{a}部为{c}";
 
                 KneeChart.xAxis0.show = true;
                 KneeChart.xAxis0.type = XAxis.AxisType.Category;
@@ -525,7 +540,7 @@ namespace XCharts
                 KneeChart.dataZoom.supportInside = true;
                 KneeChart.dataZoom.start = 0;
                 KneeChart.dataZoom.end = 100;
-
+                KneeChart.dataZoom.minShowNum = 30;
 
                 AnkleChart = transform.Find("AnkleChart").gameObject.GetComponent<LineChart>();
                 if (AnkleChart == null) AnkleChart = transform.Find("AnkleChart").gameObject.AddComponent<LineChart>();
@@ -537,6 +552,7 @@ namespace XCharts
                 AnkleChart.title.show = true;
                 AnkleChart.title.text = "踝 关 节";
                 AnkleChart.title.textFontSize = 20;
+                AnkleChart.title.textStyle.fontStyle = FontStyle.Bold;
                 AnkleChart.title.location.top = 2;
 
                 //chart.title.subText = "前30s";
@@ -553,7 +569,8 @@ namespace XCharts
 
                 AnkleChart.tooltip.show = true;
                 AnkleChart.tooltip.type = Tooltip.Type.Line;
-                AnkleChart.tooltip.formatter = "   第{b}秒   \n{a0}部为{c0}\n{a1}部为{c1}";
+                AnkleChart.tooltip.titleFormatter = "   第{b}秒   ";
+                AnkleChart.tooltip.itemFormatter = "{a}部为{c}";
 
                 AnkleChart.xAxis0.show = true;
                 AnkleChart.xAxis0.type = XAxis.AxisType.Category;
@@ -621,6 +638,7 @@ namespace XCharts
                 AnkleChart.dataZoom.supportInside = true;
                 AnkleChart.dataZoom.start = 0;
                 AnkleChart.dataZoom.end = 100;
+                AnkleChart.dataZoom.minShowNum = 30;
 
                 for (int i = 0; i < AngleCount; i++)
                 {

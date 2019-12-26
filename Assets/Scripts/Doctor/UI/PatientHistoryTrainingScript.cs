@@ -36,12 +36,12 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
             int LastTrainingPlay = DoctorDataManager.instance.patient.trainingPlays.Count - 1;
 
             StartTimeYear.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(0,4);
-            StartTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(4, 6);
-            StartTimeDay.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(6, 8);
+            StartTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(4, 2);
+            StartTimeDay.text = DoctorDataManager.instance.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(6, 2);
 
             EndTimeYear.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(0, 4);
-            EndTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(4, 6);
-            EndTimeDay.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(6, 8);
+            EndTimeMonth.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(4, 2);
+            EndTimeDay.text = DoctorDataManager.instance.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(6, 2);
         }
 
         TrainingPlayList = transform.Find("TrainingData/TrainingDataBG/TrainingPlayList").gameObject;
@@ -55,8 +55,18 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
     public void HistoryTrainingDataQueryButtonOnClick()
     {
-        string StartTime = StartTimeYear.text + StartTimeMonth.text + StartTimeDay.text;
-        string EndTime = EndTimeYear.text + EndTimeMonth.text + EndTimeDay.text;
+        if (StartTimeMonth.text.Length < 2) StartTimeMonth.text = "0" + StartTimeMonth.text;
+        if (StartTimeDay.text.Length < 2) StartTimeDay.text = "0" + StartTimeDay.text;
+        if (EndTimeMonth.text.Length < 2) EndTimeMonth.text = "0" + EndTimeMonth.text;
+        if (EndTimeDay.text.Length < 2) EndTimeDay.text = "0" + EndTimeDay.text;
+
+        string StartTime = StartTimeYear.text + StartTimeMonth.text + StartTimeDay.text + " 00:00:00"; 
+        string EndTime = EndTimeYear.text + EndTimeMonth.text + EndTimeDay.text + " 99:99:99";
+
+        //print(StartTimeYear.text+"@@@"+ StartTimeMonth.text+"@@@" + StartTimeDay.text+"@@@");
+        print(StartTime);
+
+        print(EndTime);
 
         DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.patient.PatientID, StartTime, EndTime);
 

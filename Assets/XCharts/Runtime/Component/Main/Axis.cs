@@ -267,6 +267,7 @@ namespace XCharts
 
         private int filterStart;
         private int filterEnd;
+        private int filterMinShow;
         private List<string> filterData;
         private List<Text> m_AxisLabelTextList = new List<Text>();
         private GameObject m_TooltipLabel;
@@ -389,14 +390,17 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != filterStart || endIndex != filterEnd || m_NeedUpdateFilterData)
+                if (startIndex != filterStart || endIndex != filterEnd || dataZoom.minShowNum != filterMinShow || m_NeedUpdateFilterData)
                 {
                     filterStart = startIndex;
                     filterEnd = endIndex;
+                    filterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
                     if (m_Data.Count > 0)
                     {
                         var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                        if (count < dataZoom.minShowNum) count = dataZoom.minShowNum;
+                        if (startIndex + count > m_Data.Count - 1) count = m_Data.Count - 1 - startIndex;
                         filterData = m_Data.GetRange(startIndex, count);
                     }
                     else
@@ -495,6 +499,7 @@ namespace XCharts
             int split = GetSplitNumber(coordinateWidth, dataZoom);
             if (m_Type == AxisType.Value)
             {
+                if (minValue == 0 && maxValue == 0) return string.Empty;
                 float value = 0;
                 if (forcePercent) maxValue = 100;
                 if (m_Interval > 0)
@@ -635,6 +640,7 @@ namespace XCharts
         {
             if (!show) return false;
             if (IsCategory() && data.Count <= 0) return false;
+            else if (IsValue() && m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return false;
             else return true;
         }
 
@@ -658,7 +664,10 @@ namespace XCharts
                 switch (minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
-                        if (minValue > 0 && maxValue > 0)
+                        if (minValue == 0 && maxValue == 0)
+                        {
+                        }
+                        else if (minValue > 0 && maxValue > 0)
                         {
                             minValue = 0;
                             maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
@@ -685,6 +694,7 @@ namespace XCharts
 
         internal float GetCurrMinValue(float duration)
         {
+            if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMinValueChanged) return m_RuntimeMinValue;
             var time = Time.time - m_RuntimeMinValueUpdateTime;
             var total = duration / 1000;
@@ -702,6 +712,7 @@ namespace XCharts
 
         internal float GetCurrMaxValue(float duration)
         {
+            if (m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return 0;
             if (!m_RuntimeMaxValueChanged) return m_RuntimeMaxValue;
             var time = Time.time - m_RuntimeMaxValueUpdateTime;
             var total = duration / 1000;

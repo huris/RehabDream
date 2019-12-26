@@ -251,6 +251,7 @@ namespace XCharts
 
         [NonSerialized] private int m_FilterStart;
         [NonSerialized] private int m_FilterEnd;
+        [NonSerialized] private int m_FilterMinShow;
         [NonSerialized] private List<SerieData> m_FilterData;
         [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
@@ -731,7 +732,6 @@ namespace XCharts
             var serieData = new SerieData()
             {
                 data = new List<float>() { xValue, value },
-                lastData = new List<float>() { xValue, value },
                 name = dataName
             };
             serieData.index = xValue;
@@ -760,7 +760,6 @@ namespace XCharts
             var serieData = new SerieData()
             {
                 data = new List<float>() { xValue, yValue },
-                lastData = new List<float>() { xValue, yValue },
                 name = dataName
             };
             serieData.index = m_Data.Count;
@@ -804,7 +803,6 @@ namespace XCharts
                 for (int i = 0; i < valueList.Count; i++)
                 {
                     serieData.data.Add(valueList[i]);
-                    serieData.lastData.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
                 return serieData;
@@ -968,14 +966,17 @@ namespace XCharts
             {
                 var startIndex = (int)((data.Count - 1) * dataZoom.start / 100);
                 var endIndex = (int)((data.Count - 1) * dataZoom.end / 100);
-                if (startIndex != m_FilterStart || endIndex != m_FilterEnd || m_NeedUpdateFilterData)
+                if (startIndex != m_FilterStart || endIndex != m_FilterEnd || dataZoom.minShowNum != m_FilterMinShow || m_NeedUpdateFilterData)
                 {
                     m_FilterStart = startIndex;
                     m_FilterEnd = endIndex;
+                    m_FilterMinShow = dataZoom.minShowNum;
                     m_NeedUpdateFilterData = false;
                     var count = endIndex == startIndex ? 1 : endIndex - startIndex + 1;
+                    if (count < dataZoom.minShowNum) count = dataZoom.minShowNum;
                     if (m_Data.Count > 0)
                     {
+                        if (startIndex + count > m_Data.Count - 1) count = m_Data.Count - 1 - startIndex;
                         m_FilterData = m_Data.GetRange(startIndex, count);
                     }
                     else
@@ -1041,9 +1042,9 @@ namespace XCharts
         {
             if (index >= 0 && index < m_Data.Count && values != null)
             {
-                var list = m_Data[index].data;
-                list.Clear();
-                foreach (var v in values) list.Add(v);
+                var serieData = m_Data[index];
+                for (int i = 0; i < values.Count; i++)
+                    serieData.UpdateData(i, values[i]);
                 return true;
             }
             return false;
