@@ -1008,7 +1008,6 @@ public class DoctorDatabaseManager : MonoBehaviour
     // Query Patient Information
     public List<Patient> PatientQueryInformation(string PatientName, string PatientSex, long PatientAge, long DoctorID)
     {
-        int a;
         //print("!!!!!");
         SqliteDataReader reader;    //sql读取器
         List<Patient> result = new List<Patient>(); //返回值
