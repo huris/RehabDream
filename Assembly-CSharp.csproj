@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ArmChart.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -105,8 +104,6 @@
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
-     <Compile Include="Assets\GravityCenterInitScript.cs" />
-     <Compile Include="Assets\JointFeedbackInit.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
      <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
@@ -183,12 +180,15 @@
      <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
+     <Compile Include="Assets\Scripts\Doctor\ArmChart.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Angle.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Doctor.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
+     <Compile Include="Assets\Scripts\Doctor\GravityCenterInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\JointFeedbackInit.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginExitButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginReturnButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginScript.cs" />
