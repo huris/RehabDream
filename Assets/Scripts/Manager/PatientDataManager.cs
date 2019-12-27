@@ -30,9 +30,9 @@ public class PatientDataManager : MonoBehaviour{
     public DifficultyType TrainingDifficulty => PlanDifficulty;
     public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
-    public float LaunchSpeed { get; private set; } = 5.0f;
-    public float MaxBallSpeed { get; private set; } = 10.0f;
-    public float MinBallSpeed { get; private set; } = 10.0f;
+    public float LaunchSpeed { get; private set; } = 3.0f;
+    public float MaxBallSpeed { get; private set; } = 10f;
+    public float MinBallSpeed { get; private set; } = 10f;
 
 
     //[Header("GameData")]
@@ -78,7 +78,7 @@ public class PatientDataManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     }
 
-    //set PatientName,PatientID
+    // set PatientName,PatientID
     public void SetUserMessage(long PatientID, string PatientName,string PatientSex)
     {
         this.PatientID = PatientID;
@@ -86,7 +86,7 @@ public class PatientDataManager : MonoBehaviour{
         this.PatientSex = PatientSex;
     }
 
-    // set PlanDifficulty, GameCount, PlanCount
+    // set PlanDifficulty, GameCount, PlanCount, LaunchSpeed, MaxBallSpeed, MinBallSpeed
     public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, float LaunchSpeed, float MaxBallSpeed, float MinBallSpeed)
     {
         this.PlanDifficulty = PlanDifficulty;
@@ -152,7 +152,7 @@ public class PatientDataManager : MonoBehaviour{
     }
 
 
-    //set PlanDifficulty
+    // set PlanDifficulty
     public void SetPlanDifficulty(DifficultyType PlanDifficulty)
     {
         this.PlanDifficulty = PlanDifficulty;
@@ -164,31 +164,31 @@ public class PatientDataManager : MonoBehaviour{
         this.SoccerTrackTips = SoccerTrackTips;
     }
 
-    //set WordTips
+    // set WordTips
     public void SetWordTips(bool WordTips)
     {
         this.WordTips = WordTips;
     }
 
-    //set bgmVolume
+    // set bgmVolume
     public void SetbgmVolume(float Volume)
     {
         this.bgmVolume = Volume;
     }
 
-    //set bgsVolume
+    // set bgsVolume
     public void SetbgsVolume(float Volume)
     {
         this.bgsVolume = Volume;
     }
 
-    //set seVolume
+    // set seVolume
     public void SetseVolume(float Volume)
     {
         this.seVolume = Volume;
     }
 
-    //reset game data when restart game
+    // reset game data when restart game
     public void ResetGameData()
     {
         this.SuccessCount = 0;

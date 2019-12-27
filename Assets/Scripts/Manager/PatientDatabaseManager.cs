@@ -391,7 +391,7 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount)
+    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount, float LaunchSpeed, float MaxBallSpeed, float MinBallSpeed)
     {
 
         //try
@@ -407,7 +407,10 @@ public class PatientDatabaseManager : MonoBehaviour
                     AddSingleQuotes(TrainingEndTime),
                     AddSingleQuotes(TrainingDifficulty),
                     GameCount.ToString(),
-                    SuccessCount.ToString()
+                    SuccessCount.ToString(),
+                    LaunchSpeed.ToString(),
+                    MaxBallSpeed.ToString(),
+                    MinBallSpeed.ToString()
             }
         );
 
