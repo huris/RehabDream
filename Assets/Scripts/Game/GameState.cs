@@ -48,17 +48,16 @@ public class GameState : MonoBehaviour
     public GameUIHandle GameUIHandle;
 
     [Header("Time Count")]
-    private float _SessionRestTime = 3.0f;
-    private float _PrepareTime = 3.0f;
-    private float _AddSuccessCountTime = 1.0f;
-    private float _RecordTime = 0.2f;
+    private float _SessionRestTime = 3.0f;      // rest after each shoot
+    private float _PrepareTime = 3.0f;          // prepare for shoot
+    private float _AddSuccessCountTime = 1.0f;  // show "+1" in ui
+    private float _RecordTime = 0.2f;           // record gravity,angles... each 0.2s
 
-    private Track _Track;
+    private Track _Track;                       // track of soccerball
     private Shooting _Shooting;
-    private CollisionHandle _CollisionHandle;
-    private AvatarCaculator _Caculator;
+    private CollisionHandle _CollisionHandle;   // handle collision
+    private AvatarCaculator _Caculator;         // caculate gravity,angles...
     private AvatarController _GoalkeeperController;
-
 
     private string _TipsLimb = "";
     private float _RestTimeCount = 0;
@@ -111,7 +110,7 @@ public class GameState : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        InitGameParament();
         InitGameObject();
         InitDelegate();
         // set start time
@@ -696,6 +695,23 @@ public class GameState : MonoBehaviour
 
         GenerateGate();
     }
+
+    // init Paraments in start()
+    public void InitGameParament()
+    {
+        _SessionRestTime = 3.0f;     
+        _PrepareTime = PatientDataManager.instance.LaunchSpeed;
+        _AddSuccessCountTime = 1.0f;
+        _RecordTime = 0.2f;
+        _TipsLimb = "";
+        _RestTimeCount = 0;
+        _RecordTimeCount = 0;
+        _AddCount = 1;
+        _Gravity = Physics.gravity.y;
+        _MinDis = 0.1f;
+        _MinGate = 0.35f;
+        _MaxGate = 0.70f;
+}
 
     //game pause
     public void Pause()

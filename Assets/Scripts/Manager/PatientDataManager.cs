@@ -30,6 +30,9 @@ public class PatientDataManager : MonoBehaviour{
     public DifficultyType TrainingDifficulty => PlanDifficulty;
     public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
+    public float LaunchSpeed { get; private set; } = 5.0f;
+    public float MaxBallSpeed { get; private set; } = 10.0f;
+    public float MinBallSpeed { get; private set; } = 10.0f;
 
 
     //[Header("GameData")]
@@ -84,11 +87,14 @@ public class PatientDataManager : MonoBehaviour{
     }
 
     // set PlanDifficulty, GameCount, PlanCount
-    public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount)
+    public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, float LaunchSpeed, float MaxBallSpeed, float MinBallSpeed)
     {
         this.PlanDifficulty = PlanDifficulty;
         this.GameCount = GameCount;
         this.PlanCount = PlanCount;
+        this.LaunchSpeed = LaunchSpeed;
+        this.MaxBallSpeed = MaxBallSpeed;
+        this.MinBallSpeed = MinBallSpeed;
     }
 
     // set TrainingID, Max_SuccessCount
@@ -119,6 +125,18 @@ public class PatientDataManager : MonoBehaviour{
     public void SetPlanCount(long PlanCount)
     {
         this.PlanCount = PlanCount;
+    }
+
+    // set LaunchSpeed
+    public void SetLaunchSpeed(float LaunchSpeed)
+    {
+        this.LaunchSpeed = LaunchSpeed;
+    }
+
+    // set MaxBallSpeed
+    public void SetMaxBallSpeed(float MaxBallSpeed)
+    {
+        this.MaxBallSpeed = MaxBallSpeed;
     }
 
     // set FinishCount

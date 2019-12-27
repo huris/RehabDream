@@ -18,7 +18,7 @@ public class Patient
 
 
 
-    public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
+    public TrainingPlanResult trainingPlan = new TrainingPlanResult();      // 患者训练计划
     public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
 
     public void SetPatientPinyin(string PatientPinyin)
