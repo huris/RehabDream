@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrainingPlan{
+public class TrainingPlanResult{
 
     //  初级 一般 中级 高级
     //Read Only
