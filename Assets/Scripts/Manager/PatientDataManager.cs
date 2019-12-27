@@ -31,8 +31,8 @@ public class PatientDataManager : MonoBehaviour{
     public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
     public float LaunchSpeed { get; private set; } = 3.0f;
-    public float MaxBallSpeed { get; private set; } = 7f;
-    public float MinBallSpeed { get; private set; } = 1f;
+    public float MaxBallSpeed { get; private set; } = 10f;
+    public float MinBallSpeed { get; private set; } = 10f;
 
 
     //[Header("GameData")]
