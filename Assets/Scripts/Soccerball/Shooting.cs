@@ -42,33 +42,26 @@ public class Shooting : MonoBehaviour {
         {
             // update the rotation of the projectile during trajectory motion
             transform.rotation = Quaternion.LookRotation(_Rigid.velocity);
+
         }
-       
     }
 
 
     // Shoot
-    public void Shoot(Vector3 Start, Vector3 Target, float MaxHeight, float gravity)
+    public void Shoot(float VelocityX, Vector3 Start, Vector3 Target, float HeightLimit, float gravity)
     {
         _IsShooting = true;
-        _Rigid.velocity = CalculateInitialVelocity(Start, Target, MaxHeight, gravity);
+        _Rigid.velocity = CalculateInitialVelocity(VelocityX, Start, Target, HeightLimit, gravity);
         Debug.Log("@Shooting: Soccer Shoot");
     }
 
 
     // calculate Initial Velocity based on (Start, Target, MaxHeight)
     // The sphere is only affected by gravity，no drag
-    public Vector3 CalculateInitialVelocity(Vector3 Start, Vector3 Target, float MaxHeight, float gravity)
+    public Vector3 CalculateInitialVelocity(float VelocityX, Vector3 Start, Vector3 Target, float HeightLimit, float gravity)
     {
 
-        Vector3 InitialVelocity = new Vector3(0, 0, 0);
-
-        // Track is convex
-        if (MaxHeight< Target.y)
-        {
-            MaxHeight = Target.y;
-        }
-        _path = new ParabolaPath(Start, Target, MaxHeight, gravity);
+        _path = new ParabolaPath(VelocityX, Start, Target, HeightLimit, gravity);
         _path.isClampStartEnd = true;
         return _path.GetVelocity(0f);
     }

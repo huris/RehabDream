@@ -20,14 +20,44 @@ public class ParabolaPath
     private float m_time;
 
     /// <summary> 初始化抛物线运动轨迹 </summary>
+    /// <param name="VelocityX">x方向初速度</param>
     /// <param name="start">起点</param>
     /// <param name="end">终点</param>
     /// <param name="height">高度(相对于两个点的最高位置 高出多少)</param>
     /// <param name="gravity">重力加速度(负数)</param>
     /// <returns></returns>
-    public ParabolaPath(Vector3 start, Vector3 end, float height = 10, float gravity = -9.8f)
+    public ParabolaPath(float VelocityX, Vector3 start, Vector3 end, float HeightLimit = 2.0f, float gravity = -9.8f)
     {
-        Init(start, end, height, gravity);
+        //*************************************
+        // delta_x = Vx*t
+        // delta_y = Vy-0.5gt^2
+        // delta_z = Vz*t
+        //*************************************
+        float t = (end.x - start.x) / VelocityX;    //总时间
+        float VelocityZ = (end.z - start.z) / t;    //速度的z轴分量
+        float VelocityY = (float)((end.y - start.y) - (0.5 * gravity * t * t)) / t;   //速度的y轴分量
+        Debug.Log("@ParabolaPath : VelocityX VelocityY VelocityZ = " + VelocityX + " " + VelocityY + " " + VelocityZ);
+
+        // 超出高度限制
+        float Hightest = VelocityY * VelocityY / (2 * (-gravity));
+        if (Hightest > (1.5 * HeightLimit))
+        {
+            Debug.Log("@ParabolaPath : Hightest > HeightLimit");
+            this.Init(start, end, HeightLimit - start.y, gravity);
+        }
+        else
+        {
+            m_start = start;
+            m_end = end;
+            m_height = Hightest - start.y;
+            m_gravity = gravity;
+            m_upTime = VelocityY / (-gravity);
+            m_downTime = t - m_upTime;
+            m_totalTime = t;
+            m_velocityStart = new Vector3(VelocityX, VelocityY, VelocityZ);
+            m_position = m_start;
+            m_time = 0;
+        }
     }
 
     /// <summary> 初始化抛物线运动轨迹 </summary>
@@ -58,6 +88,8 @@ public class ParabolaPath
         m_velocityStart = new Vector3(vX, vY, vZ);
         m_position = m_start;
         m_time = 0;
+
+        Debug.Log("@ParabolaPath : VelocityX VelocityY VelocityZ = " + vX + " " + vZ + " " + vY);
     }
 
     /// <summary> 起点 </summary>

@@ -65,10 +65,10 @@ public class Track : MonoBehaviour {
 
 
     //需要在射门前提前计算轨道
-    public void GeneratePositions(Vector3 start, Vector3 end, float height = 10, float gravity = -9.8f)
+    public void GeneratePositions(float VelocityX, Vector3 start, Vector3 end, float HeightLimit, float gravity)
     {
         this.Positions = new Vector3[SegmentCount + 1];
-        path = new ParabolaPath(start, end, height, gravity);
+        path = new ParabolaPath(VelocityX, start, end, HeightLimit, gravity);
         float SegmentTime = path.totalTime / this.SegmentCount; //每一段用时
 
         for(int i=0;i< this.SegmentCount + 1; i++)
@@ -80,9 +80,9 @@ public class Track : MonoBehaviour {
     }
 
     //设定Arrow的坐标
-    public void GenerateTrack(Vector3 start, Vector3 end, float height = 10, float gravity = -9.8f)
+    public void GenerateTrack(float VelocityX, Vector3 start, Vector3 end, float HeightLimit, float gravity)
     {
-        GeneratePositions(start, end, height, gravity);
+        GeneratePositions(VelocityX, start, end, HeightLimit, gravity);
         //一个LineRenderer需要两个坐标
         //两个LineRenderer之间首尾相接
         //所以需要LineRendererList.Length+1个坐标

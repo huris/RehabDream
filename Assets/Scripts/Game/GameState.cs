@@ -48,10 +48,13 @@ public class GameState : MonoBehaviour
     public GameUIHandle GameUIHandle;
 
     [Header("Time Count")]
-    private float _SessionRestTime = 3.0f;      // rest after each shoot
-    private float _PrepareTime = 3.0f;          // prepare for shoot
-    private float _AddSuccessCountTime = 1.0f;  // show "+1" in ui
-    private float _RecordTime = 0.2f;           // record gravity,angles... each 0.2s
+    public float SessionRestTime = 3.0f;      // rest after each shoot
+    public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare 5s for shoot
+    public float AddSuccessCountTime = 1.0f;  // show "+1" in ui
+    public float RecordTime = 0.2f;           // record gravity,angles... each 0.2s
+    public float MaxBallSpeed => PatientDataManager.instance.MaxBallSpeed;
+    public float MinBallSpeed => PatientDataManager.instance.MinBallSpeed;
+    private float _VelocityX = 10.0f;
 
     private Track _Track;                       // track of soccerball
     private Shooting _Shooting;
@@ -110,7 +113,6 @@ public class GameState : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        InitGameParament();
         InitGameObject();
         InitDelegate();
         // set start time
@@ -303,7 +305,7 @@ public class GameState : MonoBehaviour
     private void ShowAddSuccessCountText()
     {
         //Debug.Log("StartCoroutine");
-        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(_AddCount, _AddSuccessCountTime));
+        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(_AddCount, AddSuccessCountTime));
     }
 
     private void Shoot2SessionOverFunc()
@@ -388,7 +390,10 @@ public class GameState : MonoBehaviour
             PatientDataManager.instance.TrainingEndTime.ToString("yyyyMMdd HH:mm:ss"),
             PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty),
             PatientDataManager.instance.GameCount,
-            PatientDataManager.instance.SuccessCount
+            PatientDataManager.instance.SuccessCount,
+            PatientDataManager.instance.LaunchSpeed,
+            PatientDataManager.instance.MaxBallSpeed,
+            PatientDataManager.instance.MinBallSpeed
             );
 
         Debug.Log("@GameState: WritePatientRecord Over");
@@ -415,7 +420,7 @@ public class GameState : MonoBehaviour
     //shoot
     private void Shoot()
     {
-        _Shooting.Shoot(SoccerStart.position, SoccerTarget.position, HeightestPoint.position.y, _Gravity);
+        _Shooting.Shoot(this._VelocityX, SoccerStart.position, SoccerTarget.position, TopLeft.position.y, _Gravity);
     }
 
     // shoot over
@@ -458,10 +463,10 @@ public class GameState : MonoBehaviour
     #region Generate and Reset Shoot
 
     // show the path of soccerball
-    private void ShowSoccerTrackTips(Vector3 start, Vector3 end, float height, float gravity)
+    private void ShowSoccerTrackTips(float VelocityX, Vector3 start, Vector3 end, float HeightLimit, float gravity)
     {
         TrackRoot.SetActive(true);
-        _Track.GenerateTrack(start, end, height, gravity);
+        _Track.GenerateTrack(VelocityX, start, end, HeightLimit, gravity);
     }
 
     // hide the path of soccerball
@@ -644,7 +649,9 @@ public class GameState : MonoBehaviour
         // show track
         if (PatientDataManager.instance.SoccerTrackTips)
         {
-            ShowSoccerTrackTips(SoccerStart.position, SoccerTarget.position, HeightestPoint.position.y, _Gravity);
+            this._VelocityX = Random.Range(MinBallSpeed, MaxBallSpeed);
+            Debug.Log("@GameState: _VelocityX=" + _VelocityX);
+            ShowSoccerTrackTips(_VelocityX, SoccerStart.position, SoccerTarget.position, TopLeft.position.y, _Gravity);
         }
         else
         {
@@ -696,23 +703,6 @@ public class GameState : MonoBehaviour
         GenerateGate();
     }
 
-    // init Paraments in start()
-    public void InitGameParament()
-    {
-        _SessionRestTime = 3.0f;     
-        _PrepareTime = PatientDataManager.instance.LaunchSpeed;
-        _AddSuccessCountTime = 1.0f;
-        _RecordTime = 0.2f;
-        _TipsLimb = "";
-        _RestTimeCount = 0;
-        _RecordTimeCount = 0;
-        _AddCount = 1;
-        _Gravity = Physics.gravity.y;
-        _MinDis = 0.1f;
-        _MinGate = 0.35f;
-        _MaxGate = 0.70f;
-}
-
     //game pause
     public void Pause()
     {
@@ -742,7 +732,7 @@ public class GameState : MonoBehaviour
     private bool SessionRestTimeOver()
     {
         _RestTimeCount += Time.deltaTime;
-        if (_RestTimeCount >= _SessionRestTime)
+        if (_RestTimeCount >= SessionRestTime)
         {
             _RestTimeCount = 0f;
             return true;
@@ -758,7 +748,7 @@ public class GameState : MonoBehaviour
     private bool PrepareTimeOver()
     {
         _RestTimeCount += Time.deltaTime;
-        if (_RestTimeCount < _PrepareTime)
+        if (_RestTimeCount < PrepareTime)
         {
             return false;
         }
@@ -775,7 +765,7 @@ public class GameState : MonoBehaviour
     private bool RecordTimeOver()
     {
         _RecordTimeCount += Time.deltaTime;
-        if (_RecordTimeCount < _RecordTime)
+        if (_RecordTimeCount < RecordTime)
         {
             return false;
         }
