@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -15,17 +16,25 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
     public Toggle Woman;
     public InputField PatientHeight;
     public InputField PatientWeight;
-    public Text PatientID;
-    public InputField PatientPassword;
-    public long TryPatientID;
+    public InputField PatientID;
+    //public InputField PatientPassword;
+    //public long TryPatientID;
+    public InputField PatientSymptom;   // 病症
+    public Dropdown PatientDoctor;
 
     public GameObject ErrorInformation;   // 输入内容为空
     public GameObject RegisterSuccess;   // 账号注册成功
+    public GameObject WithNoDoctor;   // 未添加主治医生
 
     public GameObject PatientAdd;
     public GameObject PatientInfo;
     public GameObject PatientListBG;
     public GameObject PatientQuery;
+
+    public Dictionary<string, int> DoctorString2Int;
+    public Dictionary<int, string> DoctorInt2String;
+
+    public List<string> PatientDoctorName;
 
     // Use this for initialization
     void OnEnable()
@@ -36,8 +45,9 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         Woman = transform.parent.Find("AddPatientSex/Woman").GetComponent<Toggle>();
         PatientHeight = transform.parent.Find("AddPatientHeight/InputField").GetComponent<InputField>();
         PatientWeight = transform.parent.Find("AddPatientWeight/InputField").GetComponent<InputField>();
-        PatientID = transform.parent.Find("AddPatientID/PatientID").GetComponent<Text>();
-        PatientPassword = transform.parent.Find("AddPatientPassword/InputField").GetComponent<InputField>();
+        PatientID = transform.parent.Find("AddPatientID/PatientID").GetComponent<InputField>();
+        PatientSymptom = transform.parent.Find("AddPatientSymptom/InputField").GetComponent<InputField>();
+        PatientDoctor = transform.parent.Find("AddPatientDoctor/Dropdown").GetComponent<Dropdown>();
 
         ErrorInformation = transform.parent.Find("ErrorInput").gameObject;   // 绑定错误信息
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
@@ -45,17 +55,37 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         RegisterSuccess = transform.parent.Find("RegisterSuccess").gameObject;   // 绑定错误信息
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
 
+        WithNoDoctor = transform.parent.Find("WithNoDoctor").gameObject;   // 绑定错误信息
+        WithNoDoctor.SetActive(false);     // 设置语句刚开始处于未激活状态
+
         PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
         PatientQuery = transform.parent.parent.Find("PatientQuery").gameObject;
 
-        TryPatientID = GetRandom(100000, 999999);  // 患者账号为6位
-        while (DoctorDatabaseManager.instance.CheckPatient(TryPatientID) != DoctorDatabaseManager.DatabaseReturn.Success)
+        //TryPatientID = GetRandom(100000, 999999);  // 患者账号为6位
+        //while (DoctorDatabaseManager.instance.CheckPatient(TryPatientID) != DoctorDatabaseManager.DatabaseReturn.Success)
+        //{
+        //    TryPatientID = GetRandom(100000, 999999);  // 直到找到一个不重复PatientID
+        //}
+        //PatientID.text = TryPatientID.ToString();
+
+        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
+
+        DoctorString2Int = new Dictionary<string, int>();
+        DoctorInt2String = new Dictionary<int, string>();
+        PatientDoctorName = new List<string>();
+
+        for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
         {
-            TryPatientID = GetRandom(100000, 999999);  // 直到找到一个不重复PatientID
+            DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
+            DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
+            PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
         }
-        PatientID.text = TryPatientID.ToString();
+
+        PatientDoctorName.Add("请输入医生");
+        PatientDoctor.AddOptions(PatientDoctorName);
+        PatientDoctor.value = PatientDoctorName.Count;
     }
 
     // Update is called once per frame
@@ -71,31 +101,57 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
 
             ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
             RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
+            WithNoDoctor.SetActive(false);     // 设置语句刚开始处于未激活状态
 
             PatientSex = "";
             if (Man.isOn) PatientSex = "男";
             else if (Woman.isOn) PatientSex = "女";
 
-            Patient patient = new Patient();
-            patient.setPatientCompleteMessage(TryPatientID, PatientName.text,MD5Encrypt(PatientPassword.text), DoctorDataManager.instance.doctor.DoctorID, long.Parse(PatientAge.text), PatientSex, long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
-
-            DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
-
-            if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+            if(PatientHeight.text == "")
             {
-                //print("成功");
-                RegisterSuccess.SetActive(true);
-
-                DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                DoctorDataManager.instance.patient = patient;
-
-                StartCoroutine(DelayTime(3));
-            }
-            else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
-            {
-                ErrorInformation.SetActive(true);
+                PatientHeight.text = "-1";
             }
 
+            if (PatientWeight.text == "")
+            {
+                PatientWeight.text = "-1";
+            }
+
+
+
+            if (PatientDoctorName.Count == PatientDoctor.value)
+            {
+                WithNoDoctor.SetActive(true);
+            }
+            else
+            {
+                if (PatientName.text == "" || PatientSex == "" || PatientAge.text == "")
+                {
+                    ErrorInformation.SetActive(true);
+                }
+                else
+                {
+                    Patient patient = new Patient();
+                    patient.setPatientCompleteMessage(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, long.Parse(PatientAge.text), PatientSex, long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
+
+                    DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
+
+                    if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+                    {
+                        //print("成功");
+                        RegisterSuccess.SetActive(true);
+
+                        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                        DoctorDataManager.instance.patient = patient;
+
+                        StartCoroutine(DelayTime(3));
+                    }
+                    else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
+                    {
+                        ErrorInformation.SetActive(true);
+                    }
+                }
+            }
         }
         catch (Exception e) // 抛出异常
         {
@@ -113,7 +169,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         Woman.isOn = false;
         PatientHeight.text = "";
         PatientWeight.text = "";
-        PatientPassword.text = "";
+        PatientSymptom.text = "";
 
         // 如果注册成功,则进入医生管理界面
         PatientAdd.SetActive(false);

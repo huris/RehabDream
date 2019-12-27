@@ -19,6 +19,7 @@ public class DoctorDataManager : MonoBehaviour {
     public List<Patient> Patients = new List<Patient>();
 
     public Doctor doctor = new Doctor();
+    public List<Doctor>Doctors = new List<Doctor>();
 
 
     void Awake()

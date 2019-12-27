@@ -10,15 +10,16 @@ using UnityEngine.EventSystems;
 
 public class DoctorRegisterScript : MonoBehaviour {
 
-    public Text DoctorID;     // 医生账号
+    public InputField DoctorID;     // 医生账号
     public InputField DoctorPassword;    // 医生密码
     public InputField DoctorPasswordAgain;    // 医生密码确认
     public InputField DoctorName;    // 医生姓名
-    public long TryDoctorID;
+    // public long TryDoctorID;
 
     public GameObject ErrorInformation;   // 输入内容为空
     public GameObject RegisterSuccess;   // 账号注册成功
     public GameObject DoctorPasswordIsNotSame;  // 两次密码输入不一致
+    public GameObject DoctorIDisAlreadyExist;   // 注册工号已经存在
 
     public EventSystem system;
 
@@ -31,7 +32,7 @@ public class DoctorRegisterScript : MonoBehaviour {
     void OnEnable()
     {
 
-        DoctorID = transform.Find("DoctorID/DoctorIDItem").GetComponent<Text>();    //  绑定账号
+        DoctorID = transform.Find("DoctorID/InputField").GetComponent<InputField>();    //  绑定账号
         DoctorPassword = transform.Find("DoctorPassword/InputField").GetComponent<InputField>();    //  绑定密码
         DoctorPasswordAgain = transform.Find("DoctorPasswordAgain/InputField").GetComponent<InputField>();    //  绑定密码
         DoctorName = transform.Find("DoctorName/InputField").GetComponent<InputField>();    //  绑定姓名
@@ -45,12 +46,15 @@ public class DoctorRegisterScript : MonoBehaviour {
         DoctorPasswordIsNotSame = transform.Find("DoctorPasswordIsNotSame").gameObject;  // 绑定错误信息
         DoctorPasswordIsNotSame.SetActive(false);
 
-        TryDoctorID = GetRandom(1000, 9999);  // 患者账号为6位
-        while (DoctorDatabaseManager.instance.CheckDoctor(TryDoctorID) != DoctorDatabaseManager.DatabaseReturn.Success)
-        {
-            TryDoctorID = GetRandom(1000, 9999);  // 直到找到一个不重复DoctorID
-        }
-        DoctorID.text = TryDoctorID.ToString();
+        DoctorIDisAlreadyExist = transform.Find("DoctorIDisAlreadyExist").gameObject; // 绑定错误信息
+        DoctorIDisAlreadyExist.SetActive(false);
+
+        //TryDoctorID = GetRandom(1000, 9999);  // 患者账号为6位
+        //while (DoctorDatabaseManager.instance.CheckDoctor(TryDoctorID) != DoctorDatabaseManager.DatabaseReturn.Success)
+        //{
+        //    TryDoctorID = GetRandom(1000, 9999);  // 直到找到一个不重复DoctorID
+        //}
+        //DoctorID.text = TryDoctorID.ToString();
 
         system = EventSystem.current;       // 获取当前的事件
     }
@@ -100,6 +104,7 @@ public class DoctorRegisterScript : MonoBehaviour {
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
         DoctorPasswordIsNotSame.SetActive(false);
+        DoctorIDisAlreadyExist.SetActive(false);
 
         try
         {
@@ -109,21 +114,28 @@ public class DoctorRegisterScript : MonoBehaviour {
             }
             else
             {
-                Doctor doctor = new Doctor();
-                doctor.SetDoctorMessage(TryDoctorID, MD5Encrypt(DoctorPassword.text), DoctorName.text);
-
-                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
-
-                if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+                if(DoctorDatabaseManager.instance.CheckDoctor(long.Parse(DoctorID.text)) == DoctorDatabaseManager.DatabaseReturn.Success)
                 {
-                    //print("成功");
-                    RegisterSuccess.SetActive(true);
+                    Doctor doctor = new Doctor();
+                    doctor.SetDoctorMessage(long.Parse(DoctorID.text), MD5Encrypt(DoctorPassword.text), DoctorName.text);
 
-                    StartCoroutine(DelayTime(3));
+                    DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DoctorRegister(doctor);
+
+                    if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
+                    {
+                        //print("成功");
+                        RegisterSuccess.SetActive(true);
+
+                        StartCoroutine(DelayTime(3));
+                    }
+                    else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
+                    {
+                        ErrorInformation.SetActive(true);
+                    }
                 }
-                else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
+                else
                 {
-                    ErrorInformation.SetActive(true);
+                    DoctorIDisAlreadyExist.SetActive(true);
                 }
             }
         }

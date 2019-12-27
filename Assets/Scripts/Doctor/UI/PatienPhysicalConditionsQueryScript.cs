@@ -10,6 +10,7 @@ public class PatienPhysicalConditionsQueryScript : MonoBehaviour {
     public Text PatientAge;
     public Text PatientHeight;
     public Text PatientWeight;
+    public Text PatientSymptom;
 
     // Use this for initialization
     void OnEnable () {
@@ -19,12 +20,27 @@ public class PatienPhysicalConditionsQueryScript : MonoBehaviour {
         PatientAge = transform.Find("QueryPatientAge/Text").GetComponent<Text>();
         PatientHeight = transform.Find("QueryPatientHeight/Text").GetComponent<Text>();
         PatientWeight = transform.Find("QueryPatientWeight/Text").GetComponent<Text>();
+        PatientSymptom = transform.Find("QueryPatientSymptom/Text").GetComponent<Text>();
 
         PatientName.text = DoctorDataManager.instance.patient.PatientName;
         PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
         PatientAge.text = DoctorDataManager.instance.patient.PatientAge.ToString();
-        PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
-        PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+
+        if (DoctorDataManager.instance.patient.PatientHeight == -1) { 
+            PatientHeight.text = "未填写";
+        }
+        else {
+            PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
+        }
+
+        if (DoctorDataManager.instance.patient.PatientWeight == -1) {
+            PatientWeight.text = "未填写";
+        }
+        else{
+            PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+        }
+
+        PatientSymptom.text = DoctorDataManager.instance.patient.PatientSymptom.ToString();
     }
 
     // Update is called once per frame

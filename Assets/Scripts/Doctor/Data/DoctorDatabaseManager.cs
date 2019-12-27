@@ -184,6 +184,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PlanDifficulty",
                     "GameCount",
                     "PlanCount",
+                    "LaunchSpeed",
+                    "MaxBallSpeed",
+                    "MinBallSpeed",
                     ""},
 
                 new String[] {
@@ -191,6 +194,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create TrainingPlanTable");
@@ -214,23 +220,23 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "PatientID",
                     "PatientName",
-                    "PatientPassword",
                     "DoctorID",
                     "PatientAge",
                     "PatientSex",
                     "PatientHeight",
                     "PatientWeight",
+                    "PatientSymptom",
                     "" },
 
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
                     "TEXT NOT NULL",
-                    "TEXT NOT NULL",
                     "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
                     "INTEGER",
-                    "TEXT",
                     "INTEGER",
-                    "INTEGER",
+                    "TEXT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientInfoTable");
@@ -249,6 +255,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingDifficulty",
                     "GameCount",
                     "SuccessCount",
+                    "LaunchSpeed",
+                    "MaxBallSpeed",
+                    "MinBallSpeed",
                     "" },
 
                 new String[] {
@@ -259,6 +268,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientRecordTable");
@@ -504,10 +516,40 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // check DoctorInfo
-        public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
+    public DatabaseReturn CheckDoctor(long DoctorID) // DoctorInfo
     {
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM DoctorInfo where DoctorID=" + DoctorID.ToString();
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                // 患者用户名存在
+                Debug.Log("@UserManager: DoctorInfo Existence!");
+                return DatabaseReturn.Fail;
+            }
+            else
+            {
+                // 患者用户名不存在
+                Debug.Log("@UserManager: DoctorInfo will be created!");
+                return DatabaseReturn.Success;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: DoctorInfo SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+    public DatabaseReturn CheckRoot() // 特判是否存在root账户
+    {
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM DoctorInfo where DoctorName='root'";
 
         try
         {
@@ -602,6 +644,50 @@ public class DoctorDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Read DoctorInformation SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    // 读取所有医生信息
+    public List<Doctor> ReadAllDoctorInformation()
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Doctor> result = new List<Doctor>(); //返回值
+        string QueryString = "SELECT * FROM DoctorInfo";
+
+        //ORDER BY convert(name using gbk)
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Doctor();
+                    res.SetDoctorMessage(
+                       reader.GetInt64(reader.GetOrdinal("DoctorID")),
+                       reader.GetString(reader.GetOrdinal("DoctorPassword")),
+                       reader.GetString(reader.GetOrdinal("DoctorName"))
+                       );
+                    res.SetDoctorPinyin(Pinyin.GetPinyin(res.DoctorName));
+
+                    result.Add(res);
+                } while (reader.Read());
+                Debug.Log("@UserManager:Read DoctorInfo Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DoctorInfo Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DoctorInfo SqliteException");
             DoctorDatabase?.CloseConnection();
             return result;
         }
@@ -862,7 +948,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     // check patient register
     public DatabaseReturn PatientRegister(Patient patient)
     {
-        if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientPassword == "" ||
+        if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientSymptom == "" ||
             patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "" ||
             patient.PatientHeight < 0 || patient.PatientWeight < 0)   // input Null
         {
@@ -881,7 +967,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             if (reader.HasRows)
             {
                 PatientDatabase.InsertValues("PatientInfo", //table name
-                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(patient.PatientPassword),
+                                   new String[] { patient.PatientID.ToString(), AddSingleQuotes(patient.PatientName), AddSingleQuotes(patient.PatientSymptom),
                                                   patient.PatientDoctorID.ToString(), patient.PatientAge.ToString(),AddSingleQuotes(patient.PatientSex),patient.PatientHeight.ToString(),patient.PatientWeight.ToString() }
                                    );
 
@@ -923,7 +1009,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 {
                     // 用户名存在
                     QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
-                    AddSingleQuotes(patient.PatientPassword) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
+                    AddSingleQuotes(patient.PatientSymptom) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
                     patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
                     " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
                     PatientDatabase.ExecuteQuery(QueryString);
@@ -959,8 +1045,17 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Patient> result = new List<Patient>(); //返回值
-        string QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
-
+        string QueryString = "";
+        
+        if(DoctorID == 12345)   // 如果为root账户，则显示所有患者的信息
+        {
+            QueryString = "SELECT * FROM PatientInfo ORDER BY PatientName";
+        }
+        else    // 否则显示对应医生的信息
+        {
+            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
+        }
+            
         //ORDER BY convert(name using gbk)
         try
         {
@@ -1004,7 +1099,6 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
 
-
     // Query Patient Information
     public List<Patient> PatientQueryInformation(string PatientName, string PatientSex, long PatientAge, long DoctorID)
     {
@@ -1016,6 +1110,97 @@ public class DoctorDatabaseManager : MonoBehaviour
         if (PatientName != "") QueryString += " and PatientName=" + AddSingleQuotes(PatientName);
         if (PatientSex != "") QueryString += " and PatientSex=" + AddSingleQuotes(PatientSex);
         if (PatientAge != 0) QueryString += " and PatientAge=" + PatientAge.ToString();
+
+        QueryString += " ORDER BY PatientName ASC";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    var res = new Patient();
+                    res.setPatientCompleteMessage(
+                       reader.GetInt64(reader.GetOrdinal("PatientID")),
+                       reader.GetString(reader.GetOrdinal("PatientName")),
+                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetInt64(reader.GetOrdinal("DoctorID")),
+                       reader.GetInt64(reader.GetOrdinal("PatientAge")),
+                       reader.GetString(reader.GetOrdinal("PatientSex")),
+                       reader.GetInt64(reader.GetOrdinal("PatientHeight")),
+                       reader.GetInt64(reader.GetOrdinal("PatientWeight"))
+                       );
+                    res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Query PatientInfo Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Query PatientInfo Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Query PatientInfo SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    //Query Patient Information
+    public List<Patient> PatientQueryInformation(string PatientName, long PatientDoctorID)
+    {
+        //print("!!!!!");
+        SqliteDataReader reader;    //sql读取器
+        List<Patient> result = new List<Patient>(); //返回值
+        string QueryString = "";
+
+        if(PatientName == "")   // 如果未填患者信息
+        {
+            if(PatientDoctorID == -1)
+            {
+                QueryString = "SELECT * FROM PatientInfo"; 
+            }
+            else
+            {
+                QueryString = "SELECT * FROM PatientInfo WHERE DoctorID = " + PatientDoctorID.ToString();
+            }
+        }
+        else
+        {
+            if (PatientDoctorID == -1)  // 如果未选择医生
+            {
+                // 如果为输入患者病历号
+                if (PatientName[0] >= '0' && PatientName[0] <= '9')
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientID = " + PatientName;
+                }
+                else   // 否则输入的是患者的姓名
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientName = " + AddSingleQuotes(PatientName);
+                }
+            }
+            else
+            {
+                // 如果为输入患者病历号
+                if (PatientName[0] >= '0' && PatientName[0] <= '9')
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientID = " + PatientName + " AND DoctorID = " + PatientDoctorID.ToString();
+                }
+                else   // 否则输入的是患者的姓名
+                {
+                    QueryString = "SELECT * FROM PatientInfo WHERE PatientName = " + AddSingleQuotes(PatientName) + " AND DoctorID = " + PatientDoctorID.ToString();
+
+                }
+            }
+        }
 
         QueryString += " ORDER BY PatientName ASC";
 

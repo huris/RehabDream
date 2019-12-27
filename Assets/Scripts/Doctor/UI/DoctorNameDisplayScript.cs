@@ -13,7 +13,7 @@ public class DoctorNameDisplayScript : MonoBehaviour {
         try
         {
             DoctorNameDisplay = GameObject.Find("DoctorNameDisplay").GetComponent<Text>();
-            DoctorNameDisplay.text = DoctorDataManager.instance.doctor.DoctorName[0] + "医生，您好";
+            DoctorNameDisplay.text = DoctorDataManager.instance.doctor.DoctorName + "，您好";
         }
         catch (Exception e) { 
         
