@@ -391,7 +391,7 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount)
+    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount, float LaunchSpeed, float MaxBallSpeed, float MinBallSpeed)
     {
 
         //try
@@ -407,7 +407,10 @@ public class PatientDatabaseManager : MonoBehaviour
                     AddSingleQuotes(TrainingEndTime),
                     AddSingleQuotes(TrainingDifficulty),
                     GameCount.ToString(),
-                    SuccessCount.ToString()
+                    SuccessCount.ToString(),
+                    LaunchSpeed.ToString(),
+                    MaxBallSpeed.ToString(),
+                    MinBallSpeed.ToString()
             }
         );
 
@@ -425,12 +428,10 @@ public class PatientDatabaseManager : MonoBehaviour
     // read TrainingPlan for patient(PatientID)
     // return: PlanDifficulty GameCount PlanCount
     // default return: "Primary",10,10
-    public Tuple<string, long, long> ReadTrainingPlan(long PatientID)
+    public TrainingPlanResult ReadTrainingPlan(long PatientID)
     {
         SqliteDataReader reader;    //sql读取器
-        string PlanDifficulty = "初级";
-        long GameCount = 10;
-        long PlanCount = 10;
+        TrainingPlanResult result = new TrainingPlanResult();
 
         try
         {
@@ -457,12 +458,15 @@ public class PatientDatabaseManager : MonoBehaviour
             {   //存在用户训练任务
 
 
-                PlanDifficulty = reader.GetString(reader.GetOrdinal("PlanDifficulty"));
-                GameCount = reader.GetInt64(reader.GetOrdinal("GameCount"));
-                PlanCount = reader.GetInt64(reader.GetOrdinal("PlanCount"));
+                result.PlanDifficulty = reader.GetString(reader.GetOrdinal("PlanDifficulty"));
+                result.GameCount = reader.GetInt64(reader.GetOrdinal("GameCount"));
+                result.PlanCount = reader.GetInt64(reader.GetOrdinal("PlanCount"));
+                result.LaunchSpeed = reader.GetFloat(reader.GetOrdinal("LaunchSpeed"));
+                result.MaxBallSpeed = reader.GetFloat(reader.GetOrdinal("MaxBallSpeed"));
+                result.MinBallSpeed = reader.GetFloat(reader.GetOrdinal("MinBallSpeed"));
 
 
-                Debug.Log("@DatabaseManager:Read TrainingPlan Success " + PlanDifficulty + " " + GameCount.ToString() + " " + PlanCount.ToString());
+                Debug.Log("@DatabaseManager:Read TrainingPlan Success " +result.PlanDifficulty + " " + result.GameCount.ToString() + " " + result.PlanCount.ToString());
 
             }
             else
@@ -477,7 +481,6 @@ public class PatientDatabaseManager : MonoBehaviour
 
         }
 
-        Tuple<string, long, long> result = new Tuple<string, long, long>(PlanDifficulty, GameCount, PlanCount); //返回值
         return result;
     }
 
@@ -608,7 +611,17 @@ public class PatientDatabaseManager : MonoBehaviour
         return "'" + s + "'";
     }
 
+    // TrainingPlan in db
+    public class TrainingPlanResult
+    {
+        public string PlanDifficulty = "初级";
+        public long GameCount = 10;
+        public long PlanCount = 10;
+        public float LaunchSpeed = 3.0f;
+        public float MaxBallSpeed = 10.0f;
+        public float MinBallSpeed = 10.0f;
 
+    }
 
 
     #region 此处已移至DoctorDatabaseManager
@@ -624,26 +637,26 @@ public class PatientDatabaseManager : MonoBehaviour
     //    {
     //        this.PatientDatabase.CreateTable(
     //            PatientInfoTableName,   //table name
-    //            new String[] {
+    ////            new String[] {
     //                "PatientID",
     //                "PatientName",
-    //                "PatientPassword",
     //                "DoctorID",
     //                "PatientAge",
     //                "PatientSex",
     //                "PatientHeight",
     //                "PatientWeight",
+    //                "PatientSymptom",
     //                "" },
 
     //            new String[] {
     //                "INTEGER UNIQUE NOT NULL",
     //                "TEXT NOT NULL",
-    //                "TEXT NOT NULL",
     //                "INTEGER NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
     //                "INTEGER",
-    //                "TEXT",
     //                "INTEGER",
-    //                "INTEGER",
+    //                "TEXT NOT NULL",
     //                "PRIMARY KEY(PatientID)" }
     //            );
     //        Debug.Log("@DatabaseManager: Create PatientInfoTable");
@@ -654,7 +667,7 @@ public class PatientDatabaseManager : MonoBehaviour
     //    {
     //        this.PatientDatabase.CreateTable(
     //            PatientRecordTableName,   //table name
-    //            new String[] {
+    ////           new String[] {
     //                "TrainingID",
     //                "PatientID",
     //                "TrainingStartTime",
@@ -662,6 +675,9 @@ public class PatientDatabaseManager : MonoBehaviour
     //                "TrainingDifficulty",
     //                "GameCount",
     //                "SuccessCount",
+    //                "LaunchSpeed",
+    //                "MaxBallSpeed",
+    //                "MinBallSpeed",
     //                "" },
 
     //            new String[] {
@@ -672,6 +688,9 @@ public class PatientDatabaseManager : MonoBehaviour
     //                "TEXT NOT NULL",
     //                "INTEGER NOT NULL",
     //                "INTEGER NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
     //                "PRIMARY KEY(TrainingID)" }
     //            );
     //        Debug.Log("@DatabaseManager: Create PatientRecordTable");
@@ -703,33 +722,39 @@ public class PatientDatabaseManager : MonoBehaviour
     //        this.PatientDatabase.CreateTable(
     //            AnglesTableName,   //table name
     //            new String[] {
-    //                "TrainingID",
-    //                "LeftArmAngle",
-    //                "RightArmAngle",
-    //                "LeftLegAngle",
-    //                "RightLegAngle",
-    //                "LeftElbowAngle",
-    //                "RightElbowAngle",
-    //                "LeftKneeAngle",
-    //                "RightKneeAngle",
-    //                "LeftAnkleAngle",
-    //                "RightAnkleAngle",
-    //                "Time" },
+                //    "TrainingID",
+                //    "LeftArmAngle",
+                //    "RightArmAngle",
+                //    "LeftLegAngle",
+                //    "RightLegAngle",
+                //    "LeftElbowAngle",
+                //    "RightElbowAngle",
+                //    "LeftKneeAngle",
+                //    "RightKneeAngle",
+                //    "LeftAnkleAngle",
+                //    "RightAnkleAngle",
+                //    "LeftHipAngle",
+                //    "RightHipAngle",
+                //    "HipAngle",
+                //    "Time" },
 
-    //            new String[] {
-    //                "INTEGER NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "TEXT NOT NULL" }
-    //            );
+                //new String[] {
+                //    "INTEGER NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "FLOAT NOT NULL",
+                //    "TEXT NOT NULL" }
+                //);
     //        Debug.Log("@DatabaseManager: Create AnglesTable");
     //    }
 

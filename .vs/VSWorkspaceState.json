@@ -3,8 +3,8 @@
     "",
     "\\Assets",
     "\\Assets\\Scripts",
-    "\\Assets\\Scripts\\Avatar"
+    "\\Assets\\Scripts\\UI"
   ],
-  "SelectedNode": "\\Assets\\Scripts\\Avatar\\AvatarCaculator.cs",
+  "SelectedNode": "\\Assets\\Scripts\\Avatar",
   "PreviewInSolutionExplorer": false
 }

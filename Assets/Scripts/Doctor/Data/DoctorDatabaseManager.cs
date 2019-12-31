@@ -694,13 +694,13 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read Patient's Training Plan
-    public TrainingPlan ReadPatientTrainingPlan(long PatientID)
+    public TrainingPlanResult ReadPatientTrainingPlan(long PatientID)
     {
 
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM TrainingPlan where PatientID=" + PatientID.ToString();
 
-        TrainingPlan trainingPlan = new TrainingPlan();
+        TrainingPlanResult trainingPlan = new TrainingPlanResult();
 
         try
         {
@@ -737,7 +737,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
 
     // make Patient's Training Plan
-    public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
+    public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlanResult trainingPlan)
     {
         if (PatientID <= 0)   // input Null
         {
@@ -781,7 +781,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // modify Patient's Training Plan
-    public DatabaseReturn ModifyPatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
+    public DatabaseReturn ModifyPatientTrainingPlan(long PatientID, TrainingPlanResult trainingPlan)
     {
         if (PatientID <= 0)   // input Null
         {

@@ -3563,7 +3563,7 @@ MonoBehaviour:
   TrackRoot: {fileID: 1156215895}
   GoalKeeper: {fileID: 1244090877}
   SoccerStart: {fileID: 1008906004}
-  HeightestPoint: {fileID: 2015437171}
+  ControlPoint: {fileID: 2015437171}
   SoccerTarget: {fileID: 1533115728}
   BottomLeft: {fileID: 120455455}
   BottomRight: {fileID: 1147316770}
@@ -3575,10 +3575,12 @@ MonoBehaviour:
   RandomYmax: 0.2
   RandomZmin: -0.2
   RandomZmax: 0.2
-  MinHeight: 0.2
-  MaxHeight: 1.8
   CheerUpSE: {fileID: 8300000, guid: 67eeb93954a4ca14299455780a518200, type: 3}
   GameUIHandle: {fileID: 1129169900}
+  SessionRestTime: 3
+  AddSuccessCountTime: 1
+  RecordTime: 0.2
+  RandomVelocity: 10
 --- !u!4 &479743390
 Transform:
   m_ObjectHideFlags: 0
@@ -3790,7 +3792,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 531226590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -276.56177, z: 0}
+  m_LocalPosition: {x: 2, y: -307, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1414728490}
@@ -11851,7 +11853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad0a29d75efe5048967c481c2731c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 1.8
+  PointNumber: 1000
   gravity: -9.8
   range_x: 5
   range_y: 1
@@ -14956,8 +14958,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1752705775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 502, y: 258.5, z: 0}
-  m_LocalScale: {x: 0.784375, y: 0.784375, z: 0.784375}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 2123786839}
   - {fileID: 1414728490}
@@ -17413,7 +17415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2015437171}
   m_Layer: 0
-  m_Name: HeightestPoint
+  m_Name: ControlPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17426,7 +17428,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2015437170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.05, y: 2.57, z: 0}
+  m_LocalPosition: {x: 3.3, y: 2.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 55992924}
