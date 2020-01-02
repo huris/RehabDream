@@ -70,7 +70,8 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         //}
         //PatientID.text = TryPatientID.ToString();
 
-        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
+
+        //print(DoctorDataManager.instance.Doctors.Count);
 
         DoctorString2Int = new Dictionary<string, int>();
         DoctorInt2String = new Dictionary<int, string>();
@@ -84,6 +85,8 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         }
 
         PatientDoctorName.Add("请输入医生");
+        //print("请输入医生");
+        //print(PatientDoctorName.Count);
         PatientDoctor.AddOptions(PatientDoctorName);
         PatientDoctor.value = PatientDoctorName.Count;
     }
@@ -107,17 +110,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             if (Man.isOn) PatientSex = "男";
             else if (Woman.isOn) PatientSex = "女";
 
-            if(PatientHeight.text == "")
-            {
-                PatientHeight.text = "-1";
-            }
-
-            if (PatientWeight.text == "")
-            {
-                PatientWeight.text = "-1";
-            }
-
-
+            print("!!!!!");
 
             if (PatientDoctorName.Count == PatientDoctor.value)
             {
@@ -127,12 +120,13 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             {
                 if (PatientName.text == "" || PatientSex == "" || PatientAge.text == "")
                 {
+                    print("1");
                     ErrorInformation.SetActive(true);
                 }
                 else
                 {
                     Patient patient = new Patient();
-                    patient.setPatientCompleteMessage(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, long.Parse(PatientAge.text), PatientSex, long.Parse(PatientHeight.text), long.Parse(PatientWeight.text));
+                    patient.setPatientCompleteMessage(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == ""?-1:long.Parse(PatientHeight.text), PatientWeight.text == ""?-1:long.Parse(PatientWeight.text));
 
                     DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
 
@@ -148,6 +142,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
                     }
                     else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
                     {
+                        print("2");
                         ErrorInformation.SetActive(true);
                     }
                 }

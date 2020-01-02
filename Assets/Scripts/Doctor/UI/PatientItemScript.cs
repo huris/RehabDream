@@ -37,8 +37,9 @@ public class PatientItemScript : MonoBehaviour {
     {
         // print(DoctorDataManager.instance.Patients.Count);
         DoctorDataManager.instance.Patients = DoctorDataManager.instance.Patients.OrderBy(s => s.PatientPinyin).ToList();
+        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-        if(this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
+        if (this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
         {
             for (int i=this.transform.childCount-1;i>= DoctorDataManager.instance.Patients.Count; i--)
             {

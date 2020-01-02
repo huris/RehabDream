@@ -169,7 +169,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -356,13 +356,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 306327703}
   m_TextComponent: {fileID: 1543712836}
   m_Placeholder: {fileID: 143657112}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 2
+  m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -1598,6 +1598,7 @@ MonoBehaviour:
   ErrorInformation: {fileID: 0}
   RegisterSuccess: {fileID: 0}
   DoctorPasswordIsNotSame: {fileID: 0}
+  DoctorIDisAlreadyExist: {fileID: 0}
   system: {fileID: 0}
   EnterKeyIsAlreadyInput: 0
 --- !u!1 &1432338851
@@ -1867,7 +1868,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -2863,7 +2864,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40

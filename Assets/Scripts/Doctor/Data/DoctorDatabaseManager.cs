@@ -34,6 +34,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string PatientRecordTableName = "PatientRecord";
     private string GravityCenterTableName = "GravityCenter";
     private string AnglesTableName = "Angles";
+    private string DirectionsTableName = "Directions";
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -184,9 +185,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PlanDifficulty",
                     "GameCount",
                     "PlanCount",
-                    "LaunchSpeed",
-                    "MaxBallSpeed",
-                    "MinBallSpeed",
+                    "TrainingDirection",
+                    "TrainingTime",
                     ""},
 
                 new String[] {
@@ -194,9 +194,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create TrainingPlanTable");
@@ -255,9 +254,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingDifficulty",
                     "GameCount",
                     "SuccessCount",
-                    "LaunchSpeed",
-                    "MaxBallSpeed",
-                    "MinBallSpeed",
+                    "TrainingDirection",
+                    "TrainingTime",
                     "" },
 
                 new String[] {
@@ -268,9 +266,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientRecordTable");
@@ -294,8 +291,6 @@ public class DoctorDatabaseManager : MonoBehaviour
             Debug.Log("@DatabaseManager: Create GravityCenterTable");
         }
 
-
-
         //check GravityCenterTable
         if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
         {
@@ -316,6 +311,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "LeftHipAngle",
                     "RightHipAngle",
                     "HipAngle",
+                    "LeftSideAngle",
+                    "RightSideAngle",
+                    "UponSideAngle",
+                    "downSideAngle",
                     "Time" },
 
                 new String[] {
@@ -333,9 +332,45 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "TEXT NOT NULL" }
                 );
             Debug.Log("@DatabaseManager: Create AnglesTable");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(DirectionsTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                DirectionsTableName,   //table name
+                new String[] {
+                    "TrainingID",
+                    "UponDirection",
+                    "UponLeftDirection",
+                    "UponRightDirectio",
+                    "DownDirection",
+                    "DownLeftDirection",
+                    "DownRightDirectio",
+                    "LeftDirection",
+                    "RightDirection",
+                     },
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL"
+                    }
+                );
+            Debug.Log("@DatabaseManager: Create DirectionsTable");
         }
 
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
@@ -674,7 +709,11 @@ public class DoctorDatabaseManager : MonoBehaviour
                        );
                     res.SetDoctorPinyin(Pinyin.GetPinyin(res.DoctorName));
 
-                    result.Add(res);
+                    if(res.DoctorName != "root")
+                    {
+                        result.Add(res);
+                    }
+
                 } while (reader.Read());
                 Debug.Log("@UserManager:Read DoctorInfo Success" + result);
                 return result;
