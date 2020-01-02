@@ -17,7 +17,7 @@ namespace XCharts
 		// Use this for initialization
 		void Start()
 		{
-            int a;
+            
 		}
 
 		void OnEnable()

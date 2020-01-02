@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class EvaluateInitScript : MonoBehaviour
 {
 
 	public GameObject NoEvaluateData;
 
 	public Text EvaluateTime;
-
 	public Text EvaluateButtonText;
 
 	// Use this for initialization
@@ -24,17 +24,15 @@ public class EvaluateInitScript : MonoBehaviour
 		EvaluateTime = transform.Find("DataBG/EvaluateTime").GetComponent<Text>();
 		EvaluateButtonText = transform.Find("DataBG/EvaluateButton/Text").GetComponent<Text>();
 
-		DoctorDataManager.instance.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 1);
+		//DoctorDataManager.instance.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 1);
 
 		if (DoctorDataManager.instance.patient.Evaluations.Count > 0)
 		{
 			NoEvaluateData.SetActive(false);
 
-			TrainingPlay LastEvaluation = DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count-1];
+			TrainingPlay LastEvaluation = DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1];
 			EvaluateTime.text = "上次评估时间：" + LastEvaluation.TrainingStartTime;
 			EvaluateButtonText.text = "重新评估";
-
-
 		}
 		else
 		{
@@ -51,3 +49,5 @@ public class EvaluateInitScript : MonoBehaviour
 
 	}
 }
+
+

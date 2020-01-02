@@ -352,10 +352,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingID",
                     "UponDirection",
                     "UponLeftDirection",
-                    "UponRightDirectio",
+                    "UponRightDirection",
                     "DownDirection",
                     "DownLeftDirection",
-                    "DownRightDirectio",
+                    "DownRightDirection",
                     "LeftDirection",
                     "RightDirection",
                      },
@@ -1455,7 +1455,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                     var res = new GravityCenter();
                     res.SetCompleteGravityCenter(
-                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     CoordinateVector3,
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
@@ -1497,7 +1497,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 {
                     var res = new Angle();
                     res.SetCompleteAngles(
-                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     reader.GetFloat(reader.GetOrdinal("LeftArmAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightArmAngle")),
                     reader.GetFloat(reader.GetOrdinal("LeftLegAngle")),

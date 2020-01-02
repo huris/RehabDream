@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Angle
 {
-    public long TrainingID { get; private set; } = 0;
+    //public long TrainingID { get; private set; } = 0;
     public float LeftArmAngle { get; private set; } = 0;
     public float RightArmAngle { get; private set; } = 0;
 
@@ -31,13 +31,39 @@ public class Angle
 
     public string time { get; private set; } = "00000000 00:00:00";
 
-    public void SetCompleteAngles(long TrainingID, float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
-                                  float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
-                                  float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,
-                                  float LeftSideAngle, float RightSideAngle, float UponSideAngle, float downSideAngle,
-                                  string time)
+    //public void SetCompleteAngles(long TrainingID, float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
+    //                              float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
+    //                              float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,
+    //                              float LeftSideAngle, float RightSideAngle, float UponSideAngle, float downSideAngle,
+    //                              string time)
+    //{
+    //    this.TrainingID = TrainingID;
+    //    this.LeftArmAngle = LeftArmAngle;
+    //    this.RightArmAngle = RightArmAngle;
+    //    this.LeftLegAngle = LeftLegAngle;
+    //    this.RightLegAngle = RightLegAngle;
+    //    this.LeftElbowAngle = LeftElbowAngle;
+    //    this.RightElbowAngle = RightElbowAngle;
+    //    this.LeftKneeAngle = LeftKneeAngle;
+    //    this.RightKneeAngle = RightKneeAngle;
+    //    this.LeftHipAngle = LeftHipAngle;
+    //    this.RightHipAngle = RightHipAngle;
+    //    this.HipAngle = HipAngle;
+    //    this.LeftAnkleAngle = LeftAnkleAngle;
+    //    this.RightAnkleAngle = RightAnkleAngle;
+    //    this.LeftSideAngle = LeftSideAngle;
+    //    this.RightSideAngle = RightSideAngle;
+    //    this.UponSideAngle = UponSideAngle;
+    //    this.downSideAngle = downSideAngle;
+    //    this.time = time;
+    //}
+
+    public void SetCompleteAngles(float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
+                              float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
+                              float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,
+                              float LeftSideAngle, float RightSideAngle, float UponSideAngle, float downSideAngle,
+                              string time)
     {
-        this.TrainingID = TrainingID;
         this.LeftArmAngle = LeftArmAngle;
         this.RightArmAngle = RightArmAngle;
         this.LeftLegAngle = LeftLegAngle;
@@ -57,6 +83,4 @@ public class Angle
         this.downSideAngle = downSideAngle;
         this.time = time;
     }
-
-
 }

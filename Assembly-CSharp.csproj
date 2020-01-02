@@ -58,6 +58,7 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\DirectionRadarChartScript.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -181,6 +182,7 @@
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
      <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Angle.cs" />
+     <Compile Include="Assets\Scripts\Doctor\Data\Direction.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Doctor.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
