@@ -17,7 +17,7 @@ public class Shooting : MonoBehaviour {
     //public Transform SoccerTarget;  // 目标
 
     [Header("Setting")]
-    public float height = 1.8f;      // 高度
+    public int PointNumber = 1000;       // 采样点数
     public float gravity = -9.8f;   // 重力加速度
 
 
@@ -26,11 +26,19 @@ public class Shooting : MonoBehaviour {
     public float range_y = 1.0f;
     public float range_z = 4.0f;
 
+    // 速度15情况下，1s内可以到达球门
+    public static float StandardVelocity = 15.0f;
+    public static float StandardTime = 1.0f;
+
     private Rigidbody _Rigid;
     private bool _IsShooting = false;
     private bool _IsShootingBeforePause = false;
     private Vector3 _VelocityBeforePause;
-    private ParabolaPath _path;      // 抛物线运动轨迹
+    private Vector3[] _path;      //  贝塞尔曲线运动轨迹
+    private float _Velocity = 0f;
+    private float _TimeSum = 0f;
+    private Vector3 SimulaterVelocity;
+    private int _OldIndex = 0;
     void Start()
     {
         _Rigid = GetComponent<Rigidbody>();
@@ -41,37 +49,34 @@ public class Shooting : MonoBehaviour {
         if (_IsShooting)
         {
             // update the rotation of the projectile during trajectory motion
-            transform.rotation = Quaternion.LookRotation(_Rigid.velocity);
+            _TimeSum += Time.deltaTime;
+
+            int index = (int)((_Velocity / StandardVelocity) * (_TimeSum / StandardTime) * PointNumber);
+            //Debug.Log(PointNumber);
+            if(index >= PointNumber)
+            {
+                ShootOver();
+                _Rigid.velocity = SimulaterVelocity;
+                return;
+            }
+
+            this.gameObject.transform.position = _path[index];
+            transform.rotation = Quaternion.LookRotation(_path[index]- _path[_OldIndex]);
+            SimulaterVelocity= (_path[index] - _path[_OldIndex]) / Time.deltaTime;
+            _OldIndex = index;
         }
-       
     }
 
 
     // Shoot
-    public void Shoot(Vector3 Start, Vector3 Target, float MaxHeight, float gravity)
+    public void Shoot(Vector3 Start, Vector3 ControlPoint, Vector3 Target, float Velocity)
     {
         _IsShooting = true;
-        _Rigid.velocity = CalculateInitialVelocity(Start, Target, MaxHeight, gravity);
+        _Velocity = Velocity;
+        _path = BezierUtils.GetBeizerList(Start, ControlPoint, Target, this.PointNumber);
         Debug.Log("@Shooting: Soccer Shoot");
     }
 
-
-    // calculate Initial Velocity based on (Start, Target, MaxHeight)
-    // The sphere is only affected by gravity，no drag
-    public Vector3 CalculateInitialVelocity(Vector3 Start, Vector3 Target, float MaxHeight, float gravity)
-    {
-
-        Vector3 InitialVelocity = new Vector3(0, 0, 0);
-
-        // Track is convex
-        if (MaxHeight< Target.y)
-        {
-            MaxHeight = Target.y;
-        }
-        _path = new ParabolaPath(Start, Target, MaxHeight, gravity);
-        _path.isClampStartEnd = true;
-        return _path.GetVelocity(0f);
-    }
 
     // save soccerball's physical data
     private void SaveBeforePause()
@@ -121,6 +126,9 @@ public class Shooting : MonoBehaviour {
     public void ShootOver()
     {
         _IsShooting = false;
+        _TimeSum = 0f;
+        _OldIndex = 0;
+        _path = new Vector3[]{ };
     }
 
     // Soccer directly move (only for test)

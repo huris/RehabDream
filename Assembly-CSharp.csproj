@@ -279,6 +279,7 @@
      <Compile Include="Assets\Scripts\Manager\PatientDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PatientDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
      <Compile Include="Assets\Scripts\Soccerball\ParabolaPath.cs" />
      <Compile Include="Assets\Scripts\Soccerball\Shooting.cs" />

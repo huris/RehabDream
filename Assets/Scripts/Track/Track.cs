@@ -21,7 +21,6 @@ public class Track : MonoBehaviour {
 
     public float gap = 0.2f;
     public Vector3[] Positions;
-    private ParabolaPath path;      // 抛物线运动轨迹
 
 
     // Use this for initialization
@@ -64,29 +63,17 @@ public class Track : MonoBehaviour {
     }
 
 
-    //需要在射门前提前计算轨道
-    public void GeneratePositions(Vector3 start, Vector3 end, float height = 10, float gravity = -9.8f)
-    {
-        this.Positions = new Vector3[SegmentCount + 1];
-        path = new ParabolaPath(start, end, height, gravity);
-        float SegmentTime = path.totalTime / this.SegmentCount; //每一段用时
-
-        for(int i=0;i< this.SegmentCount + 1; i++)
-        {
-            Positions[i] = path.GetPosition(path.time + SegmentTime * i);
-        }
-
-
-    }
-
     //设定Arrow的坐标
-    public void GenerateTrack(Vector3 start, Vector3 end, float height = 10, float gravity = -9.8f)
+    public void GenerateTrack(Vector3 StartPoint, Vector3 ControlPoint, Vector3 EndPoint)
     {
-        GeneratePositions(start, end, height, gravity);
+
+        //需要在射门前提前计算轨道
+        this.Positions = BezierUtils.GetBeizerList(StartPoint, ControlPoint, EndPoint, SegmentCount + 1);
+
         //一个LineRenderer需要两个坐标
         //两个LineRenderer之间首尾相接
         //所以需要LineRendererList.Length+1个坐标
-        for (int i=0;i< SegmentCount; i++)
+        for (int i = 0; i < SegmentCount; i++)
         {
             this.LineRendererList[i].SetPosition(0, this.Positions[i]); //设置起始点
 

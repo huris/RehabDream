@@ -142,7 +142,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         try
         {
-            TrainingPlan trainingPlan = new TrainingPlan();
+            TrainingPlanResult trainingPlan = new TrainingPlanResult();
             trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
 
             DoctorDatabaseManager.DatabaseReturn RETURN;  // 返回修改训练计划结果
