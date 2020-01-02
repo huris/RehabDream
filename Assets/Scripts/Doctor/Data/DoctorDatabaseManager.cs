@@ -219,23 +219,23 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "PatientID",
                     "PatientName",
+                    "PatientSymptom",
                     "DoctorID",
                     "PatientAge",
                     "PatientSex",
                     "PatientHeight",
                     "PatientWeight",
-                    "PatientSymptom",
                     "" },
 
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
                     "TEXT NOT NULL",
+                    "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "TEXT NOT NULL",
                     "INTEGER",
                     "INTEGER",
-                    "TEXT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientInfoTable");
@@ -988,8 +988,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public DatabaseReturn PatientRegister(Patient patient)
     {
         if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientSymptom == "" ||
-            patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "" ||
-            patient.PatientHeight < 0 || patient.PatientWeight < 0)   // input Null
+            patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "")   // input Null
         {
             Debug.Log("@UserManager: Register PatientInfo NullInput");
             return DatabaseReturn.NullInput;
@@ -1047,7 +1046,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 if (reader.HasRows)
                 {
                     // 用户名存在
-                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
+                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientSymptom=" +
                     AddSingleQuotes(patient.PatientSymptom) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
                     patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
                     " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
@@ -1088,12 +1087,14 @@ public class DoctorDatabaseManager : MonoBehaviour
         
         if(DoctorID == 12345)   // 如果为root账户，则显示所有患者的信息
         {
-            QueryString = "SELECT * FROM PatientInfo ORDER BY PatientName";
+            QueryString = "SELECT * FROM PatientInfo";
         }
         else    // 否则显示对应医生的信息
         {
-            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
+            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString();
         }
+
+        print(QueryString);
             
         //ORDER BY convert(name using gbk)
         try
@@ -1109,7 +1110,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),
@@ -1165,7 +1166,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),
@@ -1256,7 +1257,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),

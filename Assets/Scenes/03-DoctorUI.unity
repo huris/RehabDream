@@ -6271,7 +6271,7 @@ GameObject:
   - component: {fileID: 158669686}
   - component: {fileID: 158669688}
   m_Layer: 5
-  m_Name: PatientPassWord
+  m_Name: TrainingStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6284,7 +6284,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158669684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 806, y: 0, z: 0}
+  m_LocalPosition: {x: 756.3, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -6292,7 +6292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 806, y: 0}
+  m_AnchoredPosition: {x: 756.3, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &158669686
@@ -6811,7 +6811,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 176231717}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65, y: -11.599976, z: 0}
+  m_LocalPosition: {x: -76, y: -18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1320396487}
@@ -6820,7 +6820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: -11.599976}
+  m_AnchoredPosition: {x: -76, y: -18}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176231719
@@ -26625,7 +26625,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534112548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 156.80002, y: 0, z: 0}
+  m_LocalPosition: {x: 107.10004, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -26633,7 +26633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 156.80002, y: 0}
+  m_AnchoredPosition: {x: 107.10004, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534112550
@@ -34990,7 +34990,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 723758025}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 649.19995, y: 0, z: 0}
+  m_LocalPosition: {x: 599.5, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -34998,7 +34998,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 649.19995, y: 0}
+  m_AnchoredPosition: {x: 599.5, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &723758027
@@ -38494,7 +38494,7 @@ RectTransform:
   - {fileID: 671930632}
   - {fileID: 1857114920}
   m_Father: {fileID: 1414470508}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -39025,7 +39025,7 @@ GameObject:
   - component: {fileID: 838564223}
   - component: {fileID: 838564222}
   m_Layer: 5
-  m_Name: PatientPasswordModify
+  m_Name: PatientSymptomModify
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43636,7 +43636,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 928114794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 470.4001, y: 0, z: 0}
+  m_LocalPosition: {x: 420.70007, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -43644,7 +43644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 470.4001, y: 0}
+  m_AnchoredPosition: {x: 420.70007, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &928114796
@@ -44646,7 +44646,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 947635143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65, y: 42.800003, z: 0}
+  m_LocalPosition: {x: -76, y: 36.39998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 492081301}
@@ -44655,7 +44655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: 42.800003}
+  m_AnchoredPosition: {x: -76, y: 36.39998}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &947635145
@@ -48381,7 +48381,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1039445932}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -49.699974, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -48389,7 +48389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -49.699974, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039445934
@@ -49227,7 +49227,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1054538544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 313.60004, y: 0, z: 0}
+  m_LocalPosition: {x: 263.90005, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -49235,7 +49235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 313.60004, y: 0}
+  m_AnchoredPosition: {x: 263.90005, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054538546
@@ -50667,6 +50667,95 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1078180839}
+--- !u!1 &1080085756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1080085757}
+  - component: {fileID: 1080085760}
+  - component: {fileID: 1080085759}
+  - component: {fileID: 1080085758}
+  m_Layer: 5
+  m_Name: PatientDoctor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1080085757
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1080085756}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1263.8, y: -9.799999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1467713859}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1263.8, y: -9.799999}
+  m_SizeDelta: {x: 156.8, y: 55.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1080085758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1080085756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!114 &1080085759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1080085756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 31
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 45
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u4E3B\u6CBB\u533B\u751F"
+--- !u!222 &1080085760
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1080085756}
 --- !u!1 &1083235901
 GameObject:
   m_ObjectHideFlags: 0
@@ -58588,7 +58677,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1291456981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00012207031, y: 0, z: 0}
+  m_LocalPosition: {x: -17.700012, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1321190480}
@@ -58596,8 +58685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
-  m_SizeDelta: {x: 1622, y: 495.3}
+  m_AnchoredPosition: {x: -17.7, y: 0}
+  m_SizeDelta: {x: 1657.3, y: 495.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1291456983
 MonoBehaviour:
@@ -58639,7 +58728,7 @@ MonoBehaviour:
   PatientListBG: {fileID: 0}
   PatientAdd: {fileID: 0}
   PatienPhysicalConditionsQuery: {fileID: 0}
-  PatientPasswordModify: {fileID: 0}
+  PatientSymptomModify: {fileID: 0}
   PatientModify: {fileID: 0}
   TrainingConditionQueryToggle: {fileID: 0}
   TrainingPlanMakingToggle: {fileID: 0}
@@ -60905,7 +60994,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1321190479}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 741.1, y: -401.6, z: 0}
+  m_LocalPosition: {x: 732.1, y: -401.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1291456982}
@@ -60915,8 +61004,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 741.1, y: -401.6}
-  m_SizeDelta: {x: 1674.1, y: 495.3}
+  m_AnchoredPosition: {x: 732.1, y: -401.6}
+  m_SizeDelta: {x: 1692, y: 495.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1321190481
 MonoBehaviour:
@@ -61505,7 +61594,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1336135697}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -65, y: 97.20003, z: 0}
+  m_LocalPosition: {x: -76, y: 90.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 840491184}
@@ -61514,7 +61603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: 97.20003}
+  m_AnchoredPosition: {x: -76, y: 90.8}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1336135699
@@ -66076,8 +66165,8 @@ RectTransform:
   m_Children:
   - {fileID: 765882447}
   - {fileID: 932345669}
-  - {fileID: 828062901}
   - {fileID: 1854235322}
+  - {fileID: 828062901}
   m_Father: {fileID: 2014111036}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66827,7 +66916,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1425780519}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1076, y: 0, z: 0}
+  m_LocalPosition: {x: 1026.3, y: -9.799999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1467713859}
@@ -66835,7 +66924,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1076, y: 0}
+  m_AnchoredPosition: {x: 1026.3, y: -9.799999}
   m_SizeDelta: {x: 156.8, y: 55.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1425780521
@@ -69307,6 +69396,7 @@ RectTransform:
   - {fileID: 723758026}
   - {fileID: 158669685}
   - {fileID: 1425780520}
+  - {fileID: 1080085757}
   m_Father: {fileID: 765882447}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -76877,7 +76967,6 @@ GameObject:
   - component: {fileID: 1554582476}
   - component: {fileID: 1554582478}
   - component: {fileID: 1554582477}
-  - component: {fileID: 1554582479}
   m_Layer: 5
   m_Name: TrainingPlan
   m_TagString: Untagged
@@ -76926,7 +77015,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
@@ -76943,20 +77032,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1554582475}
---- !u!114 &1554582479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1554582475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &1557403066
 GameObject:
   m_ObjectHideFlags: 0
@@ -78747,7 +78822,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1595884195}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65, y: -65.99997, z: 0}
+  m_LocalPosition: {x: -76, y: -72.399994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 741834408}
@@ -78756,7 +78831,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: -65.99997}
+  m_AnchoredPosition: {x: -76, y: -72.399994}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595884197
@@ -89488,7 +89563,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1783795237}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65, y: -175, z: 0}
+  m_LocalPosition: {x: -76, y: -181.40002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1939697196}
@@ -89497,7 +89572,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: -175}
+  m_AnchoredPosition: {x: -76, y: -181.40002}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1783795239
@@ -90935,7 +91010,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1817515113}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65, y: -120.39998, z: 0}
+  m_LocalPosition: {x: -76, y: -126.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1252745925}
@@ -90944,7 +91019,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: -120.39998}
+  m_AnchoredPosition: {x: -76, y: -126.8}
   m_SizeDelta: {x: 102.9, y: 54.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817515115
@@ -93977,7 +94052,7 @@ RectTransform:
   - {fileID: 410712778}
   - {fileID: 427728982}
   m_Father: {fileID: 1414470508}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -104246,6 +104321,16 @@ MonoBehaviour:
   PatientInfo: {fileID: 0}
   PatientListBG: {fileID: 0}
   PatientQuery: {fileID: 0}
+  PatientName: {fileID: 0}
+  PatientSex: 
+  PatientAge: {fileID: 0}
+  Man: {fileID: 0}
+  Woman: {fileID: 0}
+  PatientHeight: {fileID: 0}
+  PatientWeight: {fileID: 0}
+  PatientID: {fileID: 0}
+  PatientSymptom: {fileID: 0}
+  PatientDoctor: {fileID: 0}
 --- !u!114 &2126096758
 MonoBehaviour:
   m_ObjectHideFlags: 0

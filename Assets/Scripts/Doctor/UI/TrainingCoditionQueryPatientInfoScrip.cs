@@ -35,8 +35,24 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
         PatientName.text = DoctorDataManager.instance.patient.PatientName;
         PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
         PatientAge.text = DoctorDataManager.instance.patient.PatientAge.ToString();
-        PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
-        PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+
+        if(DoctorDataManager.instance.patient.PatientHeight == -1)
+        {
+            PatientHeight.text = "未填写";
+        }
+        else
+        {
+            PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
+        }
+
+        if (DoctorDataManager.instance.patient.PatientWeight == -1)
+        {
+            PatientWeight.text = "未填写";
+        }
+        else
+        {
+            PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+        }
 
         TrainingPlanNullText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingPlanNullText").gameObject;
         TrainingDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/TrainingDifficulty").gameObject;

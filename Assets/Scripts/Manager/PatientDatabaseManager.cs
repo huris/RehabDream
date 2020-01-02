@@ -222,9 +222,9 @@ public class PatientDatabaseManager : MonoBehaviour
 
 
     //check register
-    public DatabaseReturn Register(long PatientID, string PatientName, string PatientPassword)  //Register
+    public DatabaseReturn Register(long PatientID, string PatientName, string PatientSymptom)  //Register
     {
-        if (PatientID.ToString().Equals("") || PatientPassword.Equals("") || PatientName.Equals(""))   //input Null
+        if (PatientID.ToString().Equals("") || PatientSymptom.Equals("") || PatientName.Equals(""))   //input Null
         {
             Debug.Log("@DatabaseManager: Register NullInput");
             return DatabaseReturn.NullInput;
@@ -264,7 +264,7 @@ public class PatientDatabaseManager : MonoBehaviour
                 new String[] {
                     PatientID.ToString(),
                     AddSingleQuotes(PatientName),
-                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientPassword)),  //md5加密
+                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientSymptom)),  //md5加密
                     0.ToString(),
                     0.ToString(),
                     "NULL",

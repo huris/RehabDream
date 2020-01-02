@@ -281,7 +281,6 @@
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
-     <Compile Include="Assets\Scripts\Soccerball\ParabolaPath.cs" />
      <Compile Include="Assets\Scripts\Soccerball\Shooting.cs" />
      <Compile Include="Assets\Scripts\Soccerball\SoccerballCreate.cs" />
      <Compile Include="Assets\Scripts\Track\Track.cs" />
