@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
-    public Dropdown TrainingDifficult;
-    public InputField GameCount;
-    public InputField PlanCount;
+    public Dropdown PlanDifficult;
+    public Dropdown PlanDirection;
+    public InputField PlanTime;
 
     public GameObject PlanMakingSuccess;
     public GameObject PlanMakingFail;
@@ -23,6 +23,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
     public Dictionary<string, int> DifficultString2Int;
     public Dictionary<int, string> DifficultInt2String;
+
+    public Dictionary<string, int> DirectionString2Int;
+    public Dictionary<int, string> DirectionInt2String;
 
     public EventSystem system;
 
@@ -37,9 +40,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
     void OnEnable()
     {
-        TrainingDifficult = transform.Find("TrainingDifficult/Dropdown").GetComponent<Dropdown>();
-        GameCount = transform.Find("GameCount/InputField").GetComponent<InputField>();
-        PlanCount = transform.Find("PlanCount/InputField").GetComponent<InputField>();
+        PlanDifficult = transform.Find("PlanDifficult/Dropdown").GetComponent<Dropdown>();
+        PlanDirection = transform.Find("PlanDirection/Dropdown").GetComponent<Dropdown>();
+        PlanTime = transform.Find("PlanTime/InputField").GetComponent<InputField>();
 
         PlanMakingButtonText = transform.Find("PlanMakingButton/Text").GetComponent<Text>();
       
@@ -73,20 +76,43 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
         DifficultInt2String.Add(4, "中级");
         DifficultInt2String.Add(5, "高级");
 
+        DirectionString2Int = new Dictionary<string, int>();
+        DirectionString2Int.Add("请选择方向", 0);
+        DirectionString2Int.Add("全方位", 1);
+        DirectionString2Int.Add("上", 2);
+        DirectionString2Int.Add("左上", 3);
+        DirectionString2Int.Add("右上", 4);
+        DirectionString2Int.Add("下", 5);
+        DirectionString2Int.Add("左下", 6);
+        DirectionString2Int.Add("右下", 7);
+        DirectionString2Int.Add("左", 8);
+        DirectionString2Int.Add("右", 9);
+
+        DirectionInt2String = new Dictionary<int, string>();
+        DirectionInt2String.Add(0, "请选择方向");
+        DirectionInt2String.Add(1, "全方位");
+        DirectionInt2String.Add(2, "上");
+        DirectionInt2String.Add(3, "左上");
+        DirectionInt2String.Add(4, "右上");
+        DirectionInt2String.Add(5, "下");
+        DirectionInt2String.Add(6, "左下");
+        DirectionInt2String.Add(7, "右下");
+        DirectionInt2String.Add(8, "左");
+        DirectionInt2String.Add(9, "右");
 
         if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
         {
-            TrainingDifficult.value = DifficultString2Int[DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty];
-            GameCount.text = DoctorDataManager.instance.patient.trainingPlan.GameCount.ToString();
-            PlanCount.text = DoctorDataManager.instance.patient.trainingPlan.PlanCount.ToString();
+            PlanDifficult.value = DifficultString2Int[DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty];
+            PlanDirection.value = DirectionString2Int[DoctorDataManager.instance.patient.trainingPlan.PlanDirection];
+            PlanTime.text = DoctorDataManager.instance.patient.trainingPlan.PlanTime.ToString();
 
             PlanMakingButtonText.text = "修改计划";
         }
         else
         {
-            TrainingDifficult.value = 0;
-            GameCount.text = "";
-            PlanCount.text = "";
+            PlanDifficult.value = 0;
+            PlanDirection.value = 0;
+            PlanTime.text = "";
 
             PlanMakingButtonText.text = "制定计划";
         }
@@ -142,8 +168,8 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         try
         {
-            TrainingPlanResult trainingPlan = new TrainingPlanResult();
-            trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
+            TrainingPlan trainingPlan = new TrainingPlan();
+            trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == ""?20:long.Parse(PlanTime.text));
 
             DoctorDatabaseManager.DatabaseReturn RETURN;  // 返回修改训练计划结果
 
@@ -161,8 +187,8 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(true);
                 DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
-                DoctorDataManager.instance.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
-                DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[TrainingDifficult.value], long.Parse(GameCount.text), long.Parse(PlanCount.text));
+                DoctorDataManager.instance.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+                DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
 
                 PlanMakingSuccess.SetActive(true);
 

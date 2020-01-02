@@ -11,12 +11,15 @@ public class TrainingPlay
     public string TrainingDifficulty { get; private set; } = "初级";
     public long SuccessCount { get; private set; } = 0;
     public long GameCount { get; private set; } = 0;
+    public string TrainingDirection { get; private set; } = "全方位";
+    public long TrainingTime { get; private set; } = 20;
 
     public List<Angle> angles = new List<Angle>();      // 患者角度
 
     public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
 
-    public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long SuccessCount, long GameCount)
+    public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, 
+        long SuccessCount, long GameCount, string TrainingDirection, long TrainingTime)
     {
         this.TrainingID = TrainingID;
         this.TrainingStartTime = TrainingStartTime;
@@ -24,6 +27,8 @@ public class TrainingPlay
         this.TrainingDifficulty = TrainingDifficulty;
         this.SuccessCount = SuccessCount;
         this.GameCount = GameCount;
+        this.TrainingDirection = TrainingDirection;
+        this.TrainingTime = TrainingTime;
     }
 
     // set TrainingID, Max_SuccessCount

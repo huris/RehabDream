@@ -185,8 +185,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PlanDifficulty",
                     "GameCount",
                     "PlanCount",
-                    "TrainingDirection",
-                    "TrainingTime",
+                    "PlanDirection",
+                    "PlanTime",
                     ""},
 
                 new String[] {
@@ -256,6 +256,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "SuccessCount",
                     "TrainingDirection",
                     "TrainingTime",
+                    "IsEvaluated",
                     "" },
 
                 new String[] {
@@ -267,6 +268,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
@@ -733,13 +735,13 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read Patient's Training Plan
-    public TrainingPlanResult ReadPatientTrainingPlan(long PatientID)
+    public TrainingPlan ReadPatientTrainingPlan(long PatientID)
     {
 
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM TrainingPlan where PatientID=" + PatientID.ToString();
 
-        TrainingPlanResult trainingPlan = new TrainingPlanResult();
+        TrainingPlan trainingPlan = new TrainingPlan();
 
         try
         {
@@ -748,10 +750,12 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
-                trainingPlan.SetTrainingPlan(
+                trainingPlan.SetCompleteTrainingPlan(
                     reader.GetString(reader.GetOrdinal("PlanDifficulty")),
                     reader.GetInt64(reader.GetOrdinal("GameCount")),
-                    reader.GetInt64(reader.GetOrdinal("PlanCount")));
+                    reader.GetInt64(reader.GetOrdinal("PlanCount")),
+                    reader.GetString(reader.GetOrdinal("PlanDirection")),
+                    reader.GetInt64(reader.GetOrdinal("PlanTime")));
 
                 trainingPlan.SetPlanIsMaking(true);
 
@@ -776,7 +780,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
 
     // make Patient's Training Plan
-    public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlanResult trainingPlan)
+    public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
     {
         if (PatientID <= 0)   // input Null
         {
@@ -800,7 +804,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                                                 PatientID.ToString(),
                                                 AddSingleQuotes(trainingPlan.PlanDifficulty),
                                                 trainingPlan.GameCount.ToString(),
-                                                trainingPlan.PlanCount.ToString() }
+                                                trainingPlan.PlanCount.ToString(),
+                                                AddSingleQuotes(trainingPlan.PlanDirection),
+                                                trainingPlan.PlanTime.ToString()
+                                                }
                                             );
                 Debug.Log("@UserManager: MakePatientTrainingPlan Success");
                 return DatabaseReturn.Success;
@@ -820,7 +827,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // modify Patient's Training Plan
-    public DatabaseReturn ModifyPatientTrainingPlan(long PatientID, TrainingPlanResult trainingPlan)
+    public DatabaseReturn ModifyPatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
     {
         if (PatientID <= 0)   // input Null
         {
@@ -840,6 +847,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             {
                 QueryString = "UPDATE TrainingPlan SET PlanDifficulty=" + AddSingleQuotes(trainingPlan.PlanDifficulty) +
                     " , GameCount=" + trainingPlan.GameCount.ToString() + " , PlanCount=" + trainingPlan.PlanCount.ToString() +
+                    " , PlanDirection=" + AddSingleQuotes(trainingPlan.PlanDirection) + " , PlanTime=" + trainingPlan.PlanTime.ToString() +
                     " where PatientID=" + PatientID.ToString();
                 DoctorDatabase.ExecuteQuery(QueryString);
 
@@ -1286,11 +1294,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read PatientRecord
-    public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime)
+    public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) +" order by TrainingEndTime";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) + " and IsEvaluated = "+ IsEvaluated.ToString() +" order by TrainingEndTime";
         //string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() +  " order by TrainingEndTime";
 
         print(QueryString);
@@ -1310,7 +1318,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                        reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                        reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                       reader.GetInt64(reader.GetOrdinal("GameCount"))
+                       reader.GetInt64(reader.GetOrdinal("GameCount")),
+                       reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                       reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                        );
                     result.Add(res);
                 } while (reader.Read());
@@ -1333,11 +1343,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read PatientRecord
-    public List<TrainingPlay> ReadPatientRecord(long PatientID)
+    public List<TrainingPlay> ReadPatientRecord(long PatientID, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " order by TrainingEndTime";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = " + IsEvaluated.ToString() + " order by TrainingEndTime";
 
         try
         {
@@ -1355,7 +1365,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                        reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                        reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                       reader.GetInt64(reader.GetOrdinal("GameCount"))
+                       reader.GetInt64(reader.GetOrdinal("GameCount")),
+                       reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                       reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                        );
                     result.Add(res);
                 } while (reader.Read());
@@ -1377,12 +1389,14 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+
+
     // read LastPatientRecord
-    public TrainingPlay ReadLastPatientRecord(long PatientID)
+    public TrainingPlay ReadLastPatientRecord(long PatientID, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         TrainingPlay result = new TrainingPlay(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " order by TrainingEndTime desc limit 1";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = "+IsEvaluated.ToString()+" order by TrainingEndTime desc limit 1";
 
         try
         {
@@ -1397,7 +1411,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                 reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                 reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                 reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                reader.GetInt64(reader.GetOrdinal("GameCount"))
+                reader.GetInt64(reader.GetOrdinal("GameCount")),
+                reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                 );
 
                 Debug.Log("@UserManager:Read LastPatientRecord Success" + result);
@@ -1495,6 +1511,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetFloat(reader.GetOrdinal("HipAngle")),
                     reader.GetFloat(reader.GetOrdinal("LeftAnkleAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightAnkleAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("UponSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("downSideAngle")),
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
                     result.Add(res);
