@@ -68,7 +68,7 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
         print(EndTime);
 
-        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.patient.PatientID, StartTime, EndTime);
+        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.patient.PatientID, StartTime, EndTime, 0);
 
         TrainingPlayList.SetActive(false);
 
@@ -77,7 +77,7 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
     public void DisplayAllTrainingButtonOnClick()
     {
-        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID);
+        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 0);
 
         TrainingPlayList.SetActive(false);
 

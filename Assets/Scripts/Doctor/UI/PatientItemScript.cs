@@ -18,7 +18,7 @@ public class PatientItemScript : MonoBehaviour {
     public GameObject PatientListBG;
     public GameObject PatientAdd;
     public GameObject PatienPhysicalConditionsQuery;
-    public GameObject PatientPasswordModify;
+    public GameObject PatientSymptomModify;
     public GameObject PatientModify;
 
     public Toggle TrainingConditionQueryToggle;
@@ -37,8 +37,9 @@ public class PatientItemScript : MonoBehaviour {
     {
         // print(DoctorDataManager.instance.Patients.Count);
         DoctorDataManager.instance.Patients = DoctorDataManager.instance.Patients.OrderBy(s => s.PatientPinyin).ToList();
+        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-        if(this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
+        if (this.transform.childCount > DoctorDataManager.instance.Patients.Count)   // 如果数目大于患者，说明足够存储了，需要把之后的几个给设置未激活
         {
             for (int i=this.transform.childCount-1;i>= DoctorDataManager.instance.Patients.Count; i--)
             {
@@ -65,6 +66,8 @@ public class PatientItemScript : MonoBehaviour {
             this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientSex;
             this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientAge.ToString();
             this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Patients[i].PatientID.ToString();
+            Doctor doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.Patients[i].PatientDoctorID);
+            this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = doctor.DoctorName;
 
             // 为button添加监听函数
             this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
@@ -72,8 +75,8 @@ public class PatientItemScript : MonoBehaviour {
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
             this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
-            this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
-            this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
+            this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
+            this.transform.GetChild(i).GetChild(0).GetChild(9).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
 
         }
 
@@ -104,8 +107,8 @@ public class PatientItemScript : MonoBehaviour {
         PatientAdd.SetActive(false);
         PatienPhysicalConditionsQuery = transform.parent.parent.Find("PatienPhysicalConditionsQuery").gameObject;
         PatienPhysicalConditionsQuery.SetActive(false);
-        PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
-        PatientPasswordModify.SetActive(false);
+        PatientSymptomModify = transform.parent.parent.Find("PatientSymptomModify").gameObject;
+        PatientSymptomModify.SetActive(false);
         PatientModify = transform.parent.parent.Find("PatientModify").gameObject;
         PatientModify.SetActive(false);
 

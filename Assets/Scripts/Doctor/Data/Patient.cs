@@ -17,9 +17,9 @@ public class Patient
     public long MaxSuccessCount { get; private set; } = 0;
 
 
-
-    public TrainingPlanResult trainingPlan = new TrainingPlanResult();      // 患者训练计划
+    public TrainingPlan trainingPlan = new TrainingPlan();      // 患者训练计划
     public List<TrainingPlay> trainingPlays = new List<TrainingPlay>();   // 患者训练列表
+    public List<TrainingPlay> Evaluations = new List<TrainingPlay>();   // 患者评估列表
 
     public void SetPatientPinyin(string PatientPinyin)
     {
