@@ -347,9 +347,8 @@ public class StartUIHandle : UIHandle
             PatientDataManager.Str2DifficultyType(result.PlanDifficulty),
             result.GameCount,
             result.PlanCount,
-            result.LaunchSpeed,
-            result.MaxBallSpeed,
-            result.MinBallSpeed
+            PatientDataManager.Str2DirectionType(result.PlanDirection),
+            result.PlanTime
             );
 }
 

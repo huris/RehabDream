@@ -362,6 +362,10 @@ public class GameState : MonoBehaviour
            _Caculator.LeftHipAngle(),
            _Caculator.RightHipAngle(),
            _Caculator.HipAngle(),
+           _Caculator.LeftSideAngle(),
+           _Caculator.RightSideAngle(),
+           _Caculator.UponSideAngle(),
+           _Caculator.DownSideAngle(),
            System.DateTime.Now);
 
         Thread.StartThread();
@@ -389,12 +393,18 @@ public class GameState : MonoBehaviour
             PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty),
             PatientDataManager.instance.GameCount,
             PatientDataManager.instance.SuccessCount,
-            PatientDataManager.instance.LaunchSpeed,
-            PatientDataManager.instance.MaxBallSpeed,
-            PatientDataManager.instance.MinBallSpeed
+            PatientDataManager.DirectionType2Str(PatientDataManager.instance.TrainingDirection),
+            PatientDataManager.instance.TrainingTime,
+            PatientDataManager.instance.IsEvaluated
             );
 
         Debug.Log("@GameState: WritePatientRecord Over");
+
+        PatientDatabaseManager.instance.WriteMaxDirection(
+            PatientDataManager.instance.TrainingID,
+            PatientDataManager.instance.MaxDirection
+        );
+        Debug.Log("@GameState: WriteMaxDirection Over");
 
         //update Training Plan
         PatientDatabaseManager.instance.UpdateTrainingPlan(

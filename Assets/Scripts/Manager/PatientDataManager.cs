@@ -24,12 +24,33 @@ public class PatientDataManager : MonoBehaviour{
         Advanced    //高级
     }
 
+    public enum DirectionType
+    {
+        UponDirection,         //上
+        UponLeftDirection,     //左上
+        UponRightDirection,    //右上
+        DownDirection,         //下
+        DownLeftDirection,     //左下
+        DownRightDirection,    //右下
+        LeftDirection,         //左
+        RightDirection,        //右
+        AnyDirection           //任意方向
+    }
+
+
     //Read Only
     //[Header("TrainingPlan")]
     public DifficultyType PlanDifficulty { get; private set; } = DifficultyType.Entry;
     public DifficultyType TrainingDifficulty => PlanDifficulty;
     public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
+    public DirectionType PlanDirection { get; private set; } = DirectionType.UponDirection;
+    public DirectionType TrainingDirection => PlanDirection;
+    public long PlanTime { get; private set; } = 20;
+    public long TrainingTime => PlanTime;
+    public long IsEvaluated { get; private set; } = 1;  //1-评估
+
+
     public float LaunchSpeed { get; private set; } = 3.0f;
     public float MaxBallSpeed { get; private set; } = 10f;
     public float MinBallSpeed { get; private set; } = 10f;
@@ -44,6 +65,7 @@ public class PatientDataManager : MonoBehaviour{
     //[Header("PatientRecord")]
     public long TrainingID { get; private set; } = 0;
     public long MaxSuccessCount { get; private set; } = 0;
+    public float[] MaxDirection { get; private set; } = {0f, 0f, 0f, 0f, 0f, 0f, 0f};
 
     //[Header("MusicSetting")]
     public float bgmVolume { get; private set; } = 0.5f;
@@ -87,14 +109,13 @@ public class PatientDataManager : MonoBehaviour{
     }
 
     // set PlanDifficulty, GameCount, PlanCount, LaunchSpeed, MaxBallSpeed, MinBallSpeed
-    public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, float LaunchSpeed, float MaxBallSpeed, float MinBallSpeed)
+    public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, DirectionType PlanDirection, long PlanTime)
     {
         this.PlanDifficulty = PlanDifficulty;
         this.GameCount = GameCount;
         this.PlanCount = PlanCount;
-        this.LaunchSpeed = LaunchSpeed;
-        this.MaxBallSpeed = MaxBallSpeed;
-        this.MinBallSpeed = MinBallSpeed;
+        this.PlanDirection = PlanDirection;
+        this.PlanTime = PlanTime;
     }
 
     // set TrainingID, Max_SuccessCount
@@ -249,6 +270,59 @@ public class PatientDataManager : MonoBehaviour{
         }
     }
 
+    public static DirectionType Str2DirectionType(string str)
+    {
+        switch (str)
+        {
+            case "上":
+                return DirectionType.UponDirection;
+            case "左上":
+                return DirectionType.UponLeftDirection;
+            case "右上":
+                return DirectionType.UponRightDirection;
+            case "下":
+                return DirectionType.DownDirection;
+            case "左下":
+                return DirectionType.DownLeftDirection;
+            case "右下":
+                return DirectionType.DownRightDirection;
+            case "左":
+                return DirectionType.LeftDirection;
+            case "右":
+                return DirectionType.RightDirection;
+            case "任意方向":
+                return DirectionType.AnyDirection;
+            default:
+                return DirectionType.UponDirection;
+        }
+    }
 
-    
+    public static string DirectionType2Str(DirectionType PlanDirection)
+    {
+        switch (PlanDirection)
+        {
+            case DirectionType.UponDirection:
+                return "上";
+            case DirectionType.UponLeftDirection:
+                return "左上";
+            case DirectionType.UponRightDirection:
+                return "右上";
+            case DirectionType.DownDirection:
+                return "下";
+            case DirectionType.DownLeftDirection:
+                return "左下";
+            case DirectionType.DownRightDirection:
+                return "右下";
+            case DirectionType.LeftDirection:
+                return "左";
+            case DirectionType.RightDirection:
+                return "右";
+            case DirectionType.AnyDirection:
+                return "任意方向";
+            default:
+                return "上";
+        }
+    }
+
+
 }
