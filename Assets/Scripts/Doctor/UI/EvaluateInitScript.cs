@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -47,6 +48,12 @@ public class EvaluateInitScript : MonoBehaviour
 	void Update()
 	{
 
+	}
+
+	public void EvaluateButtonOnclick()
+	{
+
+		SceneManager.LoadScene("Game");
 	}
 }
 
