@@ -403,6 +403,54 @@ public class AvatarCaculator : MonoBehaviour
     }
 
 
+    // 身体左倾夹角
+    public float LeftSideAngle()
+    {
+        Vector3 SpineVector = _Animator.GetBoneTransform(HumanBodyBones.Spine).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        Vector3 HipLeftVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
+                          _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        return CaculateAngle(SpineVector, HipLeftVector, 180);
+    }
+
+
+    // 身体右倾夹角
+    public float RightSideAngle()
+    {
+        Vector3 SpineVector = _Animator.GetBoneTransform(HumanBodyBones.Spine).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        Vector3 HipRightVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
+                          _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        return CaculateAngle(SpineVector, HipRightVector, 180);
+    }
+
+
+    // 身体左倾夹角
+    public float UponSideAngle()
+    {
+        Vector3 SpineVector = _Animator.GetBoneTransform(HumanBodyBones.Spine).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        Vector3 Up = new Vector3(0,1,0);
+
+        return CaculateAngle(SpineVector, Up, 180);
+    }
+
+    // 身体左倾夹角
+    public float DownSideAngle()
+    {
+        Vector3 SpineVector = _Animator.GetBoneTransform(HumanBodyBones.Spine).position -
+                           _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
+
+        Vector3 Down = new Vector3(0, -1, 0);
+
+        return CaculateAngle(SpineVector, Down, 180);
+    }
+
 
     // Unity为左手系，故叉乘满足左手法则，以axis方向为叉乘后的正方向 
     public float CaculateAngle(Vector3 from, Vector3 to, float range = 180)
