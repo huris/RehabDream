@@ -34,7 +34,7 @@ public class Angle
     //public void SetCompleteAngles(long TrainingID, float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
     //                              float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
     //                              float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,
-    //                              float LeftSideAngle, float RightSideAngle, float UponSideAngle, float downSideAngle,
+    //                              float LeftSideAngle, float RightSideAngle, float UponSideAngle, float DownSideAngle,
     //                              string time)
     //{
     //    this.TrainingID = TrainingID;
@@ -54,7 +54,7 @@ public class Angle
     //    this.LeftSideAngle = LeftSideAngle;
     //    this.RightSideAngle = RightSideAngle;
     //    this.UponSideAngle = UponSideAngle;
-    //    this.downSideAngle = downSideAngle;
+    //    this.DownSideAngle = DownSideAngle;
     //    this.time = time;
     //}
 

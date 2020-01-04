@@ -316,7 +316,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "LeftSideAngle",
                     "RightSideAngle",
                     "UponSideAngle",
-                    "downSideAngle",
+                    "DownSideAngle",
                     "Time" },
 
                 new String[] {
