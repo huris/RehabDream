@@ -316,7 +316,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "LeftSideAngle",
                     "RightSideAngle",
                     "UponSideAngle",
-                    "downSideAngle",
+                    "DownSideAngle",
                     "Time" },
 
                 new String[] {
@@ -1514,7 +1514,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetFloat(reader.GetOrdinal("LeftSideAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightSideAngle")),
                     reader.GetFloat(reader.GetOrdinal("UponSideAngle")),
-                    reader.GetFloat(reader.GetOrdinal("downSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("DownSideAngle")),
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
                     result.Add(res);
