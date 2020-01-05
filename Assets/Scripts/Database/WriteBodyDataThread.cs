@@ -17,7 +17,7 @@ public class WriteBodyDataThread
     //暂时存储要插入数据库的值
     private long _TrainingID;
     private Vector3 _GraivtyCenter;
-    private float[] _Angles = new float[13];
+    private float[] _Angles = new float[17];
     private DateTime _Time;
     private Thread _WriteDatabaseThread;
 
