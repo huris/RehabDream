@@ -291,6 +291,8 @@ public class PatientItemScript : MonoBehaviour {
         DoctorDataManager.instance.TempPatient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
         DoctorDataManager.instance.TempPatientIndex = int.Parse(obj.transform.parent.parent.name);
 
+        //print(DoctorDataManager.instance.TempPatient.PatientSymptom);
+
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
         PatientModify.SetActive(true);

@@ -10,6 +10,8 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
     public Text PatientAge;
     public Text PatientHeight;
     public Text PatientWeight;
+    public Text PatientSymptom;
+    public Text PatientDoctor;
 
     public GameObject TrainingPlanNullText;
 
@@ -31,6 +33,8 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
         PatientAge = transform.Find("Age/PatientAge").GetComponent<Text>();
         PatientHeight = transform.Find("Height/PatientHeight").GetComponent<Text>();
         PatientWeight = transform.Find("Weight/PatientWeight").GetComponent<Text>();
+        PatientSymptom = transform.Find("Symptom/PatientSymptom").GetComponent<Text>();
+        PatientDoctor = transform.Find("Doctor/PatientDoctor").GetComponent<Text>();
 
         PatientName.text = DoctorDataManager.instance.patient.PatientName;
         PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
@@ -54,6 +58,9 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
         }
 
+        PatientSymptom.text = DoctorDataManager.instance.patient.PatientSymptom;
+        PatientDoctor.text = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.patient.PatientDoctorID).DoctorName;
+            
         TrainingPlanNullText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingPlanNullText").gameObject;
         PlanDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/PlanDifficulty").gameObject;
         PlanDifficultyText = transform.Find("TrainingPlan/TrainingPlanImage/PlanDifficulty/Text").GetComponent<Text>();

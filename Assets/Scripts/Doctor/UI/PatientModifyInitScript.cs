@@ -43,7 +43,7 @@ public class PatientModifyInitScript : MonoBehaviour {
         PatientHeight = transform.Find("ModifyPatientHeight/InputField").GetComponent<InputField>();
         PatientWeight = transform.Find("ModifyPatientWeight/InputField").GetComponent<InputField>();
         PatientSymptom = transform.Find("ModifyPatientSymptom/InputField").GetComponent<InputField>();
-        PatientDoctor = transform.parent.Find("ModifyPatientDoctor/Dropdown").GetComponent<Dropdown>();
+        PatientDoctor = transform.Find("ModifyPatientDoctor/Dropdown").GetComponent<Dropdown>();
 
         Man = transform.Find("ModifyPatientSex/Man").GetComponent<Toggle>();
         Woman = transform.Find("ModifyPatientSex/Woman").GetComponent<Toggle>();
@@ -61,9 +61,10 @@ public class PatientModifyInitScript : MonoBehaviour {
         PatientAge.text = DoctorDataManager.instance.TempPatient.PatientAge.ToString();
         PatientHeight.text = DoctorDataManager.instance.TempPatient.PatientHeight.ToString();
         PatientWeight.text = DoctorDataManager.instance.TempPatient.PatientWeight.ToString();
+        PatientSymptom.text = DoctorDataManager.instance.TempPatient.PatientSymptom;
 
-        if(DoctorDataManager.instance.patient.PatientSex == "男") { Man.isOn = true; }
-        else if(DoctorDataManager.instance.patient.PatientSex == "女") { Woman.isOn = true; }
+        if(DoctorDataManager.instance.TempPatient.PatientSex == "男") { Man.isOn = true; Woman.isOn = false; }
+        else if(DoctorDataManager.instance.TempPatient.PatientSex == "女") { Woman.isOn = true; Man.isOn = false; }
 
         DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
