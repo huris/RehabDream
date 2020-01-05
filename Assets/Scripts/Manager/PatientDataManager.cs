@@ -65,7 +65,7 @@ public class PatientDataManager : MonoBehaviour{
     //[Header("PatientRecord")]
     public long TrainingID { get; private set; } = 0;
     public long MaxSuccessCount { get; private set; } = 0;
-    public float[] MaxDirection { get; private set; } = {0f, 0f, 0f, 0f, 0f, 0f, 0f};
+    public float[] MaxDirection { get; private set; } = {0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f};
 
     //[Header("MusicSetting")]
     public float bgmVolume { get; private set; } = 0.5f;
