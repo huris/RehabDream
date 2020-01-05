@@ -8,6 +8,14 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class JointFeedbackInit : MonoBehaviour
     {
+        private LineChart LeftRightChart;   // 身体左右倾角
+        private Serie LeftSerie;
+        private Serie RightSerie;
+
+        private LineChart UponDownChart;   // 身体前后倾角
+        private Serie UponSerie;
+        private Serie DownSerie;
+
         private LineChart ArmChart;   // 胳膊与躯干
         private Serie LeftArmSerie;
         private Serie RightArmSerie;
@@ -48,6 +56,206 @@ namespace XCharts
                 DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].TrainingID);
                 AngleCount = DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles.Count;
 
+                LeftRightChart = transform.Find("LeftRightChart").gameObject.GetComponent<LineChart>();
+                if (LeftRightChart == null) LeftRightChart = transform.Find("LeftRightChart").gameObject.AddComponent<LineChart>();
+
+                LeftRightChart.themeInfo.theme = Theme.Light;
+                //chart.themeInfo.tooltipBackgroundColor = Color.white;
+                //chart.themeInfo.backgroundColor = Color.grey;
+
+                LeftRightChart.title.show = true;
+                LeftRightChart.title.text = "左 右 弯 曲 角";
+                LeftRightChart.title.textFontSize = 20;
+                LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
+                LeftRightChart.title.location.top = 2;
+
+                //chart.title.subText = "前30s";
+                //chart.title.subTextFontSize = 18;
+
+                LeftRightChart.legend.show = true;
+                LeftRightChart.legend.location.align = Location.Align.TopRight;
+                LeftRightChart.legend.location.top = 2;
+                LeftRightChart.legend.location.right = 55;
+                LeftRightChart.legend.orient = Orient.Horizonal;  // 图例显示方向
+                LeftRightChart.legend.itemGap = 0;       // `图例之间的距离
+                LeftRightChart.legend.itemWidth = 25;
+                LeftRightChart.legend.itemHeight = 25;
+
+                LeftRightChart.tooltip.show = true;
+                LeftRightChart.tooltip.type = Tooltip.Type.Line;
+                LeftRightChart.tooltip.titleFormatter = "   第{b}秒   ";
+                LeftRightChart.tooltip.itemFormatter = "{a}部为{c}";
+
+
+                LeftRightChart.xAxis0.show = true;
+                LeftRightChart.xAxis0.type = XAxis.AxisType.Category;
+                LeftRightChart.xAxis0.splitNumber = 10;   // 把数据分成多少份
+                LeftRightChart.xAxis0.boundaryGap = true;   // 坐标轴两边是否留白
+                LeftRightChart.xAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+                LeftRightChart.xAxis0.axisLine.symbol = true;    // 坐标轴箭头
+                LeftRightChart.xAxis0.axisLine.symbolWidth = 10;
+                LeftRightChart.xAxis0.axisLine.symbolHeight = 15;
+                LeftRightChart.xAxis0.axisLine.symbolOffset = 0;
+                LeftRightChart.xAxis0.axisLine.symbolDent = 3;
+                LeftRightChart.xAxis0.axisName.show = true;  // 坐标轴名称
+                LeftRightChart.xAxis0.axisName.name = "时间（秒）";
+                LeftRightChart.xAxis0.axisName.location = AxisName.Location.Middle;
+                LeftRightChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
+                LeftRightChart.xAxis0.axisName.rotate = 0;
+                LeftRightChart.xAxis0.axisName.color = Color.black;
+                LeftRightChart.xAxis0.axisName.fontSize = 15;
+                LeftRightChart.xAxis0.axisName.fontStyle = FontStyle.Normal;
+                LeftRightChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+                LeftRightChart.xAxis0.axisLabel.fontSize = 12;
+                LeftRightChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+                LeftRightChart.xAxis0.showSplitLine = true;
+                LeftRightChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LeftRightChart.xAxis0.splitArea.show = true;
+
+                LeftRightChart.yAxis0.show = true;
+                LeftRightChart.yAxis0.type = YAxis.AxisType.Value;
+                LeftRightChart.yAxis0.splitNumber = 10;   // 把数据分成多少份
+                LeftRightChart.yAxis0.boundaryGap = false;   // 坐标轴两边是否留白
+                LeftRightChart.yAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+                LeftRightChart.yAxis0.axisLine.symbol = true;    // 坐标轴箭头
+                LeftRightChart.yAxis0.axisLine.symbolWidth = 10;
+                LeftRightChart.yAxis0.axisLine.symbolHeight = 15;
+                LeftRightChart.yAxis0.axisLine.symbolOffset = 0;
+                LeftRightChart.yAxis0.axisLine.symbolDent = 3;
+                LeftRightChart.yAxis0.axisName.show = true;  // 坐标轴名称
+                LeftRightChart.yAxis0.axisName.name = "夹角（度）";
+                LeftRightChart.yAxis0.axisName.location = AxisName.Location.Middle;
+                LeftRightChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                LeftRightChart.yAxis0.axisName.rotate = 90;
+                LeftRightChart.yAxis0.axisName.color = Color.black;
+                LeftRightChart.yAxis0.axisName.fontSize = 15;
+                LeftRightChart.yAxis0.axisName.fontStyle = FontStyle.Normal;
+                LeftRightChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+                LeftRightChart.yAxis0.axisLabel.fontSize = 12;
+                LeftRightChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+                LeftRightChart.yAxis0.showSplitLine = true;
+                LeftRightChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LeftRightChart.yAxis0.splitArea.show = true;
+
+                LeftRightChart.RemoveData();
+                LeftSerie = LeftRightChart.AddSerie(SerieType.Line, "左");//添加折线图
+                RightSerie = LeftRightChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftSerie.symbol.type = SerieSymbolType.None;
+                RightSerie.symbol.type = SerieSymbolType.None;
+
+                LeftRightChart.grid.left = 60;
+                LeftRightChart.grid.right = 20;
+                LeftRightChart.grid.top = 30;
+                LeftRightChart.grid.bottom = 35;
+
+                LeftRightChart.dataZoom.enable = true;
+                LeftRightChart.dataZoom.supportInside = true;
+                LeftRightChart.dataZoom.start = 0;
+                LeftRightChart.dataZoom.end = 100;
+                LeftRightChart.dataZoom.minShowNum = 30;
+
+
+                UponDownChart = transform.Find("UponDownChart").gameObject.GetComponent<LineChart>();
+                if (UponDownChart == null) UponDownChart = transform.Find("UponDownChart").gameObject.AddComponent<LineChart>();
+
+                UponDownChart.themeInfo.theme = Theme.Light;
+                //chart.themeInfo.tooltipBackgroundColor = Color.white;
+                //chart.themeInfo.backgroundColor = Color.grey;
+
+                UponDownChart.title.show = true;
+                UponDownChart.title.text = "前 后 弯 曲 角";
+                UponDownChart.title.textFontSize = 20;
+                UponDownChart.title.textStyle.fontStyle = FontStyle.Bold;
+                UponDownChart.title.location.top = 2;
+
+                //chart.title.subText = "前30s";
+                //chart.title.subTextFontSize = 18;
+
+                UponDownChart.legend.show = true;
+                UponDownChart.legend.location.align = Location.Align.TopRight;
+                UponDownChart.legend.location.top = 2;
+                UponDownChart.legend.location.right = 55;
+                UponDownChart.legend.orient = Orient.Horizonal;  // 图例显示方向
+                UponDownChart.legend.itemGap = 0;       // `图例之间的距离
+                UponDownChart.legend.itemWidth = 25;
+                UponDownChart.legend.itemHeight = 25;
+
+                UponDownChart.tooltip.show = true;
+                UponDownChart.tooltip.type = Tooltip.Type.Line;
+                UponDownChart.tooltip.titleFormatter = "   第{b}秒   ";
+                UponDownChart.tooltip.itemFormatter = "{a}部为{c}";
+
+
+                UponDownChart.xAxis0.show = true;
+                UponDownChart.xAxis0.type = XAxis.AxisType.Category;
+                UponDownChart.xAxis0.splitNumber = 10;   // 把数据分成多少份
+                UponDownChart.xAxis0.boundaryGap = true;   // 坐标轴两边是否留白
+                UponDownChart.xAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+                UponDownChart.xAxis0.axisLine.symbol = true;    // 坐标轴箭头
+                UponDownChart.xAxis0.axisLine.symbolWidth = 10;
+                UponDownChart.xAxis0.axisLine.symbolHeight = 15;
+                UponDownChart.xAxis0.axisLine.symbolOffset = 0;
+                UponDownChart.xAxis0.axisLine.symbolDent = 3;
+                UponDownChart.xAxis0.axisName.show = true;  // 坐标轴名称
+                UponDownChart.xAxis0.axisName.name = "时间（秒）";
+                UponDownChart.xAxis0.axisName.location = AxisName.Location.Middle;
+                UponDownChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
+                UponDownChart.xAxis0.axisName.rotate = 0;
+                UponDownChart.xAxis0.axisName.color = Color.black;
+                UponDownChart.xAxis0.axisName.fontSize = 15;
+                UponDownChart.xAxis0.axisName.fontStyle = FontStyle.Normal;
+                UponDownChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+                UponDownChart.xAxis0.axisLabel.fontSize = 12;
+                UponDownChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+                UponDownChart.xAxis0.showSplitLine = true;
+                UponDownChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                UponDownChart.xAxis0.splitArea.show = true;
+
+                UponDownChart.yAxis0.show = true;
+                UponDownChart.yAxis0.type = YAxis.AxisType.Value;
+                UponDownChart.yAxis0.splitNumber = 10;   // 把数据分成多少份
+                UponDownChart.yAxis0.boundaryGap = false;   // 坐标轴两边是否留白
+                UponDownChart.yAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+                UponDownChart.yAxis0.axisLine.symbol = true;    // 坐标轴箭头
+                UponDownChart.yAxis0.axisLine.symbolWidth = 10;
+                UponDownChart.yAxis0.axisLine.symbolHeight = 15;
+                UponDownChart.yAxis0.axisLine.symbolOffset = 0;
+                UponDownChart.yAxis0.axisLine.symbolDent = 3;
+                UponDownChart.yAxis0.axisName.show = true;  // 坐标轴名称
+                UponDownChart.yAxis0.axisName.name = "夹角（度）";
+                UponDownChart.yAxis0.axisName.location = AxisName.Location.Middle;
+                UponDownChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                UponDownChart.yAxis0.axisName.rotate = 90;
+                UponDownChart.yAxis0.axisName.color = Color.black;
+                UponDownChart.yAxis0.axisName.fontSize = 15;
+                UponDownChart.yAxis0.axisName.fontStyle = FontStyle.Normal;
+                UponDownChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+                UponDownChart.yAxis0.axisLabel.fontSize = 12;
+                UponDownChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+                UponDownChart.yAxis0.showSplitLine = true;
+                UponDownChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                UponDownChart.yAxis0.splitArea.show = true;
+
+                UponDownChart.RemoveData();
+                UponSerie = UponDownChart.AddSerie(SerieType.Line, "前");//添加折线图
+                DownSerie = UponDownChart.AddSerie(SerieType.Line, "后");//添加折线
+
+                UponSerie.symbol.type = SerieSymbolType.None;
+                DownSerie.symbol.type = SerieSymbolType.None;
+
+                UponDownChart.grid.left = 60;
+                UponDownChart.grid.right = 20;
+                UponDownChart.grid.top = 30;
+                UponDownChart.grid.bottom = 35;
+
+                UponDownChart.dataZoom.enable = true;
+                UponDownChart.dataZoom.supportInside = true;
+                UponDownChart.dataZoom.start = 0;
+                UponDownChart.dataZoom.end = 100;
+                UponDownChart.dataZoom.minShowNum = 30;
+
+
                 ArmChart = transform.Find("ArmChart").gameObject.GetComponent<LineChart>();
                 if (ArmChart == null) ArmChart = transform.Find("ArmChart").gameObject.AddComponent<LineChart>();
 
@@ -56,7 +264,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 ArmChart.title.show = true;
-                ArmChart.title.text = "胳 膊 与 躯 干";
+                ArmChart.title.text = "胳 膊 弯 曲 角";
                 ArmChart.title.textFontSize = 20;
                 ArmChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ArmChart.title.location.top = 2;
@@ -156,7 +364,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 ElbowChart.title.show = true;
-                ElbowChart.title.text = "肘 部 弯 曲";
+                ElbowChart.title.text = "肘 部 弯 曲 角";
                 ElbowChart.title.textFontSize = 20;
                 ElbowChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ElbowChart.title.location.top = 2;
@@ -352,7 +560,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 HipChart.title.show = true;
-                HipChart.title.text = "髋 关 节";
+                HipChart.title.text = "髋 关 节 弯 曲 角";
                 HipChart.title.textFontSize = 20;
                 HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
@@ -645,6 +853,15 @@ namespace XCharts
                     //print(AngleCount);
                     //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].TrainingID);
                     //chart.AddXAxisData("x" + (i + 1));
+
+                    LeftRightChart.AddXAxisData((i * 0.2f).ToString("0.0"));
+                    LeftRightChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftSideAngle);
+                    LeftRightChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightSideAngle);
+
+                    UponDownChart.AddXAxisData((i * 0.2f).ToString("0.0"));
+                    UponDownChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].UponSideAngle);
+                    UponDownChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].DownSideAngle);
+
                     ArmChart.AddXAxisData((i * 0.2f).ToString("0.0"));
                     ArmChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftArmAngle);
                     ArmChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightArmAngle);
