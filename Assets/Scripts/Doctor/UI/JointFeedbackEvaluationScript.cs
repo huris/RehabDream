@@ -69,6 +69,8 @@ namespace XCharts
                 LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LeftRightChart.title.location.top = 2;
 
+                print(LeftRightChart.title.text + "!!!!!");
+
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;
 

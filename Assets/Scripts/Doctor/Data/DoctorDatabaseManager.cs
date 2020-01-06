@@ -1349,6 +1349,8 @@ public class DoctorDatabaseManager : MonoBehaviour
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
         string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = " + IsEvaluated.ToString() + " order by TrainingEndTime";
 
+       //print(QueryString);
+
         try
         {
             reader = PatientDatabase.ExecuteQuery(QueryString);
