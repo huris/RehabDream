@@ -1349,6 +1349,8 @@ public class DoctorDatabaseManager : MonoBehaviour
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
         string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = " + IsEvaluated.ToString() + " order by TrainingEndTime";
 
+       //print(QueryString);
+
         try
         {
             reader = PatientDatabase.ExecuteQuery(QueryString);
@@ -1537,7 +1539,47 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Angle
+    public Direction ReadDirectionRecord(long TrainingID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        Direction result = new Direction(); //返回值
+        string QueryString = "SELECT * FROM Directions where TrainingID=" + TrainingID.ToString();
 
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                result.SetCompleteDirections(
+                //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                reader.GetFloat(reader.GetOrdinal("UponDirection")),
+                reader.GetFloat(reader.GetOrdinal("UponRightDirection")),
+                reader.GetFloat(reader.GetOrdinal("RightDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownRightDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownLeftDirection")),
+                reader.GetFloat(reader.GetOrdinal("LeftDirection")),
+                reader.GetFloat(reader.GetOrdinal("UponLeftDirection")));
+
+                Debug.Log("@UserManager:Read DirectionRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DirectionRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DirectionRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
 
 
     // create Data/

@@ -33,7 +33,7 @@ public class EvaluateInitScript : MonoBehaviour
 
 			TrainingPlay LastEvaluation = DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1];
 			EvaluateTime.text = "上次评估时间：" + LastEvaluation.TrainingStartTime;
-			EvaluateButtonText.text = "重新评估";
+			EvaluateButtonText.text = "再次评估";
 		}
 		else
 		{

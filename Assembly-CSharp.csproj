@@ -199,11 +199,15 @@
      <Compile Include="Assets\Scripts\Doctor\Track\Track.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ArmChart.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarChartScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarTrainingScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DoctorNameDisplayScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DoctorUIExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluateInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackEvaluationScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackInit.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\LogoutButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatienPhysicalConditionsQueryExitButtonScript.cs" />

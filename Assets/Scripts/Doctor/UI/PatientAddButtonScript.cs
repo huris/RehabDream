@@ -9,6 +9,8 @@ public class PatientAddButtonScript : MonoBehaviour {
     public GameObject PatientListBG;
     public GameObject PatientModify;
 
+    public GameObject NoPatient;
+
     // Use this for initialization
     void Start()
     {
@@ -16,6 +18,8 @@ public class PatientAddButtonScript : MonoBehaviour {
         PatientInfo = transform.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.Find("PatientListBG").gameObject;
         PatientModify = transform.parent.Find("PatientModify").gameObject;
+
+        NoPatient = transform.parent.Find("NoPatient").gameObject;
     }
 
     // Update is called once per frame
@@ -30,5 +34,6 @@ public class PatientAddButtonScript : MonoBehaviour {
         PatientInfo.SetActive(false);
         PatientListBG.SetActive(false);
         PatientModify.SetActive(false);
+        NoPatient.SetActive(false);
     }
 }

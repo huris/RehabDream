@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using System;
 
 namespace XCharts
 {
@@ -11,6 +12,12 @@ namespace XCharts
 		public RadarChart DirectionRadarChart; // 雷达图
 		public Serie serie, serie1;
 
+        public Text RadarAreaText;
+
+        public List<float> RadarArea;
+        public List<float> RadarIncreaseRate;
+
+        public string WhiteLine;
 		// Use this for initialization
 		void Start()
 		{
@@ -19,6 +26,14 @@ namespace XCharts
 
 		void OnEnable()
 		{
+
+            RadarArea = new List<float>();
+            RadarIncreaseRate = new List<float>();
+
+            RadarAreaText = transform.Find("RadarArea").GetComponent<Text>();
+
+            WhiteLine = "";
+
             DirectionRadarChart = transform.Find("RadarChart").GetComponent<RadarChart>();
             if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("RadarChart").gameObject.AddComponent<RadarChart>();
             DirectionRadarChart.RemoveRadar();
@@ -51,10 +66,44 @@ namespace XCharts
             serie = DirectionRadarChart.AddSerie(SerieType.Pie);
             serie.radarIndex = 0;
 
+            if (DoctorDataManager.instance.patient.Evaluations.Count > 6) WhiteLine = "\n";
+            else WhiteLine = "\n\n";
+
+            //print(DoctorDataManager.instance.patient.Evaluations.Count+"!!!!");
+
             for (int i = 0; i < DoctorDataManager.instance.patient.Evaluations.Count; i++)
             {
+                DoctorDataManager.instance.patient.Evaluations[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.Evaluations[i].TrainingID);
+
                 DirectionRadarChart.AddData(0, DoctorDataManager.instance.patient.Evaluations[i].direction.GetDirections(), "第" + (i + 1).ToString() + "次");
+
+                // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
+
+                RadarArea.Add(DoctorDataManager.instance.patient.Evaluations[i].direction.GetRadarArea());
+
+                if (i == 0)
+                {
+                    RadarAreaText.text = "（1）雷达图面积: " + RadarArea[i].ToString("0.00");
+                }
+                else
+                {
+                    //print(RadarArea[i] + "####");
+                    //print(RadarArea[i-1] + "####");
+                    //print((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1] + "@@@@@");
+
+                    RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1]);
+
+                    //print(RadarIncreaseRate[i] + "@@@@");
+
+                    RadarAreaText.text += WhiteLine;
+                    RadarAreaText.text += "（" + (i + 1).ToString() + "）雷达图面积: " + RadarArea[i].ToString("0.00");
+                    if (RadarIncreaseRate[i-1] < 0) RadarAreaText.text += "  <color=blue>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Down</color>";
+                    else if (RadarIncreaseRate[i-1] == 0) RadarAreaText.text += "  <color=green>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Equal</color>";
+                    else RadarAreaText.text += "  <color=red>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Up</color>";
+                }
             } 
+
+
         }
 
 		// Update is called once per frame
