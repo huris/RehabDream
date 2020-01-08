@@ -9,16 +9,37 @@ public class TrainingPlayItemScript : MonoBehaviour {
 
     public Scrollbar TrainingPlayListScrollBar;
 
+    public Dropdown Directions;
+    List<string> directions;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-
+    void Start() {
+        
+    }
+    
     void OnEnable()
     {
+        Directions = transform.parent.parent.Find("Directions").GetComponent<Dropdown>();
+        Directions.ClearOptions();
+
+        directions = new List<string>();
+        directions.Add("正上");
+        directions.Add("右上");
+        directions.Add("正右");
+        directions.Add("右下");
+        directions.Add("正下");
+        directions.Add("左下");
+        directions.Add("正左");
+        directions.Add("左上");
+
+        Directions.AddOptions(directions);
+
+        Directions.value = 0;
+
         if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
         {
+            //print(DoctorDataManager.instance.patient.trainingPlays.Count+"!!!!");
+
             if (this.transform.childCount > DoctorDataManager.instance.patient.trainingPlays.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
             {
                 for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.patient.trainingPlays.Count; i--)
@@ -44,23 +65,30 @@ public class TrainingPlayItemScript : MonoBehaviour {
                 this.transform.GetChild(i).name = i.ToString();   // 重新命名为0,1,2,3,4...
 
                 this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = (i+1).ToString();
-                this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingDifficulty;
-                this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount.ToString();
-                this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].GameCount.ToString();
-                this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingStartTime;
-                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingEndTime;
+                this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingStartTime;
+                this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingDifficulty;
+                this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingDirection;
+                this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingTime.ToString();
 
-                string TrainingEvaluation = "";
-                double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.patient.trainingPlays[i].GameCount;
+                float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.patient.trainingPlays[i].GameCount;
+                this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
 
-                if (TrainingEvaluationRate >= 0.95) TrainingEvaluation = "S";
-                else if (TrainingEvaluationRate >= 0.90) TrainingEvaluation = "A";
-                else if (TrainingEvaluationRate >= 0.80) TrainingEvaluation = "B";
-                else if (TrainingEvaluationRate >= 0.70) TrainingEvaluation = "C";
-                else if (TrainingEvaluationRate >= 0.60) TrainingEvaluation = "D";
-                else TrainingEvaluation = "E";
+                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].direction.GetRadarArea().ToString("0.00");
 
-                this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = TrainingEvaluation;
+                this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
+
+
+                //string TrainingEvaluation = "";
+                //double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.patient.trainingPlays[i].GameCount;
+
+                //if (TrainingEvaluationRate >= 0.95) TrainingEvaluation = "S";
+                //else if (TrainingEvaluationRate >= 0.90) TrainingEvaluation = "A";
+                //else if (TrainingEvaluationRate >= 0.80) TrainingEvaluation = "B";
+                //else if (TrainingEvaluationRate >= 0.70) TrainingEvaluation = "C";
+                //else if (TrainingEvaluationRate >= 0.60) TrainingEvaluation = "D";
+                //else TrainingEvaluation = "E";
+
+                //this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = TrainingEvaluation;
             }
 
             if (DoctorDataManager.instance.patient.trainingPlays.Count <= 7)
@@ -75,6 +103,14 @@ public class TrainingPlayItemScript : MonoBehaviour {
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
             TrainingPlayListScrollBar.value = 1;
 
+        }
+    }
+
+    public void DirectionValueChange()
+    {
+        for (int i = 0; i < DoctorDataManager.instance.patient.trainingPlays.Count; i++)
+        {
+            this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
         }
     }
 	

@@ -33,6 +33,12 @@ public class Direction
                                 this.DownDirection, this.DownLeftDirection, this.LeftDirection, this.UponLeftDirection};
     }
 
+    public float[] GetDirectionsArray()
+    {
+        return new float[8]{this.UponDirection, this.UponRightDirection, this.RightDirection, this.DownRightDirection,
+                                this.DownDirection, this.DownLeftDirection, this.LeftDirection, this.UponLeftDirection};
+    }
+
     public float GetRadarArea()
     {
         return 1.0f / 2 * (Mathf.Sqrt(2) / 2) * (this.UponDirection * this.UponRightDirection + this.UponRightDirection * this.RightDirection +

@@ -97,9 +97,9 @@ namespace XCharts
 
                     RadarAreaText.text += WhiteLine;
                     RadarAreaText.text += "（" + (i + 1).ToString() + "）雷达图面积: " + RadarArea[i].ToString("0.00");
-                    if (RadarIncreaseRate[i-1] < 0) RadarAreaText.text += "  <color=blue>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Down</color>";
-                    else if (RadarIncreaseRate[i-1] == 0) RadarAreaText.text += "  <color=green>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Equal</color>";
-                    else RadarAreaText.text += "  <color=red>" + RadarIncreaseRate[i-1].ToString("0.00") + "%  Up</color>";
+                    if (RadarIncreaseRate[i-1] < 0) RadarAreaText.text += "  <color=blue>" + (RadarIncreaseRate[i-1] * 100).ToString("0.00") + "%  Down</color>";
+                    else if (RadarIncreaseRate[i-1] == 0) RadarAreaText.text += "  <color=green>" + (RadarIncreaseRate[i - 1] * 100).ToString("0.00") + "%  Equal</color>";
+                    else RadarAreaText.text += "  <color=red>" + (RadarIncreaseRate[i - 1] * 100).ToString("0.00") + "%  Up</color>";
                 }
             } 
 

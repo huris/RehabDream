@@ -227,6 +227,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\TrainingFeedbackInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlan.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlanMakingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlay.cs" />
