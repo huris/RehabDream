@@ -133,7 +133,7 @@ namespace XCharts
                 RadarAreaChart.grid.top = 30;
                 RadarAreaChart.grid.bottom = 35;
 
-                RadarAreaChart.dataZoom.enable = false;
+                RadarAreaChart.dataZoom.enable = true;
                 RadarAreaChart.dataZoom.supportInside = true;
                 RadarAreaChart.dataZoom.start = 0;
                 RadarAreaChart.dataZoom.end = 100;

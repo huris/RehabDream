@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TrainingPlayItemScript : MonoBehaviour {
@@ -12,6 +13,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
     public Dropdown Directions;
     List<string> directions;
 
+    public Toggle LastTrainingToggle;
     // Use this for initialization
     void Start() {
         
@@ -19,6 +21,8 @@ public class TrainingPlayItemScript : MonoBehaviour {
     
     void OnEnable()
     {
+        LastTrainingToggle = transform.parent.parent.parent.parent.Find("DataBG/LastTrainingData").GetComponent<Toggle>();
+
         Directions = transform.parent.parent.Find("Directions").GetComponent<Dropdown>();
         Directions.ClearOptions();
 
@@ -35,6 +39,8 @@ public class TrainingPlayItemScript : MonoBehaviour {
         Directions.AddOptions(directions);
 
         Directions.value = 0;
+
+        DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 0);
 
         if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
         {
@@ -63,6 +69,8 @@ public class TrainingPlayItemScript : MonoBehaviour {
                 this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
 
                 this.transform.GetChild(i).name = i.ToString();   // 重新命名为0,1,2,3,4...
+
+                this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
                 this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = (i+1).ToString();
                 this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.patient.trainingPlays[i].TrainingStartTime;
@@ -104,6 +112,20 @@ public class TrainingPlayItemScript : MonoBehaviour {
             TrainingPlayListScrollBar.value = 1;
 
         }
+    }
+
+    public void QuerySingleTrainingButtonOnClick() {
+
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        TrainingPlay trainingPlay;
+        trainingPlay = DoctorDataManager.instance.patient.trainingPlays[int.Parse(obj.transform.name)];
+        DoctorDataManager.instance.patient.trainingPlays[int.Parse(obj.transform.name)] = DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1];
+        DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count-1] = trainingPlay;
+
+        LastTrainingToggle.isOn = true;
     }
 
     public void DirectionValueChange()
