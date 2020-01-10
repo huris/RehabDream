@@ -281,7 +281,6 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
-    <Compile Include="Assets\DirectionRadarChartScript.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -422,11 +421,16 @@
     <Compile Include="Assets\Scripts\Doctor\Register\DoctorRegisterScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\Track\Track.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ArmChart.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarChartScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarTrainingScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\DisplayAllPatientScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\DoctorNameDisplayScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\DoctorUIExitButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluateInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackEvaluationScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackInit.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\LogoutButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatienPhysicalConditionsQueryExitButtonScript.cs" />

@@ -29,6 +29,29 @@ public class GameState : MonoBehaviour
     public Transform TopLeft;
     public Transform TopRight;
 
+    [Header("Music")]
+    public AudioClip CheerUpSE;         //cheer up music
+
+    [Header("UI")]
+    public GameUIHandle GameUIHandle;
+
+    [Header("Time Paraments")]
+    public static float SessionRestTime = 3.0f;      // rest after each shoot
+    public static float AddSuccessCountTime = 1.0f;  // show "+1" in ui
+    public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+    public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
+
+    [Header("Distance Paraments")]
+    public static float AddDistancePercent = 0.1f;
+    public static float MaxDistancePercent = 1.1f;
+    public static float MinDistancePercent = 0.8f;
+
+    [Header("Other Paraments")]
+    public static int AddCount = 1;
+    public static float MinDis = 0.1f;
+    public static float MinGate = 0.6f;
+    public static float MaxGate = 0.8f;
+
     [Header("Random Range")]
     public float RandomXmin = -0.2f;
     public float RandomXmax = 0.2f;
@@ -37,39 +60,25 @@ public class GameState : MonoBehaviour
     public float RandomZmin = -0.2f;
     public float RandomZmax = 0.2f;
 
-
-    [Header("Music")]
-    public AudioClip CheerUpSE;         //cheer up music
-
-
-    [Header("Other Classes")]
-    public GameUIHandle GameUIHandle;
-
-    [Header("Time Count")]
-    public float SessionRestTime = 3.0f;      // rest after each shoot
-    public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare 5s for shoot
-    public float AddSuccessCountTime = 1.0f;  // show "+1" in ui
-    public float RecordTime = 0.2f;           // record gravity,angles... each 0.2s
-    public float MaxBallSpeed => PatientDataManager.instance.MaxBallSpeed;
-    public float MinBallSpeed => PatientDataManager.instance.MinBallSpeed;
-    public float RandomVelocity = 10.0f;
-
     private Track _Track;                       // track of soccerball
     private Shooting _Shooting;
     private CollisionHandle _CollisionHandle;   // handle collision
     private AvatarCaculator _Caculator;         // caculate gravity,angles...
     private AvatarController _GoalkeeperController;
 
-    private string _TipsLimb = "";
+    // record of last shoot
+    private int _FailCount = 0;      //number of failures
+    private PatientDataManager.DirectionType _Direction = PatientDataManager.DirectionType.UponDirection;   //direction of shoot
+    private float _TargetDistance = 0f;  //Target of shoot
+    private bool _HasInit = false;
+    private bool _OutOfRange = false;
+
+    // Time counter
     private float _RestTimeCount = 0;
     private float _RecordTimeCount = 0;
-    private int _AddCount = 1;
-    private float _MinDis = 0.1f;
-    private float _MinGate = 0.35f;
-    private float _MaxGate = 0.70f;
 
-
-
+    // tips
+    private string _Tips = "";
 
     // Moore FSM，使用Moore型有限状态机
     private delegate void Prepare2Shoot(); // what will happen when state transform from Prepare to Shoot
@@ -161,19 +170,20 @@ public class GameState : MonoBehaviour
                 break;
         }
 
-        // record gravitycenter, angle
+        // record gravitycenter, angle and update TimeCount
         if (RecordTimeOver())
         {
             this.WriteDatabaseInGame();
+            GameUIHandle.SetTrainingProgress(PatientDataManager.instance.TimeCount, PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime));
         }
-
-
+        
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             _OnSessionOver2GameOver?.Invoke();
             Debug.Log(_state);
         }
 
+        PatientDataManager.instance.SetTimeCount(PatientDataManager.instance.TimeCount + Time.deltaTime);
     }
 
     #region State Transform
@@ -224,14 +234,16 @@ public class GameState : MonoBehaviour
     private void InitGoalkeeperWinDelegate()
     {
         _CollisionHandle.OnGoalkeeperWin += this.CheckObeyRules;
+        _CollisionHandle.OnGoalkeeperWin += this.AddGameCountt;
+        _CollisionHandle.OnGoalkeeperWin += this._OnShoot2SessionOver.Invoke;
     }
 
     //Set OnGoalkeeperFail delegate event
     private void InitGoalkeeperFailDelegate()
     {
         _CollisionHandle.OnGoalkeeperFail += this.WriteDatabaseInGame;
-        _CollisionHandle.OnGoalkeeperFail += this.AddFinishCount;
-
+        _CollisionHandle.OnGoalkeeperFail += this.AddGameCountt;
+        _CollisionHandle.OnGoalkeeperFail += this.AddFailCount;
         // 能否这样使用？，可以使用下一行替代
         _CollisionHandle.OnGoalkeeperFail += this._OnShoot2SessionOver.Invoke;
         //_CollisionHandle.OnGoalkeeperFail += Shoot2SessionOverFunc;
@@ -245,22 +257,16 @@ public class GameState : MonoBehaviour
         _Win += this.PlayWinSe;
         _Win += this.ShowAddSuccessCountText;
         _Win += this.AddSuccessCount;
-        _Win += this.AddFinishCount;
-
-        // 能否这样使用？，可以使用下一行替代
-        _Win += _OnShoot2SessionOver.Invoke;
-        //_CollisionHandle.OnGoalkeeperWin += Shoot2SessionOverFunc;
+        _Win += this.ResetFailCount;
+        _Win += this.UpdateOneMaxDirection;
     }
 
     //Set Fail delegate event
     private void InitFailDelegate()
     {
         _Fail += this.WriteDatabaseInGame;
-        _Fail += this.AddFinishCount;
+        _Fail += this.AddFailCount;
 
-        // 能否这样使用？，可以使用下一行替代
-        _Fail += this._OnShoot2SessionOver.Invoke;
-        //_CollisionHandle.OnGoalkeeperFail += Shoot2SessionOverFunc;
     }
 
     // what will happen when state transform from Prepar to Shoot
@@ -303,7 +309,7 @@ public class GameState : MonoBehaviour
     private void ShowAddSuccessCountText()
     {
         //Debug.Log("StartCoroutine");
-        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(_AddCount, AddSuccessCountTime));
+        StartCoroutine(GameUIHandle.ShowAddSuccessCountText(AddCount, AddSuccessCountTime));
     }
 
     private void Shoot2SessionOverFunc()
@@ -313,33 +319,42 @@ public class GameState : MonoBehaviour
         ResetShoot();
     }
 
+    // FinishCount ++
+    private void AddGameCountt()
+    {
+        PatientDataManager.instance.SetGameCount(PatientDataManager.instance.GameCount + 1);
+    }
+
     // check if player obey rules
     private void CheckObeyRules()
     {
-        if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Entry||
-            PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
-            PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
-        {
-            this._Win?.Invoke();
-            return;
-        }
+        //  CheckObeyRules()需要修改
+        //if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Entry||
+        //    PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
+        //    PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
+        //{
+        //    this._Win?.Invoke();
+        //    return;
+        //}
 
-        HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
-        if (_TipsLimb.Equals(_Caculator.Point2Limb(Point)))
-        {
-            Debug.Log("@GameState: Nearest " + _TipsLimb);
-            this._Win?.Invoke();
-        }
-        else if (_Caculator.CloseEnough(Soccer.transform.position, _TipsLimb, _MinDis))
-        {
-            Debug.Log("@GameState: Nearest _MinDis");
-            this._Win?.Invoke();
-        }
-        else
-        {
-            this.ShowWrongLimb();
-            this._Fail?.Invoke();
-        }
+        //HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
+        //if (_TipsLimb.Equals(_Caculator.Point2Limb(Point)))
+        //{
+        //    Debug.Log("@GameState: Nearest " + _TipsLimb);
+        //    this._Win?.Invoke();
+        //}
+        //else if (_Caculator.CloseEnough(Soccer.transform.position, _TipsLimb, _MinDis))
+        //{
+        //    Debug.Log("@GameState: Nearest _MinDis");
+        //    this._Win?.Invoke();
+        //}
+        //else
+        //{
+        //    this.ShowWrongLimb();
+        //    this._Fail?.Invoke();
+        //}
+
+        this._Win?.Invoke();
     }
 
 
@@ -400,9 +415,10 @@ public class GameState : MonoBehaviour
 
         Debug.Log("@GameState: WritePatientRecord Over");
 
+        // write MaxDirection
         PatientDatabaseManager.instance.WriteMaxDirection(
             PatientDataManager.instance.TrainingID,
-            PatientDataManager.instance.MaxDirection
+            PatientDataManager.instance.NewMaxDirection
         );
         Debug.Log("@GameState: WriteMaxDirection Over");
 
@@ -428,7 +444,7 @@ public class GameState : MonoBehaviour
     //shoot
     private void Shoot()
     {
-        _Shooting.Shoot(SoccerStart.position, ControlPoint.position, SoccerTarget.position, this.RandomVelocity);
+        _Shooting.Shoot(SoccerStart.position, ControlPoint.position, SoccerTarget.position, PatientDataManager.instance.BallSpeed);
     }
 
     // shoot over
@@ -457,11 +473,22 @@ public class GameState : MonoBehaviour
         GameUIHandle.SetSuccessCountText(PatientDataManager.instance.SuccessCount);
     }
 
-    //FinishCount+1 
-    private void AddFinishCount()
+    // FailCount++
+    private void AddFailCount()
     {
-        PatientDataManager.instance.SetFinishCount(PatientDataManager.instance.FinishCount + 1);
-        GameUIHandle.SetTrainingProgress(PatientDataManager.instance.FinishCount, PatientDataManager.instance.GameCount);
+        _FailCount++;
+    }
+
+    // FailCount=0
+    private void ResetFailCount()
+    {
+        _FailCount = 0;
+    }
+
+    // update maxDirection
+    private void UpdateOneMaxDirection()
+    {
+        PatientDataManager.instance.UpdateNewMaxDirection(_TargetDistance, _Direction);
     }
 
 
@@ -469,6 +496,17 @@ public class GameState : MonoBehaviour
 
 
     #region Generate and Reset Shoot
+
+
+    private bool FailTooMuch()
+    {
+        return (_FailCount == 3);
+    }
+
+    private bool NoFail()
+    {
+        return (_FailCount == 0);
+    }
 
     // show the path of soccerball
     private void ShowSoccerTrackTips(Vector3 Start, Vector3 ControlPoint, Vector3 End)
@@ -486,50 +524,118 @@ public class GameState : MonoBehaviour
     // generate SoccerTarget
     private Vector3 GenerateTarget()
     {
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
-        switch (PatientDataManager.instance.TrainingDifficulty)
-        {
-            case PatientDataManager.DifficultyType.Entry:       // Target is near(left shoulder, right shoulder)
-                Target=GenerateEntryTarget();
-                break;
-            case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
-                Target = GeneratePrimaryTarget();
-                break;
-            case PatientDataManager.DifficultyType.General:    // Target is near(left foot, right foot)
-                Target = GenerateGeneralTarget();
-                break;
-            case PatientDataManager.DifficultyType.Intermediate:   // Target is near(left foot, right foot, left hand, right hand)
-                Target = GenerateIntermediateTarget();
-                break;
-            case PatientDataManager.DifficultyType.Advanced:       // any area of gate
-                Target = GenerateAdvancedTarget();
-                break;
+        Vector3 Target = _Caculator.GetSpinePosition();
+        if (PatientDataManager.instance.IsEvaluated == 1)
+        { //评估
+            Target = GenerateEvaluateTarget();
         }
+        else
+        {
+            //训练 
+            switch (PatientDataManager.instance.TrainingDifficulty)
+            {
+                case PatientDataManager.DifficultyType.Entry:       // Target is near(left shoulder, right shoulder)
+                    Target = GenerateEntryTarget();
+                    break;
+                case PatientDataManager.DifficultyType.Primary:    // Target is near(left hand, right hand)
+                    Target = GeneratePrimaryTarget();
+                    break;
+                case PatientDataManager.DifficultyType.General:    // Target is near(left foot, right foot)
+                    Target = GenerateGeneralTarget();
+                    break;
+                case PatientDataManager.DifficultyType.Intermediate:   // Target is near(left foot, right foot, left hand, right hand)
+                    Target = GenerateIntermediateTarget();
+                    break;
+                case PatientDataManager.DifficultyType.Advanced:       // any area of gate
+                    Target = GenerateAdvancedTarget();
+                    break;
+            }
+        }
+
+        return Target;
+    }
+
+    // evaluate
+    private Vector3 GenerateEvaluateTarget()
+    {
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+        if (IsFinish())
+        {
+            _OnSessionOver2GameOver?.Invoke();
+        }
+        else if (NoFail())
+        {
+            if (_OutOfRange)    //已经最大，但是患者仍然成功
+            {
+                _TargetDistance = _Caculator.InitDistance();
+                _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction   
+            }
+            else
+            {
+                _TargetDistance += _TargetDistance * AddDistancePercent;   //+5%
+            }
+        }
+        else if(FailTooMuch())
+        {
+            ResetFailCount();
+            _TargetDistance = _Caculator.InitDistance();
+            _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction   
+        }
+        else
+        {
+                //nothing
+        }
+
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = PatientDataManager.DirectionType2Str(_Direction);
         return Target;
     }
 
 
     // Target is near(left shoulder, right shoulder)
     private Vector3 GenerateEntryTarget(){
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
-        if (Random.Range(0, 2) < 1)
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+       
+        if (NoFail())
         {
-            // Target is near left shoulder
-            Vector3 LeftMid = (BottomLeft.position + TopLeft.position) / 2;
-            Target.z = _Caculator.GetLeftUpperArmPosition().z + Random.Range(RandomZmin, RandomZmin / 2);
-            Target.y = _Caculator.GetLeftUpperArmPosition().y + Random.Range(0, RandomYmax/2);
-            this._TipsLimb = "左肩";
+            if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)       
+            {
+                //已经最大，但是患者仍然成功
+                //如果训练方向为任意方向，则切换方向
+                _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction  
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            }
+            else
+            {
+                _TargetDistance += _TargetDistance * AddDistancePercent;   //+5%
+            }
+            
+        }
+        else if (FailTooMuch())
+        {
+            if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+            {
+                // 如果训练方向为任意方向，则切换方向
+                ResetFailCount();
+                _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction  
+                _TargetDistance= PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            }
+            else
+            {
+                // 否则，保持方向，重新开始
+                ResetFailCount();
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            } 
         }
         else
         {
-            // Target is near Right shoulder
-            Vector3 RightMid = (BottomRight.position + TopRight.position) / 2;
-            Target.z = _Caculator.GetRightUpperArmPosition().z + Random.Range(RandomZmax / 2, RandomZmax);
-            Target.y = _Caculator.GetRightUpperArmPosition().y + Random.Range(0, RandomYmax/2);
-            this._TipsLimb = "右肩";
+            //nothing
         }
+
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = PatientDataManager.DirectionType2Str(_Direction);
         return Target;
     }
 
@@ -538,76 +644,183 @@ public class GameState : MonoBehaviour
     // Target is near(left hand, right hand)
     private Vector3 GeneratePrimaryTarget()
     {
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
-        if (Random.Range(0, 2) < 1)
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+
+        if (NoFail())
         {
-            // Target is near left hand
-            Vector3 LeftMid = (BottomLeft.position + TopLeft.position) / 2;
-            Target.z = Random.Range(LeftMid.z, Mid.z);
-            Target.y = Target.y + Random.Range(RandomYmin, RandomYmax);
-            this._TipsLimb = "左手";
+            if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+            {
+                //已经最大，但是患者仍然成功
+                //如果训练方向为任意方向，则切换方向
+                _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction  
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            }
+            else
+            {
+                _TargetDistance += _TargetDistance * AddDistancePercent;   //+5%
+            }
+        }
+        else if (FailTooMuch())
+        {
+            if (PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+            {
+                // 如果训练方向为任意方向，则切换方向
+                ResetFailCount();
+                _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction  
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            }
+            else
+            {
+                // 否则，保持方向，重新开始
+                ResetFailCount();
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+            }
         }
         else
         {
-            // Target is near right hand
-            Vector3 RightMid = (BottomRight.position + TopRight.position) / 2;
-            Target.z = Random.Range(Mid.z, RightMid.z);
-            Target.y = Target.y + Random.Range(RandomYmin, RandomYmax);
-            this._TipsLimb = "右手";
+            //nothing
         }
+
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = PatientDataManager.DirectionType2Str(_Direction);
         return Target;
     }
 
     // Target is near(left foot, right foot)
     private Vector3 GenerateGeneralTarget()
     {
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
-        if (Random.Range(0, 2) < 1)
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+        if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
         {
-            // Target is near left foot
-            Target.z = Random.Range(BottomLeft.position.z, Mid.z);
-            Target.y = BottomLeft.position.y + Random.Range(RandomYmin, RandomYmax);
-            this._TipsLimb = "左脚";
+            _Direction = (PatientDataManager.DirectionType)((int)Random.Range(0f, 8f));
         }
-        else
-        {
-            // Target is near right foot
-            Vector3 RightMid = (BottomRight.position + TopRight.position) / 2;
-            Target.z = Random.Range(Mid.z, RightMid.z);
-            Target.y = BottomRight.position.y + Random.Range(RandomYmin, RandomYmax);
-            this._TipsLimb = "右脚";
-        }
+        _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * 
+            Random.Range(MinDistancePercent, MaxDistancePercent);   //80% ~ 110%
 
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = PatientDataManager.DirectionType2Str(_Direction);
         return Target;
     }
 
     // Target is near(left foot, right foot, left hand, right hand)
     private Vector3 GenerateIntermediateTarget()
     {
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+        if (PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+        {
+            _Direction = (PatientDataManager.DirectionType)((int)Random.Range(0f, 8f));
+        }
+        _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] *
+            Random.Range(MinDistancePercent, MaxDistancePercent);   //80% ~ 110%
 
-        Target.y = Random.Range(BottomLeft.position.y, TopLeft.position.y);
-        Target.z = Random.Range(BottomLeft.position.z, BottomRight.position.z);
-
-        this._TipsLimb = "任意肢体";
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = PatientDataManager.DirectionType2Str(_Direction);
         return Target;
     }
 
     // any area of gate
     private Vector3 GenerateAdvancedTarget()
     {
-        Vector3 Mid = (BottomLeft.position + TopLeft.position + BottomRight.position + TopRight.position) / 4;
-        Vector3 Target = Mid;
+        Vector3 Target = _Caculator.GetSpinePosition(); //default target
+        if (_Direction == PatientDataManager.DirectionType.AnyDirection)
+        {
+            _Direction = (PatientDataManager.DirectionType)((int)Random.Range(0f, 8f));
+        }
+        _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] *
+            Random.Range(MinDistancePercent, MaxDistancePercent);   //80% ~ 110%
 
-        Target.y = Random.Range(BottomLeft.position.y, TopLeft.position.y);
-        Target.z = Random.Range(BottomLeft.position.z, BottomRight.position.z);
-
-        this._TipsLimb = "任意肢体";
+        //Target = Target + Distance * e_Direction
+        Target = Distance2Vector3(_TargetDistance, _Direction, Target);
+        _Tips = "请左右走动，朝" + PatientDataManager.DirectionType2Str(_Direction) + "方接球";
         return Target;
     }
+
+    // return InitTarget + Distance * e_Direction
+    private Vector3 Distance2Vector3(float Distance, PatientDataManager.DirectionType Direction, Vector3 InitTarget)
+    {
+        Vector3 e = new Vector3(0f, 0f, 1f);
+        Vector3 Target ;
+        float HalfSqrt2= 0.5f * Mathf.Sqrt(2);
+
+        // get e_Direction
+        switch (Direction)
+        {
+            case PatientDataManager.DirectionType.UponDirection:    //上
+                e= new Vector3(0f, 1f, 0f);
+                break;
+            case PatientDataManager.DirectionType.UponLeftDirection:    //左上
+                e = new Vector3(0f, HalfSqrt2, -HalfSqrt2);
+                break;
+            case PatientDataManager.DirectionType.UponRightDirection:   //右上
+                e = new Vector3(0f, HalfSqrt2, HalfSqrt2);
+                break;
+            case PatientDataManager.DirectionType.DownDirection:    //下
+                e = new Vector3(0f, -1f, 0f);
+                break;
+            case PatientDataManager.DirectionType.DownLeftDirection:    //左下
+                e = new Vector3(0f, -HalfSqrt2, -HalfSqrt2);
+                break;
+            case PatientDataManager.DirectionType.DownRightDirection:   //右下
+                e = new Vector3(0f, -HalfSqrt2, HalfSqrt2);
+                break;
+            case PatientDataManager.DirectionType.LeftDirection:    //左
+                e = new Vector3(0f, 0f, -1f);
+                break;
+            case PatientDataManager.DirectionType.RightDirection:   //右
+                e = new Vector3(0f, 0f, 1f);
+                break;
+            default:
+                Debug.Log("@GameState: Distance2Vector3 Error");
+                break;
+        }
+
+        // InitTarget + Distance * e_Direction
+        Target = InitTarget + e * Distance;
+
+        // Target must in range of gate
+        Target = RestrictTarget(Target);
+
+        return Target;
+    }
+
+    // Restrict Target in gate
+    private Vector3 RestrictTarget(Vector3 Target)
+    {
+        _OutOfRange = false;
+        Vector3 result = Target;
+
+        //Restrict x
+        result.x = TopLeft.position.x + Random.Range(0,RandomXmax) * 2;
+
+        // Restrict y
+        if (result.y > TopLeft.position.y)
+        {
+            result.y = TopLeft.position.y - Random.Range(0, RandomYmax);
+            _OutOfRange = true;
+        }
+        else if(result.y < BottomLeft.position.y)
+        {
+            result.y = BottomLeft.position.y + Random.Range(0, RandomYmin);
+            _OutOfRange = true;
+        }
+
+        //Restrict z
+        if (result.z > TopRight.position.z)
+        {
+            result.z = TopRight.position.z - Random.Range(0, RandomZmax);
+            _OutOfRange = true;
+        }
+        else if(result.z < TopLeft.position.z)
+        {
+            result.z = TopLeft.position.z + Random.Range(0, RandomZmax);
+            _OutOfRange = true;
+        }
+        return result;
+    }
+
 
     // change size of gate
     private void GenerateGate()
@@ -615,27 +828,27 @@ public class GameState : MonoBehaviour
         switch (PatientDataManager.instance.TrainingDifficulty)
         {
             case PatientDataManager.DifficultyType.Entry:
-                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                Gate.transform.localScale = new Vector3(1, MinGate, 1.2f);
                 break;
             case PatientDataManager.DifficultyType.Primary:
-                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                Gate.transform.localScale = new Vector3(1, MinGate, 1.2f);
                 break;
             case PatientDataManager.DifficultyType.General:
-                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                Gate.transform.localScale = new Vector3(1, MinGate, 1.2f);
                 break;
             case PatientDataManager.DifficultyType.Intermediate:
-                Gate.transform.localScale = new Vector3(1, _MinGate, 1);
+                Gate.transform.localScale = new Vector3(1, MinGate, 1.2f);
                 break;
             case PatientDataManager.DifficultyType.Advanced:
-                Gate.transform.localScale = new Vector3(1, _MaxGate, 1);
+                Gate.transform.localScale = new Vector3(1, MaxGate, 1.2f);
                 break;
         }
     }
 
     // generate Tips
-    private void ShowWordTips(string TipsLimb)
+    private void ShowWordTips(string Tip)
     {
-        GameUIHandle.SetTipsText(TipsLimb);
+        GameUIHandle.SetTipsText(Tip);
     }
 
     // 提示使用了错误肢体
@@ -647,6 +860,12 @@ public class GameState : MonoBehaviour
     // Generate everything for next Shoot
     private void GenerateShoot()
     {
+        if (_HasInit == false)
+        {
+            InitValue();
+            _HasInit = true;
+        }
+
         // set size of gate
         GenerateGate();
         // set target of shoot
@@ -656,10 +875,8 @@ public class GameState : MonoBehaviour
         // show track
         if (PatientDataManager.instance.SoccerTrackTips)
         {
-            this.RandomVelocity = Random.Range(MinBallSpeed, MaxBallSpeed);
             // generate ControlPoint of Bezier
             GenerateControlPoint();
-            Debug.Log("@GameState: _RandomVelocity=" + RandomVelocity);
             ShowSoccerTrackTips(SoccerStart.position, ControlPoint.position, SoccerTarget.position);
         }
         else
@@ -670,7 +887,7 @@ public class GameState : MonoBehaviour
         // set tips in GameUI
         if (PatientDataManager.instance.WordTips)
         {
-            ShowWordTips(_TipsLimb);
+            ShowWordTips(_Tips);
         }
         else
         {
@@ -712,8 +929,8 @@ public class GameState : MonoBehaviour
     // reset Text in GameUI
     public void HideWordTips()
     {
-        _TipsLimb = "";
-        ShowWordTips(_TipsLimb);
+        _Tips = "";
+        ShowWordTips(_Tips);
 
     }
 
@@ -730,6 +947,25 @@ public class GameState : MonoBehaviour
         _Caculator = GoalKeeper.GetComponent<AvatarCaculator>();
 
         GenerateGate();
+    }
+
+    public void InitValue()
+    {
+        if (PatientDataManager.instance.IsEvaluated == 1)
+        {
+            this._Direction = PatientDataManager.DirectionType.UponDirection;   //direction of shoot
+            this._TargetDistance = _Caculator.InitDistance();   //distance of shoot
+        }
+        else if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+        {
+            this._Direction = PatientDataManager.DirectionType.UponDirection;   //direction of shoot
+            this._TargetDistance = PatientDataManager.instance.MaxDirection[0] * MinDistancePercent;   //distance of shoot
+        }
+        else
+        {
+            this._Direction = PatientDataManager.instance.TrainingDirection;
+            this._TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+        }
     }
 
     //game pause
@@ -752,7 +988,29 @@ public class GameState : MonoBehaviour
     // is game finish
     private bool IsFinish()
     {
-        return (PatientDataManager.instance.FinishCount == PatientDataManager.instance.GameCount);
+        // time over or evaluate over
+        if (PatientDataManager.instance.TimeCount > PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime)
+            || EvaluateOver())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // evaluate over
+    private bool EvaluateOver()
+    {
+        if(_Direction == PatientDataManager.DirectionType.RightDirection && FailTooMuch())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

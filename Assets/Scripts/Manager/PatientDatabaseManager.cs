@@ -391,12 +391,106 @@ public class PatientDatabaseManager : MonoBehaviour
         return MaxSuccessCount;
     }
 
+    // read MaxDirection by PatientID
+    public float[] ReadEvaluateDirection(long PatientID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        long TrainingID = 0;
+        float[] EvaluateDirection = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};    //default value
+
+        try
+        {
+            reader = PatientDatabase.ReadTable(
+                PatientRecordTableName,
+                new string[] {
+                    "*"
+                    },
+
+                new string[] {
+                    "PatientID",
+                    "IsEvaluated"
+                    },
+
+                new string[] {
+                    "=",
+                    "="
+                    },
+
+                new string[] {
+                    PatientID.ToString(),
+                    1.ToString()
+                }
+                );
+
+            if (reader.Read() && reader.HasRows)
+            {   //存在训练记录
+                TrainingID = reader.GetInt64(reader.GetOrdinal("TrainingID"));
+            }
+            else
+            {
+                Debug.Log("@DatabaseManager: Read IsEvaluated TrainingID NULL");
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Read IsEvaluated TrainingID SqliteException");
+            PatientDatabase.CloseConnection();
+
+        }
+
+        try
+        {
+            reader = PatientDatabase.ReadTable(
+                DirectionsTableName,
+                new string[] {
+                    "*"
+                    },
+
+                new string[] {
+                    "TrainingID",
+                    },
+
+                new string[] {
+                    "=",
+                    },
+
+                new string[] {
+                    TrainingID.ToString(),
+                }
+                );
+
+            if (reader.Read() && reader.HasRows)
+            {   //存在训练记录
+                EvaluateDirection[0] = reader.GetFloat(reader.GetOrdinal("UponDirection"));
+                EvaluateDirection[1] = reader.GetFloat(reader.GetOrdinal("UponLeftDirection"));
+                EvaluateDirection[2] = reader.GetFloat(reader.GetOrdinal("UponRightDirection"));
+                EvaluateDirection[3] = reader.GetFloat(reader.GetOrdinal("DownDirection"));
+                EvaluateDirection[4] = reader.GetFloat(reader.GetOrdinal("DownLeftDirection"));
+                EvaluateDirection[5] = reader.GetFloat(reader.GetOrdinal("DownRightDirection"));
+                EvaluateDirection[6] = reader.GetFloat(reader.GetOrdinal("LeftDirection"));
+                EvaluateDirection[7] = reader.GetFloat(reader.GetOrdinal("RightDirection"));
+            }
+            else
+            {
+                Debug.Log("@DatabaseManager: Read MaxDirection NULL");
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Read MaxDirection SqliteException");
+            PatientDatabase.CloseConnection();
+
+        }
+
+        return EvaluateDirection;
+    }
+
     //write patient record
     public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount, string TrainingDirection, long TrainingTime, long IsEvaluated)
     {
 
-        try
-        {
+        //try
+        //{
 
         //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
         PatientDatabase.InsertValues(
@@ -417,17 +511,17 @@ public class PatientDatabaseManager : MonoBehaviour
 
         Debug.Log("@DatabaseManager: Write PatientRecord Success");
         return DatabaseReturn.Success;
-        }
-        catch (SqliteException e)
-        {
+        //}
+        //catch (SqliteException e)
+        //{
             Debug.Log("@DatabaseManager: Write PatientRecord SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
-        }
+        //}
     }
 
     //write patient record
-    public DatabaseReturn WriteMaxDirection(long TrainingID, float[] Directions)
+    public DatabaseReturn WriteMaxDirection(long TrainingID, float[] MaxDirections)
     {
 
         try
@@ -437,23 +531,23 @@ public class PatientDatabaseManager : MonoBehaviour
                 DirectionsTableName, //table name
                 new string[] {
                     TrainingID.ToString(),
-                    Directions[0].ToString(),
-                    Directions[1].ToString(),
-                    Directions[2].ToString(),
-                    Directions[3].ToString(),
-                    Directions[4].ToString(),
-                    Directions[5].ToString(),
-                    Directions[6].ToString(),
-                    Directions[7].ToString()
+                    MaxDirections[0].ToString(),
+                    MaxDirections[1].ToString(),
+                    MaxDirections[2].ToString(),
+                    MaxDirections[3].ToString(),
+                    MaxDirections[4].ToString(),
+                    MaxDirections[5].ToString(),
+                    MaxDirections[6].ToString(),
+                    MaxDirections[7].ToString()
                 }
             );
 
-            Debug.Log("@DatabaseManager: Write Direction Success");
+            Debug.Log("@DatabaseManager: Write MaxDirection Success");
             return DatabaseReturn.Success;
         }
         catch (SqliteException e)
         {
-            Debug.Log("@DatabaseManager: Write Direction SqliteException");
+            Debug.Log("@DatabaseManager: Write MaxDirection SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
         }

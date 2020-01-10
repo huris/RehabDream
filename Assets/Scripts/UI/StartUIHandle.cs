@@ -350,7 +350,12 @@ public class StartUIHandle : UIHandle
             PatientDataManager.Str2DirectionType(result.PlanDirection),
             result.PlanTime
             );
-}
+
+        // set MaxDirection = Evaluate Direction
+        PatientDataManager.instance.SetMaxDirection(
+            PatientDatabaseManager.instance.ReadEvaluateDirection(PatientDataManager.instance.TrainingID)
+            );
+    }
 
 
 

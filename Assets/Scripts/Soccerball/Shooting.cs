@@ -37,8 +37,9 @@ public class Shooting : MonoBehaviour {
     private Vector3[] _path;      //  贝塞尔曲线运动轨迹
     private float _Velocity = 0f;
     private float _TimeSum = 0f;
-    private Vector3 SimulaterVelocity;
     private int _OldIndex = 0;
+    private Vector3 _Direction;
+    private Vector3 _OldPosition;
     void Start()
     {
         _Rigid = GetComponent<Rigidbody>();
@@ -50,19 +51,18 @@ public class Shooting : MonoBehaviour {
         {
             // update the rotation of the projectile during trajectory motion
             _TimeSum += Time.deltaTime;
-
             int index = (int)((_Velocity / StandardVelocity) * (_TimeSum / StandardTime) * PointNumber);
-            //Debug.Log(PointNumber);
             if(index >= PointNumber)
             {
                 ShootOver();
-                _Rigid.velocity = SimulaterVelocity;
+                _Rigid.velocity = _Velocity * _Direction.normalized;
+                this.gameObject.transform.position = _OldPosition;
                 return;
             }
-
+            _OldPosition = this.gameObject.transform.position;
             this.gameObject.transform.position = _path[index];
-            transform.rotation = Quaternion.LookRotation(_path[index]- _path[_OldIndex]);
-            SimulaterVelocity= (_path[index] - _path[_OldIndex]) / Time.deltaTime;
+            _Direction = _path[index] - _path[_OldIndex];
+            transform.rotation = Quaternion.LookRotation(_Direction);
             _OldIndex = index;
         }
     }

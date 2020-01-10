@@ -227,7 +227,7 @@ public class GameUIHandle : UIHandle
         Debug.Log("@GameUIHandle: Set GeneralComment success");
     }
 
-    //read PatientRecord and set PatientRecord(TrainingID, MaxSuccessCount)
+    //read PatientRecord and set PatientRecord(TrainingID, MaxSuccessCount) ,MaxDirection
     public void SetDataPatientRecord()
     {
         // set TrainingID
@@ -239,6 +239,11 @@ public class GameUIHandle : UIHandle
                 PatientDataManager.instance.PatientID,
                 PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty)
                 )
+            );
+
+        // set MaxDirection = Evaluate Direction
+        PatientDataManager.instance.SetMaxDirection(
+            PatientDatabaseManager.instance.ReadEvaluateDirection(PatientDataManager.instance.TrainingID)
             );
     }
 
@@ -259,22 +264,18 @@ public class GameUIHandle : UIHandle
 
 
     // set TipsText in GameUI
-    public void SetTipsText(string TipsLimb)
+    public void SetTipsText(string Tip)
     {
-        string[] Tipslimbs = new string[] { "左肩", "右肩","左手", "右手", "左脚", "右脚", "任意肢体" };
-        if (Array.IndexOf(Tipslimbs, TipsLimb)==-1)
+        string[] Tips = new string[] { "上", "左上", "右上", "下", "左下", "右下", "左", "右" };
+        if (Array.IndexOf(Tips, Tip)==-1)
         {
-            // 不是肢体字符串
-            GameUITipsText.text = TipsLimb;
+            // 不是方向字符串
+            GameUITipsText.text = Tip;
         }
-        else if(TipsLimb.Equals("左肩") || TipsLimb.Equals("右肩"))
-        {
-                GameUITipsText.text = "请晃动身体，使用" + TipsLimb + "阻拦足球";
-        }
-        else{   
-            
-            // 是肢体字符串
-            GameUITipsText.text = "请使用" + TipsLimb + "阻拦足球";
+        else{
+
+            // 是方向字符串
+            GameUITipsText.text = "请双手握拳，朝" + Tip + "方接球";
         }
 
     }
@@ -316,11 +317,10 @@ public class GameUIHandle : UIHandle
     }
 
     // set Progress of game
-    public void SetTrainingProgress(long FinishCount, long GameCount)
+    public void SetTrainingProgress(float TimeCount, float TrainingTime)
     {
-        GameUITrainProgressText.text = "训练进度：" + FinishCount.ToString() + " / " + GameCount.ToString() + " 次";
-        GameUIProgressSlider.value = FinishCount / (float)GameCount;
-        //Debug.Log("@GameUIHandle: SetProgress = " + FinishCount / (float)GameCount);
+        GameUIProgressSlider.value = TimeCount / TrainingTime;
+        GameUITrainProgressText.text = "训练进度：" + GameUIProgressSlider.value.ToString("0%");
     }
 
     // set Progress of KinectDetect
@@ -377,7 +377,7 @@ public class GameUIHandle : UIHandle
     public void InitGameUIText()
     {
         SetPatientInfoText(PatientDataManager.instance.PatientName, PatientDataManager.instance.MaxSuccessCount);
-        SetTrainingProgress(PatientDataManager.instance.FinishCount, PatientDataManager.instance.GameCount);
+        SetTrainingProgress(PatientDataManager.instance.TimeCount, PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime));
         SetSuccessCountText(PatientDataManager.instance.SuccessCount);
     }
 
