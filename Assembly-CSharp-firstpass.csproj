@@ -188,6 +188,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
+     <None Include="Assets\MaterialUI\README.txt" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
@@ -204,6 +205,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
+     <None Include="Assets\printer\LCPrinter\Readme.txt" />
      <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
@@ -213,9 +215,11 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
+     <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
+     <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
@@ -225,6 +229,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
+     <None Include="Assets\MaterialUI\CHANGELOG.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
@@ -275,6 +280,9 @@
  <Reference Include="DOTween">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
+ <Reference Include="itextsharp">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
+ </Reference>
  <Reference Include="Mono.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
  </Reference>
@@ -290,11 +298,11 @@
  <Reference Include="System.Data">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
+ <Reference Include="LCPrinter">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+ </Reference>
  <Reference Include="LZ4Sharp">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
- </Reference>
- <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/SharpZipLib/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="Poly2Tri">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
