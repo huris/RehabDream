@@ -1,17 +1,2 @@
 Base path: E:/Unity/Editor/Data
 Cmd: initializeCompiler
-Cmd: preprocess
-  insize=1451 outsize=1617 ok=1
-Cmd: preprocess
-  insize=3317 outsize=535 ok=1
-Cmd: preprocess
-  insize=4117 outsize=680 ok=1
-Cmd: preprocess
-  insize=6395 outsize=3034 ok=1
-Cmd: preprocess
-  insize=5256 outsize=5886 ok=1
-Cmd: preprocess
-  insize=1802 outsize=633 ok=1
-Cmd: preprocess
-  error: 2 plat 1 at (40): undefined variable "SplatmapApplyWeight" undefined variable "SplatmapApplyFog"
-  insize=2743 outsize=5453 ok=0

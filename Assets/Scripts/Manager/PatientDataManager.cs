@@ -122,6 +122,10 @@ public class PatientDataManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     }
 
+    public void SetIsEvaluated(long IsEvaluated)
+    {
+        this.IsEvaluated = IsEvaluated;
+    }
     // set PatientName,PatientID
     public void SetUserMessage(long PatientID, string PatientName,string PatientSex)
     {
