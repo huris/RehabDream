@@ -95,6 +95,7 @@ public class DoctorLoginScript : MonoBehaviour {
                     DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
 
                     DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
 
                     //foreach(var item in DoctorDataManager.instance.Patients)
                     //{
@@ -119,6 +120,7 @@ public class DoctorLoginScript : MonoBehaviour {
                     DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(long.Parse(DoctorID.text));
 
                     DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
 
                     //foreach(var item in DoctorDataManager.instance.Patients)
                     //{
@@ -141,6 +143,7 @@ public class DoctorLoginScript : MonoBehaviour {
                     DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
 
                     DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
 
                     //foreach(var item in DoctorDataManager.instance.Patients)
                     //{

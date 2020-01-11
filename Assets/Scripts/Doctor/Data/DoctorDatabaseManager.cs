@@ -34,6 +34,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string PatientRecordTableName = "PatientRecord";
     private string GravityCenterTableName = "GravityCenter";
     private string AnglesTableName = "Angles";
+    private string DirectionsTableName = "Directions";
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -184,9 +185,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PlanDifficulty",
                     "GameCount",
                     "PlanCount",
-                    "LaunchSpeed",
-                    "MaxBallSpeed",
-                    "MinBallSpeed",
+                    "PlanDirection",
+                    "PlanTime",
                     ""},
 
                 new String[] {
@@ -194,9 +194,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
                     "INTEGER UNIQUE NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create TrainingPlanTable");
@@ -220,23 +219,23 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "PatientID",
                     "PatientName",
+                    "PatientSymptom",
                     "DoctorID",
                     "PatientAge",
                     "PatientSex",
                     "PatientHeight",
                     "PatientWeight",
-                    "PatientSymptom",
                     "" },
 
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
                     "TEXT NOT NULL",
+                    "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "TEXT NOT NULL",
                     "INTEGER",
                     "INTEGER",
-                    "TEXT NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientInfoTable");
@@ -255,9 +254,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingDifficulty",
                     "GameCount",
                     "SuccessCount",
-                    "LaunchSpeed",
-                    "MaxBallSpeed",
-                    "MinBallSpeed",
+                    "TrainingDirection",
+                    "TrainingTime",
+                    "IsEvaluated",
                     "" },
 
                 new String[] {
@@ -268,9 +267,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientRecordTable");
@@ -294,8 +293,6 @@ public class DoctorDatabaseManager : MonoBehaviour
             Debug.Log("@DatabaseManager: Create GravityCenterTable");
         }
 
-
-
         //check GravityCenterTable
         if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
         {
@@ -316,6 +313,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "LeftHipAngle",
                     "RightHipAngle",
                     "HipAngle",
+                    "LeftSideAngle",
+                    "RightSideAngle",
+                    "UponSideAngle",
+                    "DownSideAngle",
                     "Time" },
 
                 new String[] {
@@ -333,9 +334,45 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "TEXT NOT NULL" }
                 );
             Debug.Log("@DatabaseManager: Create AnglesTable");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(DirectionsTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                DirectionsTableName,   //table name
+                new String[] {
+                    "TrainingID",
+                    "UponDirection",
+                    "UponLeftDirection",
+                    "UponRightDirection",
+                    "DownDirection",
+                    "DownLeftDirection",
+                    "DownRightDirection",
+                    "LeftDirection",
+                    "RightDirection",
+                     },
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL"
+                    }
+                );
+            Debug.Log("@DatabaseManager: Create DirectionsTable");
         }
 
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
@@ -674,7 +711,11 @@ public class DoctorDatabaseManager : MonoBehaviour
                        );
                     res.SetDoctorPinyin(Pinyin.GetPinyin(res.DoctorName));
 
-                    result.Add(res);
+                    if(res.DoctorName != "root")
+                    {
+                        result.Add(res);
+                    }
+
                 } while (reader.Read());
                 Debug.Log("@UserManager:Read DoctorInfo Success" + result);
                 return result;
@@ -709,10 +750,12 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
-                trainingPlan.SetTrainingPlan(
+                trainingPlan.SetCompleteTrainingPlan(
                     reader.GetString(reader.GetOrdinal("PlanDifficulty")),
                     reader.GetInt64(reader.GetOrdinal("GameCount")),
-                    reader.GetInt64(reader.GetOrdinal("PlanCount")));
+                    reader.GetInt64(reader.GetOrdinal("PlanCount")),
+                    reader.GetString(reader.GetOrdinal("PlanDirection")),
+                    reader.GetInt64(reader.GetOrdinal("PlanTime")));
 
                 trainingPlan.SetPlanIsMaking(true);
 
@@ -761,7 +804,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                                                 PatientID.ToString(),
                                                 AddSingleQuotes(trainingPlan.PlanDifficulty),
                                                 trainingPlan.GameCount.ToString(),
-                                                trainingPlan.PlanCount.ToString() }
+                                                trainingPlan.PlanCount.ToString(),
+                                                AddSingleQuotes(trainingPlan.PlanDirection),
+                                                trainingPlan.PlanTime.ToString()
+                                                }
                                             );
                 Debug.Log("@UserManager: MakePatientTrainingPlan Success");
                 return DatabaseReturn.Success;
@@ -801,6 +847,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             {
                 QueryString = "UPDATE TrainingPlan SET PlanDifficulty=" + AddSingleQuotes(trainingPlan.PlanDifficulty) +
                     " , GameCount=" + trainingPlan.GameCount.ToString() + " , PlanCount=" + trainingPlan.PlanCount.ToString() +
+                    " , PlanDirection=" + AddSingleQuotes(trainingPlan.PlanDirection) + " , PlanTime=" + trainingPlan.PlanTime.ToString() +
                     " where PatientID=" + PatientID.ToString();
                 DoctorDatabase.ExecuteQuery(QueryString);
 
@@ -949,8 +996,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public DatabaseReturn PatientRegister(Patient patient)
     {
         if (patient.PatientID <= 0 || patient.PatientName == "" || patient.PatientSymptom == "" ||
-            patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "" ||
-            patient.PatientHeight < 0 || patient.PatientWeight < 0)   // input Null
+            patient.PatientDoctorID <= 0 || patient.PatientAge < 0 || patient.PatientSex == "")   // input Null
         {
             Debug.Log("@UserManager: Register PatientInfo NullInput");
             return DatabaseReturn.NullInput;
@@ -1008,7 +1054,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 if (reader.HasRows)
                 {
                     // 用户名存在
-                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientPassword=" +
+                    QueryString = "UPDATE PatientInfo SET PatientName=" + AddSingleQuotes(patient.PatientName) + " , PatientSymptom=" +
                     AddSingleQuotes(patient.PatientSymptom) + " , DoctorID=" + patient.PatientDoctorID.ToString() + " , PatientAge=" +
                     patient.PatientAge.ToString() + " , PatientSex=" + AddSingleQuotes(patient.PatientSex) + " , PatientHeight=" + patient.PatientHeight.ToString() +
                     " , PatientWeight=" + patient.PatientWeight.ToString() + " where PatientID=" + patient.PatientID.ToString();
@@ -1049,12 +1095,14 @@ public class DoctorDatabaseManager : MonoBehaviour
         
         if(DoctorID == 12345)   // 如果为root账户，则显示所有患者的信息
         {
-            QueryString = "SELECT * FROM PatientInfo ORDER BY PatientName";
+            QueryString = "SELECT * FROM PatientInfo";
         }
         else    // 否则显示对应医生的信息
         {
-            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString() + " ORDER BY PatientName";
+            QueryString = "SELECT * FROM PatientInfo WHERE DoctorID=" + DoctorID.ToString();
         }
+
+        print(QueryString);
             
         //ORDER BY convert(name using gbk)
         try
@@ -1070,7 +1118,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),
@@ -1126,7 +1174,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),
@@ -1217,7 +1265,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     res.setPatientCompleteMessage(
                        reader.GetInt64(reader.GetOrdinal("PatientID")),
                        reader.GetString(reader.GetOrdinal("PatientName")),
-                       reader.GetString(reader.GetOrdinal("PatientPassword")),
+                       reader.GetString(reader.GetOrdinal("PatientSymptom")),
                        reader.GetInt64(reader.GetOrdinal("DoctorID")),
                        reader.GetInt64(reader.GetOrdinal("PatientAge")),
                        reader.GetString(reader.GetOrdinal("PatientSex")),
@@ -1246,11 +1294,11 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read PatientRecord
-    public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime)
+    public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) +" order by TrainingEndTime";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) + " and IsEvaluated = "+ IsEvaluated.ToString() +" order by TrainingEndTime";
         //string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() +  " order by TrainingEndTime";
 
         print(QueryString);
@@ -1270,7 +1318,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                        reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                        reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                       reader.GetInt64(reader.GetOrdinal("GameCount"))
+                       reader.GetInt64(reader.GetOrdinal("GameCount")),
+                       reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                       reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                        );
                     result.Add(res);
                 } while (reader.Read());
@@ -1293,11 +1343,13 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read PatientRecord
-    public List<TrainingPlay> ReadPatientRecord(long PatientID)
+    public List<TrainingPlay> ReadPatientRecord(long PatientID, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " order by TrainingEndTime";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = " + IsEvaluated.ToString() + " order by TrainingEndTime";
+
+       //print(QueryString);
 
         try
         {
@@ -1315,7 +1367,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                        reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                        reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                        reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                       reader.GetInt64(reader.GetOrdinal("GameCount"))
+                       reader.GetInt64(reader.GetOrdinal("GameCount")),
+                       reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                       reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                        );
                     result.Add(res);
                 } while (reader.Read());
@@ -1337,12 +1391,14 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+
+
     // read LastPatientRecord
-    public TrainingPlay ReadLastPatientRecord(long PatientID)
+    public TrainingPlay ReadLastPatientRecord(long PatientID, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
         TrainingPlay result = new TrainingPlay(); //返回值
-        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " order by TrainingEndTime desc limit 1";
+        string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = "+IsEvaluated.ToString()+" order by TrainingEndTime desc limit 1";
 
         try
         {
@@ -1357,7 +1413,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                 reader.GetString(reader.GetOrdinal("TrainingEndTime")),
                 reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
                 reader.GetInt64(reader.GetOrdinal("SuccessCount")),
-                reader.GetInt64(reader.GetOrdinal("GameCount"))
+                reader.GetInt64(reader.GetOrdinal("GameCount")),
+                reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                reader.GetInt64(reader.GetOrdinal("TrainingTime"))
                 );
 
                 Debug.Log("@UserManager:Read LastPatientRecord Success" + result);
@@ -1399,7 +1457,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                     var res = new GravityCenter();
                     res.SetCompleteGravityCenter(
-                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     CoordinateVector3,
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
@@ -1441,7 +1499,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 {
                     var res = new Angle();
                     res.SetCompleteAngles(
-                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     reader.GetFloat(reader.GetOrdinal("LeftArmAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightArmAngle")),
                     reader.GetFloat(reader.GetOrdinal("LeftLegAngle")),
@@ -1455,6 +1513,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetFloat(reader.GetOrdinal("HipAngle")),
                     reader.GetFloat(reader.GetOrdinal("LeftAnkleAngle")),
                     reader.GetFloat(reader.GetOrdinal("RightAnkleAngle")),
+                    reader.GetFloat(reader.GetOrdinal("LeftSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("RightSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("UponSideAngle")),
+                    reader.GetFloat(reader.GetOrdinal("DownSideAngle")),
                     reader.GetString(reader.GetOrdinal("Time"))
                     );
                     result.Add(res);
@@ -1477,7 +1539,47 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Angle
+    public Direction ReadDirectionRecord(long TrainingID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        Direction result = new Direction(); //返回值
+        string QueryString = "SELECT * FROM Directions where TrainingID=" + TrainingID.ToString();
 
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                result.SetCompleteDirections(
+                //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                reader.GetFloat(reader.GetOrdinal("UponDirection")),
+                reader.GetFloat(reader.GetOrdinal("UponRightDirection")),
+                reader.GetFloat(reader.GetOrdinal("RightDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownRightDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownDirection")),
+                reader.GetFloat(reader.GetOrdinal("DownLeftDirection")),
+                reader.GetFloat(reader.GetOrdinal("LeftDirection")),
+                reader.GetFloat(reader.GetOrdinal("UponLeftDirection")));
+
+                Debug.Log("@UserManager:Read DirectionRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DirectionRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DirectionRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
 
 
     // create Data/

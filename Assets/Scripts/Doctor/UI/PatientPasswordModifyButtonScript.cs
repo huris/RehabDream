@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PatientPasswordModifyButtonScript : MonoBehaviour {
+public class PatientSymptomModifyButtonScript : MonoBehaviour {
 
     public Text PatientName;
     public InputField NewPassword;
@@ -15,7 +15,7 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
     public GameObject ModifySuccess;
     public GameObject ModifyNull;
 
-    public GameObject PatientPasswordModify;
+    public GameObject PatientSymptomModify;
     public GameObject PatientInfo;
     public GameObject PatientListBG;
 
@@ -31,15 +31,15 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
         NewPasswordAgain = transform.parent.Find("NewPasswordAgain/InputField").GetComponent<InputField>();
         NewPasswordAgain.text = "";
 
-        ModifyError = transform.parent.Find("PatientPasswordModifyError").gameObject;
-        ModifyNull = transform.parent.Find("PatientPasswordModifyNull").gameObject;
-        ModifySuccess = transform.parent.Find("PatientPasswordModifySuccess").gameObject;
+        ModifyError = transform.parent.Find("PatientSymptomModifyError").gameObject;
+        ModifyNull = transform.parent.Find("PatientSymptomModifyNull").gameObject;
+        ModifySuccess = transform.parent.Find("PatientSymptomModifySuccess").gameObject;
 
         ModifyError.SetActive(false);
         ModifyNull.SetActive(false);
         ModifySuccess.SetActive(false);
 
-        PatientPasswordModify = transform.parent.parent.Find("PatientPasswordModify").gameObject;
+        PatientSymptomModify = transform.parent.parent.Find("PatientSymptomModify").gameObject;
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
     }
@@ -49,7 +49,7 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
 		
 	}
 
-    public void PatientPasswordModifyButtonOnClick()
+    public void PatientSymptomModifyButtonOnClick()
     {
         if (NewPassword.text == "" || NewPasswordAgain.text == "")
         {
@@ -81,7 +81,7 @@ public class PatientPasswordModifyButtonScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
 
-        PatientPasswordModify.SetActive(false);
+        PatientSymptomModify.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);
     }

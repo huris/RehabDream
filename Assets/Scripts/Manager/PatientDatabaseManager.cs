@@ -24,6 +24,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
+    private string DirectionsTableName = "Directions";
     // .db is in data/
 
     public enum DatabaseReturn
@@ -222,9 +223,9 @@ public class PatientDatabaseManager : MonoBehaviour
 
 
     //check register
-    public DatabaseReturn Register(long PatientID, string PatientName, string PatientPassword)  //Register
+    public DatabaseReturn Register(long PatientID, string PatientName, string PatientSymptom)  //Register
     {
-        if (PatientID.ToString().Equals("") || PatientPassword.Equals("") || PatientName.Equals(""))   //input Null
+        if (PatientID.ToString().Equals("") || PatientSymptom.Equals("") || PatientName.Equals(""))   //input Null
         {
             Debug.Log("@DatabaseManager: Register NullInput");
             return DatabaseReturn.NullInput;
@@ -264,7 +265,7 @@ public class PatientDatabaseManager : MonoBehaviour
                 new String[] {
                     PatientID.ToString(),
                     AddSingleQuotes(PatientName),
-                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientPassword)),  //md5加密
+                    AddSingleQuotes(SQLiteHelper.MD5Encrypt(PatientSymptom)),  //md5加密
                     0.ToString(),
                     0.ToString(),
                     "NULL",
@@ -391,32 +392,68 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount)
+    public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount, string TrainingDirection, long TrainingTime, long IsEvaluated)
     {
 
-        //try
-        //{
+        try
+        {
 
         //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
         PatientDatabase.InsertValues(
             PatientRecordTableName, //table name
-            new String[] {
+            new string[] {
                     TrainingID.ToString(),
                     PatientID.ToString(),
                     AddSingleQuotes(TrainingStartTime),
                     AddSingleQuotes(TrainingEndTime),
                     AddSingleQuotes(TrainingDifficulty),
                     GameCount.ToString(),
-                    SuccessCount.ToString()
+                    SuccessCount.ToString(),
+                    AddSingleQuotes(TrainingDirection),
+                    TrainingTime.ToString(),
+                    IsEvaluated.ToString()
             }
         );
 
         Debug.Log("@DatabaseManager: Write PatientRecord Success");
         return DatabaseReturn.Success;
-        //}
-        //catch (SqliteException e)
+        }
+        catch (SqliteException e)
         {
             Debug.Log("@DatabaseManager: Write PatientRecord SqliteException");
+            this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+    //write patient record
+    public DatabaseReturn WriteMaxDirection(long TrainingID, float[] Directions)
+    {
+
+        try
+        {
+
+                PatientDatabase.InsertValues(
+                DirectionsTableName, //table name
+                new string[] {
+                    TrainingID.ToString(),
+                    Directions[0].ToString(),
+                    Directions[1].ToString(),
+                    Directions[2].ToString(),
+                    Directions[3].ToString(),
+                    Directions[4].ToString(),
+                    Directions[5].ToString(),
+                    Directions[6].ToString(),
+                    Directions[7].ToString()
+                }
+            );
+
+            Debug.Log("@DatabaseManager: Write Direction Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write Direction SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
         }
@@ -425,12 +462,10 @@ public class PatientDatabaseManager : MonoBehaviour
     // read TrainingPlan for patient(PatientID)
     // return: PlanDifficulty GameCount PlanCount
     // default return: "Primary",10,10
-    public Tuple<string, long, long> ReadTrainingPlan(long PatientID)
+    public TrainingPlanResult ReadTrainingPlan(long PatientID)
     {
         SqliteDataReader reader;    //sql读取器
-        string PlanDifficulty = "初级";
-        long GameCount = 10;
-        long PlanCount = 10;
+        TrainingPlanResult result = new TrainingPlanResult();
 
         try
         {
@@ -457,12 +492,14 @@ public class PatientDatabaseManager : MonoBehaviour
             {   //存在用户训练任务
 
 
-                PlanDifficulty = reader.GetString(reader.GetOrdinal("PlanDifficulty"));
-                GameCount = reader.GetInt64(reader.GetOrdinal("GameCount"));
-                PlanCount = reader.GetInt64(reader.GetOrdinal("PlanCount"));
+                result.PlanDifficulty = reader.GetString(reader.GetOrdinal("PlanDifficulty"));
+                result.GameCount = reader.GetInt64(reader.GetOrdinal("GameCount"));
+                result.PlanCount = reader.GetInt64(reader.GetOrdinal("PlanCount"));
+                result.PlanDirection = reader.GetString(reader.GetOrdinal("PlanDirection"));
+                result.PlanTime = reader.GetInt64(reader.GetOrdinal("PlanTime"));
 
 
-                Debug.Log("@DatabaseManager:Read TrainingPlan Success " + PlanDifficulty + " " + GameCount.ToString() + " " + PlanCount.ToString());
+                Debug.Log("@DatabaseManager:Read TrainingPlan Success " +result.PlanDifficulty + " " + result.GameCount.ToString() + " " + result.PlanCount.ToString());
 
             }
             else
@@ -477,7 +514,6 @@ public class PatientDatabaseManager : MonoBehaviour
 
         }
 
-        Tuple<string, long, long> result = new Tuple<string, long, long>(PlanDifficulty, GameCount, PlanCount); //返回值
         return result;
     }
 
@@ -517,6 +553,8 @@ public class PatientDatabaseManager : MonoBehaviour
             return DatabaseReturn.Exception;
         }
     }
+
+
 
     //write gravity center to GravityCenter table
     public DatabaseReturn WriteGravityCenter(long TrainingID, string Coordinate, string Time)
@@ -569,6 +607,10 @@ public class PatientDatabaseManager : MonoBehaviour
                     Angles[10].ToString(),   //FLOAT LeftHipAngle
                     Angles[11].ToString(),   //FLOAT RightHipAngle
                     Angles[12].ToString(),  //FLOAT HipAngle
+                    Angles[13].ToString(),  //FLOAT LeftSideAngle
+                    Angles[14].ToString(),  //FLOAT RightSideAngle
+                    Angles[15].ToString(),  //UponSideAngle
+                    Angles[16].ToString(),  //DownSideAngle
                     AddSingleQuotes(Time)       //STRING Time
                 }
             );
@@ -608,136 +650,21 @@ public class PatientDatabaseManager : MonoBehaviour
         return "'" + s + "'";
     }
 
-
+    // TrainingPlan in db
+    public class TrainingPlanResult
+    {
+        public string PlanDifficulty = "初级";
+        public long GameCount = 10;
+        public long PlanCount = 10;
+        public string PlanDirection = "上";
+        public long PlanTime = 20;
+    }
 
 
     #region 此处已移至DoctorDatabaseManager
 
     ////connect  PatientDatabase.db
-    //private void ConnectPatientDatabase()
-    //{
-    //    string DbPath = UserFolderPath + "PatientDatabase.db";
-    //    this.PatientDatabase = new SQLiteHelper("Data Source=" + DbPath); //connect PatientDatabase.db
-
-    //    //check PatientInfoTable
-    //    if (!this.PatientDatabase.IsTableExists(PatientInfoTableName))  //check PatientInfoTableName table
-    //    {
-    //        this.PatientDatabase.CreateTable(
-    //            PatientInfoTableName,   //table name
-    //            new String[] {
-    //                "PatientID",
-    //                "PatientName",
-    //                "PatientPassword",
-    //                "DoctorID",
-    //                "PatientAge",
-    //                "PatientSex",
-    //                "PatientHeight",
-    //                "PatientWeight",
-    //                "" },
-
-    //            new String[] {
-    //                "INTEGER UNIQUE NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "INTEGER NOT NULL",
-    //                "INTEGER",
-    //                "TEXT",
-    //                "INTEGER",
-    //                "INTEGER",
-    //                "PRIMARY KEY(PatientID)" }
-    //            );
-    //        Debug.Log("@DatabaseManager: Create PatientInfoTable");
-    //    }
-
-    //    //check PatientRecordTable
-    //    if (!this.PatientDatabase.IsTableExists(PatientRecordTableName))  //check PatientInfoTableName table
-    //    {
-    //        this.PatientDatabase.CreateTable(
-    //            PatientRecordTableName,   //table name
-    //            new String[] {
-    //                "TrainingID",
-    //                "PatientID",
-    //                "TrainingStartTime",
-    //                "TrainingEndTime",
-    //                "TrainingDifficulty",
-    //                "GameCount",
-    //                "SuccessCount",
-    //                "" },
-
-    //            new String[] {
-    //                "INTEGER UNIQUE NOT NULL",
-    //                "INTEGER NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "INTEGER NOT NULL",
-    //                "INTEGER NOT NULL",
-    //                "PRIMARY KEY(TrainingID)" }
-    //            );
-    //        Debug.Log("@DatabaseManager: Create PatientRecordTable");
-    //    }
-
-    //    //check GravityCenterTable
-    //    if (!this.PatientDatabase.IsTableExists(GravityCenterTableName))  //check PatientInfoTableName table
-    //    {
-    //        this.PatientDatabase.CreateTable(
-    //            GravityCenterTableName,   //table name
-    //            new String[] {
-    //                "TrainingID",
-    //                "Coordinate",
-    //                "Time" },
-
-    //            new String[] {
-    //                "INTEGER NOT NULL",
-    //                "TEXT NOT NULL",
-    //                "TEXT NOT NULL" }
-    //            );
-    //        Debug.Log("@DatabaseManager: Create GravityCenterTable");
-    //    }
-
-
-
-    //    //check GravityCenterTable
-    //    if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
-    //    {
-    //        this.PatientDatabase.CreateTable(
-    //            AnglesTableName,   //table name
-    //            new String[] {
-    //                "TrainingID",
-    //                "LeftArmAngle",
-    //                "RightArmAngle",
-    //                "LeftLegAngle",
-    //                "RightLegAngle",
-    //                "LeftElbowAngle",
-    //                "RightElbowAngle",
-    //                "LeftKneeAngle",
-    //                "RightKneeAngle",
-    //                "LeftAnkleAngle",
-    //                "RightAnkleAngle",
-    //                "Time" },
-
-    //            new String[] {
-    //                "INTEGER NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "FLOAT NOT NULL",
-    //                "TEXT NOT NULL" }
-    //            );
-    //        Debug.Log("@DatabaseManager: Create AnglesTable");
-    //    }
-
-    //    Debug.Log("@DatabaseManager: Connect PatientAccount.db");
-    //}
-
-
-    ////connect  DoctorDatabase.db
+    //connect DoctorDatabase.db
     //private void ConnectDoctorDatabase()
     //{
     //    string DbPath = UserFolderPath + "DoctorDatabase.db";
@@ -773,6 +700,8 @@ public class PatientDatabaseManager : MonoBehaviour
     //                "PlanDifficulty",
     //                "GameCount",
     //                "PlanCount",
+    //                "PlanDirection",
+    //                "PlanTime",
     //                ""},
 
     //            new String[] {
@@ -780,6 +709,8 @@ public class PatientDatabaseManager : MonoBehaviour
     //                "TEXT NOT NULL",
     //                "INTEGER UNIQUE NOT NULL",
     //                "INTEGER UNIQUE NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
     //                "PRIMARY KEY(PatientID)" }
     //            );
     //        Debug.Log("@DatabaseManager: Create TrainingPlanTable");
@@ -787,6 +718,179 @@ public class PatientDatabaseManager : MonoBehaviour
 
 
     //    Debug.Log("@DatabaseManager: Connect DoctorDatabase.db");
+    //}
+
+    ////connect PatientDatabase.db
+    //private void ConnectPatientDatabase()
+    //{
+    //    string DbPath = UserFolderPath + "PatientDatabase.db";
+    //    this.PatientDatabase = new SQLiteHelper("Data Source=" + DbPath); //connect PatientDatabase.db
+
+    //    //check PatientInfoTable
+    //    if (!this.PatientDatabase.IsTableExists(PatientInfoTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            PatientInfoTableName,   //table name
+    //            new String[] {
+    //                "PatientID",
+    //                "PatientName",
+    //                "PatientSymptom",
+    //                "DoctorID",
+    //                "PatientAge",
+    //                "PatientSex",
+    //                "PatientHeight",
+    //                "PatientWeight",
+    //                "" },
+
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER",
+    //                "INTEGER",
+    //                "PRIMARY KEY(PatientID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create PatientInfoTable");
+    //    }
+
+    //    //check PatientRecordTable
+    //    if (!this.PatientDatabase.IsTableExists(PatientRecordTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            PatientRecordTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "PatientID",
+    //                "TrainingStartTime",
+    //                "TrainingEndTime",
+    //                "TrainingDifficulty",
+    //                "GameCount",
+    //                "SuccessCount",
+    //                "TrainingDirection",
+    //                "TrainingTime",
+    //                "IsEvaluated",
+    //                "" },
+
+    //            new String[] {
+    //                "INTEGER UNIQUE NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "INTEGER NOT NULL",
+    //                "PRIMARY KEY(TrainingID)" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create PatientRecordTable");
+    //    }
+
+    //    //check GravityCenterTable
+    //    if (!this.PatientDatabase.IsTableExists(GravityCenterTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            GravityCenterTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "Coordinate",
+    //                "Time" },
+
+    //            new String[] {
+    //                "INTEGER NOT NULL",
+    //                "TEXT NOT NULL",
+    //                "TEXT NOT NULL" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create GravityCenterTable");
+    //    }
+
+    //    //check GravityCenterTable
+    //    if (!this.PatientDatabase.IsTableExists(AnglesTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            AnglesTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "LeftArmAngle",
+    //                "RightArmAngle",
+    //                "LeftLegAngle",
+    //                "RightLegAngle",
+    //                "LeftElbowAngle",
+    //                "RightElbowAngle",
+    //                "LeftKneeAngle",
+    //                "RightKneeAngle",
+    //                "LeftAnkleAngle",
+    //                "RightAnkleAngle",
+    //                "LeftHipAngle",
+    //                "RightHipAngle",
+    //                "HipAngle",
+    //                "LeftSideAngle",
+    //                "RightSideAngle",
+    //                "UponSideAngle",
+    //                "DownSideAngle",
+    //                "Time" },
+
+    //            new String[] {
+    //                "INTEGER NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "TEXT NOT NULL" }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create AnglesTable");
+    //    }
+
+    //    //check GravityCenterTable
+    //    if (!this.PatientDatabase.IsTableExists(DirectionsTableName))  //check PatientInfoTableName table
+    //    {
+    //        this.PatientDatabase.CreateTable(
+    //            DirectionsTableName,   //table name
+    //            new String[] {
+    //                "TrainingID",
+    //                "UponDirection",
+    //                "UponLeftDirection",
+    //                "UponRightDirection",
+    //                "DownDirection",
+    //                "DownLeftDirection",
+    //                "DownRightDirection",
+    //                "LeftDirection",
+    //                "RightDirection",
+    //                 },
+
+    //            new String[] {
+    //                "INTEGER NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL",
+    //                "FLOAT NOT NULL"
+    //                }
+    //            );
+    //        Debug.Log("@DatabaseManager: Create DirectionsTable");
+    //    }
+
+    //    Debug.Log("@DatabaseManager: Connect PatientAccount.db");
     //}
 
     #endregion

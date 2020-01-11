@@ -341,18 +341,20 @@ public class StartUIHandle : UIHandle
     public void SetDataTrainingPlan()
     {
         // read TrainingPlan(PlanDifficulty, GameCount, PlanCount)
-        Tuple<string, long, long> TrainingPlan = PatientDatabaseManager.instance.ReadTrainingPlan(PatientDataManager.instance.PatientID);
+        PatientDatabaseManager.TrainingPlanResult result = PatientDatabaseManager.instance.ReadTrainingPlan(PatientDataManager.instance.PatientID);
         // set TrainingPlan(PlanDifficulty, GameCount, PlanCount)
         PatientDataManager.instance.SetTrainingPlan(
-            PatientDataManager.Str2DifficultyType(TrainingPlan.Item1),
-            TrainingPlan.Item2,
-            TrainingPlan.Item3
+            PatientDataManager.Str2DifficultyType(result.PlanDifficulty),
+            result.GameCount,
+            result.PlanCount,
+            PatientDataManager.Str2DirectionType(result.PlanDirection),
+            result.PlanTime
             );
-    }
+}
 
-    
 
-    public void ResetLoginField()
+
+public void ResetLoginField()
     {
         LoginPatientIDField.text = "";
         LoginPatientPasswordField.text = "";

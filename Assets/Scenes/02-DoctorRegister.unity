@@ -169,7 +169,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -356,13 +356,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 306327703}
   m_TextComponent: {fileID: 1543712836}
   m_Placeholder: {fileID: 143657112}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 2
+  m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -1598,6 +1598,7 @@ MonoBehaviour:
   ErrorInformation: {fileID: 0}
   RegisterSuccess: {fileID: 0}
   DoctorPasswordIsNotSame: {fileID: 0}
+  DoctorIDisAlreadyExist: {fileID: 0}
   system: {fileID: 0}
   EnterKeyIsAlreadyInput: 0
 --- !u!1 &1432338851
@@ -1867,7 +1868,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -2266,7 +2267,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1773213834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 393.45, y: -412.09998, z: 0}
+  m_LocalPosition: {x: 392, y: -412.09998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1429023339}
@@ -2274,8 +2275,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 393.45, y: -412.09998}
-  m_SizeDelta: {x: 474.7, y: 122.1}
+  m_AnchoredPosition: {x: 392, y: -412.09998}
+  m_SizeDelta: {x: 571.6, y: 122.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1773213836
 MonoBehaviour:
@@ -2863,7 +2864,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 34
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
