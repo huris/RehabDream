@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Example.unity
+- path: Assets/Scenes/03-DoctorUI.unity
   isLoaded: 1
   isActive: 1
