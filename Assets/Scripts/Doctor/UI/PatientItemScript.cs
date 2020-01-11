@@ -191,6 +191,7 @@ public class PatientItemScript : MonoBehaviour {
 
             PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);
             PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
+            PatientDataManager.instance.SetIsEvaluated(0);
             SceneManager.LoadScene("Game");  // 如果登录成功,则进入医生管理界面
         }
         else

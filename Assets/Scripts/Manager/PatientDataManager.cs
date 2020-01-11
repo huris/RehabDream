@@ -14,7 +14,7 @@ public class PatientDataManager : MonoBehaviour{
     // Singleton instance holder
     public static PatientDataManager instance = null;
 
-
+    //难度
     public enum DifficultyType
     {
         Entry,      //入门
@@ -24,6 +24,28 @@ public class PatientDataManager : MonoBehaviour{
         Advanced    //高级
     }
 
+    //发球间隔
+    private float[] _LaunchSpeedList=
+    {
+        5.0f,   //入门
+        4.0f,   //初级
+        5.0f,   //一般
+        3.0f,   //中级
+        3.0f,   //高级
+    };
+
+    //球速
+    private float[] _BallSpeedList =
+    {
+        8.0f,   //入门
+        10.0f,   //初级
+        8.0f,   //一般
+        12.0f,   //中级
+        12.0f,   //高级
+    };
+
+
+    //发球方向
     public enum DirectionType
     {
         UponDirection,         //上
@@ -42,30 +64,30 @@ public class PatientDataManager : MonoBehaviour{
     //[Header("TrainingPlan")]
     public DifficultyType PlanDifficulty { get; private set; } = DifficultyType.Entry;
     public DifficultyType TrainingDifficulty => PlanDifficulty;
-    public long GameCount { get; private set; } = 10;
     public long PlanCount { get; private set; } = 10;
-    public DirectionType PlanDirection { get; private set; } = DirectionType.UponDirection;
+    public long GameCount { get; private set; } = 0;
+    public DirectionType PlanDirection { get; private set; } = DirectionType.AnyDirection;
     public DirectionType TrainingDirection => PlanDirection;
     public long PlanTime { get; private set; } = 20;
     public long TrainingTime => PlanTime;
-    public long IsEvaluated { get; private set; } = 1;  //1-评估
+    public long IsEvaluated { get; private set; } = 0;  //1-评估,0-训练
 
 
-    public float LaunchSpeed { get; private set; } = 3.0f;
-    public float MaxBallSpeed { get; private set; } = 10f;
-    public float MinBallSpeed { get; private set; } = 10f;
+    public float LaunchSpeed => _LaunchSpeedList[(int)TrainingDifficulty];
+    public float BallSpeed => _BallSpeedList[(int)TrainingDifficulty];
 
 
     //[Header("GameData")]
     public long SuccessCount { get; private set; } = 0;
-    public long FinishCount { get; private set; } = 0;
+    public float TimeCount { get; private set; } = 0;       //训练总时间
     public DateTime TrainingStartTime { get; private set; }
     public DateTime TrainingEndTime { get; private set; }
 
     //[Header("PatientRecord")]
     public long TrainingID { get; private set; } = 0;
     public long MaxSuccessCount { get; private set; } = 0;
-    public float[] MaxDirection { get; private set; } = {0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f};
+    public float[] MaxDirection { get; private set; } = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+    public float[] NewMaxDirection { get; private set; } = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f};
 
     //[Header("MusicSetting")]
     public float bgmVolume { get; private set; } = 0.5f;
@@ -100,6 +122,10 @@ public class PatientDataManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     }
 
+    public void SetIsEvaluated(long IsEvaluated)
+    {
+        this.IsEvaluated = IsEvaluated;
+    }
     // set PatientName,PatientID
     public void SetUserMessage(long PatientID, string PatientName,string PatientSex)
     {
@@ -112,7 +138,7 @@ public class PatientDataManager : MonoBehaviour{
     public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, DirectionType PlanDirection, long PlanTime)
     {
         this.PlanDifficulty = PlanDifficulty;
-        this.GameCount = GameCount;
+        //this.GameCount = GameCount;
         this.PlanCount = PlanCount;
         this.PlanDirection = PlanDirection;
         this.PlanTime = PlanTime;
@@ -128,6 +154,23 @@ public class PatientDataManager : MonoBehaviour{
     public void SetMaxSuccessCount(long MaxSuccessCount)
     {
         this.MaxSuccessCount = MaxSuccessCount;
+    }
+
+    // set MaxDirection
+    public void SetMaxDirection(float[] MaxDirection)
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            this.MaxDirection[i] = MaxDirection[i];
+        } 
+    }
+
+    // update NewMaxDirection[i]
+    public void UpdateNewMaxDirection(float MaxDirection, PatientDataManager.DirectionType Direction)
+    {
+        if(this.NewMaxDirection[(int)Direction] < MaxDirection){
+            this.NewMaxDirection[(int)Direction] = MaxDirection;
+        }
     }
 
     // set TrainingStartTime
@@ -148,28 +191,20 @@ public class PatientDataManager : MonoBehaviour{
         this.PlanCount = PlanCount;
     }
 
-    // set LaunchSpeed
-    public void SetLaunchSpeed(float LaunchSpeed)
+    public void SetTimeCount(float TimeCount)
     {
-        this.LaunchSpeed = LaunchSpeed;
-    }
-
-    // set MaxBallSpeed
-    public void SetMaxBallSpeed(float MaxBallSpeed)
-    {
-        this.MaxBallSpeed = MaxBallSpeed;
-    }
-
-    // set FinishCount
-    public void SetFinishCount(long FinishCount)
-    {
-        this.FinishCount = FinishCount;
+        this.TimeCount = TimeCount;
     }
 
     // set FinishCount
     public void SetSuccessCount(long SuccessCount)
     {
         this.SuccessCount = SuccessCount;
+    }
+
+    public void SetGameCount(long GameCount)
+    {
+        this.GameCount = GameCount;
     }
 
 
@@ -213,9 +248,9 @@ public class PatientDataManager : MonoBehaviour{
     public void ResetGameData()
     {
         this.SuccessCount = 0;
-        this.FinishCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.GameCount = 0;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
@@ -223,9 +258,9 @@ public class PatientDataManager : MonoBehaviour{
     public void InitGameData()
     {
         this.SuccessCount = 0;
-        this.FinishCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.GameCount = 0;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
@@ -290,7 +325,7 @@ public class PatientDataManager : MonoBehaviour{
                 return DirectionType.LeftDirection;
             case "右":
                 return DirectionType.RightDirection;
-            case "任意方向":
+            case "全方位":
                 return DirectionType.AnyDirection;
             default:
                 return DirectionType.UponDirection;
@@ -318,9 +353,28 @@ public class PatientDataManager : MonoBehaviour{
             case DirectionType.RightDirection:
                 return "右";
             case DirectionType.AnyDirection:
-                return "任意方向";
+                return "全方位";
             default:
                 return "上";
+        }
+    }
+
+    public static float Minute2Second(float Min)
+    {
+        return Min * 60.0f;
+    }
+
+    public static DirectionType ChangeDirection(DirectionType Direction)
+    {
+        if((Direction+1) == DirectionType.AnyDirection)
+        {
+            Debug.Log("@PatientDataManager: Change Direction to " + DirectionType.UponDirection);
+            return DirectionType.UponDirection;
+        }
+        else
+        {
+            Debug.Log("@PatientDataManager: Change Direction to " + DirectionType2Str(Direction + 1));
+            return Direction + 1;
         }
     }
 
