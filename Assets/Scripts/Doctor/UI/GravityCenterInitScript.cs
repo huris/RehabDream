@@ -81,6 +81,7 @@ namespace XCharts
                 GravityCenterChart.xAxis0.showSplitLine = true;
                 GravityCenterChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 GravityCenterChart.xAxis0.splitArea.show = true;
+                GravityCenterChart.xAxis0.boundaryGap = false;
 
                 GravityCenterChart.yAxis0.show = true;
                 GravityCenterChart.yAxis0.type = YAxis.AxisType.Value;
@@ -106,13 +107,19 @@ namespace XCharts
                 GravityCenterChart.yAxis0.showSplitLine = true;
                 GravityCenterChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 GravityCenterChart.yAxis0.splitArea.show = true;
+                GravityCenterChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 GravityCenterChart.RemoveData();
                 GravityCenterSerie = GravityCenterChart.AddSerie(SerieType.Line, "重心");//添加折线图
 
+                GravityCenterSerie.areaStyle.show = true;
+                GravityCenterSerie.areaStyle.opacity = 0.4f;
+                GravityCenterSerie.areaStyle.toColor = Color.white;
+
+
                 GravityCenterSerie.symbol.type = SerieSymbolType.None;
 
-                GravityCenterChart.grid.left = 75;
+                GravityCenterChart.grid.left = 50;
                 GravityCenterChart.grid.right = 20;
                 GravityCenterChart.grid.top = 50;
                 GravityCenterChart.grid.bottom = 25;

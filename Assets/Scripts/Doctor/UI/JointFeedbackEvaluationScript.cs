@@ -69,8 +69,6 @@ namespace XCharts
                 LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LeftRightChart.title.location.top = 2;
 
-                print(LeftRightChart.title.text + "!!!!!");
-
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;
 
@@ -87,7 +85,6 @@ namespace XCharts
                 LeftRightChart.tooltip.type = Tooltip.Type.Line;
                 LeftRightChart.tooltip.titleFormatter = "   第{b}秒   ";
                 LeftRightChart.tooltip.itemFormatter = "{a}部为{c}";
-
 
                 LeftRightChart.xAxis0.show = true;
                 LeftRightChart.xAxis0.type = XAxis.AxisType.Category;
@@ -113,6 +110,7 @@ namespace XCharts
                 LeftRightChart.xAxis0.showSplitLine = true;
                 LeftRightChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LeftRightChart.xAxis0.splitArea.show = true;
+                LeftRightChart.xAxis0.boundaryGap = false;
 
                 LeftRightChart.yAxis0.show = true;
                 LeftRightChart.yAxis0.type = YAxis.AxisType.Value;
@@ -138,10 +136,19 @@ namespace XCharts
                 LeftRightChart.yAxis0.showSplitLine = true;
                 LeftRightChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LeftRightChart.yAxis0.splitArea.show = true;
+                LeftRightChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 LeftRightChart.RemoveData();
                 LeftSerie = LeftRightChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightSerie = LeftRightChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftSerie.areaStyle.show = true;
+                LeftSerie.areaStyle.opacity = 0.4f;
+                LeftSerie.areaStyle.toColor = Color.white;
+
+                RightSerie.areaStyle.show = true;
+                RightSerie.areaStyle.opacity = 0.4f;
+                RightSerie.areaStyle.toColor = Color.white;
 
                 LeftSerie.symbol.type = SerieSymbolType.None;
                 RightSerie.symbol.type = SerieSymbolType.None;
@@ -213,6 +220,7 @@ namespace XCharts
                 UponDownChart.xAxis0.showSplitLine = true;
                 UponDownChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 UponDownChart.xAxis0.splitArea.show = true;
+                UponDownChart.xAxis0.boundaryGap = false;
 
                 UponDownChart.yAxis0.show = true;
                 UponDownChart.yAxis0.type = YAxis.AxisType.Value;
@@ -238,10 +246,19 @@ namespace XCharts
                 UponDownChart.yAxis0.showSplitLine = true;
                 UponDownChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 UponDownChart.yAxis0.splitArea.show = true;
+                UponDownChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 UponDownChart.RemoveData();
                 UponSerie = UponDownChart.AddSerie(SerieType.Line, "前");//添加折线图
                 DownSerie = UponDownChart.AddSerie(SerieType.Line, "后");//添加折线
+
+                UponSerie.areaStyle.show = true;
+                UponSerie.areaStyle.opacity = 0.4f;
+                UponSerie.areaStyle.toColor = Color.white;
+
+                DownSerie.areaStyle.show = true;
+                DownSerie.areaStyle.opacity = 0.4f;
+                DownSerie.areaStyle.toColor = Color.white;
 
                 UponSerie.symbol.type = SerieSymbolType.None;
                 DownSerie.symbol.type = SerieSymbolType.None;
@@ -313,6 +330,7 @@ namespace XCharts
                 ArmChart.xAxis0.showSplitLine = true;
                 ArmChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ArmChart.xAxis0.splitArea.show = true;
+                ArmChart.xAxis0.boundaryGap = false;
 
                 ArmChart.yAxis0.show = true;
                 ArmChart.yAxis0.type = YAxis.AxisType.Value;
@@ -338,6 +356,7 @@ namespace XCharts
                 ArmChart.yAxis0.showSplitLine = true;
                 ArmChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ArmChart.yAxis0.splitArea.show = true;
+                ArmChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 ArmChart.RemoveData();
                 LeftArmSerie = ArmChart.AddSerie(SerieType.Line, "左");//添加折线图
@@ -345,6 +364,14 @@ namespace XCharts
 
                 LeftArmSerie.symbol.type = SerieSymbolType.None;
                 RightArmSerie.symbol.type = SerieSymbolType.None;
+
+                LeftArmSerie.areaStyle.show = true;
+                LeftArmSerie.areaStyle.opacity = 0.4f;
+                LeftArmSerie.areaStyle.toColor = Color.white;
+
+                RightArmSerie.areaStyle.show = true;
+                RightArmSerie.areaStyle.opacity = 0.4f;
+                RightArmSerie.areaStyle.toColor = Color.white;
 
                 ArmChart.grid.left = 60;
                 ArmChart.grid.right = 20;
@@ -412,6 +439,7 @@ namespace XCharts
                 ElbowChart.xAxis0.showSplitLine = true;
                 ElbowChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ElbowChart.xAxis0.splitArea.show = true;
+                ElbowChart.xAxis0.boundaryGap = false;
 
                 ElbowChart.yAxis0.show = true;
                 ElbowChart.yAxis0.type = YAxis.AxisType.Value;
@@ -437,10 +465,19 @@ namespace XCharts
                 ElbowChart.yAxis0.showSplitLine = true;
                 ElbowChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ElbowChart.yAxis0.splitArea.show = true;
+                ElbowChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 ElbowChart.RemoveData();
                 LeftElbowSerie = ElbowChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightElbowSerie = ElbowChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftElbowSerie.areaStyle.show = true;
+                LeftElbowSerie.areaStyle.opacity = 0.4f;
+                LeftElbowSerie.areaStyle.toColor = Color.white;
+
+                RightElbowSerie.areaStyle.show = true;
+                RightElbowSerie.areaStyle.opacity = 0.4f;
+                RightElbowSerie.areaStyle.toColor = Color.white;
 
                 LeftElbowSerie.symbol.type = SerieSymbolType.None;
                 RightElbowSerie.symbol.type = SerieSymbolType.None;
@@ -510,6 +547,7 @@ namespace XCharts
                 LegChart.xAxis0.showSplitLine = true;
                 LegChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LegChart.xAxis0.splitArea.show = true;
+                LegChart.xAxis0.boundaryGap = false;
 
                 LegChart.yAxis0.show = true;
                 LegChart.yAxis0.type = YAxis.AxisType.Value;
@@ -535,10 +573,19 @@ namespace XCharts
                 LegChart.yAxis0.showSplitLine = true;
                 LegChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LegChart.yAxis0.splitArea.show = true;
+                LegChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 LegChart.RemoveData();
                 LeftLegSerie = LegChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightLegSerie = LegChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftLegSerie.areaStyle.show = true;
+                LeftLegSerie.areaStyle.opacity = 0.4f;
+                LeftLegSerie.areaStyle.toColor = Color.white;
+
+                RightLegSerie.areaStyle.show = true;
+                RightLegSerie.areaStyle.opacity = 0.4f;
+                RightLegSerie.areaStyle.toColor = Color.white;
 
                 LeftLegSerie.symbol.type = SerieSymbolType.None;
                 RightLegSerie.symbol.type = SerieSymbolType.None;
@@ -608,6 +655,7 @@ namespace XCharts
                 HipChart.xAxis0.showSplitLine = true;
                 HipChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 HipChart.xAxis0.splitArea.show = true;
+                HipChart.xAxis0.boundaryGap = false;
 
                 HipChart.yAxis0.show = true;
                 HipChart.yAxis0.type = YAxis.AxisType.Value;
@@ -633,11 +681,24 @@ namespace XCharts
                 HipChart.yAxis0.showSplitLine = true;
                 HipChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 HipChart.yAxis0.splitArea.show = true;
+                HipChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 HipChart.RemoveData();
                 LeftHipSerie = HipChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightHipSerie = HipChart.AddSerie(SerieType.Line, "右");//添加折线
                 HipSerie = HipChart.AddSerie(SerieType.Line, "胯");//添加折线
+
+                LeftHipSerie.areaStyle.show = true;
+                LeftHipSerie.areaStyle.opacity = 0.4f;
+                LeftHipSerie.areaStyle.toColor = Color.white;
+
+                RightHipSerie.areaStyle.show = true;
+                RightHipSerie.areaStyle.opacity = 0.4f;
+                RightHipSerie.areaStyle.toColor = Color.white;
+
+                HipSerie.areaStyle.show = true;
+                HipSerie.areaStyle.opacity = 0.4f;
+                HipSerie.areaStyle.toColor = Color.white;
 
                 LeftHipSerie.symbol.type = SerieSymbolType.None;
                 RightHipSerie.symbol.type = SerieSymbolType.None;
@@ -708,6 +769,7 @@ namespace XCharts
                 KneeChart.xAxis0.showSplitLine = true;
                 KneeChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 KneeChart.xAxis0.splitArea.show = true;
+                KneeChart.xAxis0.boundaryGap = false;
 
                 KneeChart.yAxis0.show = true;
                 KneeChart.yAxis0.type = YAxis.AxisType.Value;
@@ -733,10 +795,19 @@ namespace XCharts
                 KneeChart.yAxis0.showSplitLine = true;
                 KneeChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 KneeChart.yAxis0.splitArea.show = true;
+                KneeChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 KneeChart.RemoveData();
                 LeftKneeSerie = KneeChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightKneeSerie = KneeChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftKneeSerie.areaStyle.show = true;
+                LeftKneeSerie.areaStyle.opacity = 0.4f;
+                LeftKneeSerie.areaStyle.toColor = Color.white;
+
+                RightKneeSerie.areaStyle.show = true;
+                RightKneeSerie.areaStyle.opacity = 0.4f;
+                RightKneeSerie.areaStyle.toColor = Color.white;
 
                 LeftKneeSerie.symbol.type = SerieSymbolType.None;
                 RightKneeSerie.symbol.type = SerieSymbolType.None;
@@ -806,6 +877,7 @@ namespace XCharts
                 AnkleChart.xAxis0.showSplitLine = true;
                 AnkleChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 AnkleChart.xAxis0.splitArea.show = true;
+                AnkleChart.xAxis0.boundaryGap = false;
 
                 AnkleChart.yAxis0.show = true;
                 AnkleChart.yAxis0.type = YAxis.AxisType.Value;
@@ -831,10 +903,19 @@ namespace XCharts
                 AnkleChart.yAxis0.showSplitLine = true;
                 AnkleChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 AnkleChart.yAxis0.splitArea.show = true;
+                AnkleChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 AnkleChart.RemoveData();
                 LeftAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "左");//添加折线图
                 RightAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "右");//添加折线
+
+                LeftAnkleSerie.areaStyle.show = true;
+                LeftAnkleSerie.areaStyle.opacity = 0.4f;
+                LeftAnkleSerie.areaStyle.toColor = Color.white;
+
+                RightAnkleSerie.areaStyle.show = true;
+                RightAnkleSerie.areaStyle.opacity = 0.4f;
+                RightAnkleSerie.areaStyle.toColor = Color.white;
 
                 LeftAnkleSerie.symbol.type = SerieSymbolType.None;
                 RightAnkleSerie.symbol.type = SerieSymbolType.None;
