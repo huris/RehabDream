@@ -134,7 +134,7 @@ public class PatientDataManager : MonoBehaviour{
     public void SetTrainingPlan(DifficultyType PlanDifficulty, long GameCount, long PlanCount, DirectionType PlanDirection, long PlanTime)
     {
         this.PlanDifficulty = PlanDifficulty;
-        this.GameCount = GameCount;
+        //this.GameCount = GameCount;
         this.PlanCount = PlanCount;
         this.PlanDirection = PlanDirection;
         this.PlanTime = PlanTime;
