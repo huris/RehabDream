@@ -9,29 +9,55 @@ using System.IO;
 //using LCPrinter;
 using UnityEngine.UI;
 
-
-public class EvaluatePrintScript : MonoBehaviour
+namespace XCharts
 {
-    public Text InformationPatientID;
-    public Text InformationPatientName;
-    public Text InformationPatientSex;
-    public Text InformationPatientAge;
-    public Text InformationPatientHeight;
-    public Text InformationPatientWeight;
-    public Text InformationPatientSymptom;
-    public Text InformationPatientDoctor;
-
-    void OnEnable()
+    [DisallowMultipleComponent]
+    public class EvaluatePrintScript : MonoBehaviour
     {
-        
+        // Information
+        public Text InformationPatientID;
+        public Text InformationPatientName;
+        public Text InformationPatientSex;
+        public Text InformationPatientAge;
+        public Text InformationPatientHeight;
+        public Text InformationPatientWeight;
+        public Text InformationPatientSymptom;
+        public Text InformationPatientDoctor;
+
+        // Evaluation
+        public Text EvaluationRank;
+        public Text EvaluationSuccessCount;
+        public Text EvaluationScore;
+        public Text EvaluationTime;
+
+
+
+        void OnEnable()
+        {
+            // Information
+            InformationPatientID = transform.Find("Background/Information/PatientInfo/ID/PatientID").GetComponent<Text>();
+            InformationPatientName = transform.Find("Background/Information/PatientInfo/Name/PatientName").GetComponent<Text>();
+            InformationPatientSex = transform.Find("Background/Information/PatientInfo/Sex/PatientSex").GetComponent<Text>();
+            InformationPatientAge = transform.Find("Background/Information/PatientInfo/Age/PatientAge").GetComponent<Text>();
+            InformationPatientHeight = transform.Find("Background/Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
+            InformationPatientWeight = transform.Find("Background/Information/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
+            InformationPatientSymptom = transform.Find("Background/Information/PatientInfo/Symptom/PatientSymptom").GetComponent<Text>();
+            InformationPatientDoctor = transform.Find("Background/Information/PatientInfo/Doctor/PatientDoctor").GetComponent<Text>();
+
+            // Evaluation
+            EvaluationRank = transform.Find("Background/Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
+            EvaluationSuccessCount = transform.Find("Background/Evaluation/EvaluationInfo/SuccessCount/EvaluationSuccessCount").GetComponent<Text>();
+            //EvaluationScore;
+            //EvaluationTime;
 
 
 
     }
-    
-    void Update()
-    {
 
+        void Update()
+        {
+
+        }
     }
 }
 //public class EvaluatePrintScript : MonoBehaviour
