@@ -2460,9 +2460,13 @@ public class KinectManager : MonoBehaviour
 					
 					float displayWidth = cameraRect.width * displayMapsWidthPercent;
 					float displayHeight = cameraRect.width * displayMapsHeightPercent;
-					
-					usersMapRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
-				}
+
+                    //usersMapRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
+                    // 修改，使图像显示在屏幕中心
+                    usersMapRect = new Rect((cameraRect.width - displayWidth)/2, (cameraRect.height - displayHeight) /2, displayWidth, displayHeight);
+                    Debug.Log(usersMapRect);
+                    Debug.Log(cameraRect);
+                }
 
 	            GUI.DrawTexture(usersMapRect, usersLblTex);
 	        }
@@ -2484,14 +2488,16 @@ public class KinectManager : MonoBehaviour
 					
 					float displayWidth = cameraRect.width * displayMapsWidthPercent;
 					float displayHeight = cameraRect.width * displayMapsHeightPercent;
-					
-					usersClrRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
-						
-//					if(computeUserMap && displayColorMap)
-//					{
-//						usersMapRect.x -= cameraRect.width * displayMapsWidthPercent;
-//					}
-				}
+
+                    //usersClrRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
+
+                    //					if(computeUserMap && displayColorMap)
+                    //					{
+                    //						usersMapRect.x -= cameraRect.width * displayMapsWidthPercent;
+                    //					}
+                    // 修改，使图像显示在屏幕中心
+                    usersClrRect = new Rect((cameraRect.width - displayWidth) / 2, (cameraRect.height - displayHeight) / 2, displayWidth, displayHeight);
+                }
 
 				//GUI.DrawTexture(usersClrRect, usersClrTex);
 				GUI.DrawTexture(usersClrRect, sensorData.colorImageTexture);
