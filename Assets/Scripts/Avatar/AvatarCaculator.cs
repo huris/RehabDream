@@ -620,4 +620,22 @@ public class AvatarCaculator : MonoBehaviour
         return _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
     }
 
+    // position of spine
+    public Vector3 GetSpinePosition()
+    {
+        return _Animator.GetBoneTransform(HumanBodyBones.Spine).position;
+    }
+
+    // InitDistance for evaluate
+    public float InitDistance()
+    {
+        Vector3 temp = _Animator.GetBoneTransform(HumanBodyBones.LeftHand).position -
+            _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+
+        float HandLength = temp.sqrMagnitude;
+
+        Debug.Log(HandLength);
+        return HandLength;
+    }
+
 }

@@ -254,9 +254,6 @@
     <Reference Include="LZ4Sharp">
       <HintPath>Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets/Scripts/Kinect/SharpZipLib/ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Poly2Tri">
       <HintPath>Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
     </Reference>
@@ -265,6 +262,12 @@
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>Assets/Plugins/itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LCPrinter">
+      <HintPath>Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -414,6 +417,10 @@
     <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+    <None Include="Assets\MaterialUI\CHANGELOG.txt" />
+    <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
+    <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
+    <None Include="Assets\MaterialUI\README.txt" />
     <None Include="Assets\Plugins\UWP\Attribution.txt" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
@@ -463,6 +470,7 @@
     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
     <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
+    <None Include="Assets\printer\LCPrinter\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

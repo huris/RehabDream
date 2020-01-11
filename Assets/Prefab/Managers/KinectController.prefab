@@ -62,10 +62,10 @@ MonoBehaviour:
   computeUserMap: 3
   computeColorMap: 0
   computeInfraredMap: 0
-  displayUserMap: 0
-  displayColorMap: 0
+  displayUserMap: 1
+  displayColorMap: 1
   displaySkeletonLines: 1
-  DisplayMapsWidthPercent: 20
+  DisplayMapsWidthPercent: 40
   useMultiSourceReader: 0
   minUserDistance: 0.5
   maxUserDistance: 0
