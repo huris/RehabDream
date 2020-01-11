@@ -251,7 +251,7 @@ public class GameUIHandle : UIHandle
 
         // set MaxDirection = Evaluate Direction
         PatientDataManager.instance.SetMaxDirection(
-            PatientDatabaseManager.instance.ReadEvaluateDirection(PatientDataManager.instance.TrainingID)
+            PatientDatabaseManager.instance.ReadEvaluateDirection(PatientDataManager.instance.PatientID)
             );
     }
 
@@ -267,6 +267,11 @@ public class GameUIHandle : UIHandle
             result.PlanCount,
             PatientDataManager.Str2DirectionType(result.PlanDirection),
             result.PlanTime
+            );
+
+        // set MaxDirection = Evaluate Direction
+        PatientDataManager.instance.SetMaxDirection(
+            PatientDatabaseManager.instance.ReadEvaluateDirection(PatientDataManager.instance.TrainingID)
             );
     }
 

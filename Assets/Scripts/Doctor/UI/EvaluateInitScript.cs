@@ -74,7 +74,11 @@ public class EvaluateInitScript : MonoBehaviour
 
 		PatientDataManager.instance.SetTrainingID(evaluation.TrainingID);
 		PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
-		PatientDataManager.instance.SetIsEvaluated(1);
+        PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty));
+        PatientDataManager.instance.SetPlanCount(DoctorDataManager.instance.patient.trainingPlan.PlanCount);
+        PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.patient.trainingPlan.PlanDirection));
+        PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.patient.trainingPlan.PlanTime);
+        PatientDataManager.instance.SetIsEvaluated(1);
 		SceneManager.LoadScene("Game");
 	}
 }
