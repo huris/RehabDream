@@ -3866,7 +3866,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 531226590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -274.80487, z: 0}
+  m_LocalPosition: {x: 2, y: -319.07904, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1414728490}
@@ -8678,7 +8678,7 @@ MonoBehaviour:
   SegmentWidth: 0.05
   StartColor: {r: 1, g: 0, b: 0, a: 1}
   EndColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  LineMaterial: {fileID: 2100000, guid: c00bb361760b7e6439ce0950bbe285f3, type: 2}
+  LineMaterial: {fileID: 2100000, guid: 7cbd7d7500d31744db0753306327ec8b, type: 2}
   gap: 0.2
   Positions: []
 --- !u!1 &1158813092
@@ -10399,7 +10399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u8BF7\u53CC\u624B\u63E1\u62F3\uFF0C\u4FDD\u6301\u4E09\u79D2\u949F"
+  m_Text: "\u8BF7\u6B63\u5BF9Kinect\u6444\u50CF\u5934\uFF0C\u4FDD\u6301\u4E09\u79D2\u949F"
 --- !u!222 &1311847805
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15272,8 +15272,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1752705775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 574, y: 294, z: 0}
-  m_LocalScale: {x: 0.896875, y: 0.896875, z: 0.896875}
+  m_LocalPosition: {x: 531.5, y: 309, z: 0}
+  m_LocalScale: {x: 0.8304688, y: 0.8304688, z: 0.8304688}
   m_Children:
   - {fileID: 2123786839}
   - {fileID: 1414728490}

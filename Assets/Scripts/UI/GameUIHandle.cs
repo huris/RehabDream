@@ -86,8 +86,13 @@ public class GameUIHandle : UIHandle
     {
         if (KinectDetectUI.activeSelf == true)
         {
+            if (KinectManager.Instance.displaySkeletonLines == false)
+            {
+                KinectManager.Instance.displaySkeletonLines = true;
+                KinectManager.Instance.displayColorMap = true;
+                KinectManager.Instance.displayUserMap = true;
+            }
             SetKinectStatus();
-
             long userId = KinectManager.Instance.GetPrimaryUserID();
 
             if (userId == 0)
@@ -96,22 +101,25 @@ public class GameUIHandle : UIHandle
             }
             else
             {
-                var leftHandState = KinectManager.Instance.GetLeftHandState(userId);
-                var rightHandState = KinectManager.Instance.GetRightHandState(userId);
-
-                // 检测到左右手均握拳
-                if (leftHandState == KinectInterop.HandState.Closed && rightHandState == KinectInterop.HandState.Closed)
+                if (GestureOver())
                 {
-                    if (GestureOver())
-                    {
-                        SetKinectDetectProgress(1);
-                        OnClickDirectStart();
-                    }
-                    else
-                    {
-                        SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
-                    }
+                    SetKinectDetectProgress(1);
+                    OnClickDirectStart();
                 }
+                else
+                {
+                    SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
+                }
+                
+            }
+        }
+        else
+        {
+            if (KinectManager.Instance.displaySkeletonLines == true)
+            {
+                KinectManager.Instance.displaySkeletonLines = false;
+                KinectManager.Instance.displayColorMap = false;
+                KinectManager.Instance.displayUserMap = false;
             }
         }
     }
