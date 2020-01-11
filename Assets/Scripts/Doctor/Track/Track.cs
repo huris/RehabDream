@@ -85,8 +85,8 @@ public class Track : MonoBehaviour {
             change.y = delta.y * gap;
             change.z = delta.z * gap;
             this.LineRendererList[i].SetPosition(1, this.Positions[i+1]- change);   //设置终点
-            this.LineRendererList[i].startWidth = (1 - gap) * (1 - gap) * delta.magnitude / HeighDivideWidth;
-            this.LineRendererList[i].endWidth = this.LineRendererList[i].startWidth;
+            //this.LineRendererList[i].startWidth = (1 - gap) * (1 - gap) * delta.magnitude / HeighDivideWidth;
+            //this.LineRendererList[i].endWidth = this.LineRendererList[i].startWidth;
         }
     }
 }
