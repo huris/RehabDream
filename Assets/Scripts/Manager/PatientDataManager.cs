@@ -246,6 +246,7 @@ public class PatientDataManager : MonoBehaviour{
         this.SuccessCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.GameCount = 0;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
@@ -255,6 +256,7 @@ public class PatientDataManager : MonoBehaviour{
         this.SuccessCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.GameCount = 0;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
