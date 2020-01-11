@@ -42,7 +42,7 @@ public class GameState : MonoBehaviour
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
-    public static float AddDistancePercent = 0.1f;
+    public static float AddDistancePercent = 1f;
     public static float MaxDistancePercent = 1.1f;
     public static float MinDistancePercent = 0.8f;
 
@@ -429,6 +429,8 @@ public class GameState : MonoBehaviour
             PatientDataManager.instance.PlanCount - 1
             );
 
+        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+
         Debug.Log("@GameState: UpdateTrainingPlan Over");
     }
 
@@ -596,7 +598,6 @@ public class GameState : MonoBehaviour
     // Target is near(left shoulder, right shoulder)
     private Vector3 GenerateEntryTarget(){
         Vector3 Target = _Caculator.GetSpinePosition(); //default target
-       
         if (NoFail())
         {
             if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)       
@@ -645,7 +646,6 @@ public class GameState : MonoBehaviour
     private Vector3 GeneratePrimaryTarget()
     {
         Vector3 Target = _Caculator.GetSpinePosition(); //default target
-
         if (NoFail())
         {
             if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)

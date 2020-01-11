@@ -191,6 +191,11 @@ public class PatientItemScript : MonoBehaviour {
 
             PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);
             PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.patient.MaxSuccessCount);
+            PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty));
+            PatientDataManager.instance.SetPlanCount(DoctorDataManager.instance.patient.trainingPlan.PlanCount);
+            PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.patient.trainingPlan.PlanDirection));
+            PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.patient.trainingPlan.PlanTime);
+            PatientDataManager.instance.SetIsEvaluated(0);
             SceneManager.LoadScene("Game");  // 如果登录成功,则进入医生管理界面
         }
         else
