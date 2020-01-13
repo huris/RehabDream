@@ -42,7 +42,7 @@ public class GameState : MonoBehaviour
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
-    public static float AddDistancePercent = 1f;
+    public static float AddDistancePercent = 0.1f;
     public static float MaxDistancePercent = 1.1f;
     public static float MinDistancePercent = 0.8f;
 
@@ -410,7 +410,8 @@ public class GameState : MonoBehaviour
             PatientDataManager.instance.SuccessCount,
             PatientDataManager.DirectionType2Str(PatientDataManager.instance.TrainingDirection),
             PatientDataManager.instance.TrainingTime,
-            PatientDataManager.instance.IsEvaluated
+            PatientDataManager.instance.IsEvaluated,
+            EvaluatedSocre(PatientDataManager.instance.MaxDirection)
             );
 
         Debug.Log("@GameState: WritePatientRecord Over");
@@ -432,6 +433,19 @@ public class GameState : MonoBehaviour
         DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
 
         Debug.Log("@GameState: UpdateTrainingPlan Over");
+    }
+
+
+    private float EvaluatedSocre(float[] MaxDirections)
+    {
+        float Sin45 = Mathf.Sqrt(2) / 2;
+        float Socre = 0;
+
+        for (int i = 0; i < MaxDirections.Length; i++)
+        {
+            Socre += 0.5f * MaxDirections[i] * MaxDirections[(i + 1) % 8] * Sin45;
+        }
+        return Socre;
     }
 
     //game is over now
