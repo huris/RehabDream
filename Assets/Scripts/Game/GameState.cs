@@ -411,7 +411,7 @@ public class GameState : MonoBehaviour
             PatientDataManager.DirectionType2Str(PatientDataManager.instance.TrainingDirection),
             PatientDataManager.instance.TrainingTime,
             PatientDataManager.instance.IsEvaluated,
-            EvaluatedSocre(PatientDataManager.instance.MaxDirection)
+            EvaluationSocre(PatientDataManager.instance.MaxDirection)
             );
 
         Debug.Log("@GameState: WritePatientRecord Over");
@@ -436,7 +436,7 @@ public class GameState : MonoBehaviour
     }
 
 
-    private float EvaluatedSocre(float[] MaxDirections)
+    private float EvaluationSocre(float[] MaxDirections)
     {
         float Sin45 = Mathf.Sqrt(2) / 2;
         float Socre = 0;
