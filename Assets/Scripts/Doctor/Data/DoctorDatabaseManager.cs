@@ -257,6 +257,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TrainingDirection",
                     "TrainingTime",
                     "IsEvaluated",
+                    "EvaluationScore",
                     "" },
 
                 new String[] {
@@ -270,6 +271,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
+                    "FLOAT",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create PatientRecordTable");
