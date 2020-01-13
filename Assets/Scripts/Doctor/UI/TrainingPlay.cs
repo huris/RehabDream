@@ -13,12 +13,18 @@ public class TrainingPlay
     public long GameCount { get; private set; } = 0;
     public string TrainingDirection { get; private set; } = "全方位";
     public long TrainingTime { get; private set; } = 20;
+    public float EvaluationScore { get; private set; } = 0.0f;
 
     public List<Angle> angles = new List<Angle>();      // 患者角度
 
     public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
 
     public Direction direction = new Direction();  // 患者8个方向的最大值
+
+    public void SetEvaluationScore()
+    {
+        this.EvaluationScore = this.direction.GetRadarArea();
+    }
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, 
         long SuccessCount, long GameCount, string TrainingDirection, long TrainingTime)
