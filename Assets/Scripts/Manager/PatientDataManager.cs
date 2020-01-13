@@ -196,6 +196,11 @@ public class PatientDataManager : MonoBehaviour{
         this.TimeCount = TimeCount;
     }
 
+    public void SetPlanTime(long PlanTime)
+    {
+        this.PlanTime = PlanTime;
+    }
+
     // set FinishCount
     public void SetSuccessCount(long SuccessCount)
     {
@@ -244,6 +249,11 @@ public class PatientDataManager : MonoBehaviour{
         this.seVolume = Volume;
     }
 
+    public void SetPlanDirection(DirectionType PlanDirection)
+    {
+        this.PlanDirection= PlanDirection;
+    }
+
     // reset game data when restart game
     public void ResetGameData()
     {
@@ -251,6 +261,7 @@ public class PatientDataManager : MonoBehaviour{
         this.SoccerTrackTips = true;
         this.WordTips = true;
         this.GameCount = 0;
+        this.TimeCount = 0f;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
@@ -261,6 +272,7 @@ public class PatientDataManager : MonoBehaviour{
         this.SoccerTrackTips = true;
         this.WordTips = true;
         this.GameCount = 0;
+        this.TimeCount = 0f;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
