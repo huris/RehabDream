@@ -182,6 +182,7 @@
      <Compile Include="Assets\Standard Assets\Windows\Kinect\Vector4.cs" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
+     <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -236,15 +237,18 @@
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
      <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
+     <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
      <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
      <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+     <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
+     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
  <Reference Include="UnityEngine.UI">
@@ -312,6 +316,12 @@
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="DemiLib">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenPro">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
