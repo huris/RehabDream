@@ -353,13 +353,13 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "TrainingID",
                     "UponDirection",
-                    "UponLeftDirection",
                     "UponRightDirection",
+                    "RightDirection",
+                    "DownRightDirection",
                     "DownDirection",
                     "DownLeftDirection",
-                    "DownRightDirection",
                     "LeftDirection",
-                    "RightDirection",
+                    "UponLeftDirection",
                      },
 
                 new String[] {
