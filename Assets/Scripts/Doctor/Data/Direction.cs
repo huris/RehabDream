@@ -13,6 +13,8 @@ public class Direction
     public float DownLeftDirection { get; private set; } = 0;
     public float LeftDirection { get; private set; } = 0;
     public float UponLeftDirection { get; private set; } = 0;
+    public float DirectionRadarArea { get; private set; } = 0f;
+    public List<float> DirectionAreaRate { get; private set; } = null;
 
     public Direction(float UponDirection, float UponRightDirection, float RightDirection, float DownRightDirection,
         float DownDirection, float DownLeftDirection, float LeftDirection, float UponLeftDirection)
@@ -25,6 +27,9 @@ public class Direction
         this.DownLeftDirection = DownLeftDirection;
         this.LeftDirection = LeftDirection;
         this.UponLeftDirection = UponLeftDirection;
+
+        this.DirectionRadarArea = this.GetRadarArea();
+        this.DirectionAreaRate = this.GetDirectionAreaRate();
     }
 
     public void SetCompleteDirections(float UponDirection, float UponRightDirection, float RightDirection, float DownRightDirection,
@@ -58,5 +63,13 @@ public class Direction
            this.RightDirection * this.DownRightDirection + this.DownRightDirection * this.DownDirection +
            this.DownDirection * this.DownLeftDirection + this.DownLeftDirection * this.LeftDirection +
            this.LeftDirection * this.UponLeftDirection + this.UponLeftDirection * this.UponDirection);
+    }
+
+    public List<float> GetDirectionAreaRate()
+    {
+        return new List<float>{ this.UponDirection/this.DirectionRadarArea, this.UponRightDirection/this.DirectionRadarArea, 
+                                this.RightDirection/this.DirectionRadarArea, this.DownRightDirection/this.DirectionRadarArea,
+                                this.DownDirection/this.DirectionRadarArea, this.DownLeftDirection/this.DirectionRadarArea,
+                                this.LeftDirection/this.DirectionRadarArea, this.UponLeftDirection/this.DirectionRadarArea};
     }
 }

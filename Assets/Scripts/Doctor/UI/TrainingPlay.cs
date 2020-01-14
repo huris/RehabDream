@@ -44,7 +44,7 @@ public class TrainingPlay
         this.gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(this.TrainingID);
         this.direction = DoctorDatabaseManager.instance.ReadDirectionRecord(this.TrainingID);
 
-        this.EvaluationScore = this.direction.GetRadarArea();
+        this.SetEvaluationScore();
     }
 
 
