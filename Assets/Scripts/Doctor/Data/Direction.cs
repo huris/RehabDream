@@ -14,6 +14,19 @@ public class Direction
     public float LeftDirection { get; private set; } = 0;
     public float UponLeftDirection { get; private set; } = 0;
 
+    public Direction(float UponDirection, float UponRightDirection, float RightDirection, float DownRightDirection,
+        float DownDirection, float DownLeftDirection, float LeftDirection, float UponLeftDirection)
+    {
+        this.UponDirection = UponDirection;
+        this.UponRightDirection = UponRightDirection;
+        this.RightDirection = RightDirection;
+        this.DownRightDirection = DownRightDirection;
+        this.DownDirection = DownDirection;
+        this.DownLeftDirection = DownLeftDirection;
+        this.LeftDirection = LeftDirection;
+        this.UponLeftDirection = UponLeftDirection;
+    }
+
     public void SetCompleteDirections(float UponDirection, float UponRightDirection, float RightDirection, float DownRightDirection,
         float DownDirection, float DownLeftDirection, float LeftDirection, float UponLeftDirection)
     {

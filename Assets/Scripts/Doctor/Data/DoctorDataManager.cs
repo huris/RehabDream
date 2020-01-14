@@ -2,24 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class DoctorDataManager : MonoBehaviour {
 
     // Singleton instance holder
     public static DoctorDataManager instance = null;
 
-    //[Header("PatientMessage")]
-    public Patient patient = new Patient();
-    public int PatientIndex = 0;
-
-    public Patient TempPatient = new Patient();
-    public int TempPatientIndex = 0;
-
-    // PatientID, PatientName, PatientPassword, DoctorID, PatientAge, PatientSex, PatientHeight, PatientWeight
-    public List<Patient> Patients = new List<Patient>();
-
-    public Doctor doctor = new Doctor();
-    public List<Doctor>Doctors = new List<Doctor>();
+    public Doctor doctor = null;
+    public List<Doctor>Doctors = null;
 
 
     void Awake()
@@ -38,16 +29,95 @@ public class DoctorDataManager : MonoBehaviour {
         DontDestroyOnLoad(this);
     }
 
-    // 对单个患者进行赋值
-    public void SetPatientCompleteInformation(int PatientIndex)
+    public bool DoctorLoginCheck(string DoctorID, string DoctorPassword)
     {
-        this.patient = this.Patients[PatientIndex];
- 
-        this.PatientIndex = PatientIndex;
+        if (DoctorID == "root")
+        {
+            // 如果管理员账号不存在，则创建一个
+            if (DoctorDatabaseManager.instance.CheckRoot() == DoctorDatabaseManager.DatabaseReturn.Success)
+            {
+                this.doctor = new Doctor(12345, DoctorDatabaseManager.instance.MD5Encrypt("root"), "root");
+                DoctorDatabaseManager.instance.DoctorRegister(this.doctor);
+            }
 
-        this.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.patient.PatientID);
-        this.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 0);
-        this.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 1);
+            if (DoctorDatabaseManager.instance.DoctorNameLogin(DoctorID, DoctorPassword) == DoctorDatabaseManager.DatabaseReturn.Success)
+            {
+
+                //print("成功");
+                this.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID);
+
+                //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+
+                //foreach(var item in DoctorDataManager.instance.Patients)
+                //{
+                //    print(item.PatientPinyin);
+                //}
+                return true;
+                //SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+            }
+            else  // 如果账号密码不正确,则提示
+            {
+                return false;
+                //ErrorInformation.SetActive(true);
+            }
+
+
+        }
+        // 判断是否存在该用户且账号密码正确
+        else if (DoctorID[0] >= '0' && DoctorID[0] <= '9')    // 如果为数字
+        {
+            if (DoctorDatabaseManager.instance.DoctorIDLogin(long.Parse(DoctorID), DoctorPassword) == DoctorDatabaseManager.DatabaseReturn.Success)
+            {
+                //print("成功");
+                this.doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(long.Parse(DoctorID));
+                this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+
+                //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                //DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+
+
+                //foreach(var item in DoctorDataManager.instance.Patients)
+                //{
+                //    print(item.PatientPinyin);
+                //}
+                return true;
+                //SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+            }
+            else  // 如果账号密码不正确,则提示
+            {
+                return false;
+                //ErrorInformation.SetActive(true);
+            }
+        }
+        else    // 否则为输入姓名
+        {
+            if (DoctorDatabaseManager.instance.DoctorNameLogin(DoctorID, DoctorPassword) == DoctorDatabaseManager.DatabaseReturn.Success)
+            {
+
+                //print("成功");
+                //DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
+                this.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID);
+                this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+                //print("成功");
+                //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+                //DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+
+
+                //foreach(var item in DoctorDataManager.instance.Patients)
+                //{
+                //    print(item.PatientPinyin);
+                //}
+                return true;
+                //SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
+            }
+            else  // 如果账号密码不正确,则提示
+            {
+                return false;
+                //ErrorInformation.SetActive(true);
+            }
+        }
     }
+
 
 }

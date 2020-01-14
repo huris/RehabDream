@@ -22,10 +22,10 @@ namespace XCharts
 
         void OnEnable()
         {
-            if (DoctorDataManager.instance.patient.Evaluations.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
-                DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].TrainingID);
-                GravityCenterCount = DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters.Count;
+                //DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].TrainingID);
+                GravityCenterCount = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].gravityCenters.Count;
                 //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[0].TrainingID);
                 GravityCenterChart = transform.Find("GravityCenterChart").GetComponent<LineChart>();
                 if (GravityCenterChart == null) GravityCenterChart = transform.Find("GravityCenterChart").gameObject.AddComponent<LineChart>();
@@ -135,7 +135,7 @@ namespace XCharts
                     //chart.AddXAxisData("x" + (i + 1)); 
                     // print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].gravityCenters[i].Coordinate);
                     GravityCenterChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    GravityCenterChart.AddData(0, 1000 * Vector3.Distance(DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters[i].Coordinate, DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters[0].Coordinate));
+                    GravityCenterChart.AddData(0, 1000 * Vector3.Distance(DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].gravityCenters[i].Coordinate, DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].gravityCenters[0].Coordinate));
                 }
             }
 

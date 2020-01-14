@@ -17,10 +17,10 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
     public GameObject PatientInfo;
     public GameObject PatientListBG;
 
-    public Dictionary<string, int> DoctorString2Int;
-    public Dictionary<int, string> DoctorInt2String;
+    public Dictionary<string, int> DoctorString2Int = new Dictionary<string, int>();
+    public Dictionary<int, string> DoctorInt2String = new Dictionary<int, string>();
 
-    public List<string> PatientDoctorName; 
+    public List<string> PatientDoctorName = new List<string>(); 
 
     // Use this for initialization
     void OnEnable() {
@@ -39,22 +39,28 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
 
-        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
-
-        DoctorString2Int = new Dictionary<string, int>();
-        DoctorInt2String = new Dictionary<int, string>();
-        PatientDoctorName = new List<string>();
-
-        for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+        if(DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
         {
-            DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-            DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-            PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
-        }
+            //DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-        PatientDoctorName.Add("请输入医生");
-        PatientDoctor.AddOptions(PatientDoctorName);
-        PatientDoctor.value = PatientDoctorName.Count;
+            DoctorString2Int.Clear();
+            DoctorInt2String.Clear();
+            PatientDoctorName.Clear();
+            PatientDoctor.ClearOptions();
+
+            //print(DoctorDataManager.instance.Doctors.Count);
+            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+            {
+                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
+                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+            }
+
+            PatientDoctorName.Add("请输入医生");
+            PatientDoctor.AddOptions(PatientDoctorName);
+            PatientDoctor.value = PatientDoctorName.Count;
+            //print(PatientDoctor.options.Count);
+        }
     }
 
     // Update is called once per frame
@@ -73,7 +79,12 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         // DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientSex, long.Parse(PatientAge.text, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowLeadingSign), DoctorDataManager.instance.doctor.DoctorID);
 
         // 如果用户没有选择医生，则传入医生工号为-1
-        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
+        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, PatientDoctor.value == PatientDoctorName.Count ? "root" : DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName);
+        if(DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
+        {
+            DoctorDataManager.instance.doctor.Patients[0].SetPatientData();
+            DoctorDataManager.instance.doctor.patient = DoctorDataManager.instance.doctor.Patients[0];
+        }
 
         PatientName.text = "";
         PatientDoctor.value = PatientDoctorName.Count;

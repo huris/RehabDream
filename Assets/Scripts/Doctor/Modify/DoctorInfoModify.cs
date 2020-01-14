@@ -92,6 +92,11 @@ public class DoctorInfoModify : MonoBehaviour {
     {
         try
         {
+            OldPasswordError.SetActive(false);
+            NewPasswordError.SetActive(false);
+            NewPasswordIsNotSame.SetActive(false);
+            ModifyPasswordSuccess.SetActive(false);
+
             if (MD5Encrypt(OldPassword.text) == DoctorDataManager.instance.doctor.DoctorPassword)
             {
                 if(NewPassword.text == NewPasswordAgain.text)

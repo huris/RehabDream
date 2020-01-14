@@ -27,11 +27,11 @@ namespace XCharts
 
         void OnEnable()
         {
-            if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
             {
                 //DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].TrainingID);
 
-                TrainingCount = DoctorDataManager.instance.patient.trainingPlays.Count;
+                TrainingCount = DoctorDataManager.instance.doctor.patient.trainingPlays.Count;
                 //TrainingCount = 10;
 
                 RadarAreaChart = transform.Find("RadarAreaChart").gameObject.GetComponent<LineChart>();
@@ -366,13 +366,13 @@ namespace XCharts
                     //print(TrainingCount);
 
                     RadarAreaChart.AddXAxisData((i + 1).ToString("0"));
-                    RadarAreaChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.GetRadarArea());
+                    RadarAreaChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea());
 
-                    print(DoctorDataManager.instance.patient.trainingPlays[i].direction.GetRadarArea()+"!!!");
+                    //print(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea()+"!!!");
                     //RadarAreaChart.AddData(0, i);
 
                     SuccessRateChart.AddXAxisData((i + 1).ToString("0"));
-                    float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.patient.trainingPlays[i].GameCount;
+                    float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.trainingPlays[i].GameCount;
                     SuccessRateChart.AddData(0, TrainingSuccessRate);
 
                     //DirectionsChart.AddXAxisData((i + 1).ToString("0"));

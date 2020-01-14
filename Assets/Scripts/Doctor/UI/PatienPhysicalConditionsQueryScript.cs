@@ -22,25 +22,25 @@ public class PatienPhysicalConditionsQueryScript : MonoBehaviour {
         PatientWeight = transform.Find("QueryPatientWeight/Text").GetComponent<Text>();
         PatientSymptom = transform.Find("QueryPatientSymptom/Text").GetComponent<Text>();
 
-        PatientName.text = DoctorDataManager.instance.patient.PatientName;
-        PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
-        PatientAge.text = DoctorDataManager.instance.patient.PatientAge.ToString();
+        PatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
+        PatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
+        PatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString();
 
-        if (DoctorDataManager.instance.patient.PatientHeight == -1) { 
+        if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1) { 
             PatientHeight.text = "未填写";
         }
         else {
-            PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
+            PatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString();
         }
 
-        if (DoctorDataManager.instance.patient.PatientWeight == -1) {
+        if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1) {
             PatientWeight.text = "未填写";
         }
         else{
-            PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+            PatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString();
         }
 
-        PatientSymptom.text = DoctorDataManager.instance.patient.PatientSymptom.ToString();
+        PatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom.ToString();
     }
 
     // Update is called once per frame

@@ -8,6 +8,13 @@ public class GravityCenter{
     public Vector3 Coordinate { get; private set; } = new Vector3(0f,0f,0f);
     public string Time { get; private set; } = "00000000 00:00:00";
 
+
+    public GravityCenter(Vector3 Coordinate, string Time)
+    {
+        this.Coordinate = Coordinate;
+        this.Time = Time;
+    }
+
     public void SetCoordinate(Vector3 Coordinate)
     {
         this.Coordinate = Coordinate;

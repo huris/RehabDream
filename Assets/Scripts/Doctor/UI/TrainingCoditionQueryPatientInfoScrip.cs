@@ -39,32 +39,32 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
 
         PatientInfoManagerItem = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
-        if(DoctorDataManager.instance.Patients.Count > 0)
+        if(DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
         {
-            PatientName.text = DoctorDataManager.instance.patient.PatientName;
-            PatientSex.text = DoctorDataManager.instance.patient.PatientSex;
-            PatientAge.text = DoctorDataManager.instance.patient.PatientAge.ToString();
+            PatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
+            PatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
+            PatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString();
 
-            if (DoctorDataManager.instance.patient.PatientHeight == -1)
+            if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
             {
                 PatientHeight.text = "未填写";
             }
             else
             {
-                PatientHeight.text = DoctorDataManager.instance.patient.PatientHeight.ToString();
+                PatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString();
             }
 
-            if (DoctorDataManager.instance.patient.PatientWeight == -1)
+            if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
             {
                 PatientWeight.text = "未填写";
             }
             else
             {
-                PatientWeight.text = DoctorDataManager.instance.patient.PatientWeight.ToString();
+                PatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString();
             }
 
-            PatientSymptom.text = DoctorDataManager.instance.patient.PatientSymptom;
-            PatientDoctor.text = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.patient.PatientDoctorID).DoctorName;
+            PatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom;
+            PatientDoctor.text = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.patient.PatientDoctorID).DoctorName;
 
             TrainingPlanNullText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingPlanNullText").gameObject;
             PlanDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/PlanDifficulty").gameObject;
@@ -74,7 +74,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             PlanTime = transform.Find("TrainingPlan/TrainingPlanImage/PlanTime").gameObject;
             PlanTimeText = transform.Find("TrainingPlan/TrainingPlanImage/PlanTime/Text").GetComponent<Text>();
 
-            if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+            if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
                 TrainingPlanNullText.SetActive(false);
                 PlanDifficulty.SetActive(true);
@@ -89,11 +89,11 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
                 PlanTime.SetActive(false);
             }
 
-            if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+            if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
-                PlanDifficultyText.text = DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty;
-                PlanDirectionText.text = DoctorDataManager.instance.patient.trainingPlan.PlanDirection.ToString();
-                PlanTimeText.text = DoctorDataManager.instance.patient.trainingPlan.PlanTime.ToString();
+                PlanDifficultyText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty;
+                PlanDirectionText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection.ToString();
+                PlanTimeText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString();
             }
         }
         else

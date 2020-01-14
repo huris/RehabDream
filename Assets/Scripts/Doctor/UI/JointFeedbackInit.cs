@@ -51,10 +51,10 @@ namespace XCharts
 
         void OnEnable()
         {
-            if (DoctorDataManager.instance.patient.trainingPlays.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
             {
-                DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].TrainingID);
-                AngleCount = DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles.Count;
+                //DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].TrainingID);
+                AngleCount = DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles.Count;
 
                 LeftRightChart = transform.Find("LeftRightChart").gameObject.GetComponent<LineChart>();
                 if (LeftRightChart == null) LeftRightChart = transform.Find("LeftRightChart").gameObject.AddComponent<LineChart>();
@@ -938,38 +938,38 @@ namespace XCharts
                     //chart.AddXAxisData("x" + (i + 1));
 
                     LeftRightChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    LeftRightChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftSideAngle);
-                    LeftRightChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightSideAngle);
+                    LeftRightChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftSideAngle);
+                    LeftRightChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightSideAngle);
 
                     UponDownChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    UponDownChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].UponSideAngle);
-                    UponDownChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].DownSideAngle);
+                    UponDownChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].UponSideAngle);
+                    UponDownChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].DownSideAngle);
 
                     ArmChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    ArmChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftArmAngle);
-                    ArmChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightArmAngle);
+                    ArmChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftArmAngle);
+                    ArmChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightArmAngle);
 
                     ElbowChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    ElbowChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftElbowAngle);
-                    ElbowChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightElbowAngle);
+                    ElbowChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftElbowAngle);
+                    ElbowChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightElbowAngle);
 
                     LegChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    LegChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftLegAngle);
-                    LegChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightLegAngle);
+                    LegChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftLegAngle);
+                    LegChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightLegAngle);
 
                     HipChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    HipChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftHipAngle);
-                    HipChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightHipAngle);
-                    HipChart.AddData(2, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].HipAngle);
+                    HipChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftHipAngle);
+                    HipChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightHipAngle);
+                    HipChart.AddData(2, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].HipAngle);
 
                     KneeChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    KneeChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftKneeAngle);
-                    KneeChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightKneeAngle);
+                    KneeChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftKneeAngle);
+                    KneeChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightKneeAngle);
 
                     AnkleChart.AddXAxisData((i * 0.2f).ToString("0.0"));
                     //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
-                    AnkleChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
-                    AnkleChart.AddData(1, DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].RightAnkleAngle);
+                    AnkleChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
+                    AnkleChart.AddData(1, DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles[i].RightAnkleAngle);
                 }
             }
 
