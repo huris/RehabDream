@@ -15,16 +15,38 @@ public class TrainingPlay
     public long TrainingTime { get; private set; } = 20;
     public float EvaluationScore { get; private set; } = 0.0f;
 
-    public List<Angle> angles = new List<Angle>();      // 患者角度
+    public List<Angle> angles = null;      // 患者角度
 
-    public List<GravityCenter> gravityCenters = new List<GravityCenter>();   // 患者重心变化
+    public List<GravityCenter> gravityCenters = null;   // 患者重心变化
 
-    public Direction direction = new Direction();  // 患者8个方向的最大值
+    public Direction direction = null;  // 患者8个方向的最大值
 
     public void SetEvaluationScore()
     {
         this.EvaluationScore = this.direction.GetRadarArea();
     }
+
+    public TrainingPlay() { }
+
+    public TrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty,
+        long SuccessCount, long GameCount, string TrainingDirection, long TrainingTime)
+    {
+        this.TrainingID = TrainingID;
+        this.TrainingStartTime = TrainingStartTime;
+        this.TrainingEndTime = TrainingEndTime;
+        this.TrainingDifficulty = TrainingDifficulty;
+        this.SuccessCount = SuccessCount;
+        this.GameCount = GameCount;
+        this.TrainingDirection = TrainingDirection;
+        this.TrainingTime = TrainingTime;
+
+        this.angles = DoctorDatabaseManager.instance.ReadAngleRecord(this.TrainingID);
+        this.gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(this.TrainingID);
+        this.direction = DoctorDatabaseManager.instance.ReadDirectionRecord(this.TrainingID);
+
+        this.EvaluationScore = this.direction.GetRadarArea();
+    }
+
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, 
         long SuccessCount, long GameCount, string TrainingDirection, long TrainingTime)
@@ -37,6 +59,12 @@ public class TrainingPlay
         this.GameCount = GameCount;
         this.TrainingDirection = TrainingDirection;
         this.TrainingTime = TrainingTime;
+
+        this.angles = DoctorDatabaseManager.instance.ReadAngleRecord(this.TrainingID);
+        this.gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(this.TrainingID);
+        this.direction = DoctorDatabaseManager.instance.ReadDirectionRecord(this.TrainingID);
+
+        this.EvaluationScore = this.direction.GetRadarArea();
     }
 
     // set TrainingID, Max_SuccessCount

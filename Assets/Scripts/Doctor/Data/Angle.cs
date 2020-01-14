@@ -57,7 +57,31 @@ public class Angle
     //    this.DownSideAngle = DownSideAngle;
     //    this.time = time;
     //}
-
+    public Angle(float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
+                              float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
+                              float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,
+                              float LeftSideAngle, float RightSideAngle, float UponSideAngle, float DownSideAngle,
+                              string time)
+    {
+        this.LeftArmAngle = LeftArmAngle;
+        this.RightArmAngle = RightArmAngle;
+        this.LeftLegAngle = LeftLegAngle;
+        this.RightLegAngle = RightLegAngle;
+        this.LeftElbowAngle = LeftElbowAngle;
+        this.RightElbowAngle = RightElbowAngle;
+        this.LeftKneeAngle = LeftKneeAngle;
+        this.RightKneeAngle = RightKneeAngle;
+        this.LeftHipAngle = LeftHipAngle;
+        this.RightHipAngle = RightHipAngle;
+        this.HipAngle = HipAngle;
+        this.LeftAnkleAngle = LeftAnkleAngle;
+        this.RightAnkleAngle = RightAnkleAngle;
+        this.LeftSideAngle = LeftSideAngle;
+        this.RightSideAngle = RightSideAngle;
+        this.UponSideAngle = UponSideAngle;
+        this.DownSideAngle = DownSideAngle;
+        this.time = time;
+    }
     public void SetCompleteAngles(float LeftArmAngle, float RightArmAngle, float LeftLegAngle, float RightLegAngle,
                               float LeftElbowAngle, float RightElbowAngle, float LeftKneeAngle, float RightKneeAngle, float LeftHipAngle,
                               float RightHipAngle, float HipAngle, float LeftAnkleAngle, float RightAnkleAngle,

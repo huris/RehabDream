@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PatientInfoAddButtonScript : MonoBehaviour {
+public class PatientInfoAddButtonScript : MonoBehaviour
+{
 
     public InputField PatientName;
     public string PatientSex;
@@ -26,16 +27,17 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
     public GameObject ErrorInformation;   // 输入内容为空
     public GameObject RegisterSuccess;   // 账号注册成功
     public GameObject WithNoDoctor;   // 未添加主治医生
+    public GameObject PatientAlreadyExist;  // 已存在该患者
 
     public GameObject PatientAdd;
     public GameObject PatientInfo;
     public GameObject PatientListBG;
     public GameObject PatientQuery;
 
-    public Dictionary<string, int> DoctorString2Int;
-    public Dictionary<int, string> DoctorInt2String;
+    public Dictionary<string, int> DoctorString2Int = new Dictionary<string, int>();
+    public Dictionary<int, string> DoctorInt2String = new Dictionary<int, string>();
 
-    public List<string> PatientDoctorName;
+    public List<string> PatientDoctorName = new List<string>();
 
     public EventSystem system;
 
@@ -62,7 +64,10 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
         RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
 
         WithNoDoctor = transform.parent.Find("WithNoDoctor").gameObject;   // 绑定错误信息
-        WithNoDoctor.SetActive(false);     // 设置语句刚开始处于未激活状态
+        WithNoDoctor.SetActive(false);     // 设置语句刚开始处于未激活状
+
+        PatientAlreadyExist = transform.parent.Find("PatientAlreadyExist").gameObject;
+        PatientAlreadyExist.SetActive(false);
 
         PatientAdd = transform.parent.parent.Find("PatientAdd").gameObject;
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
@@ -79,23 +84,26 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
 
         //print(DoctorDataManager.instance.Doctors.Count);
 
-        DoctorString2Int = new Dictionary<string, int>();
-        DoctorInt2String = new Dictionary<int, string>();
-        PatientDoctorName = new List<string>();
-
-        for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+        if (DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
         {
-            DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-            DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-            PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
-        }
+            DoctorString2Int.Clear();
+            DoctorInt2String.Clear();
+            PatientDoctorName.Clear();
+            PatientDoctor.ClearOptions();
 
-        PatientDoctorName.Add("请输入医生");
-        //print("请输入医生");
-        //print(PatientDoctorName.Count);
-        PatientDoctor.ClearOptions();
-        PatientDoctor.AddOptions(PatientDoctorName);
-        PatientDoctor.value = PatientDoctorName.Count;
+            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+            {
+                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
+                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+            }
+
+            PatientDoctorName.Add("请输入医生");
+            //print("请输入医生");
+            //print(PatientDoctorName.Count);
+            PatientDoctor.AddOptions(PatientDoctorName);
+            PatientDoctor.value = PatientDoctorName.Count;
+        }
 
         system = EventSystem.current;       // 获取当前的事件
     }
@@ -147,6 +155,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
             RegisterSuccess.SetActive(false);     // 设置语句刚开始处于未激活状态
             WithNoDoctor.SetActive(false);     // 设置语句刚开始处于未激活状态
+            PatientAlreadyExist.SetActive(false);
 
             PatientSex = "";
             if (Man.isOn) PatientSex = "男";
@@ -160,16 +169,20 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
             }
             else
             {
-                if (PatientName.text == "" || PatientSex == "" || PatientAge.text == "")
+                if (DoctorDatabaseManager.instance.CheckPatient(long.Parse(PatientID.text)) == DoctorDatabaseManager.DatabaseReturn.Fail)
+                {
+                    PatientAlreadyExist.SetActive(true);
+
+                }
+                else if (PatientName.text == "" || PatientSex == "" || PatientAge.text == "")
                 {
                     //print("1");
                     ErrorInformation.SetActive(true);
                 }
                 else
                 {
-                    Patient patient = new Patient();
-                    patient.setPatientCompleteMessage(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == ""?-1:long.Parse(PatientHeight.text), PatientWeight.text == ""?-1:long.Parse(PatientWeight.text));
-
+                    Patient patient = new Patient(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == "" ? -1 : long.Parse(PatientHeight.text), PatientWeight.text == "" ? -1 : long.Parse(PatientWeight.text));
+                    
                     //print(DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
                     DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
 
@@ -178,14 +191,14 @@ public class PatientInfoAddButtonScript : MonoBehaviour {
                         //print("成功");
                         RegisterSuccess.SetActive(true);
 
-                        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                        DoctorDataManager.instance.patient = patient;
+                        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
+                        DoctorDataManager.instance.doctor.patient = patient;
 
                         StartCoroutine(DelayTime(3));
                     }
                     else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
                     {
-                       // print("2");
+                        // print("2");
                         ErrorInformation.SetActive(true);
                     }
                 }

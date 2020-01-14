@@ -31,7 +31,8 @@ public class DisplayAllPatientScript : MonoBehaviour {
 	}
 
     public void DisplayAllPatientButonOnClick(){
-        DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
+
+        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
 
         PatientList.SetActive(false);
         PatientList.SetActive(true);

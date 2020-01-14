@@ -16,6 +16,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     public GameObject PlanMakingFail;
     public GameObject PlanDeleteSuccess;
     public GameObject PlanDeleteFail;
+    public GameObject NoEvaluationData;
 
     public Toggle PatientInfoManagerToggle;
 
@@ -60,61 +61,73 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         PatientInfoManagerToggle = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
-        DifficultString2Int = new Dictionary<string, int>();
-        DifficultString2Int.Add("请选择难度", 0);
-        DifficultString2Int.Add("入门", 1);
-        DifficultString2Int.Add("初级", 2);
-        DifficultString2Int.Add("一般", 3);
-        DifficultString2Int.Add("中级", 4);
-        DifficultString2Int.Add("高级", 5);
+        NoEvaluationData = transform.parent.Find("NoEvaluationData").gameObject;
 
-        DifficultInt2String = new Dictionary<int, string>();
-        DifficultInt2String.Add(0, "请选择难度");
-        DifficultInt2String.Add(1, "入门");
-        DifficultInt2String.Add(2, "初级");
-        DifficultInt2String.Add(3, "一般");
-        DifficultInt2String.Add(4, "中级");
-        DifficultInt2String.Add(5, "高级");
-
-        DirectionString2Int = new Dictionary<string, int>();
-        DirectionString2Int.Add("请选择方向", 0);
-        DirectionString2Int.Add("全方位", 1);
-        DirectionString2Int.Add("上", 2);
-        DirectionString2Int.Add("左上", 3);
-        DirectionString2Int.Add("右上", 4);
-        DirectionString2Int.Add("下", 5);
-        DirectionString2Int.Add("左下", 6);
-        DirectionString2Int.Add("右下", 7);
-        DirectionString2Int.Add("左", 8);
-        DirectionString2Int.Add("右", 9);
-
-        DirectionInt2String = new Dictionary<int, string>();
-        DirectionInt2String.Add(0, "请选择方向");
-        DirectionInt2String.Add(1, "全方位");
-        DirectionInt2String.Add(2, "上");
-        DirectionInt2String.Add(3, "左上");
-        DirectionInt2String.Add(4, "右上");
-        DirectionInt2String.Add(5, "下");
-        DirectionInt2String.Add(6, "左下");
-        DirectionInt2String.Add(7, "右下");
-        DirectionInt2String.Add(8, "左");
-        DirectionInt2String.Add(9, "右");
-
-        if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+        if(DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
         {
-            PlanDifficult.value = DifficultString2Int[DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty];
-            PlanDirection.value = DirectionString2Int[DoctorDataManager.instance.patient.trainingPlan.PlanDirection];
-            PlanTime.text = DoctorDataManager.instance.patient.trainingPlan.PlanTime.ToString();
+            NoEvaluationData.SetActive(false);
 
-            PlanMakingButtonText.text = "修改计划";
+            DifficultString2Int = new Dictionary<string, int>();
+            DifficultString2Int.Add("请选择难度", 0);
+            DifficultString2Int.Add("入门", 1);
+            DifficultString2Int.Add("初级", 2);
+            DifficultString2Int.Add("一般", 3);
+            DifficultString2Int.Add("中级", 4);
+            DifficultString2Int.Add("高级", 5);
+
+            DifficultInt2String = new Dictionary<int, string>();
+            DifficultInt2String.Add(0, "请选择难度");
+            DifficultInt2String.Add(1, "入门");
+            DifficultInt2String.Add(2, "初级");
+            DifficultInt2String.Add(3, "一般");
+            DifficultInt2String.Add(4, "中级");
+            DifficultInt2String.Add(5, "高级");
+
+            DirectionString2Int = new Dictionary<string, int>();
+            DirectionString2Int.Add("请选择方向", 0);
+            DirectionString2Int.Add("全方位", 1);
+            DirectionString2Int.Add("上", 2);
+            DirectionString2Int.Add("左上", 3);
+            DirectionString2Int.Add("右上", 4);
+            DirectionString2Int.Add("下", 5);
+            DirectionString2Int.Add("左下", 6);
+            DirectionString2Int.Add("右下", 7);
+            DirectionString2Int.Add("左", 8);
+            DirectionString2Int.Add("右", 9);
+
+            DirectionInt2String = new Dictionary<int, string>();
+            DirectionInt2String.Add(0, "请选择方向");
+            DirectionInt2String.Add(1, "全方位");
+            DirectionInt2String.Add(2, "上");
+            DirectionInt2String.Add(3, "左上");
+            DirectionInt2String.Add(4, "右上");
+            DirectionInt2String.Add(5, "下");
+            DirectionInt2String.Add(6, "左下");
+            DirectionInt2String.Add(7, "右下");
+            DirectionInt2String.Add(8, "左");
+            DirectionInt2String.Add(9, "右");
+
+            if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
+            {
+                PlanDifficult.value = DifficultString2Int[DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty];
+                PlanDirection.value = DirectionString2Int[DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection];
+                PlanTime.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString();
+
+                PlanMakingButtonText.text = "修改计划";
+            }
+            else
+            {
+                PlanDifficult.value = 0;
+                PlanDirection.value = 0;
+                PlanTime.text = "";
+
+                PlanMakingButtonText.text = "制定计划";
+            }
+
         }
         else
         {
-            PlanDifficult.value = 0;
-            PlanDirection.value = 0;
-            PlanTime.text = "";
-
-            PlanMakingButtonText.text = "制定计划";
+            NoEvaluationData.SetActive(true);
         }
 
         system = EventSystem.current;       // 获取当前的事件
@@ -173,22 +186,22 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
             DoctorDatabaseManager.DatabaseReturn RETURN;  // 返回修改训练计划结果
 
-            if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+            if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
-                RETURN = DoctorDatabaseManager.instance.ModifyPatientTrainingPlan(DoctorDataManager.instance.patient.PatientID, trainingPlan);
+                RETURN = DoctorDatabaseManager.instance.ModifyPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID, trainingPlan);
             }
             else
             {
-                RETURN = DoctorDatabaseManager.instance.MakePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID, trainingPlan);
+                RETURN = DoctorDatabaseManager.instance.MakePatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID, trainingPlan);
             }
 
             if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
             {
-                DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(true);
-                DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
+                DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+                //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
-                DoctorDataManager.instance.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
-                DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+                DoctorDataManager.instance.doctor.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+                //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
 
                 PlanMakingSuccess.SetActive(true);
 
@@ -215,14 +228,14 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         try
         {
-            if (DoctorDataManager.instance.patient.trainingPlan.PlanIsMaking)
+            if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
-                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.patient.PatientID);
+                DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.DeletePatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
 
                 if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
                 {
-                    DoctorDataManager.instance.patient.trainingPlan.SetPlanIsMaking(false);
-                    DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
+                    DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+                    //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
 
                     PlanDeleteSuccess.SetActive(true);
 

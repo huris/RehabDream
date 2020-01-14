@@ -25,10 +25,10 @@ public class PatientModifyInitScript : MonoBehaviour {
     public GameObject PatientInfo;
     public GameObject PatientListBG;
 
-    public Dictionary<string, int> DoctorString2Int;
-    public Dictionary<int, string> DoctorInt2String;
+    public Dictionary<string, int> DoctorString2Int = new Dictionary<string, int>();
+    public Dictionary<int, string> DoctorInt2String = new Dictionary<int, string>();
 
-    public List<string> PatientDoctorName;
+    public List<string> PatientDoctorName = new List<string>();
 
     public int PatientDoctorIndex;
 
@@ -63,36 +63,41 @@ public class PatientModifyInitScript : MonoBehaviour {
         PatientInfo = transform.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.Find("PatientListBG").gameObject;
 
-        PatientName.text = DoctorDataManager.instance.TempPatient.PatientName;
-        PatientAge.text = DoctorDataManager.instance.TempPatient.PatientAge.ToString();
-        PatientHeight.text = DoctorDataManager.instance.TempPatient.PatientHeight.ToString();
-        PatientWeight.text = DoctorDataManager.instance.TempPatient.PatientWeight.ToString();
-        PatientSymptom.text = DoctorDataManager.instance.TempPatient.PatientSymptom;
+        PatientName.text = DoctorDataManager.instance.doctor.TempPatient.PatientName;
+        PatientAge.text = DoctorDataManager.instance.doctor.TempPatient.PatientAge.ToString();
+        PatientHeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientHeight.ToString();
+        PatientWeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientWeight.ToString();
+        PatientSymptom.text = DoctorDataManager.instance.doctor.TempPatient.PatientSymptom;
 
-        if(DoctorDataManager.instance.TempPatient.PatientSex == "男") { Man.isOn = true; Woman.isOn = false; }
-        else if(DoctorDataManager.instance.TempPatient.PatientSex == "女") { Woman.isOn = true; Man.isOn = false; }
+        if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "男") { Man.isOn = true; Woman.isOn = false; }
+        else if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "女") { Woman.isOn = true; Man.isOn = false; }
 
-        DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
+        // DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-        DoctorString2Int = new Dictionary<string, int>();
-        DoctorInt2String = new Dictionary<int, string>();
-        PatientDoctorName = new List<string>();
-        
-        for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+        if(DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
         {
-            DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-            DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-            PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
-            
-            if(DoctorDataManager.instance.Doctors[i].DoctorID == DoctorDataManager.instance.patient.PatientDoctorID)
+            DoctorString2Int.Clear();
+            DoctorInt2String.Clear();
+            PatientDoctorName.Clear();
+            PatientDoctor.ClearOptions();
+
+            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
             {
-                PatientDoctorIndex = i;
+                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
+                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+
+                if (DoctorDataManager.instance.Doctors[i].DoctorID == DoctorDataManager.instance.doctor.patient.PatientDoctorID)
+                {
+                    PatientDoctorIndex = i;
+                }
             }
+
+            PatientDoctor.AddOptions(PatientDoctorName);
+
+            PatientDoctor.value = PatientDoctorIndex;
         }
-
-        PatientDoctor.AddOptions(PatientDoctorName);
-
-        PatientDoctor.value = PatientDoctorIndex;
+        
     }
 
     // Update is called once per frame
@@ -159,10 +164,26 @@ public class PatientModifyInitScript : MonoBehaviour {
                 PatientWeight.text = "-1";
             }
 
-            DoctorDataManager.instance.TempPatient.ModifyPatientInfo(PatientName.text, PatientSex, long.Parse(PatientAge.text), long.Parse(PatientHeight.text), long.Parse(PatientWeight.text), PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
-            DoctorDataManager.instance.Patients[DoctorDataManager.instance.TempPatientIndex] = DoctorDataManager.instance.TempPatient;
+            DoctorDataManager.instance.doctor.TempPatient.ModifyPatientInfo(PatientName.text, PatientSex, long.Parse(PatientAge.text), long.Parse(PatientHeight.text), long.Parse(PatientWeight.text), PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
 
-            DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.TempPatient);  // 修改数据库
+            if(DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID != DoctorDataManager.instance.doctor.DoctorID)
+            {
+                DoctorDataManager.instance.doctor.Patients.Remove(DoctorDataManager.instance.doctor.TempPatient);
+                
+                if(DoctorDataManager.instance.doctor.PatientIndex == DoctorDataManager.instance.doctor.TempPatientIndex)
+                {
+                    DoctorDataManager.instance.doctor.patient = DoctorDataManager.instance.doctor.Patients[0];
+                    DoctorDataManager.instance.doctor.patient.SetPatientData();
+                }
+            }
+
+            //DoctorDataManager.instance.doctor.Patients[DoctorDataManager.instance.doctor.TempPatientIndex] = DoctorDataManager.instance.doctor.TempPatient;
+            //if(DoctorDataManager.instance.doctor.PatientIndex == DoctorDataManager.instance.doctor.TempPatientIndex)
+            //{
+            //    DoctorDataManager.instance.doctor.patient = DoctorDataManager.instance.doctor.TempPatient;
+            //}
+
+            DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.doctor.TempPatient);  // 修改数据库
 
             ErrorInput.SetActive(false);
             ModifySuccess.SetActive(true);

@@ -16,9 +16,9 @@ public class TrainingDataInitScript : MonoBehaviour {
     {
         NoTrainingData = transform.Find("NoTrainingData").gameObject;
 
-		DoctorDataManager.instance.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 0);
+		//DoctorDataManager.instance.doctor.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 
-		if (DoctorDataManager.instance.patient.trainingPlays.Count > 0) NoTrainingData.SetActive(false);
+		if (DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0) NoTrainingData.SetActive(false);
         else NoTrainingData.SetActive(true);
     }
 	

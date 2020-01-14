@@ -78,89 +78,20 @@ public class DoctorLoginScript : MonoBehaviour {
     {
         try
         {
-            if(DoctorID.text == "root")
+            if(DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
             {
-                // 如果管理员账号不存在，则创建一个
-                if(DoctorDatabaseManager.instance.CheckRoot() == DoctorDatabaseManager.DatabaseReturn.Success)
-                {
-                    Doctor doctor = new Doctor();
-                    doctor.SetDoctorMessage(12345, DoctorDatabaseManager.instance.MD5Encrypt("root"), "root");
-                    DoctorDatabaseManager.instance.DoctorRegister(doctor);
-                }
-
-                if (DoctorDatabaseManager.instance.DoctorNameLogin(DoctorID.text, DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
-                {
-
-                    //print("成功");
-                    DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
-
-                    DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
-
-                    //foreach(var item in DoctorDataManager.instance.Patients)
-                    //{
-                    //    print(item.PatientPinyin);
-                    //}
-
-                    SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
-                }
-                else  // 如果账号密码不正确,则提示
-                {
-                    ErrorInformation.SetActive(true);
-                }
-
-
+                //print("2!!!");
+                SceneManager.LoadScene("03-DoctorUI");
             }
-            // 判断是否存在该用户且账号密码正确
-            else if(DoctorID.text[0] >= '0' && DoctorID.text[0] <= '9')    // 如果为数字
+            else
             {
-                if (DoctorDatabaseManager.instance.DoctorIDLogin(long.Parse(DoctorID.text), DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
-                {
-                    //print("成功");
-                    DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(long.Parse(DoctorID.text));
-
-                    DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
-
-                    //foreach(var item in DoctorDataManager.instance.Patients)
-                    //{
-                    //    print(item.PatientPinyin);
-                    //}
-
-                    SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
-                }
-                else  // 如果账号密码不正确,则提示
-                {
-                    ErrorInformation.SetActive(true);
-                }
+                //print("3!!!");
+                ErrorInformation.SetActive(true);
             }
-            else    // 否则为输入姓名
-            {
-                if (DoctorDatabaseManager.instance.DoctorNameLogin(DoctorID.text, DoctorPassword.text) == DoctorDatabaseManager.DatabaseReturn.Success)
-                {
-
-                    //print("成功");
-                    DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
-
-                    DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
-                    DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
-
-                    //foreach(var item in DoctorDataManager.instance.Patients)
-                    //{
-                    //    print(item.PatientPinyin);
-                    //}
-
-                    SceneManager.LoadScene("03-DoctorUI");  // 如果登录成功,则进入医生管理界面
-                }
-                else  // 如果账号密码不正确,则提示
-                {
-                    ErrorInformation.SetActive(true);
-                }
-            }
-                       
         }
         catch (Exception e) // 抛出异常
         {
+            //print("4!!!");
             ErrorInformation.SetActive(true);
         }
         

@@ -23,7 +23,7 @@ public class PatientSymptomModifyButtonScript : MonoBehaviour {
     void OnEnable () {
 
         PatientName = transform.parent.Find("ModifyPatientName/PatientName").GetComponent<Text>();
-        PatientName.text = DoctorDataManager.instance.patient.PatientName;
+        PatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
 
         NewPassword = transform.parent.Find("NewPassword/InputField").GetComponent<InputField>();
         NewPassword.text = "";
@@ -70,7 +70,7 @@ public class PatientSymptomModifyButtonScript : MonoBehaviour {
 
             // DoctorDataManager.instance.patient.setPatientPassword(MD5Encrypt(NewPassword.text));
 
-            DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.patient);
+            DoctorDatabaseManager.instance.PatientModify(DoctorDataManager.instance.doctor.patient);
 
             StartCoroutine(DelayTime(3));     // 延迟三秒后返回管理页面
         }

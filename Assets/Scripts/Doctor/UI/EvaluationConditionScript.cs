@@ -44,17 +44,17 @@ public class EvaluationConditionScript : MonoBehaviour
         Rank5 = transform.Find("Rank/5").gameObject;
         Rank5.SetActive(false);
 
-        if (DoctorDataManager.instance.patient.Evaluations.Count > 0)
+        if(DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
         {
-            int LastEvaluation = DoctorDataManager.instance.patient.Evaluations.Count - 1;
+            int LastEvaluation = DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1;
 
-            Difficult.text = DoctorDataManager.instance.patient.Evaluations[LastEvaluation].TrainingDifficulty;
-            SuccessCount.text = DoctorDataManager.instance.patient.Evaluations[LastEvaluation].SuccessCount.ToString();
-            GameCount.text = DoctorDataManager.instance.patient.Evaluations[LastEvaluation].GameCount.ToString();
-            StartTime.text = DoctorDataManager.instance.patient.Evaluations[LastEvaluation].TrainingStartTime;
-            EndTime.text = DoctorDataManager.instance.patient.Evaluations[LastEvaluation].TrainingEndTime;
+            Difficult.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingDifficulty;
+            SuccessCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount.ToString();
+            GameCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount.ToString();
+            StartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingStartTime;
+            EndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingEndTime;
 
-            double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.patient.Evaluations[LastEvaluation].SuccessCount / DoctorDataManager.instance.patient.Evaluations[LastEvaluation].GameCount;
+            double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount / DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount;
 
             if (TrainingEvaluationRate >= 0.95) Rank1.SetActive(true);
             else if (TrainingEvaluationRate >= 0.90) Rank2.SetActive(true);
