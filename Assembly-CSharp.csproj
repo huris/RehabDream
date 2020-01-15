@@ -302,9 +302,10 @@
      <Compile Include="Assets\MaterialUI\Utils\LitJson\ParserToken.cs" />
      <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\ObserveAttribute\ObserveAttribute.cs" />
      <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\PopupAttribute\PopupAttribute.cs" />
-     <Compile Include="Assets\Resources\printer\_Scripts\ScreenShot2Pdf.cs" />
-     <Compile Include="Assets\Resources\printer\_Scripts\Xml.cs" />
-     <Compile Include="Assets\Resources\printer\LCPrinter\LCExampleScript.cs" />
+     <Compile Include="Assets\printer\_Scripts\ScreenShot2Pdf.cs" />
+     <Compile Include="Assets\printer\_Scripts\ScreenShot2PdfWS.cs" />
+     <Compile Include="Assets\printer\_Scripts\Xml.cs" />
+     <Compile Include="Assets\printer\LCPrinter\LCExampleScript.cs" />
      <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
      <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
@@ -354,6 +355,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
@@ -589,7 +591,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
-     <None Include="Assets\Resources\printer\LCPrinter\Readme.txt" />
+     <None Include="Assets\printer\LCPrinter\Readme.txt" />
      <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
@@ -664,8 +666,14 @@
  <Reference Include="UnityEngine.SpatialTracking">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
+ <Reference Include="DemiLib">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+ </Reference>
  <Reference Include="DOTween">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenPro">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
@@ -686,7 +694,7 @@
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="LCPrinter">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Resources/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
  </Reference>
  <Reference Include="LZ4Sharp">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
@@ -699,12 +707,6 @@
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
- <Reference Include="DemiLib">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
- </Reference>
- <Reference Include="DOTweenPro">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

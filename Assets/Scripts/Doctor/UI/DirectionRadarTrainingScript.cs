@@ -91,7 +91,7 @@ namespace XCharts
                     }
                     // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
 
-                    RadarArea.Add(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea());
+                    RadarArea.Add(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.DirectionRadarArea);
 
                     if (i == 0)
                     {

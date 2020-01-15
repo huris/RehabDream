@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using iTextSharp.text;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +15,11 @@ public class EvaluateInitScript : MonoBehaviour
     public Text EvaluateTime;
     public Text EvaluateButtonText;
 
-    public GameObject PrintButton;
+    public GameObject ReadReportButton;
+
+    public GameObject Report;
+    public Toggle EvaluationToggle;
+    //public GameObject SaveButton;
 
     // Use this for initialization
     void Start()
@@ -26,7 +32,11 @@ public class EvaluateInitScript : MonoBehaviour
         NoEvaluateData = transform.Find("NoEvaluateData").gameObject;
         EvaluateTime = transform.Find("DataBG/EvaluateTime").GetComponent<Text>();
         EvaluateButtonText = transform.Find("DataBG/EvaluateButton/Text").GetComponent<Text>();
-        PrintButton = transform.Find("DataBG/PrintButton").gameObject;
+        ReadReportButton = transform.Find("DataBG/ReadReportButton").gameObject;
+
+        Report = transform.parent.parent.parent.Find("Report").gameObject;
+        EvaluationToggle = transform.parent.parent.parent.Find("Report/Evaluation").GetComponent<Toggle>();
+        //SaveButton = transform.Find("DataBG/SaveButton").gameObject;
 
         //DoctorDataManager.instance.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.patient.PatientID, 1);
 
@@ -35,7 +45,10 @@ public class EvaluateInitScript : MonoBehaviour
 
             NoEvaluateData.SetActive(false);
 
-            PrintButton.SetActive(true);
+            ReadReportButton.SetActive(true);
+
+            Report.SetActive(false);
+            //SaveButton.SetActive(true);
 
             TrainingPlay LastEvaluation = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1];
             //print(LastEvaluation.TrainingStartTime);
@@ -45,7 +58,10 @@ public class EvaluateInitScript : MonoBehaviour
         else
         {
             NoEvaluateData.SetActive(true);
-            PrintButton.SetActive(false); ;
+            ReadReportButton.SetActive(false);
+            Report.SetActive(false);
+
+            //SaveButton.SetActive(false);
 
             EvaluateTime.text = "点击右侧按钮对患者进行状况评估";
             EvaluateButtonText.text = "状况评估";
@@ -82,6 +98,13 @@ public class EvaluateInitScript : MonoBehaviour
         PatientDataManager.instance.SetIsEvaluated(1);
         SceneManager.LoadScene("Game");
     }
+
+    public void ReadReportButtonOnclick()
+    {
+        Report.SetActive(true);
+        EvaluationToggle.isOn = true;
+    }
+
 }
 
 

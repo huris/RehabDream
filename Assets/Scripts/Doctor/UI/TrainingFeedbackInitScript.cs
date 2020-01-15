@@ -366,7 +366,7 @@ namespace XCharts
                     //print(TrainingCount);
 
                     RadarAreaChart.AddXAxisData((i + 1).ToString("0"));
-                    RadarAreaChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea());
+                    RadarAreaChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.DirectionRadarArea);
 
                     //print(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea()+"!!!");
                     //RadarAreaChart.AddData(0, i);

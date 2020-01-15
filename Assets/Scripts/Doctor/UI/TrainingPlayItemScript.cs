@@ -81,7 +81,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
                 float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.trainingPlays[i].GameCount;
                 this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
 
-                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea().ToString("0.00");
+                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.DirectionRadarArea.ToString("0.00");
 
                 this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
 

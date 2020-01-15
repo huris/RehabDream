@@ -43,6 +43,9 @@ public class Direction
         this.DownLeftDirection = DownLeftDirection;
         this.LeftDirection = LeftDirection;
         this.UponLeftDirection = UponLeftDirection;
+
+        this.DirectionRadarArea = this.GetRadarArea();
+        this.DirectionAreaRate = this.GetDirectionAreaRate();
     }
 
     public List<float> GetDirections()

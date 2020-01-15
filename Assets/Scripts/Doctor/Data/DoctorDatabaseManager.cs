@@ -27,7 +27,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
     // Singleton DoctorInstance holder
     public static DoctorDatabaseManager instance = null;
-    public static string UserFolderPath = "Data/";
+    public static string UserFolderPath = "Data/Database/";
     // .db is in data/
 
     private string PatientInfoTableName = "PatientInfo";

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 using UnityEngine.EventSystems;
+using System.IO;
 
 public class DoctorLoginScript : MonoBehaviour {
 
@@ -101,4 +102,5 @@ public class DoctorLoginScript : MonoBehaviour {
     {
         SceneManager.LoadScene("02-DoctorRegister");
     }
+
 }

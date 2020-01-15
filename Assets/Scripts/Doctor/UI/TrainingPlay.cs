@@ -23,7 +23,7 @@ public class TrainingPlay
 
     public void SetEvaluationScore()
     {
-        this.EvaluationScore = this.direction.GetRadarArea();
+        this.EvaluationScore = this.direction.DirectionRadarArea;
     }
 
     public TrainingPlay() { }
@@ -64,7 +64,7 @@ public class TrainingPlay
         this.gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(this.TrainingID);
         this.direction = DoctorDatabaseManager.instance.ReadDirectionRecord(this.TrainingID);
 
-        this.EvaluationScore = this.direction.GetRadarArea();
+        this.SetEvaluationScore();
     }
 
     // set TrainingID, Max_SuccessCount
