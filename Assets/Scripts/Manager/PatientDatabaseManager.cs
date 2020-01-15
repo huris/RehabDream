@@ -462,13 +462,13 @@ public class PatientDatabaseManager : MonoBehaviour
             if (reader.Read() && reader.HasRows)
             {   //存在训练记录
                 EvaluateDirection[0] = reader.GetFloat(reader.GetOrdinal("UponDirection"));
-                EvaluateDirection[1] = reader.GetFloat(reader.GetOrdinal("UponLeftDirection"));
-                EvaluateDirection[2] = reader.GetFloat(reader.GetOrdinal("UponRightDirection"));
-                EvaluateDirection[3] = reader.GetFloat(reader.GetOrdinal("DownDirection"));
-                EvaluateDirection[4] = reader.GetFloat(reader.GetOrdinal("DownLeftDirection"));
-                EvaluateDirection[5] = reader.GetFloat(reader.GetOrdinal("DownRightDirection"));
+                EvaluateDirection[1] = reader.GetFloat(reader.GetOrdinal("UponRightDirection"));
+                EvaluateDirection[2] = reader.GetFloat(reader.GetOrdinal("RightDirection"));
+                EvaluateDirection[3] = reader.GetFloat(reader.GetOrdinal("DownRightDirection"));
+                EvaluateDirection[4] = reader.GetFloat(reader.GetOrdinal("DownDirection"));
+                EvaluateDirection[5] = reader.GetFloat(reader.GetOrdinal("DownLeftDirection"));
                 EvaluateDirection[6] = reader.GetFloat(reader.GetOrdinal("LeftDirection"));
-                EvaluateDirection[7] = reader.GetFloat(reader.GetOrdinal("RightDirection"));
+                EvaluateDirection[7] = reader.GetFloat(reader.GetOrdinal("UponLeftDirection"));
             }
             else
             {

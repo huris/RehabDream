@@ -49,13 +49,13 @@ public class PatientDataManager : MonoBehaviour{
     public enum DirectionType
     {
         UponDirection,         //上
-        UponLeftDirection,     //左上
         UponRightDirection,    //右上
+        RightDirection,        //右
+        DownRightDirection,    //右下
         DownDirection,         //下
         DownLeftDirection,     //左下
-        DownRightDirection,    //右下
         LeftDirection,         //左
-        RightDirection,        //右
+        UponLeftDirection,     //左上
         AnyDirection           //任意方向
     }
 
@@ -139,7 +139,7 @@ public class PatientDataManager : MonoBehaviour{
     {
         this.PlanDifficulty = PlanDifficulty;
         //this.GameCount = GameCount;
-        this.PlanCount = PlanCount;
+        //this.PlanCount = PlanCount;
         this.PlanDirection = PlanDirection;
         this.PlanTime = PlanTime;
     }
