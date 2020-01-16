@@ -27,11 +27,11 @@ namespace XCharts
 
         void OnEnable()
         {
-            if (DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
-                //DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].TrainingID);
+                //DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].TrainingID);
 
-                TrainingCount = DoctorDataManager.instance.doctor.patient.trainingPlays.Count;
+                TrainingCount = DoctorDataManager.instance.doctor.patient.TrainingPlays.Count;
                 //TrainingCount = 10;
 
                 RadarAreaChart = transform.Find("RadarAreaChart").gameObject.GetComponent<LineChart>();
@@ -361,29 +361,29 @@ namespace XCharts
                 for (int i = 0; i < TrainingCount; i++)
                 {
                     //print(AngleCount);
-                    //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].TrainingID);
+                    //print(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].angles[i].TrainingID);
                     //chart.AddXAxisData("x" + (i + 1));
                     //print(TrainingCount);
 
                     RadarAreaChart.AddXAxisData((i + 1).ToString("0"));
-                    RadarAreaChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.DirectionRadarArea);
+                    RadarAreaChart.AddData(0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
 
-                    //print(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetRadarArea()+"!!!");
+                    //print(DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetRadarArea()+"!!!");
                     //RadarAreaChart.AddData(0, i);
 
                     SuccessRateChart.AddXAxisData((i + 1).ToString("0"));
-                    float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.trainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.trainingPlays[i].GameCount;
+                    float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
                     SuccessRateChart.AddData(0, TrainingSuccessRate);
 
                     //DirectionsChart.AddXAxisData((i + 1).ToString("0"));
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.UponDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.UponRightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.RightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.DownRightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.DownDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.DownLeftDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.LeftDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.trainingPlays[i].direction.UponLeftDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponRightDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.RightDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownRightDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownLeftDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.LeftDirection);
+                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponLeftDirection);
 
                 }
             }

@@ -74,24 +74,24 @@ namespace XCharts
             //serie.lineStyle.color = Color.red;
             //serie.lineStyle.width = 1;
 
-            if(DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
+            if(DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
-                if (DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 6) WhiteLine = "\n";
+                if (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 6) WhiteLine = "\n";
                 else WhiteLine = "\n\n";
 
                 //print(DoctorDataManager.instance.patient.Evaluations.Count+"!!!!");
 
-                for (int i = 0; i < DoctorDataManager.instance.doctor.patient.trainingPlays.Count; i++)
+                for (int i = 0; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
                 {
-                    //DoctorDataManager.instance.patient.trainingPlays[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.trainingPlays[i].TrainingID);
+                    //DoctorDataManager.instance.patient.TrainingPlays[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.TrainingPlays[i].TrainingID);
 
-                    if (i == DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1)
+                    if (i == DoctorDataManager.instance.doctor.patient.TrainingPlayIndex)
                     {
-                        DirectionRadarChart.AddData(0, DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.GetDirections(), "第" + (i + 1).ToString() + "次");
+                        DirectionRadarChart.AddData(0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirections(), "第" + (i + 1).ToString() + "次");
                     }
                     // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
 
-                    RadarArea.Add(DoctorDataManager.instance.doctor.patient.trainingPlays[i].direction.DirectionRadarArea);
+                    RadarArea.Add(DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
 
                     if (i == 0)
                     {

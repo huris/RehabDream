@@ -317,6 +317,8 @@
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
+     <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlan.cs" />
+     <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlay.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginExitButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginReturnButton.cs" />
      <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginScript.cs" />
@@ -360,9 +362,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingFeedbackInitScript.cs" />
-     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlan.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlanMakingDataInitScript.cs" />
-     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlay.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
      <Compile Include="Assets\Scripts\Game\GameState.cs" />
      <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />

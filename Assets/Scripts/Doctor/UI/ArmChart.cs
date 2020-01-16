@@ -17,10 +17,10 @@ namespace XCharts
 
         private void OnEnable()
         {
-            if (DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
 
-                m_DataNum = DoctorDataManager.instance.doctor.patient.trainingPlays[DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1].angles.Count;
+                m_DataNum = DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1].angles.Count;
             }
 
             chart = gameObject.GetComponent<LineChart>();

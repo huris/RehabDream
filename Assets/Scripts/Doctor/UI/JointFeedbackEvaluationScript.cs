@@ -934,7 +934,7 @@ namespace XCharts
                 for (int i = 0; i < AngleCount; i++)
                 {
                     //print(AngleCount);
-                    //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].TrainingID);
+                    //print(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].angles[i].TrainingID);
                     //chart.AddXAxisData("x" + (i + 1));
 
                     LeftRightChart.AddXAxisData((i * 0.2f).ToString("0.0"));
@@ -967,7 +967,7 @@ namespace XCharts
                     KneeChart.AddData(1, DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].angles[i].RightKneeAngle);
 
                     AnkleChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-                    //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].LeftAnkleAngle);
+                    //print(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].angles[i].LeftAnkleAngle);
                     AnkleChart.AddData(0, DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].angles[i].LeftAnkleAngle);
                     AnkleChart.AddData(1, DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].angles[i].RightAnkleAngle);
                 }

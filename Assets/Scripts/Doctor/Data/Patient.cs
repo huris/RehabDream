@@ -17,9 +17,11 @@ public class Patient
     public string PatientPinyin { get; private set; } = "";
     public long MaxSuccessCount { get; private set; } = 0;
     public bool PlanIsMaking { get; private set; } = false;
+    public int TrainingPlayIndex { get; private set; } = -1;
+    public int EvaluationIndex { get; private set; } = -1;
 
     public TrainingPlan trainingPlan = null;      // 患者训练计划
-    public List<TrainingPlay> trainingPlays = null;   // 患者训练列表
+    public List<TrainingPlay> TrainingPlays = null;   // 患者训练列表
     public List<TrainingPlay> Evaluations = null;   // 患者评估列表
 
     public Patient() { }
@@ -38,24 +40,40 @@ public class Patient
         this.PatientPinyin = Pinyin.GetPinyin(PatientName);
     }
 
+    public void SetTrainingPlayIndex(int TrainingPlayIndex)
+    {
+        this.TrainingPlayIndex = TrainingPlayIndex;
+    }
+
+    public void SetEvaluationIndex(int EvaluationIndex)
+    {
+        this.EvaluationIndex = EvaluationIndex;
+    }
+
     public void SetPatientData()
     {
-        if (this.trainingPlan == null) this.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.PatientID);
-        else this.PlanIsMaking = true;
+        this.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.PatientID);
+        if(this.trainingPlan != null) this.PlanIsMaking = true;
 
-        if(this.trainingPlays == null) this.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 0);
-        else
+        this.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 0);
+        if(this.TrainingPlays != null && this.TrainingPlays.Count > 0)
         {
-            foreach (var item in this.trainingPlays)
+            foreach (var item in this.TrainingPlays)
             {
                 if (this.MaxSuccessCount < item.SuccessCount)
                 {
                     this.MaxSuccessCount = item.SuccessCount;
                 }
             }
+
+            this.TrainingPlayIndex = this.TrainingPlays.Count - 1;
         }
 
-        if(this.Evaluations == null) this.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 1);        
+        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 1);        
+        if (this.Evaluations != null && this.Evaluations.Count > 0)
+        {
+            this.EvaluationIndex = this.Evaluations.Count - 1;
+        }
     }
 
     public void SetPatientPinyin(string PatientPinyin)
@@ -97,10 +115,13 @@ public class Patient
         this.MaxSuccessCount = patient.MaxSuccessCount;
 
         this.trainingPlan = patient.trainingPlan;
-        this.trainingPlays = patient.trainingPlays;
+        this.TrainingPlays = patient.TrainingPlays;
         this.Evaluations = patient.Evaluations;
 
         this.PlanIsMaking = patient.PlanIsMaking;
+
+        this.TrainingPlayIndex = patient.TrainingPlayIndex;
+        this.EvaluationIndex = patient.EvaluationIndex;
     }
 
     public void setPatientSymptom(string PatientSymptom)

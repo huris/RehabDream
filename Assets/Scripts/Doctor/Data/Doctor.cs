@@ -80,7 +80,7 @@ public class Doctor{
         this.PatientIndex = PatientIndex;
 
         //this.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.patient.PatientID);
-        //this.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 0);
+        //this.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 0);
         //this.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 1);
     }
 
@@ -93,7 +93,7 @@ public class Doctor{
         this.TempPatientIndex = TempPatientIndex;
 
         //this.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.patient.PatientID);
-        //this.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 0);
+        //this.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 0);
         //this.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.patient.PatientID, 1);
     }
 }

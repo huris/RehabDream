@@ -430,7 +430,8 @@ public class GameState : MonoBehaviour
             PatientDataManager.instance.PlanCount - 1
             );
 
-        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
+        //DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
+        DoctorDataManager.instance.doctor.patient.SetPatientData();
 
         Debug.Log("@GameState: UpdateTrainingPlan Over");
     }

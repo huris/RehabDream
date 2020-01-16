@@ -148,7 +148,7 @@ namespace XCharts
                 for (int i = 0; i < SurroundingCount; i++)
                 {
                     //print(AngleCount);
-                    //print(DoctorDataManager.instance.patient.trainingPlays[DoctorDataManager.instance.patient.trainingPlays.Count - 1].angles[i].TrainingID);
+                    //print(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].angles[i].TrainingID);
                     //chart.AddXAxisData("x" + (i + 1));
 
                     SurroundingChart.AddXAxisData((i * 0.2f).ToString("0.0"));

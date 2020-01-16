@@ -186,7 +186,7 @@ public class PatientItemScript : MonoBehaviour {
             TrainingPlay trainingPlay = new TrainingPlay();
             trainingPlay.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0) + DoctorDatabaseManager.instance.ReadPatientRecordCount(1));
 
-            DoctorDataManager.instance.doctor.patient.trainingPlays.Add(trainingPlay);
+            DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
 
             PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);
             PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.doctor.patient.MaxSuccessCount);

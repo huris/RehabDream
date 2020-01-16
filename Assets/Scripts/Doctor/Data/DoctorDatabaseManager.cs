@@ -1134,7 +1134,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     //print(res.PatientName);
                     //res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
                     //res.trainingPlan = this.ReadPatientTrainingPlan(res.PatientID);
-                    //res.trainingPlays = this.ReadPatientRecord(res.PatientID, 0);
+                    //res.TrainingPlays = this.ReadPatientRecord(res.PatientID, 0);
                     //res.Evaluations = this.ReadPatientRecord(res.PatientID, 1);
                     result.Add(res);
                 } while (reader.Read());
@@ -1195,7 +1195,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                        );
                     //res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
                     //res.trainingPlan = this.ReadPatientTrainingPlan(res.PatientID);
-                    //res.trainingPlays = this.ReadPatientRecord(res.PatientID, 0);
+                    //res.TrainingPlays = this.ReadPatientRecord(res.PatientID, 0);
                     //res.Evaluations = this.ReadPatientRecord(res.PatientID, 1);
                     result.Add(res);
                 } while (reader.Read());
@@ -1290,7 +1290,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                        );
                     //res.SetPatientPinyin(Pinyin.GetPinyin(res.PatientName));
                     //res.trainingPlan = this.ReadPatientTrainingPlan(res.PatientID);
-                    //res.trainingPlays = this.ReadPatientRecord(res.PatientID, 0);
+                    //res.TrainingPlays = this.ReadPatientRecord(res.PatientID, 0);
                     //res.Evaluations = this.ReadPatientRecord(res.PatientID, 1);
                     result.Add(res);
                 } while (reader.Read());

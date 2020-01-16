@@ -30,18 +30,18 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
         EndTimeMonth = transform.Find("EndTime/Month/InputField").GetComponent<InputField>();
         EndTimeDay = transform.Find("EndTime/Day/InputField").GetComponent<InputField>();
 
-        if (DoctorDataManager.instance.doctor.patient.trainingPlays != null && DoctorDataManager.instance.doctor.patient.trainingPlays.Count > 0)
+        if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
         {
             int FirstTrainingPlay = 0;
-            int LastTrainingPlay = DoctorDataManager.instance.doctor.patient.trainingPlays.Count - 1;
+            int LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1;
 
-            StartTimeYear.text = DoctorDataManager.instance.doctor.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(0,4);
-            StartTimeMonth.text = DoctorDataManager.instance.doctor.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(4, 2);
-            StartTimeDay.text = DoctorDataManager.instance.doctor.patient.trainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(6, 2);
+            StartTimeYear.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(0,4);
+            StartTimeMonth.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(4, 2);
+            StartTimeDay.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[FirstTrainingPlay].TrainingStartTime.Substring(6, 2);
 
-            EndTimeYear.text = DoctorDataManager.instance.doctor.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(0, 4);
-            EndTimeMonth.text = DoctorDataManager.instance.doctor.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(4, 2);
-            EndTimeDay.text = DoctorDataManager.instance.doctor.patient.trainingPlays[LastTrainingPlay].TrainingStartTime.Substring(6, 2);
+            EndTimeYear.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[LastTrainingPlay].TrainingStartTime.Substring(0, 4);
+            EndTimeMonth.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[LastTrainingPlay].TrainingStartTime.Substring(4, 2);
+            EndTimeDay.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[LastTrainingPlay].TrainingStartTime.Substring(6, 2);
         }
 
         TrainingPlayList = transform.Find("TrainingData/TrainingDataBG/TrainingPlayList").gameObject;
@@ -68,7 +68,7 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
         //print(EndTime);
 
-        DoctorDataManager.instance.doctor.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.doctor.patient.PatientID, StartTime, EndTime, 0);
+        DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientQueryHistoryRecord(DoctorDataManager.instance.doctor.patient.PatientID, StartTime, EndTime, 0);
 
         TrainingPlayList.SetActive(false);
 
@@ -77,7 +77,7 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
     public void DisplayAllTrainingButtonOnClick()
     {
-        DoctorDataManager.instance.doctor.patient.trainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
+        DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 
         TrainingPlayList.SetActive(false);
 
