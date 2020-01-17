@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PatientAddButtonScript : MonoBehaviour {
 
@@ -11,8 +14,14 @@ public class PatientAddButtonScript : MonoBehaviour {
 
     public GameObject NoPatient;
 
+    public Image PatientAddImage;
+    public Image PatientAllImage;
+    public Image PatientQueryImage;
+
+    public int direction = 10;
+
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         PatientAdd = transform.parent.Find("PatientAdd").gameObject;
         PatientInfo = transform.parent.Find("PatientInfo").gameObject;
@@ -20,12 +29,25 @@ public class PatientAddButtonScript : MonoBehaviour {
         PatientModify = transform.parent.Find("PatientModify").gameObject;
 
         NoPatient = transform.parent.Find("NoPatient").gameObject;
+
+        PatientAddImage = transform.GetComponent<Image>();
+        PatientAddImage.color = Color.white;
+
+        PatientAllImage = transform.parent.Find("PatientAllButton").GetComponent<Image>();
+        PatientAllImage.color = Color.white;
+
+        PatientQueryImage = transform.parent.Find("PatientQueryButton").GetComponent<Image>();
+        PatientQueryImage.color = Color.white;
+
+        if (DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
+        {
+            PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 1).SetLoops(8);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public void PatientAddButtonOnclick()
@@ -35,5 +57,10 @@ public class PatientAddButtonScript : MonoBehaviour {
         PatientListBG.SetActive(false);
         PatientModify.SetActive(false);
         NoPatient.SetActive(false);
+
+        PatientAllImage.color = Color.white;
+        PatientQueryImage.color = Color.white;
+
+        PatientAddImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
     }
 }

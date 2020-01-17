@@ -54,7 +54,7 @@ namespace XCharts
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
                 //DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].angles = DoctorDatabaseManager.instance.ReadAngleRecord(DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].TrainingID);
-                AngleCount = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].angles.Count;
+                AngleCount = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].angles.Count;
 
                 LeftRightChart = transform.Find("LeftRightChart").gameObject.GetComponent<LineChart>();
                 if (LeftRightChart == null) LeftRightChart = transform.Find("LeftRightChart").gameObject.AddComponent<LineChart>();

@@ -692,7 +692,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<Doctor> ReadAllDoctorInformation()
     {
         SqliteDataReader reader;    //sql读取器
-        List<Doctor> result = null; //返回值
+        List<Doctor> result = new List<Doctor>(); //返回值
         string QueryString = "SELECT * FROM DoctorInfo";
 
         //ORDER BY convert(name using gbk)
@@ -702,7 +702,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Doctor>();
+                //result = new List<Doctor>();
                 //存在用户训练任务
                 do
                 {
@@ -1094,7 +1094,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<Patient> ReadDoctorPatientInformation(long DoctorID, string DoctorName)
     {
         SqliteDataReader reader;    //sql读取器
-        List<Patient> result = null; //返回值
+        List<Patient> result = new List<Patient>(); //返回值
         string QueryString = "";
         
         if(DoctorID == 12345)   // 如果为root账户，则显示所有患者的信息
@@ -1115,7 +1115,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Patient>();
+                //result = new List<Patient>();
                 //存在用户训练任务
                 do
                 {
@@ -1163,7 +1163,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         //print("!!!!!");
         SqliteDataReader reader;    //sql读取器
-        List<Patient> result = null; //返回值
+        List<Patient> result = new List<Patient>(); //返回值
         string QueryString = "SELECT * FROM PatientInfo where DoctorID="+DoctorID.ToString();
 
         if (PatientName != "") QueryString += " and PatientName=" + AddSingleQuotes(PatientName);
@@ -1178,7 +1178,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Patient>();
+                //result = new List<Patient>();
                 //存在用户训练任务
                 do
                 {
@@ -1222,7 +1222,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         //print("!!!!!");
         SqliteDataReader reader;    //sql读取器
-        List<Patient> result = null; //返回值
+        List<Patient> result = new List<Patient>(); //返回值
         string QueryString = "";
 
         if(PatientName == "")   // 如果未填患者信息
@@ -1273,7 +1273,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Patient>();
+                //result = new List<Patient>();
                 //存在用户训练任务
                 do
                 {
@@ -1316,7 +1316,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<TrainingPlay> ReadPatientQueryHistoryRecord(long PatientID, string StartTime, string EndTime, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
-        List<TrainingPlay> result = null; //返回值
+        List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
         string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and TrainingStartTime >= " + AddSingleQuotes(StartTime) + " and TrainingEndTime <= " + AddSingleQuotes(EndTime) + " and IsEvaluated = "+ IsEvaluated.ToString() +" order by TrainingEndTime";
         //string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() +  " order by TrainingEndTime";
 
@@ -1327,7 +1327,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<TrainingPlay>();
+                //result = new List<TrainingPlay>();
                 //存在用户训练任务
                 do
                 {
@@ -1368,7 +1368,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<TrainingPlay> ReadPatientRecord(long PatientID, long IsEvaluated)
     {
         SqliteDataReader reader;    //sql读取器
-        List<TrainingPlay> result = null; //返回值
+        List<TrainingPlay> result = new List<TrainingPlay>(); //返回值
         string QueryString = "SELECT * FROM PatientRecord where PatientID=" + PatientID.ToString() + " and IsEvaluated = " + IsEvaluated.ToString() + " order by TrainingEndTime";
 
        //print(QueryString);
@@ -1379,7 +1379,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<TrainingPlay>();
+                //result = new List<TrainingPlay>();
                 //存在用户训练任务
                 do
                 {
@@ -1516,7 +1516,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<GravityCenter> ReadGravityCenterRecord(long TrainingID)
     {
         SqliteDataReader reader;    //sql读取器
-        List<GravityCenter> result = null; //返回值
+        List<GravityCenter> result = new List<GravityCenter>(); //返回值
         string QueryString = "SELECT * FROM GravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
 
         try
@@ -1525,7 +1525,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<GravityCenter>();
+                //result = new List<GravityCenter>();
                 //存在用户训练任务
                 do
                 {
@@ -1562,7 +1562,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<Angle> ReadAngleRecord(long TrainingID)
     {
         SqliteDataReader reader;    //sql读取器
-        List<Angle> result = null; //返回值
+        List<Angle> result = new List<Angle>(); //返回值
         string QueryString = "SELECT * FROM Angles where TrainingID=" + TrainingID.ToString() + " order by Time";
 
         try
@@ -1571,7 +1571,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Angle>();
+                //result = new List<Angle>();
                 //存在用户训练任务
                 do
                 {

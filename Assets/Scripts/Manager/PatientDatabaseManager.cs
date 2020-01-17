@@ -16,7 +16,7 @@ public class PatientDatabaseManager : MonoBehaviour
     // Singleton instance holder
     public static PatientDatabaseManager instance = null;
 
-    private string UserFolderPath = "Data/";
+    private string UserFolderPath = "Data/Database/";
     private string PatientInfoTableName = "PatientInfo";
     private string PatientRecordTableName = "PatientRecord";
     private string GravityCenterTableName = "GravityCenter";

@@ -69,7 +69,7 @@ public class Patient
             this.TrainingPlayIndex = this.TrainingPlays.Count - 1;
         }
 
-        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 1);        
+        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 1);                             
         if (this.Evaluations != null && this.Evaluations.Count > 0)
         {
             this.EvaluationIndex = this.Evaluations.Count - 1;

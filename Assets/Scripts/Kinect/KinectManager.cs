@@ -2461,10 +2461,10 @@ public class KinectManager : MonoBehaviour
 					float displayWidth = cameraRect.width * displayMapsWidthPercent;
 					float displayHeight = cameraRect.width * displayMapsHeightPercent;
 
-                    //usersMapRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
-                    // 修改，使图像显示在屏幕中心
-                    usersMapRect = new Rect((cameraRect.width - displayWidth)/2, (cameraRect.height - displayHeight) /2, displayWidth, displayHeight);
-                    Debug.Log(usersMapRect);
+					//usersMapRect = new Rect(cameraRect.width - displayWidth, cameraRect.height, displayWidth, -displayHeight);
+					// 修改，使图像显示在屏幕中心
+					usersMapRect = new Rect((cameraRect.width - displayWidth) / 2, (cameraRect.height - displayHeight) / 2, displayWidth, displayHeight);
+					Debug.Log(usersMapRect);
                     Debug.Log(cameraRect);
                 }
 

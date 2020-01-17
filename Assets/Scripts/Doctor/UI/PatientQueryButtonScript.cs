@@ -17,6 +17,10 @@ public class PatientQueryButtonScript : MonoBehaviour {
     public Toggle Man;
     public Toggle Woman;
 
+    public Image PatientAddImage;
+    public Image PatientAllImage;
+    public Image PatientQueryImage;
+
     // Use this for initialization
     void OnEnable () {
         PatientQuery = transform.parent.Find("PatientQuery").gameObject;
@@ -34,6 +38,15 @@ public class PatientQueryButtonScript : MonoBehaviour {
         PatientAge.text = "";
         Man.isOn = false;
         Woman.isOn = false;
+
+        PatientAddImage = transform.parent.Find("PatientAddButton").GetComponent<Image>();
+        PatientAddImage.color = Color.white;
+
+        PatientAllImage = transform.parent.Find("PatientAllButton").GetComponent<Image>();
+        PatientAllImage.color = Color.white;
+
+        PatientQueryImage = transform.parent.Find("PatientQueryButton").GetComponent<Image>();
+        PatientQueryImage.color = Color.white;
     }
 	
 	// Update is called once per frame
@@ -48,6 +61,11 @@ public class PatientQueryButtonScript : MonoBehaviour {
         PatientListBG.SetActive(false);
         PatientAdd.SetActive(false);
         PatientModify.SetActive(false);
+
+        PatientAddImage.color = Color.white;
+        PatientAllImage.color = Color.white;
+
+        PatientQueryImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
     }
 
 }

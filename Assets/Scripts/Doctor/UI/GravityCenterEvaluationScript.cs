@@ -25,7 +25,7 @@ namespace XCharts
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
                 //DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(DoctorDataManager.instance.patient.Evaluations[DoctorDataManager.instance.patient.Evaluations.Count - 1].TrainingID);
-                GravityCenterCount = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].gravityCenters.Count;
+                GravityCenterCount = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].gravityCenters.Count;
                 //print(DoctorDataManager.instance.patient.TrainingPlays[DoctorDataManager.instance.patient.TrainingPlays.Count - 1].gravityCenters[0].TrainingID);
                 GravityCenterChart = transform.Find("GravityCenterChart").GetComponent<LineChart>();
                 if (GravityCenterChart == null) GravityCenterChart = transform.Find("GravityCenterChart").gameObject.AddComponent<LineChart>();
