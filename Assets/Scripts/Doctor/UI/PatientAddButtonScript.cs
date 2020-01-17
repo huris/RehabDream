@@ -18,7 +18,8 @@ public class PatientAddButtonScript : MonoBehaviour {
     public Image PatientAllImage;
     public Image PatientQueryImage;
 
-    public int direction = 10;
+    public Sequence seq;
+    //public int direction = 10;
 
     // Use this for initialization
     void OnEnable()
@@ -41,7 +42,13 @@ public class PatientAddButtonScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
         {
-            PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 1).SetLoops(8);
+            Tweener t1 = PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.5f);
+            Tweener t2 = PatientAddImage.DOColor(Color.white, 0.5f);
+            seq = DOTween.Sequence();
+            seq.Append(t1);
+            seq.Append(t2);
+            seq.SetLoops(-1);
+            //PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 1).SetLoops(8);
         }
     }
 
@@ -60,6 +67,8 @@ public class PatientAddButtonScript : MonoBehaviour {
 
         PatientAllImage.color = Color.white;
         PatientQueryImage.color = Color.white;
+
+        seq.Kill();
 
         PatientAddImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
     }

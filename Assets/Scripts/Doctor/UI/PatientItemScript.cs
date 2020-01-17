@@ -35,6 +35,8 @@ public class PatientItemScript : MonoBehaviour {
 
     public GameObject NoPatient;
 
+    public GameObject PatentInfoManagerUI;
+
     void OnEnable()
     {
         NoPatient = transform.parent.parent.Find("NoPatient").gameObject;
@@ -130,6 +132,8 @@ public class PatientItemScript : MonoBehaviour {
             PatientHaveNoPlan = transform.parent.parent.Find("PatientHaveNoPlan").gameObject;
             PatientHaveNoPlan.SetActive(false);
             PatientHaveNoPlanText = transform.parent.parent.Find("PatientHaveNoPlan/Text").GetComponent<Text>();
+
+            PatentInfoManagerUI = transform.parent.parent.gameObject;
         }
         else
         {
@@ -350,6 +354,11 @@ public class PatientItemScript : MonoBehaviour {
             if(DoctorDataManager.instance.doctor.Patients.Count > 0)
             {
                 DoctorDataManager.instance.doctor.SetPatientCompleteInformation(0);
+            }
+            else
+            {
+                PatentInfoManagerUI.SetActive(false);
+                PatentInfoManagerUI.SetActive(true);
             }
         }
 
