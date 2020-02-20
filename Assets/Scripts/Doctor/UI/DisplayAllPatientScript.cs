@@ -51,7 +51,15 @@ public class DisplayAllPatientScript : MonoBehaviour {
         PatientAddImage.color = Color.white;
         PatientQueryImage.color = Color.white;
 
-        PatientAllImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
+
+        if (DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
+        {
+            PatientAllImage.color = Color.white;
+        }
+        else
+        {
+            PatientAllImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
+        }
 
         PatientList.SetActive(false);
         PatientList.SetActive(true);

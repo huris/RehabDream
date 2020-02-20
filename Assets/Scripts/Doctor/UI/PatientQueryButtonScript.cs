@@ -64,8 +64,15 @@ public class PatientQueryButtonScript : MonoBehaviour {
 
         PatientAddImage.color = Color.white;
         PatientAllImage.color = Color.white;
-
-        PatientQueryImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
+        
+        if(DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
+        {
+            PatientQueryImage.color = Color.white;
+        }
+        else
+        {
+            PatientQueryImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
+        }
     }
 
 }
