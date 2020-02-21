@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class PatientQueryButtonScript : MonoBehaviour {
     public Image PatientAddImage;
     public Image PatientAllImage;
     public Image PatientQueryImage;
+
+    public Sequence seq;
 
     // Use this for initialization
     void OnEnable () {
@@ -56,21 +59,36 @@ public class PatientQueryButtonScript : MonoBehaviour {
 
     public void PatientQueryButtonOnclick()
     {
-        PatientQuery.SetActive(true);
-        PatientInfo.SetActive(false);
-        PatientListBG.SetActive(false);
-        PatientAdd.SetActive(false);
-        PatientModify.SetActive(false);
-
-        PatientAddImage.color = Color.white;
-        PatientAllImage.color = Color.white;
-        
         if(DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
         {
             PatientQueryImage.color = Color.white;
+            PatientAllImage.color = Color.white;
+
+            PatientQuery.SetActive(false);
+            PatientAdd.SetActive(false);
+            PatientModify.SetActive(false);
+
+            PatientInfo.SetActive(true);
+            PatientListBG.SetActive(true);
+
+            Tweener t1 = PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.5f);
+            Tweener t2 = PatientAddImage.DOColor(Color.white, 0.5f);
+            seq = DOTween.Sequence();
+            seq.Append(t1);
+            seq.Append(t2);
+            seq.SetLoops(-1);
         }
         else
         {
+            PatientQuery.SetActive(true);
+            PatientInfo.SetActive(false);
+            PatientListBG.SetActive(false);
+            PatientAdd.SetActive(false);
+            PatientModify.SetActive(false);
+
+            PatientAddImage.color = Color.white;
+            PatientAllImage.color = Color.white;
+
             PatientQueryImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,8 @@ public class DisplayAllPatientScript : MonoBehaviour {
     public Image PatientAddImage;
     public Image PatientAllImage;
     public Image PatientQueryImage;
+
+    public Sequence seq;
 
     // Use this for initialization
     void Start () {
@@ -48,17 +51,25 @@ public class DisplayAllPatientScript : MonoBehaviour {
 
         DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
 
-        PatientAddImage.color = Color.white;
-        PatientQueryImage.color = Color.white;
-
-
         if (DoctorDataManager.instance.doctor.Patients == null || DoctorDataManager.instance.doctor.Patients.Count == 0)
         {
             PatientAllImage.color = Color.white;
+            PatientQueryImage.color = Color.white;
+
+            Tweener t1 = PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.5f);
+            Tweener t2 = PatientAddImage.DOColor(Color.white, 0.5f);
+            seq = DOTween.Sequence();
+            seq.Append(t1);
+            seq.Append(t2);
+            seq.SetLoops(-1);
         }
         else
         {
+            PatientAddImage.color = Color.white;
+            PatientQueryImage.color = Color.white;
+
             PatientAllImage.color = new Color(60 / 255, 255 / 255, 60 / 255);
+
         }
 
         PatientList.SetActive(false);
