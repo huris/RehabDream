@@ -142,8 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndex: 0
   flipLeftRight: 1
-  jointPrefab: {fileID: 117786, guid: c17b901a469cc934f88f499251bed1bc, type: 2}
-  linePrefab: {fileID: 12000000, guid: 3c3177e60cde9654e93692fb525776a4, type: 2}
+  jointPrefab: {fileID: 117786, guid: c47c333afe3cb2143aea4998601a3662, type: 2}
+  linePrefab: {fileID: 12000000, guid: b97e30be7f46eff40afe6ae78cb8db84, type: 2}
 --- !u!4 &17942846
 Transform:
   m_ObjectHideFlags: 0
