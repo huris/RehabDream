@@ -18,8 +18,14 @@ EditorBuildSettings:
     path: Assets/Scenes/04-DoctorModify.unity
     guid: 372b8593a61ffc64caf3890ca8301b03
   - enabled: 1
+    path: Assets/Scenes/05-DoctorTest.unity
+    guid: 47d7ea78bd8c7fd4fa6bf0a7855cfe26
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 6bc9f61b8bd2a2e408928a2cede1b2b8
   - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: b300d87a78acc52438c2417c4af06d45
+  - enabled: 1
+    path: Assets/Scenes/RadarTest.unity
+    guid: 0f308abfbab301442a40cf1ff387ec4c
