@@ -174,14 +174,15 @@ public class SkeletonProjection : MonoBehaviour
 									//PointSet[PointNum++] = new Point(posJoint.x, posJoint.y);
 									//print(posJoint);
 									//PointHashSet.Add(new Point(posJoint.x, posJoint.y));
-									Points.Add(new Point(posJoint.x, posJoint.y));
 
 									FistLine.positionCount++;
 
 									while(index < FistLine.positionCount)
 									{
 										//两点确定一条直线，所以我们依次绘制点就可以形成线段了
-										FistLine.SetPosition(index, posJoint);
+										//FistLine.SetPosition(index, posJoint);
+										FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y,0));
+										Points.Add(new Point(posJoint.x, posJoint.y));
 										index++;
 									}
 								}
@@ -247,55 +248,60 @@ public class SkeletonProjection : MonoBehaviour
 
 	public void ButtonOnClick() // 求凸包
 	{
-		////print("@@@@@"+ConvexHullSet.Count);
-		////print(ConvexHullSet[0]);
-		////print(Points.Count);  // 两手握拳识别的坐标数目
+		//print("@@@@@"+ConvexHullSet.Count);
+		//print(ConvexHullSet[0]);
+		//print(Points.Count);  // 两手握拳识别的坐标数目
 
-		//pointArray = new Point[Points.Count];
-		//for(int i = 0; i < Points.Count-1; i++)
-		//{
-		//	// 去掉一些重复的点
-		//	if(Points[i].x==Points[i+1].x && Points[i].y == Points[i + 1].y)
-		//	{
-		//		Points.RemoveAt(i + 1);
-		//		i--;
-		//	}
-		//	else{
-		//		// 记录不重复的点
-		//		pointArray[PointNum++] = Points[i];
-		//	}
-		//}
-		////print(PointNum);  // 不重复的点数
-		////print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
+		pointArray = new Point[Points.Count];
+		print(Points.Count);
+		for (int i = 0; i < Points.Count - 1; i++)
+		{
 
-		//ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-
-		//FistLine.positionCount = ConvexHullNum;
-
-		//for (int i = 0;i < ConvexHullNum; i++) {
-		//	//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-		//	FistLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-		//}
-
-
-		pointArray = new Point[10];
-		pointArray[0] = new Point(1,0);
-		pointArray[1] = new Point(2,2);
-		pointArray[2] = new Point(2,1);
-		pointArray[3] = new Point(3,1);
-		pointArray[4] = new Point(3,2);
-		pointArray[5] = new Point(3,3);
-		pointArray[6] = new Point(4,1);
-		pointArray[7] = new Point(5,2);
-
-		PointNum = 8;
+			//print(Points[i].x+" "+Points[i].y+" "+i);
+			// 去掉一些重复的点
+			if (Points[i].x == Points[i + 1].x && Points[i].y == Points[i + 1].y)
+			{
+				Points.RemoveAt(i + 1);
+				i--;
+			}
+			else
+			{
+				// 记录不重复的点
+				pointArray[PointNum++] = Points[i];
+			}
+		}
+		//print(PointNum);  // 不重复的点数
+		//print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
 
 		ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-		print(ConvexHull);
+
+		FistLine.positionCount = FistLine.positionCount + ConvexHullNum + 1;
+
 		for (int i = 0; i < ConvexHullNum; i++)
 		{
-			print(ConvexHull[i].x + " " + ConvexHull[i].y);
+			//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
+			FistLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
 		}
+		//FistLine.SetPosition(ConvexHullNum, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
+
+		//pointArray = new Point[10];
+		//pointArray[0] = new Point(1,0);
+		//pointArray[1] = new Point(2,2);
+		//pointArray[2] = new Point(2,1);
+		//pointArray[3] = new Point(3,1);
+		//pointArray[4] = new Point(3,2);
+		//pointArray[5] = new Point(3,3);
+		//pointArray[6] = new Point(4,1);
+		//pointArray[7] = new Point(5,2);
+
+		//PointNum = 8;
+
+		//ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
+		//print(ConvexHull);
+		//for (int i = 0; i < ConvexHullNum; i++)
+		//{
+		//	print(ConvexHull[i].x + " " + ConvexHull[i].y);
+		//}
 	}
 
 	// isLeft(): test if a point is Left|On|Right of an infinite line.
