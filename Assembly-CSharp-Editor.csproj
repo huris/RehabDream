@@ -213,7 +213,9 @@
      <Compile Include="Assets\XChartsDemo\Editor\ChartModuleDrawer.cs" />
      <Compile Include="Assets\XChartsDemo\Editor\DemoEditor.cs" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+     <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
+     <None Include="Assets\Vectrosity\What to import!.txt" />
      <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
@@ -233,6 +235,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
+     <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
@@ -396,6 +399,12 @@
  </Reference>
  <Reference Include="Poly2Tri">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+ </Reference>
+ <Reference Include="Vectrosity">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
+ </Reference>
+ <Reference Include="VectrosityEditor">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Editor/VectrosityEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/Editor/UnityEditor.Advertisements.dll</HintPath>
