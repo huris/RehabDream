@@ -301,10 +301,11 @@ public class SkeletonProjection : MonoBehaviour
 		for (int i = 0; i < ConvexHullNum; i++)
 		{
 			//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
+			//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
 			FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
 		}
-		//FistLine.SetPosition(ConvexHullNum, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
+		FistLine.positionCount++;
+		FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
 
 		//pointArray = new Point[10];
 		//pointArray[0] = new Point(1,0);
