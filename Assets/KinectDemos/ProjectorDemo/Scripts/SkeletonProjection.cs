@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 //using Windows.Kinect;
 
 
@@ -49,6 +50,16 @@ public class SkeletonProjection : MonoBehaviour
 			x = _x;
 			y = _y;
 		}
+	}
+	public class CoordinateComparer : IComparer<Point>
+	{
+		//实现姓名升序
+		public int Compare(Point x, Point y)
+		{
+			if(x.y.CompareTo(y.y)==0) return (x.x.CompareTo(y.x));
+			else return (x.y.CompareTo(y.y));
+		}
+
 	}
 	private List<Point> Points;  // 数据点的集合 
 	private Point[] pointArray;//坐标数组
@@ -162,7 +173,7 @@ public class SkeletonProjection : MonoBehaviour
 							// overlay the joint
 							if(posJoint != Vector3.zero)
 							{
-								posJoint.z = 0;	  // 将z轴改为0,平面显示
+								posJoint.z = 0;   // 将z轴改为0,平面显示
 								joints[i].SetActive(true);
 								joints[i].transform.position = posJoint;
 
@@ -182,7 +193,7 @@ public class SkeletonProjection : MonoBehaviour
 									{
 										//两点确定一条直线，所以我们依次绘制点就可以形成线段了
 										//FistLine.SetPosition(index, posJoint);
-										FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y,0));
+										FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y, 0));
 										Points.Add(new Point(posJoint.x, posJoint.y));
 										index++;
 									}
@@ -222,6 +233,7 @@ public class SkeletonProjection : MonoBehaviour
 								//lines[i].SetPosition(0, posParent);
 								//lines[i].SetPosition(1, posJoint);
 								// 骨骼连线z轴改为0,平面显示
+								lines[i].positionCount = 2;
 								lines[i].SetPosition(0, new Vector3(posParent.x, posParent.y, 0));
 								lines[i].SetPosition(1, new Vector3(posJoint.x, posJoint.y, 0));
 							}
@@ -256,8 +268,12 @@ public class SkeletonProjection : MonoBehaviour
 		//print(ConvexHullSet[0]);
 		//print(Points.Count);  // 两手握拳识别的坐标数目
 
-		pointArray = new Point[Points.Count];
-		print(Points.Count);
+		Points.Sort(new CoordinateComparer());   // 对点排序一下才能用凸包算法
+
+		pointArray = new Point[Points.Count]; 
+		Points.Add(new Point(0.0f, 0.0f));    // 加入一个点方便下面的循环计算
+
+		//print(Points.Count);
 		for (int i = 0; i < Points.Count - 1; i++)
 		{
 
@@ -274,17 +290,19 @@ public class SkeletonProjection : MonoBehaviour
 				pointArray[PointNum++] = Points[i];
 			}
 		}
+		//pointArray[PointNum++] = Points[Points.Count - 1];
 		//print(PointNum);  // 不重复的点数
 		//print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
 
 		ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
 
-		FistLine.positionCount = FistLine.positionCount + ConvexHullNum + 1;
+		FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
 
 		for (int i = 0; i < ConvexHullNum; i++)
 		{
 			//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			FistLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
+			print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
+			FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
 		}
 		//FistLine.SetPosition(ConvexHullNum, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
 
