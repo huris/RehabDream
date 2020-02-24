@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using Vectrosity;
 //using Windows.Kinect;
 
 
@@ -30,7 +31,12 @@ public class SkeletonProjection : MonoBehaviour
 	private Quaternion initialRotation = Quaternion.identity;
 
 	//LineRenderer
+	//private List<VectorLine> FistLines;
+	//VectorLine.Destroy(ref myLine);   // 删除这条线
 	private LineRenderer FistLine;   // 手势线
+	private VectorLine ColorFistLine; // 彩色手势线
+	private List<Color32> FistColorsList;  
+
 	//private LineRenderer ConvexHullLine;   // 凸包线
 
 	//用来索引端点
@@ -50,6 +56,12 @@ public class SkeletonProjection : MonoBehaviour
 			x = _x;
 			y = _y;
 		}
+		public static float PointsDistance(Point A, Point B)
+		{
+			float Distance = 1 - (Math.Abs(A.x - B.x) + Math.Abs(A.y - B.y));
+			if (Distance < 0.0f) return 0.0f;
+			else return Distance;
+		}
 	}
 	public class CoordinateComparer : IComparer<Point>
 	{
@@ -62,7 +74,7 @@ public class SkeletonProjection : MonoBehaviour
 
 	}
 	private List<Point> Points;  // 数据点的集合 
-	private Point[] pointArray;//坐标数组
+	private Point[] pointArray;  //坐标数组
 	private int PointNum = 0;    // 数据点的个数
 	private Point[] ConvexHull;  // 凸包集
 	private int ConvexHullNum;  // 凸包点的个数
@@ -112,6 +124,10 @@ public class SkeletonProjection : MonoBehaviour
 	{
 		//PointHashSet = new HashSet<Point>();
 		Points = new List<Point>();
+		index = 0;
+		//FistLines = new List<VectorLine>();
+
+		//VectorLine.SetLine();
 
 		// always mirrored
 		initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
@@ -120,16 +136,18 @@ public class SkeletonProjection : MonoBehaviour
 		FistLine = gameObject.AddComponent<LineRenderer>();
 		//设置材质
 		FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
-		//设置颜色
-		FistLine.startColor = Color.yellow;
-		FistLine.endColor = Color.red;
+
+		////设置颜色
+		//FistLine.startColor = Color.yellow;
+		//FistLine.endColor = Color.red;
 		//设置宽度
 		FistLine.startWidth = 0.01f;
 		FistLine.endWidth = 0.02f;
 		//设置初始点的数量为0
 		FistLine.positionCount = 0;
 
-
+		//FistColors = new Color32;
+		
 		////添加LineRenderer组件
 		//ConvexHullLine = gameObject.AddComponent<LineRenderer>();
 		////设置材质
@@ -165,6 +183,9 @@ public class SkeletonProjection : MonoBehaviour
 					if(manager.IsJointTracked(userId, joint))
 					{
 						Vector3 posJoint = manager.GetJointPosition(userId, joint);
+						
+						//posJoint = Camera.main.WorldToScreenPoint(posJoint);
+
 						if (flipLeftRight)
 							posJoint.x = -posJoint.x;
 
@@ -187,14 +208,43 @@ public class SkeletonProjection : MonoBehaviour
 									//print(posJoint);
 									//PointHashSet.Add(new Point(posJoint.x, posJoint.y));
 
+
+									//tempLine.Add(new Vector2(0, 0));
+									//tempLine.Add(new Vector2(Screen.width - 1, Screen.height - 1));
+									//TempVectorLine = new VectorLine("L1", tempLine, 7.0f, LineType.Continuous, Joins.Fill);
+									//TempVectorLine.color = new Color(255 / 255, 255 / 255 * 1.0f, 0);
+									//TempVectorLine.Draw();
+
+									//Points.Add(new Point(posJoint.x, posJoint.y));
+
+									//if (Points.Count > 1)
+									//{
+									//	List<Vector2> tempLine = new List<Vector2>();
+									//	tempLine.Add(new Vector2(-Points[Points.Count - 2].x * 960 + 780, Points[Points.Count - 2].y * 540));
+									//	tempLine.Add(new Vector2(-Points[Points.Count - 1].x * 960 + 780, Points[Points.Count - 1].y * 540));
+
+									//	FistLines.Add(new VectorLine("L", tempLine, 7.0f, LineType.Continuous, Joins.Fill));
+									//	FistLines[FistLines.Count-1].color = Color.red;
+									//	FistLines[FistLines.Count-1].Draw();
+									//}
+
+									Points.Add(new Point(posJoint.x, posJoint.y));
+
 									FistLine.positionCount++;
 
-									while(index < FistLine.positionCount)
+									while (Points.Count > 1 && index < FistLine.positionCount)
 									{
 										//两点确定一条直线，所以我们依次绘制点就可以形成线段了
 										//FistLine.SetPosition(index, posJoint);
+										//设置颜色
+										float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
+										if(tempDis < 1.0f)
+										{
+											Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
+											FistLine.startColor = tempColor;
+											FistLine.endColor = tempColor;
+										}
 										FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y, 0));
-										Points.Add(new Point(posJoint.x, posJoint.y));
 										index++;
 									}
 								}
@@ -264,67 +314,75 @@ public class SkeletonProjection : MonoBehaviour
 
 	public void ButtonOnClick() // 求凸包
 	{
+		//VectorLine.Destroy(FistLines);   // 删除这条线
+
+		FistLine.positionCount = 0;
 		//print("@@@@@"+ConvexHullSet.Count);
 		//print(ConvexHullSet[0]);
 		//print(Points.Count);  // 两手握拳识别的坐标数目
 
-		Points.Sort(new CoordinateComparer());   // 对点排序一下才能用凸包算法
 
-		pointArray = new Point[Points.Count]; 
-		Points.Add(new Point(0.0f, 0.0f));    // 加入一个点方便下面的循环计算
-
-		//print(Points.Count);
-		for (int i = 0; i < Points.Count - 1; i++)
+		if (Points != null && Points.Count > 0)
 		{
+			Points.Sort(new CoordinateComparer());   // 对点排序一下才能用凸包算法
 
-			//print(Points[i].x+" "+Points[i].y+" "+i);
-			// 去掉一些重复的点
-			if (Points[i].x == Points[i + 1].x && Points[i].y == Points[i + 1].y)
+			pointArray = new Point[Points.Count];
+			Points.Add(new Point(0.0f, 0.0f));    // 加入一个点方便下面的循环计算
+
+			//print(Points.Count);
+			for (int i = 0; i < Points.Count - 1; i++)
 			{
-				Points.RemoveAt(i + 1);
-				i--;
+
+				//print(Points[i].x+" "+Points[i].y+" "+i);
+				// 去掉一些重复的点
+				if (Points[i].x == Points[i + 1].x && Points[i].y == Points[i + 1].y)
+				{
+					Points.RemoveAt(i + 1);
+					i--;
+				}
+				else
+				{
+					// 记录不重复的点
+					pointArray[PointNum++] = Points[i];
+				}
 			}
-			else
+			//pointArray[PointNum++] = Points[Points.Count - 1];
+			//print(PointNum);  // 不重复的点数
+			//print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
+
+			ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
+
+			FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
+
+			for (int i = 0; i < ConvexHullNum; i++)
 			{
-				// 记录不重复的点
-				pointArray[PointNum++] = Points[i];
+				//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
+				//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
+				FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
 			}
+			FistLine.positionCount++;
+			FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
+
+			//pointArray = new Point[10];
+			//pointArray[0] = new Point(1,0);
+			//pointArray[1] = new Point(2,2);
+			//pointArray[2] = new Point(2,1);
+			//pointArray[3] = new Point(3,1);
+			//pointArray[4] = new Point(3,2);
+			//pointArray[5] = new Point(3,3);
+			//pointArray[6] = new Point(4,1);
+			//pointArray[7] = new Point(5,2);
+
+			//PointNum = 8;
+
+			//ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
+			//print(ConvexHull);
+			//for (int i = 0; i < ConvexHullNum; i++)
+			//{
+			//	print(ConvexHull[i].x + " " + ConvexHull[i].y);
+			//}
 		}
-		//pointArray[PointNum++] = Points[Points.Count - 1];
-		//print(PointNum);  // 不重复的点数
-		//print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
 
-		ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-
-		FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
-
-		for (int i = 0; i < ConvexHullNum; i++)
-		{
-			//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
-			FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-		}
-		FistLine.positionCount++;
-		FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
-
-		//pointArray = new Point[10];
-		//pointArray[0] = new Point(1,0);
-		//pointArray[1] = new Point(2,2);
-		//pointArray[2] = new Point(2,1);
-		//pointArray[3] = new Point(3,1);
-		//pointArray[4] = new Point(3,2);
-		//pointArray[5] = new Point(3,3);
-		//pointArray[6] = new Point(4,1);
-		//pointArray[7] = new Point(5,2);
-
-		//PointNum = 8;
-
-		//ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-		//print(ConvexHull);
-		//for (int i = 0; i < ConvexHullNum; i++)
-		//{
-		//	print(ConvexHull[i].x + " " + ConvexHull[i].y);
-		//}
 	}
 
 	// isLeft(): test if a point is Left|On|Right of an infinite line.
