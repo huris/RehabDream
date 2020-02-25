@@ -33,9 +33,8 @@ public class SkeletonProjection : MonoBehaviour
 	//LineRenderer
 	//private List<VectorLine> FistLines;
 	//VectorLine.Destroy(ref myLine);   // 删除这条线
-	private LineRenderer FistLine;   // 手势线
+	//private LineRenderer FistLine;   // 手势线
 	private VectorLine ColorFistLine; // 彩色手势线
-	private List<Color32> FistColorsList;  
 
 	//private LineRenderer ConvexHullLine;   // 凸包线
 
@@ -44,6 +43,8 @@ public class SkeletonProjection : MonoBehaviour
 
 	//记录左右两个指尖的坐标
 	private Vector3 HandTipLeft;
+	private Vector3 LastPosition;
+	private Vector3 NowPosition;
 
 	// 记录坐标集,取前两个坐标,舍弃z轴,求凸包
 	// 求凸包使用Melkman算法
@@ -122,29 +123,32 @@ public class SkeletonProjection : MonoBehaviour
 
 	void OnEnable()
 	{
+		VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222,322));
 		//PointHashSet = new HashSet<Point>();
 		Points = new List<Point>();
 		index = 0;
-		//FistLines = new List<VectorLine>();
 
-		//VectorLine.SetLine();
+		ColorFistLine = new VectorLine("FistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
+		ColorFistLine.smoothColor = true;	// 设置平滑颜色
+		ColorFistLine.smoothWidth = true;   // 设置平滑宽度
+		ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
 		// always mirrored
 		initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
 
-		//添加LineRenderer组件
-		FistLine = gameObject.AddComponent<LineRenderer>();
-		//设置材质
-		FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
+		////添加LineRenderer组件
+		//FistLine = gameObject.AddComponent<LineRenderer>();
+		////设置材质
+		//FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
 
-		////设置颜色
-		//FistLine.startColor = Color.yellow;
-		//FistLine.endColor = Color.red;
-		//设置宽度
-		FistLine.startWidth = 0.01f;
-		FistLine.endWidth = 0.02f;
-		//设置初始点的数量为0
-		FistLine.positionCount = 0;
+		//////设置颜色
+		////FistLine.startColor = Color.yellow;
+		////FistLine.endColor = Color.red;
+		////设置宽度
+		//FistLine.startWidth = 0.01f;
+		//FistLine.endWidth = 0.02f;
+		////设置初始点的数量为0
+		//FistLine.positionCount = 0;
 
 		//FistColors = new Color32;
 		
@@ -165,7 +169,7 @@ public class SkeletonProjection : MonoBehaviour
 	void Update () 
 	{
 		KinectManager manager = KinectManager.Instance;
-		FistLine = GetComponent<LineRenderer>();
+		//FistLine = GetComponent<LineRenderer>();
 		//ConvexHullLine = GetComponent<LineRenderer>();
 
 		if (manager && manager.IsInitialized())
@@ -215,38 +219,49 @@ public class SkeletonProjection : MonoBehaviour
 									//TempVectorLine.color = new Color(255 / 255, 255 / 255 * 1.0f, 0);
 									//TempVectorLine.Draw();
 
-									//Points.Add(new Point(posJoint.x, posJoint.y));
-
-									//if (Points.Count > 1)
-									//{
-									//	List<Vector2> tempLine = new List<Vector2>();
-									//	tempLine.Add(new Vector2(-Points[Points.Count - 2].x * 960 + 780, Points[Points.Count - 2].y * 540));
-									//	tempLine.Add(new Vector2(-Points[Points.Count - 1].x * 960 + 780, Points[Points.Count - 1].y * 540));
-
-									//	FistLines.Add(new VectorLine("L", tempLine, 7.0f, LineType.Continuous, Joins.Fill));
-									//	FistLines[FistLines.Count-1].color = Color.red;
-									//	FistLines[FistLines.Count-1].Draw();
-									//}
-
 									Points.Add(new Point(posJoint.x, posJoint.y));
 
-									FistLine.positionCount++;
+									//float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
+									//if (tempDis < 1.0f)
+									//{
+									//	Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
+									//	FistLine.startColor = tempColor;
+									//	FistLine.endColor = tempColor;
+									//}
 
-									while (Points.Count > 1 && index < FistLine.positionCount)
-									{
-										//两点确定一条直线，所以我们依次绘制点就可以形成线段了
-										//FistLine.SetPosition(index, posJoint);
-										//设置颜色
-										float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
-										if(tempDis < 1.0f)
-										{
-											Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
-											FistLine.startColor = tempColor;
-											FistLine.endColor = tempColor;
-										}
-										FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y, 0));
-										index++;
-									}
+					
+
+									ColorFistLine.points2.Add(new Vector2(-posJoint.x * 960 + 780, posJoint.y * 540));
+
+									ColorFistLine.Draw();
+
+									//List<Vector2> tempLine = new List<Vector2>();
+									//tempLine.Add(new Vector2(-Points[Points.Count - 2].x * 960 + 780, Points[Points.Count - 2].y * 540));
+									//tempLine.Add(new Vector2(-Points[Points.Count - 1].x * 960 + 780, Points[Points.Count - 1].y * 540));
+
+									//FistLines.Add(new VectorLine("L", tempLine, 7.0f, LineType.Continuous, Joins.Fill));
+									//FistLines[FistLines.Count - 1].color = Color.red;
+									//FistLines[FistLines.Count - 1].Draw();
+
+									//Points.Add(new Point(posJoint.x, posJoint.y));
+
+									//FistLine.positionCount++;
+
+									//while (Points.Count > 1 && index < FistLine.positionCount)
+									//{
+									//	//两点确定一条直线，所以我们依次绘制点就可以形成线段了
+									//	//FistLine.SetPosition(index, posJoint);
+									//	//设置颜色
+									//	float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
+									//	if(tempDis < 1.0f)
+									//	{
+									//		Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
+									//		FistLine.startColor = tempColor;
+									//		FistLine.endColor = tempColor;
+									//	}
+									//	FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y, 0));
+									//	index++;
+									//}
 								}
 
 								Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -316,7 +331,7 @@ public class SkeletonProjection : MonoBehaviour
 	{
 		//VectorLine.Destroy(FistLines);   // 删除这条线
 
-		FistLine.positionCount = 0;
+		//FistLine.positionCount = 0;
 		//print("@@@@@"+ConvexHullSet.Count);
 		//print(ConvexHullSet[0]);
 		//print(Points.Count);  // 两手握拳识别的坐标数目
@@ -352,16 +367,16 @@ public class SkeletonProjection : MonoBehaviour
 
 			ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
 
-			FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
+			//FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
 
-			for (int i = 0; i < ConvexHullNum; i++)
-			{
-				//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-				//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
-				FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			}
-			FistLine.positionCount++;
-			FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
+			//for (int i = 0; i < ConvexHullNum; i++)
+			//{
+			//	//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
+			//	//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
+			//	FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
+			//}
+			//FistLine.positionCount++;
+			//FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
 
 			//pointArray = new Point[10];
 			//pointArray[0] = new Point(1,0);

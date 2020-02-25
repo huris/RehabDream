@@ -228,6 +228,7 @@
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
+     <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
      <None Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
@@ -282,10 +283,12 @@
      <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+     <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
      <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
+     <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
