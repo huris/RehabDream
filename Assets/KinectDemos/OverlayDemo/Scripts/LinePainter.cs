@@ -52,6 +52,7 @@ public class LinePainter : MonoBehaviour
 			cursorPos.z = Camera.main.nearClipPlane;
 			
 			Vector3 cursorSpacePos = Camera.main.ViewportToWorldPoint(cursorPos);
+
 			currentLine.SetPosition(0, cursorSpacePos);
 			currentLine.SetPosition(1, cursorSpacePos);
 
@@ -97,6 +98,8 @@ public class LinePainter : MonoBehaviour
 				cursorPos.z = Camera.main.nearClipPlane;
 
 				Vector3 cursorSpacePos = Camera.main.ViewportToWorldPoint(cursorPos);
+
+				print(cursorSpacePos);
 				currentLine.SetPosition(lineVertexIndex - 1, cursorSpacePos);
 			}
 		}

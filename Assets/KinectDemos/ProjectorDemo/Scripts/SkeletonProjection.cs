@@ -81,6 +81,8 @@ public class SkeletonProjection : MonoBehaviour
 	private int ConvexHullNum;  // 凸包点的个数
 	private Point[] TwoTable; // 数组索引，双向表
 
+	public Canvas canvas;
+
 	void Start()
 	{
 		KinectManager manager = KinectManager.Instance;
@@ -123,7 +125,7 @@ public class SkeletonProjection : MonoBehaviour
 
 	void OnEnable()
 	{
-		VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222,322));
+		//VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222,322));
 		//PointHashSet = new HashSet<Point>();
 		Points = new List<Point>();
 		index = 0;
@@ -185,9 +187,10 @@ public class SkeletonProjection : MonoBehaviour
 					int joint = i;
 
 					if(manager.IsJointTracked(userId, joint))
-					{
+					{ 
+
 						Vector3 posJoint = manager.GetJointPosition(userId, joint);
-						
+
 						//posJoint = Camera.main.WorldToScreenPoint(posJoint);
 
 						if (flipLeftRight)
@@ -229,9 +232,10 @@ public class SkeletonProjection : MonoBehaviour
 									//	FistLine.endColor = tempColor;
 									//}
 
-					
 
-									ColorFistLine.points2.Add(new Vector2(-posJoint.x * 960 + 780, posJoint.y * 540));
+
+									//ColorFistLine.points2.Add(new Vector2(-posJoint.x * 960 + 780, posJoint.y * 540));
+									ColorFistLine.points2.Add(SetMousePosition(posJoint));
 
 									ColorFistLine.Draw();
 
@@ -325,6 +329,23 @@ public class SkeletonProjection : MonoBehaviour
 
 			}
 		}
+	}
+
+	public Vector2 SetMousePosition(Vector3 pos)
+	{
+		//print(pos);
+		Vector2 uisize = canvas.GetComponent<RectTransform>().sizeDelta;//得到画布的尺寸
+		Vector2 screenpos = Camera.main.WorldToScreenPoint(pos);//将世界坐标转换为屏幕坐标
+		Vector2 screenpos2;
+		screenpos2.x = screenpos.x;//转换为以屏幕中心为原点的屏幕坐标
+		screenpos2.y = screenpos.y;
+		Vector2 uipos;
+		uipos.x = (screenpos2.x / Screen.width) * uisize.x;
+		uipos.y = (screenpos2.y / Screen.height) * uisize.y;//得到UGUI的anchoredPosition
+
+		return uipos;
+		//Mouse.transform.DOMove(uipos, 0.02f);
+		//print(uipos);
 	}
 
 	public void ButtonOnClick() // 求凸包
