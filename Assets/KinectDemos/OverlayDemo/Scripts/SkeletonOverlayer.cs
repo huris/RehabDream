@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using Vectrosity;
+using HighlightingSystem;
 //using Windows.Kinect;
 
 
@@ -35,10 +36,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
 	private Quaternion initialRotation = Quaternion.identity;
 
-	//LineRenderer
-	//private List<VectorLine> FistLines;
-	//VectorLine.Destroy(ref myLine);   // 删除这条线
-	//private LineRenderer FistLine;   // 手势线
 	private VectorLine ColorFistLine; // 彩色手势线
 	private VectorLine ConvexHullLine;   // 凸包线
 
@@ -86,6 +83,12 @@ public class SkeletonOverlayer : MonoBehaviour
 	private Point[] TwoTable; // 数组索引，双向表
 
 	public Canvas canvas;
+
+	public GameObject Soccerball;
+
+	public Camera camera;
+	public LineRenderer line;
+
 	void Start()
 	{
 		//new VectorLine("L1", new List<Vector3> {new Vector3(0.0f, 0.0f, 0.0f), new Vector3(1.0f, 1.0f, 1.0f)}, 7.0f);
@@ -102,7 +105,7 @@ public class SkeletonOverlayer : MonoBehaviour
 			joints = new GameObject[jointsCount];
 			GreenPrefab = Resources.Load("Prefabs/RadarPrefabs/GreenBall") as GameObject;
 			RedPefab = Resources.Load("Prefabs/RadarPrefabs/RedBall") as GameObject;
-			
+
 			for (int i = 0; i < joints.Length; i++)
 			{
 				if (i == 21 || i == 23)
@@ -124,15 +127,6 @@ public class SkeletonOverlayer : MonoBehaviour
 			// array holding the skeleton lines
 			lines = new LineRenderer[jointsCount];
 
-//			if(linePrefab)
-//			{
-//				for(int i = 0; i < lines.Length; i++)
-//				{
-//					lines[i] = Instantiate(linePrefab) as LineRenderer;
-//					lines[i].transform.parent = transform;
-//					lines[i].gameObject.SetActive(false);
-//				}
-//			}
 		}
 
 		// always mirrored
@@ -160,37 +154,13 @@ public class SkeletonOverlayer : MonoBehaviour
 		// always mirrored
 		initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
 
-		////添加LineRenderer组件
-		//FistLine = gameObject.AddComponent<LineRenderer>();
-		////设置材质
-		//FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
+		Soccerball = transform.Find("Soccerball").gameObject;
+		//Soccerball.transform.position = new Vector3(0.1f, 0.8f, 46f);
 
-		////设置颜色
-		//FistLine.startColor = Color.yellow;
-		//FistLine.endColor = Color.red;
-		////设置宽度
-		//FistLine.startWidth = 0.01f;
-		//FistLine.endWidth = 0.02f;
-		////设置初始点的数量为0
-		//FistLine.positionCount = 0;
+		line = gameObject.AddComponent<LineRenderer>();
+		//line = GetComponent<LineRenderer>();
 
-		//FistColors = new Color32;
-
-		////添加LineRenderer组件
-		//ConvexHullLine = gameObject.AddComponent<LineRenderer>();
-		////设置材质
-		////ConvexHullLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
-		////设置颜色
-		//ConvexHullLine.startColor = Color.white;
-		//ConvexHullLine.endColor = Color.white;
-		////设置宽度
-		//ConvexHullLine.startWidth = 0.02f;
-		//ConvexHullLine.endWidth = 0.02f;
-		////设置初始点的数量为0
-		//ConvexHullLine.positionCount = 0;
 	}
-
-	public float mx = 0, mn = 1000000; 
 
 	void Update () 
 	{
@@ -235,12 +205,6 @@ public class SkeletonOverlayer : MonoBehaviour
 							// overlay the joint
 							if(posJoint != Vector3.zero)
 							{
-								//								if(debugText && joint == 0)
-								//								{
-								//									debugText.text = string.Format("{0} - {1}\nRealPos: {2}", 
-								//									                                       (KinectInterop.JointType)joint, posJoint,
-								//									                                       manager.GetJointPosition(userId, joint));
-								//								}
 
 								posJoint.z = 0f;  // 将z轴改为0,平面显示
 
@@ -252,25 +216,6 @@ public class SkeletonOverlayer : MonoBehaviour
 								// 当左右手距离小于0.1f的时候画线
 								if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.1f)
 								{
-									//print((HandTipLeft - posJoint).magnitude);
-									//PointSet[PointNum++] = new Point(posJoint.x, posJoint.y);
-									//print(posJoint);
-									//PointHashSet.Add(new Point(posJoint.x, posJoint.y));
-
-
-									//tempLine.Add(new Vector2(0, 0));
-									//tempLine.Add(new Vector2(Screen.width - 1, Screen.height - 1));
-									//TempVectorLine = new VectorLine("L1", tempLine, 7.0f, LineType.Continuous, Joins.Fill);
-									//TempVectorLine.color = new Color(255 / 255, 255 / 255 * 1.0f, 0);
-									//TempVectorLine.Draw();
-
-									//float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
-									//if (tempDis < 1.0f)
-									//{
-									//	Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
-									//	FistLine.startColor = tempColor;
-									//	FistLine.endColor = tempColor;
-									//}
 
 									if(Points.Count == 0)
 									{
@@ -291,14 +236,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
 										if (LastNowDis > 0.0f)
 										{
-											//Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
-											//FistLine.startColor = tempColor;
-											//FistLine.endColor = tempColor;
-											//if (LastNowDis > mx) mx = LastNowDis;
-											//if (LastNowDis < mn) mn = LastNowDis;
-											//print(mx + " " + mn + " " + LastNowDis);
-
-											//DeltaBase = (int)((LastNowDis - 1000) / 3);
 											DeltaBase = (int)(LastNowDis * 7);
 
 											if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
@@ -314,40 +251,17 @@ public class SkeletonOverlayer : MonoBehaviour
 											ColorFistLine.Draw();
 										}
 									}
-									
 
-									
-
-									//List<Vector2> tempLine = new List<Vector2>();
-									//tempLine.Add(new Vector2(-Points[Points.Count - 2].x * 960 + 780, Points[Points.Count - 2].y * 540));
-									//tempLine.Add(new Vector2(-Points[Points.Count - 1].x * 960 + 780, Points[Points.Count - 1].y * 540));
-
-									//FistLines.Add(new VectorLine("L", tempLine, 7.0f, LineType.Continuous, Joins.Fill));
-									//FistLines[FistLines.Count - 1].color = Color.red;
-									//FistLines[FistLines.Count - 1].Draw();
-
-									//Points.Add(new Point(posJoint.x, posJoint.y));
-
-									//FistLine.positionCount++;
-
-									//while (Points.Count > 1 && index < FistLine.positionCount)
+									// 判断是否碰到球
+									//print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
+									//if((posJoint - Soccerball.transform.position).magnitude < 0.1f)
 									//{
-									//	//两点确定一条直线，所以我们依次绘制点就可以形成线段了
-									//	//FistLine.SetPosition(index, posJoint);
-									//	//设置颜色
-									//	//float tempDis = Point.PointsDistance(Points[Points.Count - 1], Points[Points.Count - 2]);
-									//	//if (tempDis < 1.0f)
-									//	//{
-									//	//	Color tempColor = new Color(255 / 255, 255 / 255 * tempDis, 0);
-									//	//	FistLine.startColor = tempColor;
-									//	//	FistLine.endColor = tempColor;
-									//	//}
-									//	FistLine.SetPosition(index, new Vector3(posJoint.x, posJoint.y, 0));
-									//	//FistLine.SetPosition(index, posJoint);
-									//	index++;
+									//	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
 									//}
-								}
+									RayCastResult(posJoint, Soccerball.transform.position);
+									DrawRayLine(camera.transform.position, posJoint);
 
+								}
 
 								Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
 								rotJoint = initialRotation * rotJoint;
@@ -410,15 +324,53 @@ public class SkeletonOverlayer : MonoBehaviour
 		}
 	}
 
+	//public LineRenderer lineRenderer = new LineRenderer();
+	void RayCastResult(Vector3 FistPos, Vector3 SoccerballPos)
+	{
+
+		//print(FistPos+" "+ SoccerballPos);
+		//Ray ray = new Ray(FistPos, FistPos + Vector3.forward);
+
+		Ray ray = new Ray(camera.transform.position, FistPos-camera.transform.position);
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray, out hit, 100f))
+		{
+			if(hit.collider.gameObject == Soccerball)Soccerball.GetComponent<Highlighter>().ConstantOn(Color.blue);
+			else Soccerball.GetComponent<Highlighter>().ConstantOff();
+
+		}
+		
+	}
+
+	public void DrawRayLine(Vector3 pos1, Vector3 pos2)
+	{
+		////添加LineRenderer组件
+		////设置材质
+		//FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
+
+		//////设置颜色
+		////FistLine.startColor = Color.yellow;
+		////FistLine.endColor = Color.red;
+		////设置宽度
+		//FistLine.startWidth = 0.01f;
+		//FistLine.endWidth = 0.02f;
+
+		line.positionCount = 2; //　设置该线段由几个点组成
+
+		// 设置线段的起点颜色和终点颜色
+		line.startColor = Color.blue;
+		line.endColor = Color.red;
+		// 设置线段起点宽度和终点宽度
+		line.startWidth = 0.01f;
+		line.endWidth = 0.01f;
+		line.SetPosition(0, pos1);
+		line.SetPosition(1, pos2);
+
+	}
+
 	public void ButtonOnClick() // 求凸包
 	{
-		//VectorLine.Destroy(FistLines);   // 删除这条线
-
-		//FistLine.positionCount = 0;
-		//print("@@@@@"+ConvexHullSet.Count);
-		//print(ConvexHullSet[0]);
-		//print(Points.Count);  // 两手握拳识别的坐标数目
-
 
 		if (Points != null && Points.Count > 0)
 		{
@@ -444,9 +396,6 @@ public class SkeletonOverlayer : MonoBehaviour
 					pointArray[PointNum++] = Points[i];
 				}
 			}
-			//pointArray[PointNum++] = Points[Points.Count - 1];
-			//print(PointNum);  // 不重复的点数
-			//print(ConvexHullMelkman(pointArray, PointNum)); // 凸包点的个数
 
 			ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
 
@@ -458,35 +407,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
 			StartCoroutine(DrawConvexHull());
 
-			//FistLine.positionCount = FistLine.positionCount + ConvexHullNum;
-
-			//for (int i = 0; i < ConvexHullNum; i++)
-			//{
-			//	//ConvexHullLine.SetPosition(i, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			//	//print(ConvexHull[i].x+" "+ ConvexHull[i].y + " " + i);
-			//	FistLine.SetPosition(i + FistLine.positionCount - ConvexHullNum, new Vector3(ConvexHull[i].x, ConvexHull[i].y, 0));
-			//}
-			//FistLine.positionCount++;
-			//FistLine.SetPosition(FistLine.positionCount - 1, new Vector3(ConvexHull[0].x, ConvexHull[0].y, 0));
-
-			//pointArray = new Point[10];
-			//pointArray[0] = new Point(1,0);
-			//pointArray[1] = new Point(2,2);
-			//pointArray[2] = new Point(2,1);
-			//pointArray[3] = new Point(3,1);
-			//pointArray[4] = new Point(3,2);
-			//pointArray[5] = new Point(3,3);
-			//pointArray[6] = new Point(4,1);
-			//pointArray[7] = new Point(5,2);
-
-			//PointNum = 8;
-
-			//ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-			//print(ConvexHull);
-			//for (int i = 0; i < ConvexHullNum; i++)
-			//{
-			//	print(ConvexHull[i].x + " " + ConvexHull[i].y);
-			//}
 		}
 
 	}

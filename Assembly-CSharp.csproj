@@ -110,6 +110,19 @@
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\CameraTargeting.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\CompoundObjectController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\FlashingController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\HighlighterController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\HighlighterOccluder.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\SpectrumController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Basic\CSHighlighterController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Helpers\MovementController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Helpers\RotationController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\CameraFlyController.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\FPSCounter.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\PresetSelector.cs" />
+     <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\SceneLoader.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
      <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
      <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
@@ -633,10 +646,12 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
      <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
+     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
      <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
+     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
@@ -646,6 +661,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
      <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
      <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
@@ -663,6 +679,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
      <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
+     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
      <None Include="Assets\MaterialUI\CHANGELOG.txt" />
@@ -681,6 +698,7 @@
      <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
      <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
+     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
      <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
