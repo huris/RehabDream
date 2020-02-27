@@ -80,6 +80,7 @@ public class SkeletonOverlayer : MonoBehaviour
 	private int PointNum = 0;    // 数据点的个数
 	private Point[] ConvexHull;  // 凸包集
 	private int ConvexHullNum;  // 凸包点的个数
+	private float ConvexHullArea;  // 凸包面积
 	private Point[] TwoTable; // 数组索引，双向表
 
 	public Canvas canvas;
@@ -90,6 +91,8 @@ public class SkeletonOverlayer : MonoBehaviour
 
 	public Camera camera;
 	public LineRenderer line;
+
+	public Button button;
 
 	void Start()
 	{
@@ -514,16 +517,24 @@ public class SkeletonOverlayer : MonoBehaviour
 	{
 		// 先把初始点存入画图函数
 		ConvexHullLine.points2.Add(new Vector2(ConvexHull[0].x, ConvexHull[0].y));
+		ConvexHullArea = 0f;   // 令凸包面积初始为0
 
 		for (int i = 1; i < ConvexHullNum; i++)
 		{
 			ConvexHullLine.points2.Add(new Vector2(ConvexHull[i].x, ConvexHull[i].y));
 			ConvexHullLine.SetColor(new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255));  // 设置颜色
 
+			if(i < ConvexHullNum - 1)
+			{
+				ConvexHullArea += Math.Abs(isLeft(ConvexHull[0], ConvexHull[i], ConvexHull[i+1]));
+			}
+
 			ConvexHullLine.Draw();
 			yield return new WaitForSeconds(0.15f);
-
 		}
+
+		button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea/2).ToString("0.00");// 最后求出来的面积要除以2
+
 		ConvexHullLine.points2.Add(new Vector2(ConvexHull[0].x, ConvexHull[0].y));
 		//ConvexHullLine.SetColor(Color.blue);  // 设置颜色
 		ConvexHullLine.SetColor(new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255));  // 设置颜色

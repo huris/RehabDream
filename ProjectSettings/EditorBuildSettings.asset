@@ -27,5 +27,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Start.unity
     guid: b300d87a78acc52438c2417c4af06d45
   - enabled: 1
-    path: Assets/Scenes/RadarTest.unity
+    path: Assets/Scenes/RadarTestTemp.unity
     guid: 0f308abfbab301442a40cf1ff387ec4c
+  - enabled: 1
+    path: Assets/Scenes/RadarTest.unity
+    guid: bf43ea53274857d4d8b0c7c733b3aa26
