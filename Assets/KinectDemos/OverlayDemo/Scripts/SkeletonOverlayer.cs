@@ -84,7 +84,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
 	public Canvas canvas;
 
+	// 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7
 	public GameObject Soccerball;
+	public Vector2 SoccerballCenter;	// 足球中心点
 
 	public Camera camera;
 	public LineRenderer line;
@@ -154,11 +156,13 @@ public class SkeletonOverlayer : MonoBehaviour
 		// always mirrored
 		initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
 
-		Soccerball = transform.Find("Soccerball").gameObject;
+		//Soccerball = transform.Find("Soccerball").gameObject;
 		//Soccerball.transform.position = new Vector3(0.1f, 0.8f, 46f);
 
-		line = gameObject.AddComponent<LineRenderer>();
+		//line = gameObject.AddComponent<LineRenderer>();
 		//line = GetComponent<LineRenderer>();
+		Soccerball = null;
+		SoccerballCenter = new Vector2(-0.1f, 1f);
 
 	}
 
@@ -214,7 +218,7 @@ public class SkeletonOverlayer : MonoBehaviour
 								if (i == 21) { HandTipLeft = posJoint; }
 
 								// 当左右手距离小于0.1f的时候画线
-								if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.1f)
+								if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)
 								{
 
 									if(Points.Count == 0)
@@ -251,16 +255,22 @@ public class SkeletonOverlayer : MonoBehaviour
 											ColorFistLine.Draw();
 										}
 									}
-
 									// 判断是否碰到球
 									//print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
 									//if((posJoint - Soccerball.transform.position).magnitude < 0.1f)
 									//{
 									//	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
 									//}
-									RayCastResult(posJoint, Soccerball.transform.position);
-									DrawRayLine(camera.transform.position, posJoint);
+									RayCastResult(posJoint);	// 发出射线射到哪个足球
+									//DrawRayLine(camera.transform.position, posJoint);
 
+								}
+								else if(i == 23)
+								{
+									if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
+									{
+										Soccerball.GetComponent<Highlighter>().ConstantOff();
+									}
 								}
 
 								Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -325,7 +335,8 @@ public class SkeletonOverlayer : MonoBehaviour
 	}
 
 	//public LineRenderer lineRenderer = new LineRenderer();
-	void RayCastResult(Vector3 FistPos, Vector3 SoccerballPos)
+
+	void RayCastResult(Vector3 FistPos)
 	{
 
 		//print(FistPos+" "+ SoccerballPos);
@@ -336,14 +347,102 @@ public class SkeletonOverlayer : MonoBehaviour
 
 		if (Physics.Raycast(ray, out hit, 100f))
 		{
-			if(hit.collider.gameObject == Soccerball)Soccerball.GetComponent<Highlighter>().ConstantOn(Color.blue);
-			else Soccerball.GetComponent<Highlighter>().ConstantOff();
+			if(Soccerball == null)
+			{
+				Soccerball = hit.collider.gameObject;
+				if (Soccerball.GetComponent<Highlighter>() != null)
+				{
+					Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+				}
+			}
+			else if(Soccerball != hit.collider.gameObject)
+			{
+				if (Soccerball.GetComponent<Highlighter>() != null)
+				{
+					Soccerball.GetComponent<Highlighter>().ConstantOff();
+				}
+				Soccerball = hit.collider.gameObject;
+				if (Soccerball.GetComponent<Highlighter>() != null)
+				{
+					Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+				}
+			}
+			else if(Soccerball.GetComponent<Highlighter>() != null)
+			{
+				Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+			}
 
+			SoccerballMove();
+		}
+		else
+		{
+			if(Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
+			{
+				Soccerball.GetComponent<Highlighter>().ConstantOff();
+			}
 		}
 		
 	}
 
-	public void DrawRayLine(Vector3 pos1, Vector3 pos2)
+	public void SoccerballMove()  // 足球移动
+	{
+		float sdir = 0.001f, ddir = 0.0007f;  // 根号2倍
+		// 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7
+		if(Soccerball.name == "Soccerball0")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x += sdir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball1")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x += ddir;
+			TempPos.y += ddir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball2")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.y += sdir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball3")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x -= ddir;
+			TempPos.y += ddir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball4")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x -= sdir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball5")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x -= ddir;
+			TempPos.y -= ddir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball6")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.y -= sdir;
+			Soccerball.transform.position = TempPos;
+		}
+		else if (Soccerball.name == "Soccerball7")
+		{
+			Vector3 TempPos = Soccerball.transform.position;
+			TempPos.x += ddir;
+			TempPos.y -= ddir;
+			Soccerball.transform.position = TempPos;
+		}
+	}
+
+	public void DrawRayLine(Vector3 pos1, Vector3 pos2)	// 画线函数
 	{
 		////添加LineRenderer组件
 		////设置材质

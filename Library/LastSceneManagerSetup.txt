@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/KinectDemos/OverlayDemo/KinectOverlayDemo3.unity
+- path: Assets/Scenes/RadarTest.unity
   isLoaded: 1
   isActive: 1
