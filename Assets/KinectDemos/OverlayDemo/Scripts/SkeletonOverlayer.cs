@@ -44,6 +44,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
 	//记录左右两个指尖的坐标
 	private Vector3 HandTipLeft;
+	private Vector3 SpineMid;	// 患者重心坐标
 	private Vector2 LastPosition;
 	private Vector2 NowPosition;
 	private float LastNowDis;  // 两个点的差值
@@ -85,9 +86,8 @@ public class SkeletonOverlayer : MonoBehaviour
 
 	public Canvas canvas;
 
-	// 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7
+	// 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7,中间:8
 	public GameObject Soccerball;
-	public Vector2 SoccerballCenter;	// 足球中心点
 
 	public Camera camera;
 	public LineRenderer line;
@@ -165,11 +165,9 @@ public class SkeletonOverlayer : MonoBehaviour
 		//line = gameObject.AddComponent<LineRenderer>();
 		//line = GetComponent<LineRenderer>();
 		Soccerball = null;
-		SoccerballCenter = new Vector2(-0.1f, 1f);
-
 	}
 
-	void Update () 
+void Update () 
 	{
 		KinectManager manager = KinectManager.Instance;
 		
@@ -220,8 +218,10 @@ public class SkeletonOverlayer : MonoBehaviour
 
 								if (i == 21) { HandTipLeft = posJoint; }
 
+								if (i == 1) { SpineMid = posJoint; }
+
 								// 当左右手距离小于0.1f的时候画线
-								if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)
+								if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
 								{
 
 									if(Points.Count == 0)
@@ -231,6 +231,11 @@ public class SkeletonOverlayer : MonoBehaviour
 
 										ColorFistLine.points2.Add(LastPosition);
 										//ColorFistLine.Draw();
+
+										// 初始放置足球
+										transform.GetChild(0).position = SpineMid;
+										SoccerballReset();
+										transform.GetChild(0).gameObject.SetActive(true);
 									}
 									else
 									{
@@ -274,6 +279,7 @@ public class SkeletonOverlayer : MonoBehaviour
 									{
 										Soccerball.GetComponent<Highlighter>().ConstantOff();
 									}
+									//transform.GetChild(0).gameObject.SetActive(false);
 								}
 
 								Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -337,9 +343,27 @@ public class SkeletonOverlayer : MonoBehaviour
 		}
 	}
 
+	public void SoccerballReset() 
+	{
+		List<Vector3> PositionOffset = new List<Vector3> {		// 8个方向的偏移量
+			new Vector3(-0.1f, 0f, 0f),
+			new Vector3(-0.08571428f, 0.08571427f, 0f),
+			new Vector3(0f, 0.1428571f, 0f),
+			new Vector3(0.08571427f, 0.08571427f, 0f),
+			new Vector3(0.1428571f, 0f, 0f),
+			new Vector3(0.08571427f, 0.08571427f, 0f),
+			new Vector3(0f, -0.1428571f, 0f),
+			new Vector3(-0.08571428f, -0.1428571f, 0f),
+		};	
+		for(int i = 0; i < 8; i++)
+		{
+			transform.GetChild(0).GetChild(i).transform.position = PositionOffset[i] + transform.GetChild(0).position;
+		}
+	}
+
 	//public LineRenderer lineRenderer = new LineRenderer();
 
-	void RayCastResult(Vector3 FistPos)
+	public void RayCastResult(Vector3 FistPos)
 	{
 
 		//print(FistPos+" "+ SoccerballPos);
@@ -442,6 +466,10 @@ public class SkeletonOverlayer : MonoBehaviour
 			TempPos.x += ddir;
 			TempPos.y -= ddir;
 			Soccerball.transform.position = TempPos;
+		}
+		else if(Soccerball.name == "Soccerball8")
+		{
+
 		}
 	}
 
