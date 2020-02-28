@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Vectrosity;
 using HighlightingSystem;
+using DG.Tweening;
 //using Windows.Kinect;
 
 
@@ -94,6 +95,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public LineRenderer line;
 
     public Button button;
+    public Image Introduction;
+    public float WaitTime;   // 双手握拳的时间,初始设为3秒
 
     void Start()
     {
@@ -166,6 +169,11 @@ public class SkeletonOverlayer : MonoBehaviour
         //line = gameObject.AddComponent<LineRenderer>();
         //line = GetComponent<LineRenderer>();
         Soccerball = null;
+
+        Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 101.9f,0), 2.5f);
+        //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
+
+        WaitTime = 3f;
     }
 
     void Update()
@@ -225,59 +233,67 @@ public class SkeletonOverlayer : MonoBehaviour
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
 
-                                    if (Points.Count == 0)
+                                    if(WaitTime > 0f)
                                     {
-                                        LastPosition = Kinect2UIPosition(posJoint);
-                                        Points.Add(new Point(LastPosition.x, LastPosition.y));
-
-                                        ColorFistLine.points2.Add(LastPosition);
-                                        //ColorFistLine.Draw();
-
-                                        // 初始放置足球
-                                        transform.GetChild(0).position = SpineMid;
-                                        FirstFistZ = posJoint.z;
-                                        SoccerballReset();
+                                        WaitTime -= Time.deltaTime;
                                     }
                                     else
                                     {
-                                        NowPosition = Kinect2UIPosition(posJoint);
-
-                                        LastNowDis = PointsDistance(LastPosition, NowPosition);
-                                        LastPosition = NowPosition;
-
-                                        int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
-
-                                        if (LastNowDis > 0.0f)
+                                        Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
+                                        if (Points.Count == 0)
                                         {
-                                            DeltaBase = (int)(LastNowDis * 7);
+                                            LastPosition = Kinect2UIPosition(posJoint);
+                                            Points.Add(new Point(LastPosition.x, LastPosition.y));
 
-                                            if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
-                                            else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
-                                            else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
-                                            else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+                                            ColorFistLine.points2.Add(LastPosition);
+                                            //ColorFistLine.Draw();
 
-                                            Points.Add(new Point(NowPosition.x, NowPosition.y));
-                                            ColorFistLine.points2.Add(NowPosition);
-                                            ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), Points.Count - 2);
-                                            //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+                                            // 初始放置足球
+                                            transform.GetChild(0).position = SpineMid;
+                                            FirstFistZ = posJoint.z;
+                                            SoccerballReset();
+                                        }
+                                        else
+                                        {
+                                            NowPosition = Kinect2UIPosition(posJoint);
 
-                                            ColorFistLine.Draw();
+                                            LastNowDis = PointsDistance(LastPosition, NowPosition);
+                                            LastPosition = NowPosition;
+
+                                            int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+                                            if (LastNowDis > 0.0f)
+                                            {
+                                                DeltaBase = (int)(LastNowDis * 7);
+
+                                                if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                                                else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                                                else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                                                else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                                                Points.Add(new Point(NowPosition.x, NowPosition.y));
+                                                ColorFistLine.points2.Add(NowPosition);
+                                                ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), Points.Count - 2);
+                                                //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+
+                                                ColorFistLine.Draw();
+                                            }
+
+                                        }
+                                        // 判断是否碰到球
+                                        //print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
+                                        //if((posJoint - Soccerball.transform.position).magnitude < 0.1f)
+                                        //{
+                                        //	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
+                                        //}
+                                        for (int z = 0; z < 9; z++)
+                                        {
+                                            transform.GetChild(z).gameObject.SetActive(true);
                                         }
 
+                                        RayCastResult(posJoint);    // 发出射线射到哪个足球
+                                                                    //DrawRayLine(camera.transform.position, posJoint);
                                     }
-                                    // 判断是否碰到球
-                                    //print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
-                                    //if((posJoint - Soccerball.transform.position).magnitude < 0.1f)
-                                    //{
-                                    //	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
-                                    //}
-                                    for (int z = 0; z < 9; z++)
-                                    {
-                                        transform.GetChild(z).gameObject.SetActive(true);
-                                    }
-
-                                    RayCastResult(posJoint);    // 发出射线射到哪个足球
-                                                                //DrawRayLine(camera.transform.position, posJoint);
 
                                 }
                                 else if (i == 23 && (HandTipLeft - posJoint).magnitude > 0.8f)
@@ -481,7 +497,13 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball")
         {
             Vector3 TempPos = Soccerball.transform.localScale;
-            TempPos.x = TempPos.y = TempPos.z = TempPos.x + (FirstFistZ - FistPos.z) * ScaleOffset;
+            float ZOffset = FirstFistZ - FistPos.z;
+            
+            if(ZOffset == 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red); }
+            else if(ZOffset > 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green); }
+            else if(ZOffset < 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.blue);}
+
+            TempPos.x = TempPos.y = TempPos.z = TempPos.x + ZOffset * ScaleOffset;
             //print(FistPos + " " + FirstFistZ);
             FirstFistZ = FistPos.z;
             Soccerball.transform.localScale = TempPos;
