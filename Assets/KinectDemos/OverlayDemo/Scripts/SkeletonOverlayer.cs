@@ -235,7 +235,6 @@ void Update ()
 										// 初始放置足球
 										transform.GetChild(0).position = SpineMid;
 										SoccerballReset();
-										transform.GetChild(0).gameObject.SetActive(true);
 									}
 									else
 									{
@@ -262,6 +261,7 @@ void Update ()
 
 											ColorFistLine.Draw();
 										}
+
 									}
 									// 判断是否碰到球
 									//print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
@@ -269,17 +269,19 @@ void Update ()
 									//{
 									//	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
 									//}
+									transform.GetChild(0).gameObject.SetActive(true);
+
 									RayCastResult(posJoint);	// 发出射线射到哪个足球
 									//DrawRayLine(camera.transform.position, posJoint);
 
 								}
-								else if(i == 23)
+								else if(i == 23 && (HandTipLeft - posJoint).magnitude > 0.8f)
 								{
 									if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
 									{
 										Soccerball.GetComponent<Highlighter>().ConstantOff();
 									}
-									//transform.GetChild(0).gameObject.SetActive(false);
+									transform.GetChild(0).gameObject.SetActive(false);
 								}
 
 								Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -346,14 +348,14 @@ void Update ()
 	public void SoccerballReset() 
 	{
 		List<Vector3> PositionOffset = new List<Vector3> {		// 8个方向的偏移量
-			new Vector3(-0.1f, 0f, 0f),
-			new Vector3(-0.08571428f, 0.08571427f, 0f),
-			new Vector3(0f, 0.1428571f, 0f),
-			new Vector3(0.08571427f, 0.08571427f, 0f),
-			new Vector3(0.1428571f, 0f, 0f),
-			new Vector3(0.08571427f, 0.08571427f, 0f),
-			new Vector3(0f, -0.1428571f, 0f),
-			new Vector3(-0.08571428f, -0.1428571f, 0f),
+			new Vector3(0.5f, 0f, 0f),
+			new Vector3(0.32f, 0.32f, 0f),
+			new Vector3(0f, 0.5f, 0f),
+			new Vector3(-0.32f, 0.32f, 0f),
+			new Vector3(-0.5f, 0f, 0f),
+			new Vector3(-0.32f, -0.32f, 0f),
+			new Vector3(0f, -0.5f, 0f),
+			new Vector3(0.32f, -0.32f, 0f),
 		};	
 		for(int i = 0; i < 8; i++)
 		{
@@ -467,7 +469,7 @@ void Update ()
 			TempPos.y -= ddir;
 			Soccerball.transform.position = TempPos;
 		}
-		else if(Soccerball.name == "Soccerball8")
+		else if(Soccerball.name == "Soccerball")
 		{
 
 		}
