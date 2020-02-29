@@ -158,7 +158,7 @@ public class SkeletonOverlayer : MonoBehaviour
         ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
         ColorFistLine.smoothColor = false;   // 设置平滑颜色
         ColorFistLine.smoothWidth = false;   // 设置平滑宽度
-        ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+        //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
         // always mirrored
         initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
@@ -276,7 +276,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                                 ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), Points.Count - 2);
                                                 //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
 
-                                                ColorFistLine.Draw();
+                                                //ColorFistLine.Draw();
                                             }
 
                                         }
@@ -302,10 +302,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                     {
                                         Soccerball.GetComponent<Highlighter>().ConstantOff();
                                     }
-                                    for (int z = 0; z < 9; z++)
-                                    {
-                                        transform.GetChild(z).gameObject.SetActive(false);
-                                    }
+                                    //for (int z = 0; z < 9; z++)
+                                    //{
+                                    //    transform.GetChild(z).gameObject.SetActive(false);
+                                    //}
                                 }
 
                                 Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -536,11 +536,18 @@ public class SkeletonOverlayer : MonoBehaviour
 
     }
 
-    public void ButtonOnClick() // 求凸包
+    public void EvaluationReStart()
+    {
+        OnEnable();
+    }
+
+    public void EvaluationFinished() // 求凸包
     {
 
         if (Points != null && Points.Count > 0)
         {
+            ColorFistLine.Draw();
+
             Points.Sort(new CoordinateComparer());   // 对点排序一下才能用凸包算法
 
             pointArray = new Point[Points.Count];

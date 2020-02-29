@@ -87,6 +87,10 @@ public class EvaluateInitScript : MonoBehaviour
         TrainingPlay evaluation = new TrainingPlay();
         evaluation.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0) + DoctorDatabaseManager.instance.ReadPatientRecordCount(1));
         //print(DoctorDataManager.instance.doctor.patient.Evaluations.Count);
+        if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
+        {
+            DoctorDataManager.instance.doctor.patient.Evaluations = new List<TrainingPlay>();
+        }
         DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
 
         //PatientDataManager.instance.SetTrainingID(evaluation.TrainingID);
@@ -96,7 +100,7 @@ public class EvaluateInitScript : MonoBehaviour
         //PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
         //PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
         PatientDataManager.instance.SetIsEvaluated(1);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("05-RadarTest");
     }
 
     public void ReadReportButtonOnclick()

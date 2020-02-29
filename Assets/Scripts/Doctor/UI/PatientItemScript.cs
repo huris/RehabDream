@@ -37,9 +37,22 @@ public class PatientItemScript : MonoBehaviour {
 
     public GameObject PatentInfoManagerUI;
 
+    public Image PatientAddImage;
+    public Image PatientAllImage;
+    public Image PatientQueryImage;
+
     void OnEnable()
     {
         NoPatient = transform.parent.parent.Find("NoPatient").gameObject;
+
+        PatientAddImage = transform.parent.parent.Find("PatientAddButton").GetComponent<Image>();
+        PatientAddImage.color = Color.white;
+
+        PatientAllImage = transform.parent.parent.Find("PatientAllButton").GetComponent<Image>();
+        PatientAllImage.color = Color.white;
+
+        PatientQueryImage = transform.parent.parent.Find("PatientQueryButton").GetComponent<Image>();
+        PatientQueryImage.color = Color.white;
 
         if (DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
         {
@@ -199,7 +212,7 @@ public class PatientItemScript : MonoBehaviour {
             PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
             PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
             PatientDataManager.instance.SetIsEvaluated(0);
-            SceneManager.LoadScene("Game");  // 如果登录成功,则进入医生管理界面
+            SceneManager.LoadScene("06-Game");  // 如果登录成功,则进入医生管理界面
         }
         else
         {
