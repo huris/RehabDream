@@ -25,6 +25,12 @@ public class PatientDatabaseManager : MonoBehaviour
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
     private string DirectionsTableName = "Directions";
+
+    // 评估数据表
+    private string PatientEvaluationTableName = "PatientEvaluation";
+    private string EvaluationSoccerTableName = "EvaluationSoccer";
+    private string EvaluationPointsTableName = "EvaluationPoints";
+
     // .db is in data/
 
     public enum DatabaseReturn
@@ -394,60 +400,42 @@ public class PatientDatabaseManager : MonoBehaviour
     // read MaxDirection by PatientID
     public float[] ReadEvaluateDirection(long PatientID)
     {
-        SqliteDataReader reader;    //sql读取器
-        long TrainingID = 0;
+        SqliteDataReader EvaluationIDReader, EvaluationSoccerReader;    //sql读取器
+        long EvaluationID = 0;
         float[] EvaluateDirection = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};    //default value
 
         try
         {
-            reader = PatientDatabase.ReadTable(
-                PatientRecordTableName,
+            EvaluationIDReader = PatientDatabase.ReadTable(
+                PatientEvaluationTableName,
                 new string[] {
                     "*"
                     },
 
                 new string[] {
                     "PatientID",
-                    "IsEvaluated"
                     },
 
                 new string[] {
                     "=",
-                    "="
                     },
 
                 new string[] {
                     PatientID.ToString(),
-                    1.ToString()
                 }
                 );
 
-            if (reader.Read() && reader.HasRows)
+            while (EvaluationIDReader.Read() && EvaluationIDReader.HasRows)
             {   //存在训练记录
-                TrainingID = reader.GetInt64(reader.GetOrdinal("TrainingID"));
-            }
-            else
-            {
-                Debug.Log("@DatabaseManager: Read IsEvaluated TrainingID NULL");
-            }
-        }
-        catch (SqliteException e)
-        {
-            Debug.Log("@DatabaseManager: Read IsEvaluated TrainingID SqliteException");
-            PatientDatabase.CloseConnection();
-
-        }
-
-        try
-        {
-            reader = PatientDatabase.ReadTable(
-                DirectionsTableName,
+                EvaluationID = EvaluationIDReader.GetInt64(EvaluationIDReader.GetOrdinal("EvaluationID"));
+                EvaluationSoccerReader = PatientDatabase.ReadTable(
+                EvaluationSoccerTableName,
                 new string[] {
                     "*"
                     },
 
                 new string[] {
-                    "TrainingID",
+                    "EvaluationID",
                     },
 
                 new string[] {
@@ -455,32 +443,35 @@ public class PatientDatabaseManager : MonoBehaviour
                     },
 
                 new string[] {
-                    TrainingID.ToString(),
+                    EvaluationID.ToString(),
                 }
                 );
 
-            if (reader.Read() && reader.HasRows)
-            {   //存在训练记录
-                EvaluateDirection[0] = reader.GetFloat(reader.GetOrdinal("UponDirection"));
-                EvaluateDirection[1] = reader.GetFloat(reader.GetOrdinal("UponRightDirection"));
-                EvaluateDirection[2] = reader.GetFloat(reader.GetOrdinal("RightDirection"));
-                EvaluateDirection[3] = reader.GetFloat(reader.GetOrdinal("DownRightDirection"));
-                EvaluateDirection[4] = reader.GetFloat(reader.GetOrdinal("DownDirection"));
-                EvaluateDirection[5] = reader.GetFloat(reader.GetOrdinal("DownLeftDirection"));
-                EvaluateDirection[6] = reader.GetFloat(reader.GetOrdinal("LeftDirection"));
-                EvaluateDirection[7] = reader.GetFloat(reader.GetOrdinal("UponLeftDirection"));
+                if (EvaluationSoccerReader.Read() && EvaluationSoccerReader.HasRows)
+                {   //存在训练记录
+                    EvaluateDirection[0] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponSoccer"));
+                    EvaluateDirection[1] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponRightSoccer"));
+                    EvaluateDirection[2] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("RightSoccer"));
+                    EvaluateDirection[3] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownRightSoccer"));
+                    EvaluateDirection[4] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownSoccer"));
+                    EvaluateDirection[5] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownLeftSoccer"));
+                    EvaluateDirection[6] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("LeftSoccer"));
+                    EvaluateDirection[7] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponLeftSoccer"));
+                }
+                else
+                {
+                    Debug.Log("@DatabaseManager: Read MaxDirection NULL");
+                }
             }
-            else
-            {
-                Debug.Log("@DatabaseManager: Read MaxDirection NULL");
-            }
+            
         }
         catch (SqliteException e)
         {
-            Debug.Log("@DatabaseManager: Read MaxDirection SqliteException");
+            Debug.Log("@DatabaseManager: Read EvaluateDirection SqliteException");
             PatientDatabase.CloseConnection();
 
         }
+
 
         return EvaluateDirection;
     }
