@@ -261,13 +261,16 @@
       <HintPath>Assets/Plugins/System.Data.dll</HintPath>
     </Reference>
     <Reference Include="LCPrinter">
-      <HintPath>Assets/Resources/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+      <HintPath>Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
     </Reference>
     <Reference Include="LZ4Sharp">
       <HintPath>Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
     </Reference>
     <Reference Include="Poly2Tri">
       <HintPath>Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+    </Reference>
+    <Reference Include="Vectrosity">
+      <HintPath>Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
@@ -294,6 +297,8 @@
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
+    <Compile Include="Assets\DoctorTestScript.cs" />
+    <Compile Include="Assets\GetUsesClrTex.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -340,6 +345,19 @@
     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Pie_Graph_Slice.cs" />
     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Ring.cs" />
     <Compile Include="Assets\Graph_Maker\Scripts\WMG_Series.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\CameraTargeting.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\CompoundObjectController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\FlashingController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\HighlighterController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\HighlighterOccluder.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Advanced\SpectrumController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Basic\CSHighlighterController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Helpers\MovementController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Helpers\RotationController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\CameraFlyController.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\FPSCounter.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\PresetSelector.cs" />
+    <Compile Include="Assets\HighlightingSystemDemo\Scripts\Service\SceneLoader.cs" />
     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\CameraPitchCorrector.cs" />
     <Compile Include="Assets\KinectDemos\AvatarsDemo\Scripts\OffsetNodeMover.cs" />
     <Compile Include="Assets\KinectDemos\BackgroundRemovalDemo\Scripts\ForegroundBlender.cs" />
@@ -534,9 +552,10 @@
     <Compile Include="Assets\MaterialUI\Utils\LitJson\ParserToken.cs" />
     <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\ObserveAttribute\ObserveAttribute.cs" />
     <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\PopupAttribute\PopupAttribute.cs" />
-    <Compile Include="Assets\Resources\printer\_Scripts\ScreenShot2Pdf.cs" />
-    <Compile Include="Assets\Resources\printer\_Scripts\Xml.cs" />
-    <Compile Include="Assets\Resources\printer\LCPrinter\LCExampleScript.cs" />
+    <Compile Include="Assets\printer\_Scripts\ScreenShot2Pdf.cs" />
+    <Compile Include="Assets\printer\_Scripts\ScreenShot2PdfWS.cs" />
+    <Compile Include="Assets\printer\_Scripts\Xml.cs" />
+    <Compile Include="Assets\printer\LCPrinter\LCExampleScript.cs" />
     <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
     <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
     <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
@@ -548,6 +567,8 @@
     <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlan.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlay.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginExitButton.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginReturnButton.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginScript.cs" />
@@ -586,13 +607,12 @@
     <Compile Include="Assets\Scripts\Doctor\UI\PatientPasswordModifyButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingFeedbackInitScript.cs" />
-    <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlan.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlanMakingDataInitScript.cs" />
-    <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlay.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
     <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
@@ -715,6 +735,50 @@
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple3DObject\Simple3D.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple3DObject\Simple3D2.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple3DObject\Simple3D3.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Curve\CurvePointControl.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Curve\DrawCurve.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Curve\SimpleCurve.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\DrawLines\DrawLines.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\DrawLines\DrawLinesMouse.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\DrawLines\DrawLinesTouch.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Ellipse\Ellipse1.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Ellipse\Ellipse2.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\EndCap\EndCapDemo.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Grid\DrawGrid.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Grid3D\Grid3D.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Highlight\Highlight.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Highlight\MakeSpheres.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Highlight\RotateAroundY.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Mask\MaskLine1.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Mask\MaskLine2.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Orbit\CreateStars.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Orbit\Orbit.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Orbit\RotateViewpoint.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\PartialLine\AnimatePartialLine.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Path\DrawPath.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Points\DrawPoints.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\PowerBar\PowerBar.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\RandomHills\CreateHills.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Scribblecube\CameraZoom.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Scribblecube\ScribbleCube.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\SelectionBox\SelectionBox.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\SelectionBox\SelectionBox2.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\SelectLine\SelectLine.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Spline\MakeSpline.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\SplineFollow\SplineFollow2D.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\SplineFollow\SplineFollow3D.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Text\TextDemo.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Xray\DrawBox.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Xray\VectorObject.cs" />
+    <Compile Include="Assets\Vectrosity\Demos\Scripts\Xray\XrayLineData.cs" />
+    <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\BloomOptimized.cs" />
+    <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\PostEffectsBase.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Dynamic.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_LargeData.cs" />
     <Compile Include="Assets\XCharts\Demo\Runtime\Demo_PieChart.cs" />
@@ -822,8 +886,12 @@
     <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
     <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
     <None Include="Assets\MaterialUI\README.txt" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
     <None Include="Assets\Plugins\UWP\Attribution.txt" />
-    <None Include="Assets\Resources\printer\LCPrinter\Readme.txt" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -872,6 +940,13 @@
     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
     <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
+    <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
+    <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
+    <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
+    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
+    <None Include="Assets\Vectrosity\What to import!.txt" />
+    <None Include="Assets\printer\LCPrinter\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
