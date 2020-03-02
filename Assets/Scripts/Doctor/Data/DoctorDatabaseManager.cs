@@ -35,6 +35,10 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string GravityCenterTableName = "GravityCenter";
     private string AnglesTableName = "Angles";
     private string DirectionsTableName = "Directions";
+    private string PatientEvaluationTableName = "PatientEvaluation";
+    private string EvaluationSoccerTableName = "EvaluationSoccer";
+    private string EvaluationPointsTableName = "EvaluationPoints";
+
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -375,6 +379,87 @@ public class DoctorDatabaseManager : MonoBehaviour
                     }
                 );
             Debug.Log("@DatabaseManager: Create DirectionsTable");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(PatientEvaluationTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                DirectionsTableName,   //table name
+                new String[] {
+                    "EvaluationID",
+                    "PatientID",
+                    "EvaluationStartTime",
+                    "EvaluationEndTime",
+                    ""},
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "PRIMARY KEY(EvaluationID)" 
+                    }
+                );
+            Debug.Log("@DatabaseManager: Create PatientEvaluatiuon");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(EvaluationSoccerTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                DirectionsTableName,   //table name
+                new String[] {
+                    "EvaluationID",
+                    "UponSoccer",
+                    "UponRightSoccer",
+                    "RightSoccer",
+                    "DownRightSoccer",
+                    "DownSoccer",
+                    "DownLeftSoccer",
+                    "LeftSoccer",
+                    "UponLeftSoccer",
+                    "CenterSoccerMax",
+                    "CenterSoccerMin",
+                    ""},
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",                    
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "PRIMARY KEY(EvaluationID)"
+                    }
+                );
+            Debug.Log("@DatabaseManager: Create EvaluationSoccer");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(EvaluationPointsTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                DirectionsTableName,   //table name
+                new String[] {
+                    "EvaluationID",
+                    "PointX",
+                    "PointY",
+                    ""},
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "PRIMARY KEY(EvaluationID)"
+                    }
+                );
+            Debug.Log("@DatabaseManager: Create EvaluationPoints");
         }
 
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
@@ -1657,7 +1742,6 @@ public class DoctorDatabaseManager : MonoBehaviour
             return result;
         }
     }
-
 
     // create Data/
     private void CheckDataFolder()
