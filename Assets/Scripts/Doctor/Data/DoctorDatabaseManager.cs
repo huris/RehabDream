@@ -385,7 +385,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         if (!this.PatientDatabase.IsTableExists(PatientEvaluationTableName))  //check PatientInfoTableName table
         {
             this.PatientDatabase.CreateTable(
-                DirectionsTableName,   //table name
+                PatientEvaluationTableName,   //table name
                 new String[] {
                     "EvaluationID",
                     "PatientID",
@@ -408,7 +408,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         if (!this.PatientDatabase.IsTableExists(EvaluationSoccerTableName))  //check PatientInfoTableName table
         {
             this.PatientDatabase.CreateTable(
-                DirectionsTableName,   //table name
+                EvaluationSoccerTableName,   //table name
                 new String[] {
                     "EvaluationID",
                     "UponSoccer",
@@ -419,8 +419,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "DownLeftSoccer",
                     "LeftSoccer",
                     "UponLeftSoccer",
-                    "CenterSoccerMax",
                     "CenterSoccerMin",
+                    "CenterSoccerMax",
                     ""},
 
                 new String[] {
@@ -445,7 +445,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         if (!this.PatientDatabase.IsTableExists(EvaluationPointsTableName))  //check PatientInfoTableName table
         {
             this.PatientDatabase.CreateTable(
-                DirectionsTableName,   //table name
+                EvaluationPointsTableName,   //table name
                 new String[] {
                     "EvaluationID",
                     "PointX",

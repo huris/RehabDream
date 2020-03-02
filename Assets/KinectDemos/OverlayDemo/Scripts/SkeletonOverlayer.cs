@@ -97,6 +97,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Button button;
     public Image Introduction;
     public float WaitTime;   // 双手握拳的时间,初始设为3秒
+    public Slider KinectDetectUIProgressSlider;  // 进度条
 
     void Start()
     {
@@ -173,7 +174,7 @@ public class SkeletonOverlayer : MonoBehaviour
         Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 101.9f,0), 2.5f);
         //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
 
-        WaitTime = 3f;
+        WaitTime = 0f;
     }
 
     void Update()
@@ -233,9 +234,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
 
-                                    if(WaitTime > 0f)
+                                    if(WaitTime < 3.0f)
                                     {
-                                        WaitTime -= Time.deltaTime;
+                                        WaitTime += Time.deltaTime;
+                                        KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
                                     }
                                     else
                                     {
@@ -372,14 +374,14 @@ public class SkeletonOverlayer : MonoBehaviour
     public void SoccerballReset()
     {
         List<Vector3> PositionOffset = new List<Vector3> {		// 8个方向的偏移量
-			new Vector3(0.5f, 0f, 0f),
-            new Vector3(0.32f, 0.32f, 0f),
             new Vector3(0f, 0.5f, 0f),
             new Vector3(-0.32f, 0.32f, 0f),
             new Vector3(-0.5f, 0f, 0f),
             new Vector3(-0.32f, -0.32f, 0f),
             new Vector3(0f, -0.5f, 0f),
             new Vector3(0.32f, -0.32f, 0f),
+            new Vector3(0.5f, 0f, 0f),
+            new Vector3(0.32f, 0.32f, 0f),
         };
         for (int i = 1; i <= 8; i++)
         {
@@ -441,57 +443,57 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         float sdir = 0.001f, ddir = 0.0007f;  // 根号2倍
         float ScaleOffset = 2f;
-        // 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7
+        // 上:2,右上:3,右:4,右下:5,下:6,左下:7,左:0,左上:1,
         if (Soccerball.name == "Soccerball0")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x += sdir;
+            TempPos.y += sdir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball1")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x += ddir;
+            TempPos.x -= ddir;
             TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball2")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.y += sdir;
+            TempPos.x -= sdir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball3")
         {
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.x -= ddir;
-            TempPos.y += ddir;
+            TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball4")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x -= sdir;
+            TempPos.y -= sdir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball5")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x -= ddir;
+            TempPos.x += ddir;
             TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball6")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.y -= sdir;
+            TempPos.x += sdir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball7")
         {
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.x += ddir;
-            TempPos.y -= ddir;
+            TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
         }
         else if (Soccerball.name == "Soccerball")
@@ -499,9 +501,9 @@ public class SkeletonOverlayer : MonoBehaviour
             Vector3 TempPos = Soccerball.transform.localScale;
             float ZOffset = FirstFistZ - FistPos.z;
             
-            if(ZOffset == 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red); }
-            else if(ZOffset > 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green); }
-            else if(ZOffset < 0f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.blue);}
+            if(TempPos.x == 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red); }
+            else if(TempPos.y > 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green); }
+            else if(TempPos.z < 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.yellow);}
 
             TempPos.x = TempPos.y = TempPos.z = TempPos.x + ZOffset * ScaleOffset;
             //print(FistPos + " " + FirstFistZ);

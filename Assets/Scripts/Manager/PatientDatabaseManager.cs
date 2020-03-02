@@ -9,6 +9,7 @@ using UnityEngine;
 using Mono.Data.Sqlite;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 public class PatientDatabaseManager : MonoBehaviour
 {
@@ -402,7 +403,7 @@ public class PatientDatabaseManager : MonoBehaviour
     {
         SqliteDataReader EvaluationIDReader, EvaluationSoccerReader;    //sql读取器
         long EvaluationID = 0;
-        float[] EvaluateDirection = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};    //default value
+        float[] EvaluateDirection = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};    //default value
 
         try
         {
@@ -457,6 +458,8 @@ public class PatientDatabaseManager : MonoBehaviour
                     EvaluateDirection[5] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownLeftSoccer"));
                     EvaluateDirection[6] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("LeftSoccer"));
                     EvaluateDirection[7] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponLeftSoccer"));
+                    EvaluateDirection[8] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("CenterSoccerMin"));
+                    EvaluateDirection[9] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("CenterSoccerMax"));
                 }
                 else
                 {
@@ -540,6 +543,68 @@ public class PatientDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@DatabaseManager: Write MaxDirection SqliteException");
+            this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+    //write patient record
+    public DatabaseReturn WriteMaxSoccerDistances(long EvaluationID, float[] MaxSoccerDistances)
+    {
+
+        try
+        {
+
+            PatientDatabase.InsertValues(
+            EvaluationSoccerTableName, //table name
+            new string[] {
+                    EvaluationID.ToString(),
+                    MaxSoccerDistances[0].ToString(),
+                    MaxSoccerDistances[1].ToString(),
+                    MaxSoccerDistances[2].ToString(),
+                    MaxSoccerDistances[3].ToString(),
+                    MaxSoccerDistances[4].ToString(),
+                    MaxSoccerDistances[5].ToString(),
+                    MaxSoccerDistances[6].ToString(),
+                    MaxSoccerDistances[7].ToString(),
+                    MaxSoccerDistances[8].ToString(),
+                    MaxSoccerDistances[9].ToString()
+            }
+        );
+
+            Debug.Log("@DatabaseManager: Write MaxSoccerDistances Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write MaxSoccerDistances SqliteException");
+            this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+    //write patient record
+    public DatabaseReturn WritePoints(long EvaluationID, List<Vector2> Points)
+    {
+
+        try
+        {
+
+            PatientDatabase.InsertValues(
+            EvaluationPointsTableName, //table name
+            new string[] {
+                    EvaluationID.ToString(),
+                    Points[0].ToString(),
+                    Points[1].ToString(),
+            }
+        );
+
+            Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write EvaluationPoints SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
         }
