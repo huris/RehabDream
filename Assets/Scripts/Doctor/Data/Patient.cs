@@ -22,7 +22,7 @@ public class Patient
 
     public TrainingPlan trainingPlan = null;      // 患者训练计划
     public List<TrainingPlay> TrainingPlays = null;   // 患者训练列表
-    public List<TrainingPlay> Evaluations = null;   // 患者评估列表
+    public List<Evaluation> Evaluations = null;   // 患者评估列表
 
     public Patient() { }
 
@@ -69,7 +69,7 @@ public class Patient
             this.TrainingPlayIndex = this.TrainingPlays.Count - 1;
         }
 
-        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 1);                             
+        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(this.PatientID);                             
         if (this.Evaluations != null && this.Evaluations.Count > 0)
         {
             this.EvaluationIndex = this.Evaluations.Count - 1;

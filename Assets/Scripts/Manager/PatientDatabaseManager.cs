@@ -533,7 +533,9 @@ public class PatientDatabaseManager : MonoBehaviour
                     MaxDirections[4].ToString(),
                     MaxDirections[5].ToString(),
                     MaxDirections[6].ToString(),
-                    MaxDirections[7].ToString()
+                    MaxDirections[7].ToString(),
+                    MaxDirections[8].ToString(),
+                    MaxDirections[9].ToString()
                 }
             );
 
@@ -543,6 +545,59 @@ public class PatientDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@DatabaseManager: Write MaxDirection SqliteException");
+            this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+    //write patient record
+    public DatabaseReturn WriteEvaluationData(Evaluation evaluation)
+    {
+
+        try
+        {
+            this.WriteEvaluationInfo(evaluation.EvaluationID, DoctorDataManager.instance.doctor.patient.PatientID,
+                evaluation.EvaluationStartTime, evaluation.EvaluationEndTime);
+
+            this.WriteMaxSoccerDistances(evaluation.EvaluationID, evaluation.soccerDistance.GetMaxSoccerDistances());
+
+            this.WritePoints(evaluation.EvaluationID, evaluation.Points);
+
+            Debug.Log("@DatabaseManager: Write EvaluationData Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write EvaluationData SqliteException");
+            this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+    //write patient record
+    public DatabaseReturn WriteEvaluationInfo(long EvaluationID, long PatientID, string EvaluationStartTime,
+        string EvaluationEndTime)
+    {
+
+        try
+        {
+
+            PatientDatabase.InsertValues(
+            PatientEvaluationTableName, //table name
+            new string[] {
+                    EvaluationID.ToString(),
+                    PatientID.ToString(),
+                    AddSingleQuotes(EvaluationStartTime),
+                    AddSingleQuotes(EvaluationEndTime)
+            }
+        ); ;
+
+            Debug.Log("@DatabaseManager: Write EvaluationInfo Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write EvaluationInfo SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
         }
@@ -584,20 +639,24 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePoints(long EvaluationID, List<Vector2> Points)
+    public DatabaseReturn WritePoints(long EvaluationID, List<Point> Points)
     {
 
         try
         {
-
-            PatientDatabase.InsertValues(
-            EvaluationPointsTableName, //table name
-            new string[] {
-                    EvaluationID.ToString(),
-                    Points[0].ToString(),
-                    Points[1].ToString(),
+            for(int i = 0; i < Points.Count; i++)
+            {
+                PatientDatabase.InsertValues(
+                   EvaluationPointsTableName, //table name
+                   new string[] {
+                            EvaluationID.ToString(),
+                            Points[i].x.ToString(),
+                            Points[i].y.ToString(),
+                   }
+                );
             }
-        );
+           
+
 
             Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
             return DatabaseReturn.Success;

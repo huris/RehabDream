@@ -7,6 +7,7 @@ using System.Linq;
 using Vectrosity;
 using HighlightingSystem;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 //using Windows.Kinect;
 
 
@@ -37,9 +38,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
     private Quaternion initialRotation = Quaternion.identity;
 
-    private VectorLine ColorFistLine; // 彩色手势线
-    private VectorLine ConvexHullLine;   // 凸包线
-
     ////用来索引端点
     //private int index = 0;
 
@@ -51,44 +49,11 @@ public class SkeletonOverlayer : MonoBehaviour
     private Vector2 NowPosition;
     private float LastNowDis;  // 两个点的差值
 
-    // 记录坐标集,取前两个坐标,舍弃z轴,求凸包
-    // 求凸包使用Melkman算法
-    public class Point
-    {
-        public float x { get; set; } = 0.0f;
-        public float y { get; set; } = 0.0f;
-        public Point(float _x = 0.0f, float _y = 0.0f)
-        {
-            x = _x;
-            y = _y;
-        }
-    }
-    public class CoordinateComparer : IComparer<Point>
-    {
-        //实现姓名升序
-        public int Compare(Point x, Point y)
-        {
-            if (x.y.CompareTo(y.y) == 0) return (x.x.CompareTo(y.x));
-            else return (x.y.CompareTo(y.y));
-        }
-
-    }
-    public float PointsDistance(Vector2 A, Vector2 B)
-    {
-        float Distance = Math.Abs(A.x - B.x) + Math.Abs(A.y - B.y);
-        return Distance;
-    }
-    private List<Point> Points;  // 数据点的集合 
-    private Point[] pointArray;  //坐标数组
-    private int PointNum = 0;    // 数据点的个数
-    private Point[] ConvexHull;  // 凸包集
-    private int ConvexHullNum;  // 凸包点的个数
-    private float ConvexHullArea;  // 凸包面积
-    private Point[] TwoTable; // 数组索引，双向表
+    public int IsTracked;   // 是否已经显示轨迹了
 
     public Canvas canvas;
 
-    // 左:0,左上:1,上:2,右上:3,右:4,右下:5,下:6,左下:7,中间:8
+    // 上:0,右上:1,右:2,右下:3,下:4,左下:5,左:6,左上:7,中间:8
     public GameObject Soccerball;
 
     public Camera camera;
@@ -98,6 +63,12 @@ public class SkeletonOverlayer : MonoBehaviour
     public Image Introduction;
     public float WaitTime;   // 双手握拳的时间,初始设为3秒
     public Slider KinectDetectUIProgressSlider;  // 进度条
+
+    public Evaluation evaluation;   // 新建一个评估测试
+    public ConvexHull convexHull;   // 新建一个凸包
+
+    private VectorLine ColorFistLine;   // 彩色手势线
+    private VectorLine ConvexHullLine;   // 凸包线
 
     void Start()
     {
@@ -153,13 +124,18 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
-        Points = new List<Point>();
-        //index = 0;
+        evaluation = new Evaluation();   // 新建一个评估测试
+        if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
+        {
+            evaluation.SetEvaluationID(0);
+        }
+        else
+        {
+            evaluation.SetEvaluationID(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+        }
 
-        ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
-        ColorFistLine.smoothColor = false;   // 设置平滑颜色
-        ColorFistLine.smoothWidth = false;   // 设置平滑宽度
-        //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+        //Points = new List<Point>();
+        //index = 0;
 
         // always mirrored
         initialRotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
@@ -175,6 +151,12 @@ public class SkeletonOverlayer : MonoBehaviour
         //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
 
         WaitTime = 0f;
+
+        IsTracked = 0;  // 为0表示没有显示轨迹
+
+        // 把线去掉
+        if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // 握拳轨迹图
+        if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // 凸包图
     }
 
     void Update()
@@ -241,14 +223,14 @@ public class SkeletonOverlayer : MonoBehaviour
                                     }
                                     else
                                     {
+                                        evaluation.SetEvaluationStartTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
+
                                         Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
-                                        if (Points.Count == 0)
+
+                                        if (evaluation.Points.Count == 0)
                                         {
                                             LastPosition = Kinect2UIPosition(posJoint);
-                                            Points.Add(new Point(LastPosition.x, LastPosition.y));
-
-                                            ColorFistLine.points2.Add(LastPosition);
-                                            //ColorFistLine.Draw();
+                                            evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
 
                                             // 初始放置足球
                                             transform.GetChild(0).position = SpineMid;
@@ -259,26 +241,12 @@ public class SkeletonOverlayer : MonoBehaviour
                                         {
                                             NowPosition = Kinect2UIPosition(posJoint);
 
-                                            LastNowDis = PointsDistance(LastPosition, NowPosition);
+                                            LastNowDis = Point.PointsDistance(new Point(LastPosition), new Point(NowPosition));
                                             LastPosition = NowPosition;
-
-                                            int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
 
                                             if (LastNowDis > 0.0f)
                                             {
-                                                DeltaBase = (int)(LastNowDis * 7);
-
-                                                if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
-                                                else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
-                                                else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
-                                                else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
-
-                                                Points.Add(new Point(NowPosition.x, NowPosition.y));
-                                                ColorFistLine.points2.Add(NowPosition);
-                                                ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), Points.Count - 2);
-                                                //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
-
-                                                //ColorFistLine.Draw();
+                                                evaluation.Points.Add(new Point(NowPosition));
                                             }
 
                                         }
@@ -499,6 +467,18 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball")
         {
             Vector3 TempPos = Soccerball.transform.localScale;
+
+            // 更新最大最小值
+            if(evaluation.soccerDistance.CenterSoccerMin > TempPos.x)
+            {
+                evaluation.soccerDistance.CenterSoccerMin = TempPos.x;
+            }
+
+            if(evaluation.soccerDistance.CenterSoccerMax < TempPos.x)
+            {
+                evaluation.soccerDistance.CenterSoccerMax = TempPos.x;
+            }
+
             float ZOffset = FirstFistZ - FistPos.z;
             
             if(TempPos.x == 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red); }
@@ -543,77 +523,126 @@ public class SkeletonOverlayer : MonoBehaviour
         OnEnable();
     }
 
-    public void EvaluationFinished() // 求凸包
+    public void EvaluationTrack() // 求凸包并显示轨迹
     {
 
-        if (Points != null && Points.Count > 0)
+        if (evaluation.Points != null && evaluation.Points.Count > 0)
         {
-            ColorFistLine.Draw();
-
-            Points.Sort(new CoordinateComparer());   // 对点排序一下才能用凸包算法
-
-            pointArray = new Point[Points.Count];
-            Points.Add(new Point(0.0f, 0.0f));    // 加入一个点方便下面的循环计算
-
-            //print(Points.Count);
-            for (int i = 0; i < Points.Count - 1; i++)
-            {
-
-                //print(Points[i].x+" "+Points[i].y+" "+i);
-                // 去掉一些重复的点
-                if (Points[i].x == Points[i + 1].x && Points[i].y == Points[i + 1].y)
-                {
-                    Points.RemoveAt(i + 1);
-                    i--;
-                }
-                else
-                {
-                    // 记录不重复的点
-                    pointArray[PointNum++] = Points[i];
-                }
-            }
-
-            ConvexHullNum = ConvexHullMelkman(pointArray, PointNum);
-
-            // 画凸包圈
-            ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, LineType.Continuous, Joins.Weld);
-            ConvexHullLine.smoothColor = false;   // 设置平滑颜色
-            ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
-            ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-
-            StartCoroutine(DrawConvexHull());
-
+            StartCoroutine(DrawColorFistLine());
         }
 
     }
 
+    IEnumerator DrawColorFistLine()
+    {
+        // 结束后画图
+        evaluation.SetEvaluationEndTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
+
+        ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
+        ColorFistLine.smoothColor = false;   // 设置平滑颜色
+        ColorFistLine.smoothWidth = false;   // 设置平滑宽度
+        ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+        int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+        ColorFistLine.points2.Add(new Vector2(evaluation.Points[0].x, evaluation.Points[0].y));
+
+        for (int i = 1; i < evaluation.Points.Count; i++)
+        {
+            //ColorFistLine.Draw();
+
+            ColorFistLine.points2.Add(new Vector2(evaluation.Points[i].x, evaluation.Points[i].y));
+
+            DeltaBase = (int)(Point.PointsDistance(evaluation.Points[i - 1], evaluation.Points[i]) * 7);
+
+            if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+            else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+            else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+            else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+            ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), evaluation.Points.Count - 2);
+            //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+            ColorFistLine.Draw();
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        StartCoroutine(DrawConvexHull());
+    }
     IEnumerator DrawConvexHull()
     {
+        convexHull = new ConvexHull(evaluation.Points);
+
+        // 画凸包圈
+        ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, LineType.Continuous, Joins.Weld);
+        ConvexHullLine.smoothColor = false;   // 设置平滑颜色
+        ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
+        ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+        
+        Color32 ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
+
         // 先把初始点存入画图函数
-        ConvexHullLine.points2.Add(new Vector2(ConvexHull[0].x, ConvexHull[0].y));
-        ConvexHullArea = 0f;   // 令凸包面积初始为0
+        ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+        convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
 
-        for (int i = 1; i < ConvexHullNum; i++)
+        for (int i = 1; i < convexHull.ConvexHullNum; i++)
         {
-            ConvexHullLine.points2.Add(new Vector2(ConvexHull[i].x, ConvexHull[i].y));
-            ConvexHullLine.SetColor(new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255));  // 设置颜色
+            ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+            ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
-            if (i < ConvexHullNum - 1)
+            if (i < convexHull.ConvexHullNum - 1)
             {
-                ConvexHullArea += Math.Abs(isLeft(ConvexHull[0], ConvexHull[i], ConvexHull[i + 1]));
+                convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
             }
 
             ConvexHullLine.Draw();
             yield return new WaitForSeconds(0.15f);
         }
 
-        button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
+        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
 
-        ConvexHullLine.points2.Add(new Vector2(ConvexHull[0].x, ConvexHull[0].y));
+        ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
         //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-        ConvexHullLine.SetColor(new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255));  // 设置颜色
+        ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
         ConvexHullLine.Draw();
+
+        // 记录足球的距离
+        evaluation.soccerDistance.UponSoccer = (transform.GetChild(1).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.UponRightSoccer = (transform.GetChild(2).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.RightSoccer = (transform.GetChild(3).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.DownRightSoccer = (transform.GetChild(4).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.DownSoccer = (transform.GetChild(5).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.DownLeftSoccer = (transform.GetChild(6).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.LeftSoccer = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
+        evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;       
+
+        IsTracked = 1;  // 显示轨迹,因此值为1
     }
+
+    public void EvaluationFinished() // 将数据写入数据库
+    {
+        if(IsTracked == 0) EvaluationTrack();   // 为0则说明需要进行显示轨迹
+
+        //StartCoroutine(WriteEvaluationData());  // 开一个协程写数据
+
+        if (DoctorDataManager.instance.doctor.patient.Evaluations == null) 
+        {
+            DoctorDataManager.instance.doctor.patient.Evaluations = new List<Evaluation>();
+        }
+
+        PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
+
+        DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
+
+        SceneManager.LoadScene("03-DoctorUI");
+    }
+
+    //IEnumerator WriteEvaluationData()
+    //{
+    //    //PatientDatabaseManager.instance.wri
+    //    int a = 3;
+
+       
+    //}
 
     public Vector2 Kinect2UIPosition(Vector3 pos)
     {
@@ -631,74 +660,4 @@ public class SkeletonOverlayer : MonoBehaviour
         //Mouse.transform.DOMove(uipos, 0.02f);
         //print(uipos);
     }
-
-    // isLeft(): test if a point is Left|On|Right of an infinite line.
-    //    Input:  three points P0, P1, and P2
-    //    Return: >0 for P2 left of the line through P0 and P1
-    //            =0 for P2 on the line
-    //            <0 for P2 right of the line
-    //    See: Algorithm 1 on Area of Triangles
-    public float isLeft(Point P0, Point P1, Point P2)
-    {
-        //print(P0.x + " " + P0.y +" "+P1.x+ " " + P1.y + " " + P2.x+" "+P2.y);
-        return (P1.x - P0.x) * (P2.y - P0.y) - (P2.x - P0.x) * (P1.y - P0.y);
-    }
-
-    // ConvexHullMelkman(): Melkman's 2D simple polyline O(n) convex hull algorithm
-    //    Input:  P[] = array of 2D vertex points for a simple polyline
-    //            n   = the number of points in V[]
-    //    Output: H[] = output convex hull array of vertices (max is n)
-    //    Return: h   = the number of points in H[]
-    public int ConvexHullMelkman(Point[] P, int n)
-    {
-        // initialize a deque D[] from bottom to top so that the
-        // 1st three vertices of P[] are a ccw triangle
-        TwoTable = new Point[2 * n + 1];
-        ConvexHull = new Point[n];
-
-        int bot = n - 2, top = bot + 3;    // initial bottom and top deque indices
-        TwoTable[bot] = TwoTable[top] = P[2];        // 3rd vertex is at both bot and top
-        if (isLeft(P[0], P[1], P[2]) > 0)
-        {
-            TwoTable[bot + 1] = P[0];
-            TwoTable[bot + 2] = P[1];           // ccw vertices are: 2,0,1,2
-        }
-        else
-        {
-            TwoTable[bot + 1] = P[1];
-            TwoTable[bot + 2] = P[0];           // ccw vertices are: 2,1,0,2
-        }
-
-        // compute the hull on the deque D[]
-        for (int i = 3; i < n; i++)
-        {
-            //print(i + "!!!!!");
-            // process the rest of vertices
-            // test if next vertex is inside the deque hull
-            if ((isLeft(TwoTable[bot], TwoTable[bot + 1], P[i]) > 0) &&
-                (isLeft(TwoTable[top - 1], TwoTable[top], P[i]) > 0))
-                continue;         // skip an interior vertex
-
-            // incrementally add an exterior vertex to the deque hull
-            // get the rightmost tangent at the deque bot
-            while (isLeft(TwoTable[bot], TwoTable[bot + 1], P[i]) <= 0)
-                ++bot;                 // remove bot of deque
-            TwoTable[--bot] = P[i];           // insert P[i] at bot of deque
-
-            // get the leftmost tangent at the deque top
-            while (isLeft(TwoTable[top - 1], TwoTable[top], P[i]) <= 0)
-                --top;                 // pop top of deque
-            TwoTable[++top] = P[i];           // push P[i] onto top of deque
-        }
-        //print("!!!!\n");
-        // transcribe deque D[] to the output hull array H[]
-        int h;        // hull vertex counter
-        for (h = 0; h <= (top - bot); h++)
-        {
-            ConvexHull[h] = TwoTable[bot + h];
-        }
-
-        return h - 1;
-    }
-
 }
