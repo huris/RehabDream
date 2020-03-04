@@ -59,10 +59,11 @@ public class SkeletonOverlayer : MonoBehaviour
     public Camera camera;
     public LineRenderer line;
 
-    public Button button;
     public Image Introduction;
     public float WaitTime;   // 双手握拳的时间,初始设为3秒
     public Slider KinectDetectUIProgressSlider;  // 进度条
+
+    public Image Buttons;   // 下面三个button的背景
 
     public Evaluation evaluation;   // 新建一个评估测试
     public ConvexHull convexHull;   // 新建一个凸包
@@ -147,7 +148,8 @@ public class SkeletonOverlayer : MonoBehaviour
         //line = GetComponent<LineRenderer>();
         Soccerball = null;
 
-        Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 101.9f,0), 2.5f);
+        Introduction.transform.DOLocalMove(new Vector3(0f, 101.9f,0), 2.5f);
+        Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 2.5f);
         //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
 
         WaitTime = 0f;
@@ -162,6 +164,29 @@ public class SkeletonOverlayer : MonoBehaviour
     void Update()
     {
         KinectManager manager = KinectManager.Instance;
+
+        //鼠标下滑出现按钮框
+        Vector2 _pos1 = Vector2.one;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
+                    Input.mousePosition, canvas.worldCamera, out _pos1);
+
+        //print(_pos1 + "  " + Buttons.transform.localPosition);
+
+        //print(evaluation.Points.Count + " " + _pos1 + " " + Buttons.transform.localPosition);
+
+        if (evaluation.Points.Count > 0 && _pos1.y < -330f && Mathf.Abs(Buttons.transform.localPosition.y + 641.9f) < 20f)
+        {
+            Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
+
+            //Buttons.transform.localPosition = new Vector3(0f, -438.05f, 0);
+        }
+
+        if(evaluation.Points.Count > 0 && _pos1.y > -330f && Mathf.Abs(Buttons.transform.localPosition.y + 438.05f) < 20f)
+        {
+            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 0.5f);
+
+            //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
+        }
 
         if (manager && manager.IsInitialized() && foregroundCamera)
         {
@@ -223,12 +248,13 @@ public class SkeletonOverlayer : MonoBehaviour
                                     }
                                     else
                                     {
-                                        evaluation.SetEvaluationStartTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
-
-                                        Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
 
                                         if (evaluation.Points.Count == 0)
                                         {
+                                            evaluation.SetEvaluationStartTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
+                                            Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 2.5f);
+                                            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 2.5f);
+
                                             LastPosition = Kinect2UIPosition(posJoint);
                                             evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
 
@@ -560,10 +586,10 @@ public class SkeletonOverlayer : MonoBehaviour
             else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
             else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
 
-            ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), evaluation.Points.Count - 2);
+            ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i-1);
             //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
             ColorFistLine.Draw();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         StartCoroutine(DrawConvexHull());
@@ -629,9 +655,12 @@ public class SkeletonOverlayer : MonoBehaviour
             DoctorDataManager.instance.doctor.patient.Evaluations = new List<Evaluation>();
         }
 
-        PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
+        if(evaluation.Points.Count > 0)
+        {
+            PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
 
-        DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
+            DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
+        }
 
         SceneManager.LoadScene("03-DoctorUI");
     }

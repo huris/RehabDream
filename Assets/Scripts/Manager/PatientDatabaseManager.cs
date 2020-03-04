@@ -559,6 +559,8 @@ public class PatientDatabaseManager : MonoBehaviour
             this.WriteEvaluationInfo(evaluation.EvaluationID, DoctorDataManager.instance.doctor.patient.PatientID,
                 evaluation.EvaluationStartTime, evaluation.EvaluationEndTime);
 
+            print("1");
+
             this.WriteMaxSoccerDistances(evaluation.EvaluationID, evaluation.soccerDistance.GetMaxSoccerDistances());
 
             this.WritePoints(evaluation.EvaluationID, evaluation.Points);

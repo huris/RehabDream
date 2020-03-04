@@ -1800,7 +1800,9 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Evaluation> result = new List<Evaluation>(); //返回值
-        string QueryString = "SELECT * FROM PatientEvaluation where PatientID=" + PatientID.ToString() + " order by Time";
+        string QueryString = "SELECT * FROM PatientEvaluation where PatientID=" + PatientID.ToString() + " order by EvaluationEndTime";
+
+        //print(QueryString);
 
         try
         {

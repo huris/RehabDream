@@ -74,6 +74,8 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             PlanTime = transform.Find("TrainingPlan/TrainingPlanImage/PlanTime").gameObject;
             PlanTimeText = transform.Find("TrainingPlan/TrainingPlanImage/PlanTime/Text").GetComponent<Text>();
 
+            //print(DoctorDataManager.instance.doctor.patient.PlanIsMaking + "!!!!!");
+
             if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
                 TrainingPlanNullText.SetActive(false);

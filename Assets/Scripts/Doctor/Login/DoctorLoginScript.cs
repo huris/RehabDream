@@ -79,9 +79,10 @@ public class DoctorLoginScript : MonoBehaviour {
     {
         try
         {
-            if(DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
+            //print("2!!!");
+
+            if (DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
             {
-                //print("2!!!");
                 SceneManager.LoadScene("03-DoctorUI");
             }
             else
