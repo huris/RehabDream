@@ -383,6 +383,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingFeedbackInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlanMakingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
      <Compile Include="Assets\Scripts\Game\GameState.cs" />
      <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
      <Compile Include="Assets\Scripts\Kinect\AvatarController.cs" />

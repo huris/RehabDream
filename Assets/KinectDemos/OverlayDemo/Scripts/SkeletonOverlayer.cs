@@ -49,8 +49,6 @@ public class SkeletonOverlayer : MonoBehaviour
     private Vector2 NowPosition;
     private float LastNowDis;  // 两个点的差值
 
-    public int IsTracked;   // 是否已经显示轨迹了
-
     public Canvas canvas;
 
     // 上:0,右上:1,右:2,右下:3,下:4,左下:5,左:6,左上:7,中间:8
@@ -64,8 +62,10 @@ public class SkeletonOverlayer : MonoBehaviour
     public Slider KinectDetectUIProgressSlider;  // 进度条
 
     public Image Buttons;   // 下面三个button的背景
+    public GameObject FinishedButton;  // 完成测评按钮
 
     public Evaluation evaluation;   // 新建一个评估测试
+    public List<Point> tempPoints;  // 临时用于画凸包的点集
     public ConvexHull convexHull;   // 新建一个凸包
 
     private VectorLine ColorFistLine;   // 彩色手势线
@@ -126,7 +126,7 @@ public class SkeletonOverlayer : MonoBehaviour
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试
-        if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
+        if(DoctorDataManager.instance.doctor.patient.Evaluations == null || DoctorDataManager.instance.doctor.patient.Evaluations.Count == 0)
         {
             evaluation.SetEvaluationID(0);
         }
@@ -154,11 +154,11 @@ public class SkeletonOverlayer : MonoBehaviour
 
         WaitTime = 0f;
 
-        IsTracked = 0;  // 为0表示没有显示轨迹
-
         // 把线去掉
         if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // 握拳轨迹图
         if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // 凸包图
+
+        FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
     }
 
     void Update()
@@ -166,27 +166,27 @@ public class SkeletonOverlayer : MonoBehaviour
         KinectManager manager = KinectManager.Instance;
 
         //鼠标下滑出现按钮框
-        Vector2 _pos1 = Vector2.one;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
-                    Input.mousePosition, canvas.worldCamera, out _pos1);
+        //Vector2 _pos1 = Vector2.one;
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
+        //            Input.mousePosition, canvas.worldCamera, out _pos1);
 
-        //print(_pos1 + "  " + Buttons.transform.localPosition);
+        ////print(_pos1 + "  " + Buttons.transform.localPosition);
 
-        //print(evaluation.Points.Count + " " + _pos1 + " " + Buttons.transform.localPosition);
+        ////print(evaluation.Points.Count + " " + _pos1 + " " + Buttons.transform.localPosition);
 
-        if (evaluation.Points.Count > 0 && _pos1.y < -330f && Mathf.Abs(Buttons.transform.localPosition.y + 641.9f) < 20f)
-        {
-            Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
+        //if (evaluation.Points.Count > 0 && _pos1.y < -330f && Mathf.Abs(Buttons.transform.localPosition.y + 641.9f) < 20f)
+        //{
+        //    Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
 
-            //Buttons.transform.localPosition = new Vector3(0f, -438.05f, 0);
-        }
+        //    Buttons.transform.localPosition = new Vector3(0f, -438.05f, 0);
+        //}
 
-        if(evaluation.Points.Count > 0 && _pos1.y > -330f && Mathf.Abs(Buttons.transform.localPosition.y + 438.05f) < 20f)
-        {
-            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 0.5f);
+        //if (evaluation.Points.Count > 0 && _pos1.y > -330f && Mathf.Abs(Buttons.transform.localPosition.y + 438.05f) < 20f)
+        //{
+        //    Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 0.5f);
 
-            //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
-        }
+        //    //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
+        //}
 
         if (manager && manager.IsInitialized() && foregroundCamera)
         {
@@ -251,12 +251,12 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                         if (evaluation.Points.Count == 0)
                                         {
-                                            evaluation.SetEvaluationStartTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
-                                            Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 2.5f);
-                                            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 2.5f);
+                                            evaluation.SetEvaluationStartTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+                                            Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
 
                                             LastPosition = Kinect2UIPosition(posJoint);
                                             evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
+                                            WritePointInGame();
 
                                             // 初始放置足球
                                             transform.GetChild(0).position = SpineMid;
@@ -265,6 +265,8 @@ public class SkeletonOverlayer : MonoBehaviour
                                         }
                                         else
                                         {
+                                            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 0.5f);
+
                                             NowPosition = Kinect2UIPosition(posJoint);
 
                                             LastNowDis = Point.PointsDistance(new Point(LastPosition), new Point(NowPosition));
@@ -273,6 +275,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             if (LastNowDis > 0.0f)
                                             {
                                                 evaluation.Points.Add(new Point(NowPosition));
+                                                WritePointInGame();
                                             }
 
                                         }
@@ -298,6 +301,9 @@ public class SkeletonOverlayer : MonoBehaviour
                                     {
                                         Soccerball.GetComponent<Highlighter>().ConstantOff();
                                     }
+
+                                    //print(Buttons.transform.localPosition);
+                                    Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
                                     //for (int z = 0; z < 9; z++)
                                     //{
                                     //    transform.GetChild(z).gameObject.SetActive(false);
@@ -363,6 +369,17 @@ public class SkeletonOverlayer : MonoBehaviour
 
             }
         }
+    }
+
+    // use Thread to write database
+    public void WritePointInGame()
+    {
+        //print(evaluation.Points[evaluation.Points.Count - 1].x);
+        WritePointDataThread Thread = new WritePointDataThread(
+           evaluation.EvaluationID,
+           evaluation.Points[evaluation.Points.Count-1]);
+
+        Thread.StartThread();
     }
 
     public void SoccerballReset()
@@ -562,7 +579,9 @@ public class SkeletonOverlayer : MonoBehaviour
     IEnumerator DrawColorFistLine()
     {
         // 结束后画图
-        evaluation.SetEvaluationEndTime(DateTime.Now.Date.ToString("yyyyMMdd HH:mm:ss"));
+        evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+
+        evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
         ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
         ColorFistLine.smoothColor = false;   // 设置平滑颜色
@@ -571,15 +590,15 @@ public class SkeletonOverlayer : MonoBehaviour
 
         int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
 
-        ColorFistLine.points2.Add(new Vector2(evaluation.Points[0].x, evaluation.Points[0].y));
+        ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
 
-        for (int i = 1; i < evaluation.Points.Count; i++)
+        for (int i = 1; i < tempPoints.Count; i++)
         {
             //ColorFistLine.Draw();
 
-            ColorFistLine.points2.Add(new Vector2(evaluation.Points[i].x, evaluation.Points[i].y));
+            ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
-            DeltaBase = (int)(Point.PointsDistance(evaluation.Points[i - 1], evaluation.Points[i]) * 7);
+            DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
 
             if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
             else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
@@ -596,7 +615,7 @@ public class SkeletonOverlayer : MonoBehaviour
     }
     IEnumerator DrawConvexHull()
     {
-        convexHull = new ConvexHull(evaluation.Points);
+        convexHull = new ConvexHull(tempPoints);
 
         // 画凸包圈
         ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, LineType.Continuous, Joins.Weld);
@@ -641,15 +660,12 @@ public class SkeletonOverlayer : MonoBehaviour
         evaluation.soccerDistance.LeftSoccer = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
         evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;       
 
-        IsTracked = 1;  // 显示轨迹,因此值为1
+        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+
     }
 
     public void EvaluationFinished() // 将数据写入数据库
     {
-        if(IsTracked == 0) EvaluationTrack();   // 为0则说明需要进行显示轨迹
-
-        //StartCoroutine(WriteEvaluationData());  // 开一个协程写数据
-
         if (DoctorDataManager.instance.doctor.patient.Evaluations == null) 
         {
             DoctorDataManager.instance.doctor.patient.Evaluations = new List<Evaluation>();

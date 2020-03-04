@@ -449,14 +449,12 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "EvaluationID",
                     "PointX",
-                    "PointY",
-                    ""},
+                    "PointY"},
 
                 new String[] {
                     "INTEGER NOT NULL",
                     "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "PRIMARY KEY(EvaluationID)"
+                    "FLOAT NOT NULL"
                     }
                 );
             Debug.Log("@DatabaseManager: Create EvaluationPoints");

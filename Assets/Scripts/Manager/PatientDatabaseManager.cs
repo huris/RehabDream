@@ -556,14 +556,17 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
+            //print(evaluation.EvaluationID+" "+DoctorDataManager.instance.doctor.patient.PatientID + " " +
+            //    evaluation.EvaluationStartTime + " " + evaluation.EvaluationEndTime);
+
             this.WriteEvaluationInfo(evaluation.EvaluationID, DoctorDataManager.instance.doctor.patient.PatientID,
                 evaluation.EvaluationStartTime, evaluation.EvaluationEndTime);
 
-            print("1");
+            //print("1");
 
             this.WriteMaxSoccerDistances(evaluation.EvaluationID, evaluation.soccerDistance.GetMaxSoccerDistances());
 
-            this.WritePoints(evaluation.EvaluationID, evaluation.Points);
+            //this.WritePoints(evaluation.EvaluationID, evaluation.Points);
 
             Debug.Log("@DatabaseManager: Write EvaluationData Success");
             return DatabaseReturn.Success;
@@ -641,24 +644,19 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePoints(long EvaluationID, List<Point> Points)
+    public DatabaseReturn WritePoint(long EvaluationID, Point Points)
     {
 
         try
         {
-            for(int i = 0; i < Points.Count; i++)
-            {
-                PatientDatabase.InsertValues(
-                   EvaluationPointsTableName, //table name
-                   new string[] {
-                            EvaluationID.ToString(),
-                            Points[i].x.ToString(),
-                            Points[i].y.ToString(),
-                   }
-                );
-            }
-           
-
+            PatientDatabase.InsertValues(
+                EvaluationPointsTableName, //table name
+                new string[] {
+                        EvaluationID.ToString(),
+                        Points.x.ToString(),
+                        Points.y.ToString(),
+                }
+            );
 
             Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
             return DatabaseReturn.Success;
