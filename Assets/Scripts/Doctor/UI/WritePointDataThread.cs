@@ -41,7 +41,7 @@ public class WritePointDataThread
     // write Gravity Center
     private void WritePoint()
     {
-
+        //Debug.Log(_EvaluationID+" "+_point.x + " " + _point.y);
         PatientDatabaseManager.instance.WritePoint(
             _EvaluationID,
             _point
