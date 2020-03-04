@@ -107,8 +107,8 @@ namespace XCharts
                 LeftRightChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 LeftRightChart.xAxis0.axisLabel.fontSize = 12;
                 LeftRightChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                LeftRightChart.xAxis0.showSplitLine = true;
-                LeftRightChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LeftRightChart.xAxis0.splitLine.show = true;
+                //LeftRightChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LeftRightChart.xAxis0.splitArea.show = true;
                 LeftRightChart.xAxis0.boundaryGap = false;
 
@@ -133,8 +133,8 @@ namespace XCharts
                 LeftRightChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 LeftRightChart.yAxis0.axisLabel.fontSize = 12;
                 LeftRightChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                LeftRightChart.yAxis0.showSplitLine = true;
-                LeftRightChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LeftRightChart.yAxis0.splitLine.show = true;
+                //LeftRightChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LeftRightChart.yAxis0.splitArea.show = true;
                 LeftRightChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -217,8 +217,8 @@ namespace XCharts
                 UponDownChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 UponDownChart.xAxis0.axisLabel.fontSize = 12;
                 UponDownChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                UponDownChart.xAxis0.showSplitLine = true;
-                UponDownChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                UponDownChart.xAxis0.splitLine.show = true;
+                //UponDownChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 UponDownChart.xAxis0.splitArea.show = true;
                 UponDownChart.xAxis0.boundaryGap = false;
 
@@ -243,8 +243,8 @@ namespace XCharts
                 UponDownChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 UponDownChart.yAxis0.axisLabel.fontSize = 12;
                 UponDownChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                UponDownChart.yAxis0.showSplitLine = true;
-                UponDownChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                UponDownChart.yAxis0.splitLine.show = true;
+                //UponDownChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 UponDownChart.yAxis0.splitArea.show = true;
                 UponDownChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -327,8 +327,8 @@ namespace XCharts
                 ArmChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 ArmChart.xAxis0.axisLabel.fontSize = 12;
                 ArmChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                ArmChart.xAxis0.showSplitLine = true;
-                ArmChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                ArmChart.xAxis0.splitLine.show = true;
+                //ArmChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ArmChart.xAxis0.splitArea.show = true;
                 ArmChart.xAxis0.boundaryGap = false;
 
@@ -353,8 +353,8 @@ namespace XCharts
                 ArmChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 ArmChart.yAxis0.axisLabel.fontSize = 12;
                 ArmChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                ArmChart.yAxis0.showSplitLine = true;
-                ArmChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                ArmChart.yAxis0.splitLine.show = true;
+                //ArmChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ArmChart.yAxis0.splitArea.show = true;
                 ArmChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -436,8 +436,8 @@ namespace XCharts
                 ElbowChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 ElbowChart.xAxis0.axisLabel.fontSize = 12;
                 ElbowChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                ElbowChart.xAxis0.showSplitLine = true;
-                ElbowChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                ElbowChart.xAxis0.splitLine.show = true;
+                //ElbowChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ElbowChart.xAxis0.splitArea.show = true;
                 ElbowChart.xAxis0.boundaryGap = false;
 
@@ -462,8 +462,8 @@ namespace XCharts
                 ElbowChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 ElbowChart.yAxis0.axisLabel.fontSize = 12;
                 ElbowChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                ElbowChart.yAxis0.showSplitLine = true;
-                ElbowChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                ElbowChart.yAxis0.splitLine.show = true;
+                //ElbowChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 ElbowChart.yAxis0.splitArea.show = true;
                 ElbowChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -544,8 +544,8 @@ namespace XCharts
                 LegChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 LegChart.xAxis0.axisLabel.fontSize = 12;
                 LegChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                LegChart.xAxis0.showSplitLine = true;
-                LegChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LegChart.xAxis0.splitLine.show = true;
+                //LegChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LegChart.xAxis0.splitArea.show = true;
                 LegChart.xAxis0.boundaryGap = false;
 
@@ -570,8 +570,8 @@ namespace XCharts
                 LegChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 LegChart.yAxis0.axisLabel.fontSize = 12;
                 LegChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                LegChart.yAxis0.showSplitLine = true;
-                LegChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                LegChart.yAxis0.splitLine.show = true;
+                //LegChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 LegChart.yAxis0.splitArea.show = true;
                 LegChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -652,8 +652,8 @@ namespace XCharts
                 HipChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 HipChart.xAxis0.axisLabel.fontSize = 12;
                 HipChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                HipChart.xAxis0.showSplitLine = true;
-                HipChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                HipChart.xAxis0.splitLine.show = true;
+                //HipChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 HipChart.xAxis0.splitArea.show = true;
                 HipChart.xAxis0.boundaryGap = false;
 
@@ -678,8 +678,8 @@ namespace XCharts
                 HipChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 HipChart.yAxis0.axisLabel.fontSize = 12;
                 HipChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                HipChart.yAxis0.showSplitLine = true;
-                HipChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                HipChart.yAxis0.splitLine.show = true;
+                //HipChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 HipChart.yAxis0.splitArea.show = true;
                 HipChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -766,8 +766,8 @@ namespace XCharts
                 KneeChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 KneeChart.xAxis0.axisLabel.fontSize = 12;
                 KneeChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                KneeChart.xAxis0.showSplitLine = true;
-                KneeChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                KneeChart.xAxis0.splitLine.show = true;
+                //KneeChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 KneeChart.xAxis0.splitArea.show = true;
                 KneeChart.xAxis0.boundaryGap = false;
 
@@ -792,8 +792,8 @@ namespace XCharts
                 KneeChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 KneeChart.yAxis0.axisLabel.fontSize = 12;
                 KneeChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                KneeChart.yAxis0.showSplitLine = true;
-                KneeChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                KneeChart.yAxis0.splitLine.show = true;
+                //KneeChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 KneeChart.yAxis0.splitArea.show = true;
                 KneeChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -874,8 +874,8 @@ namespace XCharts
                 AnkleChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 AnkleChart.xAxis0.axisLabel.fontSize = 12;
                 AnkleChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                AnkleChart.xAxis0.showSplitLine = true;
-                AnkleChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                AnkleChart.xAxis0.splitLine.show = true;
+                //AnkleChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 AnkleChart.xAxis0.splitArea.show = true;
                 AnkleChart.xAxis0.boundaryGap = false;
 
@@ -900,8 +900,8 @@ namespace XCharts
                 AnkleChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 AnkleChart.yAxis0.axisLabel.fontSize = 12;
                 AnkleChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                AnkleChart.yAxis0.showSplitLine = true;
-                AnkleChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                AnkleChart.yAxis0.splitLine.show = true;
+                //AnkleChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 AnkleChart.yAxis0.splitArea.show = true;
                 AnkleChart.yAxis0.axisLabel.formatter = "{value:f1}";
 

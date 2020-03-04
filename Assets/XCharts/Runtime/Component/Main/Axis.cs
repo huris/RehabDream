@@ -27,14 +27,19 @@ namespace XCharts
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// 数值轴，适用于连续数据。
+            /// 数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// 类目轴，适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            /// 类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
             /// </summary>
-            Category
+            Category,
+            /// <summary>
+            /// Log axis, suitable for log data.
+            /// 对数轴。适用于对数数据。
+            /// </summary>
+            Log
         }
 
         /// <summary>
@@ -60,38 +65,6 @@ namespace XCharts
             Custom
         }
 
-        /// <summary>
-        /// the type of split line. 
-        /// 分割线类型
-        /// </summary>
-        public enum SplitLineType
-        {
-            /// <summary>
-            /// 不显示分割线
-            /// </summary>
-            None,
-            /// <summary>
-            /// 实线
-            /// </summary>
-            Solid,
-            /// <summary>
-            /// 虚线
-            /// </summary>
-            Dashed,
-            /// <summary>
-            /// 点线
-            /// </summary>
-            Dotted,
-            /// <summary>
-            /// 点划线
-            /// </summary>
-            DashDot,
-            /// <summary>
-            /// 双点划线
-            /// </summary>
-            DashDotDot
-        }
-
         [SerializeField] protected bool m_Show = true;
         [SerializeField] protected AxisType m_Type;
         [SerializeField] protected AxisMinMaxType m_MinMaxType;
@@ -99,15 +72,16 @@ namespace XCharts
         [SerializeField] protected float m_Max;
         [SerializeField] protected int m_SplitNumber = 5;
         [SerializeField] protected float m_Interval = 0;
-        [SerializeField] protected bool m_ShowSplitLine = false;
-        [SerializeField] protected SplitLineType m_SplitLineType = SplitLineType.Dashed;
         [SerializeField] protected bool m_BoundaryGap = true;
         [SerializeField] protected int m_MaxCache = 0;
+        [SerializeField] protected float m_LogBase = 10;
+        [SerializeField] protected bool m_LogBaseE = false;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
         [SerializeField] protected AxisTick m_AxisTick = AxisTick.defaultTick;
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
+        [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
         [NonSerialized] private float m_ValueRange;
@@ -149,20 +123,19 @@ namespace XCharts
         /// </summary>
         public float interval { get { return m_Interval; } set { m_Interval = value; } }
         /// <summary>
-        /// showSplitLineSet this to false to prevent the splitLine from showing. value type axes are shown by default, while category type axes are hidden.
-        /// 是否显示分隔线。默认数值轴显示，类目轴不显示。
-        /// </summary>
-        public bool showSplitLine { get { return m_ShowSplitLine; } set { m_ShowSplitLine = value; } }
-        /// <summary>
-        /// the type of split line. 
-        /// 分割线类型。
-        /// </summary>
-        public SplitLineType splitLineType { get { return m_SplitLineType; } set { m_SplitLineType = value; } }
-        /// <summary>
         /// The boundary gap on both sides of a coordinate axis. 
         /// 坐标轴两边是否留白。
         /// </summary>
         public bool boundaryGap { get { return m_BoundaryGap; } set { m_BoundaryGap = value; } }
+        /// <summary>
+        /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
+        /// 对数轴的底数，只在对数轴（type:'Log'）中有效。
+        /// </summary>
+        public float logBase { get { return m_LogBase; } set { m_LogBase = value; } }
+        /// <summary>
+        /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
+        /// </summary>
+        public bool logBaseE { get { return m_LogBaseE; } set { m_LogBaseE = value; } }
         /// <summary>
         /// The max number of axis data cache.
         /// The first data will be remove when the size of axis data is larger then maxCache.
@@ -195,6 +168,11 @@ namespace XCharts
         /// </summary>
         public AxisLabel axisLabel { get { return m_AxisLabel; } set { m_AxisLabel = value; } }
         /// <summary>
+        /// axis split line.
+        /// 坐标轴分割线。
+        /// </summary>
+        public AxisSplitLine splitLine { get { return m_SplitLine; } set { m_SplitLine = value; } }
+        /// <summary>
         /// axis split area.
         /// 坐标轴分割区域。
         /// </summary>
@@ -213,20 +191,10 @@ namespace XCharts
             get { return m_RuntimeMinValue; }
             internal set
             {
-                if (value != m_RuntimeMinValue)
-                {
-                    if (m_RuntimeMinValueFirstChanged)
-                    {
-                        m_RuntimeMinValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMinValue = m_RuntimeMinValue;
-                        m_RuntimeMinValueChanged = true;
-                        m_RuntimeMinValueUpdateTime = Time.time;
-                    }
-                    m_RuntimeMinValue = value;
-                }
+                m_RuntimeMinValue = value;
+                m_RuntimeLastMinValue = value;
+                m_RuntimeMinValueUpdateTime = Time.time;
+                m_RuntimeMinValueChanged = true;
             }
         }
         /// <summary>
@@ -238,20 +206,10 @@ namespace XCharts
             get { return m_RuntimeMaxValue; }
             internal set
             {
-                if (value != m_RuntimeMaxValue)
-                {
-                    if (m_RuntimeMaxValueFirstChanged)
-                    {
-                        m_RuntimeMaxValueFirstChanged = false;
-                    }
-                    else
-                    {
-                        m_RuntimeLastMaxValue = m_RuntimeMaxValue;
-                        m_RuntimeMaxValueChanged = true;
-                        m_RuntimeMaxValueUpdateTime = Time.time;
-                    }
-                    m_RuntimeMaxValue = value;
-                }
+                m_RuntimeMaxValue = value;
+                m_RuntimeLastMaxValue = value;
+                m_RuntimeMaxValueUpdateTime = Time.time;
+                m_RuntimeMaxValueChanged = false;
             }
         }
         /// <summary>
@@ -264,6 +222,8 @@ namespace XCharts
         /// 坐标轴原点在Y轴的偏移。
         /// </summary>
         public float runtimeZeroYOffset { get; internal set; }
+        public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
+        public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
 
         private int filterStart;
         private int filterEnd;
@@ -293,8 +253,6 @@ namespace XCharts
             m_SplitNumber = other.splitNumber;
             m_Interval = other.interval;
 
-            m_ShowSplitLine = other.showSplitLine;
-            m_SplitLineType = other.splitLineType;
             m_BoundaryGap = other.boundaryGap;
             m_AxisName.Copy(other.axisName);
             m_AxisLabel.Copy(other.axisLabel);
@@ -312,7 +270,7 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 当前坐标轴是否时类目轴
+        /// 是否为类目轴。
         /// </summary>
         /// <returns></returns>
         public bool IsCategory()
@@ -321,12 +279,21 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 当前坐标轴是否时数值轴
+        /// 是否为数值轴。
         /// </summary>
         /// <returns></returns>
         public bool IsValue()
         {
             return type == AxisType.Value;
+        }
+
+        /// <summary>
+        /// 是否为对数轴。
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLog()
+        {
+            return type == AxisType.Log;
         }
 
         /// <summary>
@@ -447,6 +414,10 @@ namespace XCharts
                 }
                 else return m_SplitNumber;
             }
+            else if (type == AxisType.Log)
+            {
+                return m_SplitNumber;
+            }
             int dataCount = GetDataList(dataZoom).Count;
             if (m_SplitNumber <= 0) return dataCount;
             if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
@@ -506,6 +477,7 @@ namespace XCharts
             DataZoom dataZoom, bool forcePercent)
         {
             int split = GetSplitNumber(coordinateWidth, dataZoom);
+
             if (m_Type == AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0) return string.Empty;
@@ -522,6 +494,12 @@ namespace XCharts
                 }
                 if (forcePercent) return string.Format("{0}%", (int)value);
                 else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
+            }
+            else if (m_Type == AxisType.Log)
+            {
+                float value = m_LogBaseE ? Mathf.Exp(runtimeMinLogIndex + index) :
+                    Mathf.Pow(m_LogBase, runtimeMinLogIndex + index);
+                return m_AxisLabel.GetFormatterContent(value, minValue, maxValue, true);
             }
             var showData = GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -549,7 +527,7 @@ namespace XCharts
         /// <returns></returns>
         internal int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
         {
-            if (type == AxisType.Value)
+            if (type == AxisType.Value || type == AxisType.Log)
             {
                 int splitNum = GetSplitNumber(coordinateWidth, dataZoom);
                 return m_BoundaryGap ? splitNum + 1 : splitNum;
@@ -660,6 +638,15 @@ namespace XCharts
         /// <param name="maxValue"></param>
         internal void AdjustMinMaxValue(ref float minValue, ref float maxValue, bool needFormat)
         {
+            if (m_Type == AxisType.Log)
+            {
+                int minSplit = 0;
+                int maxSplit = 0;
+                maxValue = ChartHelper.GetMaxLogValue(maxValue, m_LogBase, m_LogBaseE, out maxSplit);
+                minValue = ChartHelper.GetMinLogValue(minValue, m_LogBase, m_LogBaseE, out minSplit);
+                splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
+                return;
+            }
             if (minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (min != 0 || max != 0)
@@ -699,6 +686,62 @@ namespace XCharts
                 }
             }
             m_ValueRange = maxValue - minValue;
+        }
+
+        internal void UpdateMinValue(float value, bool check)
+        {
+            if (value != m_RuntimeMaxValue)
+            {
+                if (check)
+                {
+                    if (m_RuntimeMinValueFirstChanged)
+                    {
+                        m_RuntimeMinValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMinValue = m_RuntimeMinValue;
+                        m_RuntimeMinValueChanged = true;
+                        m_RuntimeMinValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMinValue = value;
+                }
+                else
+                {
+                    m_RuntimeMinValue = value;
+                    m_RuntimeLastMinValue = value;
+                    m_RuntimeMinValueUpdateTime = Time.time;
+                    m_RuntimeMinValueChanged = true;
+                }
+            }
+        }
+
+        internal void UpdateMaxValue(float value, bool check)
+        {
+            if (value != m_RuntimeMaxValue)
+            {
+                if (check)
+                {
+                    if (m_RuntimeMaxValueFirstChanged)
+                    {
+                        m_RuntimeMaxValueFirstChanged = false;
+                    }
+                    else
+                    {
+                        m_RuntimeLastMaxValue = m_RuntimeMaxValue;
+                        m_RuntimeMaxValueChanged = true;
+                        m_RuntimeMaxValueUpdateTime = Time.time;
+                    }
+                    m_RuntimeMaxValue = value;
+                }
+                else
+                {
+                    m_RuntimeMaxValue = value;
+                    m_RuntimeLastMaxValue = value;
+                    m_RuntimeMaxValueUpdateTime = Time.time;
+                    m_RuntimeMaxValueChanged = false;
+                }
+            }
         }
 
         internal float GetCurrMinValue(float duration)
@@ -749,6 +792,12 @@ namespace XCharts
             }
         }
 
+        public float GetLogValue(float value)
+        {
+            if (value <= 0) return 0;
+            return logBaseE ? Mathf.Log(value) : Mathf.Log(value, logBase);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -777,9 +826,7 @@ namespace XCharts
                 max == other.max &&
                 splitNumber == other.splitNumber &&
                 interval == other.interval &&
-                showSplitLine == other.showSplitLine &&
                 m_AxisLabel.Equals(other.axisLabel) &&
-                splitLineType == other.splitLineType &&
                 boundaryGap == other.boundaryGap &&
                 runtimeMinValue == other.runtimeMinValue &&
                 runtimeMaxValue == other.runtimeMaxValue &&
@@ -834,10 +881,9 @@ namespace XCharts
             axis.max = max;
             axis.splitNumber = splitNumber;
             axis.interval = interval;
-
-            axis.showSplitLine = showSplitLine;
-            axis.splitLineType = splitLineType;
             axis.boundaryGap = boundaryGap;
+
+            axis.splitLine.Copy(axis.splitLine);
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
             axis.data.Clear();
@@ -857,14 +903,15 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_ShowSplitLine = false,
-                    m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = true,
                     m_Data = new List<string>()
                     {
                         "x1","x2","x3","x4","x5"
                     }
                 };
+                axis.splitLine.show = false;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
+                axis.axisLabel.textLimit.enable = true;
                 return axis;
             }
         }
@@ -888,11 +935,10 @@ namespace XCharts
             axis.splitNumber = splitNumber;
             axis.interval = interval;
 
-            axis.showSplitLine = showSplitLine;
-            axis.splitLineType = splitLineType;
             axis.boundaryGap = boundaryGap;
             axis.axisName.Copy(axisName);
             axis.axisLabel.Copy(axisLabel);
+            axis.splitLine.Copy(splitLine);
             axis.data.Clear();
             if (axis.data.Capacity < data.Count) axis.data.Capacity = data.Count;
             foreach (var d in data) axis.data.Add(d);
@@ -910,11 +956,12 @@ namespace XCharts
                     m_Min = 0,
                     m_Max = 0,
                     m_SplitNumber = 5,
-                    m_ShowSplitLine = true,
-                    m_SplitLineType = SplitLineType.Dashed,
                     m_BoundaryGap = false,
                     m_Data = new List<string>(5),
                 };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
+                axis.axisLabel.textLimit.enable = false;
                 return axis;
             }
         }

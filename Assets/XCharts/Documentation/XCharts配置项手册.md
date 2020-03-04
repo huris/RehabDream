@@ -31,6 +31,7 @@
 * [AxisLabel 坐标轴刻度标签](#AxisLabel)  
 * [AxisLine 坐标轴轴线](#AxisLine)  
 * [AxisName 坐标轴名称](#AxisName)  
+* [AxisSplitLine 坐标轴分割线条](#AxisSplitLine)  
 * [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
 * [AxisTick 坐标轴刻度](#AxisTick)  
 * [Emphasis 高亮样式](#Emphasis)  
@@ -42,6 +43,7 @@
 * [SerieData 数据项](#SerieData)  
 * [SerieLabel 图形上的文本标签](#SerieLabel)  
 * [SerieSymbol 图形标记](#SerieSymbol)  
+* [TextLimit 文本自适应](#TextLimit)  
 * [TextStyle 文本样式](#TextStyle)  
 
 ## `Theme`
@@ -116,12 +118,14 @@
   * `Horizonal`：水平。
   * `Vertical`：垂直。
 * `location`：图例的显示位置 [Location](#Location)。
-* `itemWidth`：每个图例项的宽度。
-* `itemHeight`：每个图例项的高度。
+* `itemWidth`：图例标记的图形宽度。
+* `itemHeight`：图例标记的图形高度。
 * `itemGap`：图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
-* `itemFontSize`：图例项的字体大小。
+* `itemAutoColor`：图例标记的图形是否自动匹配颜色。
 * `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{name}`
 * `data`：图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 `name`（如果是饼图，也可以是饼图单个数据的 `name`）。如果 `data` 没有被指定，会自动从当前系列中获取。指定 `data` 时里面的数据项和 `serie` 匹配时才会生效。
+* `icons`：自定义的图例标记图形。
+* `textStyle`：图例的内容文本样式 [TextStyle](#TextStyle)。
 
 相关接口：
 
@@ -142,7 +146,7 @@
   * `Between`：显示在顶点之间。
 * `radius`：雷达图的半径。
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
-* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
 * `indicatorGap`：指示器和雷达的间距。
@@ -155,13 +159,23 @@
 * `min`：指示器的最小值，默认为 0 无限制。
 * `textStyle`：文本样式 [TextStyle](#TextStyle)。
 
+## `TextLimit`
+
+* `enable`：是否启用文本自适应。默认为`true`。
+* `maxWidth`：设定最大宽度。默认为`0`表示自动获取，否则表示自定义。当文本的宽度大于该值进行裁剪。
+* `gap`：两边留白像素距离。默认为`10`。
+* `suffix`： 长度超出被裁剪后附加的后缀。默认为`...`。
+
 ## `TextStyle`
 
 * `rotate`：旋转。
 * `offset`：偏移。
 * `color`：颜色。
+* `backgroundColor`：背景颜色。
+* `font`：字体。
 * `fontSize`：字体大小。
 * `fontStyle`：字体风格。
+* `lineSpacing`：行间距。
 
 ## `Tooltip`
 
@@ -186,9 +200,12 @@
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `minHeight`：最小高度。当同时设置 f`ixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
-* `fontSize`：文字的字体大小。
-* `fontStyle`：文字的字体风格。
+* `paddingLeftRight`：文字和边框的左右边距。
+* `paddingTopBottom`：文字和边框的上下边距。
+* `backgroundImage`：提示框的背景图。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
+* `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
 ## `DataZoom`
 
@@ -290,9 +307,12 @@
 相关参数：
 
 * `show`：是否显示 `X` 轴。默认 `xAxises[0]` 为 `true`，`xAxises[1]` 为 `false`。
-* `type`：坐标轴类型。默认为 `Category`。有以下两种类型：
+* `type`：坐标轴类型。默认为 `Category`。支持以下类型：
   * `Value`：数值轴，用于连续数据。
   * `Category`：类目轴，适用于离散的类目数据，为该类型时必须通过 `data` 设置类目数据。
+  * `Log`：对数轴，适用于对数数据。
+* `logBaseE`：对数轴是否以自然数 `e` 为底数，为 `true` 时 `logBase` 失效，只在对数轴（`type:'Log'`）中有效。
+* `logBase`：对数轴的底数，只在对数轴（`type:'Log'`）中有效。
 * `minMaxType`：坐标轴刻度最大最小值显示类型。默认为 `Default`。有以下三种类型：
   * `Default`：0-最大值。
   * `MinMax`：最小值-最大值。
@@ -301,13 +321,6 @@
 * `max`：设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
 * `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
 * `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
-* `splitLineType`：分割线类型。默认为 `Dashed`。有以下五种类型：
-  * `None`：不显示分割线。
-  * `Solid`：实线。
-  * `Dashed`：虚线。
-  * `Dotted`：点线。
-  * `DashDot`：点划线。
-  * `DashDotDot`：双点划线。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
 * `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
@@ -315,7 +328,8 @@
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
 * `axisTick`：坐标轴刻度相关配置 [AxisTick](#AxisTick)。
 * `axisLabel`：坐标轴刻度标签 [AxisLabel](#AxisLabel)。
-* `splitArea`：坐标轴轴线坐标轴分割区域 [SplitArea](#SplitArea)。
+* `splitLine`：坐标轴轴线坐标轴分割线 [AxisSplitLine](#SplitLine)。
+* `splitArea`：坐标轴轴线坐标轴分割区域 [AxisSplitArea](#AxisSplitArea)。
 
 相关接口：
 
@@ -449,6 +463,7 @@
   * `Min`：取过滤点的最小值。
   * `Sum`：取过滤点之和。
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -491,6 +506,7 @@
 * `barCategoryGap`：同一系列的柱间距离，默认为类目间距的20%，可设固定值。在同一坐标系上，此属性会被多个 `'bar'` 系列共享。此属性应设置于此坐标系中最后一个 `'bar'` 系列上才会生效，并且是对此坐标系中所有 `'bar'` 系列生效。
 * `barZebraWidth`：斑马线的粗细。`barType` 为 `Zebra` 时有效。
 * `barZebraGap`：斑马线的间距。`barType` 为 `Zebra` 时有效。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
@@ -528,6 +544,7 @@
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
@@ -538,6 +555,7 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Scatter`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `clip`：是否裁剪超出坐标系部分的图形。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
@@ -594,14 +612,13 @@
 
 ## `SerieAnimation`
 
-* `enable`：是否开起始画效果。
-* `easing`：动画的缓动效果。支持以下动画效果：
-  * `Linear`：线性效果。
-* `duration`：设定的动画时长，单位毫秒。
-* `updateAnimation`：是否开启数据变更动画。
-* `updateDuration`：数据变更动画时长，单位毫秒。
-* `threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
-* `delay`：动画延时，单位毫秒。
+* `enable`：是否开启动画系统。
+* ~~`threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。~~
+* `fadeInDelay`：设定的渐入动画延时，单位毫秒。
+* `fadeInDuration`：设定的渐入动画时长，单位毫秒。
+* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。
+* `dataChangeEnable`：是否开启数据变更动画。
+* `dataChangeDuration`：数据变更动画时长，单位毫秒。
 
 ## `AreaStyle`
 
@@ -627,8 +644,9 @@
 * `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
-* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 
 ## `AxisLine`
 
@@ -654,6 +672,12 @@
 * `color`：坐标轴名称的文字颜色。
 * `fontSize`：坐标轴名称的文字大小。
 * `fontStyle`：坐标轴名称的文字风格。
+
+## `AxisSplitLine`
+
+* `show`：是否显示坐标分割线。
+* `interval`：分割线的显示间隔。0表示显示所有分割线，1表示隔一个隔显示一个分割线，以此类推。
+* `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 
 ## `AxisSplitArea`
 
@@ -695,7 +719,7 @@
 
 ## `LineStyle`
 
-* `show`：是否显示线条。在折线图中无效。
+* `show`：是否显示线条。当作为子组件，它的父组件有参数控制是否显示时，改参数无效。
 * `type`：线条类型。支持以下五种类型：
   * `None`：不显示分割线。
   * `Solid`：实线。
@@ -779,6 +803,7 @@
   * `Triangle`：三角形。
   * `Diamond`：菱形。
   * `None`：不显示标记。
+* `gap`：图形标记的外留白距离。
 * `sizeType`：标记图形的大小获取方式。支持以下三种类型：
   * `Custom`：自定义大小。
   * `FromData`：通过 `dataIndex` 从数据中获取，再乘以一个比例系数 `dataScale` 。

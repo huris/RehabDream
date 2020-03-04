@@ -194,7 +194,7 @@ namespace XCharts
     [System.Serializable]
     public class Serie : MainComponent
     {
-        [SerializeField] [DefaultValue("true")] private bool m_Show = true;
+        [SerializeField] private bool m_Show = true;
         [SerializeField] private SerieType m_Type;
         [SerializeField] private string m_Name;
         [SerializeField] private string m_Stack;
@@ -246,6 +246,7 @@ namespace XCharts
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
+        [SerializeField] private bool m_Clip = true;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -498,8 +499,16 @@ namespace XCharts
         /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
-        /// <value></value>
         public int showDataDimension { get { return m_ShowDataDimension; } }
+        /// <summary>
+        /// 在Editor的inpsector上是否显示name参数
+        /// </summary>
+        public bool showDataName { get { return m_ShowDataName; } set { m_ShowDataName = value; } }
+        /// <summary>
+        /// If clip the overflow on the coordinate system.
+        /// 是否裁剪超出坐标系部分的图形。
+        /// </summary>
+        public bool clip { get { return m_Clip; } set { m_Clip = value; } }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>

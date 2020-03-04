@@ -28,14 +28,18 @@ namespace XCharts
             SerializedProperty m_FixedHeight = prop.FindPropertyRelative("m_FixedHeight");
             SerializedProperty m_MinWidth = prop.FindPropertyRelative("m_MinWidth");
             SerializedProperty m_MinHeight = prop.FindPropertyRelative("m_MinHeight");
-            SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
-            SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
             SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
+            SerializedProperty m_PaddingLeftRight = prop.FindPropertyRelative("m_PaddingLeftRight");
+            SerializedProperty m_PaddingTopBottom = prop.FindPropertyRelative("m_PaddingTopBottom");
+            SerializedProperty m_BackgroundImage = prop.FindPropertyRelative("m_BackgroundImage");
+            SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
+            SerializedProperty m_TextStyle = prop.FindPropertyRelative("m_TextStyle");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_TooltipModuleToggle, "Tooltip", show);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             if (m_TooltipModuleToggle)
             {
+                EditorGUI.indentLevel++;
                 EditorGUI.PropertyField(drawRect, type);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
@@ -52,19 +56,28 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_MinHeight);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_FontSize);
+                EditorGUI.PropertyField(drawRect, m_PaddingLeftRight);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_FontStyle);
+                EditorGUI.PropertyField(drawRect, m_PaddingTopBottom);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_BackgroundImage);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_ForceENotation);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_LineStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
+                EditorGUI.PropertyField(drawRect, m_TextStyle);
+                drawRect.y += EditorGUI.GetPropertyHeight(m_TextStyle);
+                EditorGUI.indentLevel--;
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             if (m_TooltipModuleToggle)
-                return 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
+                return 13 * EditorGUIUtility.singleLineHeight + 12 * EditorGUIUtility.standardVerticalSpacing +
+                    EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle")) +
+                    EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TextStyle"));
             else
                 return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }

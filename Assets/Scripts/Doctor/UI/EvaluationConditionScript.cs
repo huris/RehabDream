@@ -48,19 +48,19 @@ public class EvaluationConditionScript : MonoBehaviour
         {
             int LastEvaluation = DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1;
 
-            Difficult.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingDifficulty;
-            SuccessCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount.ToString();
-            GameCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount.ToString();
-            StartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingStartTime;
-            EndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingEndTime;
+            //Difficult.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].TrainingDifficulty;
+            //SuccessCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount.ToString();
+            //GameCount.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount.ToString();
+            StartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].EvaluationStartTime;
+            EndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].EvaluationEndTime;
 
-            double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount / DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount;
+            //double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].SuccessCount / DoctorDataManager.instance.doctor.patient.Evaluations[LastEvaluation].GameCount;
 
-            if (TrainingEvaluationRate >= 0.95) Rank1.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.90) Rank2.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.80) Rank3.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.70) Rank4.SetActive(true);
-            else Rank5.SetActive(true);
+            //if (TrainingEvaluationRate >= 0.95) Rank1.SetActive(true);
+            //else if (TrainingEvaluationRate >= 0.90) Rank2.SetActive(true);
+            //else if (TrainingEvaluationRate >= 0.80) Rank3.SetActive(true);
+            //else if (TrainingEvaluationRate >= 0.70) Rank4.SetActive(true);
+            //else Rank5.SetActive(true);
         }
     }
 

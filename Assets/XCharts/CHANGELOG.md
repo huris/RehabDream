@@ -1,6 +1,24 @@
 
 # 更新日志
 
+* (2020.02.26) 重构`Legend`图例，改变样式，增加自定义图标等设置
+* (2020.02.23) 增加`BaseChart.AnimationFadeOut()`渐出动画，重构动画系统
+* (2020.02.13) 增加`BaseChart.RefreshTooltip()`接口立即重新初始化`Tooltip`组件
+* (2020.02.13) 增加`Tooltip`的`textStyle`参数配置内容文本样式，去掉`fontSize`和`fontStyle`参数
+* (2020.02.13) 增加`TextStyle`的`lineSpacing`参数配置行间距
+* (2020.02.11) 增加`Radar`的`splitLine`参数配置分割线，去掉`lineStyle`参数
+* (2020.02.11) 增加`Tooltip`的`backgroundImage`参数配置背景图
+* (2020.02.11) 增加`Tooltip`的`paddingLeftRight`和`paddingTopBottom`参数配置文字和边框的间距
+* (2020.02.11) 增加`Tooltip`的`lineStyle`参数配置指示线样式
+* (2020.02.11) 增加`Axis`的`splitLine`参数控制分割线，去掉`showSplitLine`和`splitLineType`参数（更新时需要重新设置分割线相关设置）
+* (2020.02.10) 增加`Serie`的`clip`参数控制是否超出坐标系外裁剪（只适用于折线图、柱状图、散点图）
+* (2020.02.08) 增加`SerieSymbol`的`gap`参数控制图形标记的外留白距离
+* (2020.01.26) 增加`TextLimit`组件可以设置`AxisLabel`的文本自适应
+* (2020.01.20) 优化`Tooltip`设置`itemFormatter`时显示系列颜色
+* (2020.01.20) 增加`Radar`雷达图在`inspector`配置`areaStyle`的支持
+* (2020.01.15) 发布`v1.2.0`版本
+* (2020.01.15) 增加`AxisLabel`格式化为整数的支持（`{value:f0}`）
+* (2020.01.15) 增加折线图对数轴`Log`的支持
 * (2020.01.09) 修复当设置`DataZoom`的`minShowNum`时可能异常的问题
 * (2020.01.08) 修复当设置`AxisLine`的`onZero`时刻度显示异常的问题
 * (2020.01.08) 增加`Mask`遮罩遮挡支持
@@ -16,7 +34,7 @@
 * (2019.12.06) 修复数据过小时`AxisLabel`直接科学计数法显示的问题
 * (2019.12.04) 优化和完善数据更新`UpdateData`接口
 * (2019.12.03) 增加圆环饼图的圆角支持，参数：`serie.arcShaped`
-* (2019.12.03) 增加数据更新动画,参数：`serie.animation.updateAnimation`
+* (2019.12.03) 增加数据更新动画,参数：`serie.animation.dataChangeEnable`
 * (2019.11.30) 增加`GaugeChart`仪表盘
 * (2019.11.22) 修复`BarChart`清空数据重新赋值后`SerieLabel`显示异常的问题
 * (2019.11.16) 修复`SerieLabel`设置`color`等参数不生效的问题

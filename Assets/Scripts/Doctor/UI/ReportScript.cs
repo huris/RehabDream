@@ -56,7 +56,7 @@ public class ReportScript : MonoBehaviour
         }
 
         ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.EvaluationIndex+1).ToString() + "次"
-            + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].TrainingStartTime;
+            + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime;
 
         if(File.Exists(ReportPath + "/" + pdfName) == false)
         {

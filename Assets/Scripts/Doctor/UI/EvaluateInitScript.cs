@@ -50,9 +50,9 @@ public class EvaluateInitScript : MonoBehaviour
             Report.SetActive(false);
             //SaveButton.SetActive(true);
 
-            TrainingPlay LastEvaluation = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1];
+            Evaluation LastEvaluation = DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1];
             //print(LastEvaluation.TrainingStartTime);
-            EvaluateTime.text = "第" + DoctorDataManager.instance.doctor.patient.Evaluations.Count.ToString() + "次评估时间：" + LastEvaluation.TrainingStartTime;
+            EvaluateTime.text = "第" + DoctorDataManager.instance.doctor.patient.Evaluations.Count.ToString() + "次评估时间：" + LastEvaluation.EvaluationStartTime;
             EvaluateButtonText.text = "再次评估";
         }
         else
@@ -81,17 +81,17 @@ public class EvaluateInitScript : MonoBehaviour
         //print(DoctorDataManager.instance.patient.PatientName);
         //print(DoctorDataManager.instance.patient.PatientSex);
 
-        PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
-        //PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
+        //PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
+        ////PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 
-        TrainingPlay evaluation = new TrainingPlay();
-        evaluation.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0) + DoctorDatabaseManager.instance.ReadPatientRecordCount(1));
-        //print(DoctorDataManager.instance.doctor.patient.Evaluations.Count);
-        if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
-        {
-            DoctorDataManager.instance.doctor.patient.Evaluations = new List<TrainingPlay>();
-        }
-        DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
+        //Evaluation evaluation = new Evaluation();
+        //evaluation.SetEvaluationID(DoctorDatabaseManager.instance.ReadPatientEvaluationCount());
+        ////print(DoctorDataManager.instance.doctor.patient.Evaluations.Count);
+        //if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
+        //{
+        //    DoctorDataManager.instance.doctor.patient.Evaluations = new List<Evaluation>();
+        //}
+        //DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
 
         //PatientDataManager.instance.SetTrainingID(evaluation.TrainingID);
         //PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
@@ -99,7 +99,7 @@ public class EvaluateInitScript : MonoBehaviour
         //PatientDataManager.instance.SetPlanCount(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanCount);
         //PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
         //PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
-        PatientDataManager.instance.SetIsEvaluated(1);
+        //PatientDataManager.instance.SetIsEvaluated(1);
         SceneManager.LoadScene("05-RadarTest");
     }
 

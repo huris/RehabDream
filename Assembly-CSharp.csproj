@@ -587,6 +587,7 @@
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisLine.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisName.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisSplitArea.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisSplitLine.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\AxisTick.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\Emphasis.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\GaugeAxis.cs" />
@@ -600,11 +601,13 @@
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieData.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieLabel.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\SerieSymbol.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Component\Sub\TextLimit.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\TextStyle.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Sub\TitleStyle.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\SubComponent.cs" />
      <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\LegendHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />
@@ -616,6 +619,7 @@
      <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawLine.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawScatter.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\LabelObject.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\LegendItem.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\ListPool.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\ObjectPool.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\SerieLabelPool.cs" />
@@ -628,6 +632,7 @@
      <Compile Include="Assets\XCharts\Runtime\Utility\ChartHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Utility\XChartsMgr.cs" />
      <Compile Include="Assets\XChartsDemo\Runtime\Demo.cs" />
+     <Compile Include="Assets\XChartsDemo\Runtime\Demo_Animation.cs" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
      <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />

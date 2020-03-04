@@ -86,8 +86,8 @@ namespace XCharts
                 RadarAreaChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 RadarAreaChart.xAxis0.axisLabel.fontSize = 12;
                 RadarAreaChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                RadarAreaChart.xAxis0.showSplitLine = true;
-                RadarAreaChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                RadarAreaChart.xAxis0.splitLine.show = true;
+                //RadarAreaChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 RadarAreaChart.xAxis0.splitArea.show = true;
                 RadarAreaChart.xAxis0.boundaryGap = false;
 
@@ -112,8 +112,8 @@ namespace XCharts
                 RadarAreaChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 RadarAreaChart.yAxis0.axisLabel.fontSize = 12;
                 RadarAreaChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                RadarAreaChart.yAxis0.showSplitLine = true;
-                RadarAreaChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                RadarAreaChart.yAxis0.splitLine.show = true;
+                //RadarAreaChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 RadarAreaChart.yAxis0.splitArea.show = true;
                 RadarAreaChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -192,8 +192,8 @@ namespace XCharts
                 SuccessRateChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 SuccessRateChart.xAxis0.axisLabel.fontSize = 12;
                 SuccessRateChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                SuccessRateChart.xAxis0.showSplitLine = true;
-                SuccessRateChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                SuccessRateChart.xAxis0.splitLine.show = true;
+                //SuccessRateChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 SuccessRateChart.xAxis0.splitArea.show = true;
                 SuccessRateChart.xAxis0.boundaryGap = false;
 
@@ -218,8 +218,8 @@ namespace XCharts
                 SuccessRateChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 SuccessRateChart.yAxis0.axisLabel.fontSize = 12;
                 SuccessRateChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                SuccessRateChart.yAxis0.showSplitLine = true;
-                SuccessRateChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                SuccessRateChart.yAxis0.splitLine.show = true;
+                //SuccessRateChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 SuccessRateChart.yAxis0.splitArea.show = true;
                 SuccessRateChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
@@ -296,8 +296,8 @@ namespace XCharts
                 DirectionsChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 DirectionsChart.xAxis0.axisLabel.fontSize = 12;
                 DirectionsChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                DirectionsChart.xAxis0.showSplitLine = true;
-                DirectionsChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                DirectionsChart.xAxis0.splitLine.show = true;
+                //DirectionsChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 DirectionsChart.xAxis0.splitArea.show = true;
                 DirectionsChart.xAxis0.boundaryGap = false;
 
@@ -322,8 +322,8 @@ namespace XCharts
                 DirectionsChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 DirectionsChart.yAxis0.axisLabel.fontSize = 12;
                 DirectionsChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                DirectionsChart.yAxis0.showSplitLine = true;
-                DirectionsChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                DirectionsChart.yAxis0.splitLine.show = true;
+                //DirectionsChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
                 DirectionsChart.yAxis0.splitArea.show = true;
                 DirectionsChart.yAxis0.axisLabel.formatter = "{value:f1}";
 

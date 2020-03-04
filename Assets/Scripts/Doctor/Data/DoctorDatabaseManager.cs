@@ -1553,6 +1553,58 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    public long ReadPatientEvaluationCount()   // 返回训练或者评估的数目
+    {
+        SqliteDataReader reader;    //sql读取器
+        //List<TrainingPlay> result = null; //返回值
+        string QueryString = "SELECT * FROM PatientEvaluation";
+
+        long PatientEvaluationCount = 0;
+        //print(QueryString);
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                do
+                {
+                    PatientEvaluationCount++;
+                    //var res = new TrainingPlay(
+                    //   reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    //   reader.GetString(reader.GetOrdinal("TrainingStartTime")),
+                    //   reader.GetString(reader.GetOrdinal("TrainingEndTime")),
+                    //   reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
+                    //   reader.GetInt64(reader.GetOrdinal("SuccessCount")),
+                    //   reader.GetInt64(reader.GetOrdinal("GameCount")),
+                    //   reader.GetString(reader.GetOrdinal("TrainingDirection")),
+                    //   reader.GetInt64(reader.GetOrdinal("TrainingTime"))
+                    //   );
+                    ////res.angles = this.ReadAngleRecord(res.TrainingID);
+                    ////res.direction = this.ReadDirectionRecord(res.TrainingID);
+                    ////res.gravityCenters = this.ReadGravityCenterRecord(res.TrainingID);
+                    //result.Add(res);
+                } while (reader.Read());
+
+                //Debug.Log("@UserManager:Read PatientRecord Success" + result);
+                return PatientEvaluationCount;
+            }
+            else
+            {
+                //Debug.Log("@UserManager: Read PatientRecord Fail");
+                return PatientEvaluationCount;
+            }
+        }
+        catch (SqliteException e)
+        {
+            //Debug.Log("@UserManager: Read PatientRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return PatientEvaluationCount;
+        }
+    }
+
     // read LastPatientRecord
     public TrainingPlay ReadLastPatientRecord(long PatientID, long IsEvaluated)
     {

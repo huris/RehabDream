@@ -78,8 +78,8 @@ namespace XCharts
                 GravityCenterChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 GravityCenterChart.xAxis0.axisLabel.fontSize = 12;
                 GravityCenterChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                GravityCenterChart.xAxis0.showSplitLine = true;
-                GravityCenterChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+                GravityCenterChart.xAxis0.splitLine.show = true;
+                //GravityCenterChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
                 GravityCenterChart.xAxis0.splitArea.show = true;
                 GravityCenterChart.xAxis0.boundaryGap = false;
 
@@ -104,8 +104,8 @@ namespace XCharts
                 GravityCenterChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
                 GravityCenterChart.yAxis0.axisLabel.fontSize = 12;
                 GravityCenterChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-                GravityCenterChart.yAxis0.showSplitLine = true;
-                GravityCenterChart.yAxis0.splitLineType = Axis.SplitLineType.Solid;
+                GravityCenterChart.yAxis0.splitLine.show = true;
+                //GravityCenterChart.yAxis0.splitLine.lineStyle.show = true;
                 GravityCenterChart.yAxis0.splitArea.show = true;
                 GravityCenterChart.yAxis0.axisLabel.formatter = "{value:f1}";
 

@@ -7,6 +7,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -27,7 +28,7 @@ namespace XCharts
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
         [SerializeField] private bool m_ForceENotation = false;
-
+        [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
         /// Set this to false to prevent the axis label from appearing.
@@ -71,13 +72,17 @@ namespace XCharts
         public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}，{value:f1} 表示取1为小数
+        /// 模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}
         /// </summary>
         public string formatter { get { return m_Formatter; } set { m_Formatter = value; } }
         /// <summary>
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
         public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <summary>
+        /// 文本限制。
+        /// </summary>
+        public TextLimit textLimit { get { return m_TextLimit; } }
 
         public static AxisLabel defaultAxisLabel
         {
@@ -107,6 +112,7 @@ namespace XCharts
             m_FontSize = other.fontSize;
             m_FontStyle = other.fontStyle;
             m_Formatter = other.formatter;
+            m_TextLimit.Copy(other.textLimit);
         }
 
         public override bool Equals(object obj)
@@ -125,7 +131,8 @@ namespace XCharts
                 m_FontSize == other.fontSize &&
                 m_FontStyle == other.fontStyle &&
                 m_ForceENotation == other.forceENotation &&
-                m_Formatter == other.formatter;
+                ChartHelper.IsValueEqualsString(m_Formatter, other.formatter) &&
+                m_TextLimit.Equals(other.textLimit);
         }
 
         public override int GetHashCode()
@@ -133,23 +140,38 @@ namespace XCharts
             return base.GetHashCode();
         }
 
+        public void SetRelatedText(Text txt, float labelWidth)
+        {
+            m_TextLimit.SetRelatedText(txt, labelWidth);
+        }
+
         public string GetFormatterContent(string category)
         {
+            if (string.IsNullOrEmpty(category)) return category;
             if (string.IsNullOrEmpty(m_Formatter))
-                return category;
+            {
+                return m_TextLimit.GetLimitContent(category);
+            }
             else
             {
                 var content = m_Formatter.Replace("{value}", category);
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
-                return content;
+                return m_TextLimit.GetLimitContent(content);
             }
         }
 
-        public string GetFormatterContent(float value, float minValue, float maxValue)
+        public string GetFormatterContent(float value, float minValue, float maxValue, bool isLog = false)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
+                if (isLog)
+                {
+                    if (value - (int)value == 0)
+                        return ChartCached.IntToStr((int)value);
+                    else
+                        return ChartCached.FloatToStr(value);
+                }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
                     int minAcc = ChartHelper.GetFloatAccuracy(minValue);
@@ -166,6 +188,8 @@ namespace XCharts
             else if (m_Formatter.Contains("{value"))
             {
                 var content = m_Formatter;
+                if (content.Contains("{value:f0}"))
+                    content = m_Formatter.Replace("{value:f0}", ChartCached.IntToStr((int)value));
                 if (content.Contains("{value:f2}"))
                     content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, 2));
                 else if (content.Contains("{value:f1}"))
@@ -173,7 +197,6 @@ namespace XCharts
                 else if (content.Contains("{value}"))
                 {
                     if (value - (int)value == 0)
-
                         content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
                     else
                         content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, 1));

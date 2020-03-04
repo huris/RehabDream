@@ -1,4 +1,5 @@
-﻿/******************************************/
+﻿using System.Collections.ObjectModel;
+/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -8,6 +9,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using UnityEngine.EventSystems;
 
 namespace XCharts
 {
@@ -55,14 +58,19 @@ namespace XCharts
         [SerializeField] private float m_FixedHeight = 0;
         [SerializeField] private float m_MinWidth = 0;
         [SerializeField] private float m_MinHeight = 0;
-        [SerializeField] private int m_FontSize = 18;
-        [SerializeField] private FontStyle m_FontStyle = FontStyle.Normal;
         [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private float m_PaddingLeftRight = 5f;
+        [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private Sprite m_BackgroundImage;
+        [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
 
         private GameObject m_GameObject;
         private GameObject m_Content;
         private Text m_ContentText;
+        private Image m_ContentImage;
         private RectTransform m_ContentRect;
+        private RectTransform m_ContentTextRect;
         private List<int> lastDataIndex { get; set; }
 
         /// <summary>
@@ -115,7 +123,7 @@ namespace XCharts
         /// 示例："{a}:{c}","{a}:{c:f1}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
-        
+
         /// <summary>
         /// 固定宽度。比 minWidth 优先。
         /// </summary>
@@ -132,20 +140,37 @@ namespace XCharts
         /// 最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
-        /// <summary>
-        /// font size.
-        /// 文字的字体大小。
-        /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
-        /// <summary>
-        /// font style.
-        /// 文字的字体风格。
-        /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        [Obsolete("Use Tooltip.textStyle.fontSize instead.", true)]
+        public int fontSize { get; set; }
+        [Obsolete("Use Tooltip.textStyle.fontStyle instead.", true)]
+        public FontStyle fontStyle { get; set; }
         /// <summary>
         /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
         /// </summary>
         public bool forceENotation { get { return m_ForceENotation; } set { m_ForceENotation = value; } }
+        /// <summary>
+        /// the text padding of left and right. defaut:5.
+        /// 左右边距。
+        /// </summary>
+        public float paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
+        /// <summary>
+        /// the text padding of top and bottom. defaut:5.
+        /// 上下边距。
+        /// </summary>
+        public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
+        /// <summary>
+        /// The image of icon.
+        /// 图标的图片。
+        /// </summary>
+        public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetBackground(m_BackgroundImage); } }
+        /// <summary>
+        /// 提示框内容文本样式。
+        /// </summary>
+        public TextStyle textStyle { get { return m_TextStyle; } set { if (value != null) m_TextStyle = value; } }
+        /// <summary>
+        /// 指示线样式。
+        /// </summary>
+        public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.
@@ -222,7 +247,13 @@ namespace XCharts
         {
             m_Content = content;
             m_ContentRect = m_Content.GetComponent<RectTransform>();
+            m_ContentImage = m_Content.GetComponent<Image>();
             m_ContentText = m_Content.GetComponentInChildren<Text>();
+            if (m_ContentText != null)
+            {
+                m_ContentTextRect = m_ContentText.gameObject.GetComponentInChildren<RectTransform>();
+            }
+            SetBackground(backgroundImage);
         }
 
         /// <summary>
@@ -241,8 +272,21 @@ namespace XCharts
         /// <param name="color"></param>
         public void SetContentBackgroundColor(Color color)
         {
-            if (m_Content != null && m_Content.GetComponent<Image>() != null)
-                m_Content.GetComponent<Image>().color = color;
+            if (m_ContentImage != null)
+                m_ContentImage.color = color;
+        }
+
+        /// <summary>
+        /// 设置提示框文本背景图片
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void SetBackground(Sprite sprite)
+        {
+            if (m_ContentImage != null)
+            {
+                m_ContentImage.type = Image.Type.Sliced;
+                m_ContentImage.sprite = sprite;
+            }
         }
 
         /// <summary>
@@ -269,11 +313,15 @@ namespace XCharts
                 float wid, hig;
                 if (m_FixedWidth > 0) wid = m_FixedWidth;
                 else if (m_MinWidth > 0 && m_ContentText.preferredWidth < m_MinWidth) wid = m_MinWidth;
-                else wid = m_ContentText.preferredWidth + 8;
+                else wid = m_ContentText.preferredWidth + m_PaddingLeftRight * 2;
                 if (m_FixedHeight > 0) hig = m_FixedHeight;
                 else if (m_MinHeight > 0 && m_ContentText.preferredHeight < m_MinHeight) hig = m_MinHeight;
-                else hig = m_ContentText.preferredHeight + 8;
-                m_ContentRect.sizeDelta = new Vector2(wid, hig);
+                else hig = m_ContentText.preferredHeight + m_PaddingTopBottom * 2;
+                if (m_ContentRect != null) m_ContentRect.sizeDelta = new Vector2(wid, hig);
+                if (m_ContentTextRect != null)
+                {
+                    m_ContentTextRect.anchoredPosition = new Vector3(m_PaddingLeftRight, -m_PaddingTopBottom);
+                }
             }
         }
 
@@ -373,7 +421,7 @@ namespace XCharts
             return string.IsNullOrEmpty(m_Formatter) && string.IsNullOrEmpty(m_ItemFormatter);
         }
 
-        internal string GetFormatterContent(int dataIndex, Series series, string category, DataZoom dataZoom = null)
+        internal string GetFormatterContent(int dataIndex, Series series, string category, ThemeInfo themeInfo = null, DataZoom dataZoom = null)
         {
             if (string.IsNullOrEmpty(m_Formatter))
             {
@@ -400,6 +448,7 @@ namespace XCharts
                             content = content.Replace("{c}", ChartCached.FloatToStr(serieData.GetData(1), 0, m_ForceENotation));
                             content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
                             if (!first) sb.Append("\n");
+                            sb.Append("<color=#").Append(themeInfo.GetColorStr(i)).Append(">● </color>");
                             sb.Append(content);
                             first = false;
                         }
@@ -473,6 +522,22 @@ namespace XCharts
                 content = content.Replace("\\n", "\n");
                 content = content.Replace("<br/>", "\n");
                 return content;
+            }
+        }
+
+        internal Color GetLineColor(ThemeInfo theme)
+        {
+            if (lineStyle.color != Color.clear)
+            {
+                var color = lineStyle.color;
+                color.a *= lineStyle.opacity;
+                return color;
+            }
+            else
+            {
+                var color = (Color)theme.tooltipLineColor;
+                color.a *= lineStyle.opacity;
+                return color;
             }
         }
     }

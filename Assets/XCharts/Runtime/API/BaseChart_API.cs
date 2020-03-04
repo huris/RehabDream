@@ -21,7 +21,7 @@ namespace XCharts
         /// <summary>
         /// The theme info.
         /// </summary>
-        public ThemeInfo themeInfo { get { return m_ThemeInfo; } }
+        public ThemeInfo themeInfo { get { return m_ThemeInfo; } set { m_ThemeInfo = value; } }
         /// <summary>
         /// The title setting of chart.
         /// 标题组件
@@ -402,9 +402,19 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null && !string.IsNullOrEmpty(serie.name))
             {
-                var legendIndex = m_LegendRealShowName.IndexOf(serie.name);
-                var bgColor1 = active ? m_ThemeInfo.GetColor(legendIndex) : m_ThemeInfo.legendUnableColor;
-                m_Legend.UpdateButtonColor(serie.name, bgColor1);
+                UpdateLegendColor(serie.name, active);
+            }
+        }
+
+        protected virtual void UpdateLegendColor(string legendName, bool active)
+        {
+            var legendIndex = m_LegendRealShowName.IndexOf(legendName);
+            if (legendIndex >= 0)
+            {
+                var iconColor = LegendHelper.GetIconColor(legend, legendIndex, m_ThemeInfo, active);
+                var contentColor = LegendHelper.GetContentColor(legend, m_ThemeInfo, active);
+                m_Legend.UpdateButtonColor(legendName, iconColor);
+                m_Legend.UpdateContentColor(legendName, contentColor);
             }
         }
 
@@ -483,6 +493,14 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 刷新Tooltip组件。
+        /// </summary>
+        public void RefreshTooltip()
+        {
+            InitTooltip();
+        }
+
+        /// <summary>
         /// Update chart theme.
         /// 切换图表主题。
         /// </summary>
@@ -515,32 +533,62 @@ namespace XCharts
             m_Series.AnimationEnable(flag);
         }
 
-        /// <summary>
-        /// Start play animation.
-        /// 开始初始动画。
-        /// </summary>
+        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
         public void AnimationStart()
         {
-            m_Series.AnimationStart();
+        }
+
+        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
+        public void MissAnimationStart()
+        {
+        }
+
+        /// <summary>
+        /// fadeIn animation.
+        /// 开始渐入动画。
+        /// </summary>
+        public void AnimationFadeIn()
+        {
+            m_Series.AnimationFadeIn();
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// fadeIn animation.
+        /// 开始渐出动画。
+        /// </summary>
+        public void AnimationFadeOut()
+        {
+            m_Series.AnimationFadeOut();
+            RefreshChart();
+        }
+
+        /// <summary>
+        /// Pause animation.
+        /// 暂停动画。
+        /// </summary>
+        public void AnimationPause()
+        {
+            m_Series.AnimationPause();
+            RefreshChart();
         }
 
         /// <summary>
         /// Stop play animation.
-        /// 停止初始化动画。
+        /// 继续动画。
         /// </summary>
-        public void AnimationStop()
+        public void AnimationResume()
         {
-            m_CheckAnimation = false;
-            m_Series.AnimationStop();
+            m_Series.AnimationResume();
+            RefreshChart();
         }
 
         /// <summary>
-        /// Reset animation to play.
-        /// 重置初始动画，重新播放。
+        /// Reset animation.
+        /// 重置动画。
         /// </summary>
         public void AnimationReset()
         {
-            m_CheckAnimation = false;
             m_Series.AnimationReset();
             RefreshChart();
         }
@@ -555,6 +603,35 @@ namespace XCharts
         {
             OnLegendButtonClick(legendIndex, legendName, show);
             RefreshChart();
+        }
+
+        /// <summary>
+        /// 坐标是否在图表范围内
+        /// </summary>
+        /// <param name="local"></param>
+        /// <returns></returns>
+        public bool IsInChart(Vector2 local)
+        {
+            if (local.x < 0 || local.x > chartWidth ||
+                local.y < 0 || local.y > chartHeight)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public Vector3 ClampInChart(Vector3 pos)
+        {
+            if (IsInChart(pos)) return pos;
+            else
+            {
+                var np = new Vector3(pos.x, pos.y);
+                if (np.x < 0) np.x = 0;
+                if (np.x > chartWidth) np.x = chartWidth;
+                if (np.y < 0) np.y = 0;
+                if (np.y > chartHeight) np.y = chartHeight;
+                return np;
+            }
         }
     }
 }

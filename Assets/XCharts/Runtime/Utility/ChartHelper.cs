@@ -90,13 +90,15 @@ namespace XCharts
 
         public static void DestroyAllChildren(Transform parent)
         {
+#if UNITY_2019_1_OR_NEWER
+#else
             if (parent == null) return;
-#if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
+            #if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
             if (PrefabUtility.IsPartOfAnyPrefab(parent.gameObject))
             {
                 return;
             }
-#endif
+            #endif
             while (parent.childCount > 0)
             {
                 var go = parent.GetChild(0);
@@ -105,6 +107,7 @@ namespace XCharts
                     GameObject.DestroyImmediate(go.gameObject);
                 }
             }
+#endif
         }
 
         public static string GetFullName(Transform transform)
@@ -158,12 +161,13 @@ namespace XCharts
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
+            rect.anchoredPosition3D = Vector3.zero;
             return obj;
         }
 
         public static Text AddTextObject(string name, Transform parent, Font font, Color color,
             TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta,
-            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal)
+            int fontSize = 14, float rotate = 0, FontStyle fontStyle = FontStyle.Normal, float lineSpacing = 1)
         {
             GameObject txtObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             Text txt = GetOrAddComponent<Text>(txtObj);
@@ -175,6 +179,7 @@ namespace XCharts
             txt.horizontalOverflow = HorizontalWrapMode.Overflow;
             txt.verticalOverflow = VerticalWrapMode.Overflow;
             txt.color = color;
+            txt.lineSpacing = lineSpacing;
             txtObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
 
             RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
@@ -188,20 +193,21 @@ namespace XCharts
 
         public static Button AddButtonObject(string name, Transform parent, Font font, int fontSize,
             Color color, TextAnchor anchor, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
-            Vector2 sizeDelta)
+            Vector2 sizeDelta, float lineSpacing)
         {
             GameObject btnObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             GetOrAddComponent<Image>(btnObj);
             GetOrAddComponent<Button>(btnObj);
             Text txt = AddTextObject("Text", btnObj.transform, font, color, TextAnchor.MiddleCenter,
                     new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-                    sizeDelta, fontSize);
+                    sizeDelta, fontSize, lineSpacing);
             txt.rectTransform.offsetMin = Vector2.zero;
             txt.rectTransform.offsetMax = Vector2.zero;
             return btnObj.GetComponent<Button>();
         }
 
-        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
+        internal static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize,
+            FontStyle fontStyle, float lineSpacing)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -211,7 +217,7 @@ namespace XCharts
             var img = GetOrAddComponent<Image>(tooltipObj);
             img.color = Color.black;
             Text txt = AddTextObject("Text", tooltipObj.transform, font, Color.white, TextAnchor.UpperLeft,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
+                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle, lineSpacing);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(3, -3);
             tooltipObj.transform.localPosition = Vector3.zero;
@@ -229,8 +235,9 @@ namespace XCharts
             return iconObj;
         }
 
-        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
-            int fontSize, FontStyle fontStyle, float rotate, float width, float height)
+        internal static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor,
+            Color backgroundColor, int fontSize, FontStyle fontStyle, float rotate, float width, float height,
+            float lineSpacing)
         {
             var anchorMin = new Vector2(0.5f, 0.5f);
             var anchorMax = new Vector2(0.5f, 0.5f);
@@ -241,7 +248,7 @@ namespace XCharts
             //img.color = backgroundColor;
             labelObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
             Text txt = AddTextObject("Text", labelObj.transform, font, textColor, TextAnchor.MiddleCenter,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
+                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle, lineSpacing);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(0, 0);
             txt.transform.localEulerAngles = Vector3.zero;
@@ -265,7 +272,6 @@ namespace XCharts
             txt.text = "Text";
             return labelObj;
         }
-
 
         public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)
         {
@@ -370,6 +376,13 @@ namespace XCharts
                 color1.r == color2.r;
         }
 
+        public static bool IsValueEqualsString(string str1, string str2)
+        {
+            if (str1 == null && str2 == null) return true;
+            else if (str1 != null && str2 != null) return str1.Equals(str2);
+            else return false;
+        }
+
         public static bool IsValueEqualsVector2(Vector2 v1, Vector2 v2)
         {
             return v1.x == v2.x && v1.y == v2.y;
@@ -386,8 +399,27 @@ namespace XCharts
             if (list1.Count != list2.Count) return false;
             for (int i = 0; i < list1.Count; i++)
             {
-                if (!list1[i].Equals(list2[i])) return false;
+                if (list1[i] == null && list2[i] == null) { }
+                else
+                {
+                    if (list1[i] != null)
+                    {
+                        if (!list1[i].Equals(list2[i])) return false;
+                    }
+                    else
+                    {
+                        if (!list2[i].Equals(list1[i])) return false;
+                    }
+                }
             }
+            return true;
+        }
+
+        public static bool CopyList<T>(List<T> toList, List<T> fromList)
+        {
+            if (toList == null || fromList == null) return false;
+            toList.Clear();
+            foreach (var item in fromList) toList.Add(item);
             return true;
         }
 
@@ -416,7 +448,6 @@ namespace XCharts
                 }
                 return list;
             }
-
         }
 
         public static List<string> ParseStringFromString(string jsonData)
@@ -502,6 +533,46 @@ namespace XCharts
             }
             if (min < 0) return -Mathf.FloorToInt(mm);
             else return Mathf.FloorToInt(mm);
+        }
+
+        public static float GetMaxLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        {
+            splitNumber = 0;
+            if (value <= 0) return 0;
+            float max = 0;
+            while (max < value)
+            {
+                if (isLogBaseE)
+                {
+                    max = Mathf.Exp(splitNumber);
+                }
+                else
+                {
+                    max = Mathf.Pow(logBase, splitNumber);
+                }
+                splitNumber++;
+            }
+            return max;
+        }
+
+        public static float GetMinLogValue(float value, float logBase, bool isLogBaseE, out int splitNumber)
+        {
+            splitNumber = 0;
+            if (value > 1) return 1;
+            float min = 1;
+            while (splitNumber < 12 && min > value)
+            {
+                if (isLogBaseE)
+                {
+                    min = Mathf.Exp(-splitNumber);
+                }
+                else
+                {
+                    min = Mathf.Pow(logBase, -splitNumber);
+                }
+                splitNumber++;
+            }
+            return min;
         }
 
         public static int GetFloatAccuracy(float value)
