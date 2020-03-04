@@ -39,8 +39,8 @@ public class Evaluation
         this.EvaluationStartTime = EvaluationStartTime;
         this.EvaluationEndTime = EvaluationEndTime;
 
-        this.Points = DoctorDatabaseManager.instance.ReadEvaluationPointsRecord(this.EvaluationID);
         this.soccerDistance = DoctorDatabaseManager.instance.ReadEvaluationSoccerDistanceRecord(this.EvaluationID);
+        this.Points = DoctorDatabaseManager.instance.ReadEvaluationPointsRecord(this.EvaluationID);
 
         this.SetEvaluationScore();
     }

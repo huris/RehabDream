@@ -1743,6 +1743,134 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Angle
+    public List<Evaluation> ReadPatientEvaluations(long PatientID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Evaluation> result = new List<Evaluation>(); //返回值
+        string QueryString = "SELECT * FROM PatientEvaluation where PatientID=" + PatientID.ToString() + " order by Time";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //result = new List<Angle>();
+                //存在用户训练任务
+                do
+                {
+                    var res = new Evaluation(
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    reader.GetInt64(reader.GetOrdinal("EvaluationID")),
+                    reader.GetString(reader.GetOrdinal("EvaluationStartTime")),
+                    reader.GetString(reader.GetOrdinal("EvaluationEndTime")));
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read EvaluationPatient Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read EvaluationPatient Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read EvaluationPatient SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    // read Angle
+    public SoccerDistance ReadEvaluationSoccerDistanceRecord(long EvaluationID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        SoccerDistance result = null; //返回值
+        string QueryString = "SELECT * FROM EvaluationSoccer where EvaluationID=" + EvaluationID.ToString();
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //存在用户训练任务
+                result = new SoccerDistance(
+                //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                reader.GetFloat(reader.GetOrdinal("UponSoccer")),
+                reader.GetFloat(reader.GetOrdinal("UponRightSoccer")),
+                reader.GetFloat(reader.GetOrdinal("RightSoccer")),
+                reader.GetFloat(reader.GetOrdinal("DownRightSoccer")),
+                reader.GetFloat(reader.GetOrdinal("DownSoccer")),
+                reader.GetFloat(reader.GetOrdinal("DownLeftSoccer")),
+                reader.GetFloat(reader.GetOrdinal("LeftSoccer")),
+                reader.GetFloat(reader.GetOrdinal("UponLeftSoccer")),
+                reader.GetFloat(reader.GetOrdinal("CenterSoccerMin")),
+                reader.GetFloat(reader.GetOrdinal("CenterSoccerMax")));
+
+                Debug.Log("@UserManager:Read EvaluationSoccerDistance Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read EvaluationSoccerDistance Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read EvaluationSoccerDistance SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    // read Angle
+    public List<Point> ReadEvaluationPointsRecord(long EvaluationID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Point> result = new List<Point>(); //返回值
+        string QueryString = "SELECT * FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString() + " order by Time";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //result = new List<Angle>();
+                //存在用户训练任务
+                do
+                {
+                    var res = new Point(
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    reader.GetFloat(reader.GetOrdinal("PointX")),
+                    reader.GetFloat(reader.GetOrdinal("PointY"))
+                    );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read EvaluationPoints Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read EvaluationPoints Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read EvaluationPoints SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
     // create Data/
     private void CheckDataFolder()
     {
