@@ -692,6 +692,30 @@ public class PatientDatabaseManager : MonoBehaviour
         }
     }
 
+    // Delete DoctorInfo
+    public DatabaseReturn DelTempTrainingData(long TrainingID)  // Delete
+    {
+        try
+        {
+            string QueryString;
+
+            QueryString = "DELETE FROM GravityCenter where TrainingID=" + TrainingID.ToString();
+            PatientDatabase.ExecuteQuery(QueryString);
+
+            QueryString = "DELETE FROM Angles where TrainingID=" + TrainingID.ToString();
+            PatientDatabase.ExecuteQuery(QueryString);
+
+            Debug.Log("@UserManager: Delete TempTrainingData Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Delete TempTrainingData SqliteException");
+            PatientDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
     // read TrainingPlan for patient(PatientID)
     // return: PlanDifficulty GameCount PlanCount
     // default return: "Primary",10,10

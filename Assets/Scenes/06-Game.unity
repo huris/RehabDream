@@ -15552,7 +15552,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1129169900}
-        m_MethodName: OnClickExit
+        m_MethodName: OnClickQuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -138,6 +138,7 @@ public class GameUIHandle : UIHandle
     public void OnClickQuitGame()
     {
         //base.LoadScene("Start");
+        PatientDatabaseManager.instance.DelTempTrainingData(PatientDataManager.instance.TrainingID);
         base.LoadScene("03-DoctorUI");
     }
 
@@ -211,7 +212,7 @@ public class GameUIHandle : UIHandle
         PatientDataManager.instance.SetPlanCount(PatientDataManager.instance.PlanCount - 1);
 
         Debug.Log("@GameUIHandle: Restart success");
-        LoadScene("Game");
+        LoadScene("06-Game");
 
     }
 

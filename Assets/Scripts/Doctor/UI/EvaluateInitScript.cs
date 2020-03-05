@@ -1,11 +1,10 @@
-﻿using iTextSharp.text;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 
 public class EvaluateInitScript : MonoBehaviour
 {
@@ -20,6 +19,9 @@ public class EvaluateInitScript : MonoBehaviour
     public GameObject Report;
     public Toggle EvaluationToggle;
     //public GameObject SaveButton;
+
+    public Sequence seq;
+    public Image EvaluationButtonImage;
 
     // Use this for initialization
     void Start()
@@ -54,6 +56,9 @@ public class EvaluateInitScript : MonoBehaviour
             //print(LastEvaluation.TrainingStartTime);
             EvaluateTime.text = "第" + DoctorDataManager.instance.doctor.patient.Evaluations.Count.ToString() + "次评估时间：" + LastEvaluation.EvaluationStartTime;
             EvaluateButtonText.text = "再次评估";
+
+            EvaluationButtonImage.color = Color.white;
+
         }
         else
         {
@@ -65,6 +70,13 @@ public class EvaluateInitScript : MonoBehaviour
 
             EvaluateTime.text = "点击右侧按钮对患者进行状况评估";
             EvaluateButtonText.text = "状况评估";
+
+            Tweener t1 = EvaluationButtonImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.8f);
+            Tweener t2 = EvaluationButtonImage.DOColor(Color.white, 0.8f);
+            seq = DOTween.Sequence();
+            seq.Append(t1);
+            seq.Append(t2);
+            seq.SetLoops(-1);
         }
 
     }

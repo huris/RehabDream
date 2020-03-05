@@ -56,8 +56,8 @@ public class DisplayAllPatientScript : MonoBehaviour {
             PatientAllImage.color = Color.white;
             PatientQueryImage.color = Color.white;
 
-            Tweener t1 = PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.5f);
-            Tweener t2 = PatientAddImage.DOColor(Color.white, 0.5f);
+            Tweener t1 = PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.8f);
+            Tweener t2 = PatientAddImage.DOColor(Color.white, 0.8f);
             seq = DOTween.Sequence();
             seq.Append(t1);
             seq.Append(t2);
