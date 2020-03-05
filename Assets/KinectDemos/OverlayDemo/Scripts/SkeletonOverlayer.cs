@@ -144,6 +144,7 @@ public class SkeletonOverlayer : MonoBehaviour
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试
+
         if(DoctorDataManager.instance.doctor.patient.Evaluations == null || DoctorDataManager.instance.doctor.patient.Evaluations.Count == 0)
         {
             evaluation.SetEvaluationID(0);
@@ -685,6 +686,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public void ReturnBackUI()
     {
+        // 先判断数据库中是否有多余数据再删除
+        PatientDatabaseManager.instance.DelTempEvaluationPoints(evaluation.EvaluationID);
+
         SceneManager.LoadScene("03-DoctorUI");
     }
 

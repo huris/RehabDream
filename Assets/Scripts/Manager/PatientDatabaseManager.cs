@@ -586,6 +586,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
+            print(EvaluationID+" "+ PatientID + " " + EvaluationStartTime + " " + EvaluationEndTime);
 
             PatientDatabase.InsertValues(
             PatientEvaluationTableName, //table name
@@ -658,7 +659,7 @@ public class PatientDatabaseManager : MonoBehaviour
                 }
             );
 
-            Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
+            //Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
             return DatabaseReturn.Success;
         }
         catch (SqliteException e)
@@ -666,6 +667,28 @@ public class PatientDatabaseManager : MonoBehaviour
             Debug.Log("@DatabaseManager: Write EvaluationPoints SqliteException");
             this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
+        }
+    }
+
+    // Delete DoctorInfo
+    public DatabaseReturn DelTempEvaluationPoints(long EvaluationID)  // Delete
+    {
+        try
+        {
+            string QueryString;
+
+            QueryString = "DELETE FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString();
+            PatientDatabase.ExecuteQuery(QueryString);
+            
+
+            Debug.Log("@UserManager: Delete TempEvaluationPoints Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Delete TempEvaluationPoints SqliteException");
+            PatientDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
         }
     }
 
