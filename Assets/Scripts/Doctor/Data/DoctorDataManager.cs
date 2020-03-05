@@ -12,6 +12,9 @@ public class DoctorDataManager : MonoBehaviour {
     public Doctor doctor = null;
     public List<Doctor>Doctors = null;
 
+    // 医生端UI界面子窗口选择
+    // 0:患者信息管理(默认)，1:患者状况评估，2:训练任务制定，3:训练状况查询
+    public int FunctionManager = 0;    
 
     void Awake()
     {

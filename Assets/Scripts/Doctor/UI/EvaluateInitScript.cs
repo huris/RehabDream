@@ -100,6 +100,8 @@ public class EvaluateInitScript : MonoBehaviour
         //PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
         //PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
         //PatientDataManager.instance.SetIsEvaluated(1);
+
+        DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
         SceneManager.LoadScene("05-RadarTest");
     }
 

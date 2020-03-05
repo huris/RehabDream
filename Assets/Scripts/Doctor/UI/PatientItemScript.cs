@@ -212,6 +212,8 @@ public class PatientItemScript : MonoBehaviour {
             PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
             PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
             PatientDataManager.instance.SetIsEvaluated(0);
+
+            DoctorDataManager.instance.FunctionManager = 3; // 返回的时候进入训练状况查询界面
             SceneManager.LoadScene("06-Game");  // 如果登录成功,则进入医生管理界面
         }
         else
