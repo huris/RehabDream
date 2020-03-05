@@ -71,6 +71,8 @@ public class SkeletonOverlayer : MonoBehaviour
     private VectorLine ColorFistLine;   // 彩色手势线
     private VectorLine ConvexHullLine;   // 凸包线
 
+    
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -144,15 +146,8 @@ public class SkeletonOverlayer : MonoBehaviour
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试
-
-        if(DoctorDataManager.instance.doctor.patient.Evaluations == null || DoctorDataManager.instance.doctor.patient.Evaluations.Count == 0)
-        {
-            evaluation.SetEvaluationID(0);
-        }
-        else
-        {
-            evaluation.SetEvaluationID(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
-        }
+        // 给EvaluationID, 从0开始
+        evaluation.SetEvaluationID(DoctorDatabaseManager.instance.ReadMaxEvaluationID());
 
         //Points = new List<Point>();
         //index = 0;

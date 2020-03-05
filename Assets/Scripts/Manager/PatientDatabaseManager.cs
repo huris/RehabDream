@@ -586,7 +586,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
-            print(EvaluationID+" "+ PatientID + " " + EvaluationStartTime + " " + EvaluationEndTime);
+            //print(EvaluationID+" "+ PatientID + " " + EvaluationStartTime + " " + EvaluationEndTime);
 
             PatientDatabase.InsertValues(
             PatientEvaluationTableName, //table name

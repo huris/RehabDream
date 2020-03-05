@@ -44,6 +44,8 @@ public class PatientItemScript : MonoBehaviour {
 
     void OnEnable()
     {
+        //print(DoctorDatabaseManager.instance.ReadMaxEvaluationID());
+
         NoPatient = transform.parent.parent.Find("NoPatient").gameObject;
 
         PatientAddImage = transform.parent.parent.Find("PatientAddButton").GetComponent<Image>();
