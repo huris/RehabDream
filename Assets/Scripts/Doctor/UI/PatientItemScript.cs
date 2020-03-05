@@ -23,6 +23,7 @@ public class PatientItemScript : MonoBehaviour {
 
     public Toggle TrainingConditionQueryToggle;
     public Toggle TrainingPlanMakingToggle;
+    public Toggle PatientEvaluationToggle;
 
     public GameObject PatientInfoDelete;
     public Text PatientInfoDeleteText;
@@ -92,7 +93,9 @@ public class PatientItemScript : MonoBehaviour {
                 this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = doctor.DoctorName;
 
                 // 为button添加监听函数
-                this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
+                this.transform.GetChild(i).GetChild(0).GetChild(3).GetChild(0).GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
+                this.transform.GetChild(i).GetChild(0).GetChild(3).GetChild(1).GetComponent<Button>().onClick.AddListener(PhysicalConditionsEvaluateButtonOnClick);  // 评估身体状况
+
                 this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码
                 this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
                 this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
@@ -168,22 +171,7 @@ public class PatientItemScript : MonoBehaviour {
 	void Update () {
       
     }
-    void PhysicalConditionsQueryButtonOnClick()
-    {
-        GameObject obj = EventSystem.current.currentSelectedGameObject;
-        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
-
-        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
-        DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
-        //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
-
-
-        PatientQuery.SetActive(false);
-        PatientInfo.SetActive(false);
-        PatientListBG.SetActive(false);
-        PatientAdd.SetActive(false);
-        PatienPhysicalConditionsQuery.SetActive(true);
-    }
+   
 
     void PatientStartTraining()
     {
@@ -238,6 +226,23 @@ public class PatientItemScript : MonoBehaviour {
     //    PatientPasswordModify.SetActive(true);
     //}
 
+    void PhysicalConditionsQueryButtonOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
+        DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
+        //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
+
+
+        PatientQuery.SetActive(false);
+        PatientInfo.SetActive(false);
+        PatientListBG.SetActive(false);
+        PatientAdd.SetActive(false);
+        PatienPhysicalConditionsQuery.SetActive(true);
+    }
+
     void TrainingConditionQueryButtonOnClick()
     {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
@@ -249,6 +254,19 @@ public class PatientItemScript : MonoBehaviour {
 
         TrainingConditionQueryToggle = transform.parent.parent.parent.parent.Find("FunctionManager/TrainingCoditionQueryItem").GetComponent<Toggle>();
         TrainingConditionQueryToggle.isOn = true;
+    }
+
+    void PhysicalConditionsEvaluateButtonOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
+
+        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+        DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.name));
+        //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
+
+        PatientEvaluationToggle = transform.parent.parent.parent.parent.Find("FunctionManager/PatientInfoEvaluateItem").GetComponent<Toggle>();
+        PatientEvaluationToggle.isOn = true;
     }
 
     void TrainingPlanMakingButtonOnClick()
