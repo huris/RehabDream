@@ -2073,15 +2073,18 @@ public class KinectManager : MonoBehaviour
 
 	void Awake()
 	{
-        // set the singleton instance
-        if (instance == null) {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else if (instance != this) {
-            Destroy(gameObject);
-        }
+		// set the singleton instance
+		if (instance == null)
+		{
+			instance = this;
+			//DontDestroyOnLoad(gameObject);
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
 
-        try
+		try
 		{
 			bool bOnceRestarted = false;
 			if(System.IO.File.Exists("KMrestart.txt"))
@@ -2301,11 +2304,11 @@ public class KinectManager : MonoBehaviour
 		kinectInitialized = true;
 
 #if USE_SINGLE_KM_IN_MULTIPLE_SCENES
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 #endif
-		
+
 		// GUI Text.
-		if(calibrationText != null)
+		if (calibrationText != null)
 		{
 			calibrationText.text = "WAITING FOR USERS";
 		}

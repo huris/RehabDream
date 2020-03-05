@@ -12,8 +12,8 @@ public class SoccerDistance
     public float DownLeftSoccer { get;  set; } = 0;
     public float LeftSoccer { get;  set; } = 0;
     public float UponLeftSoccer { get;  set; } = 0;
-    public float CenterSoccerMin { get;  set; } = 0f;
-    public float CenterSoccerMax { get;  set; } = 999999f;
+    public float CenterSoccerMin { get;  set; } = 3.5f;
+    public float CenterSoccerMax { get; set; } = 3.5f;
 
 
     public SoccerDistance() { }

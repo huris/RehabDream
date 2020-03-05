@@ -62,7 +62,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Slider KinectDetectUIProgressSlider;  // 进度条
 
     public Image Buttons;   // 下面三个button的背景
-    public GameObject FinishedButton;  // 完成测评按钮
+    //public GameObject FinishedButton;  // 完成测评按钮
 
     public Evaluation evaluation;   // 新建一个评估测试
     public List<Point> tempPoints;  // 临时用于画凸包的点集
@@ -70,6 +70,24 @@ public class SkeletonOverlayer : MonoBehaviour
 
     private VectorLine ColorFistLine;   // 彩色手势线
     private VectorLine ConvexHullLine;   // 凸包线
+
+    //public static SkeletonOverlayer instance = null;
+
+    //void Awake()
+    //{
+    //    if (instance == null)
+    //    {
+    //        instance = this;
+    //        Debug.Log("@DataManager: Singleton created.");
+
+    //    }
+    //    else if (instance != this)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+
+    //    DontDestroyOnLoad(this);
+    //}
 
     void Start()
     {
@@ -158,7 +176,7 @@ public class SkeletonOverlayer : MonoBehaviour
         if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // 握拳轨迹图
         if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // 凸包图
 
-        FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
+        //FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
     }
 
     void Update()
@@ -581,6 +599,7 @@ public class SkeletonOverlayer : MonoBehaviour
         // 结束后画图
         evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
 
+        tempPoints = new List<Point>();
         evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
         ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
@@ -660,8 +679,13 @@ public class SkeletonOverlayer : MonoBehaviour
         evaluation.soccerDistance.LeftSoccer = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
         evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;       
 
-        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+        //FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
 
+    }
+
+    public void ReturnBackUI()
+    {
+        SceneManager.LoadScene("03-DoctorUI");
     }
 
     public void EvaluationFinished() // 将数据写入数据库
