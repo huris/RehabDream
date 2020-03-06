@@ -61,6 +61,10 @@ namespace XCharts
         public VectorLine ColorFistLine;   // 彩色手势线
         public VectorLine ConvexHullLine;   // 凸包线
 
+        public GameObject ManImage; // 男患者
+        public GameObject WomanImage;   // 女患者
+
+
         // Use this for initialization
         void Start()
         {
@@ -146,22 +150,23 @@ namespace XCharts
                 EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 3600 + long.Parse(EvaluationEndTime.text.Substring(12, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(15, 2))
                                            - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + "秒";
 
+
+
                 // SpeedRadar
                 ConvexHull convexHull;   // 新建一个凸包
                 List<Point> tempPoints = new List<Point>();
                 // 获取最后一个元素的点
                 DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+                float ScaleRate = 0;
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男") { ManImage.SetActive(true); WomanImage.SetActive(false); }
+                else { ManImage.SetActive(false); WomanImage.SetActive(true); }
+
+                // 绘制速度轨迹雷达图
+                // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
+                // 男模型: 480像素, 女模型: 484像素
 
 
-                //// 绘制速度轨迹雷达图
-                //float WidthRate, HeightRate, Rate;  // 求长宽比值,做一下缩放
-                //float MaxX, MinX, MaxY, MinY;   // 求所有点的最大最小X, 最大最小Y
 
-
-                //for(int i = 0; i < tempPoints.Count; i++)
-                //{
-
-                //}
 
                 ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
                 ColorFistLine.smoothColor = false;   // 设置平滑颜色
@@ -175,6 +180,9 @@ namespace XCharts
                 for (int i = 1; i < tempPoints.Count; i++)
                 {
                     //ColorFistLine.Draw();
+
+                    tempPoints[i].x += 200.0f;
+                    tempPoints[i].y += 200.0f;
 
                     ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
@@ -226,7 +234,12 @@ namespace XCharts
                 ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
                 ColorFistLine.Draw();
-                //ConvexHullLine.Draw();
+                ConvexHullLine.Draw();
+
+
+
+
+
 
 
                 //RadarArea = new List<float>();
@@ -357,6 +370,13 @@ namespace XCharts
             }
 
         }
+
+        public void DrawColorFist()
+        {
+
+        }
+
+
 
         public void EvaluationChange()
         {
