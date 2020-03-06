@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 namespace XCharts
 {
@@ -23,6 +24,18 @@ namespace XCharts
 
         void OnEnable()
         {
+            List<Point> tempPoints = new List<Point>();
+            // 获取最后一个元素的点
+            DoctorDataManager.instance.doctor.patient.Evaluations.Last().Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+
+
+            // 绘制速度轨迹雷达图
+            float WidthRate, HeightRate, Rate;  // 求长宽比值,做一下缩放
+            float MaxX, MinX, MaxY, MinY;   // 求所有点的最大最小X, 最大最小Y
+        
+                
+            //for(int i=0;i<)
+
 
             //RadarArea = new List<float>();
             //RadarIncreaseRate = new List<float>();

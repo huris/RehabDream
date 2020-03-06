@@ -17,7 +17,7 @@ public class Patient
     public string PatientPinyin { get; private set; } = "";
     public long MaxSuccessCount { get; private set; } = 0;
     public bool PlanIsMaking { get; private set; } = false;
-    public int TrainingPlayIndex { get; private set; } = -1;
+    public int TrainingPlayIndex { get; private set; } = -1;    // 当前是哪次训练,不是最后一次训练
     public int EvaluationIndex { get; private set; } = -1;
 
     public TrainingPlan trainingPlan = null;      // 患者训练计划

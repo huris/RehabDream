@@ -69,10 +69,11 @@ public class EvaluationConditionScript : MonoBehaviour
             
             // 计算有训练时长
             EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(12, 2))
-                                       - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(12, 2))).ToString();
+                                       - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(12, 2))).ToString() + "min";
 
         }
     }
+
 
     // Update is called once per frame
     void Update()

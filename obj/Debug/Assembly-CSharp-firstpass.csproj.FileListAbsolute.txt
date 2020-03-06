@@ -1,7 +1,6 @@
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DOTween.dll
-F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\ICSharpCode.SharpZipLib.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\LZ4Sharp.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Mono.Data.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Mono.Data.Sqlite.dll
@@ -14,7 +13,6 @@ F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.Analytics.d
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.GoogleAudioSpatializer.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.HoloLens.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.Networking.dll
-F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.PerformanceTesting.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.Purchasing.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.SpatialTracking.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.TestRunner.dll
@@ -35,7 +33,6 @@ F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEditor.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.UI.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.Networking.xml
-F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.PerformanceTesting.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.TestRunner.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\nunit.framework.xml
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.Timeline.xml
@@ -48,3 +45,10 @@ F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.cs
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.dll
 F:\underground\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.pdb
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DemiLib.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenPro.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\itextsharp.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\LCPrinter.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Vectrosity.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DemiLib.xml
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenPro.xml
