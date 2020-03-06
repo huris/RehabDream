@@ -9,9 +9,6 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class DirectionRadarChartScript : MonoBehaviour
     {
-        public RadarChart DirectionRadarChart; // 雷达图
-        public Serie serie, serie1;
-
         public Text RadarAreaText;
 
         public List<float> RadarArea;
