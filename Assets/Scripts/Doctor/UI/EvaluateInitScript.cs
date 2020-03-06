@@ -1,10 +1,12 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Vectrosity;
 
 namespace XCharts
 {
@@ -56,7 +58,8 @@ namespace XCharts
 
         public string WhiteLine;
 
-
+        public VectorLine ColorFistLine;   // 彩色手势线
+        public VectorLine ConvexHullLine;   // 凸包线
 
         // Use this for initialization
         void Start()
@@ -144,20 +147,86 @@ namespace XCharts
                                            - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + "秒";
 
                 // SpeedRadar
+                ConvexHull convexHull;   // 新建一个凸包
                 List<Point> tempPoints = new List<Point>();
                 // 获取最后一个元素的点
                 DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
 
-                // 绘制速度轨迹雷达图
-                float WidthRate, HeightRate, Rate;  // 求长宽比值,做一下缩放
-                float MaxX, MinX, MaxY, MinY;   // 求所有点的最大最小X, 最大最小Y
+                //// 绘制速度轨迹雷达图
+                //float WidthRate, HeightRate, Rate;  // 求长宽比值,做一下缩放
+                //float MaxX, MinX, MaxY, MinY;   // 求所有点的最大最小X, 最大最小Y
 
 
-                for(int i = 0; i < tempPoints.Count; i++)
+                //for(int i = 0; i < tempPoints.Count; i++)
+                //{
+
+                //}
+
+                ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                ColorFistLine.smoothColor = false;   // 设置平滑颜色
+                ColorFistLine.smoothWidth = false;   // 设置平滑宽度
+                //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+                int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+                ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
+
+                for (int i = 1; i < tempPoints.Count; i++)
                 {
+                    //ColorFistLine.Draw();
 
+                    ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
+
+                    DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+
+                    if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                    else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                    else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                    else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                    ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
+                    //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+                    //ColorFistLine.Draw();
+                    //yield return new WaitForSeconds(0.01f);
                 }
+
+                convexHull = new ConvexHull(tempPoints);
+
+                // 画凸包圈
+                ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                ConvexHullLine.smoothColor = false;   // 设置平滑颜色
+                ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
+                //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+                Color32 ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
+
+                // 先把初始点存入画图函数
+                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+                convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+                for (int i = 1; i < convexHull.ConvexHullNum; i++)
+                {
+                    ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+                    ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+                    if (i < convexHull.ConvexHullNum - 1)
+                    {
+                        convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
+                    }
+
+                    //ConvexHullLine.Draw();
+                    //yield return new WaitForSeconds(0.15f);
+                }
+
+                //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
+
+                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+                //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
+                ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+                ColorFistLine.Draw();
+                //ConvexHullLine.Draw();
 
 
                 //RadarArea = new List<float>();
@@ -294,7 +363,10 @@ namespace XCharts
             // 刷新评估界面
             DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1 - EvaluationSelect.value);
 
-            this.OnEnable();
+            VectorLine.Destroy(ref ColorFistLine);
+            VectorLine.Destroy(ref ConvexHullLine);
+
+            OnEnable();
         }
 
         // Update is called once per frame
