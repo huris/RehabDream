@@ -64,7 +64,7 @@ namespace XCharts
         public GameObject ManImage; // 男患者
         public GameObject WomanImage;   // 女患者
 
-
+        //public Canvas canvas;
         // Use this for initialization
         void Start()
         {
@@ -164,7 +164,6 @@ namespace XCharts
                 // 绘制速度轨迹雷达图
                 // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
                 // 男模型: 480像素, 女模型: 484像素
-
 
 
 
@@ -392,7 +391,11 @@ namespace XCharts
         // Update is called once per frame
         void Update()
         {
+            //Vector2 _pos1 = Vector2.one;
+            //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
+            //            Input.mousePosition, canvas.worldCamera, out _pos1);
 
+            //print(_pos1);
         }
 
         public void EvaluateButtonOnclick()
