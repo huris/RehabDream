@@ -389,6 +389,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "EvaluationID",
                     "PatientID",
+                    "EvaluationWidth",
+                    "EvaluationHeight",
                     "EvaluationStartTime",
                     "EvaluationEndTime",
                     ""},
@@ -396,6 +398,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
                     "PRIMARY KEY(EvaluationID)" 
@@ -1817,6 +1821,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     var res = new Evaluation(
                     //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     reader.GetInt64(reader.GetOrdinal("EvaluationID")),
+                    reader.GetFloat(reader.GetOrdinal("EvaluationWidth")),
+                    reader.GetFloat(reader.GetOrdinal("EvaluationHeight")),
                     reader.GetString(reader.GetOrdinal("EvaluationStartTime")),
                     reader.GetString(reader.GetOrdinal("EvaluationEndTime")));
                     result.Add(res);

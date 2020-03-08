@@ -71,6 +71,14 @@ public class SkeletonOverlayer : MonoBehaviour
     private VectorLine ColorFistLine;   // 彩色手势线
     private VectorLine ConvexHullLine;   // 凸包线
 
+    // 求肩宽EvaluationWidth
+    public float ShoulderLeftX; // 左肩的x值
+    public float ShoulderRightX; // 右肩的x值
+
+    // 求身高段EvaluationHeight
+    public float HeadY; // 头节点Y
+    public float FootLeftY; // 左脚Y
+    public float FootRightY;    // 右脚Y
     
 
     //public static SkeletonOverlayer instance = null;
@@ -247,6 +255,16 @@ public class SkeletonOverlayer : MonoBehaviour
                                 joints[i].SetActive(true);
                                 joints[i].transform.position = posJoint;
 
+                                // 获取肩宽
+                                if(i == 4) { ShoulderLeftX = Kinect2UIPosition(posJoint).x; }
+                                if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
+                                
+                                // 获取身高段
+                                if(i == 3) { HeadY = Kinect2UIPosition(posJoint).y; }
+                                if(i == 15) { FootLeftY = Kinect2UIPosition(posJoint).y; }
+                                if(i == 19) { FootRightY = Kinect2UIPosition(posJoint).y; }
+
+
                                 if (i == 21) { HandTipLeft = posJoint; }
 
                                 if (i == 1) { SpineMid = posJoint; }
@@ -379,8 +397,22 @@ public class SkeletonOverlayer : MonoBehaviour
                             lines[i].gameObject.SetActive(false);
                         }
                     }
+
                 }
 
+                // 更新肩宽
+                ShoulderRightX = Math.Abs(ShoulderRightX - ShoulderLeftX);
+                if (ShoulderRightX > evaluation.EvaluationWidth)
+                {
+                    evaluation.SetEvaluationWidth(ShoulderRightX);
+                }
+
+                // 更新身高段
+                HeadY = Math.Abs(HeadY - (FootLeftY + FootRightY) / 2);
+                if(HeadY > evaluation.EvaluationHeight)
+                {
+                    evaluation.SetEvaluationHeight(HeadY);
+                }
             }
         }
     }
@@ -700,7 +732,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
             DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
         }
-
+        DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
         SceneManager.LoadScene("03-DoctorUI");
     }
 
