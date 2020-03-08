@@ -156,17 +156,56 @@ namespace XCharts
                 ConvexHull convexHull;   // 新建一个凸包
                 List<Point> tempPoints = new List<Point>();
                 // 获取最后一个元素的点
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
-                float ScaleRate = 0;
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男") { ManImage.SetActive(true); WomanImage.SetActive(false); }
-                else { ManImage.SetActive(false); WomanImage.SetActive(true); }
+                foreach(var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+                {
+                    tempPoints.Add(new Point(point.x, point.y));
+                }
+                //DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
                 // 绘制速度轨迹雷达图
                 // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
                 // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
                 // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
+                // 经测试，只需算身高段即可，不需要算肩宽
 
+                // 先平移,后放缩
+                Vector2 ModelGravity;   // 模型重心坐标
+                Vector2 GravityDiff;    // 重心偏移
+                float HeightPixel;    // 身高段
+                float WidthPixel;   // 肩宽
 
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                {
+                    ManImage.SetActive(true); WomanImage.SetActive(false);
+
+                    WidthPixel = 100;
+                    HeightPixel = 425;
+
+                    ModelGravity = new Vector2(1430, 340);
+                }
+                else
+                {
+                    ManImage.SetActive(false); WomanImage.SetActive(true);
+
+                    WidthPixel = 80;
+                    HeightPixel = 425;
+
+                    ModelGravity = new Vector2(1430, 360);
+                }
+
+                GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
+                tempPoints[0] = new Point(ModelGravity);
+
+                for (int i = 1; i < tempPoints.Count; i++)
+                {
+                    tempPoints[i].x += GravityDiff.x;
+                    tempPoints[i].y += GravityDiff.y;
+
+                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                    tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+
+                }
 
                 ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
                 ColorFistLine.smoothColor = false;   // 设置平滑颜色
@@ -181,8 +220,8 @@ namespace XCharts
                 {
                     //ColorFistLine.Draw();
 
-                    tempPoints[i].x += 200.0f;
-                    tempPoints[i].y += 200.0f;
+                    //tempPoints[i].x += 200.0f;
+                    //tempPoints[i].y += 200.0f;
 
                     ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
@@ -233,13 +272,8 @@ namespace XCharts
                 //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
                 ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
-                ColorFistLine.Draw();
+                //ColorFistLine.Draw();
                 ConvexHullLine.Draw();
-
-
-
-
-
 
 
                 //RadarArea = new List<float>();
@@ -426,6 +460,10 @@ namespace XCharts
             //PatientDataManager.instance.SetIsEvaluated(1);
 
             DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
+
+            VectorLine.Destroy(ref ColorFistLine);
+            VectorLine.Destroy(ref ConvexHullLine);
+
             SceneManager.LoadScene("05-RadarTest");
         }
 

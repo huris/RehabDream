@@ -71,9 +71,9 @@ public class SkeletonOverlayer : MonoBehaviour
     private VectorLine ColorFistLine;   // 彩色手势线
     private VectorLine ConvexHullLine;   // 凸包线
 
-    // 求肩宽EvaluationWidth
-    public float ShoulderLeftX; // 左肩的x值
-    public float ShoulderRightX; // 右肩的x值
+    //// 求肩宽EvaluationWidth
+    //public float ShoulderLeftX; // 左肩的x值
+    //public float ShoulderRightX; // 右肩的x值
 
     // 求身高段EvaluationHeight
     public float HeadY; // 头节点Y
@@ -255,9 +255,9 @@ public class SkeletonOverlayer : MonoBehaviour
                                 joints[i].SetActive(true);
                                 joints[i].transform.position = posJoint;
 
-                                // 获取肩宽
-                                if(i == 4) { ShoulderLeftX = Kinect2UIPosition(posJoint).x; }
-                                if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
+                                //// 获取肩宽
+                                //if(i == 4) { ShoulderLeftX = Kinect2UIPosition(posJoint).x; }
+                                //if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
                                 
                                 // 获取身高段
                                 if(i == 3) { HeadY = Kinect2UIPosition(posJoint).y; }
@@ -401,11 +401,11 @@ public class SkeletonOverlayer : MonoBehaviour
                 }
 
                 // 更新肩宽
-                ShoulderRightX = Math.Abs(ShoulderRightX - ShoulderLeftX);
-                if (ShoulderRightX > evaluation.EvaluationWidth)
-                {
-                    evaluation.SetEvaluationWidth(ShoulderRightX);
-                }
+                //ShoulderRightX = Math.Abs(ShoulderRightX - ShoulderLeftX);
+                //if (ShoulderRightX > evaluation.EvaluationWidth)
+                //{
+                //    evaluation.SetEvaluationWidth(ShoulderRightX);
+                //}
 
                 // 更新身高段
                 HeadY = Math.Abs(HeadY - (FootLeftY + FootRightY) / 2);
@@ -628,7 +628,13 @@ public class SkeletonOverlayer : MonoBehaviour
         evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
 
         tempPoints = new List<Point>();
-        evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+
+        foreach (var point in evaluation.Points)
+        {
+            tempPoints.Add(new Point(point.x, point.y));
+        }
+
+        //evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
         ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
         ColorFistLine.smoothColor = false;   // 设置平滑颜色

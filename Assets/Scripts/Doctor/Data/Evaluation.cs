@@ -7,7 +7,7 @@ using Vectrosity;
 public class Evaluation
 {
     public long EvaluationID { get; private set; } = 0;
-    public float EvaluationWidth { get; private set; } = 0.0f;
+    //public float EvaluationWidth { get; private set; } = 0.0f;
     public float EvaluationHeight { get; private set; } = 0.0f;
     public string EvaluationStartTime { get; private set; } = "00000000 00:00:00";
     public string EvaluationEndTime { get; private set; } = "00000000 00:00:00";
@@ -19,10 +19,10 @@ public class Evaluation
     public float EvaluationScore { get; private set; } = 0.0f;
 
 
-    public void SetEvaluationWidth(float EvaluationWidth)    // 求肩宽
-    {
-        this.EvaluationWidth = EvaluationWidth;
-    }
+    //public void SetEvaluationWidth(float EvaluationWidth)    // 求肩宽
+    //{
+    //    this.EvaluationWidth = EvaluationWidth;
+    //}
 
     public void SetEvaluationHeight(float EvaluationHeight)    // 求身高段
     {
@@ -46,10 +46,10 @@ public class Evaluation
 
     public Evaluation() { soccerDistance = new SoccerDistance(); }
 
-    public Evaluation(long EvaluationID, float EvaluationWidth, float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime)
+    public Evaluation(long EvaluationID, float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime)
     {
         this.EvaluationID = EvaluationID;
-        this.EvaluationWidth = EvaluationWidth;
+        //this.EvaluationWidth = EvaluationWidth;
         this.EvaluationHeight = EvaluationHeight;
         this.EvaluationStartTime = EvaluationStartTime;
         this.EvaluationEndTime = EvaluationEndTime;
