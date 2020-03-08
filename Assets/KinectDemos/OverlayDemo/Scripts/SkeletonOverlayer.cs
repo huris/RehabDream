@@ -56,6 +56,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Camera camera;
     public LineRenderer line;
+    public GameObject FinishedButton;
 
     public Image Introduction;
     public float WaitTime;   // 双手握拳的时间,初始设为3秒
@@ -180,7 +181,7 @@ public class SkeletonOverlayer : MonoBehaviour
         if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // 握拳轨迹图
         if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // 凸包图
 
-        //FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
+        FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
     }
 
     void Update()
@@ -711,10 +712,9 @@ public class SkeletonOverlayer : MonoBehaviour
         evaluation.soccerDistance.DownSoccer = (transform.GetChild(5).position - transform.GetChild(0).position).magnitude;
         evaluation.soccerDistance.DownLeftSoccer = (transform.GetChild(6).position - transform.GetChild(0).position).magnitude;
         evaluation.soccerDistance.LeftSoccer = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;       
+        evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;
 
-        //FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
-
+        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
     }
 
     public void ReturnBackUI()

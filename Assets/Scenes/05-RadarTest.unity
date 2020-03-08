@@ -151,10 +151,14 @@ MonoBehaviour:
   Soccerball: {fileID: 0}
   camera: {fileID: 999714150}
   line: {fileID: 0}
+  FinishedButton: {fileID: 153744444}
   Introduction: {fileID: 1954471422}
   WaitTime: 0
   KinectDetectUIProgressSlider: {fileID: 1419392128}
   Buttons: {fileID: 359815484}
+  HeadY: 0
+  FootLeftY: 0
+  FootRightY: 0
 --- !u!4 &17942846
 Transform:
   m_ObjectHideFlags: 0

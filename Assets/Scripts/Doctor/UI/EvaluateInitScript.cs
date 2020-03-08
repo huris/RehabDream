@@ -13,7 +13,8 @@ namespace XCharts
     [DisallowMultipleComponent]
     public class EvaluateInitScript : MonoBehaviour
     {
-
+        // 当前的评估
+        public int SingleEvaluation;
 
         // DataBG
         public GameObject NoEvaluateData;
@@ -64,6 +65,10 @@ namespace XCharts
         public GameObject ManImage; // 男患者
         public GameObject WomanImage;   // 女患者
 
+        public Toggle ContexHullToggle;
+        public Toggle TrackToggle;
+        public Toggle SoccerToggle;
+
         //public Canvas canvas;
         // Use this for initialization
         void Start()
@@ -99,7 +104,7 @@ namespace XCharts
 
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
-                int SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
+                SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
 
                 // DataBG
                 NoEvaluateData.SetActive(false);
@@ -153,127 +158,10 @@ namespace XCharts
 
 
                 // SpeedRadar
-                ConvexHull convexHull;   // 新建一个凸包
-                List<Point> tempPoints = new List<Point>();
-                // 获取最后一个元素的点
-                foreach(var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
-                {
-                    tempPoints.Add(new Point(point.x, point.y));
-                }
-                //DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+                DrawContexHull();
 
-                // 绘制速度轨迹雷达图
-                // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
-                // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
-                // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
-                // 经测试，只需算身高段即可，不需要算肩宽
 
-                // 先平移,后放缩
-                Vector2 ModelGravity;   // 模型重心坐标
-                Vector2 GravityDiff;    // 重心偏移
-                float HeightPixel;    // 身高段
-                float WidthPixel;   // 肩宽
-
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
-                {
-                    ManImage.SetActive(true); WomanImage.SetActive(false);
-
-                    WidthPixel = 100;
-                    HeightPixel = 425;
-
-                    ModelGravity = new Vector2(1430, 340);
-                }
-                else
-                {
-                    ManImage.SetActive(false); WomanImage.SetActive(true);
-
-                    WidthPixel = 80;
-                    HeightPixel = 425;
-
-                    ModelGravity = new Vector2(1430, 360);
-                }
-
-                GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
-                tempPoints[0] = new Point(ModelGravity);
-
-                for (int i = 1; i < tempPoints.Count; i++)
-                {
-                    tempPoints[i].x += GravityDiff.x;
-                    tempPoints[i].y += GravityDiff.y;
-
-                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                    tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                    tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-
-                }
-
-                ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                ColorFistLine.smoothColor = false;   // 设置平滑颜色
-                ColorFistLine.smoothWidth = false;   // 设置平滑宽度
-                //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-
-                int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
-
-                ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
-
-                for (int i = 1; i < tempPoints.Count; i++)
-                {
-                    //ColorFistLine.Draw();
-
-                    //tempPoints[i].x += 200.0f;
-                    //tempPoints[i].y += 200.0f;
-
-                    ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
-
-                    DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
-
-                    if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
-                    else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
-                    else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
-                    else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
-
-                    ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
-                    //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
-                    //ColorFistLine.Draw();
-                    //yield return new WaitForSeconds(0.01f);
-                }
-
-                convexHull = new ConvexHull(tempPoints);
-
-                // 画凸包圈
-                ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                ConvexHullLine.smoothColor = false;   // 设置平滑颜色
-                ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
-                //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-
-                Color32 ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
-
-                // 先把初始点存入画图函数
-                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-                convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
-
-                for (int i = 1; i < convexHull.ConvexHullNum; i++)
-                {
-                    ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
-                    ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
-
-                    if (i < convexHull.ConvexHullNum - 1)
-                    {
-                        convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
-                    }
-
-                    //ConvexHullLine.Draw();
-                    //yield return new WaitForSeconds(0.15f);
-                }
-
-                //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
-
-                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-                //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-                ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
-
-                //ColorFistLine.Draw();
-                ConvexHullLine.Draw();
+                
 
 
                 //RadarArea = new List<float>();
@@ -405,12 +293,242 @@ namespace XCharts
 
         }
 
-        public void DrawColorFist()
+        public void DrawContexHullToggleChange()
         {
+            if (ContexHullToggle.isOn)
+            {
+                DrawContexHull();
+            }
+            else
+            {
+                VectorLine.Destroy(ref ConvexHullLine);
+            }
+        }
 
+        public void DrawContexHull()
+        {
+            ConvexHull convexHull;   // 新建一个凸包
+            List<Point> tempPoints = new List<Point>();
+            // 获取最后一个元素的点
+            foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+            {
+                tempPoints.Add(new Point(point.x, point.y));
+            }
+            //DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+
+            // 绘制速度轨迹雷达图
+            // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
+            // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
+            // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
+            // 经测试，只需算身高段即可，不需要算肩宽
+
+            // 先平移,后放缩
+            Vector2 ModelGravity;   // 模型重心坐标
+            Vector2 GravityDiff;    // 重心偏移
+            float HeightPixel;    // 身高段
+
+            if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+            {
+                ManImage.SetActive(true); WomanImage.SetActive(false);
+
+                //WidthPixel = 100;
+                HeightPixel = 425;
+
+                ModelGravity = new Vector2(1430, 340);
+            }
+            else
+            {
+                ManImage.SetActive(false); WomanImage.SetActive(true);
+
+                //WidthPixel = 80;
+                HeightPixel = 425;
+
+                ModelGravity = new Vector2(1430, 360);
+            }
+
+            GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
+            tempPoints[0] = new Point(ModelGravity);
+
+            for (int i = 1; i < tempPoints.Count; i++)
+            {
+                tempPoints[i].x += GravityDiff.x;
+                tempPoints[i].y += GravityDiff.y;
+
+                //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+
+            }
+
+                //ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                //ColorFistLine.smoothColor = false;   // 设置平滑颜色
+                //ColorFistLine.smoothWidth = false;   // 设置平滑宽度
+                ////ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+                //int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+                //ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
+
+                //for (int i = 1; i < tempPoints.Count; i++)
+                //{
+                //    //ColorFistLine.Draw();
+
+                //    //tempPoints[i].x += 200.0f;
+                //    //tempPoints[i].y += 200.0f;
+
+                //    ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
+
+                //    DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+
+                //    if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                //    else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                //    else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                //    else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                //    ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
+                //    //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+                //    //ColorFistLine.Draw();
+                //    //yield return new WaitForSeconds(0.01f);
+                //}
+
+            convexHull = new ConvexHull(tempPoints);
+
+            // 画凸包圈
+            ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ConvexHullLine.smoothColor = false;   // 设置平滑颜色
+            ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
+            //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+            Color32 ConvexHullLineColor = Color.red;
+
+            // 先把初始点存入画图函数
+            ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+            for (int i = 1; i < convexHull.ConvexHullNum; i++)
+            {
+                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+                ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+                if (i < convexHull.ConvexHullNum - 1)
+                {
+                    convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
+                }
+
+                //ConvexHullLine.Draw();
+                //yield return new WaitForSeconds(0.15f);
+            }
+
+            //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
+
+            ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
+            ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+            //ColorFistLine.Draw();
+            ConvexHullLine.Draw();
         }
 
 
+        public void DrawTrackToggleChange()
+        {
+            if (TrackToggle.isOn)
+            {
+                StartCoroutine(DrawColorFistLine());
+            }
+            else
+            {
+                VectorLine.Destroy(ref ColorFistLine);
+            }
+        }
+
+
+        IEnumerator DrawColorFistLine()
+        {
+            ConvexHull convexHull;   // 新建一个凸包
+            List<Point> tempPoints = new List<Point>();
+            // 获取最后一个元素的点
+            foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+            {
+                tempPoints.Add(new Point(point.x, point.y));
+            }
+
+
+            // 绘制速度轨迹雷达图
+            // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
+            // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
+            // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
+            // 经测试，只需算身高段即可，不需要算肩宽
+
+            // 先平移,后放缩
+            Vector2 ModelGravity;   // 模型重心坐标
+            Vector2 GravityDiff;    // 重心偏移
+            float HeightPixel;    // 身高段
+
+            if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+            {
+                ManImage.SetActive(true); WomanImage.SetActive(false);
+
+                //WidthPixel = 100;
+                HeightPixel = 425;
+
+                ModelGravity = new Vector2(1430, 340);
+            }
+            else
+            {
+                ManImage.SetActive(false); WomanImage.SetActive(true);
+
+                //WidthPixel = 80;
+                HeightPixel = 425;
+
+                ModelGravity = new Vector2(1430, 360);
+            }
+
+            GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
+            tempPoints[0] = new Point(ModelGravity);
+
+            for (int i = 1; i < tempPoints.Count; i++)
+            {
+                tempPoints[i].x += GravityDiff.x;
+                tempPoints[i].y += GravityDiff.y;
+
+                //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+
+            }
+
+
+            //evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
+
+            ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLine.smoothColor = false;   // 设置平滑颜色
+            ColorFistLine.smoothWidth = false;   // 设置平滑宽度
+            ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+            int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+            ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
+
+            for (int i = 1; i < tempPoints.Count; i++)
+            {
+                //ColorFistLine.Draw();
+
+                ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
+
+                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+
+                if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
+                //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+                ColorFistLine.Draw();
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
 
         public void EvaluationChange()
         {
