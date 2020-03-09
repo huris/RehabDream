@@ -59,15 +59,33 @@ namespace XCharts
 
         public string WhiteLine;
 
-        public VectorLine ColorFistLine;   // 彩色手势线
+        public VectorLine ColorFistLineTrack;   // 彩色手势线
+        public VectorLine ColorFistLineReality;   // 彩色手势线
         public VectorLine ConvexHullLine;   // 凸包线
+        public VectorLine ConvexHullArea;   // 凸包区域填充
 
         public GameObject ManImage; // 男患者
         public GameObject WomanImage;   // 女患者
 
         public Toggle ContexHullToggle;
         public Toggle TrackToggle;
-        public Toggle SoccerToggle;
+        public Toggle SoccerballToggle;
+        public Toggle RealityToggle;
+
+
+        // 绘制速度轨迹雷达图
+        // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
+        // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
+        // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
+        // 经测试，只需算身高段即可，不需要算肩宽
+
+        public List<Point> EvaluationPoints = new List<Point>();
+        public ConvexHull convexHull;   // 新建一个凸包
+
+        // 先平移,后放缩
+        public Vector2 ModelGravity;   // 模型重心坐标
+        public Vector2 GravityDiff;    // 重心偏移
+        public float HeightPixel;    // 身高段
 
         //public Canvas canvas;
         // Use this for initialization
@@ -158,9 +176,49 @@ namespace XCharts
 
 
                 // SpeedRadar
-                DrawContexHull();
 
+                foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+                {
+                    EvaluationPoints.Add(new Point(point.x, point.y));
+                }
 
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                {
+                    ManImage.SetActive(true); WomanImage.SetActive(false);
+
+                    //WidthPixel = 100;
+                    HeightPixel = 425;
+
+                    ModelGravity = new Vector2(1430, 340);
+                }
+                else
+                {
+                    ManImage.SetActive(false); WomanImage.SetActive(true);
+
+                    //WidthPixel = 80;
+                    HeightPixel = 425;
+
+                    ModelGravity = new Vector2(1430, 360);
+                }
+
+                GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
+                EvaluationPoints[0] = new Point(ModelGravity);
+
+                for (int i = 1; i < EvaluationPoints.Count; i++)
+                {
+                    EvaluationPoints[i].x += GravityDiff.x;
+                    EvaluationPoints[i].y += GravityDiff.y;
+
+                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+
+                }
+
+                // 默认画凸包图
+                ContexHullToggle.isOn = true;
+
+                StartCoroutine(abc());
                 
 
 
@@ -293,6 +351,30 @@ namespace XCharts
 
         }
 
+        IEnumerator abc()
+        {
+            yield return new WaitForEndOfFrame();
+
+            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+            m_texture.Apply();
+
+            // 遍历长和宽
+            for (int i = 1000; i < 1830; i++)
+            {
+                for (int j = 0; j < 720; j++)
+                {
+                    if(m_texture.GetPixel(i, j) == Color.red)
+                    {
+                        print(true);    
+                    }
+                }
+            }
+            //print(bytes.Length);
+            //File.WriteAllBytes(Application.dataPath + "/onPcSavedScreen.png", bytes);
+        }
+
+
         public void DrawContexHullToggleChange()
         {
             if (ContexHullToggle.isOn)
@@ -307,89 +389,16 @@ namespace XCharts
 
         public void DrawContexHull()
         {
-            ConvexHull convexHull;   // 新建一个凸包
+
+            Color ConvexHullLineColor = Color.red;
+            Color ConvexHullAreaColor = Color.yellow;
+
             List<Point> tempPoints = new List<Point>();
-            // 获取最后一个元素的点
-            foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+
+            foreach (var point in EvaluationPoints)
             {
                 tempPoints.Add(new Point(point.x, point.y));
             }
-            //DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
-
-            // 绘制速度轨迹雷达图
-            // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
-            // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
-            // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
-            // 经测试，只需算身高段即可，不需要算肩宽
-
-            // 先平移,后放缩
-            Vector2 ModelGravity;   // 模型重心坐标
-            Vector2 GravityDiff;    // 重心偏移
-            float HeightPixel;    // 身高段
-
-            if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
-            {
-                ManImage.SetActive(true); WomanImage.SetActive(false);
-
-                //WidthPixel = 100;
-                HeightPixel = 425;
-
-                ModelGravity = new Vector2(1430, 340);
-            }
-            else
-            {
-                ManImage.SetActive(false); WomanImage.SetActive(true);
-
-                //WidthPixel = 80;
-                HeightPixel = 425;
-
-                ModelGravity = new Vector2(1430, 360);
-            }
-
-            GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
-            tempPoints[0] = new Point(ModelGravity);
-
-            for (int i = 1; i < tempPoints.Count; i++)
-            {
-                tempPoints[i].x += GravityDiff.x;
-                tempPoints[i].y += GravityDiff.y;
-
-                //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-
-            }
-
-                //ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                //ColorFistLine.smoothColor = false;   // 设置平滑颜色
-                //ColorFistLine.smoothWidth = false;   // 设置平滑宽度
-                ////ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-
-                //int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
-
-                //ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
-
-                //for (int i = 1; i < tempPoints.Count; i++)
-                //{
-                //    //ColorFistLine.Draw();
-
-                //    //tempPoints[i].x += 200.0f;
-                //    //tempPoints[i].y += 200.0f;
-
-                //    ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
-
-                //    DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
-
-                //    if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
-                //    else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
-                //    else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
-                //    else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
-
-                //    ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
-                //    //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
-                //    //ColorFistLine.Draw();
-                //    //yield return new WaitForSeconds(0.01f);
-                //}
 
             convexHull = new ConvexHull(tempPoints);
 
@@ -399,7 +408,15 @@ namespace XCharts
             ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
             //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
-            Color32 ConvexHullLineColor = Color.red;
+            // 画透明区域
+            ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ConvexHullArea.smoothColor = false;   // 设置平滑颜色
+            ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+            ConvexHullArea.color = ConvexHullAreaColor;
+
+            int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+            int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
+
 
             // 先把初始点存入画图函数
             ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
@@ -415,6 +432,12 @@ namespace XCharts
                     convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
                 }
 
+                if (MinX > Mathf.FloorToInt(convexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[i].x);
+                if (MaxX < Mathf.CeilToInt(convexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[i].x);
+                if (MinY > Mathf.FloorToInt(convexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[i].y);
+                if (MaxY < Mathf.CeilToInt(convexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[i].y);
+
+
                 //ConvexHullLine.Draw();
                 //yield return new WaitForSeconds(0.15f);
             }
@@ -427,94 +450,59 @@ namespace XCharts
 
             //ColorFistLine.Draw();
             ConvexHullLine.Draw();
-        }
 
+          
+            int flag = 0;   // 使用位图法进行填充颜色
+
+            print(MinX + " " + MaxX + " " + MinY + " " + MaxY);
+            //for (int x = MinX; x < MaxX; x++)
+            //{
+            //    for (int y = MinY; y < MaxY; y++)
+            //    {
+
+            //    }
+            //}
+            //print(flag);
+
+            //ConvexHullArea.Draw();
+        }
 
         public void DrawTrackToggleChange()
         {
             if (TrackToggle.isOn)
             {
-                StartCoroutine(DrawColorFistLine());
+                DrawColorFistTrack();
             }
             else
             {
-                VectorLine.Destroy(ref ColorFistLine);
+                VectorLine.Destroy(ref ColorFistLineTrack);
             }
         }
 
 
-        IEnumerator DrawColorFistLine()
+        public void DrawColorFistTrack()
         {
-            ConvexHull convexHull;   // 新建一个凸包
             List<Point> tempPoints = new List<Point>();
-            // 获取最后一个元素的点
-            foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+
+            foreach (var point in EvaluationPoints)
             {
                 tempPoints.Add(new Point(point.x, point.y));
             }
 
-
-            // 绘制速度轨迹雷达图
-            // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
-            // 男模型: 身高段：425像素，肩宽：100像素，重心坐标（1430, 340）
-            // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
-            // 经测试，只需算身高段即可，不需要算肩宽
-
-            // 先平移,后放缩
-            Vector2 ModelGravity;   // 模型重心坐标
-            Vector2 GravityDiff;    // 重心偏移
-            float HeightPixel;    // 身高段
-
-            if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
-            {
-                ManImage.SetActive(true); WomanImage.SetActive(false);
-
-                //WidthPixel = 100;
-                HeightPixel = 425;
-
-                ModelGravity = new Vector2(1430, 340);
-            }
-            else
-            {
-                ManImage.SetActive(false); WomanImage.SetActive(true);
-
-                //WidthPixel = 80;
-                HeightPixel = 425;
-
-                ModelGravity = new Vector2(1430, 360);
-            }
-
-            GravityDiff = new Vector2(ModelGravity.x - tempPoints[0].x, ModelGravity.y - tempPoints[0].y);
-            tempPoints[0] = new Point(ModelGravity);
-
-            for (int i = 1; i < tempPoints.Count; i++)
-            {
-                tempPoints[i].x += GravityDiff.x;
-                tempPoints[i].y += GravityDiff.y;
-
-                //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                tempPoints[i].y = tempPoints[0].y + (tempPoints[i].y - tempPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-
-            }
-
-
-            //evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
-
-            ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            ColorFistLine.smoothColor = false;   // 设置平滑颜色
-            ColorFistLine.smoothWidth = false;   // 设置平滑宽度
-            ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+            ColorFistLineTrack = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineTrack.smoothColor = false;   // 设置平滑颜色
+            ColorFistLineTrack.smoothWidth = false;   // 设置平滑宽度
+            //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
             int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
 
-            ColorFistLine.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
+            ColorFistLineTrack.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
 
             for (int i = 1; i < tempPoints.Count; i++)
             {
                 //ColorFistLine.Draw();
 
-                ColorFistLine.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
+                ColorFistLineTrack.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
                 DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
 
@@ -523,23 +511,111 @@ namespace XCharts
                 else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
                 else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
 
-                ColorFistLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
+                ColorFistLineTrack.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
                 //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
-                ColorFistLine.Draw();
+                //yield return new WaitForSeconds(0.01f);
+            }
+            ColorFistLineTrack.Draw();
+        }
+
+
+
+        public void DrawRealityToggleChange()
+        {
+            if (RealityToggle.isOn)
+            {
+                StartCoroutine(DrawColorFistLine());
+            }
+            else
+            {
+                VectorLine.Destroy(ref ColorFistLineReality);
+            }
+        }
+
+
+        IEnumerator DrawColorFistLine()
+        {
+            List<Point> tempPoints = new List<Point>();
+
+
+            foreach (var point in EvaluationPoints)
+            {
+                tempPoints.Add(new Point(point.x, point.y));
+            }
+
+
+            ColorFistLineReality = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineReality.smoothColor = false;   // 设置平滑颜色
+            ColorFistLineReality.smoothWidth = false;   // 设置平滑宽度
+            ColorFistLineReality.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+            int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
+
+            ColorFistLineReality.points2.Add(new Vector2(tempPoints[0].x, tempPoints[0].y));
+
+            for (int i = 1; i < tempPoints.Count; i++)
+            {
+                //ColorFistLine.Draw();
+
+                ColorFistLineReality.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
+
+                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+
+                if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                ColorFistLineReality.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
+                //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
+                ColorFistLineReality.Draw();
                 yield return new WaitForSeconds(0.01f);
             }
         }
+
+        public void DrawSoccerballToggleChange()
+        {
+            if (SoccerballToggle.isOn)
+            {
+                DrawSoccerball();
+            }
+            else
+            {
+                for(int i = 0; i < 8; i++)
+                {
+                    transform.GetChild(2).GetChild(4).GetChild(i).gameObject.SetActive(false);
+                }
+            }
+        }
+
+        public void DrawSoccerball()
+        {
+
+        }
+
 
         public void EvaluationChange()
         {
             // 刷新评估界面
             DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1 - EvaluationSelect.value);
 
-            VectorLine.Destroy(ref ColorFistLine);
-            VectorLine.Destroy(ref ConvexHullLine);
+            RemoveLineAndSoccerball();
 
             OnEnable();
         }
+
+        public void RemoveLineAndSoccerball()
+        {
+            VectorLine.Destroy(ref ConvexHullLine);
+            VectorLine.Destroy(ref ColorFistLineTrack);
+            VectorLine.Destroy(ref ColorFistLineReality);
+
+            for (int i = 0; i < 8; i++)
+            {
+                transform.GetChild(2).GetChild(4).GetChild(i).gameObject.SetActive(false);
+            }
+        }
+
 
         // Update is called once per frame
         void Update()
@@ -550,6 +626,8 @@ namespace XCharts
 
             //print(_pos1);
         }
+
+        
 
         public void EvaluateButtonOnclick()
         {
@@ -578,10 +656,9 @@ namespace XCharts
             //PatientDataManager.instance.SetIsEvaluated(1);
 
             DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
-
-            VectorLine.Destroy(ref ColorFistLine);
-            VectorLine.Destroy(ref ConvexHullLine);
-
+            
+            RemoveLineAndSoccerball();
+            
             SceneManager.LoadScene("05-RadarTest");
         }
 
