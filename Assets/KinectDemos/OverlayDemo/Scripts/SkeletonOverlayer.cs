@@ -181,8 +181,12 @@ public class SkeletonOverlayer : MonoBehaviour
         UponButton.SetActive(false);  // 按钮箭头消失
         DownButton.SetActive(false);  // 按钮箭头消失
 
-        Introduction.transform.DOLocalMove(new Vector3(0f, 101.9f,0), 2.5f);
-        Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 2.5f);
+        //Introduction.transform.DOLocalMove(new Vector3(0f, 101.9f,0), 2.5f);
+        //Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 2.5f);
+
+        Introduction.transform.localPosition = new Vector3(0f, 101.9f, 0);
+        Buttons.transform.localPosition = new Vector3(0f, -438.05f, 0);
+
         //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
 
         WaitTime = 0f;
@@ -200,6 +204,9 @@ public class SkeletonOverlayer : MonoBehaviour
         FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
 
         IsOver = false;
+        
+        // 进度条刚开始隐藏
+        KinectDetectUIProgressSlider.gameObject.SetActive(false);
     }
 
     void Update()
@@ -228,6 +235,15 @@ public class SkeletonOverlayer : MonoBehaviour
 
         //    //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
         //}
+
+        if(WaitTime == 0)
+        {
+            KinectDetectUIProgressSlider.gameObject.SetActive(false);
+        }
+        else if(WaitTime > 0)
+        {
+            KinectDetectUIProgressSlider.gameObject.SetActive(true);
+        }
 
         if (!IsOver && manager && manager.IsInitialized() && foregroundCamera)
         {

@@ -617,21 +617,31 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
+            //print(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", ""));
+
+            //print(AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", "")));
+            //print(AddSingleQuotes(soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
 
             PatientDatabase.InsertValues(
             EvaluationSoccerTableName, //table name
             new string[] {
                     EvaluationID.ToString(),
-                    soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", ""),
-                    soccerDistance.ToString(),
-                    soccerDistance.ToString()
+                    AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    AddSingleQuotes(soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", "")),
+                    soccerDistance.CenterSoccerMin.ToString(),
+                    soccerDistance.CenterSoccerMax.ToString()
             }
         );
 

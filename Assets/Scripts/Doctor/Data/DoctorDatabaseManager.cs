@@ -1882,7 +1882,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             {
                 string[] XYZ;
 
-                print(reader.GetString(reader.GetOrdinal("UponSoccer")));
+                //print(reader.GetString(reader.GetOrdinal("UponSoccer")));
 
                 XYZ = reader.GetString(reader.GetOrdinal("UponSoccer")).Split(',');
                 Vector3 UponSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
