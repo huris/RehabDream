@@ -87,6 +87,10 @@ namespace XCharts
         public Vector2 GravityDiff;    // 重心偏移
         public float HeightPixel;    // 身高段
 
+        public Color[] ConvexHullColors;
+        public Color ConvexHullAreaColor;
+        public Color ConvexHullLineColor;
+
         //public Canvas canvas;
         // Use this for initialization
         void Start()
@@ -216,10 +220,13 @@ namespace XCharts
                 }
 
                 // 默认画凸包图
-                ContexHullToggle.isOn = true;
 
-                StartCoroutine(abc());
-                
+                ConvexHullLineColor = Color.red;
+                ConvexHullAreaColor = new Color32(255,0,0,40);
+
+                ContexHullToggle.isOn = true;
+                DrawContexHullToggleChange();
+
 
 
                 //RadarArea = new List<float>();
@@ -351,30 +358,6 @@ namespace XCharts
 
         }
 
-        IEnumerator abc()
-        {
-            yield return new WaitForEndOfFrame();
-
-            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
-            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
-            m_texture.Apply();
-
-            // 遍历长和宽
-            for (int i = 1000; i < 1830; i++)
-            {
-                for (int j = 0; j < 720; j++)
-                {
-                    if(m_texture.GetPixel(i, j) == Color.red)
-                    {
-                        print(true);    
-                    }
-                }
-            }
-            //print(bytes.Length);
-            //File.WriteAllBytes(Application.dataPath + "/onPcSavedScreen.png", bytes);
-        }
-
-
         public void DrawContexHullToggleChange()
         {
             if (ContexHullToggle.isOn)
@@ -390,9 +373,6 @@ namespace XCharts
         public void DrawContexHull()
         {
 
-            Color ConvexHullLineColor = Color.red;
-            Color ConvexHullAreaColor = Color.yellow;
-
             List<Point> tempPoints = new List<Point>();
 
             foreach (var point in EvaluationPoints)
@@ -407,12 +387,6 @@ namespace XCharts
             ConvexHullLine.smoothColor = false;   // 设置平滑颜色
             ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
             //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-
-            // 画透明区域
-            ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            ConvexHullArea.smoothColor = false;   // 设置平滑颜色
-            ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
-            ConvexHullArea.color = ConvexHullAreaColor;
 
             int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
             int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
@@ -451,21 +425,54 @@ namespace XCharts
             //ColorFistLine.Draw();
             ConvexHullLine.Draw();
 
-          
-            int flag = 0;   // 使用位图法进行填充颜色
-
-            print(MinX + " " + MaxX + " " + MinY + " " + MaxY);
-            //for (int x = MinX; x < MaxX; x++)
-            //{
-            //    for (int y = MinY; y < MaxY; y++)
-            //    {
-
-            //    }
-            //}
-            //print(flag);
-
-            //ConvexHullArea.Draw();
+            // 多算几个单位
+            StartCoroutine(DrawConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
         }
+
+        IEnumerator DrawConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
+        {
+            yield return new WaitForEndOfFrame();
+
+            // 画透明区域
+            ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ConvexHullArea.smoothColor = false;   // 设置平滑颜色
+            ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+            ConvexHullArea.color = ConvexHullAreaColor;
+
+            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+            m_texture.Apply();
+
+            //ConvexHullColors = m_texture.GetPixels(1000, 0, 920, 500);
+            ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
+
+            //print(MinX + " " + MinY + " " + (MaxX - MinX).ToString() + " " + (MaxY - MinY).ToString());
+
+            //print(ConvexHullColors.Length);
+
+            MaxY = MaxY - MinY - 1;
+
+            int x, y;
+            for (int i = 0; i < MaxY; i++)
+            {
+                x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
+        
+                while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
+                while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
+                
+                if (x != y) {
+                    //print((MinX + x).ToString() + " " + (MinY + i).ToString());
+                    //print((MinX + y).ToString() + " " + (MinY + i).ToString());
+                    ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
+                    ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i)); 
+                }
+            }
+
+            ConvexHullArea.Draw();
+        }
+
+
+
 
         public void DrawTrackToggleChange()
         {
@@ -609,6 +616,7 @@ namespace XCharts
             VectorLine.Destroy(ref ConvexHullLine);
             VectorLine.Destroy(ref ColorFistLineTrack);
             VectorLine.Destroy(ref ColorFistLineReality);
+            VectorLine.Destroy(ref ConvexHullArea);
 
             for (int i = 0; i < 8; i++)
             {
