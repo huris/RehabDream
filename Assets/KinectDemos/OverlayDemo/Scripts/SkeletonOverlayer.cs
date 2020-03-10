@@ -476,7 +476,7 @@ public class SkeletonOverlayer : MonoBehaviour
         UponButton.SetActive(false);
         DownButton.SetActive(true);
 
-        Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+        Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
     }
 
     public void DownButtonOnClick()
@@ -484,7 +484,7 @@ public class SkeletonOverlayer : MonoBehaviour
         UponButton.SetActive(true);
         DownButton.SetActive(false);
 
-        Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
+        Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
     }
 
 
