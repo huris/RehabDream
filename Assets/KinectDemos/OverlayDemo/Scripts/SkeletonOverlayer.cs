@@ -56,7 +56,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Camera camera;
     public LineRenderer line;
+
+    public GameObject ReturnButton;
+    public GameObject RestartButton;
+    public GameObject TrackButton;
     public GameObject FinishedButton;
+    public GameObject UponButton;
+    public GameObject DownButton;
 
     public Image Introduction;
     public float WaitTime;   // 双手握拳的时间,初始设为3秒
@@ -80,7 +86,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public float HeadY; // 头节点Y
     public float FootLeftY; // 左脚Y
     public float FootRightY;    // 右脚Y
-    
+
+    public bool IsOver;     // 判断是否结束
 
     //public static SkeletonOverlayer instance = null;
 
@@ -171,6 +178,9 @@ public class SkeletonOverlayer : MonoBehaviour
         //line = GetComponent<LineRenderer>();
         Soccerball = null;
 
+        UponButton.SetActive(false);  // 按钮箭头消失
+        DownButton.SetActive(false);  // 按钮箭头消失
+
         Introduction.transform.DOLocalMove(new Vector3(0f, 101.9f,0), 2.5f);
         Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 2.5f);
         //Introduction.transform.DOLocalMove(new Vector3(-0.024902f, 979f, 0), 2.5f);
@@ -181,7 +191,15 @@ public class SkeletonOverlayer : MonoBehaviour
         if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // 握拳轨迹图
         if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // 凸包图
 
+        ReturnButton.SetActive(true);
+        ReturnButton.transform.localPosition = new Vector3(-400f, -13.6f, 0f);
+        RestartButton.SetActive(true);
+        RestartButton.transform.localPosition = new Vector3(400f, -13.6f, 0f);
+
+        TrackButton.SetActive(false);
         FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
+
+        IsOver = false;
     }
 
     void Update()
@@ -211,7 +229,7 @@ public class SkeletonOverlayer : MonoBehaviour
         //    //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
         //}
 
-        if (manager && manager.IsInitialized() && foregroundCamera)
+        if (!IsOver && manager && manager.IsInitialized() && foregroundCamera)
         {
             //backgroundImage.renderer.material.mainTexture = manager.GetUsersClrTex();
             if (backgroundImage && (backgroundImage.texture == null))
@@ -298,7 +316,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                         }
                                         else
                                         {
-                                            Buttons.transform.DOLocalMove(new Vector3(0f, -641.9f, 0), 0.5f);
+                                            DownButtonOnClick();
 
                                             NowPosition = Kinect2UIPosition(posJoint);
 
@@ -330,17 +348,52 @@ public class SkeletonOverlayer : MonoBehaviour
                                 }
                                 else if (i == 23 && (HandTipLeft - posJoint).magnitude > 0.8f)
                                 {
-                                    if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
+                                    if(evaluation.Points.Count > 0)
                                     {
-                                        Soccerball.GetComponent<Highlighter>().ConstantOff();
-                                    }
+                                        if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
+                                        {
+                                            Soccerball.GetComponent<Highlighter>().ConstantOff();
+                                        }
 
-                                    //print(Buttons.transform.localPosition);
-                                    Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
-                                    //for (int z = 0; z < 9; z++)
-                                    //{
-                                    //    transform.GetChild(z).gameObject.SetActive(false);
-                                    //}
+                                        //print(Buttons.transform.localPosition);
+
+                                        UponButtonOnClick();
+
+                                        // 结束后画图
+                                        evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+
+
+                                        //_GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
+
+                                        // 记录足球的距离
+                                        evaluation.soccerDistance.UponSoccer = transform.GetChild(1).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.UponRightSoccer = transform.GetChild(2).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.RightSoccer = transform.GetChild(3).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.DownRightSoccer = transform.GetChild(4).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.DownSoccer = transform.GetChild(5).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.DownLeftSoccer = transform.GetChild(6).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.LeftSoccer = transform.GetChild(7).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.UponLeftSoccer = transform.GetChild(8).position - transform.GetChild(0).position;
+
+                                        ReturnButton.SetActive(true);
+                                        ReturnButton.transform.localPosition = new Vector3(-600f, -13.6f, 0f);
+                                        RestartButton.SetActive(true);
+                                        RestartButton.transform.localPosition = new Vector3(-200f, -13.6f, 0f);
+
+                                        TrackButton.SetActive(true);
+                                        TrackButton.transform.localPosition = new Vector3(200f, -13.6f, 0f);
+
+                                        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+                                        FinishedButton.transform.localPosition = new Vector3(600f, -13.6f, 0f);
+
+                                        IsOver = true;
+
+
+                                        //for (int z = 0; z < 9; z++)
+                                        //{
+                                        //    transform.GetChild(z).gameObject.SetActive(false);
+                                        //}
+                                    }
                                 }
 
                                 Quaternion rotJoint = manager.GetJointOrientation(userId, joint, false);
@@ -417,6 +470,23 @@ public class SkeletonOverlayer : MonoBehaviour
             }
         }
     }
+
+    public void UponButtonOnClick()
+    {
+        UponButton.SetActive(false);
+        DownButton.SetActive(true);
+
+        Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+    }
+
+    public void DownButtonOnClick()
+    {
+        UponButton.SetActive(true);
+        DownButton.SetActive(false);
+
+        Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 0.5f);
+    }
+
 
     // use Thread to write database
     public void WritePointInGame()
@@ -625,8 +695,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     IEnumerator DrawColorFistLine()
     {
-        // 结束后画图
-        evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+        DownButtonOnClick();
 
         tempPoints = new List<Point>();
 
@@ -704,17 +773,12 @@ public class SkeletonOverlayer : MonoBehaviour
         ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
         ConvexHullLine.Draw();
 
-        // 记录足球的距离
-        evaluation.soccerDistance.UponSoccer = (transform.GetChild(1).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.UponRightSoccer = (transform.GetChild(2).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.RightSoccer = (transform.GetChild(3).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.DownRightSoccer = (transform.GetChild(4).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.DownSoccer = (transform.GetChild(5).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.DownLeftSoccer = (transform.GetChild(6).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.LeftSoccer = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
-        evaluation.soccerDistance.UponLeftSoccer = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;
-
         FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+
+        UponButton.SetActive(false);
+        DownButton.SetActive(true);
+
+        UponButtonOnClick();
     }
 
     public void ReturnBackUI()

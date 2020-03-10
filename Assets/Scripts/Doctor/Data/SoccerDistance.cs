@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class SoccerDistance
 {
-    public float UponSoccer { get;  set; } = 0;
-    public float UponRightSoccer { get;  set; } = 0;
-    public float RightSoccer { get;  set; } = 0;
-    public float DownRightSoccer { get;  set; } = 0;
-    public float DownSoccer { get;  set; } = 0;
-    public float DownLeftSoccer { get;  set; } = 0;
-    public float LeftSoccer { get;  set; } = 0;
-    public float UponLeftSoccer { get;  set; } = 0;
+    public Vector3 UponSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 UponRightSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 RightSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 DownRightSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 DownSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 DownLeftSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 LeftSoccer { get;  set; } = new Vector3(0, 0, 0);
+    public Vector3 UponLeftSoccer { get;  set; } = new Vector3(0, 0, 0);
     public float CenterSoccerMin { get;  set; } = 3.5f;
     public float CenterSoccerMax { get; set; } = 3.5f;
 
 
     public SoccerDistance() { }
-    public SoccerDistance(float UponSoccer, float UponRightSoccer, float RightSoccer, float DownRightSoccer,
-        float DownSoccer, float DownLeftSoccer, float LeftSoccer, float UponLeftSoccer, float CenterSoccerMin,
+    public SoccerDistance(Vector3 UponSoccer, Vector3 UponRightSoccer, Vector3 RightSoccer, Vector3 DownRightSoccer,
+        Vector3 DownSoccer, Vector3 DownLeftSoccer, Vector3 LeftSoccer, Vector3 UponLeftSoccer, float CenterSoccerMin,
         float CenterSoccerMax)
     {
         this.UponSoccer = UponSoccer;
@@ -34,8 +34,23 @@ public class SoccerDistance
         this.CenterSoccerMax = CenterSoccerMax;
     }
 
-    public void SetCompleteSoccerDistance(float UponSoccer, float UponRightSoccer, float RightSoccer, float DownRightSoccer,
-        float DownSoccer, float DownLeftSoccer, float LeftSoccer, float UponLeftSoccer, float CenterSoccerMin,
+    public SoccerDistance(SoccerDistance soccerDistance)
+    {
+        this.UponSoccer = soccerDistance.UponSoccer;
+        this.UponRightSoccer = soccerDistance.UponRightSoccer;
+        this.RightSoccer = soccerDistance.RightSoccer;
+        this.DownRightSoccer = soccerDistance.DownRightSoccer;
+        this.DownSoccer = soccerDistance.DownSoccer;
+        this.DownLeftSoccer = soccerDistance.DownLeftSoccer;
+        this.LeftSoccer = soccerDistance.LeftSoccer;
+        this.UponLeftSoccer = soccerDistance.UponLeftSoccer;
+
+        this.CenterSoccerMin = soccerDistance.CenterSoccerMin;
+        this.CenterSoccerMax = soccerDistance.CenterSoccerMax;
+    }
+
+    public void SetCompleteSoccerDistance(Vector3 UponSoccer, Vector3 UponRightSoccer, Vector3 RightSoccer, Vector3 DownRightSoccer,
+        Vector3 DownSoccer, Vector3 DownLeftSoccer, Vector3 LeftSoccer, Vector3 UponLeftSoccer, float CenterSoccerMin,
         float CenterSoccerMax)
     {
         this.UponSoccer = UponSoccer;
@@ -53,8 +68,8 @@ public class SoccerDistance
 
     public float[] GetMaxSoccerDistances()
     {
-        return new float[10]{this.UponSoccer, this.UponRightSoccer, this.RightSoccer, this.DownRightSoccer,
-                                this.DownSoccer, this.DownLeftSoccer, this.LeftSoccer, this.UponLeftSoccer,
+        return new float[10]{this.UponSoccer.magnitude, this.UponRightSoccer.magnitude, this.RightSoccer.magnitude, this.DownRightSoccer.magnitude,
+                                this.DownSoccer.magnitude, this.DownLeftSoccer.magnitude, this.LeftSoccer.magnitude, this.UponLeftSoccer.magnitude,
                                     this.CenterSoccerMin, this.CenterSoccerMax};
     }
 

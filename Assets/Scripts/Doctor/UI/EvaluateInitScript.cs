@@ -79,7 +79,7 @@ namespace XCharts
         // 女模型: 身高段：425像素，肩宽： 80像素，重心坐标（1430，360）
         // 经测试，只需算身高段即可，不需要算肩宽
 
-        public List<Point> EvaluationPoints = new List<Point>();
+        public List<Point> EvaluationPoints;
         public ConvexHull convexHull;   // 新建一个凸包
 
         // 先平移,后放缩
@@ -90,6 +90,8 @@ namespace XCharts
         public Color[] ConvexHullColors;
         public Color ConvexHullAreaColor;
         public Color ConvexHullLineColor;
+
+        public SoccerDistance tempSoccerDistance;
 
         //public Canvas canvas;
         // Use this for initialization
@@ -180,11 +182,13 @@ namespace XCharts
 
 
                 // SpeedRadar
-
+                EvaluationPoints = new List<Point>();
                 foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
                 {
                     EvaluationPoints.Add(new Point(point.x, point.y));
                 }
+
+                tempSoccerDistance = new SoccerDistance(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance);
 
                 if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
                 {
@@ -214,9 +218,9 @@ namespace XCharts
                     EvaluationPoints[i].y += GravityDiff.y;
 
                     //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    EvaluationPoints[i].x = EvaluationPoints[0].x +
+                        (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
                     EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-
                 }
 
                 // 默认画凸包图
@@ -225,7 +229,7 @@ namespace XCharts
                 ConvexHullAreaColor = new Color32(255,0,0,40);
 
                 ContexHullToggle.isOn = true;
-                DrawContexHullToggleChange();
+                //DrawContexHullToggleChange();
 
 
 
@@ -367,6 +371,7 @@ namespace XCharts
             else
             {
                 VectorLine.Destroy(ref ConvexHullLine);
+                VectorLine.Destroy(ref ConvexHullArea);
             }
         }
 
@@ -387,6 +392,8 @@ namespace XCharts
             ConvexHullLine.smoothColor = false;   // 设置平滑颜色
             ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
             //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+            ConvexHullLine.color = ConvexHullLineColor;  // 设置颜色
+
 
             int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
             int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
@@ -399,7 +406,7 @@ namespace XCharts
             for (int i = 1; i < convexHull.ConvexHullNum; i++)
             {
                 ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
-                ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+                //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
                 if (i < convexHull.ConvexHullNum - 1)
                 {
@@ -420,7 +427,6 @@ namespace XCharts
 
             ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
             //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-            ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
             //ColorFistLine.Draw();
             ConvexHullLine.Draw();
@@ -433,42 +439,46 @@ namespace XCharts
         {
             yield return new WaitForEndOfFrame();
 
-            // 画透明区域
-            ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
-            ConvexHullArea.smoothColor = false;   // 设置平滑颜色
-            ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
-            ConvexHullArea.color = ConvexHullAreaColor;
+            if (ContexHullToggle.isOn)
+            {                
+                //if (ConvexHullArea.points2 != 0 )
+                //{
+                    // 画透明区域
+                    ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
+                    ConvexHullArea.smoothColor = false;   // 设置平滑颜色
+                    ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+                    ConvexHullArea.color = ConvexHullAreaColor;
 
-            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
-            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
-            m_texture.Apply();
+                    Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+                    m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+                    //m_texture.Apply();
 
-            //ConvexHullColors = m_texture.GetPixels(1000, 0, 920, 500);
-            ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
+                    ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
 
-            //print(MinX + " " + MinY + " " + (MaxX - MinX).ToString() + " " + (MaxY - MinY).ToString());
+                    MaxY = MaxY - MinY - 1;
 
-            //print(ConvexHullColors.Length);
+                    int x, y;
+                    for (int i = 0; i < MaxY; i++)
+                    {
+                        x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
 
-            MaxY = MaxY - MinY - 1;
+                        while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
+                        while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
 
-            int x, y;
-            for (int i = 0; i < MaxY; i++)
-            {
-                x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
-        
-                while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
-                while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
-                
-                if (x != y) {
-                    //print((MinX + x).ToString() + " " + (MinY + i).ToString());
-                    //print((MinX + y).ToString() + " " + (MinY + i).ToString());
-                    ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
-                    ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i)); 
-                }
+                        if (x != y)
+                        {
+                            ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
+                            ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
+                        }
+                    }
+                    ConvexHullArea.Draw();
+                //}
             }
-
-            ConvexHullArea.Draw();
+            else
+            {
+                    VectorLine.Destroy(ref ConvexHullLine);
+                    VectorLine.Destroy(ref ConvexHullArea);
+            }
         }
 
 
@@ -496,7 +506,7 @@ namespace XCharts
                 tempPoints.Add(new Point(point.x, point.y));
             }
 
-            ColorFistLineTrack = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineTrack = new VectorLine("ColorFistLine", new List<Vector2>(), 3.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             ColorFistLineTrack.smoothColor = false;   // 设置平滑颜色
             ColorFistLineTrack.smoothWidth = false;   // 设置平滑宽度
             //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
@@ -551,7 +561,7 @@ namespace XCharts
             }
 
 
-            ColorFistLineReality = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineReality = new VectorLine("ColorFistLine", new List<Vector2>(), 3.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             ColorFistLineReality.smoothColor = false;   // 设置平滑颜色
             ColorFistLineReality.smoothWidth = false;   // 设置平滑宽度
             ColorFistLineReality.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
@@ -588,16 +598,24 @@ namespace XCharts
             }
             else
             {
-                for(int i = 0; i < 8; i++)
-                {
-                    transform.GetChild(2).GetChild(4).GetChild(i).gameObject.SetActive(false);
-                }
+                transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
             }
         }
 
         public void DrawSoccerball()
         {
+            transform.GetChild(2).GetChild(4).gameObject.SetActive(true);
 
+
+            transform.GetChild(2).GetChild(4).GetChild(0).position = tempSoccerDistance.UponSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(1).position = tempSoccerDistance.UponRightSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(2).position = tempSoccerDistance.RightSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(3).position = tempSoccerDistance.DownRightSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(4).position = tempSoccerDistance.DownSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(5).position = tempSoccerDistance.DownLeftSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(6).position = tempSoccerDistance.LeftSoccer;
+            transform.GetChild(2).GetChild(4).GetChild(7).position = tempSoccerDistance.UponLeftSoccer;
+            
         }
 
 
@@ -613,15 +631,17 @@ namespace XCharts
 
         public void RemoveLineAndSoccerball()
         {
-            VectorLine.Destroy(ref ConvexHullLine);
-            VectorLine.Destroy(ref ColorFistLineTrack);
-            VectorLine.Destroy(ref ColorFistLineReality);
-            VectorLine.Destroy(ref ConvexHullArea);
+            //VectorLine.Destroy(ref ConvexHullLine);
+            //VectorLine.Destroy(ref ConvexHullArea);
 
-            for (int i = 0; i < 8; i++)
-            {
-                transform.GetChild(2).GetChild(4).GetChild(i).gameObject.SetActive(false);
-            }
+            //VectorLine.Destroy(ref ColorFistLineTrack);
+            //VectorLine.Destroy(ref ColorFistLineReality);
+
+            //transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
+            ContexHullToggle.isOn = false;
+            TrackToggle.isOn = false;
+            SoccerballToggle.isOn = false;
+            RealityToggle.isOn = false;
         }
 
 

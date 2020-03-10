@@ -389,7 +389,6 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "EvaluationID",
                     "PatientID",
-                    "EvaluationWidth",
                     "EvaluationHeight",
                     "EvaluationStartTime",
                     "EvaluationEndTime",
@@ -398,7 +397,6 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
@@ -429,14 +427,14 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                 new String[] {
                     "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",                    
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
                     "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "PRIMARY KEY(EvaluationID)"
@@ -1882,17 +1880,46 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
+                string[] XYZ;
+
+                print(reader.GetString(reader.GetOrdinal("UponSoccer")));
+
+                XYZ = reader.GetString(reader.GetOrdinal("UponSoccer")).Split(',');
+                Vector3 UponSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                
+                XYZ = reader.GetString(reader.GetOrdinal("UponRightSoccer")).Split(',');
+                Vector3 UponRightSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+
+                XYZ = reader.GetString(reader.GetOrdinal("RightSoccer")).Split(',');
+                Vector3 RightSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                
+                XYZ = reader.GetString(reader.GetOrdinal("DownRightSoccer")).Split(',');
+                Vector3 DownRightSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                
+                XYZ = reader.GetString(reader.GetOrdinal("DownSoccer")).Split(',');
+                Vector3 DownSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                
+                XYZ = reader.GetString(reader.GetOrdinal("DownLeftSoccer")).Split(',');
+                Vector3 DownLeftSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+
+                XYZ = reader.GetString(reader.GetOrdinal("LeftSoccer")).Split(',');
+                Vector3 LeftSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                
+                XYZ = reader.GetString(reader.GetOrdinal("UponLeftSoccer")).Split(',');
+                Vector3 UponLeftSoccer = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+
+
                 //存在用户训练任务
                 result = new SoccerDistance(
                 //reader.GetInt64(reader.GetOrdinal("TrainingID")),
-                reader.GetFloat(reader.GetOrdinal("UponSoccer")),
-                reader.GetFloat(reader.GetOrdinal("UponRightSoccer")),
-                reader.GetFloat(reader.GetOrdinal("RightSoccer")),
-                reader.GetFloat(reader.GetOrdinal("DownRightSoccer")),
-                reader.GetFloat(reader.GetOrdinal("DownSoccer")),
-                reader.GetFloat(reader.GetOrdinal("DownLeftSoccer")),
-                reader.GetFloat(reader.GetOrdinal("LeftSoccer")),
-                reader.GetFloat(reader.GetOrdinal("UponLeftSoccer")),
+                UponSoccer,
+                UponRightSoccer,
+                RightSoccer,
+                DownRightSoccer,
+                DownSoccer,
+                DownLeftSoccer,
+                LeftSoccer,
+                UponLeftSoccer,
                 reader.GetFloat(reader.GetOrdinal("CenterSoccerMin")),
                 reader.GetFloat(reader.GetOrdinal("CenterSoccerMax")));
 
