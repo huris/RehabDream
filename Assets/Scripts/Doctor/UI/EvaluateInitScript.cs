@@ -68,10 +68,11 @@ namespace XCharts
         public GameObject WomanImage;   // 女患者
 
         public Toggle ContexHullToggle;
-        public Toggle TrackToggle;
-        public Toggle SoccerballToggle;
+        //public Toggle TrackToggle;
+        //public Toggle SoccerballToggle;
         public Toggle RealityToggle;
 
+        public bool TrackIsDraw;
 
         // 绘制速度轨迹雷达图
         // 根据患者的身高来确定速度曲线或者凸包的缩小比例（默认为男性175cm，女性160cm）
@@ -92,6 +93,7 @@ namespace XCharts
         public Color ConvexHullLineColor;
 
         public SoccerDistance tempSoccerDistance;
+
 
         //public Canvas canvas;
         // Use this for initialization
@@ -228,9 +230,8 @@ namespace XCharts
                 ConvexHullLineColor = Color.red;
                 ConvexHullAreaColor = new Color32(255,0,0,40);
 
-                ContexHullToggle.isOn = true;
-                //DrawContexHullToggleChange();
-
+                //ContexHullToggle.isOn = true;
+                DrawContexHullToggleChange();
 
 
                 //RadarArea = new List<float>();
@@ -484,21 +485,26 @@ namespace XCharts
 
 
 
-        public void DrawTrackToggleChange()
-        {
-            if (TrackToggle.isOn)
-            {
-                DrawColorFistTrack();
-            }
-            else
-            {
-                VectorLine.Destroy(ref ColorFistLineTrack);
-            }
-        }
+        //public void DrawTrackToggleChange()
+        //{
+        //    if (TrackToggle.isOn)
+        //    {
+        //        DrawColorFistTrack();
+        //    }
+        //    else
+        //    {
+        //        VectorLine.Destroy(ref ColorFistLineTrack);
+        //    }
+        //}
 
 
         public void DrawColorFistTrack()
         {
+            if(TrackIsDraw)
+            {
+                return;
+            }
+
             List<Point> tempPoints = new List<Point>();
 
             foreach (var point in EvaluationPoints)
@@ -506,7 +512,7 @@ namespace XCharts
                 tempPoints.Add(new Point(point.x, point.y));
             }
 
-            ColorFistLineTrack = new VectorLine("ColorFistLine", new List<Vector2>(), 3.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineTrack = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             ColorFistLineTrack.smoothColor = false;   // 设置平滑颜色
             ColorFistLineTrack.smoothWidth = false;   // 设置平滑宽度
             //ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
@@ -533,25 +539,28 @@ namespace XCharts
                 //yield return new WaitForSeconds(0.01f);
             }
             ColorFistLineTrack.Draw();
+            
+            TrackIsDraw = true;
         }
-
-
 
         public void DrawRealityToggleChange()
         {
             if (RealityToggle.isOn)
             {
+                TrackIsDraw = false;
                 StartCoroutine(DrawColorFistLine());
             }
             else
             {
                 VectorLine.Destroy(ref ColorFistLineReality);
+                VectorLine.Destroy(ref ColorFistLineTrack);
             }
         }
 
 
         IEnumerator DrawColorFistLine()
-        {
+        { 
+
             List<Point> tempPoints = new List<Point>();
 
 
@@ -561,7 +570,7 @@ namespace XCharts
             }
 
 
-            ColorFistLineReality = new VectorLine("ColorFistLine", new List<Vector2>(), 3.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ColorFistLineReality = new VectorLine("ColorFistLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             ColorFistLineReality.smoothColor = false;   // 设置平滑颜色
             ColorFistLineReality.smoothWidth = false;   // 设置平滑宽度
             ColorFistLineReality.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
@@ -590,33 +599,34 @@ namespace XCharts
             }
         }
 
-        public void DrawSoccerballToggleChange()
-        {
-            if (SoccerballToggle.isOn)
-            {
-                DrawSoccerball();
-            }
-            else
-            {
-                transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
-            }
-        }
+        //public void DrawSoccerballToggleChange()
+        //{
+        //    if (SoccerballToggle.isOn)
+        //    {
+        //        DrawSoccerball();
+        //    }
+        //    else
+        //    {
+        //        transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
+        //    }
+        //}
 
-        public void DrawSoccerball()
-        {
-            transform.GetChild(2).GetChild(4).gameObject.SetActive(true);
+        //public void DrawSoccerball()
+        //{
+        //    transform.GetChild(2).GetChild(4).gameObject.SetActive(true);
 
+        //    print(Kinect2UIPosition(tempSoccerDistance.UponSoccer));
 
-            transform.GetChild(2).GetChild(4).GetChild(0).position = tempSoccerDistance.UponSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(1).position = tempSoccerDistance.UponRightSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(2).position = tempSoccerDistance.RightSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(3).position = tempSoccerDistance.DownRightSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(4).position = tempSoccerDistance.DownSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(5).position = tempSoccerDistance.DownLeftSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(6).position = tempSoccerDistance.LeftSoccer;
-            transform.GetChild(2).GetChild(4).GetChild(7).position = tempSoccerDistance.UponLeftSoccer;
-            
-        }
+        //    //transform.GetChild(2).GetChild(4).GetChild(0).position = tempSoccerDistance.UponSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(1).position = tempSoccerDistance.UponRightSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(2).position = tempSoccerDistance.RightSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(3).position = tempSoccerDistance.DownRightSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(4).position = tempSoccerDistance.DownSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(5).position = tempSoccerDistance.DownLeftSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(6).position = tempSoccerDistance.LeftSoccer;
+        //    //transform.GetChild(2).GetChild(4).GetChild(7).position = tempSoccerDistance.UponLeftSoccer;
+
+        //}
 
 
         public void EvaluationChange()
@@ -624,12 +634,12 @@ namespace XCharts
             // 刷新评估界面
             DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1 - EvaluationSelect.value);
 
-            RemoveLineAndSoccerball();
+            RemoveLine();
 
             OnEnable();
         }
 
-        public void RemoveLineAndSoccerball()
+        public void RemoveLine()
         {
             //VectorLine.Destroy(ref ConvexHullLine);
             //VectorLine.Destroy(ref ConvexHullArea);
@@ -639,8 +649,8 @@ namespace XCharts
 
             //transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
             ContexHullToggle.isOn = false;
-            TrackToggle.isOn = false;
-            SoccerballToggle.isOn = false;
+            //TrackToggle.isOn = false;
+            //SoccerballToggle.isOn = false;
             RealityToggle.isOn = false;
         }
 
@@ -648,13 +658,16 @@ namespace XCharts
         // Update is called once per frame
         void Update()
         {
-            //Vector2 _pos1 = Vector2.one;
-            //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
-            //            Input.mousePosition, canvas.worldCamera, out _pos1);
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (RealityToggle.isOn)
+                {
+                    DrawColorFistTrack();
+                    //StopCoroutine("DrawColorFistLine");
+                }
+            }
 
-            //print(_pos1);
         }
-
         
 
         public void EvaluateButtonOnclick()
@@ -685,7 +698,7 @@ namespace XCharts
 
             DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
             
-            RemoveLineAndSoccerball();
+            RemoveLine();
             
             SceneManager.LoadScene("05-RadarTest");
         }
