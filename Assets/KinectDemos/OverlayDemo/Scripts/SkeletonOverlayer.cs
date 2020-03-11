@@ -83,9 +83,8 @@ public class SkeletonOverlayer : MonoBehaviour
     //public float ShoulderRightX; // 右肩的x值
 
     // 求身高段EvaluationHeight
-    public float HeadY; // 头节点Y
-    public float FootLeftY; // 左脚Y
-    public float FootRightY;    // 右脚Y
+    public float SpineShoulderY; // 胸中心Y
+    public float SpineMidY; // 重心Y
 
     public bool IsOver;     // 判断是否结束
 
@@ -302,14 +301,11 @@ public class SkeletonOverlayer : MonoBehaviour
                                 //if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
                                 
                                 // 获取身高段
-                                if(i == 3) { HeadY = Kinect2UIPosition(posJoint).y; }
-                                if(i == 15) { FootLeftY = Kinect2UIPosition(posJoint).y; }
-                                if(i == 19) { FootRightY = Kinect2UIPosition(posJoint).y; }
-
+                                if(i == 20) { SpineShoulderY = Kinect2UIPosition(posJoint).y; }
 
                                 if (i == 21) { HandTipLeft = posJoint; }
 
-                                if (i == 1) { SpineMid = posJoint; }
+                                if (i == 1) { SpineMid = posJoint; SpineMidY = Kinect2UIPosition(posJoint).y;}
 
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
@@ -485,10 +481,10 @@ public class SkeletonOverlayer : MonoBehaviour
                 //}
 
                 // 更新身高段
-                HeadY = Math.Abs(HeadY - (FootLeftY + FootRightY) / 2);
-                if(HeadY > evaluation.EvaluationHeight)
+                SpineShoulderY = Math.Abs(SpineShoulderY - SpineMidY);
+                if(SpineShoulderY > evaluation.EvaluationHeight)
                 {
-                    evaluation.SetEvaluationHeight(HeadY);
+                    evaluation.SetEvaluationHeight(SpineShoulderY);
                 }
             }
         }

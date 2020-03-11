@@ -128,9 +128,6 @@ namespace XCharts
             Rank4.SetActive(false);
             Rank5.SetActive(false);
 
-
-
-
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
                 SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
@@ -195,15 +192,15 @@ namespace XCharts
 
                 tempSoccerDistance = new SoccerDistance(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance);
 
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "女")
                 {
                     ManImage.SetActive(true); ManSideImage.SetActive(true);
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);
 
                     //WidthPixel = 100;
-                    HeightPixel = 425;
+                    HeightPixel = 120;
 
-                    ModelGravity = new Vector2(1280, 360);
+                    ModelGravity = new Vector2(1260, 400);
                 }
                 else
                 {
@@ -211,9 +208,9 @@ namespace XCharts
                     WomanImage.SetActive(true); WomanSideImage.SetActive(true);
 
                     //WidthPixel = 80;
-                    HeightPixel = 425;
+                    HeightPixel = 120;
 
-                    ModelGravity = new Vector2(120, 380);
+                    ModelGravity = new Vector2(1260, 410);
                 }
 
                 GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
@@ -225,8 +222,7 @@ namespace XCharts
                     EvaluationPoints[i].y += GravityDiff.y;
 
                     //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                    EvaluationPoints[i].x = EvaluationPoints[0].x +
-                        (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
                     EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
                 }
 
@@ -235,8 +231,8 @@ namespace XCharts
                 ConvexHullLineColor = Color.red;
                 ConvexHullAreaColor = new Color32(255,0,0,40);
 
-                //ContexHullToggle.isOn = true;
-                DrawContexHullToggleChange();
+                ContexHullToggle.isOn = true;
+                //DrawContexHullToggleChange();
 
 
 
@@ -386,6 +382,7 @@ namespace XCharts
 
         public void DrawContexHull()
         {
+            if (EvaluationPoints == null) return;
 
             List<Point> tempPoints = new List<Point>();
 
@@ -508,7 +505,7 @@ namespace XCharts
 
         public void DrawColorFistTrack()
         {
-            if(TrackIsDraw)
+            if(TrackIsDraw || (EvaluationPoints == null))
             {
                 return;
             }
