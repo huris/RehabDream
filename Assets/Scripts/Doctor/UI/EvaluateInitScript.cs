@@ -98,6 +98,7 @@ namespace XCharts
         public SoccerDistance tempSoccerDistance;
 
 
+
         //public Canvas canvas;
         // Use this for initialization
         void Start()
@@ -192,7 +193,7 @@ namespace XCharts
 
                 tempSoccerDistance = new SoccerDistance(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance);
 
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "女")
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
                 {
                     ManImage.SetActive(true); ManSideImage.SetActive(true);
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);
