@@ -63,6 +63,7 @@ namespace XCharts
         public VectorLine ColorFistLineReality;   // 彩色手势线
         public VectorLine ConvexHullLine;   // 凸包线
         public VectorLine ConvexHullArea;   // 凸包区域填充
+        public bool TrackIsOver;    // 判断轨迹是否画完
 
         public GameObject ManImage; // 男患者
         public GameObject WomanImage;   // 女患者
@@ -199,7 +200,7 @@ namespace XCharts
                     //WidthPixel = 100;
                     HeightPixel = 425;
 
-                    ModelGravity = new Vector2(1430, 340);
+                    ModelGravity = new Vector2(1250, 360);
                 }
                 else
                 {
@@ -208,7 +209,7 @@ namespace XCharts
                     //WidthPixel = 80;
                     HeightPixel = 425;
 
-                    ModelGravity = new Vector2(1430, 360);
+                    ModelGravity = new Vector2(1250, 380);
                 }
 
                 GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
@@ -505,6 +506,8 @@ namespace XCharts
                 return;
             }
 
+            TrackIsDraw = true;
+
             List<Point> tempPoints = new List<Point>();
 
             foreach (var point in EvaluationPoints)
@@ -540,7 +543,6 @@ namespace XCharts
             }
             ColorFistLineTrack.Draw();
             
-            TrackIsDraw = true;
         }
 
         public void DrawRealityToggleChange()
@@ -548,18 +550,29 @@ namespace XCharts
             if (RealityToggle.isOn)
             {
                 TrackIsDraw = false;
+                TrackIsOver = false;
                 StartCoroutine(DrawColorFistLine());
             }
             else
             {
-                VectorLine.Destroy(ref ColorFistLineReality);
-                VectorLine.Destroy(ref ColorFistLineTrack);
+                //ColorFistLineReality.points2.Clear();
+                TrackIsOver = true;
+
+                if (ColorFistLineReality != null)
+                {
+                    VectorLine.Destroy(ref ColorFistLineReality);
+                }
+
+                if (ColorFistLineTrack != null)
+                {
+                    VectorLine.Destroy(ref ColorFistLineTrack);
+                }
             }
         }
 
 
         IEnumerator DrawColorFistLine()
-        { 
+        {
 
             List<Point> tempPoints = new List<Point>();
 
@@ -581,6 +594,14 @@ namespace XCharts
 
             for (int i = 1; i < tempPoints.Count; i++)
             {
+
+                if (TrackIsOver)
+                {
+                    VectorLine.Destroy(ref ColorFistLineReality);
+                    VectorLine.Destroy(ref ColorFistLineTrack);
+                    break;
+                }
+
                 //ColorFistLine.Draw();
 
                 ColorFistLineReality.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
@@ -595,8 +616,11 @@ namespace XCharts
                 ColorFistLineReality.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), i - 1);
                 //ColorFistLine.SetWidth(7.0f * LastNowDis / 20, Points.Count - 2);
                 ColorFistLineReality.Draw();
+                
                 yield return new WaitForSeconds(0.01f);
             }
+
+            
         }
 
         //public void DrawSoccerballToggleChange()
