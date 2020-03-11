@@ -632,16 +632,26 @@ public class PatientDatabaseManager : MonoBehaviour
             EvaluationSoccerTableName, //table name
             new string[] {
                     EvaluationID.ToString(),
-                    AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    AddSingleQuotes(soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", "")),
-                    soccerDistance.CenterSoccerMin.ToString(),
-                    soccerDistance.CenterSoccerMax.ToString()
+                    soccerDistance.UponSoccerDistance.ToString(),
+                    soccerDistance.UponRightSoccerDistance.ToString(),
+                    soccerDistance.RightSoccerDistance.ToString(),
+                    soccerDistance.DownRightSoccerDistance.ToString(),
+                    soccerDistance.DownSoccerDistance.ToString(),
+                    soccerDistance.DownLeftSoccerDistance.ToString(),
+                    soccerDistance.LeftSoccerDistance.ToString(),
+                    soccerDistance.UponLeftSoccerDistance.ToString(),
+                    soccerDistance.FrontSoccerDistance.ToString(),
+                    soccerDistance.BehindSoccerDistance.ToString(),
+                    soccerDistance.UponSoccerTime.ToString(),
+                    soccerDistance.UponRightSoccerTime.ToString(),
+                    soccerDistance.RightSoccerTime.ToString(),
+                    soccerDistance.DownRightSoccerTime.ToString(),
+                    soccerDistance.DownSoccerTime.ToString(),
+                    soccerDistance.DownLeftSoccerTime.ToString(),
+                    soccerDistance.LeftSoccerTime.ToString(),
+                    soccerDistance.UponLeftSoccerTime.ToString(),
+                    soccerDistance.FrontSoccerTime.ToString(),
+                    soccerDistance.BehindSoccerTime.ToString()
             }
         );
 

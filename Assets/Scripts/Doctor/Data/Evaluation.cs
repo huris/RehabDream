@@ -14,7 +14,7 @@ public class Evaluation
 
     public List<Point> Points = new List<Point>();  // 数据点的集合 
 
-    public SoccerDistance soccerDistance = null;  // 四周8个方向足球位移的最大值和中间足球的最大最小面积
+    public SoccerDistance soccerDistance = new SoccerDistance();  // 四周8个方向足球位移的最大值和中间足球的最大最小面积
 
     public float EvaluationScore { get; private set; } = 0.0f;
 

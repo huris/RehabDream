@@ -89,6 +89,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public bool IsOver;     // 判断是否结束
 
+    public VectorLine ConvexHullArea;   // 画凸包透明面积
+    public Color[] ConvexHullColors;    // 凸包顶点颜色
+    public Color ConvexHullLineColor;   // 凸包边缘颜色
+    public Color ConvexHullAreaColor;   // 凸包内部颜色
+    public bool ConvexHullIsDraw;   // 凸包绘制完成
+
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -382,14 +389,14 @@ public class SkeletonOverlayer : MonoBehaviour
                                         //_GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
 
                                         // 记录足球的距离
-                                        evaluation.soccerDistance.UponSoccer = transform.GetChild(1).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.UponRightSoccer = transform.GetChild(2).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.RightSoccer = transform.GetChild(3).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.DownRightSoccer = transform.GetChild(4).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.DownSoccer = transform.GetChild(5).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.DownLeftSoccer = transform.GetChild(6).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.LeftSoccer = transform.GetChild(7).position - transform.GetChild(0).position;
-                                        evaluation.soccerDistance.UponLeftSoccer = transform.GetChild(8).position - transform.GetChild(0).position;
+                                        evaluation.soccerDistance.UponSoccerDistance = (transform.GetChild(1).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.UponRightSoccerDistance = (transform.GetChild(2).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.RightSoccerDistance = (transform.GetChild(3).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.DownRightSoccerDistance = (transform.GetChild(4).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.DownSoccerDistance = (transform.GetChild(5).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.DownLeftSoccerDistance = (transform.GetChild(6).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.LeftSoccerDistance = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
+                                        evaluation.soccerDistance.UponLeftSoccerDistance = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;
 
                                         ReturnButton.SetActive(true);
                                         ReturnButton.transform.localPosition = new Vector3(-600f, -13.6f, 0f);
@@ -593,6 +600,7 @@ public class SkeletonOverlayer : MonoBehaviour
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.y += sdir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.UponSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball1")
         {
@@ -600,12 +608,14 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x -= ddir;
             TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.UponRightSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball2")
         {
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.x -= sdir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.RightSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball3")
         {
@@ -613,12 +623,14 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x -= ddir;
             TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.DownRightSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball4")
         {
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.y -= sdir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.DownSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball5")
         {
@@ -626,12 +638,14 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x += ddir;
             TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.DownLeftSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball6")
         {
             Vector3 TempPos = Soccerball.transform.position;
             TempPos.x += sdir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.LeftSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball7")
         {
@@ -639,28 +653,52 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x += ddir;
             TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
+            evaluation.soccerDistance.UponLeftSoccerTime++;
         }
         else if (Soccerball.name == "Soccerball")
         {
             Vector3 TempPos = Soccerball.transform.localScale;
 
-            // 更新最大最小值
-            if(evaluation.soccerDistance.CenterSoccerMin > TempPos.x)
-            {
-                evaluation.soccerDistance.CenterSoccerMin = TempPos.x;
-            }
+            //// 更新最大最小值
+            //if (evaluation.soccerDistance.CenterSoccerMin > TempPos.x)
+            //{
+            //    evaluation.soccerDistance.CenterSoccerMin = TempPos.x;
+            //}
 
-            if(evaluation.soccerDistance.CenterSoccerMax < TempPos.x)
-            {
-                evaluation.soccerDistance.CenterSoccerMax = TempPos.x;
-            }
+            //if(evaluation.soccerDistance.CenterSoccerMax < TempPos.x)
+            //{
+            //    evaluation.soccerDistance.CenterSoccerMax = TempPos.x;
+            //}
 
             float ZOffset = FirstFistZ - FistPos.z;
             
-            if(TempPos.x == 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red); }
-            else if(TempPos.y > 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green); }
-            else if(TempPos.z < 3.5f) { Soccerball.GetComponent<Highlighter>().ConstantOn(Color.yellow);}
+            if(TempPos.x == 3.5f) 
+            {
+                Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+            }
+            else if(TempPos.x > 3.5f) 
+            {
+                Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
 
+                float tempDis = (FistPos - transform.GetChild(0).position).magnitude;                
+                if(tempDis > evaluation.soccerDistance.FrontSoccerDistance)
+                {
+                    evaluation.soccerDistance.FrontSoccerDistance = tempDis;
+                }
+
+                evaluation.soccerDistance.FrontSoccerTime++;
+            }
+            else if(TempPos.x < 3.5f) 
+            { 
+                Soccerball.GetComponent<Highlighter>().ConstantOn(Color.yellow);
+
+                float tempDis = (FistPos - transform.GetChild(0).position).magnitude;
+                if (tempDis > evaluation.soccerDistance.BehindSoccerDistance)
+                {
+                    evaluation.soccerDistance.BehindSoccerDistance = tempDis;
+                }
+                evaluation.soccerDistance.BehindSoccerTime++;
+            }
             TempPos.x = TempPos.y = TempPos.z = TempPos.x + ZOffset * ScaleOffset;
             //print(FistPos + " " + FirstFistZ);
             FirstFistZ = FistPos.z;
@@ -761,8 +799,13 @@ public class SkeletonOverlayer : MonoBehaviour
         ConvexHullLine.smoothColor = false;   // 设置平滑颜色
         ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
         ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-        
-        Color32 ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
+
+        ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
+
+        ConvexHullLine.color = ConvexHullLineColor;
+
+        int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+        int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
 
         // 先把初始点存入画图函数
         ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
@@ -771,12 +814,17 @@ public class SkeletonOverlayer : MonoBehaviour
         for (int i = 1; i < convexHull.ConvexHullNum; i++)
         {
             ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
-            ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+            //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
             if (i < convexHull.ConvexHullNum - 1)
             {
                 convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
             }
+
+            if (MinX > Mathf.FloorToInt(convexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[i].x);
+            if (MaxX < Mathf.CeilToInt(convexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[i].x);
+            if (MinY > Mathf.FloorToInt(convexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[i].y);
+            if (MaxY < Mathf.CeilToInt(convexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[i].y);
 
             ConvexHullLine.Draw();
             yield return new WaitForSeconds(0.15f);
@@ -786,16 +834,65 @@ public class SkeletonOverlayer : MonoBehaviour
 
         ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
         //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-        ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+        //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
         ConvexHullLine.Draw();
 
-        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+        ConvexHullIsDraw = false;
 
-        UponButton.SetActive(false);
-        DownButton.SetActive(true);
+        StartCoroutine(DrawConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
 
         UponButtonOnClick();
     }
+
+
+    IEnumerator DrawConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (!ConvexHullIsDraw)
+        {
+            //if (ConvexHullArea.points2 != 0 )
+            //{
+            // 画透明区域
+
+            ConvexHullIsDraw = true;
+
+            Color32 ConvexHullAreaColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)40);
+
+            ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
+            ConvexHullArea.smoothColor = false;   // 设置平滑颜色
+            ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+            ConvexHullArea.color = ConvexHullAreaColor;
+
+
+
+            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+            //m_texture.Apply();
+
+            ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
+
+            MaxY = MaxY - MinY - 1;
+
+            int x, y;
+            for (int i = 0; i < MaxY; i++)
+            {
+                x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
+
+                while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
+                while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
+
+                if (x != y)
+                {
+                    ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
+                    ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
+                }
+            }
+            ConvexHullArea.Draw();
+            //}
+        }
+    }
+
 
     public void ReturnBackUI()
     {

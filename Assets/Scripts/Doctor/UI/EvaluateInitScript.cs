@@ -66,7 +66,9 @@ namespace XCharts
         public bool TrackIsOver;    // 判断轨迹是否画完
 
         public GameObject ManImage; // 男患者
+        public GameObject ManSideImage; // 男患者侧身
         public GameObject WomanImage;   // 女患者
+        public GameObject WomanSideImage;   // 女患者侧身
 
         public Toggle ContexHullToggle;
         //public Toggle TrackToggle;
@@ -195,21 +197,23 @@ namespace XCharts
 
                 if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
                 {
-                    ManImage.SetActive(true); WomanImage.SetActive(false);
+                    ManImage.SetActive(true); ManSideImage.SetActive(true);
+                    WomanImage.SetActive(false); WomanSideImage.SetActive(false);
 
                     //WidthPixel = 100;
                     HeightPixel = 425;
 
-                    ModelGravity = new Vector2(1250, 360);
+                    ModelGravity = new Vector2(1280, 360);
                 }
                 else
                 {
-                    ManImage.SetActive(false); WomanImage.SetActive(true);
+                    ManImage.SetActive(false); ManSideImage.SetActive(false);
+                    WomanImage.SetActive(true); WomanSideImage.SetActive(true);
 
                     //WidthPixel = 80;
                     HeightPixel = 425;
 
-                    ModelGravity = new Vector2(1250, 380);
+                    ModelGravity = new Vector2(120, 380);
                 }
 
                 GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
@@ -233,6 +237,9 @@ namespace XCharts
 
                 //ContexHullToggle.isOn = true;
                 DrawContexHullToggleChange();
+
+
+
 
 
                 //RadarArea = new List<float>();
