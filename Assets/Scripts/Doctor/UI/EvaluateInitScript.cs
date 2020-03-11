@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -96,6 +97,26 @@ namespace XCharts
         public Color ConvexHullLineColor;
 
         public SoccerDistance tempSoccerDistance;
+
+        // 显示本次和上次的凸包雷达图
+        public Toggle LastConvexHullToggle;
+        public Toggle NowConvexHullToggle;
+        
+        public Color LastConvexHullAreaColor;
+        public Color LastConvexHullLineColor;
+
+        public Color LastNowOverlappingColor;   // 两次重叠的颜色
+
+        public VectorLine LastConvexHullLine;   // 凸包线
+        public VectorLine LastConvexHullArea;   // 凸包区域填充
+
+        public List<Point> LastEvaluationPoints;
+
+        public List<Vector2> LastNowOverlappingPoints;
+        public List<Vector2> LastConvexHullPoints;
+        public List<Vector2> NowConvexHullPoints;
+
+        public VectorLine LastNowConvexHullArea;   // 交集区域填充
 
 
 
@@ -229,14 +250,16 @@ namespace XCharts
 
                 // 默认画凸包图
 
-                ConvexHullLineColor = Color.red;
-                ConvexHullAreaColor = new Color32(255,0,0,40);
+                ConvexHullLineColor = new Color32(255, 0, 0, 255);
+                ConvexHullAreaColor = new Color32(255, 0, 0, 40);
+
+                LastConvexHullLineColor = new Color32(0, 255, 0, 255);
+                LastConvexHullAreaColor = new Color32(0, 255, 0, 40);
+
+                LastNowOverlappingColor = new Color32(255, 255, 0, 40);
 
                 ContexHullToggle.isOn = true;
                 //DrawContexHullToggleChange();
-
-
-
 
 
                 //RadarArea = new List<float>();
@@ -368,22 +391,255 @@ namespace XCharts
 
         }
 
+
         public void DrawContexHullToggleChange()
         {
             if (ContexHullToggle.isOn)
             {
+                if (SingleEvaluation > 0)
+                {
+                    LastEvaluationPoints = new List<Point>();
+                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
+                    {
+                        LastEvaluationPoints.Add(new Point(point.x, point.y));
+                    }
+
+                    GravityDiff = new Vector2(ModelGravity.x - LastEvaluationPoints[0].x, ModelGravity.y - LastEvaluationPoints[0].y);
+                    LastEvaluationPoints[0] = new Point(ModelGravity);
+
+                    for (int i = 1; i < LastEvaluationPoints.Count; i++)
+                    {
+                        LastEvaluationPoints[i].x += GravityDiff.x;
+                        LastEvaluationPoints[i].y += GravityDiff.y;
+
+                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                        LastEvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                        LastEvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    }
+
+
+                    LastConvexHullToggle.isOn = false;
+
+                    LastConvexHullToggle.gameObject.SetActive(true);
+                    NowConvexHullToggle.gameObject.SetActive(true);
+
+                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -109.23f, 0);
+
+                }
+                else
+                {
+                    LastConvexHullToggle.isOn = false;
+
+                    LastConvexHullToggle.gameObject.SetActive(false);
+                    NowConvexHullToggle.gameObject.SetActive(true);
+
+                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -90f, 0);
+                }
+
+                NowConvexHullToggle.isOn = true;
+            }
+            else
+            {
+                LastConvexHullToggle.isOn = false;
+                NowConvexHullToggle.isOn = false;
+
+                LastConvexHullToggle.gameObject.SetActive(false);
+                NowConvexHullToggle.gameObject.SetActive(false);
+            }
+        }
+
+        public void DrawNowContexHullToggleChange()
+        {
+            if (NowConvexHullToggle.isOn)
+            {
                 DrawContexHull();
+
+                if (LastConvexHullToggle.isOn)
+                {
+                    LastNowOverlappingPoints = NowConvexHullPoints.Intersect(LastConvexHullPoints).ToList();
+
+                    LastNowConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                    LastNowConvexHullArea.smoothColor = false;   // 设置平滑颜色
+                    LastNowConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+                                                                 //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+                    LastNowConvexHullArea.color = LastNowOverlappingColor;  // 设置颜色
+
+                    LastNowConvexHullArea.points2 = LastNowOverlappingPoints;
+
+                    print(LastNowConvexHullArea.points2.Count);
+
+                    LastNowConvexHullArea.Draw();
+                }
             }
             else
             {
                 VectorLine.Destroy(ref ConvexHullLine);
                 VectorLine.Destroy(ref ConvexHullArea);
+
+                VectorLine.Destroy(ref LastNowConvexHullArea);
             }
         }
+        public void DrawLastContexHullToggleChange()
+        {
+            if (LastConvexHullToggle.isOn)
+            {
+                DrawLastContexHull();
+
+                if (LastConvexHullToggle.isOn)
+                {
+                    LastNowOverlappingPoints = NowConvexHullPoints.Intersect(LastConvexHullPoints).ToList();
+
+                    LastNowConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                    LastNowConvexHullArea.smoothColor = false;   // 设置平滑颜色
+                    LastNowConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+                                                                 //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+                    LastNowConvexHullArea.color = LastNowOverlappingColor;  // 设置颜色
+
+                    LastNowConvexHullArea.points2 = LastNowOverlappingPoints;
+
+                    print(LastNowConvexHullArea.points2.Count);
+
+
+                    LastNowConvexHullArea.Draw();
+                }
+            }
+            else
+            {
+                VectorLine.Destroy(ref LastConvexHullLine);
+                VectorLine.Destroy(ref LastConvexHullArea);
+
+                VectorLine.Destroy(ref LastNowConvexHullArea);
+            }
+        }
+
+        public void DrawLastContexHull()
+        {
+            if (LastEvaluationPoints == null) return;
+            //if (ConvexHullLine != null) return;
+
+            List<Point> tempPoints = new List<Point>();
+
+            foreach (var point in LastEvaluationPoints)
+            {
+                tempPoints.Add(new Point(point.x, point.y));
+            }
+
+            convexHull = new ConvexHull(tempPoints);
+
+            // 画凸包圈
+            LastConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            LastConvexHullLine.smoothColor = false;   // 设置平滑颜色
+            LastConvexHullLine.smoothWidth = false;   // 设置平滑宽度
+            //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+            LastConvexHullLine.color = LastConvexHullLineColor;  // 设置颜色
+
+
+            int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+            int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
+
+
+            // 先把初始点存入画图函数
+            LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+            for (int i = 1; i < convexHull.ConvexHullNum; i++)
+            {
+                LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+                //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+                if (i < convexHull.ConvexHullNum - 1)
+                {
+                    convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
+                }
+
+                if (MinX > Mathf.FloorToInt(convexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[i].x);
+                if (MaxX < Mathf.CeilToInt(convexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[i].x);
+                if (MinY > Mathf.FloorToInt(convexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[i].y);
+                if (MaxY < Mathf.CeilToInt(convexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[i].y);
+
+
+                //ConvexHullLine.Draw();
+                //yield return new WaitForSeconds(0.15f);
+            }
+
+            //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
+
+            LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
+
+            //ColorFistLine.Draw();
+            LastConvexHullLine.Draw();
+
+            // 多算几个单位
+            StartCoroutine(DrawLastConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
+        }
+
+        IEnumerator DrawLastConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (ContexHullToggle.isOn)
+            {
+                //if (ConvexHullArea.points2 != 0 )
+                //{
+
+                //if (ConvexHullArea == null)
+                //{
+                // 画透明区域
+                LastConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
+                LastConvexHullArea.smoothColor = false;   // 设置平滑颜色
+                LastConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+                LastConvexHullArea.color = LastConvexHullAreaColor;
+
+                Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+                m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+                //m_texture.Apply();
+
+                ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
+
+                MaxY = MaxY - MinY - 1;
+
+                int x, y;
+
+                LastConvexHullPoints = new List<Vector2>();   // 获取透明区域的点
+
+                for (int i = 0; i < MaxY; i++)
+                {
+                    x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
+
+                    while ((x < y) && (ConvexHullColors[x] != LastConvexHullLineColor)) x++;    // 查找左边的凸包边界
+                    while ((x < y) && (ConvexHullColors[y] != LastConvexHullLineColor)) y--;    // 查找右边的凸包边界
+
+                    if (x != y)
+                    {
+                        LastConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
+                        LastConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
+
+                        for(int j = x; j <= y; j++)
+                        {
+                            LastConvexHullPoints.Add(new Vector2(MinX + j - i * (MaxX - MinX), MinY + i));
+                        }
+                    }
+                }
+                LastConvexHullArea.Draw();
+                    //}
+                    //}
+                }
+            else
+            {
+                VectorLine.Destroy(ref LastConvexHullLine);
+                VectorLine.Destroy(ref LastConvexHullArea);
+            }
+        }
+
+
+
+
 
         public void DrawContexHull()
         {
             if (EvaluationPoints == null) return;
+            //if (ConvexHullLine != null) return;
 
             List<Point> tempPoints = new List<Point>();
 
@@ -450,6 +706,9 @@ namespace XCharts
             {                
                 //if (ConvexHullArea.points2 != 0 )
                 //{
+
+                //if (ConvexHullArea == null)
+                //{
                     // 画透明区域
                     ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
                     ConvexHullArea.smoothColor = false;   // 设置平滑颜色
@@ -465,6 +724,9 @@ namespace XCharts
                     MaxY = MaxY - MinY - 1;
 
                     int x, y;
+
+                    NowConvexHullPoints = new List<Vector2>();    
+
                     for (int i = 0; i < MaxY; i++)
                     {
                         x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
@@ -476,15 +738,21 @@ namespace XCharts
                         {
                             ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
                             ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
+
+                        for (int j = x; j <= y; j++)
+                        {
+                            NowConvexHullPoints.Add(new Vector2(MinX + j - i * (MaxX - MinX), MinY + i));
                         }
                     }
+                    }
                     ConvexHullArea.Draw();
+                //}
                 //}
             }
             else
             {
-                    VectorLine.Destroy(ref ConvexHullLine);
-                    VectorLine.Destroy(ref ConvexHullArea);
+                VectorLine.Destroy(ref ConvexHullLine);
+                VectorLine.Destroy(ref ConvexHullArea);
             }
         }
 
