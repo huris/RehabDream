@@ -85,7 +85,8 @@ namespace XCharts
         // 经测试，只需算身高段即可，不需要算肩宽
 
         public List<Point> EvaluationPoints;
-        public ConvexHull convexHull;   // 新建一个凸包
+        public ConvexHull LastConvexHull;   // 上次凸包
+        public ConvexHull NowConvexHull;    // 本次凸包
 
         // 先平移,后放缩
         public Vector2 ModelGravity;   // 模型重心坐标
@@ -118,6 +119,9 @@ namespace XCharts
 
         List<Vector2> LastConvexHullPoints; // 上次区域填充的交点
         List<Vector2> NowConvexHullPoints; // 本次区域填充的交点
+
+        public Text LastConvexHullText; // 上次凸包文字 
+        public Text NowConvexHullText;  // 本次凸包文字
 
         //public Canvas canvas;
         // Use this for initialization
@@ -261,96 +265,12 @@ namespace XCharts
                 //DrawContexHullToggleChange();
 
 
-                //RadarArea = new List<float>();
-                //RadarIncreaseRate = new List<float>();
-
-                //RadarAreaText = transform.Find("RadarArea").GetComponent<Text>();
-
-                //WhiteLine = "";
-
-                //DirectionRadarChart = transform.Find("RadarChart").GetComponent<RadarChart>();
-                //if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("RadarChart").gameObject.AddComponent<RadarChart>();
-                ////DirectionRadarChart.RemoveRadar();
-                ////DirectionRadarChart.RemoveData();
-                //DirectionRadarChart.ClearData();
-
-                ////DirectionRadarChart.title.text = "";
-                ////DirectionRadarChart.title.subText = "";
-                ////DirectionRadarChart.title.textStyle.fontSize = 30;
-                ////DirectionRadarChart.title.textStyle.fontStyle = FontStyle.Bold;
-                ////DirectionRadarChart.title.location.top = 0;
-
-                ////DirectionRadarChart.legend.show = false;
-                ////DirectionRadarChart.legend.location.align = Location.Align.TopLeft;
-                ////DirectionRadarChart.legend.location.top = 60;
-                ////DirectionRadarChart.legend.location.left = 2;
-                ////DirectionRadarChart.legend.itemWidth = 70;
-                ////DirectionRadarChart.legend.itemHeight = 20;
-                ////DirectionRadarChart.legend.orient = Orient.Vertical;
-
-                ////DirectionRadarChart.AddRadar(Radar.Shape.Polygon, new Vector2(0.5f, 0.45f), 0.35f);
-                ////DirectionRadarChart.AddIndicator(0, "正上", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "右上", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "正右", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "右下", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "正下", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "左下", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "正左", 0, 180);
-                ////DirectionRadarChart.AddIndicator(0, "左上", 0, 180);
-
-                ////DirectionRadarChart.radars[0].lineStyle.width = 1.7f;
-                ////DirectionRadarChart.radars[0].lineStyle.opacity = 0.66f;
-
-                ////DirectionRadarChart.radars[0].splitArea.color = new List<Color>();
-                ////Color color = new Color();
-                ////color.r = 55;
-                ////color.g = 139;
-                ////color.b = 146;
-
-                ////DirectionRadarChart.radars[0].splitArea.color.Add(color);
-                //////{ new Color(55, 139, 146), new Color(91, 193, 197), new Color(149, 221, 226), new Color(214, 241, 243), new Color(238, 251, 251) };
-                ////print(DirectionRadarChart.radars[0].splitArea.color.Count);
-                ////DirectionRadarChart.radars[0].indicatorGap = 10;
-
-                ////serie = DirectionRadarChart.AddSerie(SerieType.Radar);
-                ////serie.radarIndex = 0;
-                ////serie.symbol.type = SerieSymbolType.Circle;
-                ////serie.symbol.size = 4;
-                ////serie.symbol.selectedSize = 5;
-                ////serie.symbol.color = Color.red;
-
-                ////serie.lineStyle.color = Color.red;
-                ////serie.lineStyle.width = 2;
-
-                //if(DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
-                //{
-                //    if (DoctorDataManager.instance.doctor.patient.Evaluations.Count > 6) WhiteLine = "\n";
-                //    else WhiteLine = "\n\n";
-
-                //    //print(DoctorDataManager.instance.patient.Evaluations.Count+"!!!!");
-
-                //    for (int i = 0; i < DoctorDataManager.instance.doctor.patient.Evaluations.Count; i++)
-                //    {
-                //        //DoctorDataManager.instance.patient.Evaluations[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.Evaluations[i].TrainingID);
-
-                //        if (i == DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1)
-                //        {
-                //            DirectionRadarChart.AddData(0, DoctorDataManager.instance.doctor.patient.Evaluations[i].direction.GetDirections(), "第" + (i + 1).ToString() + "次");
-                //        }
-
-                //        // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
-
-                //        RadarArea.Add(DoctorDataManager.instance.doctor.patient.Evaluations[i].direction.DirectionRadarArea);
+               
 
                 //        if (i == 0)
                 //        {
                 //            RadarAreaText.text = "（1）雷达图面积: " + RadarArea[i].ToString("0.00");
                 //        }
-                //        else
-                //        {
-                //            //print(RadarArea[i] + "####");
-                //            //print(RadarArea[i-1] + "####");
-                //            //print((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1] + "@@@@@");
 
                 //            RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1]);
 
@@ -433,6 +353,8 @@ namespace XCharts
                     NowConvexHullToggle.gameObject.SetActive(true);
 
                     NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -90f, 0);
+
+
                 }
 
                 NowConvexHullToggle.isOn = true;
@@ -452,6 +374,16 @@ namespace XCharts
             if (NowConvexHullToggle.isOn)
             {
                 DrawContexHull();
+                
+                NowConvexHullText.text = "本次评估雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
+
+                if (LastConvexHullToggle.isOn)
+                {
+                    float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
+                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "  <color=blue>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Down</color>";
+                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "  <color=green>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Equal</color>";
+                    else NowConvexHullText.text += "  <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Up</color>";
+                }
             }
             else
             {
@@ -466,6 +398,15 @@ namespace XCharts
             if (LastConvexHullToggle.isOn)
             {
                 DrawLastContexHull();
+
+                LastConvexHullText.text = "上次评估雷达图面积：" + LastConvexHull.ConvexHullArea.ToString("0.00");
+                NowConvexHullText.text = "本次评估雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
+
+                // 雷达图增长率
+                float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
+                if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "  <color=blue>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Down</color>";
+                else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "  <color=green>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Equal</color>";
+                else NowConvexHullText.text += "  <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Up</color>";
             }
             else
             {
@@ -488,7 +429,7 @@ namespace XCharts
                 tempPoints.Add(new Point(point.x, point.y));
             }
 
-            convexHull = new ConvexHull(tempPoints);
+            LastConvexHull = new ConvexHull(tempPoints);
 
             // 画凸包圈
             LastConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
@@ -498,28 +439,28 @@ namespace XCharts
             LastConvexHullLine.color = LastConvexHullLineColor;  // 设置颜色
 
 
-            int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
-            int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
+            int MinX = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+            int MinY = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
 
 
             // 先把初始点存入画图函数
-            LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-            convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+            LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[0].x, LastConvexHull.ConvexHullSet[0].y));
+            LastConvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
 
-            for (int i = 1; i < convexHull.ConvexHullNum; i++)
+            for (int i = 1; i < LastConvexHull.ConvexHullNum; i++)
             {
-                LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+                LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[i].x, LastConvexHull.ConvexHullSet[i].y));
                 //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
-                if (i < convexHull.ConvexHullNum - 1)
+                if (i < LastConvexHull.ConvexHullNum - 1)
                 {
-                    convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
+                    LastConvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(LastConvexHull.ConvexHullSet[0], LastConvexHull.ConvexHullSet[i], LastConvexHull.ConvexHullSet[i + 1]));
                 }
 
-                if (MinX > Mathf.FloorToInt(convexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[i].x);
-                if (MaxX < Mathf.CeilToInt(convexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[i].x);
-                if (MinY > Mathf.FloorToInt(convexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[i].y);
-                if (MaxY < Mathf.CeilToInt(convexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[i].y);
+                if (MinX > Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].x);
+                if (MaxX < Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].x);
+                if (MinY > Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].y);
+                if (MaxY < Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].y);
 
 
                 //ConvexHullLine.Draw();
@@ -528,7 +469,7 @@ namespace XCharts
 
             //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
 
-            LastConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[0].x, LastConvexHull.ConvexHullSet[0].y));
             //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
 
             //ColorFistLine.Draw();
@@ -661,7 +602,7 @@ namespace XCharts
                 tempPoints.Add(new Point(point.x, point.y));
             }
 
-            convexHull = new ConvexHull(tempPoints);
+            NowConvexHull = new ConvexHull(tempPoints);
 
             // 画凸包圈
             ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
@@ -671,28 +612,28 @@ namespace XCharts
             ConvexHullLine.color = ConvexHullLineColor;  // 设置颜色
 
 
-            int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
-            int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
+            int MinX = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+            int MinY = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
 
 
             // 先把初始点存入画图函数
-            ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-            convexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+            ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[0].x, NowConvexHull.ConvexHullSet[0].y));
+            NowConvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
 
-            for (int i = 1; i < convexHull.ConvexHullNum; i++)
+            for (int i = 1; i < NowConvexHull.ConvexHullNum; i++)
             {
-                ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
+                ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[i].x, NowConvexHull.ConvexHullSet[i].y));
                 //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
-                if (i < convexHull.ConvexHullNum - 1)
+                if (i < NowConvexHull.ConvexHullNum - 1)
                 {
-                    convexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(convexHull.ConvexHullSet[0], convexHull.ConvexHullSet[i], convexHull.ConvexHullSet[i + 1]));
+                    NowConvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(NowConvexHull.ConvexHullSet[0], NowConvexHull.ConvexHullSet[i], NowConvexHull.ConvexHullSet[i + 1]));
                 }
 
-                if (MinX > Mathf.FloorToInt(convexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[i].x);
-                if (MaxX < Mathf.CeilToInt(convexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[i].x);
-                if (MinY > Mathf.FloorToInt(convexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[i].y);
-                if (MaxY < Mathf.CeilToInt(convexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[i].y);
+                if (MinX > Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].x);
+                if (MaxX < Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].x);
+                if (MinY > Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].y);
+                if (MaxY < Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].y);
 
 
                 //ConvexHullLine.Draw();
@@ -701,7 +642,7 @@ namespace XCharts
 
             //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
 
-            ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
+            ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[0].x, NowConvexHull.ConvexHullSet[0].y));
             //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
 
             //ColorFistLine.Draw();
