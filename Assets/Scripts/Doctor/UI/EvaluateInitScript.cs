@@ -130,6 +130,7 @@ namespace XCharts
         public VectorLine LastFrontLine; // 本次向前倾的线
         public VectorLine LastBehindLine;    //本次向后倾的线
         public VectorLine SideLine; // 侧身直线
+        public float SideCoefficient;
 
         public Text TrackFastText;
 
@@ -315,18 +316,20 @@ namespace XCharts
                 LastConvexHullLineColor = new Color32(0, 255, 0, 255);
                 LastConvexHullAreaColor = new Color32(0, 255, 0, 40);
 
-                LastNowOverlappingColor = new Color32(255, 255, 0, 20);
+                LastNowOverlappingColor = new Color32(255, 255, 0, 15);
 
                 SideLineColor = new Color32(255, 140, 5, 255);
+
+                LastConvexHullText.text = "上次评估";
+                NowConvexHullText.text = "本次评估";
+
+                // 画侧身直线
+                DrawSideLine();
 
                 // 画凸包图
                 ContexHullToggle.isOn = true;
                 //DrawContexHullToggleChange();
 
-                // 画侧身直线
-                DrawSideLine();
-
-                // 画
 
             }
             else
@@ -353,7 +356,7 @@ namespace XCharts
 
         public void DrawSideLine()
         {
-            float SideCoefficient = 157f;   // 距离修正系数
+            SideCoefficient = 157f;   // 距离修正系数
             float FrontX, BehindX;  // SideLine 前后大小
 
             SideLine = new VectorLine("SideLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
@@ -415,7 +418,11 @@ namespace XCharts
             {
                 TrackFastText.color = new Color32(99, 212, 189, 0);
 
+                if (NowConvexHullToggle.isOn == true) NowConvexHullToggle.isOn = false;
+
                 NowConvexHullToggle.isOn = true;
+                //LastConvexHullToggle.isOn = true;
+                
             }
             else
             {
@@ -432,16 +439,6 @@ namespace XCharts
             if (NowConvexHullToggle.isOn && ContexHullToggle.isOn)
             {
                 DrawContexHull();
-                
-                NowConvexHullText.text = "本次评估:雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
-
-                if (LastConvexHullToggle.isOn)
-                {
-                    float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
-                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "  <color=blue>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Down</color>";
-                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "  <color=green>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Equal</color>";
-                    else NowConvexHullText.text += "  <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Up</color>";
-                }
             }
             else
             {
@@ -458,15 +455,6 @@ namespace XCharts
             if (LastConvexHullToggle.isOn && ContexHullToggle.isOn)
             {
                 DrawLastContexHull();
-
-                LastConvexHullText.text = "上次评估:雷达图面积：" + LastConvexHull.ConvexHullArea.ToString("0.00");
-                NowConvexHullText.text = "本次评估:雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
-
-                // 雷达图增长率
-                float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
-                if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "  <color=blue>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Down</color>";
-                else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "  <color=green>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Equal</color>";
-                else NowConvexHullText.text += "  <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%  Up</color>";
             }
             else
             {
@@ -590,6 +578,10 @@ namespace XCharts
                 //}
                 //}
 
+                LastConvexHullText.text = "上次评估:雷达图(" + (LastConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                LastConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                LastConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+
                 if (NowConvexHullToggle.isOn)
                 {
 
@@ -639,6 +631,32 @@ namespace XCharts
                     }
 
                     LastNowConvexHullArea.Draw();
+
+                    NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
+
+                    float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
+                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
+
+                    NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
+                                                - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
+                                                / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
+                    if (FrontIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
+
+                    NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
+                                                - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
+                                                / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
+                    if (BehindIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
                 }
             }
             else
@@ -762,6 +780,10 @@ namespace XCharts
                 ConvexHullArea.Draw();
                 //}
                 //}
+                NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+
                 if (LastConvexHullToggle.isOn)
                 {
                     LastNowConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 5.0f, Vectrosity.LineType.Continuous, Joins.Weld);
@@ -808,9 +830,35 @@ namespace XCharts
                             }
                         }
                     }
-
                     LastNowConvexHullArea.Draw();
+
+                    NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
+
+                    float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
+                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
+
+                    NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
+                                                - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
+                                                / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
+                    if (FrontIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
+
+                    NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
+                                                - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
+                                                / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
+                    if (BehindIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += "<color=red>↑" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    NowConvexHullText.text += ")";
                 }
+
             }
             else
             {
@@ -1043,6 +1091,8 @@ namespace XCharts
 
         public void ReadReportButtonOnclick()
         {
+            RemoveLine();
+
             Report.SetActive(true);
             EvaluationToggle.isOn = true;
         }
