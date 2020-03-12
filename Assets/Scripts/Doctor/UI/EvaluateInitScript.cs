@@ -131,6 +131,8 @@ namespace XCharts
         public VectorLine LastBehindLine;    //本次向后倾的线
         public VectorLine SideLine; // 侧身直线
 
+        public Text TrackFastText;
+
 
         //public Canvas canvas;
         // Use this for initialization
@@ -263,6 +265,48 @@ namespace XCharts
                     EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
                 }
 
+                if (SingleEvaluation > 0)
+                {
+                    LastEvaluationPoints = new List<Point>();
+                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
+                    {
+                        LastEvaluationPoints.Add(new Point(point.x, point.y));
+                    }
+
+                    GravityDiff = new Vector2(ModelGravity.x - LastEvaluationPoints[0].x, ModelGravity.y - LastEvaluationPoints[0].y);
+                    LastEvaluationPoints[0] = new Point(ModelGravity);
+
+                    for (int i = 1; i < LastEvaluationPoints.Count; i++)
+                    {
+                        LastEvaluationPoints[i].x += GravityDiff.x;
+                        LastEvaluationPoints[i].y += GravityDiff.y;
+
+                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                    }
+
+
+                    LastConvexHullToggle.isOn = false;
+
+                    LastConvexHullToggle.gameObject.SetActive(true);
+                    NowConvexHullToggle.gameObject.SetActive(true);
+
+                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -109.23f, 0);
+
+                }
+                else
+                {
+                    LastConvexHullToggle.isOn = false;
+
+                    LastConvexHullToggle.gameObject.SetActive(false);
+                    NowConvexHullToggle.gameObject.SetActive(true);
+
+                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -90f, 0);
+
+
+                }
+
                 // 默认画凸包图
 
                 ConvexHullLineColor = new Color32(255, 0, 0, 255);
@@ -281,6 +325,8 @@ namespace XCharts
 
                 // 画侧身直线
                 DrawSideLine();
+
+                // 画
 
             }
             else
@@ -367,47 +413,7 @@ namespace XCharts
         {
             if (ContexHullToggle.isOn)
             {
-                if (SingleEvaluation > 0)
-                {
-                    LastEvaluationPoints = new List<Point>();
-                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
-                    {
-                        LastEvaluationPoints.Add(new Point(point.x, point.y));
-                    }
-
-                    GravityDiff = new Vector2(ModelGravity.x - LastEvaluationPoints[0].x, ModelGravity.y - LastEvaluationPoints[0].y);
-                    LastEvaluationPoints[0] = new Point(ModelGravity);
-
-                    for (int i = 1; i < LastEvaluationPoints.Count; i++)
-                    {
-                        LastEvaluationPoints[i].x += GravityDiff.x;
-                        LastEvaluationPoints[i].y += GravityDiff.y;
-
-                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                        LastEvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                        LastEvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                    }
-
-
-                    LastConvexHullToggle.isOn = false;
-
-                    LastConvexHullToggle.gameObject.SetActive(true);
-                    NowConvexHullToggle.gameObject.SetActive(true);
-
-                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -109.23f, 0);
-
-                }
-                else
-                {
-                    LastConvexHullToggle.isOn = false;
-
-                    LastConvexHullToggle.gameObject.SetActive(false);
-                    NowConvexHullToggle.gameObject.SetActive(true);
-
-                    NowConvexHullToggle.transform.localPosition = new Vector3(-78.5f, -90f, 0);
-
-
-                }
+                TrackFastText.color = new Color32(99, 212, 189, 0);
 
                 NowConvexHullToggle.isOn = true;
             }
@@ -416,14 +422,14 @@ namespace XCharts
                 LastConvexHullToggle.isOn = false;
                 NowConvexHullToggle.isOn = false;
 
-                LastConvexHullToggle.gameObject.SetActive(false);
-                NowConvexHullToggle.gameObject.SetActive(false);
+                //LastConvexHullToggle.gameObject.SetActive(false);
+                //NowConvexHullToggle.gameObject.SetActive(false);
             }
         }
 
         public void DrawNowContexHullToggleChange()
         {
-            if (NowConvexHullToggle.isOn)
+            if (NowConvexHullToggle.isOn && ContexHullToggle.isOn)
             {
                 DrawContexHull();
                 
@@ -439,6 +445,8 @@ namespace XCharts
             }
             else
             {
+                NowConvexHullToggle.isOn = false;
+
                 VectorLine.Destroy(ref ConvexHullLine);
                 VectorLine.Destroy(ref ConvexHullArea);
 
@@ -447,7 +455,7 @@ namespace XCharts
         }
         public void DrawLastContexHullToggleChange()
         {
-            if (LastConvexHullToggle.isOn)
+            if (LastConvexHullToggle.isOn && ContexHullToggle.isOn)
             {
                 DrawLastContexHull();
 
@@ -462,6 +470,8 @@ namespace XCharts
             }
             else
             {
+                LastConvexHullToggle.isOn = false;
+
                 VectorLine.Destroy(ref LastConvexHullLine);
                 VectorLine.Destroy(ref LastConvexHullArea);
 
@@ -877,6 +887,9 @@ namespace XCharts
             {
                 TrackIsDraw = false;
                 TrackIsOver = false;
+
+                TrackFastText.color = new Color32(99, 212,189, 255);
+
                 StartCoroutine(DrawColorFistLine());
             }
             else
@@ -991,6 +1004,12 @@ namespace XCharts
 
         public void RemoveLine()
         {
+            VectorLine.Destroy(ref NowFrontLine);
+            VectorLine.Destroy(ref NowBehindLine);
+            VectorLine.Destroy(ref LastFrontLine);
+            VectorLine.Destroy(ref LastBehindLine);
+            VectorLine.Destroy(ref SideLine);
+
             ContexHullToggle.isOn = false;
             RealityToggle.isOn = false;
         }
@@ -1003,6 +1022,7 @@ namespace XCharts
             {
                 if (RealityToggle.isOn)
                 {
+                    TrackFastText.color = new Color32(99, 212, 189, 0);
                     DrawColorFistTrack();
                     //StopCoroutine("DrawColorFistLine");
                 }
