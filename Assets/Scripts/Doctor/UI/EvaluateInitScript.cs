@@ -90,6 +90,7 @@ namespace XCharts
 
         // 先平移,后放缩
         public Vector2 ModelGravity;   // 模型重心坐标
+        public Vector2 SideModelGravity;    // 模型侧身重心坐标
         public Vector2 GravityDiff;    // 重心偏移
         public float HeightPixel;    // 身高段
 
@@ -105,6 +106,7 @@ namespace XCharts
         
         public Color LastConvexHullAreaColor;
         public Color LastConvexHullLineColor;
+        public Color SideLineColor;
 
         public Color LastNowOverlappingColor;   // 两次重叠的颜色
 
@@ -122,6 +124,13 @@ namespace XCharts
 
         public Text LastConvexHullText; // 上次凸包文字 
         public Text NowConvexHullText;  // 本次凸包文字
+
+        public VectorLine NowFrontLine; // 本次向前倾的线
+        public VectorLine NowBehindLine;    //本次向后倾的线
+        public VectorLine LastFrontLine; // 本次向前倾的线
+        public VectorLine LastBehindLine;    //本次向后倾的线
+        public VectorLine SideLine; // 侧身直线
+
 
         //public Canvas canvas;
         // Use this for initialization
@@ -225,7 +234,9 @@ namespace XCharts
                     //WidthPixel = 100;
                     HeightPixel = 120;
 
-                    ModelGravity = new Vector2(1260, 400);
+                    ModelGravity = new Vector2(1270, 400);
+
+                    SideModelGravity = new Vector2(1635, 400);
                 }
                 else
                 {
@@ -235,7 +246,8 @@ namespace XCharts
                     //WidthPixel = 80;
                     HeightPixel = 120;
 
-                    ModelGravity = new Vector2(1260, 410);
+                    ModelGravity = new Vector2(1270, 410);
+                    SideModelGravity = new Vector2(1635, 410);
                 }
 
                 GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
@@ -261,31 +273,14 @@ namespace XCharts
 
                 LastNowOverlappingColor = new Color32(255, 255, 0, 20);
 
+                SideLineColor = new Color32(255, 140, 5, 255);
+
+                // 画凸包图
                 ContexHullToggle.isOn = true;
                 //DrawContexHullToggleChange();
 
-
-               
-
-                //        if (i == 0)
-                //        {
-                //            RadarAreaText.text = "（1）雷达图面积: " + RadarArea[i].ToString("0.00");
-                //        }
-
-                //            RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1]);
-
-                //            //print(RadarIncreaseRate[i] + "@@@@");
-
-                //            RadarAreaText.text += WhiteLine;
-                //            RadarAreaText.text += "（" + (i + 1).ToString() + "）雷达图面积: " + RadarArea[i].ToString("0.00");
-                //            if (RadarIncreaseRate[i - 1] < 0) RadarAreaText.text += "  <color=blue>" + (RadarIncreaseRate[i - 1] * 100).ToString("0.00") + "%  Down</color>";
-                //            else if (RadarIncreaseRate[i - 1] == 0) RadarAreaText.text += "  <color=green>" + (RadarIncreaseRate[i - 1] * 100).ToString("0.00") + "%  Equal</color>";
-                //            else RadarAreaText.text += "  <color=red>" + (RadarIncreaseRate[i - 1] * 100).ToString("0.00") + "%  Up</color>";
-                //        }
-                //    }
-                //}
-
-
+                // 画侧身直线
+                DrawSideLine();
 
             }
             else
@@ -307,6 +302,63 @@ namespace XCharts
                 seq.Append(t2);
                 seq.SetLoops(-1);
             }
+
+        }
+
+        public void DrawSideLine()
+        {
+            float SideCoefficient = 157f;   // 距离修正系数
+            float FrontX, BehindX;  // SideLine 前后大小
+
+            SideLine = new VectorLine("SideLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            SideLine.smoothColor = false;   // 设置平滑颜色
+            SideLine.smoothWidth = false;   // 设置平滑宽度
+            SideLine.color = SideLineColor;  // 设置颜色
+
+            FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
+            BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
+
+            NowFrontLine = new VectorLine("NowFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            NowFrontLine.smoothColor = false;   // 设置平滑颜色
+            NowFrontLine.smoothWidth = false;   // 设置平滑宽度
+            NowFrontLine.color = ConvexHullLineColor;  // 设置颜色
+            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y + 50));
+            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y - 50));
+            NowFrontLine.Draw();
+
+            NowBehindLine = new VectorLine("NowBehindLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+            NowBehindLine.smoothColor = false;   // 设置平滑颜色
+            NowBehindLine.smoothWidth = false;   // 设置平滑宽度
+            NowBehindLine.color = ConvexHullLineColor;  // 设置颜色
+            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y + 50));
+            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y - 50));
+            NowBehindLine.Draw();
+
+            if (SingleEvaluation > 0)
+            {
+                LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                LastFrontLine.smoothColor = false;   // 设置平滑颜色
+                LastFrontLine.smoothWidth = false;   // 设置平滑宽度
+                LastFrontLine.color = LastConvexHullLineColor;  // 设置颜色
+                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
+                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
+                LastFrontLine.Draw();
+
+                LastBehindLine = new VectorLine("LastBehindLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+                LastBehindLine.smoothColor = false;   // 设置平滑颜色
+                LastBehindLine.smoothWidth = false;   // 设置平滑宽度
+                LastBehindLine.color = LastConvexHullLineColor;  // 设置颜色
+                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
+                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
+                LastBehindLine.Draw();
+
+                FrontX = Mathf.Max(FrontX, SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
+                BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
+            }
+
+            SideLine.points2.Add(new Vector2(FrontX, SideModelGravity.y));
+            SideLine.points2.Add(new Vector2(BehindX, SideModelGravity.y));
+            SideLine.Draw();
 
         }
 
@@ -375,7 +427,7 @@ namespace XCharts
             {
                 DrawContexHull();
                 
-                NowConvexHullText.text = "本次评估雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
+                NowConvexHullText.text = "本次评估:雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
 
                 if (LastConvexHullToggle.isOn)
                 {
@@ -399,8 +451,8 @@ namespace XCharts
             {
                 DrawLastContexHull();
 
-                LastConvexHullText.text = "上次评估雷达图面积：" + LastConvexHull.ConvexHullArea.ToString("0.00");
-                NowConvexHullText.text = "本次评估雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
+                LastConvexHullText.text = "上次评估:雷达图面积：" + LastConvexHull.ConvexHullArea.ToString("0.00");
+                NowConvexHullText.text = "本次评估:雷达图面积：" + NowConvexHull.ConvexHullArea.ToString("0.00");
 
                 // 雷达图增长率
                 float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
@@ -939,16 +991,7 @@ namespace XCharts
 
         public void RemoveLine()
         {
-            //VectorLine.Destroy(ref ConvexHullLine);
-            //VectorLine.Destroy(ref ConvexHullArea);
-
-            //VectorLine.Destroy(ref ColorFistLineTrack);
-            //VectorLine.Destroy(ref ColorFistLineReality);
-
-            //transform.GetChild(2).GetChild(4).gameObject.SetActive(false);
             ContexHullToggle.isOn = false;
-            //TrackToggle.isOn = false;
-            //SoccerballToggle.isOn = false;
             RealityToggle.isOn = false;
         }
 
@@ -970,29 +1013,6 @@ namespace XCharts
 
         public void EvaluateButtonOnclick()
         {
-            //print(DoctorDataManager.instance.patient.PatientID);
-            //print(DoctorDataManager.instance.patient.PatientName);
-            //print(DoctorDataManager.instance.patient.PatientSex);
-
-            //PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
-            ////PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
-
-            //Evaluation evaluation = new Evaluation();
-            //evaluation.SetEvaluationID(DoctorDatabaseManager.instance.ReadPatientEvaluationCount());
-            ////print(DoctorDataManager.instance.doctor.patient.Evaluations.Count);
-            //if(DoctorDataManager.instance.doctor.patient.Evaluations == null)
-            //{
-            //    DoctorDataManager.instance.doctor.patient.Evaluations = new List<Evaluation>();
-            //}
-            //DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
-
-            //PatientDataManager.instance.SetTrainingID(evaluation.TrainingID);
-            //PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
-            //PatientDataManager.instance.SetPlanDifficulty(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty));
-            //PatientDataManager.instance.SetPlanCount(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanCount);
-            //PatientDataManager.instance.SetPlanDirection(PatientDataManager.Str2DirectionType(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection));
-            //PatientDataManager.instance.SetPlanTime(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime);
-            //PatientDataManager.instance.SetIsEvaluated(1);
 
             DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
             
