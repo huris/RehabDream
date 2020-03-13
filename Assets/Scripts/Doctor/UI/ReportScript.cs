@@ -11,7 +11,7 @@ using System;
 public class ReportScript : MonoBehaviour
 {
 
-    public int x = 0, y = 0;//截屏起始点
+    public float x = 0, y = 0;//截屏起始点
     public int width = 1920, height = 1080;//截屏区域
 
     string picName = ".png";//图片名称
@@ -35,7 +35,7 @@ public class ReportScript : MonoBehaviour
         EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle").GetComponent<Toggle>();
         TrainingToggle = transform.Find("ReportToggle/TrainingToggle").GetComponent<Toggle>();
 
-        x = 662; y = 59;   // 设置起始点
+        x = 382.5f; y = 119.43f;   // 设置起始点
         width = 595; height = 842;  // 设置大小
 
         if (EvaluationToggle.isOn)
