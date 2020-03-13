@@ -31,13 +31,10 @@ namespace XCharts
         private bool m_DataZoomEndDrag;
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
-        private bool m_XAxisChanged;
-        private bool m_YAxisChanged;
         private bool m_CheckMinMaxValue;
         private bool m_CheckDataZoomLabel;
-        private List<XAxis> m_CheckXAxises = new List<XAxis>();
-        private List<YAxis> m_CheckYAxises = new List<YAxis>();
-        private Grid m_CheckCoordinate = Grid.defaultGrid;
+        private bool m_XAxisesDirty;
+        private bool m_YAxisesDirty;
         private Dictionary<int, List<Serie>> m_StackSeries = new Dictionary<int, List<Serie>>();
         private List<float> m_SeriesCurrHig = new List<float>();
 
@@ -55,14 +52,61 @@ namespace XCharts
 
         protected override void Update()
         {
-            base.Update();
-            CheckYAxis();
-            CheckXAxis();
             CheckMinMaxValue();
-            CheckCoordinate();
             CheckRaycastTarget();
             CheckDataZoom();
             CheckVisualMap();
+            base.Update();
+        }
+
+        protected override void CheckComponent()
+        {
+            if (m_DataZoom.anyDirty)
+            {
+                if (m_DataZoom.componentDirty) InitDataZoom();
+                if (m_DataZoom.vertsDirty) RefreshChart();
+                m_DataZoom.ClearDirty();
+            }
+            if (m_VisualMap.anyDirty)
+            {
+                if (m_VisualMap.vertsDirty) RefreshChart();
+                m_VisualMap.ClearDirty();
+            }
+            if (m_Grid.anyDirty)
+            {
+                if (m_Grid.componentDirty)
+                {
+                    m_XAxisesDirty = true;
+                    m_YAxisesDirty = true;
+                    OnCoordinateChanged();
+                }
+                if (m_Grid.vertsDirty) RefreshChart();
+                m_Grid.ClearDirty();
+            }
+            for (int i = 0; i < m_XAxises.Count; i++)
+            {
+                var axis = m_XAxises[i];
+                if (m_XAxisesDirty || axis.anyDirty)
+                {
+                    if (axis.componentDirty || m_XAxisesDirty) InitXAxis(i, axis);
+                    if (axis.vertsDirty || m_XAxisesDirty) RefreshChart();
+                    axis.ClearDirty();
+
+                    m_XAxisesDirty = false;
+                }
+            }
+            for (int i = 0; i < m_YAxises.Count; i++)
+            {
+                var axis = m_YAxises[i];
+                if (m_YAxisesDirty || axis.anyDirty)
+                {
+                    if (axis.componentDirty || m_YAxisesDirty) InitYAxis(i, axis);
+                    if (axis.vertsDirty || m_YAxisesDirty) RefreshChart();
+                    axis.ClearDirty();
+                    m_YAxisesDirty = false;
+                }
+            }
+            base.CheckComponent();
         }
 
 #if UNITY_EDITOR
@@ -73,6 +117,16 @@ namespace XCharts
             m_XAxises.Clear();
             m_YAxises.Clear();
             Awake();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
+            m_Grid.SetAllDirty();
+            m_DataZoom.SetAllDirty();
+            m_VisualMap.SetAllDirty();
         }
 #endif
 
@@ -357,7 +411,13 @@ namespace XCharts
                 sb.Length = 0;
                 if (!isCartesian)
                 {
-                    sb.Append(tempAxis.GetData(index, m_DataZoom));
+                    var category = tempAxis.GetData(index, m_DataZoom);
+                    if (!string.IsNullOrEmpty(category)) sb.Append(category);
+                    else
+                    {
+                        m_Tooltip.SetActive(false);
+                        return;
+                    }
                 }
                 for (int i = 0; i < m_Series.Count; i++)
                 {
@@ -367,6 +427,7 @@ namespace XCharts
                         string key = serie.name;
                         float xValue, yValue;
                         serie.GetXYData(index, m_DataZoom, out xValue, out yValue);
+                        var isIngore = serie.IsIngorePoint(index);
                         if (isCartesian)
                         {
                             var serieData = serie.GetSerieData(index, m_DataZoom);
@@ -379,10 +440,12 @@ namespace XCharts
                         }
                         else
                         {
+                            var valueTxt = isIngore ? m_Tooltip.ignoreDataDefaultContent :
+                                ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation);
                             sb.Append("\n")
                                 .Append("<color=#").Append(m_ThemeInfo.GetColorStr(i)).Append(">● </color>")
                                 .Append(key).Append(!string.IsNullOrEmpty(key) ? " : " : "")
-                                .Append(ChartCached.FloatToStr(yValue, 0, m_Tooltip.forceENotation));
+                                .Append(valueTxt);
                         }
                     }
                 }
@@ -465,9 +528,9 @@ namespace XCharts
         protected override void OnThemeChanged()
         {
             base.OnThemeChanged();
-            InitDataZoom();
-            InitAxisX();
-            InitAxisY();
+            m_DataZoom.SetAllDirty();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         private void InitDefaultAxises()
@@ -753,54 +816,7 @@ namespace XCharts
             {
                 posY = startY - xAxis.axisLabel.margin - xAxis.axisLabel.fontSize / 2;
             }
-            // if (xAxis.boundaryGap)
-            // {
-            //     return new Vector3(coordinateX + (i + 1) * scaleWid, posY);
-            // }
-            // else
-            // {
-            //     return new Vector3(coordinateX + (i + 1 - 0.5f) * scaleWid, posY);
-            // }
             return new Vector3(coordinateX + scaleWid, posY);
-        }
-
-        private void CheckCoordinate()
-        {
-            if (m_CheckCoordinate != m_Grid)
-            {
-                m_CheckCoordinate.Copy(m_Grid);
-                OnCoordinateChanged();
-            }
-        }
-
-        private void CheckYAxis()
-        {
-            if (m_YAxisChanged || !ChartHelper.IsValueEqualsList<YAxis>(m_CheckYAxises, m_YAxises))
-            {
-                foreach (var axis in m_CheckYAxises)
-                {
-                    YAxisPool.Release(axis);
-                }
-                m_CheckYAxises.Clear();
-                foreach (var axis in m_YAxises) m_CheckYAxises.Add(axis.Clone());
-                m_YAxisChanged = false;
-                OnYAxisChanged();
-            }
-        }
-
-        private void CheckXAxis()
-        {
-            if (m_XAxisChanged || !ChartHelper.IsValueEqualsList<XAxis>(m_CheckXAxises, m_XAxises))
-            {
-                foreach (var axis in m_CheckXAxises)
-                {
-                    XAxisPool.Release(axis);
-                }
-                m_CheckXAxises.Clear();
-                foreach (var axis in m_XAxises) m_CheckXAxises.Add(axis.Clone());
-                m_XAxisChanged = false;
-                OnXAxisChanged();
-            }
         }
 
         private void CheckMinMaxValue()
@@ -884,25 +900,15 @@ namespace XCharts
 
         protected virtual void OnCoordinateChanged()
         {
-            InitAxisX();
-            InitAxisY();
-        }
-
-        protected virtual void OnYAxisChanged()
-        {
-            InitAxisY();
-        }
-
-        protected virtual void OnXAxisChanged()
-        {
-            InitAxisX();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         protected override void OnSizeChanged()
         {
             base.OnSizeChanged();
-            InitAxisX();
-            InitAxisY();
+            m_XAxisesDirty = true;
+            m_YAxisesDirty = true;
         }
 
         private void DrawCoordinate(VertexHelper vh)
@@ -1441,32 +1447,41 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    if (serie.label.show || serieData.iconStyle.show)
+
+                    if ((serie.label.show || serieData.iconStyle.show))
                     {
                         var pos = serie.dataPoints[j];
-                        var value = serieData.data[1];
-                        switch (serie.type)
+                        var isIngore = ChartHelper.IsIngore(pos);
+                        if (isIngore)
                         {
-                            case SerieType.Line:
-                                break;
-                            case SerieType.Bar:
-                                var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
-                                switch (serie.label.position)
-                                {
-                                    case SerieLabel.Position.Center:
-
-                                        pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
-                                            new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
-                                        break;
-                                    case SerieLabel.Position.Bottom:
-                                        pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
-                                        break;
-                                }
-                                break;
+                            serieData.SetLabelActive(false);
                         }
-                        m_RefreshLabel = true;
-                        serieData.labelPosition = pos;
-                        if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
+                        else
+                        {
+                            var value = serieData.data[1];
+                            switch (serie.type)
+                            {
+                                case SerieType.Line:
+                                    break;
+                                case SerieType.Bar:
+                                    var bottomPos = lastStackSerie == null ? zeroPos : lastStackSerie.dataPoints[j];
+                                    switch (serie.label.position)
+                                    {
+                                        case SerieLabel.Position.Center:
+
+                                            pos = isYAxis ? new Vector3(bottomPos.x + (pos.x - bottomPos.x) / 2, pos.y) :
+                                                new Vector3(pos.x, bottomPos.y + (pos.y - bottomPos.y) / 2);
+                                            break;
+                                        case SerieLabel.Position.Bottom:
+                                            pos = isYAxis ? new Vector3(bottomPos.x, pos.y) : new Vector3(pos.x, bottomPos.y);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            m_RefreshLabel = true;
+                            serieData.labelPosition = pos;
+                            if (serie.label.show) DrawLabelBackground(vh, serie, serieData);
+                        }
                     }
                     else
                     {
@@ -1489,7 +1504,6 @@ namespace XCharts
                     if (j >= serie.dataPoints.Count) break;
                     var serieData = serie.data[j];
                     var pos = serie.dataPoints[j];
-
                     serieData.SetGameObjectPosition(serieData.labelPosition);
                     serieData.UpdateIcon();
                     if (serie.show && serie.label.show && serieData.canShowLabel)
@@ -1512,8 +1526,9 @@ namespace XCharts
                         {
                             content = serie.label.GetFormatterContent(serie.name, serieData.name, value, total);
                         }
-                        serieData.SetLabelActive(value != 0);
-                        serieData.SetLabelPosition(serie.label.offset);
+                        serieData.SetLabelActive(value != 0 && serieData.labelPosition != Vector3.zero);
+                        var down = serie.type == SerieType.Line && SerieHelper.IsDownPoint(serie, j);
+                        serieData.SetLabelPosition(down ? -serie.label.offset : serie.label.offset);
                         if (serieData.SetLabelText(content)) RefreshChart();
                     }
                     else
@@ -1763,6 +1778,17 @@ namespace XCharts
 
         protected void CheckClipAndDrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
             Color32 startColor, Color32 toColor, bool clip)
+        {
+            p1 = ClampInCoordinate(p1);
+            p2 = ClampInCoordinate(p2);
+            p3 = ClampInCoordinate(p3);
+            p4 = ClampInCoordinate(p4);
+            if (!clip || (clip && (IsInCooridate(p1) && IsInCooridate(p2) && IsInCooridate(p3) && IsInCooridate(p4))))
+                ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, startColor, toColor);
+        }
+
+        protected void CheckClipAndDrawPolygon(VertexHelper vh, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 p4,
+           Color32 startColor, Color32 toColor, bool clip)
         {
             p1 = ClampInCoordinate(p1);
             p2 = ClampInCoordinate(p2);

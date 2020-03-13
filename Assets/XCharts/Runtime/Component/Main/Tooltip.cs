@@ -61,6 +61,7 @@ namespace XCharts
         [SerializeField] private bool m_ForceENotation = false;
         [SerializeField] private float m_PaddingLeftRight = 5f;
         [SerializeField] private float m_PaddingTopBottom = 5f;
+        [SerializeField] private string m_IgnoreDataDefaultContent = "-";
         [SerializeField] private Sprite m_BackgroundImage;
         [SerializeField] private TextStyle m_TextStyle = new TextStyle(18, FontStyle.Normal);
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.Solid, 0.7f);
@@ -77,13 +78,20 @@ namespace XCharts
         /// Whether to show the tooltip component.
         /// 是否显示提示框组件。
         /// </summary>
-        /// <returns></returns>
-        public bool show { get { return m_Show; } set { m_Show = value; SetActive(value); } }
+        public bool show
+        {
+            get { return m_Show; }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) { SetAllDirty(); SetActive(value); } }
+        }
         /// <summary>
         /// Indicator type.
         /// 提示框指示器类型。
         /// </summary>
-        public Type type { get { return m_Type; } set { m_Type = value; } }
+        public Type type
+        {
+            get { return m_Type; }
+            set { if (PropertyUtility.SetStruct(ref m_Type, value)) SetAllDirty(); }
+        }
         /// <summary>
         /// 提示框总内容的字符串模版格式器。支持用 \n 或 "<br/>" 换行。当formatter不为空时，优先使用formatter，否则使用itemFormatter。
         /// 模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。{a0},{b1},c{1}等可指定serie。
@@ -159,6 +167,10 @@ namespace XCharts
         /// </summary>
         public float paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
+        /// 被忽略数据的默认显示字符信息。
+        /// </summary>
+        public string ignoreDataDefaultContent { get { return m_IgnoreDataDefaultContent; } set { m_IgnoreDataDefaultContent = value; } }
+        /// <summary>
         /// The image of icon.
         /// 图标的图片。
         /// </summary>
@@ -166,11 +178,34 @@ namespace XCharts
         /// <summary>
         /// 提示框内容文本样式。
         /// </summary>
-        public TextStyle textStyle { get { return m_TextStyle; } set { if (value != null) m_TextStyle = value; } }
+        public TextStyle textStyle
+        {
+            get { return m_TextStyle; }
+            set { if (value != null) { m_TextStyle = value; SetComponentDirty(); } }
+        }
         /// <summary>
         /// 指示线样式。
         /// </summary>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { if (value != null) m_LineStyle = value; } }
+        public LineStyle lineStyle
+        {
+            get { return m_LineStyle; }
+            set { if (value != null) m_LineStyle = value; SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// 组件是否需要刷新
+        /// </summary>
+        public override bool componentDirty
+        {
+            get { return m_ComponentDirty || lineStyle.componentDirty || textStyle.componentDirty; }
+        }
+
+        internal override void ClearComponentDirty()
+        {
+            base.ClearComponentDirty();
+            lineStyle.ClearComponentDirty();
+            textStyle.ClearComponentDirty();
+        }
 
         /// <summary>
         /// The data index currently indicated by Tooltip.

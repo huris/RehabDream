@@ -135,8 +135,8 @@ namespace XCharts
         public Text TrackFastText;
 
 
-        //public Canvas canvas;
-        // Use this for initialization
+        // SoccerSpeedAndTime
+
         void Start()
         {
 
@@ -329,6 +329,13 @@ namespace XCharts
                 // 画凸包图
                 ContexHullToggle.isOn = true;
                 //DrawContexHullToggleChange();
+
+
+                // SoccerSpeedAndTime
+                
+                
+
+
 
 
             }

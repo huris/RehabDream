@@ -43,7 +43,7 @@ namespace XCharts
 
                 RadarAreaChart.title.show = true;
                 RadarAreaChart.title.text = "雷 达 面 积 趋 势 图";
-                RadarAreaChart.title.textFontSize = 20;
+                RadarAreaChart.title.textStyle.fontSize = 20;
                 RadarAreaChart.title.textStyle.fontStyle = FontStyle.Bold;
                 RadarAreaChart.title.location.top = 2;
 
@@ -149,7 +149,7 @@ namespace XCharts
 
                 SuccessRateChart.title.show = true;
                 SuccessRateChart.title.text = "成 功 接 球 率 趋 势 图";
-                SuccessRateChart.title.textFontSize = 20;
+                SuccessRateChart.title.textStyle.fontSize = 20;
                 SuccessRateChart.title.textStyle.fontStyle = FontStyle.Bold;
                 SuccessRateChart.title.location.top = 2;
 
@@ -253,7 +253,7 @@ namespace XCharts
 
                 DirectionsChart.title.show = true;
                 DirectionsChart.title.text = "方 位 距 离 趋 势 图";
-                DirectionsChart.title.textFontSize = 20;
+                DirectionsChart.title.textStyle.fontSize = 20;
                 DirectionsChart.title.textStyle.fontStyle = FontStyle.Bold;
                 DirectionsChart.title.location.top = 2;
 

@@ -19,6 +19,7 @@
 * [Serie-Scatter 散点图](#Serie-Scatter)  
 * [Serie-Heatmap 热力图](#Serie-Heatmap)  
 * [Serie-Gauge 仪表盘](#Serie-Gauge)  
+* [Serie-Ring 环形图](#Serie-Ring)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
@@ -204,6 +205,7 @@
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
 * `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
 
@@ -436,7 +438,7 @@
 * `pieSpace`：饼图项间的空隙留白。
 * `pieCenter`：饼图的中心点。
 * `pieRadius`：饼图的半径。`radius[0]` 表示内径，`radius[1]` 表示外径。
-* `arcShaped`：启用弧形圆角效果。目前只在仪表盘和圆环饼图中有效。
+* `roundCap`：启用圆弧效果。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -464,6 +466,8 @@
   * `Sum`：取过滤点之和。
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
 * `clip`：是否裁剪超出坐标系部分的图形。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
+* `ignoreValue`：忽略数据的默认值。当 `ignore` 为 `true` 才有效。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -529,7 +533,7 @@
 * `space`：扇区间隙。
 * `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
-* `arcShaped`：是否启用圆角效果。只在圆环图中有效。
+* `roundCap`：是否启用圆弧效果。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -591,7 +595,7 @@
 * `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 * `endAngle`：仪表盘结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 * `splitNumber`：仪表盘刻度分割段数。
-* `arcShaped`：是否启用圆角效果。
+* `roundCap`：是否启用圆弧效果。
 * `titleStyle`：仪表盘标题 [TitleStyle](#TitleStyle)。
 * `gaugeAxis`： 仪表盘坐标轴 [GaugeAxis](#GaugeAxis)。
 * `gaugePointer`：仪表盘指针 [GaugePointer](#GaugePointer)。
@@ -600,6 +604,26 @@
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。仪表盘的数据一般只有一个，值通过`label`样式显示，`name`通过`titleStyle`样式显示。
+
+## `Serie-Ring`
+
+环形图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Ring`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `radius`：仪表盘半径。
+* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `ringGap`：环形图的环间隙。
+* `roundCap`：是否启用圆弧效果。
+* `clockwise`：是否顺时针，默认为`true`。
+* `titleStyle`：环形图中心标题 [TitleStyle](#TitleStyle)。
+* `itemStyle`：环形图的圆环样式，包括设置背景颜色和边框等 [ItemStyle](#ItemStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `emphasis`：高亮样式 [Emphasis](#Emphasis)。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。环形图的数据只有二维，`data[0]`表示当前值，`data[1]`表示最大值。
 
 ## `Settings`
 
@@ -701,10 +725,14 @@
 
 * `show`：是否启用。
 * `color`：颜色。
+* `backgroundColor`：背景颜色。
+* `backgroundWidth`：背景的宽。
+* `centerColor`：中心区域的颜色。如环形图的中心区域。
+* `centerGap`：中心区域的间隙。如环形图的中心区域于最内环的间隙。
 * `borderType`：边框的类型。
 * `borderColor`：边框的颜色。
 * `borderWidth`：边框宽。
-* `borderWidth`：opacity。
+* `opacity`：透明度。
 
 ## `LineArrow`
 

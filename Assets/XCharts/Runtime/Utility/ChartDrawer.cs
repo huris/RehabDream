@@ -248,19 +248,30 @@ namespace XCharts
             vh.AddUIVertexQuad(vertex);
         }
 
-        public static void DrawBorder(VertexHelper vh, Vector3 p, float rectWidth, float rectHeight,
-            float borderWidth, Color32 color)
+        public static void DrawBorder(VertexHelper vh, Vector3 center, float rectWidth, float rectHeight,
+            float borderWidth, Color32 color, float rotate = 0)
         {
             var halfWid = rectWidth / 2;
             var halfHig = rectHeight / 2;
-            var p1In = new Vector3(p.x - halfWid, p.y - halfHig);
-            var p1Ot = new Vector3(p.x - halfWid - borderWidth, p.y - halfHig - borderWidth);
-            var p2In = new Vector3(p.x - halfWid, p.y + halfHig);
-            var p2Ot = new Vector3(p.x - halfWid - borderWidth, p.y + halfHig + borderWidth);
-            var p3In = new Vector3(p.x + halfWid, p.y + halfHig);
-            var p3Ot = new Vector3(p.x + halfWid + borderWidth, p.y + halfHig + borderWidth);
-            var p4In = new Vector3(p.x + halfWid, p.y - halfHig);
-            var p4Ot = new Vector3(p.x + halfWid + borderWidth, p.y - halfHig - borderWidth);
+            var p1In = new Vector3(center.x - halfWid, center.y - halfHig);
+            var p1Ot = new Vector3(center.x - halfWid - borderWidth, center.y - halfHig - borderWidth);
+            var p2In = new Vector3(center.x - halfWid, center.y + halfHig);
+            var p2Ot = new Vector3(center.x - halfWid - borderWidth, center.y + halfHig + borderWidth);
+            var p3In = new Vector3(center.x + halfWid, center.y + halfHig);
+            var p3Ot = new Vector3(center.x + halfWid + borderWidth, center.y + halfHig + borderWidth);
+            var p4In = new Vector3(center.x + halfWid, center.y - halfHig);
+            var p4Ot = new Vector3(center.x + halfWid + borderWidth, center.y - halfHig - borderWidth);
+            if (rotate > 0)
+            {
+                p1In = ChartHelper.RotateRound(p1In, center, Vector3.forward, rotate);
+                p1Ot = ChartHelper.RotateRound(p1Ot, center, Vector3.forward, rotate);
+                p2In = ChartHelper.RotateRound(p2In, center, Vector3.forward, rotate);
+                p2Ot = ChartHelper.RotateRound(p2Ot, center, Vector3.forward, rotate);
+                p3In = ChartHelper.RotateRound(p3In, center, Vector3.forward, rotate);
+                p3Ot = ChartHelper.RotateRound(p3Ot, center, Vector3.forward, rotate);
+                p4In = ChartHelper.RotateRound(p4In, center, Vector3.forward, rotate);
+                p4Ot = ChartHelper.RotateRound(p4Ot, center, Vector3.forward, rotate);
+            }
             DrawPolygon(vh, p1In, p1Ot, p2Ot, p2In, color);
             DrawPolygon(vh, p2In, p2Ot, p3Ot, p3In, color);
             DrawPolygon(vh, p3In, p3Ot, p4Ot, p4In, color);
@@ -332,6 +343,28 @@ namespace XCharts
                     p.y + radius * Mathf.Cos(currAngle));
                 DrawTriangle(vh, p, p2, p3, color);
                 p2 = p3;
+            }
+        }
+
+        public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
+            bool clockwise, Color color, bool end)
+        {
+            var px = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
+            var py = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
+            var pos = new Vector3(px, py) + center;
+            if (end)
+            {
+                if (clockwise)
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180);
+                else
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180);
+            }
+            else
+            {
+                if (clockwise)
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360);
+                else
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360);
             }
         }
 

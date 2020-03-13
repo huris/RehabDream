@@ -92,7 +92,9 @@ namespace XCharts
         {
             m_Series.ClearData();
             m_Legend.ClearData();
+            m_Tooltip.ClearValue();
             m_CheckAnimation = false;
+            m_ReinitLabel = true;
             RefreshChart();
         }
 
@@ -105,7 +107,9 @@ namespace XCharts
         {
             m_Legend.ClearData();
             m_Series.RemoveAll();
+            m_Tooltip.ClearValue();
             m_CheckAnimation = false;
+            m_ReinitLabel = true;
             RefreshChart();
         }
 
@@ -220,7 +224,7 @@ namespace XCharts
         /// <param name="yValue">y data</param>
         /// <param name="dataName">the name of data</param>
         /// <returns>Returns True on success</returns>
-        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName)
+        public virtual SerieData AddData(string serieName, float xValue, float yValue, string dataName = null)
         {
             var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (serieData != null)

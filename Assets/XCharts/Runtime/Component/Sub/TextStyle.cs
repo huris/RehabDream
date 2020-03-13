@@ -15,7 +15,7 @@ namespace XCharts
     /// 文本的相关设置。
     /// </summary>
     [Serializable]
-    public class TextStyle : SubComponent, IEquatable<TextStyle>
+    public class TextStyle : SubComponent
     {
         [SerializeField] private Font m_Font;
         [SerializeField] private float m_Rotate = 0;
@@ -34,12 +34,20 @@ namespace XCharts
         /// Rotation of text.
         /// 文本的旋转。
         /// </summary>
-        public float rotate { get { return m_Rotate; } set { m_Rotate = value; } }
+        public float rotate
+        {
+            get { return m_Rotate; }
+            set { if (PropertyUtility.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the offset of position.
         /// 坐标偏移。
         /// </summary>
-        public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
+        public Vector2 offset
+        {
+            get { return m_Offset; }
+            set { if (PropertyUtility.SetStruct(ref m_Offset, value)) SetComponentDirty(); }
+        }
 
         public Vector3 offsetv3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
 
@@ -47,32 +55,56 @@ namespace XCharts
         /// the color of text. 
         /// 文本的颜色。
         /// </summary>
-        public Color color { get { return m_Color; } set { m_Color = value; } }
+        public Color color
+        {
+            get { return m_Color; }
+            set { if (PropertyUtility.SetColor(ref m_Color, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the color of text. 
         /// 文本的背景颜色。
         /// </summary>
-        public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        public Color backgroundColor
+        {
+            get { return m_BackgroundColor; }
+            set { if (PropertyUtility.SetColor(ref m_BackgroundColor, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the font of text.
         /// 文本字体
         /// </summary>
-        public Font font { get { return m_Font; } set { m_Font = value; } }
+        public Font font
+        {
+            get { return m_Font; }
+            set { if (PropertyUtility.SetClass(ref m_Font, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font size.
         /// 文本字体大小。
         /// </summary>
-        public int fontSize { get { return m_FontSize; } set { m_FontSize = value; } }
+        public int fontSize
+        {
+            get { return m_FontSize; }
+            set { if (PropertyUtility.SetStruct(ref m_FontSize, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// font style.
         /// 文本字体的风格。
         /// </summary>
-        public FontStyle fontStyle { get { return m_FontStyle; } set { m_FontStyle = value; } }
+        public FontStyle fontStyle
+        {
+            get { return m_FontStyle; }
+            set { if (PropertyUtility.SetStruct(ref m_FontStyle, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// text line spacing.
         /// 行间距。
         /// </summary>
-        public float lineSpacing { get { return m_LineSpacing; } set { m_LineSpacing = value; } }
+        public float lineSpacing
+        {
+            get { return m_LineSpacing; }
+            set { if (PropertyUtility.SetStruct(ref m_LineSpacing, value)) SetComponentDirty(); }
+        }
 
         public TextStyle()
         {
@@ -102,66 +134,6 @@ namespace XCharts
             this.fontStyle = fontStyle;
             this.color = color;
             this.rotate = rotate;
-        }
-
-        public void Copy(TextStyle style)
-        {
-            this.fontSize = style.fontSize;
-            this.fontStyle = style.fontStyle;
-            this.color = style.color;
-            this.backgroundColor = style.backgroundColor;
-            this.rotate = style.rotate;
-            this.offset = style.offset;
-            this.lineSpacing = style.lineSpacing;
-        }
-
-        public TextStyle Clone()
-        {
-            var textStyle = new TextStyle();
-            textStyle.rotate = rotate;
-            textStyle.color = color;
-            textStyle.backgroundColor = backgroundColor;
-            textStyle.fontSize = fontSize;
-            textStyle.fontStyle = fontStyle;
-            textStyle.offset = offset;
-            textStyle.lineSpacing = lineSpacing;
-            return textStyle;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            else if (obj is TextStyle)
-            {
-                return Equals((TextStyle)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool Equals(TextStyle other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            return rotate == other.rotate &&
-                fontSize == other.fontSize &&
-                fontStyle == other.fontStyle &&
-                offset == other.offset &&
-                lineSpacing == other.lineSpacing &&
-                ChartHelper.IsValueEqualsColor(m_BackgroundColor, other.backgroundColor) &&
-                ChartHelper.IsValueEqualsColor(m_Color, other.color);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

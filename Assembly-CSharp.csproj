@@ -507,6 +507,7 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+     <Compile Include="Assets\SoccerBarTest.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
@@ -570,6 +571,7 @@
      <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
      <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
      <Compile Include="Assets\XCharts\Runtime\API\RadarChart_API.cs" />
+     <Compile Include="Assets\XCharts\Runtime\API\RingChart_API.cs" />
      <Compile Include="Assets\XCharts\Runtime\BarChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\ChartComponent.cs" />
      <Compile Include="Assets\XCharts\Runtime\Component\Main\Axis.cs" />
@@ -611,9 +613,13 @@
      <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\LegendHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\SerieHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\SerieLabelHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\TitleStyleHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\APIException.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\AxisPool.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\BaseChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart.cs" />
@@ -625,10 +631,12 @@
      <Compile Include="Assets\XCharts\Runtime\Internal\LegendItem.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\ListPool.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\ObjectPool.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Internal\PropertyUtility.cs" />
      <Compile Include="Assets\XCharts\Runtime\Internal\SerieLabelPool.cs" />
      <Compile Include="Assets\XCharts\Runtime\LineChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\PieChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\RadarChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\RingChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\ScatterChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\Utility\ChartCached.cs" />
      <Compile Include="Assets\XCharts\Runtime\Utility\ChartDrawer.cs" />

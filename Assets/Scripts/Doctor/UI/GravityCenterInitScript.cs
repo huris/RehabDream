@@ -36,7 +36,7 @@ namespace XCharts
 
                 GravityCenterChart.title.show = true;
                 GravityCenterChart.title.text = "与 初 始 点 距 离";
-                GravityCenterChart.title.textFontSize = 20;
+                GravityCenterChart.title.textStyle.fontSize = 20;
                 GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
                 GravityCenterChart.title.location.top = 13;
 

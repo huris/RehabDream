@@ -51,7 +51,6 @@ namespace XCharts
         [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
-        [NonSerialized] private Title m_CheckTitle = Title.defaultTitle;
         [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
@@ -59,7 +58,6 @@ namespace XCharts
         [NonSerialized] private Vector2 m_CheckMaxAnchor;
 
         [NonSerialized] private float m_CheckSerieCount = 0;
-        [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
         [NonSerialized] protected bool m_RefreshChart = false;
         [NonSerialized] protected bool m_RefreshLabel = false;
         [NonSerialized] protected bool m_ReinitLabel = false;
@@ -71,6 +69,15 @@ namespace XCharts
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
         protected Vector2 chartPivot { get { return rectTransform.pivot; } }
+
+        protected virtual void InitComponent()
+        {
+            InitTitle();
+            InitLegend();
+            InitSerieLabel();
+            InitSerieTitle();
+            InitTooltip();
+        }
 
         protected override void Awake()
         {
@@ -87,11 +94,7 @@ namespace XCharts
             m_CheckWidth = m_ChartWidth;
             m_CheckHeight = m_ChartHeight;
             m_CheckTheme = m_ThemeInfo.theme;
-            InitTitle();
-            InitLegend();
-            InitSerieLabel();
-            InitSerieTitle();
-            InitTooltip();
+            InitComponent();
             m_Series.AnimationReset();
             m_Series.AnimationFadeIn();
         }
@@ -104,14 +107,68 @@ namespace XCharts
         protected virtual void Update()
         {
             CheckSize();
-            CheckTheme();
-            CheckTile();
             CheckLegend();
+            CheckComponent();
             CheckPointerPos();
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
             CheckAnimation();
+        }
+
+        protected virtual void CheckComponent()
+        {
+            if (m_ThemeInfo.anyDirty)
+            {
+                if (m_CheckTheme != m_ThemeInfo.theme)
+                {
+                    m_CheckTheme = m_ThemeInfo.theme;
+                    m_ThemeInfo.Copy(m_CheckTheme);
+                    OnThemeChanged();
+                }
+                if (m_ThemeInfo.componentDirty)
+                {
+                    m_Title.SetAllDirty();
+                    m_Legend.SetAllDirty();
+                    m_Tooltip.SetAllDirty();
+                }
+                if (m_ThemeInfo.vertsDirty) RefreshChart();
+                m_ThemeInfo.ClearDirty();
+            }
+            if (m_Title.anyDirty)
+            {
+                if (m_Title.componentDirty) InitTitle();
+                if (m_Title.vertsDirty) RefreshChart();
+                m_Title.ClearDirty();
+            }
+            if (m_Legend.anyDirty)
+            {
+                if (m_Legend.componentDirty) InitLegend();
+                if (m_Legend.vertsDirty) RefreshChart();
+                m_Legend.ClearDirty();
+            }
+            if (m_Tooltip.anyDirty)
+            {
+                if (m_Tooltip.componentDirty) InitTooltip();
+                if (m_Tooltip.vertsDirty) RefreshChart();
+                m_Tooltip.ClearDirty();
+            }
+            if (m_Settings.vertsDirty)
+            {
+                RefreshChart();
+                m_Settings.ClearDirty();
+            }
+            if (m_Series.anyDirty)
+            {
+                if (m_Series.vertsDirty) RefreshChart();
+                if (m_Series.labelDirty) m_ReinitLabel = true;
+                if (m_Series.labelUpdate && !m_RefreshChart) m_RefreshLabel = true;
+                foreach (var serie in m_Series.list)
+                {
+                    if (serie.titleStyle.componentDirty) m_ReinitTitle = true;
+                }
+                m_Series.ClearDirty();
+            }
         }
 
         protected override void OnEnable()
@@ -145,7 +202,12 @@ namespace XCharts
 
         protected override void OnValidate()
         {
-            //TODO:
+            m_ThemeInfo.SetAllDirty();
+            m_Title.SetAllDirty();
+            m_Legend.SetAllDirty();
+            m_Tooltip.SetAllDirty();
+            m_ReinitLabel = true;
+            m_ReinitTitle = true;
         }
 #endif
 
@@ -331,10 +393,10 @@ namespace XCharts
                     var isAutoSize = serieLabel.backgroundWidth == 0 || serieLabel.backgroundHeight == 0;
                     serieData.InitLabel(labelObj, isAutoSize, serieLabel.paddingLeftRight, serieLabel.paddingTopBottom);
                     serieData.SetLabelActive(false);
-                    //serieData.SetLabelText(serieData.name);
                     count++;
                 }
             }
+            SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
         }
 
         private void InitSerieTitle()
@@ -358,8 +420,9 @@ namespace XCharts
                 txt.text = "";
                 txt.transform.localPosition = new Vector2(0, 0);
                 txt.transform.localEulerAngles = Vector2.zero;
-                ChartHelper.SetActive(txt, false);
+                ChartHelper.SetActive(txt, serie.titleStyle.show);
                 serie.titleStyle.runtimeText = txt;
+                serie.titleStyle.UpdatePosition(serie.runtimeCenterPos);
                 var serieData = serie.GetSerieData(0);
                 if (serieData != null)
                 {
@@ -367,7 +430,6 @@ namespace XCharts
                 }
             }
         }
-
 
         private void InitTooltip()
         {
@@ -412,46 +474,17 @@ namespace XCharts
             }
         }
 
-        private void CheckTheme()
-        {
-            if (m_CheckTheme != m_ThemeInfo.theme)
-            {
-                m_CheckTheme = m_ThemeInfo.theme;
-                OnThemeChanged();
-            }
-        }
-
-        private void CheckTile()
-        {
-            if (!m_CheckTitle.Equals(m_Title))
-            {
-                m_CheckTitle.Copy(m_Title);
-                OnTitleChanged();
-            }
-        }
-
         private void CheckLegend()
         {
-            if (m_CheckLegend != m_Legend)
+            if (m_Legend.show)
             {
-                m_CheckLegend.Copy(m_Legend);
-                OnLegendChanged();
-            }
-            else if (m_Legend.show)
-            {
-                if (m_CheckSerieCount != m_Series.Count)
+                foreach (var serie in series.list)
                 {
-                    m_CheckSerieCount = m_Series.Count;
-                    m_CheckSerieName.Clear();
-                    var serieNames = m_Series.GetSerieNameList();
-                    foreach (var name in serieNames) m_CheckSerieName.Add(name);
-                    OnLegendChanged();
-                }
-                else if (!ChartHelper.IsValueEqualsList(m_CheckSerieName, m_Series.GetSerieNameList()))
-                {
-                    var serieNames = m_Series.GetSerieNameList();
-                    foreach (var name in serieNames) m_CheckSerieName.Add(name);
-                    OnLegendChanged();
+                    if (serie.nameDirty)
+                    {
+                        m_Legend.SetAllDirty();
+                        serie.ClearNameDirty();
+                    }
                 }
             }
         }
@@ -525,25 +558,17 @@ namespace XCharts
 
         protected void CheckRefreshChart()
         {
-            if (m_RefreshChart)
+            if (m_RefreshChart || m_Series.vertsDirty)
             {
-                int tempWid = (int)chartWidth;
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid - 1);
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tempWid);
+                //SetAllDirty();
+                SetVerticesDirty();
                 m_RefreshChart = false;
+                m_Series.ClearVerticesDirty();
             }
         }
 
         protected void CheckRefreshLabel()
         {
-            foreach (var serie in m_Series.list)
-            {
-                if (serie.label.show && serie.runtimeLastCheckDataCount != serie.dataCount)
-                {
-                    m_ReinitLabel = true;
-                    serie.runtimeLastCheckDataCount = serie.dataCount;
-                }
-            }
             if (m_ReinitLabel)
             {
                 m_ReinitLabel = false;
@@ -573,44 +598,18 @@ namespace XCharts
 
         protected virtual void OnRefreshLabel()
         {
-
         }
 
         protected virtual void OnSizeChanged()
         {
-            InitTitle();
-            InitLegend();
-            InitTooltip();
-            InitSerieLabel();
+            m_Title.SetAllDirty();
+            m_Legend.SetAllDirty();
+            m_Tooltip.SetAllDirty();
+            m_Series.SetLabelDirty();
         }
 
         protected virtual void OnThemeChanged()
         {
-            switch (m_ThemeInfo.theme)
-            {
-                case Theme.Dark:
-                    m_ThemeInfo.Copy(ThemeInfo.Dark);
-                    break;
-                case Theme.Default:
-                    m_ThemeInfo.Copy(ThemeInfo.Default);
-                    break;
-                case Theme.Light:
-                    m_ThemeInfo.Copy(ThemeInfo.Light);
-                    break;
-            }
-            InitTitle();
-            InitLegend();
-            InitTooltip();
-        }
-
-        protected virtual void OnTitleChanged()
-        {
-            InitTitle();
-        }
-
-        protected virtual void OnLegendChanged()
-        {
-            InitLegend();
         }
 
         protected virtual void OnYMaxValueChanged()
@@ -840,30 +839,8 @@ namespace XCharts
 
             if (serieLabel.border)
             {
-                var borderWid = serieLabel.borderWidth;
-                p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig + borderWid);
-                p2 = new Vector3(centerPos.x + labelHalfWid + 2 * borderWid, centerPos.y + labelHalfHig + borderWid);
-                p3 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y + labelHalfHig);
-                p4 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y - labelHalfHig - 2 * borderWid);
-                var p5 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig - borderWid);
-                var p6 = new Vector3(centerPos.x - labelHalfWid - 2 * borderWid, centerPos.y - labelHalfHig - borderWid);
-                var p7 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y - labelHalfHig);
-                var p8 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y + labelHalfHig + 2 * borderWid);
-                if (serieLabel.rotate > 0)
-                {
-                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serieLabel.rotate);
-                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serieLabel.rotate);
-                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serieLabel.rotate);
-                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serieLabel.rotate);
-                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serieLabel.rotate);
-                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serieLabel.rotate);
-                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serieLabel.rotate);
-                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serieLabel.rotate);
-                }
-                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serieLabel.borderColor);
-                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serieLabel.borderColor);
+                ChartDrawer.DrawBorder(vh, centerPos, serieData.GetLabelWidth(), serieData.GetLabelHeight(),
+                    serieLabel.borderWidth, serieLabel.borderColor, serieLabel.rotate);
             }
         }
 

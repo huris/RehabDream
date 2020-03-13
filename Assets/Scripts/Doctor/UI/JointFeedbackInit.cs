@@ -65,7 +65,7 @@ namespace XCharts
 
                 LeftRightChart.title.show = true;
                 LeftRightChart.title.text = "左 右 弯 曲 角";
-                LeftRightChart.title.textFontSize = 20;
+                LeftRightChart.title.textStyle.fontSize = 20;
                 LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LeftRightChart.title.location.top = 2;
 
@@ -174,7 +174,7 @@ namespace XCharts
 
                 UponDownChart.title.show = true;
                 UponDownChart.title.text = "前 后 弯 曲 角";
-                UponDownChart.title.textFontSize = 20;
+                UponDownChart.title.textStyle.fontSize = 20;
                 UponDownChart.title.textStyle.fontStyle = FontStyle.Bold;
                 UponDownChart.title.location.top = 2;
 
@@ -284,7 +284,7 @@ namespace XCharts
 
                 ArmChart.title.show = true;
                 ArmChart.title.text = "胳 膊 弯 曲 角";
-                ArmChart.title.textFontSize = 20;
+                ArmChart.title.textStyle.fontSize = 20;
                 ArmChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ArmChart.title.location.top = 2;
 
@@ -394,7 +394,7 @@ namespace XCharts
 
                 ElbowChart.title.show = true;
                 ElbowChart.title.text = "肘 部 弯 曲 角";
-                ElbowChart.title.textFontSize = 20;
+                ElbowChart.title.textStyle.fontSize = 20;
                 ElbowChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ElbowChart.title.location.top = 2;
 
@@ -502,7 +502,7 @@ namespace XCharts
 
                 LegChart.title.show = true;
                 LegChart.title.text = "腿 部 与 中 垂 线";
-                LegChart.title.textFontSize = 20;
+                LegChart.title.textStyle.fontSize = 20;
                 LegChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LegChart.title.location.top = 2;
 
@@ -610,7 +610,7 @@ namespace XCharts
 
                 HipChart.title.show = true;
                 HipChart.title.text = "髋 关 节 弯 曲 角";
-                HipChart.title.textFontSize = 20;
+                HipChart.title.textStyle.fontSize = 20;
                 HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
 
@@ -724,7 +724,7 @@ namespace XCharts
 
                 KneeChart.title.show = true;
                 KneeChart.title.text = "膝 关 节";
-                KneeChart.title.textFontSize = 20;
+                KneeChart.title.textStyle.fontSize = 20;
                 KneeChart.title.textStyle.fontStyle = FontStyle.Bold;
                 KneeChart.title.location.top = 2;
 
@@ -832,7 +832,7 @@ namespace XCharts
 
                 AnkleChart.title.show = true;
                 AnkleChart.title.text = "踝 关 节";
-                AnkleChart.title.textFontSize = 20;
+                AnkleChart.title.textStyle.fontSize = 20;
                 AnkleChart.title.textStyle.fontStyle = FontStyle.Bold;
                 AnkleChart.title.location.top = 2;
 
