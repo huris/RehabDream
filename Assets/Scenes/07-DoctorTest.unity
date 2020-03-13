@@ -211,7 +211,7 @@ RectTransform:
   m_GameObject: {fileID: 101078437}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 401436616}
   m_Father: {fileID: 421171477}
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -484,7 +484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &283201838
 RectTransform:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1116,7 +1116,7 @@ RectTransform:
   m_GameObject: {fileID: 545644637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 593095117}
   m_Father: {fileID: 421171477}
@@ -1713,7 +1713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2220,7 +2220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2846,7 +2846,7 @@ MonoBehaviour:
   m_ThemeInfo:
     m_JsonData: 
     m_DataFromJson: 0
-    m_Theme: 0
+    m_Theme: 1
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_BackgroundColor:
       serializedVersion: 2
@@ -2904,27 +2904,31 @@ MonoBehaviour:
       rgba: 4291611852
     m_ColorPalette:
     - serializedVersion: 2
-      rgba: 4281415106
+      rgba: 4292518455
     - serializedVersion: 2
-      rgba: 4283712815
+      rgba: 4286554111
     - serializedVersion: 2
-      rgba: 4289241185
+      rgba: 4293510450
     - serializedVersion: 2
-      rgba: 4284842708
+      rgba: 4287853307
     - serializedVersion: 2
-      rgba: 4289644433
+      rgba: 4293124199
     - serializedVersion: 2
-      rgba: 4286816116
+      rgba: 4289618656
     - serializedVersion: 2
-      rgba: 4280452810
+      rgba: 4290307743
     - serializedVersion: 2
-      rgba: 4288324285
+      rgba: 4291924198
     - serializedVersion: 2
-      rgba: 4285821038
+      rgba: 4284275711
     - serializedVersion: 2
-      rgba: 4285556052
+      rgba: 4294163686
     - serializedVersion: 2
-      rgba: 4292070596
+      rgba: 4294284957
+    - serializedVersion: 2
+      rgba: 4293556355
+    - serializedVersion: 2
+      rgba: 4294950806
     m_CustomFont: {fileID: 0}
     m_CustomBackgroundColor:
       serializedVersion: 2
@@ -3006,7 +3010,7 @@ MonoBehaviour:
   m_Title:
     m_JsonData: 
     m_DataFromJson: 0
-    m_Show: 1
+    m_Show: 0
     m_Text: BarChart
     m_TextStyle:
       m_JsonData: 
@@ -3099,6 +3103,7 @@ MonoBehaviour:
     m_ForceENotation: 0
     m_PaddingLeftRight: 5
     m_PaddingTopBottom: 5
+    m_IgnoreDataDefaultContent: '-'
     m_BackgroundImage: {fileID: 0}
     m_TextStyle:
       m_JsonData: 
@@ -3189,7 +3194,8 @@ MonoBehaviour:
       m_StartAngle: 0
       m_EndAngle: 0
       m_Clockwise: 0
-      m_ArcShaped: 0
+      m_RoundCap: 0
+      m_RingGap: 10
       m_SplitNumber: 0
       m_GaugeType: 0
       m_GaugeAxis:
@@ -3332,6 +3338,10 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 0
         m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        m_BackgroundWidth: 0
+        m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+        m_CenterGap: 0
         m_BorderType: 0
         m_BorderWidth: 0
         m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3372,6 +3382,10 @@ MonoBehaviour:
           m_DataFromJson: 0
           m_Show: 0
           m_Color: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundWidth: 0
+          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
           m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3380,7 +3394,7 @@ MonoBehaviour:
         m_JsonData: 
         m_DataFromJson: 0
         m_Show: 0
-        m_textStyle:
+        m_TextStyle:
           m_JsonData: 
           m_DataFromJson: 0
           m_Font: {fileID: 0}
@@ -3399,6 +3413,8 @@ MonoBehaviour:
       m_ShowDataName: 0
       m_ShowDataIcon: 0
       m_Clip: 1
+      m_Ignore: 0
+      m_IgnoreValue: 0
       m_Data:
       - m_JsonData: 
         m_DataFromJson: 0
@@ -4179,7 +4195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+  m_Color: {r: 0.21568628, g: 0.63529414, b: 0.85490197, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4676,7 +4692,7 @@ RectTransform:
   m_GameObject: {fileID: 1949084381}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1585259615}
   m_Father: {fileID: 421171477}

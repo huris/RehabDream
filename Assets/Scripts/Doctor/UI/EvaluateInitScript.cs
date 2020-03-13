@@ -136,6 +136,9 @@ namespace XCharts
 
 
         // SoccerSpeedAndTime
+        public BarChart SoccerBar;
+        public Serie DistanceSerie, TimeSerie;
+
 
         void Start()
         {
@@ -332,11 +335,34 @@ namespace XCharts
 
 
                 // SoccerSpeedAndTime
+
+                SoccerBar = transform.Find("SoccerBar/BarChart").gameObject.GetComponent<BarChart>();
+                if (SoccerBar == null) SoccerBar = transform.Find("SoccerBar/BarChart").gameObject.AddComponent<BarChart>();
+
+                // 写入数据
+                SoccerBar.series.UpdateData(0, 0, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponSoccerDistance);
+                SoccerBar.series.UpdateData(0, 1, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponRightSoccerDistance);
+                SoccerBar.series.UpdateData(0, 2, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.RightSoccerDistance);
+                SoccerBar.series.UpdateData(0, 3, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownRightSoccerDistance);
+                SoccerBar.series.UpdateData(0, 4, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownSoccerDistance);
+                SoccerBar.series.UpdateData(0, 5, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownLeftSoccerDistance);
+                SoccerBar.series.UpdateData(0, 6, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.LeftSoccerDistance);
+                SoccerBar.series.UpdateData(0, 7, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponLeftSoccerDistance);
+                SoccerBar.series.UpdateData(0, 8, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance);
+                SoccerBar.series.UpdateData(0, 9, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance);
                 
-                
+                SoccerBar.series.UpdateData(1, 0, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponSoccerTime);
+                SoccerBar.series.UpdateData(1, 1, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponRightSoccerTime);
+                SoccerBar.series.UpdateData(1, 2, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.RightSoccerTime);
+                SoccerBar.series.UpdateData(1, 3, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownRightSoccerTime);
+                SoccerBar.series.UpdateData(1, 4, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownSoccerTime);
+                SoccerBar.series.UpdateData(1, 5, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownLeftSoccerTime);
+                SoccerBar.series.UpdateData(1, 6, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.LeftSoccerTime);
+                SoccerBar.series.UpdateData(1, 7, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponLeftSoccerTime);
+                SoccerBar.series.UpdateData(1, 8, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerTime);
+                SoccerBar.series.UpdateData(1, 9, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerTime);
 
-
-
+                SoccerBar.RefreshChart();
 
             }
             else
