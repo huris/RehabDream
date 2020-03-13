@@ -155,7 +155,7 @@ namespace XCharts
             ReadReportButton = transform.Find("DataBG/ReadReportButton").gameObject;
 
             Report = transform.parent.parent.parent.Find("Report").gameObject;
-            EvaluationToggle = transform.parent.parent.parent.Find("Report/Evaluation").GetComponent<Toggle>();
+            EvaluationToggle = transform.parent.parent.parent.Find("Report/ReportToggle/EvaluationToggle").GetComponent<Toggle>();
 
             EvaluationSelect = transform.Find("DataBG/EvaluationSelect").GetComponent<Dropdown>();
             //SaveButton = transform.Find("DataBG/SaveButton").gameObject;

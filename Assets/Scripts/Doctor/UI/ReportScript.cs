@@ -17,6 +17,9 @@ public class ReportScript : MonoBehaviour
     string picName = ".png";//图片名称
     public string pdfName = ".pdf";//pdf名称    
 
+
+    
+
     public static string EvaluationReportPath = "Data/报告/评估报告";  //保存路径
     public static string TrainingReportPath = "Data/报告/训练报告";  //保存路径
     public string ReportPath = "";  // 报告完整路径
@@ -29,8 +32,8 @@ public class ReportScript : MonoBehaviour
 
     void OnEnable()
     {
-        EvaluationToggle = transform.Find("Evaluation").GetComponent<Toggle>();
-        TrainingToggle = transform.Find("Training").GetComponent<Toggle>();
+        EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle").GetComponent<Toggle>();
+        TrainingToggle = transform.Find("ReportToggle/TrainingToggle").GetComponent<Toggle>();
 
         x = 662; y = 59;   // 设置起始点
         width = 595; height = 842;  // 设置大小
@@ -50,15 +53,18 @@ public class ReportScript : MonoBehaviour
     {
         ReportPath = EvaluationReportPath + "/" + DoctorDataManager.instance.doctor.patient.PatientID.ToString() + DoctorDataManager.instance.doctor.patient.PatientName;
 
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.EvaluationIndex + 1).ToString() + "次"
+            + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime.Substring(0, 8);
+
         if (!Directory.Exists(ReportPath))
         {
             Directory.CreateDirectory(ReportPath);
         }
 
-        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.EvaluationIndex+1).ToString() + "次"
-            + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime;
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.EvaluationIndex + 1).ToString() + "次"
+            + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime.Substring(0, 8);
 
-        if(File.Exists(ReportPath + "/" + pdfName) == false)
+        if (File.Exists(ReportPath + pdfName) == false)
         {
             StartCoroutine(GetScreenShot(ReportPath));
         }
@@ -68,15 +74,18 @@ public class ReportScript : MonoBehaviour
     {
         ReportPath = TrainingReportPath + "/" + DoctorDataManager.instance.doctor.patient.PatientID.ToString() + DoctorDataManager.instance.doctor.patient.PatientName;
 
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.TrainingPlayIndex + 1).ToString() + "次"
+            + DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlayIndex].TrainingStartTime.Substring(0, 8);
+
         if (!Directory.Exists(ReportPath))
         {
             Directory.CreateDirectory(ReportPath);
         }
 
         ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.TrainingPlayIndex+1).ToString() + "次"
-            + DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlayIndex].TrainingStartTime;
+            + DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlayIndex].TrainingStartTime.Substring(0, 8);
 
-        if (File.Exists(ReportPath + "/" + pdfName) == false)
+        if (File.Exists(ReportPath + pdfName) == false)
         {
             StartCoroutine(GetScreenShot(ReportPath));
         }
@@ -92,14 +101,16 @@ public class ReportScript : MonoBehaviour
 
         byte[] bytes = tex.EncodeToPNG();
 
-        //File.WriteAllBytes(ReportPath + "/" + picName, bytes);//保存纹理贴图为图片
+        File.WriteAllBytes(ReportPath + picName, bytes);//保存纹理贴图为图片
 
         yield return new WaitForSeconds(0.1f);
 
         // 图片转化为pdf
         Document doc = new Document(pageSize, 0, 0, 0, 0);//创建一个A4文档
-        PdfWriter.GetInstance(doc, new FileStream(ReportPath + "/" + pdfName, FileMode.Create));//该文档创建一个pdf文件实例
-        iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(new FileStream(ReportPath + "/" + picName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));//创建一个Image实例
+
+        PdfWriter.GetInstance(doc, new FileStream(ReportPath + pdfName, FileMode.Create));//该文档创建一个pdf文件实例
+
+        iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(new FileStream(ReportPath + picName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));//创建一个Image实例
                                                                                                                                                                          //限制图片不超出A4范围
         if ((image.Height > pageSize.Height) || (image.Width > pageSize.Width))
         {
@@ -121,7 +132,7 @@ public class ReportScript : MonoBehaviour
 
     public void PringPdf()
     {
-        ReportPath = ReportPath + "/" + pdfName;
+        ReportPath = ReportPath + pdfName;
         ReportPath = ReportPath.Replace("/", "\\");
         //UnityEngine.Debug.Log(ttpdfpath);
 
