@@ -215,7 +215,7 @@ namespace XCharts
                 else if (TrainingEvaluationRate >= 70f) { Rank4.SetActive(true); EvaluationRank.text = "4 级"; }
                 else { Rank5.SetActive(true); EvaluationRank.text = "5 级"; }
 
-                EvaluationScore.text = TrainingEvaluationRate.ToString("0.00");
+                EvaluationScore.text = TrainingEvaluationRate.ToString("0.00") + " 分";
 
                 EvaluationStartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationStartTime;
                 EvaluationEndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationEndTime;
@@ -223,7 +223,6 @@ namespace XCharts
                 // 计算有效训练时长
                 EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 3600 + long.Parse(EvaluationEndTime.text.Substring(12, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(15, 2))
                                            - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + " 秒";
-
 
 
                 // SpeedRadar
