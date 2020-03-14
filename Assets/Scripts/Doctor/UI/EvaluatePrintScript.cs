@@ -114,26 +114,36 @@ namespace XCharts
                 else {EvaluationRank.text = "5 级"; }
 
                 EvaluationResult = transform.Find("Evaluation/EvaluationInfo/Result/EvaluationResult").GetComponent<Text>();
-                List<string> HemiPos = new List<string>();  // 偏瘫方位
+                EvaluationResult.text = "各方位正常";
 
-                if (evaluation.soccerDistance.UponSoccerDistance < 0.75f) HemiPos.Add("正上");
-                if (evaluation.soccerDistance.UponRightSoccerDistance < 0.75f) HemiPos.Add("右上");
-                if (evaluation.soccerDistance.RightSoccerDistance < 0.75f) HemiPos.Add("正右");
-                if (evaluation.soccerDistance.DownRightSoccerDistance < 0.75f) HemiPos.Add("右下");
-                if (evaluation.soccerDistance.DownSoccerDistance < 0.75f) HemiPos.Add("正下");
-                if (evaluation.soccerDistance.DownLeftSoccerDistance < 0.75f) HemiPos.Add("左下");
-                if (evaluation.soccerDistance.LeftSoccerDistance < 0.75f) HemiPos.Add("正左");
-                if (evaluation.soccerDistance.UponLeftSoccerDistance < 0.75f) HemiPos.Add("左上");
-                if (evaluation.soccerDistance.FrontSoccerDistance < 0.75f) HemiPos.Add("正前");
-                if (evaluation.soccerDistance.BehindSoccerDistance < 0.75f) HemiPos.Add("正后");
+                List<Tuple<float, string> > HemiPos = new List<Tuple<float, string> >();  // 偏瘫方位
 
-                if (HemiPos.Count > 0) EvaluationResult.text = HemiPos[0];
-                for(int i = 1; i < HemiPos.Count; i++)
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponSoccerDistance, "正上"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponRightSoccerDistance, "右上"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.RightSoccerDistance, "正右"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownRightSoccerDistance, "右下"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownSoccerDistance, "正下"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownLeftSoccerDistance, "左下"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.LeftSoccerDistance, "正左"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponLeftSoccerDistance, "左上"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.FrontSoccerDistance, "正前"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.BehindSoccerDistance, "正后"));
+
+                HemiPos.Sort();  //升序
+
+                int HemiPosCount = 0;
+                if (HemiPos[0].Item1 < 0.75f)
                 {
-                    EvaluationResult.text += "/" + HemiPos[i];
+                    EvaluationResult.text = HemiPos[0].Item2;
+                }
+                for(int i = 1; i<4 && HemiPos[i].Item1 < 0.75f; i++)
+                {
+                    HemiPosCount++;
+
+                    EvaluationResult.text += "/" + HemiPos[i].Item2;
                 }
 
-                EvaluationResult.transform.localScale = new Vector2(90f + 10 * HemiPos.Count , 22.9f);
+                EvaluationResult.transform.localScale = new Vector2(80f + 20 * HemiPosCount, 22.9f);
 
                 EvaluationTime = transform.Find("Evaluation/EvaluationInfo/Time/EvaluationTime").GetComponent<Text>();
                 EvaluationTime.text = evaluation.EvaluationStartTime;
