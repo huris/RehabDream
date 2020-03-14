@@ -392,52 +392,33 @@ namespace XCharts
 
         public void DrawSideLine()
         {
+            VectorLine.Destroy(ref SideLine);
 
             SideLine = new VectorLine("SideLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             SideLine.smoothColor = false;   // 设置平滑颜色
             SideLine.smoothWidth = false;   // 设置平滑宽度
             SideLine.color = SideLineColor;  // 设置颜色
 
-            FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
-            BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
-
-            NowFrontLine = new VectorLine("NowFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            NowFrontLine.smoothColor = false;   // 设置平滑颜色
-            NowFrontLine.smoothWidth = false;   // 设置平滑宽度
-            NowFrontLine.color = ConvexHullLineColor;  // 设置颜色
-            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y + 50));
-            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y - 50));
-            NowFrontLine.Draw();
-
-            NowBehindLine = new VectorLine("NowBehindLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            NowBehindLine.smoothColor = false;   // 设置平滑颜色
-            NowBehindLine.smoothWidth = false;   // 设置平滑宽度
-            NowBehindLine.color = ConvexHullLineColor;  // 设置颜色
-            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y + 50));
-            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y - 50));
-            NowBehindLine.Draw();
-
-            if (SingleEvaluation > 0)
+            if (NowConvexHullToggle.isOn && LastConvexHullToggle.isOn)
             {
-                LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastFrontLine.smoothColor = false;   // 设置平滑颜色
-                LastFrontLine.smoothWidth = false;   // 设置平滑宽度
-                LastFrontLine.color = LastConvexHullLineColor;  // 设置颜色
-                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
-                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
-                LastFrontLine.Draw();
+                FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
+                BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
 
-                LastBehindLine = new VectorLine("LastBehindLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastBehindLine.smoothColor = false;   // 设置平滑颜色
-                LastBehindLine.smoothWidth = false;   // 设置平滑宽度
-                LastBehindLine.color = LastConvexHullLineColor;  // 设置颜色
-                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
-                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
-                LastBehindLine.Draw();
-
-                FrontX = Mathf.Max(FrontX, SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
+                BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient);
                 BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
             }
+            else if (NowConvexHullToggle.isOn)
+            {
+                FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
+                BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
+            }
+            else if (LastConvexHullToggle.isOn)
+            {
+                FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient;
+                BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient;
+            }
+
+            //print(FrontX + " " + SideModelGravity.y + " " + BehindX);
 
             SideLine.points2.Add(new Vector2(FrontX, SideModelGravity.y));
             SideLine.points2.Add(new Vector2(BehindX, SideModelGravity.y));
@@ -470,43 +451,26 @@ namespace XCharts
 
         public void DrawNowSideLine()
         {
-            VectorLine.Destroy(ref SideLine);
-            VectorLine.Destroy(ref NowFrontLine);
-            VectorLine.Destroy(ref NowBehindLine);
-
-            SideLine = new VectorLine("SideLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            SideLine.smoothColor = false;   // 设置平滑颜色
-            SideLine.smoothWidth = false;   // 设置平滑宽度
-            SideLine.color = SideLineColor;  // 设置颜色
-
-            FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
-            BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
+            //VectorLine.Destroy(ref NowFrontLine);
+            //VectorLine.Destroy(ref NowBehindLine);
 
             NowFrontLine = new VectorLine("NowFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             NowFrontLine.smoothColor = false;   // 设置平滑颜色
             NowFrontLine.smoothWidth = false;   // 设置平滑宽度
             NowFrontLine.color = ConvexHullLineColor;  // 设置颜色
-            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y + 50));
-            NowFrontLine.points2.Add(new Vector2(FrontX, SideModelGravity.y - 50));
+            NowFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
+            NowFrontLine.points2.Add(new Vector2(SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
             NowFrontLine.Draw();
 
             NowBehindLine = new VectorLine("NowBehindLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             NowBehindLine.smoothColor = false;   // 设置平滑颜色
             NowBehindLine.smoothWidth = false;   // 设置平滑宽度
             NowBehindLine.color = ConvexHullLineColor;  // 设置颜色
-            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y + 50));
-            NowBehindLine.points2.Add(new Vector2(BehindX, SideModelGravity.y - 50));
+            NowBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y + 50));
+            NowBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
             NowBehindLine.Draw();
 
-            if (LastConvexHullToggle.isOn)
-            {
-                FrontX = Mathf.Max(FrontX, SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
-                BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
-            }
-
-            SideLine.points2.Add(new Vector2(FrontX, SideModelGravity.y));
-            SideLine.points2.Add(new Vector2(BehindX, SideModelGravity.y));
-            SideLine.Draw();
+            DrawSideLine();
 
         }
 
@@ -521,14 +485,22 @@ namespace XCharts
             }
             else
             {
-                NowConvexHullToggle.isOn = false;
+                //NowConvexHullToggle.isOn = false;
 
                 VectorLine.Destroy(ref ConvexHullLine);
                 VectorLine.Destroy(ref ConvexHullArea);
 
                 VectorLine.Destroy(ref LastNowConvexHullArea);
 
-                VectorLine.Destroy(ref SideLine);
+                if (LastConvexHullToggle.isOn)
+                {
+                    DrawSideLine();
+                }
+                else
+                {
+                    VectorLine.Destroy(ref SideLine);
+                }
+
                 VectorLine.Destroy(ref NowFrontLine);
                 VectorLine.Destroy(ref NowBehindLine);
             }
@@ -536,17 +508,8 @@ namespace XCharts
 
         public void DrawLastSideLine()
         {
-            VectorLine.Destroy(ref SideLine);
-            VectorLine.Destroy(ref LastFrontLine);
-            VectorLine.Destroy(ref LastBehindLine);
-
-            SideLine = new VectorLine("SideLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            SideLine.smoothColor = false;   // 设置平滑颜色
-            SideLine.smoothWidth = false;   // 设置平滑宽度
-            SideLine.color = SideLineColor;  // 设置颜色
-
-            FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient;
-            BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient;
+            //VectorLine.Destroy(ref LastFrontLine);
+            //VectorLine.Destroy(ref LastBehindLine);
 
             LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 6.0f, Vectrosity.LineType.Continuous, Joins.Weld);
             LastFrontLine.smoothColor = false;   // 设置平滑颜色
@@ -564,17 +527,10 @@ namespace XCharts
             LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - 50));
             LastBehindLine.Draw();
 
-            if (NowConvexHullToggle.isOn)
-            {
-                FrontX = Mathf.Max(FrontX, SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient);
-                BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient);
-            }
-
-            SideLine.points2.Add(new Vector2(FrontX, SideModelGravity.y));
-            SideLine.points2.Add(new Vector2(BehindX, SideModelGravity.y));
-            SideLine.Draw();
-            
+            DrawSideLine();
         }
+
+
 
         public void DrawLastContexHullToggleChange()
         {
@@ -585,14 +541,21 @@ namespace XCharts
             }
             else
             {
-                LastConvexHullToggle.isOn = false;
+                //LastConvexHullToggle.isOn = false;
 
                 VectorLine.Destroy(ref LastConvexHullLine);
                 VectorLine.Destroy(ref LastConvexHullArea);
 
                 VectorLine.Destroy(ref LastNowConvexHullArea);
 
-                VectorLine.Destroy(ref SideLine);
+                if (NowConvexHullToggle.isOn)
+                {
+                    DrawSideLine();
+                }
+                else
+                {
+                    VectorLine.Destroy(ref SideLine);
+                }
                 VectorLine.Destroy(ref LastFrontLine);
                 VectorLine.Destroy(ref LastBehindLine);
             }
