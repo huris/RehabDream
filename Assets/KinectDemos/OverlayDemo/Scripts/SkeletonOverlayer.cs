@@ -94,7 +94,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Color ConvexHullAreaColor;   // 凸包内部颜色
     public bool ConvexHullIsDraw;   // 凸包绘制完成
 
-
+    public long SoccerHighlightTime;    // 足球高亮持续时间
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -213,6 +213,9 @@ public class SkeletonOverlayer : MonoBehaviour
         
         // 进度条刚开始隐藏
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
+
+        SoccerHighlightTime = 100;   // 足球高亮得分刚开始为100,计算时每次除以100
+    
     }
 
     void Update()
@@ -332,6 +335,11 @@ public class SkeletonOverlayer : MonoBehaviour
                                             transform.GetChild(0).position = SpineMid;
                                             FirstFistZ = posJoint.z;
                                             SoccerballReset();
+                                            
+                                            for (int z = 0; z < 9; z++)
+                                            {
+                                                transform.GetChild(z).gameObject.SetActive(true);
+                                            }
                                         }
                                         else
                                         {
@@ -355,10 +363,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                         //{
                                         //	Soccerball.transform.position = new Vector3(1f, 1f, 46f);
                                         //}
-                                        for (int z = 0; z < 9; z++)
-                                        {
-                                            transform.GetChild(z).gameObject.SetActive(true);
-                                        }
+                                        //for (int z = 0; z < 9; z++)
+                                        //{
+                                        //    transform.GetChild(z).gameObject.SetActive(true);
+                                        //}
 
                                         RayCastResult(posJoint);    // 发出射线射到哪个足球
                                                                     //DrawRayLine(camera.transform.position, posJoint);
@@ -367,6 +375,8 @@ public class SkeletonOverlayer : MonoBehaviour
                                 }
                                 else if (i == 23 && (HandTipLeft - posJoint).magnitude > 0.8f)
                                 {
+                                    SoccerHighlightTime = 100;  // 变回100
+
                                     if(evaluation.Points.Count > 0)
                                     {
                                         if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
@@ -551,6 +561,8 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             if (Soccerball == null)
             {
+                SoccerHighlightTime = 100;  // 变回100
+
                 Soccerball = hit.collider.gameObject;
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
@@ -559,6 +571,7 @@ public class SkeletonOverlayer : MonoBehaviour
             }
             else if (Soccerball != hit.collider.gameObject)
             {
+                SoccerHighlightTime = 100;  // 变回100
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
                     Soccerball.GetComponent<Highlighter>().ConstantOff();
@@ -571,13 +584,17 @@ public class SkeletonOverlayer : MonoBehaviour
             }
             else if (Soccerball.GetComponent<Highlighter>() != null)
             {
+                SoccerHighlightTime++;  // 每次加1
+
                 Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
             }
-
+            
             SoccerballMove(FistPos);
         }
         else
         {
+            SoccerHighlightTime = 100;  // 变回100
+
             if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
             {
                 Soccerball.GetComponent<Highlighter>().ConstantOff();
@@ -597,6 +614,7 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y += sdir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponSoccerTime++;
+            evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
         }
         else if (Soccerball.name == "Soccerball1")
         {
@@ -605,6 +623,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponRightSoccerTime++;
+            evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball2")
         {
@@ -612,6 +632,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x -= sdir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.RightSoccerTime++;
+            evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball3")
         {
@@ -620,6 +642,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownRightSoccerTime++;
+            evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball4")
         {
@@ -627,6 +651,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y -= sdir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownSoccerTime++;
+            evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball5")
         {
@@ -635,6 +661,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y -= ddir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownLeftSoccerTime++;
+            evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball6")
         {
@@ -642,6 +670,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.x += sdir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.LeftSoccerTime++;
+            evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball7")
         {
@@ -650,6 +680,8 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y += ddir;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponLeftSoccerTime++;
+            evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
         }
         else if (Soccerball.name == "Soccerball")
         {
@@ -683,6 +715,8 @@ public class SkeletonOverlayer : MonoBehaviour
                 }
 
                 evaluation.soccerDistance.FrontSoccerTime++;
+                evaluation.soccerDistance.FrontSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
             }
             else if(TempPos.x < 3.5f) 
             { 
@@ -694,6 +728,8 @@ public class SkeletonOverlayer : MonoBehaviour
                     evaluation.soccerDistance.BehindSoccerDistance = tempDis;
                 }
                 evaluation.soccerDistance.BehindSoccerTime++;
+                evaluation.soccerDistance.BehindSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
             }
             TempPos.x = TempPos.y = TempPos.z = TempPos.x + ZOffset * ScaleOffset;
             //print(FistPos + " " + FirstFistZ);

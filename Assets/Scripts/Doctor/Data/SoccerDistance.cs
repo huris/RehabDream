@@ -14,6 +14,16 @@ public class SoccerDistance
     public float UponLeftSoccerDistance { get;  set; } = 0.0f;
     public float FrontSoccerDistance { get;  set; } = 0.0f;
     public float BehindSoccerDistance { get; set; } = 0.0f;
+    public long UponSoccerScore { get; set; } = 0;
+    public long UponRightSoccerScore { get; set; } = 0;
+    public long RightSoccerScore { get; set; } = 0;
+    public long DownRightSoccerScore { get; set; } = 0;
+    public long DownSoccerScore { get; set; } = 0;
+    public long DownLeftSoccerScore { get; set; } = 0;
+    public long LeftSoccerScore { get; set; } = 0;
+    public long UponLeftSoccerScore { get; set; } = 0;
+    public long FrontSoccerScore { get; set; } = 0;
+    public long BehindSoccerScore { get; set; } = 0;
     public long UponSoccerTime { get; set; } = 0;
     public long UponRightSoccerTime { get; set; } = 0;
     public long RightSoccerTime { get; set; } = 0;
@@ -30,6 +40,9 @@ public class SoccerDistance
     public SoccerDistance(float UponSoccerDistance, float UponRightSoccerDistance, float RightSoccerDistance, float DownRightSoccerDistance,
         float DownSoccerDistance, float DownLeftSoccerDistance, float LeftSoccerDistance, float UponLeftSoccerDistance, 
         float FrontSoccerDistance, float BehindSoccerDistance,
+        long UponSoccerScore, long UponRightSoccerScore, long RightSoccerScore, long DownRightSoccerScore,
+        long DownSoccerScore, long DownLeftSoccerScore, long LeftSoccerScore, long UponLeftSoccerScore,
+        long FrontSoccerScore, long BehindSoccerScore,
         long UponSoccerTime, long UponRightSoccerTime, long RightSoccerTime, long DownRightSoccerTime,
         long DownSoccerTime, long DownLeftSoccerTime, long LeftSoccerTime, long UponLeftSoccerTime,
         long FrontSoccerTime, long BehindSoccerTime)
@@ -44,6 +57,17 @@ public class SoccerDistance
         this.UponLeftSoccerDistance = UponLeftSoccerDistance;
         this.FrontSoccerDistance = FrontSoccerDistance;
         this.BehindSoccerDistance = BehindSoccerDistance;
+
+        this.UponSoccerScore = UponSoccerScore;
+        this.UponRightSoccerScore = UponRightSoccerScore;
+        this.RightSoccerScore = RightSoccerScore;
+        this.DownRightSoccerScore = DownRightSoccerScore;
+        this.DownSoccerScore = DownSoccerScore;
+        this.DownLeftSoccerScore = DownLeftSoccerScore;
+        this.LeftSoccerScore = LeftSoccerScore;
+        this.UponLeftSoccerScore = UponLeftSoccerScore;
+        this.FrontSoccerScore = FrontSoccerScore;
+        this.BehindSoccerScore = BehindSoccerScore;
 
         this.UponSoccerTime = UponSoccerTime;
         this.UponRightSoccerTime = UponRightSoccerTime;
@@ -70,6 +94,17 @@ public class SoccerDistance
         this.UponLeftSoccerDistance = soccerDistance.UponLeftSoccerDistance;
         this.FrontSoccerDistance = soccerDistance.FrontSoccerDistance;
         this.BehindSoccerDistance = soccerDistance.BehindSoccerDistance;
+
+        this.UponSoccerScore = soccerDistance.UponSoccerScore;
+        this.UponRightSoccerScore = soccerDistance.UponRightSoccerScore;
+        this.RightSoccerScore = soccerDistance.RightSoccerScore;
+        this.DownRightSoccerScore = soccerDistance.DownRightSoccerScore;
+        this.DownSoccerScore = soccerDistance.DownSoccerScore;
+        this.DownLeftSoccerScore = soccerDistance.DownLeftSoccerScore;
+        this.LeftSoccerScore = soccerDistance.LeftSoccerScore;
+        this.UponLeftSoccerScore = soccerDistance.UponLeftSoccerScore;
+        this.FrontSoccerScore = soccerDistance.FrontSoccerScore;
+        this.BehindSoccerScore = soccerDistance.BehindSoccerScore;
 
         this.UponSoccerTime = soccerDistance.UponSoccerTime;
         this.UponRightSoccerTime = soccerDistance.UponRightSoccerTime;
@@ -101,6 +136,17 @@ public class SoccerDistance
         this.FrontSoccerDistance = FrontSoccerDistance;
         this.BehindSoccerDistance = BehindSoccerDistance;
 
+        this.UponSoccerScore = UponSoccerScore;
+        this.UponRightSoccerScore = UponRightSoccerScore;
+        this.RightSoccerScore = RightSoccerScore;
+        this.DownRightSoccerScore = DownRightSoccerScore;
+        this.DownSoccerScore = DownSoccerScore;
+        this.DownLeftSoccerScore = DownLeftSoccerScore;
+        this.LeftSoccerScore = LeftSoccerScore;
+        this.UponLeftSoccerScore = UponLeftSoccerScore;
+        this.FrontSoccerScore = FrontSoccerScore;
+        this.BehindSoccerScore = BehindSoccerScore;
+
         this.UponSoccerTime = UponSoccerTime;
         this.UponRightSoccerTime = UponRightSoccerTime;
         this.RightSoccerTime = RightSoccerTime;
@@ -111,6 +157,15 @@ public class SoccerDistance
         this.UponLeftSoccerTime = UponLeftSoccerTime;
         this.FrontSoccerTime = FrontSoccerTime;
         this.BehindSoccerTime = BehindSoccerTime;
+    }
+
+    public float SumScore()
+    {
+        return 1.0f * this.UponSoccerScore / this.UponSoccerTime + 1.0f * this.UponRightSoccerScore / this.UponRightSoccerTime
+            + 1.0f * this.RightSoccerScore / this.RightSoccerTime + 1.0f * this.DownRightSoccerScore / this.DownRightSoccerTime
+            + 1.0f * this.DownSoccerScore / this.DownSoccerTime + 1.0f * this.DownLeftSoccerScore / this.DownLeftSoccerTime
+            + 1.0f * this.LeftSoccerScore / this.LeftSoccerTime + 1.0f * this.UponLeftSoccerScore / this.UponLeftSoccerTime
+            + 1.0f * this.FrontSoccerScore / this.FrontSoccerTime + 1.0f * this.BehindSoccerScore / this.BehindSoccerTime;
     }
 
     //public float[] GetMaxSoccerDistances()

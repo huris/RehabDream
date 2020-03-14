@@ -31,7 +31,7 @@ public class Evaluation
 
     public void SetEvaluationScore()    // 求评估分数
     {
-        this.EvaluationScore = 0.0f;
+        this.EvaluationScore = this.soccerDistance.SumScore();
     }
 
     public void SetEvaluationStartTime(string EvaluationStartTime)

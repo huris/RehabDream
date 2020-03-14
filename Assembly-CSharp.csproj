@@ -62,10 +62,6 @@
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
-     <Compile Include="Assets\DoctorTestScript.cs" />
-     <Compile Include="Assets\EvaluationSceneInit.cs" />
-     <Compile Include="Assets\FunctionManagerInitScript.cs" />
-     <Compile Include="Assets\GetUsesClrTex.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -355,10 +351,14 @@
      <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarTrainingScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DisplayAllPatientScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DoctorNameDisplayScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\DoctorTestScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DoctorUIExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluateInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluatePrintScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationSceneInit.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\FunctionManagerInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\GetUsesClrTex.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackEvaluationScript.cs" />
@@ -379,6 +379,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
@@ -507,7 +508,6 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
-     <Compile Include="Assets\SoccerBarTest.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
