@@ -116,12 +116,27 @@ namespace XCharts
                 EvaluationResult = transform.Find("Evaluation/EvaluationInfo/Result/EvaluationResult").GetComponent<Text>();
                 List<string> HemiPos = new List<string>();  // 偏瘫方位
 
-                //if(evaluation.soccerDistance.UponSoccerDistance)
+                if (evaluation.soccerDistance.UponSoccerDistance < 0.75f) HemiPos.Add("正上");
+                if (evaluation.soccerDistance.UponRightSoccerDistance < 0.75f) HemiPos.Add("右上");
+                if (evaluation.soccerDistance.RightSoccerDistance < 0.75f) HemiPos.Add("正右");
+                if (evaluation.soccerDistance.DownRightSoccerDistance < 0.75f) HemiPos.Add("右下");
+                if (evaluation.soccerDistance.DownSoccerDistance < 0.75f) HemiPos.Add("正下");
+                if (evaluation.soccerDistance.DownLeftSoccerDistance < 0.75f) HemiPos.Add("左下");
+                if (evaluation.soccerDistance.LeftSoccerDistance < 0.75f) HemiPos.Add("正左");
+                if (evaluation.soccerDistance.UponLeftSoccerDistance < 0.75f) HemiPos.Add("左上");
+                if (evaluation.soccerDistance.FrontSoccerDistance < 0.75f) HemiPos.Add("正前");
+                if (evaluation.soccerDistance.BehindSoccerDistance < 0.75f) HemiPos.Add("正后");
 
+                if (HemiPos.Count > 0) EvaluationResult.text = HemiPos[0];
+                for(int i = 1; i < HemiPos.Count; i++)
+                {
+                    EvaluationResult.text += "/" + HemiPos[i];
+                }
 
+                EvaluationResult.transform.localScale = new Vector2(90f + 10 * HemiPos.Count , 22.9f);
 
                 EvaluationTime = transform.Find("Evaluation/EvaluationInfo/Time/EvaluationTime").GetComponent<Text>();
-
+                EvaluationTime.text = evaluation.EvaluationStartTime;
 
                 //    //if (DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].EvaluationScore == 0.0f)
                 //    //{
