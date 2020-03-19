@@ -25,7 +25,25 @@ namespace XCharts
         public Text EvaluationResult;
         public Text EvaluationTime;
 
-        // Directions
+        // Chart
+        public List<Point> EvaluationPoints;
+        public List<Point> LastEvaluationPoints;
+        public int SingleEvaluation;
+
+        public SoccerDistance tempSoccerDistance;
+
+        public GameObject ManImage; // 男患者
+        public GameObject ManSideImage; // 男患者侧身
+        public GameObject WomanImage;   // 女患者
+        public GameObject WomanSideImage;   // 女患者侧身
+
+        // 先平移,后放缩
+        public Vector2 ModelGravity;   // 模型重心坐标
+        public Vector2 SideModelGravity;    // 模型侧身重心坐标
+        public Vector2 GravityDiff;    // 重心偏移
+        public float HeightPixel;   // 模型身高像素
+
+
         public RadarChart DirectionRadarChart; // 雷达图
         public Serie serie, serie1;
         public Text RadarArea; // 雷达图面积
@@ -140,13 +158,147 @@ namespace XCharts
                 {
                     HemiPosCount++;
 
-                    EvaluationResult.text += "/" + HemiPos[i].Item2;
+                    EvaluationResult.text += "|" + HemiPos[i].Item2;
                 }
 
                 EvaluationResult.transform.localScale = new Vector2(80f + 20 * HemiPosCount, 22.9f);
 
                 EvaluationTime = transform.Find("Evaluation/EvaluationInfo/Time/EvaluationTime").GetComponent<Text>();
                 EvaluationTime.text = evaluation.EvaluationStartTime;
+
+
+                // Chart
+                SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
+                EvaluationPoints = new List<Point>();
+                foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+                {
+                    EvaluationPoints.Add(new Point(point.x, point.y));
+                }
+
+                tempSoccerDistance = new SoccerDistance(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance);
+
+                ManImage = transform.Find("Chart/RadarChart/ManImage").gameObject; // 男患者
+                ManSideImage = transform.Find("Chart/RadarChart/ManSideImage").gameObject;  // 男患者侧身
+                WomanImage = transform.Find("Chart/RadarChart/WomanImage").gameObject; ;   // 女患者
+                WomanSideImage = transform.Find("Chart/RadarChart/WomanSideImage").gameObject; ;   // 女患者侧身
+
+
+
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                {
+                    ManImage.SetActive(true); ManSideImage.SetActive(true);
+                    WomanImage.SetActive(false); WomanSideImage.SetActive(false);
+
+                    //WidthPixel = 100;
+                    HeightPixel = 32;
+
+                    ModelGravity = new Vector2(476.5f, 672.5f);
+
+                    SideModelGravity = new Vector2(615f, 672.5f);
+                }
+                else
+                {
+                    ManImage.SetActive(false); ManSideImage.SetActive(false);
+                    WomanImage.SetActive(true); WomanSideImage.SetActive(true);
+
+                    //WidthPixel = 80;
+                    HeightPixel = 32;
+
+                    ModelGravity = new Vector2(476.5f, 682.5f);
+                    SideModelGravity = new Vector2(615f, 682.5f);
+                }
+
+                GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
+                EvaluationPoints[0] = new Point(ModelGravity);
+
+                for (int i = 1; i < EvaluationPoints.Count; i++)
+                {
+                    EvaluationPoints[i].x += GravityDiff.x;
+                    EvaluationPoints[i].y += GravityDiff.y;
+
+                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                }
+
+
+                if (SingleEvaluation > 0)
+                {
+                    LastEvaluationPoints = new List<Point>();
+                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
+                    {
+                        LastEvaluationPoints.Add(new Point(point.x, point.y));
+                    }
+
+                    GravityDiff = new Vector2(ModelGravity.x - LastEvaluationPoints[0].x, ModelGravity.y - LastEvaluationPoints[0].y);
+                    LastEvaluationPoints[0] = new Point(ModelGravity);
+
+                    for (int i = 1; i < LastEvaluationPoints.Count; i++)
+                    {
+                        LastEvaluationPoints[i].x += GravityDiff.x;
+                        LastEvaluationPoints[i].y += GravityDiff.y;
+
+                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
+                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                    }
+                }
+
+                // 默认画凸包图
+
+                //ConvexHullLineColor = new Color32(255, 0, 0, 255);
+                //ConvexHullAreaColor = new Color32(255, 0, 0, 40);
+
+                //LastConvexHullLineColor = new Color32(0, 255, 0, 255);
+                //LastConvexHullAreaColor = new Color32(0, 255, 0, 40);
+
+                //LastNowOverlappingColor = new Color32(255, 255, 0, 15);
+
+                //SideLineColor = new Color32(255, 140, 5, 255);
+
+                //LastConvexHullText.text = "上次评估";
+                //NowConvexHullText.text = "本次评估";
+
+                ////// 画侧身直线
+                ////DrawSideLine();
+
+                //// 画凸包图
+                //ContexHullToggle.isOn = true;
+                ////DrawContexHullToggleChange();
+
+
+                //// SoccerSpeedAndTime
+
+                //SoccerBar = transform.Find("SoccerBar/BarChart").gameObject.GetComponent<BarChart>();
+                //if (SoccerBar == null) SoccerBar = transform.Find("SoccerBar/BarChart").gameObject.AddComponent<BarChart>();
+
+                //// 写入数据
+                //SoccerBar.series.UpdateData(0, 0, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 1, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponRightSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 2, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.RightSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 3, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownRightSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 4, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 5, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownLeftSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 6, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.LeftSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 7, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponLeftSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 8, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance);
+                //SoccerBar.series.UpdateData(0, 9, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance);
+
+                //SoccerBar.series.UpdateData(1, 0, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponSoccerTime);
+                //SoccerBar.series.UpdateData(1, 1, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponRightSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponRightSoccerTime);
+                //SoccerBar.series.UpdateData(1, 2, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.RightSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.RightSoccerTime);
+                //SoccerBar.series.UpdateData(1, 3, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownRightSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownRightSoccerTime);
+                //SoccerBar.series.UpdateData(1, 4, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownSoccerTime);
+                //SoccerBar.series.UpdateData(1, 5, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownLeftSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.DownLeftSoccerTime);
+                //SoccerBar.series.UpdateData(1, 6, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.LeftSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.LeftSoccerTime);
+                //SoccerBar.series.UpdateData(1, 7, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponLeftSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.UponLeftSoccerTime);
+                //SoccerBar.series.UpdateData(1, 8, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerTime);
+                //SoccerBar.series.UpdateData(1, 9, 1.0f * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerScore / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerTime);
+
+                //SoccerBar.RefreshChart();
+
+
+
 
                 //    //if (DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1].EvaluationScore == 0.0f)
                 //    //{

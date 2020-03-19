@@ -728,27 +728,27 @@ namespace XCharts
                     NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
 
                     float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
-                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
                     NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
-                    if (FrontIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (FrontIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
                     NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
-                    if (BehindIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (BehindIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
                 }
             }
@@ -928,27 +928,27 @@ namespace XCharts
                     NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
 
                     float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
-                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (RadarAreaIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
                     NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
-                    if (FrontIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (FrontIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (FrontIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
                     NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
-                    if (BehindIncreaseRate < 0) NowConvexHullText.text += "<color=blue>↓" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += "<color=green>↔" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
-                    else NowConvexHullText.text += "<color=red>↑" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    if (BehindIncreaseRate < 0) NowConvexHullText.text += " <color=red>-" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else if (BehindIncreaseRate == 0) NowConvexHullText.text += " <color=blue>=" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
+                    else NowConvexHullText.text += " <color=green>+" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
                 }
 
