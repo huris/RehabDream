@@ -38,6 +38,8 @@ public class Patient
         this.PatientHeight = PatientHeight;
         this.PatientWeight = PatientWeight;
         this.PatientPinyin = Pinyin.GetPinyin(PatientName);
+
+        SetPatientData();
     }
 
     public void SetTrainingPlayIndex(int TrainingPlayIndex)

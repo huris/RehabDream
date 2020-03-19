@@ -403,7 +403,7 @@ namespace XCharts
                 FrontX = SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient;
                 BehindX = SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient;
 
-                BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient);
+                FrontX = Mathf.Max(FrontX, SideModelGravity.x + DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
                 BehindX = Mathf.Min(BehindX, SideModelGravity.x - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
             }
             else if (NowConvexHullToggle.isOn)
