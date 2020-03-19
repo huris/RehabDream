@@ -327,13 +327,13 @@ public class SkeletonOverlayer : MonoBehaviour
                                             evaluation.SetEvaluationStartTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
                                             Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
 
-                                            LastPosition = Kinect2UIPosition(posJoint);
+                                            LastPosition = Kinect2UIPosition(SpineMid);
                                             evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
                                             WritePointInGame();
 
                                             // ≥ı º∑≈÷√◊„«Ú
                                             transform.GetChild(0).position = SpineMid;
-                                            FirstFistZ = posJoint.z;
+                                            FirstFistZ = SpineMid.z;
                                             SoccerballReset();
                                             
                                             for (int z = 0; z < 9; z++)
