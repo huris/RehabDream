@@ -7,7 +7,7 @@ using static Wit.BaiduAip.Speech.Tts;
 
 public class SangCtrl : MonoBehaviour {
      string APIKey = "K0ZBOObtsCiqhfgW9tGuwQkT";
-     string SecretKey = "NjqjRx0EU6NuGLQjTfbrMyxjsQI5qu0Y ";
+     string SecretKey = "NjqjRx0EU6NuGLQjTfbrMyxjsQI5qu0Y";
     private Tts _asr;
     private AudioSource _audioSource;
   //  private bool _startPlaying;
@@ -22,7 +22,7 @@ public class SangCtrl : MonoBehaviour {
   /// 语音合成
   /// </summary>
   /// <param name="message">合成信息的内容</param>
-    public  void SpeechSynthesis(string message)
+    public void SpeechSynthesis(string message)
     {
        
         StartCoroutine(_asr.Synthesis(message, s =>
@@ -40,7 +40,7 @@ public class SangCtrl : MonoBehaviour {
                 // SynthesisButton.gameObject.SetActive(true);
                 Debug.LogError("合成失败");
             }
-        },5,5,(int)Pronouncer.Duyaya));
+        },5,5,(int)Pronouncer.Duxiaoyao));
     }
 
 

@@ -166,10 +166,6 @@ public class SkeletonOverlayer : MonoBehaviour
     void OnEnable()
     {
 
-
-
-
-
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试

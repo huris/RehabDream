@@ -31,6 +31,9 @@ public class DoctorLoginScript : MonoBehaviour {
 
         system = EventSystem.current;       // 获取当前的事件
 
+
+        transform.gameObject.AddComponent<SangCtrl>().SpeechSynthesis("你好胡奔");
+
         //DoctorDatabaseManager.instance.DeleteCS(241283);   // 数据库测试
     }
 
