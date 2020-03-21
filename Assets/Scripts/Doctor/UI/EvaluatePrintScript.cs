@@ -64,7 +64,7 @@ namespace XCharts
         public VectorLine LastFrontLine; // 本次向前倾的线
         public VectorLine LastBehindLine;    //本次向后倾的线
         public VectorLine SideLine; // 侧身直线
-        public static float SideCoefficient = 60f;   // 距离修正系数
+        public static float SideCoefficient = 70f;   // 距离修正系数
 
         public ConvexHull NowConvexHull;
         public ConvexHull LastConvexHull;
@@ -221,11 +221,11 @@ namespace XCharts
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);
 
                     //WidthPixel = 100;
-                    HeightPixel = 50;
+                    HeightPixel = 58;
 
                     ModelGravity = new Vector2(476.5f, 672.5f);
 
-                    SideModelGravity = new Vector2(615f, 672.5f);
+                    SideModelGravity = new Vector2(595f, 672.5f);
                 }
                 else
                 {
@@ -233,10 +233,10 @@ namespace XCharts
                     WomanImage.SetActive(true); WomanSideImage.SetActive(true);
 
                     //WidthPixel = 80;
-                    HeightPixel = 50;
+                    HeightPixel = 58;
 
                     ModelGravity = new Vector2(476.5f, 682.5f);
-                    SideModelGravity = new Vector2(615f, 682.5f);
+                    SideModelGravity = new Vector2(595f, 682.5f);
                 }
 
                 GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);

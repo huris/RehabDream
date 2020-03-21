@@ -1108,6 +1108,27 @@ public class DoctorDatabaseManager : MonoBehaviour
                 // 删除患者训练计划
                 QueryString = "DELETE FROM TrainingPlan where PatientID=" + PatientID.ToString();
                 DoctorDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者角度数据
+                QueryString = "DELETE FROM Angles where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=Angles.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者方向数据
+                QueryString = "DELETE FROM Directions where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=Directions.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者评估记录
+                QueryString = "DELETE FROM PatientEvaluation where PatientID=" + PatientID.ToString();
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者足球评估记录表
+                QueryString = "DELETE FROM EvaluationSoccer where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationSoccer.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者轨迹点记录表
+                QueryString = "DELETE FROM EvaluationPoints where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationPoints.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
             }
 
             Debug.Log("@UserManager: Delete PatientInfo Success");
@@ -1545,7 +1566,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         //List<TrainingPlay> result = null; //返回值
-        string QueryString = "SELECT count(*) FROM PatientRecord where IsEvaluated = " + IsEvaluated.ToString();
+        string QueryString = "SELECT max(TrainingID) FROM PatientRecord where IsEvaluated = " + IsEvaluated.ToString();
 
         //long PatientRecordCount = 0;
         //print(QueryString);
@@ -1585,13 +1606,13 @@ public class DoctorDatabaseManager : MonoBehaviour
             //    return PatientRecordCount;
             //}
 
-            return reader.GetInt32(0);
+            return reader.GetInt32(0) + 1;
         }
         catch (SqliteException e)
         {
             //Debug.Log("@UserManager: Read PatientRecord SqliteException");
             PatientDatabase?.CloseConnection();
-            return 0;
+            return -1;
         }
     }
 
@@ -1887,7 +1908,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public long ReadMaxEvaluationID()
     {
         SqliteDataReader reader;    //sql读取器
-        string QueryString = "SELECT count(*)  FROM PatientEvaluation";
+        string QueryString = "SELECT max(EvaluationID) FROM PatientEvaluation";
 
         //print(QueryString);
 
@@ -1897,13 +1918,13 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader = PatientDatabase.ExecuteQuery(QueryString);
             reader.Read();
 
-            return reader.GetInt32(0);
+            return reader.GetInt32(0) + 1;
         }
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Read MaxEvaluationID SqliteException");
             DoctorDatabase?.CloseConnection();
-            return 0;
+            return -1;
         }
     }
 

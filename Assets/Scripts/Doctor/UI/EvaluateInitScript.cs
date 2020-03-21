@@ -150,6 +150,7 @@ namespace XCharts
 
         void OnEnable()
         {
+            //print(DoctorDatabaseManager.instance.ReadMaxEvaluationID());
 
             // DataBG
             NoEvaluateData = transform.Find("NoEvaluateData").gameObject;
