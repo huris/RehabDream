@@ -6,8 +6,8 @@ using Wit.BaiduAip.Speech;
 using static Wit.BaiduAip.Speech.Tts;
 
 public class SangCtrl : MonoBehaviour {
-     string APIKey = "K0ZBOObtsCiqhfgW9tGuwQkT";
-     string SecretKey = "NjqjRx0EU6NuGLQjTfbrMyxjsQI5qu0Y ";
+     string APIKey = "wLzhUob7DtOLbNUItizzAGCp";
+     string SecretKey = "qCiQ5zYa4Xoi61UH7o2s530g25bzm7Z2";
     private Tts _asr;
     private AudioSource _audioSource;
   //  private bool _startPlaying;

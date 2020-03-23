@@ -225,9 +225,12 @@ public class SkeletonOverlayer : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) && (Buttons.transform.localPosition - new Vector3(0f, -620f, 0)).magnitude < 10 )
+        if (Input.GetMouseButtonDown(0))
         {
-            UponButtonOnClick();
+            if (UponButton.activeSelf == true)
+            {
+                UponButtonOnClick();
+            }
         }
 
         KinectManager manager = KinectManager.Instance;
@@ -382,7 +385,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                     }
 
                                 }
-                                else if (i == 23 && (HandTipLeft - posJoint).magnitude > 0.8f)
+                                else if (i == 23 && (HandTipLeft - posJoint).magnitude > 1.0f)
                                 {
                                     SoccerHighlightTime = 100;  // ±ä»Ø100
 
