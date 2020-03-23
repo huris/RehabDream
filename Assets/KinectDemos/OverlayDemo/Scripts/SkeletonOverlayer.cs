@@ -95,6 +95,9 @@ public class SkeletonOverlayer : MonoBehaviour
     public bool ConvexHullIsDraw;   // 凸包绘制完成
 
     public long SoccerHighlightTime;    // 足球高亮持续时间
+
+    //transform.gameObject.AddComponent<SangCtrl>().SpeechSynthesis("你好胡奔");
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -165,7 +168,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     void OnEnable()
     {
-
+     
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试
@@ -216,13 +219,18 @@ public class SkeletonOverlayer : MonoBehaviour
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
 
         SoccerHighlightTime = 100;   // 足球高亮得分刚开始为100,计算时每次除以100
-    
+
     }
 
     void Update()
     {
-        KinectManager manager = KinectManager.Instance;
 
+        if (Input.GetMouseButtonDown(0) && (Buttons.transform.localPosition - new Vector3(0f, -620f, 0)).magnitude < 10 )
+        {
+            UponButtonOnClick();
+        }
+
+        KinectManager manager = KinectManager.Instance;
         //鼠标下滑出现按钮框
         //Vector2 _pos1 = Vector2.one;
         //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,

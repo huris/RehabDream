@@ -30,11 +30,6 @@ public class DoctorLoginScript : MonoBehaviour {
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
 
         system = EventSystem.current;       // 获取当前的事件
-
-
-        transform.gameObject.AddComponent<SangCtrl>().SpeechSynthesis("你好胡奔");
-
-        //DoctorDatabaseManager.instance.DeleteCS(241283);   // 数据库测试
     }
 
     // Update is called once per frame

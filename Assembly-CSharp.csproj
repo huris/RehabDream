@@ -558,6 +558,7 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+     <Compile Include="Assets\StartTipInitScript.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
