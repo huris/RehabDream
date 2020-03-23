@@ -96,8 +96,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public long SoccerHighlightTime;    // 足球高亮持续时间
 
-    //transform.gameObject.AddComponent<SangCtrl>().SpeechSynthesis("你好胡奔");
-
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -219,7 +217,6 @@ public class SkeletonOverlayer : MonoBehaviour
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
 
         SoccerHighlightTime = 100;   // 足球高亮得分刚开始为100,计算时每次除以100
-
     }
 
     void Update()
@@ -333,7 +330,6 @@ public class SkeletonOverlayer : MonoBehaviour
                                     }
                                     else
                                     {
-
                                         if (evaluation.Points.Count == 0)
                                         {
                                             evaluation.SetEvaluationStartTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));

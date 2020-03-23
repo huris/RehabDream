@@ -32,7 +32,6 @@ public class SangCtrl : MonoBehaviour {
                // DescriptionText.text = "合成成功，正在播放";
                 _audioSource.clip = s.clip;
                 _audioSource.Play();
-               
             }
             else
             {
