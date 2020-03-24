@@ -61,6 +61,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public GameObject RestartButton;
     public GameObject TrackButton;
     public GameObject FinishedButton;
+    public GameObject VoiceIntroductionButton;
+    public GameObject ContinueButton;
     public GameObject UponButton;
     public GameObject DownButton;
 
@@ -96,6 +98,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public long SoccerHighlightTime;    // 足球高亮持续时间
 
+    // 足球出现顺序
+    public static int[] SoccerBallOrder = {1,2,3,4,5,6,7,8,0};
+    
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -166,7 +171,6 @@ public class SkeletonOverlayer : MonoBehaviour
 
     void OnEnable()
     {
-     
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
         evaluation = new Evaluation();   // 新建一个评估测试
@@ -205,14 +209,16 @@ public class SkeletonOverlayer : MonoBehaviour
 
         ReturnButton.SetActive(true);
         ReturnButton.transform.localPosition = new Vector3(-400f, -13.6f, 0f);
-        RestartButton.SetActive(true);
-        RestartButton.transform.localPosition = new Vector3(400f, -13.6f, 0f);
+        VoiceIntroductionButton.SetActive(true);
+        VoiceIntroductionButton.transform.localPosition = new Vector3(400f, -13.6f, 0f);
 
+        RestartButton.SetActive(false);
         TrackButton.SetActive(false);
-        FinishedButton.SetActive(false);   // 刚开始返回按钮不显示
+        FinishedButton.SetActive(false);
+        ContinueButton.SetActive(false);// 刚开始返回按钮不显示
 
         IsOver = false;
-        
+
         // 进度条刚开始隐藏
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
 
@@ -322,7 +328,6 @@ public class SkeletonOverlayer : MonoBehaviour
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
-
                                     if(WaitTime < 3.0f)
                                     {
                                         WaitTime += Time.deltaTime;
@@ -335,6 +340,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                             evaluation.SetEvaluationStartTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
                                             Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
 
+                                            DownButtonOnClick();
+
+                                            ButtonChange();
+
                                             LastPosition = Kinect2UIPosition(SpineMid);
                                             evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
                                             WritePointInGame();
@@ -343,15 +352,15 @@ public class SkeletonOverlayer : MonoBehaviour
                                             transform.GetChild(0).position = SpineMid;
                                             FirstFistZ = SpineMid.z;
                                             SoccerballReset();
-                                            
+
                                             for (int z = 0; z < 9; z++)
                                             {
-                                                transform.GetChild(z).gameObject.SetActive(true);
+                                                transform.GetChild(z).gameObject.SetActive(false);
                                             }
+                                            transform.GetChild(1).gameObject.SetActive(true);
                                         }
                                         else
                                         {
-                                            DownButtonOnClick();
 
                                             NowPosition = Kinect2UIPosition(posJoint);
 
@@ -411,17 +420,6 @@ public class SkeletonOverlayer : MonoBehaviour
                                         evaluation.soccerDistance.DownLeftSoccerDistance = (transform.GetChild(6).position - transform.GetChild(0).position).magnitude;
                                         evaluation.soccerDistance.LeftSoccerDistance = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
                                         evaluation.soccerDistance.UponLeftSoccerDistance = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;
-
-                                        ReturnButton.SetActive(true);
-                                        ReturnButton.transform.localPosition = new Vector3(-600f, -13.6f, 0f);
-                                        RestartButton.SetActive(true);
-                                        RestartButton.transform.localPosition = new Vector3(-200f, -13.6f, 0f);
-
-                                        TrackButton.SetActive(true);
-                                        TrackButton.transform.localPosition = new Vector3(200f, -13.6f, 0f);
-
-                                        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
-                                        FinishedButton.transform.localPosition = new Vector3(600f, -13.6f, 0f);
 
                                         IsOver = true;
 
@@ -506,6 +504,30 @@ public class SkeletonOverlayer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ButtonChange()
+    {
+        ReturnButton.SetActive(true);
+        ReturnButton.transform.localPosition = new Vector3(-700f, -13.6f, 0f);
+        RestartButton.SetActive(true);
+        RestartButton.transform.localPosition = new Vector3(-350f, -13.6f, 0f);
+
+        ContinueButton.SetActive(true);
+        ContinueButton.transform.localPosition = new Vector3(0f, -13.6f, 0f);
+
+        TrackButton.SetActive(true);
+        TrackButton.transform.localPosition = new Vector3(350f, -13.6f, 0f);
+        FinishedButton.SetActive(true);   // 刚开始返回按钮不显示
+        FinishedButton.transform.localPosition = new Vector3(700f, -13.6f, 0f);
+
+        VoiceIntroductionButton.SetActive(false);
+    }
+
+    public void ContinueButtonOnClick()
+    {
+        IsOver = false;
+        DownButtonOnClick();
     }
 
     public void UponButtonOnClick()

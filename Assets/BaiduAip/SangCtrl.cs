@@ -9,13 +9,13 @@ public class SangCtrl : MonoBehaviour {
      string APIKey = "wLzhUob7DtOLbNUItizzAGCp";
      string SecretKey = "qCiQ5zYa4Xoi61UH7o2s530g25bzm7Z2";
     private Tts _asr;
-    private AudioSource _audioSource;
+    public AudioSource _audioSource;
   //  private bool _startPlaying;
  
     void Awake () {
         _asr = new Tts(APIKey, SecretKey);
         StartCoroutine(_asr.GetAccessToken());
-        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource = this.transform.GetComponent<AudioSource>();
         _audioSource.volume = 0.4f;
     }
   /// <summary>
