@@ -109,6 +109,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public long CurrentScore;   //当前得分
     public Text CurrentScoreText;   //当前得分
 
+    public VectorLine DirectionLine;
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -241,6 +243,11 @@ public class SkeletonOverlayer : MonoBehaviour
         CurrentScoreText.transform.parent.gameObject.SetActive(false);
 
         CurrentScore = 0;   // 刚开始分数为0
+
+        DirectionLine = new VectorLine("ColorFistLine", new List<Vector2>(), 10.0f, LineType.Continuous, Joins.Weld);
+        DirectionLine.smoothColor = false;   // 设置平滑颜色
+        DirectionLine.smoothWidth = false;   // 设置平滑宽度
+        DirectionLine.color = Color.red;
     }
 
     void FixedUpdate()
@@ -660,9 +667,12 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
 
                 WaitPeopleTouchBall(InterruptedBallWaitFrame);
+
+                DirectionLine.points2.Clear();
+                DirectionLine.Draw();
             }
 
-            if(TargetSoccerBall != Soccerball)
+            if (TargetSoccerBall != Soccerball)
             {
                 LeftTouchFrame--;
 
@@ -671,7 +681,6 @@ public class SkeletonOverlayer : MonoBehaviour
                 if (IsChangeHighlighter == 0)
                 {
                     TargetSoccerBall.GetComponent<Highlighter>().ConstantOn(Color.red);
-
                 }
                 else if (IsChangeHighlighter == 25)
                 {
@@ -682,8 +691,10 @@ public class SkeletonOverlayer : MonoBehaviour
                 {
                     WaitPeopleTouchBall(ChangeBallWaitFrame);
                 }
+
+                DrawDirectionLine(Kinect2UIPosition(FistPos), Kinect2UIPosition(TargetSoccerBall.transform.position));
             }
-            
+
             SoccerballMove(FistPos);
         }
         else
@@ -695,6 +706,53 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball.GetComponent<Highlighter>().ConstantOff();
             }
         }
+    }
+
+    public void DrawDirectionLine(Vector2 origin, Vector2 destination)
+    {
+        DirectionLine.points2.Clear();
+
+        Vector2 Offset = (destination - origin)/5;
+
+        destination -= Offset;
+        origin += Offset;
+
+        double slopy = 0, cosy = 0, siny = 0;
+        double par = 50.0;  //length of Arrow (>)
+        slopy = Math.Atan2((double)(origin.y - destination.y), (double)(origin.x - destination.x));
+        cosy = Math.Cos(slopy);
+        siny = Math.Sin(slopy);
+
+        DirectionLine.points2.Add(origin);
+        DirectionLine.points2.Add(destination);
+
+        // 计算出三角箭头的两端点的坐标
+        DirectionLine.points2.Add(new Vector2(destination.x + (int)(par * cosy - (par / 2.0 * siny)),
+                                              destination.y + (int)(par * siny + (par / 2.0 * cosy))));
+        
+        DirectionLine.points2.Add(destination);
+
+        DirectionLine.points2.Add(new Vector2(destination.x + (int)(par * cosy + par / 2.0 * siny),
+                                              destination.y - (int)(par / 2.0 * cosy - par * siny)));
+
+        //Vector2 NewOffset = destination - Offset - Offset;
+
+        //float k = (origin.x - destination.x) / (destination.y - origin.y);
+        //float b = NewOffset.y - k * NewOffset.x;
+
+        //DirectionLine.points2.Add(new Vector2(NewOffset.x + Offset.x, k * (NewOffset.x + Offset.x) + b));
+
+        //DirectionLine.points2.Add(destination - Offset);
+
+        //DirectionLine.points2.Add(new Vector2(NewOffset.x - Offset.x, k * (NewOffset.x - Offset.x) + b));
+
+        //DirectionLine.points2.Add(destination - Offset);
+       
+        //DirectionLine.points2.Add(origin + Offset);
+
+        //DirectionLine.points2.Add(new Vector2(destination.x - 20, destination.y + 20));
+        //DirectionLine.points2.Add(new Vector2(destination.x + 20, destination.y - 20));
+        DirectionLine.Draw();
     }
 
     public void ChangeCurrentScore()
