@@ -5,6 +5,7 @@ using UnityEngine;
 public class StartTipInitScript : MonoBehaviour {
 
 	// Use this for initialization
+	public bool IsOver;
 	void Start () {
 		string StartTip = DoctorDataManager.instance.doctor.patient.PatientName + "您好！" + "欢迎来到重心范围评估！"
 						+ "屏幕文字和图片展示了评估过程，详情可以通过点击下方语音介绍按钮来获取。"
@@ -15,13 +16,18 @@ public class StartTipInitScript : MonoBehaviour {
 						//+ "准备好开始了吗？请将双手握拳放于肚脐前准备吧！";
 		transform.GetComponent<SangCtrl>().SpeechSynthesis(StartTip);
 
+		IsOver = false;
 		//transform.GetComponent<SangCtrl>().SpeechSynthesis("你好胡奔");
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
+		if(!IsOver && (this.transform.localPosition - new Vector3(0f, 978f, 0)).magnitude < 10f)
+		{
+			this.transform.GetComponent<AudioSource>().Stop();
+			IsOver = true;
+		}
 	}
 
 	public void VoiceIntroductionPlayOnClick()

@@ -735,23 +735,6 @@ public class SkeletonOverlayer : MonoBehaviour
         DirectionLine.points2.Add(new Vector2(destination.x + (int)(par * cosy + par / 2.0 * siny),
                                               destination.y - (int)(par / 2.0 * cosy - par * siny)));
 
-        //Vector2 NewOffset = destination - Offset - Offset;
-
-        //float k = (origin.x - destination.x) / (destination.y - origin.y);
-        //float b = NewOffset.y - k * NewOffset.x;
-
-        //DirectionLine.points2.Add(new Vector2(NewOffset.x + Offset.x, k * (NewOffset.x + Offset.x) + b));
-
-        //DirectionLine.points2.Add(destination - Offset);
-
-        //DirectionLine.points2.Add(new Vector2(NewOffset.x - Offset.x, k * (NewOffset.x - Offset.x) + b));
-
-        //DirectionLine.points2.Add(destination - Offset);
-       
-        //DirectionLine.points2.Add(origin + Offset);
-
-        //DirectionLine.points2.Add(new Vector2(destination.x - 20, destination.y + 20));
-        //DirectionLine.points2.Add(new Vector2(destination.x + 20, destination.y - 20));
         DirectionLine.Draw();
     }
 

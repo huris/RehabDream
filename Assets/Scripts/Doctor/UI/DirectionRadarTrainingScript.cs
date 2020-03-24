@@ -26,68 +26,47 @@ namespace XCharts
 
         void OnEnable()
         {
-
-            RadarArea = new List<float>();
-            RadarIncreaseRate = new List<float>();
-
-            RadarAreaText = transform.Find("RadarArea").GetComponent<Text>();
-
-            WhiteLine = "";
-
-            DirectionRadarChart = transform.Find("RadarChart").GetComponent<RadarChart>();
-            if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("RadarChart").gameObject.AddComponent<RadarChart>();
-            //DirectionRadarChart.RemoveRadar();
-            //DirectionRadarChart.RemoveData();
-            DirectionRadarChart.ClearData();
-
-            //DirectionRadarChart.title.text = "";
-            //DirectionRadarChart.title.subText = "";
-            //DirectionRadarChart.title.textStyle.fontSize = 30;
-            //DirectionRadarChart.title.textStyle.fontStyle = FontStyle.Bold;
-            //DirectionRadarChart.title.location.top = 0;
-
-            //DirectionRadarChart.legend.show = false;
-            //DirectionRadarChart.legend.location.align = Location.Align.TopLeft;
-            //DirectionRadarChart.legend.location.top = 60;
-            //DirectionRadarChart.legend.location.left = 2;
-            //DirectionRadarChart.legend.itemWidth = 70;
-            //DirectionRadarChart.legend.itemHeight = 20;
-            //DirectionRadarChart.legend.orient = Orient.Vertical;
-
-            //DirectionRadarChart.AddRadar(Radar.Shape.Polygon, new Vector2(0.5f, 0.4f), 0.4f);
-            //DirectionRadarChart.AddIndicator(0, "正上", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "右上", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "正右", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "右下", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "正下", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "左下", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "正左", 0, 180);
-            //DirectionRadarChart.AddIndicator(0, "左上", 0, 180);
-
-            //serie = DirectionRadarChart.AddSerie(SerieType.Pie);
-            //serie.radarIndex = 0;
-            //serie.symbol.type = SerieSymbolType.Circle;
-            //serie.symbol.size = 3;
-            //serie.symbol.selectedSize = 4;
-            //serie.symbol.color = Color.blue;
-
-            //serie.lineStyle.color = Color.red;
-            //serie.lineStyle.width = 1;
-
-            if(DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
+
+                RadarArea = new List<float>();
+                RadarIncreaseRate = new List<float>();
+
+                RadarAreaText = transform.Find("RadarArea").GetComponent<Text>();
+
+                WhiteLine = "";
+
+                DirectionRadarChart = transform.Find("RadarChart").GetComponent<RadarChart>();
+                if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("RadarChart").gameObject.AddComponent<RadarChart>();
+
                 if (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 6) WhiteLine = "\n";
                 else WhiteLine = "\n\n";
 
                 //print(DoctorDataManager.instance.patient.Evaluations.Count+"!!!!");
 
+                RadarAreaText.text = "";
                 for (int i = 0; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
                 {
                     //DoctorDataManager.instance.patient.TrainingPlays[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.TrainingPlays[i].TrainingID);
 
                     if (i == DoctorDataManager.instance.doctor.patient.TrainingPlayIndex)
                     {
-                        DirectionRadarChart.AddData(0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirections(), "第" + (i + 1).ToString() + "次");
+                        DirectionRadarChart.UpdateData(0, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponDirection);
+                        DirectionRadarChart.UpdateData(0, 1, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponRightDirection);
+                        DirectionRadarChart.UpdateData(0, 2, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.RightDirection);
+                        DirectionRadarChart.UpdateData(0, 3, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownRightDirection);
+                        DirectionRadarChart.UpdateData(0, 4, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownDirection);
+                        DirectionRadarChart.UpdateData(0, 5, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownLeftDirection);
+                        DirectionRadarChart.UpdateData(0, 6, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.LeftDirection);
+                        DirectionRadarChart.UpdateData(0, 7, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponLeftDirection);
+
+                        if(i != 0) RadarAreaText.text += WhiteLine;
+                        RadarAreaText.text += "本次面积: ";
+                    }
+                    else
+                    {
+                        RadarAreaText.text += WhiteLine;
+                        RadarAreaText.text += "第(" + (i + 1).ToString() + ")面积: ";
                     }
                     // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
 
@@ -95,23 +74,16 @@ namespace XCharts
 
                     if (i == 0)
                     {
-                        RadarAreaText.text = "（1）雷达图面积: " + RadarArea[i].ToString("0.00");
+                        RadarAreaText.text += RadarArea[i].ToString("0.00");
                     }
                     else
                     {
-                        //print(RadarArea[i] + "####");
-                        //print(RadarArea[i-1] + "####");
-                        //print((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1] + "@@@@@");
-
                         RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1]);
 
-                        //print(RadarIncreaseRate[i] + "@@@@");
-
-                        RadarAreaText.text += WhiteLine;
-                        RadarAreaText.text += "（" + (i + 1).ToString() + "）雷达图面积: " + RadarArea[i].ToString("0.00");
-                        if (RadarIncreaseRate[i - 1] < 0) RadarAreaText.text += "  <color=blue>" + RadarIncreaseRate[i - 1].ToString("0.00") + "%  Down</color>";
-                        else if (RadarIncreaseRate[i - 1] == 0) RadarAreaText.text += "  <color=green>" + RadarIncreaseRate[i - 1].ToString("0.00") + "%  Equal</color>";
-                        else RadarAreaText.text += "  <color=red>" + RadarIncreaseRate[i - 1].ToString("0.00") + "%  Up</color>";
+                        RadarAreaText.text += RadarArea[i].ToString("0.00");
+                        if (RadarIncreaseRate[i - 1] < 0) RadarAreaText.text += "  <color=red>-" + RadarIncreaseRate[i - 1].ToString("0.00") + "%</color>";
+                        else if (RadarIncreaseRate[i - 1] == 0) RadarAreaText.text += "  <color=blue>=" + RadarIncreaseRate[i - 1].ToString("0.00") + "%</color>";
+                        else RadarAreaText.text += "  <color=green>+" + RadarIncreaseRate[i - 1].ToString("0.00") + "%</color>";
                     }
                 }
 
