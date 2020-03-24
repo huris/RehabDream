@@ -100,7 +100,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
     // 足球出现顺序
     public static int[] SoccerBallOrder = {1,2,3,4,5,6,7,8,0};
-    
+    public GameObject TargetSoccerBall;
+    public int NowSoccerIndex;   // 目前的小球索引
+    public static long ChangeBallWaitFrame = 5000;  // 换球等待5000帧
+    public static long InterruptedBallWaitFrame = 1500;  // 中断球等待1500
+    public long LeftTouchFrame;   // 剩下碰球的帧数
+    public Text LeftTimeText;
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -223,10 +229,16 @@ public class SkeletonOverlayer : MonoBehaviour
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
 
         SoccerHighlightTime = 100;   // 足球高亮得分刚开始为100,计算时每次除以100
+
+        NowSoccerIndex = -1;    // 刚开始等于-1，方便之后加1计算
+        TargetSoccerBall = null;
+
+        LeftTouchFrame = ChangeBallWaitFrame;
     }
 
     void Update()
     {
+        LeftTimeText.text = LeftTouchFrame.ToString();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -357,7 +369,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             {
                                                 transform.GetChild(z).gameObject.SetActive(false);
                                             }
-                                            transform.GetChild(1).gameObject.SetActive(true);
+                                            WaitPeopleTouchBall(ChangeBallWaitFrame);
                                         }
                                         else
                                         {
@@ -506,6 +518,24 @@ public class SkeletonOverlayer : MonoBehaviour
         }
     }
 
+    public void WaitPeopleTouchBall(long WaitFrame)
+    {
+        if (WaitFrame == ChangeBallWaitFrame)
+        {
+            if (TargetSoccerBall != null) TargetSoccerBall.SetActive(false);
+
+            TargetSoccerBall = transform.GetChild(SoccerBallOrder[++NowSoccerIndex]).gameObject;
+            TargetSoccerBall.SetActive(true);
+
+            LeftTouchFrame = ChangeBallWaitFrame;
+        }
+        else if (WaitFrame == InterruptedBallWaitFrame)
+        {
+            LeftTouchFrame = InterruptedBallWaitFrame;
+        }
+    }
+    
+
     public void ButtonChange()
     {
         ReturnButton.SetActive(true);
@@ -596,7 +626,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball = hit.collider.gameObject;
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
-                    Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+                    Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
                 }
             }
             else if (Soccerball != hit.collider.gameObject)
@@ -609,14 +639,38 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball = hit.collider.gameObject;
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
-                    Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+                    Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
                 }
             }
             else if (Soccerball.GetComponent<Highlighter>() != null)
             {
                 SoccerHighlightTime++;  // 每次加1
 
-                Soccerball.GetComponent<Highlighter>().ConstantOn(Color.red);
+                Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
+
+                WaitPeopleTouchBall(InterruptedBallWaitFrame);
+            }
+
+            if(TargetSoccerBall != Soccerball)
+            {
+                LeftTouchFrame--;
+
+                long IsChangeHighlighter = (LeftTouchFrame / 10) % 10;
+                print(IsChangeHighlighter);
+                if (IsChangeHighlighter == 5)
+                {
+                    TargetSoccerBall.GetComponent<Highlighter>().ConstantOn(Color.red);
+
+                }
+                else if (IsChangeHighlighter == 0)
+                {
+                    TargetSoccerBall.GetComponent<Highlighter>().ConstantOff();
+                }
+
+                if (LeftTouchFrame == 0)
+                {
+                    WaitPeopleTouchBall(ChangeBallWaitFrame);
+                }
             }
             
             SoccerballMove(FistPos);
@@ -630,7 +684,6 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball.GetComponent<Highlighter>().ConstantOff();
             }
         }
-
     }
 
     public void SoccerballMove(Vector3 FistPos)  // 足球移动
