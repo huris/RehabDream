@@ -22,16 +22,16 @@ public class PatientHistoryTrainingScript : MonoBehaviour {
 
     void OnEnable()
     {
-        StartTimeYear = transform.Find("StartTime/Year/InputField").GetComponent<InputField>();
-        StartTimeMonth = transform.Find("StartTime/Month/InputField").GetComponent<InputField>();
-        StartTimeDay = transform.Find("StartTime/Day/InputField").GetComponent<InputField>();
-
-        EndTimeYear = transform.Find("EndTime/Year/InputField").GetComponent<InputField>();
-        EndTimeMonth = transform.Find("EndTime/Month/InputField").GetComponent<InputField>();
-        EndTimeDay = transform.Find("EndTime/Day/InputField").GetComponent<InputField>();
-
         if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
         {
+            StartTimeYear = transform.Find("StartTime/Year/InputField").GetComponent<InputField>();
+            StartTimeMonth = transform.Find("StartTime/Month/InputField").GetComponent<InputField>();
+            StartTimeDay = transform.Find("StartTime/Day/InputField").GetComponent<InputField>();
+
+            EndTimeYear = transform.Find("EndTime/Year/InputField").GetComponent<InputField>();
+            EndTimeMonth = transform.Find("EndTime/Month/InputField").GetComponent<InputField>();
+            EndTimeDay = transform.Find("EndTime/Day/InputField").GetComponent<InputField>();
+
             int FirstTrainingPlay = 0;
             int LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1;
 

@@ -84,44 +84,46 @@ public class GameUIHandle : UIHandle
     // Update is called once per frame
     void Update()
     {
-        if (KinectDetectUI.activeSelf == true)
-        {
-            if (KinectManager.Instance.displaySkeletonLines == false)
-            {
-                KinectManager.Instance.displaySkeletonLines = true;
-                KinectManager.Instance.displayColorMap = true;
-                KinectManager.Instance.displayUserMap = true;
-            }
-            SetKinectStatus();
-            long userId = KinectManager.Instance.GetPrimaryUserID();
+        OnClickDirectStart();
 
-            if (userId == 0)
-            {      // 是否人物被检测到
-                _GestureTimeCount = 0;
-            }
-            else
-            {
-                if (GestureOver())
-                {
-                    SetKinectDetectProgress(1);
-                    OnClickDirectStart();
-                }
-                else
-                {
-                    SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
-                }
-                
-            }
-        }
-        else
-        {
-            if (KinectManager.Instance.displaySkeletonLines == true)
-            {
-                KinectManager.Instance.displaySkeletonLines = false;
-                KinectManager.Instance.displayColorMap = false;
-                KinectManager.Instance.displayUserMap = false;
-            }
-        }
+        //if (KinectDetectUI.activeSelf == true)
+        //{
+        //    if (KinectManager.Instance.displaySkeletonLines == false)
+        //    {
+        //        KinectManager.Instance.displaySkeletonLines = true;
+        //        KinectManager.Instance.displayColorMap = true;
+        //        KinectManager.Instance.displayUserMap = true;
+        //    }
+        //    SetKinectStatus();
+        //    long userId = KinectManager.Instance.GetPrimaryUserID();
+
+        //    if (userId == 0)
+        //    {      // 是否人物被检测到
+        //        _GestureTimeCount = 0;
+        //    }
+        //    else
+        //    {
+        //        if (GestureOver())
+        //        {
+        //            SetKinectDetectProgress(1);
+
+        //        }
+        //        else
+        //        {
+        //            SetKinectDetectProgress(_GestureTimeCount / _DetectTime);
+        //        }
+
+        //    }
+        //}
+        //else
+        //{
+        //    if (KinectManager.Instance.displaySkeletonLines == true)
+        //    {
+        //        KinectManager.Instance.displaySkeletonLines = false;
+        //        KinectManager.Instance.displayColorMap = false;
+        //        KinectManager.Instance.displayUserMap = false;
+        //    }
+        //}
     }
 
     #region KinectDetectUI Button
@@ -280,7 +282,7 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string Tip)
     {
-        string[] Tips = new string[] { "上", "左上", "右上", "下", "左下", "右下", "左", "右" };
+        string[] Tips = new string[] { "正上", "右上", "正右", "右下", "正下", "左下", "正左", "" };
         if (Array.IndexOf(Tips, Tip)==-1)
         {
             // 不是方向字符串
