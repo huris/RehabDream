@@ -99,7 +99,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public long SoccerHighlightTime;    // 足球高亮持续时间
 
     // 足球出现顺序
-    public static int[] SoccerBallOrder = {1,2,3,4,5,6,7,8,0};
+    public static int[] SoccerBallOrder = {1,2,8,3,7,4,6,5,0};
     public GameObject TargetSoccerBall;
     public int NowSoccerIndex;   // 目前的小球索引
     public static long ChangeBallWaitFrame = 1500;  // 换球等待5000帧
@@ -748,11 +748,13 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         float sdir = 0.001f, ddir = 0.0007f;  // 根号2倍
         float ScaleOffset = 2f;
+        float SpeedIncrease = 1.0f * SoccerHighlightTime / 100;
+
         // 上:2,右上:3,右:4,右下:5,下:6,左下:7,左:0,左上:1,
         if (Soccerball.name == "Soccerball0")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.y += sdir;
+            TempPos.y += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponSoccerTime++;
             evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -761,8 +763,8 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball1")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x -= ddir;
-            TempPos.y += ddir;
+            TempPos.x -= ddir * SpeedIncrease;
+            TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponRightSoccerTime++;
             evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -771,7 +773,7 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball2")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x -= sdir;
+            TempPos.x -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.RightSoccerTime++;
             evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -780,8 +782,8 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball3")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x -= ddir;
-            TempPos.y -= ddir;
+            TempPos.x -= ddir * SpeedIncrease;
+            TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownRightSoccerTime++;
             evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -790,7 +792,7 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball4")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.y -= sdir;
+            TempPos.y -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownSoccerTime++;
             evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -799,8 +801,8 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball5")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x += ddir;
-            TempPos.y -= ddir;
+            TempPos.x += ddir * SpeedIncrease;
+            TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownLeftSoccerTime++;
             evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -809,7 +811,7 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball6")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x += sdir;
+            TempPos.x += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.LeftSoccerTime++;
             evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -818,8 +820,8 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball7")
         {
             Vector3 TempPos = Soccerball.transform.position;
-            TempPos.x += ddir;
-            TempPos.y += ddir;
+            TempPos.x += ddir * SpeedIncrease;
+            TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponLeftSoccerTime++;
             evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
@@ -1047,6 +1049,9 @@ public class SkeletonOverlayer : MonoBehaviour
             m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
             //m_texture.Apply();
 
+            MinX = Math.Max(0, MinX);
+            MinY = Math.Max(0, MinY);
+     
             ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
 
             MaxY = MaxY - MinY - 1;

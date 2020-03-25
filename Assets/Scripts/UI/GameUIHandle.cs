@@ -81,11 +81,29 @@ public class GameUIHandle : UIHandle
         PatientGestureListener.Instance.ResetTposeLastTime();
     }
 
+
+
+    void FixedUpdate()
+    {
+
+
+
+
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        OnClickDirectStart();
+        //this.OpenUIAnimation(GameUI);
+        //GameState.StateShoot2SessionOver();
 
+
+
+
+
+        //OnClickDirectStart();
         //if (KinectDetectUI.activeSelf == true)
         //{
         //    if (KinectManager.Instance.displaySkeletonLines == false)
