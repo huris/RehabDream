@@ -39,7 +39,7 @@ public class Patient
         this.PatientWeight = PatientWeight;
         this.PatientPinyin = Pinyin.GetPinyin(PatientName);
 
-        SetPatientData();
+        //SetPatientData();
     }
 
     public void SetTrainingPlayIndex(int TrainingPlayIndex)
@@ -52,12 +52,19 @@ public class Patient
         this.EvaluationIndex = EvaluationIndex;
     }
 
+    public void SetMaxSuccessCount(long MaxSuccessCount)
+    {
+        this.MaxSuccessCount = MaxSuccessCount;
+    }
+
     public void SetPatientData()
     {
-        this.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.PatientID);
+        if(this.trainingPlan == null) this.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(this.PatientID);
+        
         if(this.trainingPlan != null) this.PlanIsMaking = true;
+        else this.PlanIsMaking = false;
 
-        this.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 0);
+        if(this.TrainingPlays == null) this.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(this.PatientID, 0);
         if(this.TrainingPlays != null && this.TrainingPlays.Count > 0)
         {
             foreach (var item in this.TrainingPlays)
@@ -71,7 +78,7 @@ public class Patient
             this.TrainingPlayIndex = this.TrainingPlays.Count - 1;
         }
 
-        this.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(this.PatientID);                             
+        if(this.Evaluations == null) this.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(this.PatientID);                             
         if (this.Evaluations != null && this.Evaluations.Count > 0)
         {
             this.EvaluationIndex = this.Evaluations.Count - 1;

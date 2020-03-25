@@ -63,7 +63,16 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         NoEvaluationData = transform.parent.Find("NoEvaluationData").gameObject;
 
-        if(DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+        if (DoctorDataManager.instance.doctor.patient.Evaluations == null){
+            DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+            if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+            {
+                DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+            }
+        }
+
+        if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
         {
             NoEvaluationData.SetActive(false);
 
@@ -107,6 +116,12 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             DirectionInt2String.Add(8, "左");
             DirectionInt2String.Add(9, "右");
 
+
+            if (DoctorDataManager.instance.doctor.patient.trainingPlan == null) DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+
+            if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+            else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+
             if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {
                 PlanDifficult.value = DifficultString2Int[DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty];
@@ -130,46 +145,46 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             NoEvaluationData.SetActive(true);
         }
 
-        system = EventSystem.current;       // 获取当前的事件
+        //system = EventSystem.current;       // 获取当前的事件
 
     }
 
     // Update is called once per frame
     void Update() {
-        //在Update内监听Tap键的按下
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            //是否聚焦Input
-            if (system.currentSelectedGameObject != null)
-            {
-                //获取当前选中的Input
-                SelecInput = system.currentSelectedGameObject.GetComponent<Selectable>();
-                //监听Shift
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                {
-                    //Shift按下则选择出去上方的Input
-                    NextInput = SelecInput.FindSelectableOnUp();
-                    //上边没有找左边的
-                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnLeft();
-                }
-                else
-                {
-                    //没按shift就找下边的Input
-                    NextInput = SelecInput.FindSelectableOnDown();
-                    //或者右边的
-                    if (NextInput == null) NextInput = SelecInput.FindSelectableOnRight();
-                }
-            }
+        ////在Update内监听Tap键的按下
+        //if (Input.GetKeyDown(KeyCode.Tab))
+        //{
+        //    //是否聚焦Input
+        //    if (system.currentSelectedGameObject != null)
+        //    {
+        //        //获取当前选中的Input
+        //        SelecInput = system.currentSelectedGameObject.GetComponent<Selectable>();
+        //        //监听Shift
+        //        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        //        {
+        //            //Shift按下则选择出去上方的Input
+        //            NextInput = SelecInput.FindSelectableOnUp();
+        //            //上边没有找左边的
+        //            if (NextInput == null) NextInput = SelecInput.FindSelectableOnLeft();
+        //        }
+        //        else
+        //        {
+        //            //没按shift就找下边的Input
+        //            NextInput = SelecInput.FindSelectableOnDown();
+        //            //或者右边的
+        //            if (NextInput == null) NextInput = SelecInput.FindSelectableOnRight();
+        //        }
+        //    }
 
-            //下一个Input不空的话就聚焦
-            if (NextInput != null) NextInput.Select();
-        }
+        //    //下一个Input不空的话就聚焦
+        //    if (NextInput != null) NextInput.Select();
+        //}
 
-        // 按回车键进行登录
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            TrainingPlanMakingButtonOnClick();
-        }
+        //// 按回车键进行登录
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    TrainingPlanMakingButtonOnClick();
+        //}
     }
 
     public void TrainingPlanMakingButtonOnClick()
@@ -205,7 +220,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
                 PlanMakingSuccess.SetActive(true);
 
-                StartCoroutine(DelayTime(3));
+                //StartCoroutine(DelayTime(3));
             }
             else
             {

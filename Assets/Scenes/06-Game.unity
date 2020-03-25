@@ -2414,7 +2414,6 @@ GameObject:
   - component: {fileID: 273710882}
   - component: {fileID: 273710881}
   - component: {fileID: 273710880}
-  - component: {fileID: 273710877}
   - component: {fileID: 273710879}
   - component: {fileID: 273710878}
   m_Layer: 5
@@ -2424,18 +2423,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &273710877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 273710876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799e7c25253f6fc41afe8c8ad4e84cc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsOver: 0
 --- !u!82 &273710878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7268,7 +7255,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8EAB\u4F53\u5C3D\u53EF\u80FD\u4FDD\u6301\u5E73\u8861"
+  m_Text: "\u8EAB \u4F53 \u5C3D \u53EF \u80FD \u4FDD \u6301 \u5E73 \u8861 \u9632 \u6B62
+    \u6454 \u5012"
 --- !u!222 &830410640
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8990,7 +8978,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 273710877}
+      - m_Target: {fileID: 0}
         m_MethodName: VoiceIntroductionPlayOnClick
         m_Mode: 1
         m_Arguments:
@@ -10421,8 +10409,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u53CC \u624B \u524D \u540E \u4F38 \u4F7F \u4E2D \u95F4 \u8DB3 \u7403 \u53D8
-    \u5927 \u5C0F"
+  m_Text: "\u8DB3 \u7403 \u901F \u5EA6 \u548C \u65B9 \u5411 \u968F \u7740 \u96BE \u5EA6
+    \u6539 \u53D8"
 --- !u!222 &1108916476
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10695,7 +10683,7 @@ MonoBehaviour:
   Tips: {fileID: 581574696}
   WrongLimb: {fileID: 446923403}
   GameUIProgressSlider: {fileID: 187108622}
-  KinectDetectUIProgressSlider: {fileID: 1407945903}
+  KinectDetectUIProgressSlider: {fileID: 2051149457}
   KinectStatusText: {fileID: 807590097}
   SuccessCountText: {fileID: 880569088}
   GameCountText: {fileID: 2071136891}
@@ -10712,6 +10700,10 @@ MonoBehaviour:
   BgsSlider: {fileID: 0}
   SeSlider: {fileID: 1995138119}
   GameState: {fileID: 479743389}
+  WaitTime: 0
+  playerIndex: 0
+  Introduction: {fileID: 273710880}
+  Buttons: {fileID: 1305739228}
 --- !u!4 &1129169901
 Transform:
   m_ObjectHideFlags: 0

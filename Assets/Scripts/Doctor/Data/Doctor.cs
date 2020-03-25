@@ -36,7 +36,7 @@ public class Doctor{
 
         if (this.Patients != null && this.Patients.Count > 0)
         {
-            this.Patients[0].SetPatientData();
+            //this.Patients[0].SetPatientData();
             this.patient = this.Patients[0];
             this.TempPatient = this.patient;
         }
@@ -54,7 +54,7 @@ public class Doctor{
 
         if (this.Patients != null && this.Patients.Count > 0)
         {
-            this.Patients[0].SetPatientData();
+            //this.Patients[0].SetPatientData();
             this.patient = this.Patients[0];
             this.TempPatient = this.patient;
         }
@@ -73,7 +73,7 @@ public class Doctor{
     // 对单个患者进行赋值
     public void SetPatientCompleteInformation(int PatientIndex)
     {
-        this.Patients[PatientIndex].SetPatientData();
+        //this.Patients[PatientIndex].SetPatientData();
         
         this.patient = this.Patients[PatientIndex];
 
@@ -86,7 +86,7 @@ public class Doctor{
 
     public void SetTempPatientCompleteInformation(int TempPatientIndex)
     {
-        this.Patients[TempPatientIndex].SetPatientData();
+        //this.Patients[TempPatientIndex].SetPatientData();
 
         this.TempPatient = this.Patients[TempPatientIndex];
 

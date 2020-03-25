@@ -82,7 +82,7 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, PatientDoctor.value == PatientDoctorName.Count ? "root" : DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName);
         if(DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
         {
-            DoctorDataManager.instance.doctor.Patients[0].SetPatientData();
+            //DoctorDataManager.instance.doctor.Patients[0].SetPatientData();
             DoctorDataManager.instance.doctor.patient = DoctorDataManager.instance.doctor.Patients[0];
         }
 

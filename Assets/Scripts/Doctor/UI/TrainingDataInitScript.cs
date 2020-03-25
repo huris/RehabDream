@@ -27,6 +27,23 @@ public class TrainingDataInitScript : MonoBehaviour {
 
 		//DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 
+		if(DoctorDataManager.instance.doctor.patient.TrainingPlays == null)
+		{
+			DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
+			if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
+			{
+				foreach (var item in DoctorDataManager.instance.doctor.patient.TrainingPlays)
+				{
+					if (DoctorDataManager.instance.doctor.patient.MaxSuccessCount < item.SuccessCount)
+					{
+						DoctorDataManager.instance.doctor.patient.SetMaxSuccessCount(item.SuccessCount);
+					}
+				}
+
+				DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
+			}
+		}
+
 		if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0) NoTrainingData.SetActive(false);
 		else
 		{ 

@@ -74,7 +74,7 @@ public class DoctorDataManager : MonoBehaviour {
             {
                 //print("成功");
                 this.doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(long.Parse(DoctorID));
-                this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+                //this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
 
                 //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
                 //DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
@@ -101,7 +101,7 @@ public class DoctorDataManager : MonoBehaviour {
                 //print("成功");
                 //DoctorDataManager.instance.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID.text);
                 this.doctor = DoctorDatabaseManager.instance.ReadDoctorNameInfo(DoctorID);
-                this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
+                //this.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();
                 //print("成功");
                 //DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID);
                 //DoctorDataManager.instance.Doctors = DoctorDatabaseManager.instance.ReadAllDoctorInformation();

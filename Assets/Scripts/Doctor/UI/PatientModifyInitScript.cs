@@ -173,7 +173,7 @@ public class PatientModifyInitScript : MonoBehaviour {
                 if(DoctorDataManager.instance.doctor.PatientIndex == DoctorDataManager.instance.doctor.TempPatientIndex)
                 {
                     DoctorDataManager.instance.doctor.patient = DoctorDataManager.instance.doctor.Patients[0];
-                    DoctorDataManager.instance.doctor.patient.SetPatientData();
+                    //DoctorDataManager.instance.doctor.patient.SetPatientData();
                 }
             }
 

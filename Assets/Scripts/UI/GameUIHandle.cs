@@ -5,6 +5,7 @@
 * Version: 1.0
 * ==============================================================================*/
 
+using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -64,6 +65,14 @@ public class GameUIHandle : UIHandle
     private float _DetectTime = 3.0f;
     private float _ShowWrongLimbTime = 1.0f;
 
+    public float WaitTime;
+    public int playerIndex = 0;
+    private Vector3 HandTipLeft;
+    public Image Introduction;
+    public Image Buttons;   // 下面三个button的背景
+
+
+
     // Use this for initialization
     void Start()
     {
@@ -79,17 +88,70 @@ public class GameUIHandle : UIHandle
         SetDataPatientRecord();
         InitUIValue();
         PatientGestureListener.Instance.ResetTposeLastTime();
+
+        WaitTime = 0f;
     }
 
 
 
     void FixedUpdate()
     {
+        KinectManager manager = KinectManager.Instance;
 
+        if (WaitTime == 0)
+        {
+            KinectDetectUIProgressSlider.gameObject.SetActive(false);
+        }
+        else if (WaitTime > 0)
+        {
+            KinectDetectUIProgressSlider.gameObject.SetActive(true);
+        }
 
+        if (manager && manager.IsInitialized())
+        {
+            // overlay all joints in the skeleton
+            if (manager.IsUserDetected(playerIndex))
+            {
+                long userId = manager.GetUserIdByIndex(playerIndex);
+                int jointsCount = manager.GetJointCount();
 
+                for (int i = 0; i < jointsCount; i++)
+                {
+                    int joint = i;
 
+                    if (manager.IsJointTracked(userId, joint))
+                    {
+                        Vector3 posJoint = manager.GetJointKinectPosition(userId, joint);
 
+                        // overlay the joint
+                        if (posJoint != Vector3.zero)
+                        {
+
+                            if (i == 21) { HandTipLeft = posJoint; }
+
+                            // 当左右手距离小于0.1f的时候画线
+                            if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
+                            {
+                                if (WaitTime < 3.0f)
+                                {
+                                    WaitTime += Time.deltaTime;
+                                    KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
+                                }
+                                else
+                                {
+
+                                    Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
+                                    Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+
+                                    this.OpenUIAnimation(GameUI);
+                                    GameState.StateShoot2SessionOver();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

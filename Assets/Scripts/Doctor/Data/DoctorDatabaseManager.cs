@@ -1997,7 +1997,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<Point> ReadEvaluationPointsRecord(long EvaluationID)
     {
         SqliteDataReader reader;    //sql读取器
-        List<Point> result = new List<Point>(); //返回值
+        List<Point> result = null; //返回值
         string QueryString = "SELECT * FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString();
 
         try
@@ -2006,6 +2006,8 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
+                result = new List<Point>(); //返回值
+
                 //result = new List<Angle>();
                 //存在用户训练任务
                 do
