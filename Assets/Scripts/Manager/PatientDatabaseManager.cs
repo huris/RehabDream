@@ -450,16 +450,16 @@ public class PatientDatabaseManager : MonoBehaviour
 
                 if (EvaluationSoccerReader.Read() && EvaluationSoccerReader.HasRows)
                 {   //存在训练记录
-                    EvaluateDirection[0] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponSoccer"));
-                    EvaluateDirection[1] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponRightSoccer"));
-                    EvaluateDirection[2] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("RightSoccer"));
-                    EvaluateDirection[3] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownRightSoccer"));
-                    EvaluateDirection[4] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownSoccer"));
-                    EvaluateDirection[5] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownLeftSoccer"));
-                    EvaluateDirection[6] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("LeftSoccer"));
-                    EvaluateDirection[7] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponLeftSoccer"));
-                    EvaluateDirection[8] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("CenterSoccerMin"));
-                    EvaluateDirection[9] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("CenterSoccerMax"));
+                    EvaluateDirection[0] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponSoccerDistance"));
+                    EvaluateDirection[1] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponRightSoccerDistance"));
+                    EvaluateDirection[2] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("RightSoccerDistance"));
+                    EvaluateDirection[3] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownRightSoccerDistance"));
+                    EvaluateDirection[4] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownSoccerDistance"));
+                    EvaluateDirection[5] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownLeftSoccerDistance"));
+                    EvaluateDirection[6] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("LeftSoccerDistance"));
+                    EvaluateDirection[7] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponLeftSoccerDistance"));
+                    EvaluateDirection[8] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("FrontSoccerDistance"));
+                    EvaluateDirection[9] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("BehindSoccerDistance"));
                 }
                 else
                 {
@@ -485,7 +485,29 @@ public class PatientDatabaseManager : MonoBehaviour
 
         //try
         //{
-
+        print("!!!!1");
+        print(TrainingID.ToString());
+        print("!!!!2");
+        print(PatientID.ToString());
+        print("!!!!3");
+        print(AddSingleQuotes(TrainingStartTime));
+        print("!!!!4");
+        print(AddSingleQuotes(TrainingEndTime));
+        print("!!!!5");
+        print(AddSingleQuotes(TrainingDifficulty));
+        print("!!!!6");
+        print(GameCount.ToString());
+        print("!!!!7");
+        print(SuccessCount.ToString());
+        print("!!!!8");
+        print(AddSingleQuotes(TrainingDirection));
+        print("!!!!9");
+        print(TrainingTime.ToString());
+        print("!!!!10");
+        print(IsEvaluated.ToString());
+        print("!!!!11");
+        print(EvaluationSocre.ToString());
+   
         //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
         PatientDatabase.InsertValues(
             PatientRecordTableName, //table name

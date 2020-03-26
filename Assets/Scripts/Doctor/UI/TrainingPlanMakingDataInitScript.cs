@@ -95,26 +95,26 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             DirectionString2Int = new Dictionary<string, int>();
             DirectionString2Int.Add("请选择方向", 0);
             DirectionString2Int.Add("全方位", 1);
-            DirectionString2Int.Add("上", 2);
-            DirectionString2Int.Add("左上", 3);
-            DirectionString2Int.Add("右上", 4);
-            DirectionString2Int.Add("下", 5);
-            DirectionString2Int.Add("左下", 6);
-            DirectionString2Int.Add("右下", 7);
-            DirectionString2Int.Add("左", 8);
-            DirectionString2Int.Add("右", 9);
+            DirectionString2Int.Add("正上方", 2);
+            DirectionString2Int.Add("右上方", 3);
+            DirectionString2Int.Add("正右方", 4);
+            DirectionString2Int.Add("右下方", 5);
+            DirectionString2Int.Add("正下方", 6);
+            DirectionString2Int.Add("左下方", 7);
+            DirectionString2Int.Add("正左方", 8);
+            DirectionString2Int.Add("左上方", 9);
 
             DirectionInt2String = new Dictionary<int, string>();
             DirectionInt2String.Add(0, "请选择方向");
             DirectionInt2String.Add(1, "全方位");
-            DirectionInt2String.Add(2, "上");
-            DirectionInt2String.Add(3, "左上");
-            DirectionInt2String.Add(4, "右上");
-            DirectionInt2String.Add(5, "下");
-            DirectionInt2String.Add(6, "左下");
-            DirectionInt2String.Add(7, "右下");
-            DirectionInt2String.Add(8, "左");
-            DirectionInt2String.Add(9, "右");
+            DirectionInt2String.Add(2, "正上方");
+            DirectionInt2String.Add(3, "右上方");
+            DirectionInt2String.Add(4, "正右方");
+            DirectionInt2String.Add(5, "右下方");
+            DirectionInt2String.Add(6, "正下方");
+            DirectionInt2String.Add(7, "左下方");
+            DirectionInt2String.Add(8, "正左方");
+            DirectionInt2String.Add(9, "左上方");
 
 
             DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
