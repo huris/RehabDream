@@ -62,7 +62,7 @@ MonoBehaviour:
   computeUserMap: 3
   computeColorMap: 0
   computeInfraredMap: 0
-  displayUserMap: 1
+  displayUserMap: 0
   displayColorMap: 0
   displaySkeletonLines: 1
   DisplayMapsWidthPercent: 40

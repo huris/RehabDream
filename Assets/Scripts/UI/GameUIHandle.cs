@@ -70,6 +70,7 @@ public class GameUIHandle : UIHandle
     private Vector3 HandTipLeft;
     public Image Introduction;
     public Image Buttons;   // 下面三个button的背景
+    public bool IsOver;
 
 
 
@@ -90,61 +91,68 @@ public class GameUIHandle : UIHandle
         PatientGestureListener.Instance.ResetTposeLastTime();
 
         WaitTime = 0f;
+        IsOver = false;
     }
 
 
 
     void FixedUpdate()
     {
-        KinectManager manager = KinectManager.Instance;
 
-        if (WaitTime == 0)
+        if (!IsOver)
         {
-            KinectDetectUIProgressSlider.gameObject.SetActive(false);
-        }
-        else if (WaitTime > 0)
-        {
-            KinectDetectUIProgressSlider.gameObject.SetActive(true);
-        }
+            KinectManager manager = KinectManager.Instance;
 
-        if (manager && manager.IsInitialized())
-        {
-            // overlay all joints in the skeleton
-            if (manager.IsUserDetected(playerIndex))
+            if (WaitTime == 0)
             {
-                long userId = manager.GetUserIdByIndex(playerIndex);
-                int jointsCount = manager.GetJointCount();
+                KinectDetectUIProgressSlider.gameObject.SetActive(false);
+            }
+            else if (WaitTime > 0)
+            {
+                KinectDetectUIProgressSlider.gameObject.SetActive(true);
+            }
 
-                for (int i = 0; i < jointsCount; i++)
+            if (manager && manager.IsInitialized())
+            {
+                // overlay all joints in the skeleton
+                if (manager.IsUserDetected(playerIndex))
                 {
-                    int joint = i;
+                    long userId = manager.GetUserIdByIndex(playerIndex);
+                    int jointsCount = manager.GetJointCount();
 
-                    if (manager.IsJointTracked(userId, joint))
+                    for (int i = 0; i < jointsCount; i++)
                     {
-                        Vector3 posJoint = manager.GetJointKinectPosition(userId, joint);
+                        int joint = i;
 
-                        // overlay the joint
-                        if (posJoint != Vector3.zero)
+                        if (manager.IsJointTracked(userId, joint))
                         {
+                            Vector3 posJoint = manager.GetJointKinectPosition(userId, joint);
 
-                            if (i == 21) { HandTipLeft = posJoint; }
-
-                            // 当左右手距离小于0.1f的时候画线
-                            if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
+                            // overlay the joint
+                            if (posJoint != Vector3.zero)
                             {
-                                if (WaitTime < 3.0f)
-                                {
-                                    WaitTime += Time.deltaTime;
-                                    KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
-                                }
-                                else
-                                {
 
-                                    Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
-                                    Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+                                if (i == 21) { HandTipLeft = posJoint; }
 
-                                    this.OpenUIAnimation(GameUI);
-                                    GameState.StateShoot2SessionOver();
+                                // 当左右手距离小于0.1f的时候画线
+                                if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
+                                {
+                                    if (WaitTime < 3.0f)
+                                    {
+                                        WaitTime += Time.deltaTime;
+                                        KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
+                                    }
+                                    else
+                                    {
+
+                                        Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
+                                        Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+
+                                        IsOver = true;
+
+                                        this.OpenUIAnimation(GameUI);
+                                        GameState.StateShoot2SessionOver();
+                                    }
                                 }
                             }
                         }
@@ -152,6 +160,7 @@ public class GameUIHandle : UIHandle
                 }
             }
         }
+        
     }
 
 

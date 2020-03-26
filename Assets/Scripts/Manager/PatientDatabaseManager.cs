@@ -408,7 +408,7 @@ public class PatientDatabaseManager : MonoBehaviour
         try
         {
             EvaluationIDReader = PatientDatabase.ReadTable(
-                PatientEvaluationTableName,
+                DirectionsTableName,
                 new string[] {
                     "*"
                     },
