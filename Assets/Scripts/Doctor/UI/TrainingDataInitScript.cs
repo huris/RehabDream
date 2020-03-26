@@ -49,6 +49,10 @@ public class TrainingDataInitScript : MonoBehaviour {
 		{ 
 			NoTrainingData.SetActive(true);
 
+			DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+			if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+			else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+
 			if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
 			{
 				TrainingButton.gameObject.SetActive(true);

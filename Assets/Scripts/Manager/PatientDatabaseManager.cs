@@ -533,9 +533,9 @@ public class PatientDatabaseManager : MonoBehaviour
                     MaxDirections[4].ToString(),
                     MaxDirections[5].ToString(),
                     MaxDirections[6].ToString(),
-                    MaxDirections[7].ToString(),
-                    MaxDirections[8].ToString(),
-                    MaxDirections[9].ToString()
+                    MaxDirections[7].ToString()
+                    //MaxDirections[8].ToString(),
+                    //MaxDirections[9].ToString()
                 }
             );
 

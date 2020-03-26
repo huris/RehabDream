@@ -395,10 +395,31 @@ public class GameState : MonoBehaviour
     // write Database after game over
     private void GameOverWriteDatabase()
     {
-
+        print("1");
         // set TrainingID
         //DataManager.instance.SetTrainingID(DatabaseManager.instance.GenerateTrainingID());
-
+        print(PatientDataManager.instance.TrainingID.GetType());
+        print("2");
+        print(PatientDataManager.instance.PatientID.GetType());
+        print("3");
+        print(PatientDataManager.instance.TrainingStartTime.ToString("yyyyMMdd HH:mm:ss").GetType());
+        print("4");
+        print(PatientDataManager.instance.TrainingEndTime.ToString("yyyyMMdd HH:mm:ss").GetType());
+        print("5");
+        print(PatientDataManager.DifficultyType2Str(PatientDataManager.instance.TrainingDifficulty).GetType());
+        print("6");
+        print(PatientDataManager.instance.GameCount.GetType());
+        print("7");
+        print(PatientDataManager.instance.SuccessCount.GetType());
+        print("8");
+        print(PatientDataManager.DirectionType2Str(PatientDataManager.instance.TrainingDirection).GetType());
+        print("9");
+        print(PatientDataManager.instance.TrainingTime.GetType());
+        print("10");
+        print(PatientDataManager.instance.IsEvaluated.GetType());
+        print("11");
+        print(EvaluationSocre(PatientDataManager.instance.MaxDirection).GetType());
+        print("12");
         //write Patient Record
         PatientDatabaseManager.instance.WritePatientRecord(
             PatientDataManager.instance.TrainingID,
