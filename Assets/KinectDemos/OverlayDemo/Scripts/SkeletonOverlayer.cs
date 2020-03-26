@@ -102,8 +102,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public static int[] SoccerBallOrder = {1,2,8,3,7,4,6,5,0};
     public GameObject TargetSoccerBall;
     public int NowSoccerIndex;   // 目前的小球索引
-    public static long ChangeBallWaitFrame = 1500;  // 换球等待5000帧
-    public static long InterruptedBallWaitFrame = 500;  // 中断球等待1500
+    public static long ChangeBallWaitFrame = 1500;  // 换球等待1500帧
+    public static long InterruptedBallWaitFrame = 250;  // 中断球等待250
     public long LeftTouchFrame;   // 剩下碰球的帧数
     public Text LeftTimeText;
     public long CurrentScore;   //当前得分
@@ -362,6 +362,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                     }
                                     else
                                     {
+                                        //if (evaluation.Points == null) evaluation.Points = new List<Point>();
                                         if (evaluation.Points.Count == 0)
                                         {
                                             evaluation.SetEvaluationStartTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));

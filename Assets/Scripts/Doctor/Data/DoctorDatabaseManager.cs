@@ -1626,7 +1626,14 @@ public class DoctorDatabaseManager : MonoBehaviour
         {
             reader = PatientDatabase.ExecuteQuery(QueryString);
             reader.Read();
-            //if (reader.HasRows)
+            if (reader.IsDBNull(0))
+            {
+                return 0;
+            }
+            else
+            {
+                return reader.GetInt64(0) + 1;
+            }
             //{
             //    //存在用户训练任务
             //    do
@@ -1657,13 +1664,12 @@ public class DoctorDatabaseManager : MonoBehaviour
             //    return PatientRecordCount;
             //}
 
-            return reader.GetInt32(0) + 1;
         }
         catch (SqliteException e)
         {
             //Debug.Log("@UserManager: Read PatientRecord SqliteException");
             PatientDatabase?.CloseConnection();
-            return -1;
+            return 0;
         }
     }
 
@@ -1969,13 +1975,20 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader = PatientDatabase.ExecuteQuery(QueryString);
             reader.Read();
 
-            return reader.GetInt32(0) + 1;
+            if (reader.IsDBNull(0))
+            {
+                return 0;
+            }
+            else
+            {
+                return reader.GetInt64(0) + 1;
+            }
         }
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Read MaxEvaluationID SqliteException");
             DoctorDatabase?.CloseConnection();
-            return -1;
+            return 0;
         }
     }
 

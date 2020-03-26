@@ -181,6 +181,10 @@ public class PatientItemScript : MonoBehaviour {
         DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
         //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.name);
 
+        DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+        if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+        else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+
         if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
         {
             //print(DoctorDataManager.instance.patient.PatientID);

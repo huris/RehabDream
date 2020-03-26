@@ -67,6 +67,15 @@ public class TrainingPlay
         this.SetEvaluationScore();
     }
 
+    public void SetPlanCount()
+    {
+
+    }
+    public void SetTrainingDifficulty(string TrainingDifficulty)
+    {
+        this.TrainingDifficulty = TrainingDifficulty;
+    }
+
     // set TrainingID, Max_SuccessCount
     public void SetTrainingID(long TrainingID)
     {

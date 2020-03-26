@@ -278,6 +278,14 @@ public class GameUIHandle : UIHandle
 
         Debug.Log("@GameUIHandle: Exit success");
         //LoadScene("Start");
+
+        TrainingPlay trainingPlay = DoctorDatabaseManager.instance.ReadLastPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
+
+        if(trainingPlay != null)
+        {
+            DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
+            DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
+        }
         base.LoadScene("03-DoctorUI");
     }
 

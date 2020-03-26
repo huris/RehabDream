@@ -116,9 +116,6 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             DirectionInt2String.Add(8, "左");
             DirectionInt2String.Add(9, "右");
 
-
-            if (DoctorDataManager.instance.doctor.patient.trainingPlan == null) DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
-
             if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
             else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
 
@@ -212,21 +209,12 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
             if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)
             {
-                DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
                 //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
-                print("!!!!!!");
-
-                print(DifficultInt2String[PlanDifficult.value]);
-
-                print(DirectionInt2String[PlanDirection.value]);
-
-                print(PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
-
-                DoctorDataManager.instance.doctor.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+                DoctorDataManager.instance.doctor.patient.trainingPlan = trainingPlan;
                 //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
-                print("!!!!!!");
-
+                
+                DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
 
                 PlanMakingSuccess.SetActive(true);
 
@@ -264,7 +252,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
                     PlanDeleteSuccess.SetActive(true);
 
-                    StartCoroutine(DelayTime(3));
+                    //StartCoroutine(DelayTime(3));
                 }
                 else
                 {

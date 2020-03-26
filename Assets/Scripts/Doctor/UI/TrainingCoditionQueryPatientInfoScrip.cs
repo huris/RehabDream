@@ -39,7 +39,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
 
         PatientInfoManagerItem = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
-        if(DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
+        if(DoctorDataManager.instance.doctor.patient != null)
         {
             PatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
             PatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
@@ -76,6 +76,10 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             PlanTimeText = transform.Find("TrainingPlan/TrainingPlanImage/PlanTime/Text").GetComponent<Text>();
 
             //print(DoctorDataManager.instance.doctor.patient.PlanIsMaking + "!!!!!");
+
+            if (DoctorDataManager.instance.doctor.patient.trainingPlan == null) DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+            if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+            else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
 
             if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
             {

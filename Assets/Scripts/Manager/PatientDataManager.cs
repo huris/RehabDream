@@ -122,6 +122,21 @@ public class PatientDataManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     }
 
+
+
+    public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan ,long MaxSuccessCount)
+    {
+        SetTrainingID(trainingPlay.TrainingID);
+        SetMaxSuccessCount(MaxSuccessCount);
+        SetPlanDifficulty(Str2DifficultyType(trainingPlan.PlanDifficulty));
+        SetPlanCount(trainingPlan.PlanCount);
+        SetPlanDirection(Str2DirectionType(trainingPlan.PlanDirection));
+        SetPlanTime(trainingPlan.PlanTime);
+        SetIsEvaluated(0);
+    }
+
+
+
     // 已废弃
     public void SetIsEvaluated(long IsEvaluated)
     {
