@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 跨场景数据、UI数据存在此处
-public class PatientDataManager : MonoBehaviour{
+public class PatientDataManager : MonoBehaviour
+{
     // Singleton instance holder
     public static PatientDataManager instance = null;
 
@@ -25,7 +26,7 @@ public class PatientDataManager : MonoBehaviour{
     }
 
     //发球间隔
-    private float[] _LaunchSpeedList=
+    private float[] _LaunchSpeedList =
     {
         5.0f,   //入门
         4.0f,   //初级
@@ -87,7 +88,7 @@ public class PatientDataManager : MonoBehaviour{
     public long TrainingID { get; private set; } = 0;
     public long MaxSuccessCount { get; private set; } = 0;
     public float[] MaxDirection { get; private set; } = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
-    public float[] NewMaxDirection { get; private set; } = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f};
+    public float[] NewMaxDirection { get; private set; } = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
 
     //[Header("MusicSetting")]
     public float bgmVolume { get; private set; } = 0.5f;
@@ -124,7 +125,7 @@ public class PatientDataManager : MonoBehaviour{
 
 
 
-    public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan ,long MaxSuccessCount)
+    public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan, long MaxSuccessCount)
     {
         SetTrainingID(trainingPlay.TrainingID);
         SetMaxSuccessCount(MaxSuccessCount);
@@ -143,7 +144,7 @@ public class PatientDataManager : MonoBehaviour{
         //this.IsEvaluated = IsEvaluated;
     }
     // set PatientName,PatientID
-    public void SetUserMessage(long PatientID, string PatientName,string PatientSex)
+    public void SetUserMessage(long PatientID, string PatientName, string PatientSex)
     {
         this.PatientID = PatientID;
         this.PatientName = PatientName;
@@ -175,16 +176,17 @@ public class PatientDataManager : MonoBehaviour{
     // set MaxDirection
     public void SetMaxDirection(float[] MaxDirection)
     {
-        for(int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)
         {
             this.MaxDirection[i] = MaxDirection[i];
-        } 
+        }
     }
 
     // update NewMaxDirection[i]
     public void UpdateNewMaxDirection(float MaxDirection, PatientDataManager.DirectionType Direction)
     {
-        if(this.NewMaxDirection[(int)Direction] < MaxDirection){
+        if (this.NewMaxDirection[(int)Direction] < MaxDirection)
+        {
             this.NewMaxDirection[(int)Direction] = MaxDirection;
         }
     }
@@ -267,7 +269,7 @@ public class PatientDataManager : MonoBehaviour{
 
     public void SetPlanDirection(DirectionType PlanDirection)
     {
-        this.PlanDirection= PlanDirection;
+        this.PlanDirection = PlanDirection;
     }
 
     // reset game data when restart game
@@ -337,21 +339,21 @@ public class PatientDataManager : MonoBehaviour{
     {
         switch (str)
         {
-            case "上":
+            case "正上方":
                 return DirectionType.UponDirection;
-            case "左上":
+            case "左上方":
                 return DirectionType.UponLeftDirection;
-            case "右上":
+            case "右上方":
                 return DirectionType.UponRightDirection;
-            case "下":
+            case "正下方":
                 return DirectionType.DownDirection;
-            case "左下":
+            case "左下方":
                 return DirectionType.DownLeftDirection;
-            case "右下":
+            case "右下方":
                 return DirectionType.DownRightDirection;
-            case "左":
+            case "正左方":
                 return DirectionType.LeftDirection;
-            case "右":
+            case "正右方":
                 return DirectionType.RightDirection;
             case "全方位":
                 return DirectionType.AnyDirection;
@@ -365,25 +367,25 @@ public class PatientDataManager : MonoBehaviour{
         switch (PlanDirection)
         {
             case DirectionType.UponDirection:
-                return "上";
+                return "正上方";
             case DirectionType.UponLeftDirection:
-                return "左上";
+                return "左上方";
             case DirectionType.UponRightDirection:
-                return "右上";
+                return "右上方";
             case DirectionType.DownDirection:
-                return "下";
+                return "正下方";
             case DirectionType.DownLeftDirection:
-                return "左下";
+                return "左下方";
             case DirectionType.DownRightDirection:
-                return "右下";
+                return "右下方";
             case DirectionType.LeftDirection:
-                return "左";
+                return "正左方";
             case DirectionType.RightDirection:
-                return "右";
+                return "正右方";
             case DirectionType.AnyDirection:
                 return "全方位";
             default:
-                return "上";
+                return "正上方";
         }
     }
 
@@ -394,7 +396,7 @@ public class PatientDataManager : MonoBehaviour{
 
     public static DirectionType ChangeDirection(DirectionType Direction)
     {
-        if((Direction+1) == DirectionType.AnyDirection)
+        if ((Direction + 1) == DirectionType.AnyDirection)
         {
             Debug.Log("@PatientDataManager: Change Direction to " + DirectionType.UponDirection);
             return DirectionType.UponDirection;

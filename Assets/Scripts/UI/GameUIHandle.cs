@@ -98,7 +98,7 @@ public class GameUIHandle : UIHandle
 
     void FixedUpdate()
     {
-
+        
         if (!IsOver)
         {
             KinectManager manager = KinectManager.Instance;
@@ -160,7 +160,11 @@ public class GameUIHandle : UIHandle
                 }
             }
         }
-        
+
+
+    
+        //this.OpenUIAnimation(GameUI);
+        //GameState.StateShoot2SessionOver();
     }
 
 
@@ -290,7 +294,7 @@ public class GameUIHandle : UIHandle
 
         TrainingPlay trainingPlay = DoctorDatabaseManager.instance.ReadLastPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 
-        if(trainingPlay != null)
+        if (trainingPlay != null)
         {
             DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
             DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
@@ -379,16 +383,18 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string Tip)
     {
-        string[] Tips = new string[] { "正上", "右上", "正右", "右下", "正下", "左下", "正左", "" };
-        if (Array.IndexOf(Tips, Tip)==-1)
+        print(Tip + "   @@@@@");
+        string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
+        if (Array.IndexOf(Tips, Tip) == -1)
         {
             // 不是方向字符串
             GameUITipsText.text = Tip;
         }
-        else{
+        else
+        {
 
             // 是方向字符串
-            GameUITipsText.text = "请双手握拳，朝" + Tip + "方接球";
+            GameUITipsText.text = "请双手握拳，朝" + Tip + "接球";
         }
 
     }

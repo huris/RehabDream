@@ -116,7 +116,6 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             DirectionInt2String.Add(8, "正左方");
             DirectionInt2String.Add(9, "左上方");
 
-
             DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
             if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
             else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);

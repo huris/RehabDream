@@ -203,6 +203,8 @@ public class PatientItemScript : MonoBehaviour {
             trainingPlay.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0));
             trainingPlay.SetTrainingDifficulty(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty);
 
+            print("!!!!!");
+
             PatientDataManager.instance.SetTrainingData(trainingPlay, DoctorDataManager.instance.doctor.patient.trainingPlan, DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
 
             //PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);

@@ -408,7 +408,7 @@ public class PatientDatabaseManager : MonoBehaviour
         try
         {
             EvaluationIDReader = PatientDatabase.ReadTable(
-                DirectionsTableName,
+                PatientEvaluationTableName,
                 new string[] {
                     "*"
                     },
@@ -485,29 +485,6 @@ public class PatientDatabaseManager : MonoBehaviour
 
         //try
         //{
-        print("!!!!1");
-        print(TrainingID.ToString());
-        print("!!!!2");
-        print(PatientID.ToString());
-        print("!!!!3");
-        print(AddSingleQuotes(TrainingStartTime));
-        print("!!!!4");
-        print(AddSingleQuotes(TrainingEndTime));
-        print("!!!!5");
-        print(AddSingleQuotes(TrainingDifficulty));
-        print("!!!!6");
-        print(GameCount.ToString());
-        print("!!!!7");
-        print(SuccessCount.ToString());
-        print("!!!!8");
-        print(AddSingleQuotes(TrainingDirection));
-        print("!!!!9");
-        print(TrainingTime.ToString());
-        print("!!!!10");
-        print(IsEvaluated.ToString());
-        print("!!!!11");
-        print(EvaluationSocre.ToString());
-   
         //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
         PatientDatabase.InsertValues(
             PatientRecordTableName, //table name
