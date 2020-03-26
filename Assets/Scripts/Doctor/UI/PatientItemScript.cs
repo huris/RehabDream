@@ -91,8 +91,8 @@ public class PatientItemScript : MonoBehaviour {
                 this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientSex;
                 this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientAge.ToString();
                 this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientID.ToString();
-                Doctor doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.Patients[i].PatientDoctorID);
-                this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = doctor.DoctorName;
+                //Doctor doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.Patients[i].PatientDoctorID);
+                this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.PatientDoctorName;
 
                 // 为button添加监听函数
                 this.transform.GetChild(i).GetChild(0).GetChild(3).GetChild(0).GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况

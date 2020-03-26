@@ -64,7 +64,8 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             }
 
             PatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom;
-            PatientDoctor.text = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.patient.PatientDoctorID).DoctorName;
+            //PatientDoctor.text = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.patient.PatientDoctorID).DoctorName;
+            PatientDoctor.text = DoctorDataManager.instance.doctor.patient.PatientDoctorName;
 
             TrainingPlanNullText = transform.Find("TrainingPlan/TrainingPlanImage/TrainingPlanNullText").gameObject;
             PlanDifficulty = transform.Find("TrainingPlan/TrainingPlanImage/PlanDifficulty").gameObject;

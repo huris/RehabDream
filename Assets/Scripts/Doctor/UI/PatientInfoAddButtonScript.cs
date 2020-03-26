@@ -182,7 +182,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                 else
                 {
                     Patient patient = new Patient(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == "" ? -1 : long.Parse(PatientHeight.text), PatientWeight.text == "" ? -1 : long.Parse(PatientWeight.text));
-                    
+
                     //print(DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
                     DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
 
@@ -191,7 +191,17 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                         //print("成功");
                         RegisterSuccess.SetActive(true);
 
-                        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
+                        //DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
+                        
+                        // 插入用户
+                        for(int z = 0; z < DoctorDataManager.instance.doctor.Patients.Count; z++)
+                        {
+                            if(patient.PatientPinyin.CompareTo(DoctorDataManager.instance.doctor.Patients[z].PatientPinyin) < 0)
+                            {
+                                DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
+                            }
+                        }
+
                         DoctorDataManager.instance.doctor.patient = patient;
 
                         StartCoroutine(DelayTime(3));

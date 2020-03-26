@@ -215,8 +215,18 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
                 //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(true);
 
+                print("!!!!!!");
+
+                print(DifficultInt2String[PlanDifficult.value]);
+
+                print(DirectionInt2String[PlanDirection.value]);
+
+                print(PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+
                 DoctorDataManager.instance.doctor.patient.trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
                 //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetTrainingPlan(DifficultInt2String[PlanDifficult.value], DirectionInt2String[PlanDirection.value], PlanTime.text == "" ? 20 : long.Parse(PlanTime.text));
+                print("!!!!!!");
+
 
                 PlanMakingSuccess.SetActive(true);
 
