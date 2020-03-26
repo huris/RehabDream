@@ -84,18 +84,18 @@ public class PatientInfoAddButtonScript : MonoBehaviour
 
         //print(DoctorDataManager.instance.Doctors.Count);
 
-        if (DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
+        if (DoctorDataManager.instance.DoctorsIDAndName != null && DoctorDataManager.instance.DoctorsIDAndName.Count > 0)
         {
             DoctorString2Int.Clear();
             DoctorInt2String.Clear();
             PatientDoctorName.Clear();
             PatientDoctor.ClearOptions();
 
-            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.DoctorsIDAndName.Count; i++)
             {
-                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+                DoctorString2Int.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
+                PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
             }
 
             PatientDoctorName.Add("请输入医生");
@@ -181,7 +181,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                 }
                 else
                 {
-                    Patient patient = new Patient(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == "" ? -1 : long.Parse(PatientHeight.text), PatientWeight.text == "" ? -1 : long.Parse(PatientWeight.text));
+                    Patient patient = new Patient(long.Parse(PatientID.text), PatientName.text, PatientSymptom.text, DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item1, DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item2, long.Parse(PatientAge.text), PatientSex, PatientHeight.text == "" ? -1 : long.Parse(PatientHeight.text), PatientWeight.text == "" ? -1 : long.Parse(PatientWeight.text));
 
                     //print(DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
                     DoctorDatabaseManager.DatabaseReturn RETURN = DoctorDatabaseManager.instance.PatientRegister(patient);
@@ -192,14 +192,20 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                         RegisterSuccess.SetActive(true);
 
                         //DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
-                        
+
                         // 插入用户
-                        for(int z = 0; z < DoctorDataManager.instance.doctor.Patients.Count; z++)
+                        int z = 0;
+                        for (z = 0; z < DoctorDataManager.instance.doctor.Patients.Count; z++)
                         {
                             if(patient.PatientPinyin.CompareTo(DoctorDataManager.instance.doctor.Patients[z].PatientPinyin) < 0)
                             {
                                 DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
+                                break;
                             }
+                        }
+                        if(z == DoctorDataManager.instance.doctor.Patients.Count)
+                        {
+                            DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
                         }
 
                         DoctorDataManager.instance.doctor.patient = patient;

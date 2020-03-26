@@ -65,8 +65,10 @@ public class PatientModifyInitScript : MonoBehaviour {
 
         PatientName.text = DoctorDataManager.instance.doctor.TempPatient.PatientName;
         PatientAge.text = DoctorDataManager.instance.doctor.TempPatient.PatientAge.ToString();
-        PatientHeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientHeight.ToString();
-        PatientWeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientWeight.ToString();
+        if (DoctorDataManager.instance.doctor.TempPatient.PatientHeight == -1) PatientHeight.text = "";
+        else PatientHeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientHeight.ToString();
+        if (DoctorDataManager.instance.doctor.TempPatient.PatientWeight == -1) PatientWeight.text = "";
+        else PatientWeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientWeight.ToString();
         PatientSymptom.text = DoctorDataManager.instance.doctor.TempPatient.PatientSymptom;
 
         if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "男") { Man.isOn = true; Woman.isOn = false; }
@@ -74,20 +76,20 @@ public class PatientModifyInitScript : MonoBehaviour {
 
         // DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-        if(DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
+        if(DoctorDataManager.instance.DoctorsIDAndName != null && DoctorDataManager.instance.DoctorsIDAndName.Count > 0)
         {
             DoctorString2Int.Clear();
             DoctorInt2String.Clear();
             PatientDoctorName.Clear();
             PatientDoctor.ClearOptions();
 
-            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.DoctorsIDAndName.Count; i++)
             {
-                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+                DoctorString2Int.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
+                PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
 
-                if (DoctorDataManager.instance.Doctors[i].DoctorID == DoctorDataManager.instance.doctor.patient.PatientDoctorID)
+                if (DoctorDataManager.instance.DoctorsIDAndName[i].Item1 == DoctorDataManager.instance.doctor.patient.PatientDoctorID)
                 {
                     PatientDoctorIndex = i;
                 }
@@ -164,9 +166,9 @@ public class PatientModifyInitScript : MonoBehaviour {
                 PatientWeight.text = "-1";
             }
 
-            DoctorDataManager.instance.doctor.TempPatient.ModifyPatientInfo(PatientName.text, PatientSex, long.Parse(PatientAge.text), long.Parse(PatientHeight.text), long.Parse(PatientWeight.text), PatientSymptom.text, DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID);
+            DoctorDataManager.instance.doctor.TempPatient.ModifyPatientInfo(PatientName.text, PatientSex, long.Parse(PatientAge.text), long.Parse(PatientHeight.text), long.Parse(PatientWeight.text), PatientSymptom.text, DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item1);
 
-            if(DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID != DoctorDataManager.instance.doctor.DoctorID)
+            if(DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item1 != DoctorDataManager.instance.doctor.DoctorID)
             {
                 DoctorDataManager.instance.doctor.Patients.Remove(DoctorDataManager.instance.doctor.TempPatient);
                 

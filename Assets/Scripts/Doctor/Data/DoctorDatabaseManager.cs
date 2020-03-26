@@ -813,6 +813,56 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    public List<Tuple<long, string> > ReadAllDoctorIDAndName()
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<Tuple<long, string> > result = new List<Tuple<long, string> >(); //返回值
+        string QueryString = "SELECT * FROM DoctorInfo";
+
+        //ORDER BY convert(name using gbk)
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+
+                //result = new List<Doctor>();
+                //存在用户训练任务
+                do
+                {
+
+                    string DoctorName = reader.GetString(reader.GetOrdinal("DoctorName"));
+                    long DoctorID = reader.GetInt64(reader.GetOrdinal("DoctorID"));
+
+                    if (DoctorName != "root")
+                    {
+                        result.Add(new Tuple<long, string>(DoctorID, DoctorName));
+                    }
+
+                } while (reader.Read());
+
+                result.Sort((x,y)=> NPinyin.Pinyin.GetPinyin(x.Item2).CompareTo(NPinyin.Pinyin.GetPinyin(y.Item2)));
+
+                Debug.Log("@UserManager:Read DoctorNames Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read DoctorNames Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read DoctorNames SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+
+
     // 读取所有医生信息
     public List<Doctor> ReadAllDoctorInformation()
     {
@@ -827,6 +877,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
+                //result = new List<Doctor>();
                 //result = new List<Doctor>();
                 //存在用户训练任务
                 do
@@ -1997,7 +2048,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     public List<Point> ReadEvaluationPointsRecord(long EvaluationID)
     {
         SqliteDataReader reader;    //sql读取器
-        List<Point> result = null; //返回值
+        List<Point> result = new List<Point>(); //返回值
         string QueryString = "SELECT * FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString();
 
         try
@@ -2006,7 +2057,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             reader.Read();
             if (reader.HasRows)
             {
-                result = new List<Point>(); //返回值
+                //result = new List<Point>(); //返回值
 
                 //result = new List<Angle>();
                 //存在用户训练任务
