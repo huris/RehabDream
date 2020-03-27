@@ -59,7 +59,7 @@ namespace XCharts
                 LeftRightChart = transform.Find("LeftRightChart").gameObject.GetComponent<LineChart>();
                 if (LeftRightChart == null) LeftRightChart = transform.Find("LeftRightChart").gameObject.AddComponent<LineChart>();
 
-                LeftRightChart.themeInfo.theme = Theme.Light;
+                //LeftRightChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -168,7 +168,7 @@ namespace XCharts
                 UponDownChart = transform.Find("UponDownChart").gameObject.GetComponent<LineChart>();
                 if (UponDownChart == null) UponDownChart = transform.Find("UponDownChart").gameObject.AddComponent<LineChart>();
 
-                UponDownChart.themeInfo.theme = Theme.Light;
+                //UponDownChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -278,7 +278,7 @@ namespace XCharts
                 ArmChart = transform.Find("ArmChart").gameObject.GetComponent<LineChart>();
                 if (ArmChart == null) ArmChart = transform.Find("ArmChart").gameObject.AddComponent<LineChart>();
 
-                ArmChart.themeInfo.theme = Theme.Light;
+                //ArmChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -388,7 +388,7 @@ namespace XCharts
                 ElbowChart = transform.Find("ElbowChart").gameObject.GetComponent<LineChart>();
                 if (ElbowChart == null) ElbowChart = transform.Find("ElbowChart").gameObject.AddComponent<LineChart>();
 
-                ElbowChart.themeInfo.theme = Theme.Light;
+                //ElbowChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -496,7 +496,7 @@ namespace XCharts
                 LegChart = transform.Find("LegChart").gameObject.GetComponent<LineChart>();
                 if (LegChart == null) LegChart = transform.Find("LegChart").gameObject.AddComponent<LineChart>();
 
-                LegChart.themeInfo.theme = Theme.Light;
+                //LegChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
