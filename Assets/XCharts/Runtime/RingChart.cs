@@ -89,7 +89,7 @@ namespace XCharts
                     var degree = 360 * value / max;
                     var startDegree = GetStartAngle(serie);
                     var toDegree = GetToAngle(serie, degree);
-                    var itemColor = SerieHelper.GetItemColor(serie, m_ThemeInfo, j, serieData.highlighted);
+                    var itemColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
                     var outsideRadius = serie.runtimeOutsideRadius - j * (ringWidth + serie.ringGap);
                     var insideRadius = outsideRadius - ringWidth;
                     var centerRadius = (outsideRadius + insideRadius) / 2;
@@ -99,14 +99,14 @@ namespace XCharts
                     serieData.runtimePieInsideRadius = insideRadius;
                     serieData.runtimePieOutsideRadius = outsideRadius;
 
-                    DrawBackground(vh, serie, j, insideRadius, outsideRadius);
+                    DrawBackground(vh, serie, serieData, j, insideRadius, outsideRadius);
                     DrawRoundCap(vh, serie, serie.runtimeCenterPos, itemColor, insideRadius, outsideRadius,
                         ref startDegree, ref toDegree);
                     ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
                         outsideRadius, itemColor, Color.clear, m_Settings.cicleSmoothness,
                         startDegree, toDegree);
-                    DrawBorder(vh, serie, insideRadius, outsideRadius);
-                    DrawCenter(vh, serie, insideRadius, j == data.Count - 1);
+                    DrawBorder(vh, serie, serieData, insideRadius, outsideRadius);
+                    DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);
                     UpateLabelPosition(serie, serieData, j, startDegree, toDegree, centerRadius);
                 }
                 if (!serie.animation.IsFinish())
@@ -149,12 +149,14 @@ namespace XCharts
             return toAngle;
         }
 
-        private void DrawCenter(VertexHelper vh, Serie serie, float insideRadius, bool last)
+        private void DrawCenter(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, bool last)
         {
-            if (serie.itemStyle.centerColor != Color.clear && last)
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (itemStyle.centerColor != Color.clear && last)
             {
-                var radius = insideRadius - serie.itemStyle.centerGap;
-                ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, serie.itemStyle.centerColor);
+                var radius = insideRadius - itemStyle.centerGap;
+                var smoothness = m_Settings.cicleSmoothness;
+                ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, smoothness);
             }
         }
 
@@ -183,14 +185,15 @@ namespace XCharts
             }
         }
 
-        private void DrawBackground(VertexHelper vh, Serie serie, int index, float insideRadius, float outsideRadius)
+        private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)
         {
-            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, m_ThemeInfo, index, false);
-            if (serie.itemStyle.backgroundWidth != 0)
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            var backgroundColor = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, index, false);
+            if (itemStyle.backgroundWidth != 0)
             {
                 var centerRadius = (outsideRadius + insideRadius) / 2;
-                var inradius = centerRadius - serie.itemStyle.backgroundWidth / 2;
-                var outradius = centerRadius + serie.itemStyle.backgroundWidth / 2;
+                var inradius = centerRadius - itemStyle.backgroundWidth / 2;
+                var outradius = centerRadius + itemStyle.backgroundWidth / 2;
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, inradius,
                     outradius, backgroundColor, Color.clear, m_Settings.cicleSmoothness);
             }
@@ -201,15 +204,16 @@ namespace XCharts
             }
         }
 
-        private void DrawBorder(VertexHelper vh, Serie serie, float insideRadius, float outsideRadius)
+        private void DrawBorder(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, float outsideRadius)
         {
-            if (serie.itemStyle.show && serie.itemStyle.borderWidth > 0 && serie.itemStyle.borderColor != Color.clear)
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (itemStyle.show && itemStyle.borderWidth > 0 && itemStyle.borderColor != Color.clear)
             {
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, outsideRadius,
-                outsideRadius + serie.itemStyle.borderWidth, serie.itemStyle.borderColor,
+                outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,
                 Color.clear, m_Settings.cicleSmoothness);
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
-                insideRadius + serie.itemStyle.borderWidth, serie.itemStyle.borderColor,
+                insideRadius + itemStyle.borderWidth, itemStyle.borderColor,
                 Color.clear, m_Settings.cicleSmoothness);
             }
         }
@@ -316,7 +320,6 @@ namespace XCharts
             return angle;
         }
 
-        StringBuilder sb = new StringBuilder();
         protected override void UpdateTooltip()
         {
             base.UpdateTooltip();
@@ -326,26 +329,8 @@ namespace XCharts
                 int index = m_Tooltip.runtimeDataIndex[serie.index];
                 if (index < 0) continue;
                 showTooltip = true;
-                if (tooltip.IsNoFormatter())
-                {
-                    var serieData = serie.GetSerieData(index);
-                    float value = serieData.GetFirstData();
-                    sb.Length = 0;
-                    if (!string.IsNullOrEmpty(serieData.name))
-                    {
-                        sb.Append("<color=#").Append(m_ThemeInfo.GetColorStr(index)).Append(">● </color>")
-                        .Append(serieData.name).Append(": ").Append(ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
-                    }
-                    else
-                    {
-                        sb.Append(ChartCached.FloatToStr(value, 0, m_Tooltip.forceENotation));
-                    }
-                    m_Tooltip.UpdateContentText(sb.ToString());
-                }
-                else
-                {
-                    m_Tooltip.UpdateContentText(m_Tooltip.GetFormatterContent(index, m_Series, null, m_ThemeInfo));
-                }
+                var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
+                m_Tooltip.UpdateContentText(content);
 
                 var pos = m_Tooltip.GetContentPos();
                 if (pos.x + m_Tooltip.runtimeWidth > chartWidth)

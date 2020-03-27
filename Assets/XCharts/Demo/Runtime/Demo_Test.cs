@@ -14,7 +14,6 @@ namespace XCharts
     [ExecuteInEditMode]
     public class Demo_Test : MonoBehaviour
     {
-        private float updateTime = 0;
         BaseChart chart;
         void Awake()
         {
@@ -42,14 +41,14 @@ namespace XCharts
         void AddData()
         {
             chart.ClearData();
-            int count = Random.Range(5, 20);
+            int count = Random.Range(5, 100);
             for (int i = 0; i < count; i++)
             {
                 (chart as CoordinateChart).AddXAxisData("x" + i);
                 if (Random.Range(1, 3) == 2)
-                    chart.AddData(0, Random.Range(10, 200));
+                    chart.AddData(0, Random.Range(-110, 200));
                 else
-                    chart.AddData(0, Random.Range(10, 100));
+                    chart.AddData(0, Random.Range(-100, 100));
             }
         }
     }

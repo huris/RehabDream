@@ -664,10 +664,14 @@
      <Compile Include="Assets\XCharts\Runtime\Component\SubComponent.cs" />
      <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
      <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\AxisHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\LegendHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\SerieDataHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\SerieHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\SerieLabelHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\TitleHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\TitleStyleHelper.cs" />
+     <Compile Include="Assets\XCharts\Runtime\Helper\TooltipHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
      <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />

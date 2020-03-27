@@ -166,6 +166,20 @@ namespace XCharts
     }
 
     /// <summary>
+    /// 雷达图类型
+    /// </summary>
+    public enum RadarType
+    {
+        /// <summary>
+        /// 多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+        /// </summary>
+        Multiple,
+        /// <summary>
+        /// 单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+        /// </summary>
+        Single
+    }
+    /// <summary>
     /// 采样类型
     /// </summary>
     public enum SampleType
@@ -256,6 +270,7 @@ namespace XCharts
         [SerializeField] private bool m_Clip = true;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
+        [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
@@ -625,6 +640,14 @@ namespace XCharts
         {
             get { return m_IgnoreValue; }
             set { if (PropertyUtility.SetStruct(ref m_IgnoreValue, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 雷达图类型。
+        /// </summary>
+        public RadarType radarType
+        {
+            get { return m_RadarType; }
+            set { if (PropertyUtility.SetStruct(ref m_RadarType, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 仪表盘轴线。
@@ -1413,72 +1436,9 @@ namespace XCharts
             }
         }
 
-        internal Color GetAreaColor(ThemeInfo theme, int index, bool highlight)
-        {
-            var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
-            if (highlight)
-            {
-                if (areaStyle.highlightColor != Color.clear) color = areaStyle.highlightColor;
-                else color *= color;
-            }
-            color.a *= areaStyle.opacity;
-            return color;
-        }
 
-        internal Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (areaStyle.toColor != Color.clear)
-            {
-                var color = areaStyle.toColor;
-                if (highlight)
-                {
-                    if (areaStyle.highlightToColor != Color.clear) color = areaStyle.highlightToColor;
-                    else color *= color;
-                }
-                color.a *= areaStyle.opacity;
-                return color;
-            }
-            else
-            {
-                return GetAreaColor(theme, index, highlight);
-            }
-        }
 
-        internal Color GetLineColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (lineStyle.color != Color.clear)
-            {
-                var color = lineStyle.color;
-                if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
-                return color;
-            }
-        }
 
-        internal Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (symbol.color != Color.clear)
-            {
-                var color = symbol.color;
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-        }
 
         internal float GetBarWidth(float categoryWidth)
         {
@@ -1556,12 +1516,25 @@ namespace XCharts
             return false;
         }
 
-        public bool IsIngoreValue(float value)
+        public bool IsIgnoreIndex(int index, int dimension)
+        {
+            if (m_Ignore)
+            {
+                var serieData = GetSerieData(index);
+                if (serieData != null)
+                {
+                    return IsIgnoreValue(serieData.GetData(dimension));
+                }
+            }
+            return false;
+        }
+
+        public bool IsIgnoreValue(float value)
         {
             return m_Ignore && Mathf.Approximately(value, m_IgnoreValue);
         }
 
-        public bool IsIngorePoint(int index)
+        public bool IsIgnorePoint(int index)
         {
             if (index >= 0 && index < dataPoints.Count)
             {

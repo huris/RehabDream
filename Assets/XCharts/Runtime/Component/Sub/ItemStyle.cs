@@ -36,6 +36,7 @@ namespace XCharts
         }
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color m_Color;
+        [SerializeField] private Color m_ToColor;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color m_CenterColor;
@@ -44,6 +45,7 @@ namespace XCharts
         [SerializeField] private float m_BorderWidth = 0;
         [SerializeField] private Color m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
+        [SerializeField] private string m_TooltipFormatter;
 
         /// <summary>
         /// 是否启用。
@@ -60,6 +62,15 @@ namespace XCharts
         {
             get { return m_Color; }
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Gradient color, start color to toColor.
+        /// 渐变色的终点颜色。
+        /// </summary>
+        public Color toColor
+        {
+            get { return m_ToColor; }
+            set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景颜色。
@@ -126,6 +137,14 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// 提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
+        /// </summary>
+        public string tooltipFormatter
+        {
+            get { return m_TooltipFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 实际边框宽。边框不显示时为0。
         /// </summary>
         public float runtimeBorderWidth { get { return NeedShowBorder() ? borderWidth : 0; } }
@@ -138,6 +157,11 @@ namespace XCharts
             return borderWidth != 0 && borderColor != Color.clear;
         }
 
-
+        public Color GetColor()
+        {
+            var color = m_Color;
+            color.a *= m_Opacity;
+            return color;
+        }
     }
 }

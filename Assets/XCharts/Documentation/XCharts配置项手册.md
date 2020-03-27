@@ -36,7 +36,7 @@
 * [AxisSplitArea 坐标轴分割区域](#AxisSplitArea)  
 * [AxisTick 坐标轴刻度](#AxisTick)  
 * [Emphasis 高亮样式](#Emphasis)  
-* [ItemStyle 图形样式](#ItemStyle)  
+* [ItemStyle 数据项样式](#ItemStyle)  
 * [LineArrow 折线图箭头](#LineArrow)  
 * [LineStyle 折线图样式](#LineStyle)  
 * [Location 位置](#Location)  
@@ -467,7 +467,7 @@
 * `sampleAverage`：设定的采样平均值。当 `sampleType` 为 `Peak` 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为`0`时会实时计算所有数据的平均值。
 * `clip`：是否裁剪超出坐标系部分的图形。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
-* `ignoreValue`：忽略数据的默认值。当 `ignore` 为 `true` 才有效。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -511,6 +511,8 @@
 * `barZebraWidth`：斑马线的粗细。`barType` 为 `Zebra` 时有效。
 * `barZebraGap`：斑马线的间距。`barType` 为 `Zebra` 时有效。
 * `clip`：是否裁剪超出坐标系部分的图形。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
@@ -546,9 +548,15 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Radar`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `radarType`：雷达图类型`RadarType`，支持以下类型：
+  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
+* `itemStyle`：标记样式 [ItemStyle](#ItemStyle)。
+* `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。
 
@@ -573,6 +581,8 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Scatter`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -714,6 +724,7 @@
 * `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
 * `inside`：坐标轴刻度是否朝内，默认朝外。
 * `length`：坐标轴刻度的长度。
+* `width`：坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
 
 ## `Emphasis`
 
@@ -733,6 +744,7 @@
 * `borderColor`：边框的颜色。
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
+* `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
 
 ## `LineArrow`
 

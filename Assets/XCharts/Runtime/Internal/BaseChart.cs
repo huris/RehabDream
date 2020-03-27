@@ -51,13 +51,11 @@ namespace XCharts
         [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
-        [NonSerialized] private Legend m_CheckLegend = Legend.defaultLegend;
         [NonSerialized] private float m_CheckWidth = 0;
         [NonSerialized] private float m_CheckHeight = 0;
         [NonSerialized] private Vector2 m_CheckMinAnchor;
         [NonSerialized] private Vector2 m_CheckMaxAnchor;
 
-        [NonSerialized] private float m_CheckSerieCount = 0;
         [NonSerialized] protected bool m_RefreshChart = false;
         [NonSerialized] protected bool m_RefreshLabel = false;
         [NonSerialized] protected bool m_ReinitLabel = false;
@@ -235,8 +233,10 @@ namespace XCharts
             titleObject.transform.localPosition = titlePosition;
             ChartHelper.HideAllObject(titleObject);
 
+            var textFont = TitleHelper.GetTextFont(title, themeInfo);
+            var textColor = TitleHelper.GetTextColor(title, themeInfo);
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
+                        textFont, textColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.textStyle.fontSize), m_Title.textStyle.fontSize,
                         m_Title.textStyle.rotate, m_Title.textStyle.fontStyle, m_Title.textStyle.lineSpacing);
 
@@ -245,8 +245,10 @@ namespace XCharts
             titleText.transform.localPosition = Vector3.zero + m_Title.textStyle.offsetv3;
             titleText.text = m_Title.text.Replace("\\n", "\n");
 
+            var subTextFont = TitleHelper.GetSubTextFont(title, themeInfo);
+            var subTextColor = TitleHelper.GetSubTextColor(title, themeInfo);
             Text subText = ChartHelper.AddTextObject(s_TitleObjectName + "_sub", titleObject.transform,
-                        m_ThemeInfo.font, m_ThemeInfo.titleSubTextColor, anchor, anchorMin, anchorMax, pivot,
+                        subTextFont, subTextColor, anchor, anchorMin, anchorMax, pivot,
                         new Vector2(titleWid, m_Title.subTextStyle.fontSize), m_Title.subTextStyle.fontSize,
                         m_Title.subTextStyle.rotate, m_Title.subTextStyle.fontStyle, m_Title.subTextStyle.lineSpacing);
 
@@ -296,7 +298,6 @@ namespace XCharts
                 if (!m_Series.IsLegalLegendName(datas[i])) continue;
                 string legendName = m_Legend.GetFormatterContent(datas[i]);
                 var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
-                var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
                 var active = IsActiveByLegend(datas[i]);
                 var bgColor = LegendHelper.GetIconColor(m_Legend, readIndex, themeInfo, active);
                 var item = LegendHelper.AddLegendItem(m_Legend, i, datas[i], legendObject.transform, m_ThemeInfo,
@@ -371,7 +372,7 @@ namespace XCharts
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
-                    var serieLabel = serieData.GetSerieLabel(serie.label);
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     if (!serieLabel.show && j > 100) continue;
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
                     var color = Color.grey;
@@ -726,7 +727,7 @@ namespace XCharts
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, float gap)
+            float tickness, Vector3 pos, Color color, Color toColor, float gap)
         {
             var backgroundColor = m_ThemeInfo.backgroundColor;
             var smoothness = m_Settings.cicleSmoothness;
@@ -737,55 +738,55 @@ namespace XCharts
                 case SerieSymbolType.Circle:
                     if (gap > 0)
                     {
-                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pos, symbolSize, symbolSize + gap, backgroundColor, color, toColor, smoothness);
                     }
                     else
                     {
-                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, smoothness);
+                        ChartDrawer.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.EmptyCircle:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
                     }
                     else
                     {
-                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, backgroundColor, smoothness);
+                        ChartDrawer.DrawEmptyCricle(vh, pos, symbolSize, tickness, color, toColor, backgroundColor, smoothness);
                     }
                     break;
                 case SerieSymbolType.Rect:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawPolygon(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawPolygon(vh, pos, symbolSize, color, toColor);
                     }
                     break;
                 case SerieSymbolType.Triangle:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawTriangle(vh, pos, symbolSize, color, toColor);
                     }
                     break;
                 case SerieSymbolType.Diamond:
                     if (gap > 0)
                     {
                         ChartDrawer.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
                     }
                     else
                     {
-                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color);
+                        ChartDrawer.DrawDiamond(vh, pos, symbolSize, color, toColor);
                     }
                     break;
             }
@@ -818,10 +819,14 @@ namespace XCharts
 
         protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
         {
+            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (!serieLabel.show) return;
+            var invert = serie.type == SerieType.Line
+                && SerieHelper.IsDownPoint(serie, serieData.index)
+                && !serie.areaStyle.show;
+            var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
             var labelHalfWid = serieData.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
-            var serieLabel = serieData.GetSerieLabel(serie.label);
-            var centerPos = serieData.labelPosition + serieLabel.offset;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
             var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
             var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);
