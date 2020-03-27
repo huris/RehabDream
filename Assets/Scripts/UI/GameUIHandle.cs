@@ -383,7 +383,7 @@ public class GameUIHandle : UIHandle
     // set TipsText in GameUI
     public void SetTipsText(string Tip)
     {
-        print(Tip + "   @@@@@");
+        //print(Tip + "   @@@@@");
         string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
         if (Array.IndexOf(Tips, Tip) == -1)
         {

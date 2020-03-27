@@ -458,8 +458,8 @@ public class PatientDatabaseManager : MonoBehaviour
                     EvaluateDirection[5] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("DownLeftSoccerDistance"));
                     EvaluateDirection[6] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("LeftSoccerDistance"));
                     EvaluateDirection[7] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("UponLeftSoccerDistance"));
-                    EvaluateDirection[8] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("FrontSoccerDistance"));
-                    EvaluateDirection[9] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("BehindSoccerDistance"));
+                    //EvaluateDirection[8] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("FrontSoccerDistance"));
+                    //EvaluateDirection[9] = EvaluationSoccerReader.GetFloat(EvaluationSoccerReader.GetOrdinal("BehindSoccerDistance"));
                 }
                 else
                 {

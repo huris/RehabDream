@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // 跨场景数据、UI数据存在此处
@@ -127,9 +128,6 @@ public class PatientDataManager : MonoBehaviour
 
     public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan, SoccerDistance soccerDistance, long MaxSuccessCount)
     {
-        print(trainingPlay.TrainingID);
-
-
         SetTrainingID(trainingPlay.TrainingID);
         SetMaxSuccessCount(MaxSuccessCount);
         SetPlanDifficulty(Str2DifficultyType(trainingPlan.PlanDifficulty));
