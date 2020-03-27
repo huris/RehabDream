@@ -57,13 +57,15 @@ namespace XCharts
                     if (i == DoctorDataManager.instance.doctor.patient.TrainingPlayIndex)
                     {
                         DirectionRadarChart.UpdateData(0, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponDirection);
-                        DirectionRadarChart.UpdateData(1, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponRightDirection);
-                        DirectionRadarChart.UpdateData(2, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.RightDirection);
-                        DirectionRadarChart.UpdateData(3, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownRightDirection);
-                        DirectionRadarChart.UpdateData(4, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownDirection);
-                        DirectionRadarChart.UpdateData(5, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownLeftDirection);
-                        DirectionRadarChart.UpdateData(6, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.LeftDirection);
-                        DirectionRadarChart.UpdateData(7, 0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponLeftDirection);
+                        DirectionRadarChart.UpdateData(0, 1, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponRightDirection);
+                        DirectionRadarChart.UpdateData(0, 2, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.RightDirection);
+                        DirectionRadarChart.UpdateData(0, 3, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownRightDirection);
+                        DirectionRadarChart.UpdateData(0, 4, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownDirection);
+                        DirectionRadarChart.UpdateData(0, 5, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownLeftDirection);
+                        DirectionRadarChart.UpdateData(0, 6, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.LeftDirection);
+                        DirectionRadarChart.UpdateData(0, 7, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponLeftDirection);
+
+                        DirectionRadarChart.RefreshChart();
 
                         if (i != 0) RadarAreaText.text += WhiteLine;
                         RadarAreaText.text += "本次面积: ";
