@@ -13,7 +13,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
     public Dropdown Directions;
     List<string> directions = new List<string>();
 
-    public Toggle LastTrainingToggle;
+    public Toggle SingleTrainingToggle;
     // Use this for initialization
     void Start() {
         
@@ -21,7 +21,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
     
     void OnEnable()
     {
-        LastTrainingToggle = transform.parent.parent.parent.parent.Find("DataBG/LastTrainingData").GetComponent<Toggle>();
+        SingleTrainingToggle = transform.parent.parent.parent.parent.Find("DataBG/SingleTrainingData").GetComponent<Toggle>();
 
         Directions = transform.parent.parent.Find("Directions").GetComponent<Dropdown>();
         Directions.ClearOptions();
@@ -125,7 +125,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
         //DoctorDataManager.instance.doctor.patient.TrainingPlays[int.Parse(obj.transform.name)] = DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1];
         //DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlays.Count-1] = trainingPlay;
 
-        LastTrainingToggle.isOn = true;
+        SingleTrainingToggle.isOn = true;
     }
 
     public void DirectionValueChange()
