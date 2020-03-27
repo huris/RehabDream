@@ -66,7 +66,7 @@ namespace XCharts
                     else
                     {
                         RadarAreaText.text += WhiteLine;
-                        RadarAreaText.text += "第(" + (i + 1).ToString() + ")面积: ";
+                        RadarAreaText.text += "第(" + (i + 1).ToString() + ")次面积: ";
                     }
                     // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
 

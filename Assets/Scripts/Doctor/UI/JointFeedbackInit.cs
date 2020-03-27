@@ -59,7 +59,7 @@ namespace XCharts
                 LeftRightChart = transform.Find("LeftRightChart").gameObject.GetComponent<LineChart>();
                 if (LeftRightChart == null) LeftRightChart = transform.Find("LeftRightChart").gameObject.AddComponent<LineChart>();
 
-                LeftRightChart.themeInfo.theme = Theme.Light;
+                //LeftRightChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -75,9 +75,9 @@ namespace XCharts
                 LeftRightChart.legend.show = true;
                 LeftRightChart.legend.location.align = Location.Align.TopRight;
                 LeftRightChart.legend.location.top = 2;
-                LeftRightChart.legend.location.right = 55;
+                LeftRightChart.legend.location.right = 23;
                 LeftRightChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                LeftRightChart.legend.itemGap = 0;       // `图例之间的距离
+                LeftRightChart.legend.itemGap = 4;       // `图例之间的距离
                 LeftRightChart.legend.itemWidth = 25;
                 LeftRightChart.legend.itemHeight = 25;
 
@@ -164,11 +164,12 @@ namespace XCharts
                 LeftRightChart.dataZoom.end = 100;
                 LeftRightChart.dataZoom.minShowNum = 30;
 
+                
 
                 UponDownChart = transform.Find("UponDownChart").gameObject.GetComponent<LineChart>();
                 if (UponDownChart == null) UponDownChart = transform.Find("UponDownChart").gameObject.AddComponent<LineChart>();
 
-                UponDownChart.themeInfo.theme = Theme.Light;
+                //UponDownChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -184,9 +185,9 @@ namespace XCharts
                 UponDownChart.legend.show = true;
                 UponDownChart.legend.location.align = Location.Align.TopRight;
                 UponDownChart.legend.location.top = 2;
-                UponDownChart.legend.location.right = 55;
+                UponDownChart.legend.location.right = 23;
                 UponDownChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                UponDownChart.legend.itemGap = 0;       // `图例之间的距离
+                UponDownChart.legend.itemGap = 4;       // `图例之间的距离
                 UponDownChart.legend.itemWidth = 25;
                 UponDownChart.legend.itemHeight = 25;
 
@@ -278,7 +279,7 @@ namespace XCharts
                 ArmChart = transform.Find("ArmChart").gameObject.GetComponent<LineChart>();
                 if (ArmChart == null) ArmChart = transform.Find("ArmChart").gameObject.AddComponent<LineChart>();
 
-                ArmChart.themeInfo.theme = Theme.Light;
+                //ArmChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -294,9 +295,9 @@ namespace XCharts
                 ArmChart.legend.show = true;
                 ArmChart.legend.location.align = Location.Align.TopRight;
                 ArmChart.legend.location.top = 2;
-                ArmChart.legend.location.right = 55;
+                ArmChart.legend.location.right = 23;
                 ArmChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                ArmChart.legend.itemGap = 0;       // `图例之间的距离
+                ArmChart.legend.itemGap = 4;       // `图例之间的距离
                 ArmChart.legend.itemWidth = 25;
                 ArmChart.legend.itemHeight = 25;
 
@@ -388,7 +389,7 @@ namespace XCharts
                 ElbowChart = transform.Find("ElbowChart").gameObject.GetComponent<LineChart>();
                 if (ElbowChart == null) ElbowChart = transform.Find("ElbowChart").gameObject.AddComponent<LineChart>();
 
-                ElbowChart.themeInfo.theme = Theme.Light;
+                //ElbowChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -404,9 +405,9 @@ namespace XCharts
                 ElbowChart.legend.show = true;
                 ElbowChart.legend.location.align = Location.Align.TopRight;
                 ElbowChart.legend.location.top = 2;
-                ElbowChart.legend.location.right = 55;
+                ElbowChart.legend.location.right = 23;
                 ElbowChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                ElbowChart.legend.itemGap = 0;       // `图例之间的距离
+                ElbowChart.legend.itemGap = 4;       // `图例之间的距离
                 ElbowChart.legend.itemWidth = 25;
                 ElbowChart.legend.itemHeight = 25;
 
@@ -496,7 +497,7 @@ namespace XCharts
                 LegChart = transform.Find("LegChart").gameObject.GetComponent<LineChart>();
                 if (LegChart == null) LegChart = transform.Find("LegChart").gameObject.AddComponent<LineChart>();
 
-                LegChart.themeInfo.theme = Theme.Light;
+                //LegChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -512,9 +513,9 @@ namespace XCharts
                 LegChart.legend.show = true;
                 LegChart.legend.location.align = Location.Align.TopRight;
                 LegChart.legend.location.top = 2;
-                LegChart.legend.location.right = 55;
+                LegChart.legend.location.right = 23;
                 LegChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                LegChart.legend.itemGap = 0;       // `图例之间的距离
+                LegChart.legend.itemGap = 4;       // `图例之间的距离
                 LegChart.legend.itemWidth = 25;
                 LegChart.legend.itemHeight = 25;
 
@@ -604,7 +605,7 @@ namespace XCharts
                 HipChart = transform.Find("HipChart").gameObject.GetComponent<LineChart>();
                 if (HipChart == null) HipChart = transform.Find("HipChart").gameObject.AddComponent<LineChart>();
 
-                HipChart.themeInfo.theme = Theme.Light;
+                //HipChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -613,6 +614,7 @@ namespace XCharts
                 HipChart.title.textStyle.fontSize = 20;
                 HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
+                HipChart.title.location.left = 100;
 
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;
@@ -620,10 +622,10 @@ namespace XCharts
                 HipChart.legend.show = true;
                 HipChart.legend.location.align = Location.Align.TopRight;
                 HipChart.legend.location.top = 2;
-                HipChart.legend.location.right = 32;
+                HipChart.legend.location.right = 15;
                 HipChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                HipChart.legend.itemGap = 0;       // `图例之间的距离
-                HipChart.legend.itemWidth = 35;
+                HipChart.legend.itemGap = 4;       // `图例之间的距离
+                HipChart.legend.itemWidth = 25;
                 HipChart.legend.itemHeight = 25;
 
                 HipChart.tooltip.show = true;
@@ -718,7 +720,7 @@ namespace XCharts
                 KneeChart = transform.Find("KneeChart").gameObject.GetComponent<LineChart>();
                 if (KneeChart == null) KneeChart = transform.Find("KneeChart").gameObject.AddComponent<LineChart>();
 
-                KneeChart.themeInfo.theme = Theme.Light;
+                //KneeChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -734,9 +736,9 @@ namespace XCharts
                 KneeChart.legend.show = true;
                 KneeChart.legend.location.align = Location.Align.TopRight;
                 KneeChart.legend.location.top = 2;
-                KneeChart.legend.location.right = 55;
+                KneeChart.legend.location.right = 23;
                 KneeChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                KneeChart.legend.itemGap = 0;       // `图例之间的距离
+                KneeChart.legend.itemGap = 4;       // `图例之间的距离
                 KneeChart.legend.itemWidth = 25;
                 KneeChart.legend.itemHeight = 25;
 
@@ -826,7 +828,7 @@ namespace XCharts
                 AnkleChart = transform.Find("AnkleChart").gameObject.GetComponent<LineChart>();
                 if (AnkleChart == null) AnkleChart = transform.Find("AnkleChart").gameObject.AddComponent<LineChart>();
 
-                AnkleChart.themeInfo.theme = Theme.Light;
+                //AnkleChart.themeInfo.theme = Theme.Light;
                 //chart.themeInfo.tooltipBackgroundColor = Color.white;
                 //chart.themeInfo.backgroundColor = Color.grey;
 
@@ -842,9 +844,9 @@ namespace XCharts
                 AnkleChart.legend.show = true;
                 AnkleChart.legend.location.align = Location.Align.TopRight;
                 AnkleChart.legend.location.top = 2;
-                AnkleChart.legend.location.right = 55;
+                AnkleChart.legend.location.right = 23;
                 AnkleChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-                AnkleChart.legend.itemGap = 0;       // `图例之间的距离
+                AnkleChart.legend.itemGap = 4;       // `图例之间的距离
                 AnkleChart.legend.itemWidth = 25;
                 AnkleChart.legend.itemHeight = 25;
 
