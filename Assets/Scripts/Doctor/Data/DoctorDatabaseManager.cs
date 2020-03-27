@@ -1617,7 +1617,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         //List<TrainingPlay> result = null; //返回值
-        string QueryString = "SELECT max(TrainingID) FROM PatientRecord where IsEvaluated = " + IsEvaluated.ToString();
+        string QueryString = "SELECT max(TrainingID) FROM PatientRecord";
 
         //long PatientRecordCount = 0;
         //print(QueryString);

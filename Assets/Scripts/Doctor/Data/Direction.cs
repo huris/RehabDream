@@ -62,11 +62,12 @@ public class Direction
 
     public float GetRadarArea()
     {
-        return 1.0f / 2 * (Mathf.Sqrt(2) / 2) * (this.UponDirection * this.UponRightDirection + this.UponRightDirection * this.RightDirection +
-           this.RightDirection * this.DownRightDirection + this.DownRightDirection * this.DownDirection +
-           this.DownDirection * this.DownLeftDirection + this.DownLeftDirection * this.LeftDirection +
-           this.LeftDirection * this.UponLeftDirection + this.UponLeftDirection * this.UponDirection);
-    }
+        return 1.0f / 2 * (Mathf.Sqrt(2) / 2) * (
+           (this.UponDirection  + 0.0001f) * (this.UponRightDirection + 0.0001f) + (this.UponRightDirection + 0.0001f) * (this.RightDirection + 0.0001f)  +
+           (this.RightDirection + 0.0001f) * (this.DownRightDirection + 0.0001f) + (this.DownRightDirection + 0.0001f) * (this.DownDirection  + 0.0001f)  +
+           (this.DownDirection  + 0.0001f) * (this.DownLeftDirection  + 0.0001f) + (this.DownLeftDirection  + 0.0001f) * (this.LeftDirection  + 0.0001f)  +
+           (this.LeftDirection  + 0.0001f) * (this.UponLeftDirection  + 0.0001f) + (this.UponLeftDirection  + 0.0001f) * (this.UponDirection  + 0.0001f)   );
+    }      
 
     public List<float> GetDirectionAreaRate()
     {

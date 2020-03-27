@@ -125,8 +125,11 @@ public class PatientDataManager : MonoBehaviour
 
 
 
-    public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan, long MaxSuccessCount)
+    public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan, SoccerDistance soccerDistance, long MaxSuccessCount)
     {
+        print(trainingPlay.TrainingID);
+
+
         SetTrainingID(trainingPlay.TrainingID);
         SetMaxSuccessCount(MaxSuccessCount);
         SetPlanDifficulty(Str2DifficultyType(trainingPlan.PlanDifficulty));
@@ -134,9 +137,20 @@ public class PatientDataManager : MonoBehaviour
         SetPlanDirection(Str2DirectionType(trainingPlan.PlanDirection));
         SetPlanTime(trainingPlan.PlanTime);
         SetIsEvaluated(0);
+        SetNewMaxDiretion(soccerDistance);
     }
 
-
+    public void SetNewMaxDiretion(SoccerDistance soccerDistance)
+    {
+        NewMaxDirection[0] = soccerDistance.UponSoccerDistance;
+        NewMaxDirection[1] = soccerDistance.UponRightSoccerDistance;
+        NewMaxDirection[2] = soccerDistance.RightSoccerDistance;
+        NewMaxDirection[3] = soccerDistance.DownRightSoccerDistance;
+        NewMaxDirection[4] = soccerDistance.DownSoccerDistance;
+        NewMaxDirection[5] = soccerDistance.DownLeftSoccerDistance;
+        NewMaxDirection[6] = soccerDistance.LeftSoccerDistance;
+        NewMaxDirection[7] = soccerDistance.UponLeftSoccerDistance;
+    }
 
     // 已废弃
     public void SetIsEvaluated(long IsEvaluated)

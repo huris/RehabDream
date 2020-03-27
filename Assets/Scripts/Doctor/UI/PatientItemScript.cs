@@ -203,9 +203,19 @@ public class PatientItemScript : MonoBehaviour {
             trainingPlay.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0));
             trainingPlay.SetTrainingDifficulty(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty);
 
-            print("!!!!!");
+            //print("!!!!!");
 
-            PatientDataManager.instance.SetTrainingData(trainingPlay, DoctorDataManager.instance.doctor.patient.trainingPlan, DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
+            if (DoctorDataManager.instance.doctor.patient.Evaluations == null)
+            {
+                DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+                if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+                {
+                    DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+                }
+            }
+
+            PatientDataManager.instance.SetTrainingData(trainingPlay, DoctorDataManager.instance.doctor.patient.trainingPlan, DoctorDataManager.instance.doctor.patient.Evaluations.Last().soccerDistance, DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
 
             //PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);
             //PatientDataManager.instance.SetMaxSuccessCount(DoctorDataManager.instance.doctor.patient.MaxSuccessCount);

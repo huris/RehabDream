@@ -86,7 +86,7 @@ public class GameUIHandle : UIHandle
         // read PatientRecord and set PatientRecord(TrainingID, MaxSuccessCount)
         // 无论登录与否，都需要生成 TrainingID 和 MaxSuccessCount，
         // 因此将 SetDataPatientRecord() 放在 GameUIHandle类/start() 调用
-        SetDataPatientRecord();
+        //SetDataPatientRecord();
         InitUIValue();
         PatientGestureListener.Instance.ResetTposeLastTime();
 

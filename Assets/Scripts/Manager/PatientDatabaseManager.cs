@@ -334,7 +334,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         }
 
-        long TrainingID = MaxTrainingID + 1;
+        long TrainingID = MaxTrainingID;
 
 
         return TrainingID;
@@ -520,6 +520,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
+
 
                 PatientDatabase.InsertValues(
                 DirectionsTableName, //table name

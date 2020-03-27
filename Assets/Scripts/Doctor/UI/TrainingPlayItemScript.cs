@@ -27,14 +27,14 @@ public class TrainingPlayItemScript : MonoBehaviour {
         Directions.ClearOptions();
 
         directions.Clear();
-        directions.Add("正上");
-        directions.Add("右上");
-        directions.Add("正右");
-        directions.Add("右下");
-        directions.Add("正下");
-        directions.Add("左下");
-        directions.Add("正左");
-        directions.Add("左上");
+        directions.Add("正上方");
+        directions.Add("右上方");
+        directions.Add("正右方");
+        directions.Add("右下方");
+        directions.Add("正下方");
+        directions.Add("左下方");
+        directions.Add("正左方");
+        directions.Add("左上方");
 
         Directions.AddOptions(directions);
 

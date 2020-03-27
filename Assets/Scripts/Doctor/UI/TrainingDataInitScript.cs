@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -41,6 +42,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 				}
 
 				DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
+				//print(DoctorDataManager.instance.doctor.patient.TrainingPlayIndex);
 			}
 		}
 
@@ -82,11 +84,23 @@ public class TrainingDataInitScript : MonoBehaviour {
 		PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
 		//PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 
+
 		TrainingPlay trainingPlay = new TrainingPlay();
 		trainingPlay.SetTrainingID(DoctorDatabaseManager.instance.ReadPatientRecordCount(0));
 		trainingPlay.SetTrainingDifficulty(DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty);
 
-		PatientDataManager.instance.SetTrainingData(trainingPlay, DoctorDataManager.instance.doctor.patient.trainingPlan, DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
+		if (DoctorDataManager.instance.doctor.patient.Evaluations == null)
+		{
+			DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+			if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+			{
+				DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+			}
+		}
+
+		PatientDataManager.instance.SetTrainingData(trainingPlay, DoctorDataManager.instance.doctor.patient.trainingPlan, DoctorDataManager.instance.doctor.patient.Evaluations.Last().soccerDistance, DoctorDataManager.instance.doctor.patient.MaxSuccessCount);
+
 		//DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
 
 		//PatientDataManager.instance.SetTrainingID(trainingPlay.TrainingID);

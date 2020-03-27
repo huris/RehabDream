@@ -40,6 +40,8 @@ public class TrainingPlay
         this.TrainingDirection = TrainingDirection;
         this.TrainingTime = TrainingTime;
 
+        //Debug.LogError(this.TrainingID);
+
         this.angles = DoctorDatabaseManager.instance.ReadAngleRecord(this.TrainingID);
         this.gravityCenters = DoctorDatabaseManager.instance.ReadGravityCenterRecord(this.TrainingID);
         this.direction = DoctorDatabaseManager.instance.ReadDirectionRecord(this.TrainingID);
