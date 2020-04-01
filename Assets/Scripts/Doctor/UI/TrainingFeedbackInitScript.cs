@@ -272,7 +272,7 @@ namespace XCharts
                 DirectionsChart.tooltip.show = true;
                 DirectionsChart.tooltip.type = Tooltip.Type.Line;
                 DirectionsChart.tooltip.titleFormatter = "       第{b}次      ";
-                DirectionsChart.tooltip.itemFormatter = "{a}极限距离为{c}";
+                DirectionsChart.tooltip.itemFormatter = "{a}方:{c}";
 
 
                 DirectionsChart.xAxis0.show = true;
@@ -337,6 +337,38 @@ namespace XCharts
                 LeftSerie = DirectionsChart.AddSerie(SerieType.Line, "正左");//添加折线图
                 UponLeftSerie = DirectionsChart.AddSerie(SerieType.Line, "左上");//添加折线图
 
+                UponSerie.areaStyle.show = true;
+                UponSerie.areaStyle.opacity = 0.4f;
+                UponSerie.areaStyle.toColor = Color.white;
+
+                UponRightSerie.areaStyle.show = true;
+                UponRightSerie.areaStyle.opacity = 0.4f;
+                UponRightSerie.areaStyle.toColor = Color.white;
+
+                RightSerie.areaStyle.show = true;
+                RightSerie.areaStyle.opacity = 0.4f;
+                RightSerie.areaStyle.toColor = Color.white;
+
+                DownRightSerie.areaStyle.show = true;
+                DownRightSerie.areaStyle.opacity = 0.4f;
+                DownRightSerie.areaStyle.toColor = Color.white;
+
+                DownSerie.areaStyle.show = true;
+                DownSerie.areaStyle.opacity = 0.4f;
+                DownSerie.areaStyle.toColor = Color.white;
+
+                DownLeftSerie.areaStyle.show = true;
+                DownLeftSerie.areaStyle.opacity = 0.4f;
+                DownLeftSerie.areaStyle.toColor = Color.white;
+
+                LeftSerie.areaStyle.show = true;
+                LeftSerie.areaStyle.opacity = 0.4f;
+                LeftSerie.areaStyle.toColor = Color.white;
+
+                UponLeftSerie.areaStyle.show = true;
+                UponLeftSerie.areaStyle.opacity = 0.4f;
+                UponLeftSerie.areaStyle.toColor = Color.white;
+
                 UponSerie.symbol.type = SerieSymbolType.None;
                 UponRightSerie.symbol.type = SerieSymbolType.None;
                 RightSerie.symbol.type = SerieSymbolType.None;
@@ -375,15 +407,15 @@ namespace XCharts
                     float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
                     SuccessRateChart.AddData(0, TrainingSuccessRate);
 
-                    //DirectionsChart.AddXAxisData((i + 1).ToString("0"));
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponRightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.RightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownRightDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.DownLeftDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.LeftDirection);
-                    //DirectionsChart.AddData(0, DoctorDataManager.instance.patient.TrainingPlays[i].direction.UponLeftDirection);
+                    DirectionsChart.AddXAxisData((i + 1).ToString("0"));
+                    DirectionsChart.AddData(0, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(1, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponRightDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(2, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.RightDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(3, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownRightDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(4, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(5, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DownLeftDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(6, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.LeftDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
+                    DirectionsChart.AddData(7, DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.UponLeftDirection / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea);
 
                 }
             }

@@ -51,7 +51,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             }
             else
             {
-                PatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString();
+                PatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString()+" CM";
             }
 
             if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
@@ -60,7 +60,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             }
             else
             {
-                PatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString();
+                PatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString() + " KG";
             }
 
             PatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom;

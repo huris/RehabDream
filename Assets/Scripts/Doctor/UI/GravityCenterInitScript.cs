@@ -94,7 +94,7 @@ namespace XCharts
                 GravityCenterChart.yAxis0.axisLine.symbolOffset = 0;
                 GravityCenterChart.yAxis0.axisLine.symbolDent = 3;
                 GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                GravityCenterChart.yAxis0.axisName.name = "距离（米）";
+                GravityCenterChart.yAxis0.axisName.name = "距离（毫米）";
                 GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
                 GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
                 GravityCenterChart.yAxis0.axisName.rotate = 90;

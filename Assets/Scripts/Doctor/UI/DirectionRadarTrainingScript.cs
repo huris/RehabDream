@@ -85,7 +85,7 @@ namespace XCharts
                     }
                     else
                     {
-                        RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1]);
+                        RadarIncreaseRate.Add((RadarArea[i] - RadarArea[i - 1]) / RadarArea[i - 1] * 100);
 
                         RadarAreaText.text += RadarArea[i].ToString("0.00");
                         if (RadarIncreaseRate[i - 1] < 0) RadarAreaText.text += "  <color=red>-" + RadarIncreaseRate[i - 1].ToString("0.00") + "%</color>";

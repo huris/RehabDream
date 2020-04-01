@@ -34,7 +34,7 @@ public class TrainEvaluationInitScript : MonoBehaviour {
             StartTime = transform.Find("StartTimeTitle/StartTime").GetComponent<Text>();
             EndTime = transform.Find("EndTimeTitle/EndTime").GetComponent<Text>();
 
-            RankS = transform.Find("Rank/S").gameObject;
+            RankS = transform.Find("Rank/S").gameObject;    
             RankS.SetActive(false);
             RankA = transform.Find("Rank/A").gameObject;
             RankA.SetActive(false);
@@ -60,11 +60,11 @@ public class TrainEvaluationInitScript : MonoBehaviour {
 
             double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay].GameCount;
 
-            if (TrainingEvaluationRate >= 0.95) RankS.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.90) RankA.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.80) RankB.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.70) RankC.SetActive(true);
-            else if (TrainingEvaluationRate >= 0.60) RankD.SetActive(true);
+            if (TrainingEvaluationRate >= 0.8f) RankS.SetActive(true);
+            else if (TrainingEvaluationRate >= 0.7f) RankA.SetActive(true);
+            else if (TrainingEvaluationRate >= 0.6f) RankB.SetActive(true);
+            else if (TrainingEvaluationRate >= 0.5f) RankC.SetActive(true);
+            else if (TrainingEvaluationRate >= 0.4f) RankD.SetActive(true);
             else RankE.SetActive(true);
 
         }
