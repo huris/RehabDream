@@ -16,7 +16,7 @@ public class Evaluation
 
     public SoccerDistance soccerDistance = new SoccerDistance();  // 四周8个方向足球位移的最大值和中间足球的最大最小面积
 
-    public float EvaluationScore { get; private set; } = 0.0f;
+    public float EvaluationScore { get; set; } = 0.0f;
 
 
     //public void SetEvaluationWidth(float EvaluationWidth)    // 求肩宽
@@ -31,7 +31,8 @@ public class Evaluation
 
     public void SetEvaluationScore()    // 求评估分数
     {
-        this.EvaluationScore = this.soccerDistance.SumScore();
+        this.EvaluationScore = 0.0f;
+        this.EvaluationScore += this.soccerDistance.SumScore();
     }
 
     public void SetEvaluationStartTime(string EvaluationStartTime)

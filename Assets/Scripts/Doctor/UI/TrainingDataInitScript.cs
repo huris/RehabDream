@@ -81,6 +81,11 @@ public class TrainingDataInitScript : MonoBehaviour {
 
 	public void StartTraining()
 	{
+		if(DoctorDataManager.instance.doctor.patient.PlanIsMaking == false)
+		{
+			return;
+		}
+
 		PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
 		//PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 

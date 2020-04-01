@@ -39,7 +39,7 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
 
-        if(DoctorDataManager.instance.Doctors != null && DoctorDataManager.instance.Doctors.Count > 0)
+        if(DoctorDataManager.instance.DoctorsIDAndName != null && DoctorDataManager.instance.DoctorsIDAndName.Count > 0)
         {
             //DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
@@ -49,14 +49,14 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
             PatientDoctor.ClearOptions();
 
             //print(DoctorDataManager.instance.Doctors.Count);
-            for (int i = 0; i < DoctorDataManager.instance.Doctors.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.DoctorsIDAndName.Count; i++)
             {
-                DoctorString2Int.Add(DoctorDataManager.instance.Doctors[i].DoctorName, i);
-                DoctorInt2String.Add(i, DoctorDataManager.instance.Doctors[i].DoctorName);
-                PatientDoctorName.Add(DoctorDataManager.instance.Doctors[i].DoctorName);
+                DoctorString2Int.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2, i);
+                DoctorInt2String.Add(i, DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
+                PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
             }
 
-            PatientDoctorName.Add("请输入医生");
+            PatientDoctorName.Add("请选择医生");
             PatientDoctor.AddOptions(PatientDoctorName);
             PatientDoctor.value = PatientDoctorName.Count;
             //print(PatientDoctor.options.Count);

@@ -161,11 +161,20 @@ public class SoccerDistance
 
     public float SumScore()
     {
-        return 1.0f * this.UponSoccerScore / this.UponSoccerTime + 1.0f * this.UponRightSoccerScore / this.UponRightSoccerTime
-            + 1.0f * this.RightSoccerScore / this.RightSoccerTime + 1.0f * this.DownRightSoccerScore / this.DownRightSoccerTime
-            + 1.0f * this.DownSoccerScore / this.DownSoccerTime + 1.0f * this.DownLeftSoccerScore / this.DownLeftSoccerTime
-            + 1.0f * this.LeftSoccerScore / this.LeftSoccerTime + 1.0f * this.UponLeftSoccerScore / this.UponLeftSoccerTime
-            + 1.0f * this.FrontSoccerScore / this.FrontSoccerTime + 1.0f * this.BehindSoccerScore / this.BehindSoccerTime;
+        float a1 = 2.5f;
+        float a2 = 3f;
+        float a3 = 4f;
+
+        return a1 * this.UponSoccerDistance * this.UponSoccerScore / this.UponSoccerTime 
+             + a1 * this.UponRightSoccerDistance * this.UponRightSoccerScore / this.UponRightSoccerTime
+             + a1 * this.RightSoccerDistance * this.RightSoccerScore / this.RightSoccerTime 
+             + a1 * this.DownRightSoccerDistance * this.DownRightSoccerScore / this.DownRightSoccerTime
+             + a1 * this.DownSoccerDistance * this.DownSoccerScore / this.DownSoccerTime 
+             + a1 * this.DownLeftSoccerDistance * this.DownLeftSoccerScore / this.DownLeftSoccerTime
+             + a1 * this.LeftSoccerDistance * this.LeftSoccerScore / this.LeftSoccerTime 
+             + a1 * this.UponLeftSoccerDistance * this.UponLeftSoccerScore / this.UponLeftSoccerTime
+             + a2 * this.FrontSoccerDistance * this.FrontSoccerScore / this.FrontSoccerTime 
+             + a3 * this.BehindSoccerDistance * this.BehindSoccerScore / this.BehindSoccerTime;
     }
 
     //public float[] GetMaxSoccerDistances()

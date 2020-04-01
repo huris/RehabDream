@@ -98,7 +98,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                 PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
             }
 
-            PatientDoctorName.Add("请输入医生");
+            PatientDoctorName.Add("请选择医生");
             //print("请输入医生");
             //print(PatientDoctorName.Count);
             PatientDoctor.AddOptions(PatientDoctorName);

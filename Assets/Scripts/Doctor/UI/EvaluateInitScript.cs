@@ -214,27 +214,6 @@ namespace XCharts
                 EvaluationSelect.AddOptions(ListEvaluationTime);
                 EvaluationSelect.value = DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1 - DoctorDataManager.instance.doctor.patient.EvaluationIndex;
 
-
-                // EvaluationInfo
-
-                float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
-
-                if (TrainingEvaluationRate >= 95f) { Rank1.SetActive(true); EvaluationRank.text = "1 级"; }
-                else if (TrainingEvaluationRate >= 90f) { Rank2.SetActive(true); EvaluationRank.text = "2 级"; }
-                else if (TrainingEvaluationRate >= 80f) { Rank3.SetActive(true); EvaluationRank.text = "3 级"; }
-                else if (TrainingEvaluationRate >= 70f) { Rank4.SetActive(true); EvaluationRank.text = "4 级"; }
-                else { Rank5.SetActive(true); EvaluationRank.text = "5 级"; }
-
-                EvaluationScore.text = TrainingEvaluationRate.ToString("0.00") + " 分";
-
-                EvaluationStartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationStartTime;
-                EvaluationEndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationEndTime;
-
-                // 计算有效训练时长
-                EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 3600 + long.Parse(EvaluationEndTime.text.Substring(12, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(15, 2))
-                                           - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + " 秒";
-
-
                 // SpeedRadar
                 EvaluationPoints = new List<Point>();
                 foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
@@ -396,6 +375,30 @@ namespace XCharts
                 seq.Append(t2);
                 seq.SetLoops(-1);
             }
+
+            // EvaluationInfo
+
+            DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 4f;
+            DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 3f;
+            DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f;
+
+            float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
+
+            if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1 级"; }
+            else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "2 级"; }
+            else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "3 级"; }
+            else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "4 级"; }
+            else { Rank5.SetActive(true); EvaluationRank.text = "5 级"; }
+
+            EvaluationScore.text = TrainingEvaluationRate.ToString("0.00") + " 分";
+
+            EvaluationStartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationStartTime;
+            EvaluationEndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationEndTime;
+
+            // 计算有效训练时长
+            EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 3600 + long.Parse(EvaluationEndTime.text.Substring(12, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(15, 2))
+                                       - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + " 秒";
+
 
         }
 
