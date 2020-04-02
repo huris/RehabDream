@@ -13,8 +13,7 @@ namespace XCharts
 
         public int SingleTrainingPlay;
         public TrainingPlay trainingPlay;
-        public SoccerDistance NowSoccerDistance;
-        public SoccerDistance LastSoccerDistance;
+        public TrainingPlay LastTrainingPlay;
 
         // Title
         public Text TrainingTitle;
@@ -33,54 +32,15 @@ namespace XCharts
         public Text TrainingDifficulty;
         public Text TrainingRank;
         public Text TrainingDuration;
+        public Text TrainingDirection;
         public Text TrainingSuccessRate;
         public Text TrainingTime;
 
         // Chart
-        public List<Point> EvaluationPoints;
-        public List<Point> LastEvaluationPoints;
-
-        public GameObject ManImage; // 男患者
-        public GameObject ManSideImage; // 男患者侧身
-        public GameObject WomanImage;   // 女患者
-        public GameObject WomanSideImage;   // 女患者侧身
-
-        // 先平移,后放缩
-        public Vector2 ModelGravity;   // 模型重心坐标
-        public Vector2 SideModelGravity;    // 模型侧身重心坐标
-        public Vector2 GravityDiff;    // 重心偏移
-        public float HeightPixel;   // 模型身高像素
-
-        public Color32 ConvexHullLineColor;
-        public Color32 ConvexHullAreaColor;
-        public Color32 LastConvexHullLineColor;
-        public Color32 LastConvexHullAreaColor;
-        public Color32 LastNowOverlappingColor;
-        public Color32 SideLineColor;
-        public Color[] ConvexHullColors;
-
-        public VectorLine NowFrontLine; // 本次向前倾的线
-        public VectorLine NowBehindLine;    //本次向后倾的线
-        public VectorLine LastFrontLine; // 本次向前倾的线
-        public VectorLine LastBehindLine;    //本次向后倾的线
-        public VectorLine SideLine; // 侧身直线
-        public static float SideCoefficient = 70f;   // 距离修正系数
-
-        public ConvexHull NowConvexHull;
-        public ConvexHull LastConvexHull;
-        public VectorLine ConvexHullLine;
-        public VectorLine ConvexHullArea;
-        public VectorLine LastConvexHullLine;
-        public VectorLine LastConvexHullArea;
-        public VectorLine LastNowConvexHullArea;
-        public bool IsDrawNowConvexHull;
-        public bool IsDrawLastConvexHull;
-
-        public List<Vector2> NowConvexHullPoints;
-        public List<Vector2> LastConvexHullPoints;
-
-        public BarChart SoccerBar;
-
+        RadarChart DirectionRadarChart;
+        public long GravityCenterCount;
+        LineChart GravityCenterChart;
+        Serie GravityCenterSerie;
 
         void OnEnable()
         {
@@ -88,6 +48,11 @@ namespace XCharts
             {
                 SingleTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlayIndex;
                 trainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay];
+
+                if (SingleTrainingPlay > 0)
+                {
+                    LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay - 1];
+                }
 
                 // Title
                 string PatientNameBlock = "";
@@ -156,6 +121,8 @@ namespace XCharts
                 TrainingDuration.text = (long.Parse(trainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(trainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(trainingPlay.TrainingEndTime.Substring(15, 2))
                                            - long.Parse(trainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(trainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(trainingPlay.TrainingStartTime.Substring(15, 2))).ToString() + " 秒";
 
+                TrainingDirection = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Direction/TrainingDirection").GetComponent<Text>();
+                TrainingDirection.text = trainingPlay.TrainingDirection;
 
                 TrainingSuccessRate = transform.Find("TrainingFeedback/TrainingFeedbackInfo/SuccessRate/TrainingSuccessRate").GetComponent<Text>();
                 TrainingSuccessRate.text = trainingPlay.SuccessCount.ToString() + "/" + trainingPlay.GameCount.ToString();
@@ -166,7 +133,7 @@ namespace XCharts
 
                 // Chart
                 // 初始化对比结果
-                for (int m = 0; m < 13; m++)
+                for (int m = 0; m < 19; m++)
                 {
                     for (int n = 1; n < 5; n++)
                     {
@@ -174,535 +141,409 @@ namespace XCharts
                     }
                 }
 
-                EvaluationPoints = new List<Point>();
-                foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].Points)
-                {
-                    EvaluationPoints.Add(new Point(point.x, point.y));
-                }
-
-                ManImage = transform.Find("Chart/RadarChart/ManImage").gameObject; // 男患者
-                ManSideImage = transform.Find("Chart/RadarChart/ManSideImage").gameObject;  // 男患者侧身
-                WomanImage = transform.Find("Chart/RadarChart/WomanImage").gameObject; ;   // 女患者
-                WomanSideImage = transform.Find("Chart/RadarChart/WomanSideImage").gameObject; ;   // 女患者侧身
-
-
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
-                {
-                    ManImage.SetActive(true); ManSideImage.SetActive(true);
-                    WomanImage.SetActive(false); WomanSideImage.SetActive(false);
-
-                    //WidthPixel = 100;
-                    HeightPixel = 58;
-
-                    ModelGravity = new Vector2(476.5f, 672.5f);
-
-                    SideModelGravity = new Vector2(595f, 672.5f);
-                }
-                else
-                {
-                    ManImage.SetActive(false); ManSideImage.SetActive(false);
-                    WomanImage.SetActive(true); WomanSideImage.SetActive(true);
-
-                    //WidthPixel = 80;
-                    HeightPixel = 58;
-
-                    ModelGravity = new Vector2(476.5f, 682.5f);
-                    SideModelGravity = new Vector2(595f, 682.5f);
-                }
-
-                GravityDiff = new Vector2(ModelGravity.x - EvaluationPoints[0].x, ModelGravity.y - EvaluationPoints[0].y);
-                EvaluationPoints[0] = new Point(ModelGravity);
-
-                for (int i = 1; i < EvaluationPoints.Count; i++)
-                {
-                    EvaluationPoints[i].x += GravityDiff.x;
-                    EvaluationPoints[i].y += GravityDiff.y;
-
-                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationWidth;
-                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationHeight;
-                    EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationHeight;
-                }
-
-
-                if (SingleTrainingPlay > 0)
-                {
-                    LastSoccerDistance = DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].soccerDistance;
-
-                    LastEvaluationPoints = new List<Point>();
-                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].Points)
-                    {
-                        LastEvaluationPoints.Add(new Point(point.x, point.y));
-                    }
-
-                    GravityDiff = new Vector2(ModelGravity.x - LastEvaluationPoints[0].x, ModelGravity.y - LastEvaluationPoints[0].y);
-                    LastEvaluationPoints[0] = new Point(ModelGravity);
-
-                    for (int i = 1; i < LastEvaluationPoints.Count; i++)
-                    {
-                        LastEvaluationPoints[i].x += GravityDiff.x;
-                        LastEvaluationPoints[i].y += GravityDiff.y;
-
-                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationWidth;
-                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].EvaluationHeight;
-                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].EvaluationHeight;
-                    }
-                }
-
-                //默认画凸包图
-
-                ConvexHullLineColor = new Color32(255, 0, 0, 255);
-                ConvexHullAreaColor = new Color32(255, 0, 0, 40);
-
-                LastConvexHullLineColor = new Color32(0, 255, 0, 255);
-                LastConvexHullAreaColor = new Color32(0, 255, 0, 40);
-
-                LastNowOverlappingColor = new Color32(255, 255, 0, 15);
-
-                SideLineColor = new Color32(255, 140, 5, 255);
-
-                // 画侧身直线
-                DrawSideLine();
-
-                // 画凸包图
-                DrawContexHull();
-
-                // 写入足球得分和位移数据
-                DrawSoccerData();
+                DrawRadarChart();
+                DrawGravityCenterOffset();
+                WriteAngleData();
 
             }
 
         }
 
-
-        public void DrawSoccerData()
+        public void DrawRadarChart()
         {
-            SoccerBar = transform.Find("Chart/BarChart").gameObject.GetComponent<BarChart>();
-            if (SoccerBar == null) SoccerBar = transform.Find("Chart/BarChart").gameObject.AddComponent<BarChart>();
+            DirectionRadarChart = transform.Find("Chart/RadarChart").GetComponent<RadarChart>();
+            if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("Chart/RadarChart").gameObject.AddComponent<RadarChart>();
 
-            // 写入数据
-            SoccerBar.series.UpdateData(0, 0, NowSoccerDistance.UponSoccerDistance);
-            SoccerBar.series.UpdateData(0, 1, NowSoccerDistance.UponRightSoccerDistance);
-            SoccerBar.series.UpdateData(0, 2, NowSoccerDistance.RightSoccerDistance);
-            SoccerBar.series.UpdateData(0, 3, NowSoccerDistance.DownRightSoccerDistance);
-            SoccerBar.series.UpdateData(0, 4, NowSoccerDistance.DownSoccerDistance);
-            SoccerBar.series.UpdateData(0, 5, NowSoccerDistance.DownLeftSoccerDistance);
-            SoccerBar.series.UpdateData(0, 6, NowSoccerDistance.LeftSoccerDistance);
-            SoccerBar.series.UpdateData(0, 7, NowSoccerDistance.UponLeftSoccerDistance);
-            SoccerBar.series.UpdateData(0, 8, NowSoccerDistance.FrontSoccerDistance);
-            SoccerBar.series.UpdateData(0, 9, NowSoccerDistance.BehindSoccerDistance);
+            DirectionRadarChart.UpdateData(0, 0, 0, trainingPlay.direction.UponDirection);
+            DirectionRadarChart.UpdateData(0, 0, 1, trainingPlay.direction.UponRightDirection);
+            DirectionRadarChart.UpdateData(0, 0, 2, trainingPlay.direction.RightDirection);
+            DirectionRadarChart.UpdateData(0, 0, 3, trainingPlay.direction.DownRightDirection);
+            DirectionRadarChart.UpdateData(0, 0, 4, trainingPlay.direction.DownDirection);
+            DirectionRadarChart.UpdateData(0, 0, 5, trainingPlay.direction.DownLeftDirection);
+            DirectionRadarChart.UpdateData(0, 0, 6, trainingPlay.direction.LeftDirection);
+            DirectionRadarChart.UpdateData(0, 0, 7, trainingPlay.direction.UponLeftDirection);
 
-            SoccerBar.series.UpdateData(1, 0, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime);
-            SoccerBar.series.UpdateData(1, 1, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime);
-            SoccerBar.series.UpdateData(1, 2, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime);
-            SoccerBar.series.UpdateData(1, 3, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime);
-            SoccerBar.series.UpdateData(1, 4, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime);
-            SoccerBar.series.UpdateData(1, 5, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 6, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 7, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 8, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime);
-            SoccerBar.series.UpdateData(1, 9, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime);
+            DirectionRadarChart.RefreshChart();
 
-            SoccerBar.RefreshChart();
-
-            SetResultDataText(NowSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 2);
-            SetResultDataText(NowSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 2);
-            SetResultDataText(NowSoccerDistance.RightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime).ToString("0.0000"), 5, 2);
-            SetResultDataText(NowSoccerDistance.DownRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime).ToString("0.0000"), 6, 2);
-            SetResultDataText(NowSoccerDistance.DownSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime).ToString("0.0000"), 7, 2);
-            SetResultDataText(NowSoccerDistance.DownLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime).ToString("0.0000"), 8, 2);
-            SetResultDataText(NowSoccerDistance.LeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime).ToString("0.0000"), 9, 2);
-            SetResultDataText(NowSoccerDistance.UponLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime).ToString("0.0000"), 10, 2);
-            SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 2);
-            SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 2);
+            SetResultDataText(trainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 2);
 
             if (SingleTrainingPlay > 0)
             {
-                SetResultDataText(LastSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 1);
-                SetResultDataText(LastSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 1);
-                SetResultDataText(LastSoccerDistance.RightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime).ToString("0.0000"), 5, 1);
-                SetResultDataText(LastSoccerDistance.DownRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime).ToString("0.0000"), 6, 1);
-                SetResultDataText(LastSoccerDistance.DownSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime).ToString("0.0000"), 7, 1);
-                SetResultDataText(LastSoccerDistance.DownLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime).ToString("0.0000"), 8, 1);
-                SetResultDataText(LastSoccerDistance.LeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime).ToString("0.0000"), 9, 1);
-                SetResultDataText(LastSoccerDistance.UponLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime).ToString("0.0000"), 10, 1);
-                SetResultDataText(LastSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 1);
-                SetResultDataText(LastSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 1);
+                SetResultDataText(LastTrainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 1);
 
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime),
-                               new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime), 4), 3, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime),
-                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime), 4), 4, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime),
-                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime), 4), 5, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime),
-                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime), 4), 6, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime),
-                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime), 4), 7, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime), 4), 8, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime),
-                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime), 4), 9, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime), 4), 10, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime),
-                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime), 4), 11, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime),
-                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime), 4), 12, 3);
-
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime),
-                                new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime), 2), 3, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime),
-                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime), 2), 4, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime),
-                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime), 2), 5, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime),
-                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime), 2), 6, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime),
-                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime), 2), 7, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime), 2), 8, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime),
-                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime), 2), 9, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime), 2), 10, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime),
-                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime), 2), 11, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime),
-                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime), 2), 12, 4);
-
-            }
-
-        }
-
-        public void DrawContexHull()
-        {
-            // 先画这次的凸包图
-
-            List<Point> tempPoints = new List<Point>();
-
-            foreach (var point in EvaluationPoints)
-            {
-                tempPoints.Add(new Point(point.x, point.y));
-            }
-
-            NowConvexHull = new ConvexHull(tempPoints);
-
-            // 画凸包圈
-            ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            ConvexHullLine.smoothColor = false;   // 设置平滑颜色
-            ConvexHullLine.smoothWidth = false;   // 设置平滑宽度
-            //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-            ConvexHullLine.color = ConvexHullLineColor;  // 设置颜色
-
-            int MinX = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
-            int MinY = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
-
-            // 先把初始点存入画图函数
-            ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[0].x, NowConvexHull.ConvexHullSet[0].y));
-            NowConvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
-
-            for (int i = 1; i < NowConvexHull.ConvexHullNum; i++)
-            {
-                ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[i].x, NowConvexHull.ConvexHullSet[i].y));
-                //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
-
-                if (i < NowConvexHull.ConvexHullNum - 1)
-                {
-                    NowConvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(NowConvexHull.ConvexHullSet[0], NowConvexHull.ConvexHullSet[i], NowConvexHull.ConvexHullSet[i + 1]));
-                }
-
-                if (MinX > Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].x);
-                if (MaxX < Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].x);
-                if (MinY > Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(NowConvexHull.ConvexHullSet[i].y);
-                if (MaxY < Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(NowConvexHull.ConvexHullSet[i].y);
-
-
-                //ConvexHullLine.Draw();
-                //yield return new WaitForSeconds(0.15f);
-            }
-
-            //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
-
-            ConvexHullLine.points2.Add(new Vector2(NowConvexHull.ConvexHullSet[0].x, NowConvexHull.ConvexHullSet[0].y));
-            //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-
-            //ColorFistLine.Draw();
-            ConvexHullLine.Draw();
-
-            SetResultDataText(NowConvexHull.ConvexHullArea.ToString("0.0000"), 0, 2);
-
-            IsDrawNowConvexHull = false;
-            // 多算几个单位
-            StartCoroutine(DrawConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
-        }
-
-        IEnumerator DrawConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
-        {
-            yield return new WaitForEndOfFrame();
-
-            if (!IsDrawNowConvexHull)
-            {
-                ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
-                ConvexHullArea.smoothColor = false;   // 设置平滑颜色
-                ConvexHullArea.smoothWidth = false;   // 设置平滑宽度
-                ConvexHullArea.color = ConvexHullAreaColor;
-
-                Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
-                m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
-
-                ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
-
-                MaxY = MaxY - MinY - 1;
-
-                int x, y;
-
-                NowConvexHullPoints = new List<Vector2>();
-
-                for (int i = 0; i < MaxY; i++)
-                {
-                    x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
-
-                    while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
-                    while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
-
-                    if (x != y)
-                    {
-                        ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
-                        ConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
-
-                        NowConvexHullPoints.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
-                        NowConvexHullPoints.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
-                    }
-                }
-                ConvexHullArea.Draw();
-
-                IsDrawNowConvexHull = true;
-
-                if (SingleTrainingPlay > 0)
-                {
-                    List<Point> tempPoints = new List<Point>();
-
-                    foreach (var point in LastEvaluationPoints)
-                    {
-                        tempPoints.Add(new Point(point.x, point.y));
-                    }
-
-                    LastConvexHull = new ConvexHull(tempPoints);
-
-                    // 画凸包圈
-                    LastConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                    LastConvexHullLine.smoothColor = false;   // 设置平滑颜色
-                    LastConvexHullLine.smoothWidth = false;   // 设置平滑宽度
-                                                              //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-                    LastConvexHullLine.color = LastConvexHullLineColor;  // 设置颜色
-
-                    MinX = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[0].x); MaxX = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
-                    MinY = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[0].y); MaxY = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
-
-                    // 先把初始点存入画图函数
-                    LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[0].x, LastConvexHull.ConvexHullSet[0].y));
-                    LastConvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
-
-                    for (int i = 1; i < LastConvexHull.ConvexHullNum; i++)
-                    {
-                        LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[i].x, LastConvexHull.ConvexHullSet[i].y));
-                        //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
-
-                        if (i < LastConvexHull.ConvexHullNum - 1)
-                        {
-                            LastConvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(LastConvexHull.ConvexHullSet[0], LastConvexHull.ConvexHullSet[i], LastConvexHull.ConvexHullSet[i + 1]));
-                        }
-
-                        if (MinX > Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].x);
-                        if (MaxX < Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].x);
-                        if (MinY > Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(LastConvexHull.ConvexHullSet[i].y);
-                        if (MaxY < Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(LastConvexHull.ConvexHullSet[i].y);
-
-
-                        //ConvexHullLine.Draw();
-                        //yield return new WaitForSeconds(0.15f);
-                    }
-
-                    //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
-
-                    LastConvexHullLine.points2.Add(new Vector2(LastConvexHull.ConvexHullSet[0].x, LastConvexHull.ConvexHullSet[0].y));
-                    //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
-
-                    //ColorFistLine.Draw();
-                    LastConvexHullLine.Draw();
-
-                    SetResultDataText(LastConvexHull.ConvexHullArea.ToString("0.0000"), 0, 1);
-                    SetResultDataText(GetEvaluationResult(LastConvexHull.ConvexHullArea, NowConvexHull.ConvexHullArea, 4), 0, 3);
-                    SetResultDataText(GetEvaluationResult(LastConvexHull.ConvexHullArea, NowConvexHull.ConvexHullArea, 2), 0, 4);
-
-
-                    IsDrawLastConvexHull = false;
-                    // 多算几个单位
-                    StartCoroutine(DrawLastConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
-                }
+                SetResultDataText(GetEvaluationResult(LastTrainingPlay.direction.DirectionRadarArea, trainingPlay.direction.DirectionRadarArea, 4), 0, 3);
+                SetResultDataText(GetEvaluationResult(LastTrainingPlay.direction.DirectionRadarArea, trainingPlay.direction.DirectionRadarArea, 2), 0, 4);
             }
         }
 
-        IEnumerator DrawLastConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
+        public void DrawGravityCenterOffset()
         {
-            yield return new WaitForEndOfFrame();
+            GravityCenterCount = trainingPlay.gravityCenters.Count;
+            GravityCenterChart = transform.Find("GravityCenterChart").GetComponent<LineChart>();
+            if (GravityCenterChart == null) GravityCenterChart = transform.Find("GravityCenterChart").gameObject.AddComponent<LineChart>();
 
-            if (!IsDrawLastConvexHull)
+            GravityCenterChart.themeInfo.theme = Theme.Light;
+            //chart.themeInfo.tooltipBackgroundColor = Color.white;
+            //chart.themeInfo.backgroundColor = Color.grey;
+
+            GravityCenterChart.title.show = true;
+            GravityCenterChart.title.text = "与 初 始 点 距 离";
+            GravityCenterChart.title.textStyle.fontSize = 20;
+            GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
+            GravityCenterChart.title.location.top = 13;
+
+            //chart.title.subText = "前30s";
+            //chart.title.subTextFontSize = 18;
+
+            GravityCenterChart.legend.show = false;
+            GravityCenterChart.legend.location.align = Location.Align.TopRight;
+            GravityCenterChart.legend.location.top = 2;
+            GravityCenterChart.legend.location.right = 55;
+            GravityCenterChart.legend.orient = Orient.Horizonal;  // 图例显示方向
+            GravityCenterChart.legend.itemGap = 0;       // `图例之间的距离
+            GravityCenterChart.legend.itemWidth = 25;
+            GravityCenterChart.legend.itemHeight = 25;
+
+            GravityCenterChart.tooltip.show = true;
+            GravityCenterChart.tooltip.type = Tooltip.Type.Line;
+            GravityCenterChart.tooltip.titleFormatter = "   第{b}秒   ";
+            GravityCenterChart.tooltip.itemFormatter = "重心距离为{c}";
+
+            GravityCenterChart.xAxis0.show = true;
+            GravityCenterChart.xAxis0.type = XAxis.AxisType.Category;
+            GravityCenterChart.xAxis0.splitNumber = 10;   // 把数据分成多少份
+            GravityCenterChart.xAxis0.boundaryGap = true;   // 坐标轴两边是否留白
+            GravityCenterChart.xAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+            GravityCenterChart.xAxis0.axisLine.symbol = true;    // 坐标轴箭头
+            GravityCenterChart.xAxis0.axisLine.symbolWidth = 10;
+            GravityCenterChart.xAxis0.axisLine.symbolHeight = 15;
+            GravityCenterChart.xAxis0.axisLine.symbolOffset = 0;
+            GravityCenterChart.xAxis0.axisLine.symbolDent = 3;
+            GravityCenterChart.xAxis0.axisName.show = true;  // 坐标轴名称
+            GravityCenterChart.xAxis0.axisName.name = "时间（秒）";
+            GravityCenterChart.xAxis0.axisName.location = AxisName.Location.Middle;
+            GravityCenterChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
+            GravityCenterChart.xAxis0.axisName.rotate = 0;
+            GravityCenterChart.xAxis0.axisName.color = Color.black;
+            GravityCenterChart.xAxis0.axisName.fontSize = 15;
+            GravityCenterChart.xAxis0.axisName.fontStyle = FontStyle.Normal;
+            GravityCenterChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+            GravityCenterChart.xAxis0.axisLabel.fontSize = 12;
+            GravityCenterChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+            GravityCenterChart.xAxis0.splitLine.show = true;
+            //GravityCenterChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
+            GravityCenterChart.xAxis0.splitArea.show = true;
+            GravityCenterChart.xAxis0.boundaryGap = false;
+
+            GravityCenterChart.yAxis0.show = true;
+            GravityCenterChart.yAxis0.type = YAxis.AxisType.Value;
+            GravityCenterChart.yAxis0.splitNumber = 10;   // 把数据分成多少份
+            GravityCenterChart.yAxis0.boundaryGap = false;   // 坐标轴两边是否留白
+            GravityCenterChart.yAxis0.axisLine.width = 1;    // 坐标轴轴线宽
+            GravityCenterChart.yAxis0.axisLine.symbol = true;    // 坐标轴箭头
+            GravityCenterChart.yAxis0.axisLine.symbolWidth = 10;
+            GravityCenterChart.yAxis0.axisLine.symbolHeight = 15;
+            GravityCenterChart.yAxis0.axisLine.symbolOffset = 0;
+            GravityCenterChart.yAxis0.axisLine.symbolDent = 3;
+            GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
+            GravityCenterChart.yAxis0.axisName.name = "距离（毫米）";
+            GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
+            GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+            GravityCenterChart.yAxis0.axisName.rotate = 90;
+            GravityCenterChart.yAxis0.axisName.color = Color.black;
+            GravityCenterChart.yAxis0.axisName.fontSize = 15;
+            GravityCenterChart.yAxis0.axisName.fontStyle = FontStyle.Normal;
+            GravityCenterChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
+            GravityCenterChart.yAxis0.axisLabel.fontSize = 12;
+            GravityCenterChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
+            GravityCenterChart.yAxis0.splitLine.show = true;
+            //GravityCenterChart.yAxis0.splitLine.lineStyle.show = true;
+            GravityCenterChart.yAxis0.splitArea.show = true;
+            GravityCenterChart.yAxis0.axisLabel.formatter = "{value:f1}";
+
+            GravityCenterChart.RemoveData();
+            GravityCenterSerie = GravityCenterChart.AddSerie(SerieType.Line, "重心");//添加折线图
+
+            GravityCenterSerie.areaStyle.show = true;
+            GravityCenterSerie.areaStyle.opacity = 0.4f;
+            GravityCenterSerie.areaStyle.toColor = Color.white;
+
+
+            GravityCenterSerie.symbol.type = SerieSymbolType.None;
+
+            GravityCenterChart.grid.left = 50;
+            GravityCenterChart.grid.right = 20;
+            GravityCenterChart.grid.top = 50;
+            GravityCenterChart.grid.bottom = 25;
+
+            GravityCenterChart.dataZoom.enable = true;
+            GravityCenterChart.dataZoom.supportInside = true;
+            GravityCenterChart.dataZoom.start = 0;
+            GravityCenterChart.dataZoom.end = 100;
+            GravityCenterChart.dataZoom.minShowNum = 30;
+
+            float MaxGravityCenter = 0f;
+
+            float tempDistance;
+
+            for (int i = 0; i < GravityCenterCount; i++)
             {
+                tempDistance = 1000 * Vector3.Distance(trainingPlay.gravityCenters[i].Coordinate, trainingPlay.gravityCenters[0].Coordinate);
 
-                LastConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastConvexHullArea.smoothColor = false;   // 设置平滑颜色
-                LastConvexHullArea.smoothWidth = false;   // 设置平滑宽度
-                LastConvexHullArea.color = LastConvexHullAreaColor;
+                GravityCenterChart.AddXAxisData((i * 0.2f).ToString("0.0"));
+                GravityCenterChart.AddData(0, tempDistance);
 
-                Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
-                m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
-
-                ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
-
-                MaxY = MaxY - MinY - 1;
-
-                int x, y;
-
-                LastConvexHullPoints = new List<Vector2>();
-
-                for (int i = 0; i < MaxY; i++)
-                {
-                    x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
-
-                    while ((x < y) && (ConvexHullColors[x] != LastConvexHullLineColor)) x++;    // 查找左边的凸包边界
-                    while ((x < y) && (ConvexHullColors[y] != LastConvexHullLineColor)) y--;    // 查找右边的凸包边界
-
-                    if (x != y)
-                    {
-                        LastConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
-                        LastConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
-
-                        LastConvexHullPoints.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
-                        LastConvexHullPoints.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
-                    }
-                }
-                LastConvexHullArea.Draw();
-
-                IsDrawLastConvexHull = true;
-
-                LastNowConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastNowConvexHullArea.smoothColor = false;   // 设置平滑颜色
-                LastNowConvexHullArea.smoothWidth = false;   // 设置平滑宽度
-                                                             //ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
-                LastNowConvexHullArea.color = LastNowOverlappingColor;  // 设置颜色
-
-                int LastInx = 0, NowInx = 0;
-                while ((LastInx < LastConvexHullPoints.Count) && (LastConvexHullPoints[LastInx].y < NowConvexHullPoints[0].y)) LastInx++;
-                while ((NowInx < NowConvexHullPoints.Count) && (NowConvexHullPoints[NowInx].y < LastConvexHullPoints[0].y)) NowInx++;
-                float x1, x2, x3, x4;
-                while ((LastInx < LastConvexHullPoints.Count) && (NowInx < NowConvexHullPoints.Count))
-                {
-                    x1 = LastConvexHullPoints[LastInx++].x;
-                    x2 = LastConvexHullPoints[LastInx++].x;
-                    x3 = NowConvexHullPoints[NowInx++].x;
-                    x4 = NowConvexHullPoints[NowInx++].x;
-
-                    if (x1 <= x3)
-                    {
-                        if (x2 <= x4)
-                        {
-                            LastNowConvexHullArea.points2.Add(new Vector2(x2, NowConvexHullPoints[NowInx - 1].y));
-                            LastNowConvexHullArea.points2.Add(new Vector2(x3, NowConvexHullPoints[NowInx - 1].y));
-                        }
-                        else
-                        {
-                            LastNowConvexHullArea.points2.Add(new Vector2(x3, NowConvexHullPoints[NowInx - 1].y));
-                            LastNowConvexHullArea.points2.Add(new Vector2(x4, NowConvexHullPoints[NowInx - 1].y));
-                        }
-                    }
-                    else
-                    {
-                        if (x2 <= x4)
-                        {
-                            LastNowConvexHullArea.points2.Add(new Vector2(x1, NowConvexHullPoints[NowInx - 1].y));
-                            LastNowConvexHullArea.points2.Add(new Vector2(x2, NowConvexHullPoints[NowInx - 1].y));
-                        }
-                        else
-                        {
-                            LastNowConvexHullArea.points2.Add(new Vector2(x1, NowConvexHullPoints[NowInx - 1].y));
-                            LastNowConvexHullArea.points2.Add(new Vector2(x4, NowConvexHullPoints[NowInx - 1].y));
-                        }
-                    }
-                }
-
-                LastNowConvexHullArea.Draw();
-
+                MaxGravityCenter = Math.Max(MaxGravityCenter, tempDistance);
             }
-        }
 
-        public void DrawSideLine()
-        {
-            float HalfVerticalOffset = 30f;
-
-            SideLine = new VectorLine("SideLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            SideLine.smoothColor = false;   // 设置平滑颜色
-            SideLine.smoothWidth = false;   // 设置平滑宽度
-            SideLine.color = SideLineColor;  // 设置颜色
-
-            NowFrontLine = new VectorLine("NowFrontLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            NowFrontLine.smoothColor = false;   // 设置平滑颜色
-            NowFrontLine.smoothWidth = false;   // 设置平滑宽度
-            NowFrontLine.color = ConvexHullLineColor;  // 设置颜色
-            NowFrontLine.points2.Add(new Vector2(SideModelGravity.x + NowSoccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y + HalfVerticalOffset));
-            NowFrontLine.points2.Add(new Vector2(SideModelGravity.x + NowSoccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y - HalfVerticalOffset));
-            NowFrontLine.Draw();
-            SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString("0.0000"), 1, 2);
-
-            NowBehindLine = new VectorLine("NowBehindLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-            NowBehindLine.smoothColor = false;   // 设置平滑颜色
-            NowBehindLine.smoothWidth = false;   // 设置平滑宽度
-            NowBehindLine.color = ConvexHullLineColor;  // 设置颜色
-            NowBehindLine.points2.Add(new Vector2(SideModelGravity.x - NowSoccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y + HalfVerticalOffset));
-            NowBehindLine.points2.Add(new Vector2(SideModelGravity.x - NowSoccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - HalfVerticalOffset));
-            NowBehindLine.Draw();
-            SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString("0.0000"), 2, 2);
-
-            float FrontX = SideModelGravity.x + NowSoccerDistance.FrontSoccerDistance * SideCoefficient;
-            float BehindX = SideModelGravity.x - NowSoccerDistance.BehindSoccerDistance * SideCoefficient;
+            SetResultDataText(MaxGravityCenter.ToString("0.0000"), 1, 2);
 
             if (SingleTrainingPlay > 0)
             {
-                LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastFrontLine.smoothColor = false;   // 设置平滑颜色
-                LastFrontLine.smoothWidth = false;   // 设置平滑宽度
-                LastFrontLine.color = LastConvexHullLineColor;  // 设置颜色
-                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + LastSoccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y + HalfVerticalOffset));
-                LastFrontLine.points2.Add(new Vector2(SideModelGravity.x + LastSoccerDistance.FrontSoccerDistance * SideCoefficient, SideModelGravity.y - HalfVerticalOffset));
-                LastFrontLine.Draw();
-                SetResultDataText(LastSoccerDistance.FrontSoccerDistance.ToString("0.0000"), 1, 1);
+                float LastMaxGravityCenter = 0f;
 
-                LastBehindLine = new VectorLine("LastBehindLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-                LastBehindLine.smoothColor = false;   // 设置平滑颜色
-                LastBehindLine.smoothWidth = false;   // 设置平滑宽度
-                LastBehindLine.color = LastConvexHullLineColor;  // 设置颜色
-                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - LastSoccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y + HalfVerticalOffset));
-                LastBehindLine.points2.Add(new Vector2(SideModelGravity.x - LastSoccerDistance.BehindSoccerDistance * SideCoefficient, SideModelGravity.y - HalfVerticalOffset));
-                LastBehindLine.Draw();
-                SetResultDataText(LastSoccerDistance.BehindSoccerDistance.ToString("0.0000"), 2, 1);
+                for (int i = 0; i < LastTrainingPlay.gravityCenters.Count; i++)
+                {
+                    tempDistance = 1000 * Vector3.Distance(LastTrainingPlay.gravityCenters[i].Coordinate, LastTrainingPlay.gravityCenters[0].Coordinate);
 
-                FrontX = Mathf.Max(FrontX, SideModelGravity.x + LastSoccerDistance.FrontSoccerDistance * SideCoefficient);
-                BehindX = Mathf.Min(BehindX, SideModelGravity.x - LastSoccerDistance.BehindSoccerDistance * SideCoefficient);
+                    LastMaxGravityCenter = Math.Max(LastMaxGravityCenter, tempDistance);
+                }
 
-                SetResultDataText(GetEvaluationResult(LastSoccerDistance.FrontSoccerDistance, NowSoccerDistance.FrontSoccerDistance, 4), 1, 3);
-                SetResultDataText(GetEvaluationResult(LastSoccerDistance.FrontSoccerDistance, NowSoccerDistance.FrontSoccerDistance, 2), 1, 4);
 
-                SetResultDataText(GetEvaluationResult(LastSoccerDistance.BehindSoccerDistance, NowSoccerDistance.BehindSoccerDistance, 4), 2, 3);
-                SetResultDataText(GetEvaluationResult(LastSoccerDistance.BehindSoccerDistance, NowSoccerDistance.BehindSoccerDistance, 2), 2, 4);
+                SetResultDataText(LastMaxGravityCenter.ToString("0.0000"), 1, 1);
+
+                SetResultDataText(GetEvaluationResult(LastMaxGravityCenter, MaxGravityCenter, 4), 1, 3);
+                SetResultDataText(GetEvaluationResult(LastMaxGravityCenter, MaxGravityCenter, 2), 1, 4);
             }
-
-            SideLine.points2.Add(new Vector2(FrontX, SideModelGravity.y));
-            SideLine.points2.Add(new Vector2(BehindX, SideModelGravity.y));
-            SideLine.Draw();
         }
 
+        public void WriteAngleData()
+        {
+            float MinLeftSideAngle = trainingPlay.angles[0].LeftSideAngle;
+            float MinRightSideAngle = trainingPlay.angles[0].RightSideAngle;
+            float MinUponSideAngle = trainingPlay.angles[0].UponSideAngle;
+            float MinDownSideAngle = trainingPlay.angles[0].DownSideAngle;
+            float MinLeftArmAngle = trainingPlay.angles[0].LeftArmAngle;
+            float MinRightArmAngle = trainingPlay.angles[0].RightArmAngle;
+            float MinLeftElbowAngle = trainingPlay.angles[0].LeftElbowAngle;
+            float MinRightElbowAngle = trainingPlay.angles[0].RightElbowAngle;
+            float MinLeftLegAngle = trainingPlay.angles[0].LeftLegAngle;
+            float MinRightLegAngle = trainingPlay.angles[0].RightLegAngle;
+            float MinLeftHipAngle = trainingPlay.angles[0].LeftHipAngle;
+            float MinRightHipAngle = trainingPlay.angles[0].RightHipAngle;
+            float MinHipAngle = trainingPlay.angles[0].HipAngle;
+            float MinLeftKneeAngle = trainingPlay.angles[0].LeftKneeAngle;
+            float MinRightKneeAngle = trainingPlay.angles[0].RightKneeAngle;
+            float MinLeftAnkleAngle = trainingPlay.angles[0].LeftAnkleAngle;
+            float MinRightAnkleAngle = trainingPlay.angles[0].RightAnkleAngle;
 
+            float MaxLeftSideAngle = trainingPlay.angles[0].LeftSideAngle;
+            float MaxRightSideAngle = trainingPlay.angles[0].RightSideAngle;
+            float MaxUponSideAngle = trainingPlay.angles[0].UponSideAngle;
+            float MaxDownSideAngle = trainingPlay.angles[0].DownSideAngle;
+            float MaxLeftArmAngle = trainingPlay.angles[0].LeftArmAngle;
+            float MaxRightArmAngle = trainingPlay.angles[0].RightArmAngle;
+            float MaxLeftElbowAngle = trainingPlay.angles[0].LeftElbowAngle;
+            float MaxRightElbowAngle = trainingPlay.angles[0].RightElbowAngle;
+            float MaxLeftLegAngle = trainingPlay.angles[0].LeftLegAngle;
+            float MaxRightLegAngle = trainingPlay.angles[0].RightLegAngle;
+            float MaxLeftHipAngle = trainingPlay.angles[0].LeftHipAngle;
+            float MaxRightHipAngle = trainingPlay.angles[0].RightHipAngle;
+            float MaxHipAngle = trainingPlay.angles[0].HipAngle;
+            float MaxLeftKneeAngle = trainingPlay.angles[0].LeftKneeAngle;
+            float MaxRightKneeAngle = trainingPlay.angles[0].RightKneeAngle;
+            float MaxLeftAnkleAngle = trainingPlay.angles[0].LeftAnkleAngle;
+            float MaxRightAnkleAngle = trainingPlay.angles[0].RightAnkleAngle;
 
+            for (int i = 1; i < trainingPlay.angles.Count; i++)
+            {
+                MinLeftSideAngle = Math.Min(MinLeftSideAngle, trainingPlay.angles[i].LeftSideAngle);
+                MinRightSideAngle = Math.Min(MinRightSideAngle, trainingPlay.angles[i].RightSideAngle);
+                MinUponSideAngle = Math.Min(MinUponSideAngle, trainingPlay.angles[i].UponSideAngle);
+                MinDownSideAngle = Math.Min(MinDownSideAngle, trainingPlay.angles[i].DownSideAngle);
+                MinLeftArmAngle = Math.Min(MinLeftArmAngle, trainingPlay.angles[i].LeftArmAngle);
+                MinRightArmAngle = Math.Min(MinRightArmAngle, trainingPlay.angles[i].RightArmAngle);
+                MinLeftElbowAngle = Math.Min(MinLeftElbowAngle, trainingPlay.angles[i].LeftElbowAngle);
+                MinRightElbowAngle = Math.Min(MinRightElbowAngle, trainingPlay.angles[i].RightElbowAngle);
+                MinLeftLegAngle = Math.Min(MinLeftLegAngle, trainingPlay.angles[i].LeftLegAngle);
+                MinRightLegAngle = Math.Min(MinRightLegAngle, trainingPlay.angles[i].RightLegAngle);
+                MinLeftHipAngle = Math.Min(MinLeftHipAngle, trainingPlay.angles[i].LeftHipAngle);
+                MinRightHipAngle = Math.Min(MinRightHipAngle, trainingPlay.angles[i].RightHipAngle);
+                MinHipAngle = Math.Min(MinHipAngle, trainingPlay.angles[i].HipAngle);
+                MinLeftKneeAngle = Math.Min(MinLeftKneeAngle, trainingPlay.angles[i].LeftKneeAngle);
+                MinRightKneeAngle = Math.Min(MinRightKneeAngle, trainingPlay.angles[i].RightKneeAngle);
+                MinLeftAnkleAngle = Math.Min(MinLeftAnkleAngle, trainingPlay.angles[i].LeftAnkleAngle);
+                MinRightAnkleAngle = Math.Min(MinRightAnkleAngle, trainingPlay.angles[i].RightAnkleAngle);
+
+                MaxLeftSideAngle = Math.Max(MaxLeftSideAngle, trainingPlay.angles[i].LeftSideAngle);
+                MaxRightSideAngle = Math.Max(MaxRightSideAngle, trainingPlay.angles[i].RightSideAngle);
+                MaxUponSideAngle = Math.Max(MaxUponSideAngle, trainingPlay.angles[i].UponSideAngle);
+                MaxDownSideAngle = Math.Max(MaxDownSideAngle, trainingPlay.angles[i].DownSideAngle);
+                MaxLeftArmAngle = Math.Max(MaxLeftArmAngle, trainingPlay.angles[i].LeftArmAngle);
+                MaxRightArmAngle = Math.Max(MaxRightArmAngle, trainingPlay.angles[i].RightArmAngle);
+                MaxLeftElbowAngle = Math.Max(MaxLeftElbowAngle, trainingPlay.angles[i].LeftElbowAngle);
+                MaxRightElbowAngle = Math.Max(MaxRightElbowAngle, trainingPlay.angles[i].RightElbowAngle);
+                MaxLeftLegAngle = Math.Max(MaxLeftLegAngle, trainingPlay.angles[i].LeftLegAngle);
+                MaxRightLegAngle = Math.Max(MaxRightLegAngle, trainingPlay.angles[i].RightLegAngle);
+                MaxLeftHipAngle = Math.Max(MaxLeftHipAngle, trainingPlay.angles[i].LeftHipAngle);
+                MaxRightHipAngle = Math.Max(MaxRightHipAngle, trainingPlay.angles[i].RightHipAngle);
+                MaxHipAngle = Math.Max(MaxHipAngle, trainingPlay.angles[i].HipAngle);
+                MaxLeftKneeAngle = Math.Max(MaxLeftKneeAngle, trainingPlay.angles[i].LeftKneeAngle);
+                MaxRightKneeAngle = Math.Max(MaxRightKneeAngle, trainingPlay.angles[i].RightKneeAngle);
+                MaxLeftAnkleAngle = Math.Max(MaxLeftAnkleAngle, trainingPlay.angles[i].LeftAnkleAngle);
+                MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, trainingPlay.angles[i].RightAnkleAngle);
+            }
+
+            SetResultDataText(MinLeftSideAngle.ToString("0.0000") + " | " + MaxLeftSideAngle.ToString("0.0000"), 2, 2);
+            SetResultDataText(MinRightSideAngle.ToString("0.0000") + " | " + MaxRightSideAngle.ToString("0.0000"), 3, 2);
+            SetResultDataText(MinUponSideAngle.ToString("0.0000") + " | " + MaxUponSideAngle.ToString("0.0000"), 4, 2);
+            SetResultDataText(MinDownSideAngle.ToString("0.0000") + " | " + MaxDownSideAngle.ToString("0.0000"), 5, 2);
+            SetResultDataText(MinLeftArmAngle.ToString("0.0000") + " | " + MaxLeftArmAngle.ToString("0.0000"), 6, 2);
+            SetResultDataText(MinRightArmAngle.ToString("0.0000") + " | " + MaxRightArmAngle.ToString("0.0000"), 7, 2);
+            SetResultDataText(MinLeftElbowAngle.ToString("0.0000") + " | " + MaxLeftElbowAngle.ToString("0.0000"), 8, 2);
+            SetResultDataText(MinRightElbowAngle.ToString("0.0000") + " | " + MaxRightElbowAngle.ToString("0.0000"), 9, 2);
+            SetResultDataText(MinLeftLegAngle.ToString("0.0000") + " | " + MaxLeftLegAngle.ToString("0.0000"), 10, 2);
+            SetResultDataText(MinRightLegAngle.ToString("0.0000") + " | " + MaxRightLegAngle.ToString("0.0000"), 11, 2);
+            SetResultDataText(MinLeftHipAngle.ToString("0.0000") + " | " + MaxLeftHipAngle.ToString("0.0000"), 12, 2);
+            SetResultDataText(MinRightHipAngle.ToString("0.0000") + " | " + MaxRightHipAngle.ToString("0.0000"), 13, 2);
+            SetResultDataText(MinHipAngle.ToString("0.0000") + " | " + MaxHipAngle.ToString("0.0000"), 14, 2);
+            SetResultDataText(MinLeftKneeAngle.ToString("0.0000") + " | " + MaxLeftKneeAngle.ToString("0.0000"), 15, 2);
+            SetResultDataText(MinRightKneeAngle.ToString("0.0000") + " | " + MaxRightKneeAngle.ToString("0.0000"), 16, 2);
+            SetResultDataText(MinLeftAnkleAngle.ToString("0.0000") + " | " + MaxLeftAnkleAngle.ToString("0.0000"), 17, 2);
+            SetResultDataText(MinRightAnkleAngle.ToString("0.0000") + " | " + MaxRightAnkleAngle.ToString("0.0000"), 18, 2);
+
+            if(SingleTrainingPlay > 0)
+            {
+                float LastMinLeftSideAngle = LastTrainingPlay.angles[0].LeftSideAngle;
+                float LastMinRightSideAngle = LastTrainingPlay.angles[0].RightSideAngle;
+                float LastMinUponSideAngle = LastTrainingPlay.angles[0].UponSideAngle;
+                float LastMinDownSideAngle = LastTrainingPlay.angles[0].DownSideAngle;
+                float LastMinLeftArmAngle = LastTrainingPlay.angles[0].LeftArmAngle;
+                float LastMinRightArmAngle = LastTrainingPlay.angles[0].RightArmAngle;
+                float LastMinLeftElbowAngle = LastTrainingPlay.angles[0].LeftElbowAngle;
+                float LastMinRightElbowAngle = LastTrainingPlay.angles[0].RightElbowAngle;
+                float LastMinLeftLegAngle = LastTrainingPlay.angles[0].LeftLegAngle;
+                float LastMinRightLegAngle = LastTrainingPlay.angles[0].RightLegAngle;
+                float LastMinLeftHipAngle = LastTrainingPlay.angles[0].LeftHipAngle;
+                float LastMinRightHipAngle = LastTrainingPlay.angles[0].RightHipAngle;
+                float LastMinHipAngle = LastTrainingPlay.angles[0].HipAngle;
+                float LastMinLeftKneeAngle = LastTrainingPlay.angles[0].LeftKneeAngle;
+                float LastMinRightKneeAngle = LastTrainingPlay.angles[0].RightKneeAngle;
+                float LastMinLeftAnkleAngle = LastTrainingPlay.angles[0].LeftAnkleAngle;
+                float LastMinRightAnkleAngle = LastTrainingPlay.angles[0].RightAnkleAngle;
+                      
+                float LastMaxLeftSideAngle = LastTrainingPlay.angles[0].LeftSideAngle;
+                float LastMaxRightSideAngle = LastTrainingPlay.angles[0].RightSideAngle;
+                float LastMaxUponSideAngle = LastTrainingPlay.angles[0].UponSideAngle;
+                float LastMaxDownSideAngle = LastTrainingPlay.angles[0].DownSideAngle;
+                float LastMaxLeftArmAngle = LastTrainingPlay.angles[0].LeftArmAngle;
+                float LastMaxRightArmAngle = LastTrainingPlay.angles[0].RightArmAngle;
+                float LastMaxLeftElbowAngle = LastTrainingPlay.angles[0].LeftElbowAngle;
+                float LastMaxRightElbowAngle = LastTrainingPlay.angles[0].RightElbowAngle;
+                float LastMaxLeftLegAngle = LastTrainingPlay.angles[0].LeftLegAngle;
+                float LastMaxRightLegAngle = LastTrainingPlay.angles[0].RightLegAngle;
+                float LastMaxLeftHipAngle = LastTrainingPlay.angles[0].LeftHipAngle;
+                float LastMaxRightHipAngle = LastTrainingPlay.angles[0].RightHipAngle;
+                float LastMaxHipAngle = LastTrainingPlay.angles[0].HipAngle;
+                float LastMaxLeftKneeAngle = LastTrainingPlay.angles[0].LeftKneeAngle;
+                float LastMaxRightKneeAngle = LastTrainingPlay.angles[0].RightKneeAngle;
+                float LastMaxLeftAnkleAngle = LastTrainingPlay.angles[0].LeftAnkleAngle;
+                float LastMaxRightAnkleAngle = LastTrainingPlay.angles[0].RightAnkleAngle;
+
+                for (int i = 1; i < LastTrainingPlay.angles.Count; i++)
+                {
+                    MinLeftSideAngle = Math.Min(MinLeftSideAngle, LastTrainingPlay.angles[i].LeftSideAngle);
+                    MinRightSideAngle = Math.Min(MinRightSideAngle, LastTrainingPlay.angles[i].RightSideAngle);
+                    MinUponSideAngle = Math.Min(MinUponSideAngle, LastTrainingPlay.angles[i].UponSideAngle);
+                    MinDownSideAngle = Math.Min(MinDownSideAngle, LastTrainingPlay.angles[i].DownSideAngle);
+                    MinLeftArmAngle = Math.Min(MinLeftArmAngle, LastTrainingPlay.angles[i].LeftArmAngle);
+                    MinRightArmAngle = Math.Min(MinRightArmAngle, LastTrainingPlay.angles[i].RightArmAngle);
+                    MinLeftElbowAngle = Math.Min(MinLeftElbowAngle, LastTrainingPlay.angles[i].LeftElbowAngle);
+                    MinRightElbowAngle = Math.Min(MinRightElbowAngle, LastTrainingPlay.angles[i].RightElbowAngle);
+                    MinLeftLegAngle = Math.Min(MinLeftLegAngle, LastTrainingPlay.angles[i].LeftLegAngle);
+                    MinRightLegAngle = Math.Min(MinRightLegAngle, LastTrainingPlay.angles[i].RightLegAngle);
+                    MinLeftHipAngle = Math.Min(MinLeftHipAngle, LastTrainingPlay.angles[i].LeftHipAngle);
+                    MinRightHipAngle = Math.Min(MinRightHipAngle, LastTrainingPlay.angles[i].RightHipAngle);
+                    MinHipAngle = Math.Min(MinHipAngle, LastTrainingPlay.angles[i].HipAngle);
+                    MinLeftKneeAngle = Math.Min(MinLeftKneeAngle, LastTrainingPlay.angles[i].LeftKneeAngle);
+                    MinRightKneeAngle = Math.Min(MinRightKneeAngle, LastTrainingPlay.angles[i].RightKneeAngle);
+                    MinLeftAnkleAngle = Math.Min(MinLeftAnkleAngle, LastTrainingPlay.angles[i].LeftAnkleAngle);
+                    MinRightAnkleAngle = Math.Min(MinRightAnkleAngle, LastTrainingPlay.angles[i].RightAnkleAngle);
+
+                    MaxLeftSideAngle = Math.Max(MaxLeftSideAngle, LastTrainingPlay.angles[i].LeftSideAngle);
+                    MaxRightSideAngle = Math.Max(MaxRightSideAngle, LastTrainingPlay.angles[i].RightSideAngle);
+                    MaxUponSideAngle = Math.Max(MaxUponSideAngle, LastTrainingPlay.angles[i].UponSideAngle);
+                    MaxDownSideAngle = Math.Max(MaxDownSideAngle, LastTrainingPlay.angles[i].DownSideAngle);
+                    MaxLeftArmAngle = Math.Max(MaxLeftArmAngle, LastTrainingPlay.angles[i].LeftArmAngle);
+                    MaxRightArmAngle = Math.Max(MaxRightArmAngle, LastTrainingPlay.angles[i].RightArmAngle);
+                    MaxLeftElbowAngle = Math.Max(MaxLeftElbowAngle, LastTrainingPlay.angles[i].LeftElbowAngle);
+                    MaxRightElbowAngle = Math.Max(MaxRightElbowAngle, LastTrainingPlay.angles[i].RightElbowAngle);
+                    MaxLeftLegAngle = Math.Max(MaxLeftLegAngle, LastTrainingPlay.angles[i].LeftLegAngle);
+                    MaxRightLegAngle = Math.Max(MaxRightLegAngle, LastTrainingPlay.angles[i].RightLegAngle);
+                    MaxLeftHipAngle = Math.Max(MaxLeftHipAngle, LastTrainingPlay.angles[i].LeftHipAngle);
+                    MaxRightHipAngle = Math.Max(MaxRightHipAngle, LastTrainingPlay.angles[i].RightHipAngle);
+                    MaxHipAngle = Math.Max(MaxHipAngle, LastTrainingPlay.angles[i].HipAngle);
+                    MaxLeftKneeAngle = Math.Max(MaxLeftKneeAngle, LastTrainingPlay.angles[i].LeftKneeAngle);
+                    MaxRightKneeAngle = Math.Max(MaxRightKneeAngle, LastTrainingPlay.angles[i].RightKneeAngle);
+                    MaxLeftAnkleAngle = Math.Max(MaxLeftAnkleAngle, LastTrainingPlay.angles[i].LeftAnkleAngle);
+                    MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, LastTrainingPlay.angles[i].RightAnkleAngle);
+                }
+
+                SetResultDataText(LastMinLeftSideAngle.ToString("0.0000") + " | " + LastMaxLeftSideAngle.ToString("0.0000"), 2, 1);
+                SetResultDataText(LastMinRightSideAngle.ToString("0.0000") + " | " + LastMaxRightSideAngle.ToString("0.0000"), 3, 1);
+                SetResultDataText(LastMinUponSideAngle.ToString("0.0000") + " | " + LastMaxUponSideAngle.ToString("0.0000"), 4, 1);
+                SetResultDataText(LastMinDownSideAngle.ToString("0.0000") + " | " + LastMaxDownSideAngle.ToString("0.0000"), 5, 1);
+                SetResultDataText(LastMinLeftArmAngle.ToString("0.0000") + " | " + LastMaxLeftArmAngle.ToString("0.0000"), 6, 1);
+                SetResultDataText(LastMinRightArmAngle.ToString("0.0000") + " | " + LastMaxRightArmAngle.ToString("0.0000"), 7, 1);
+                SetResultDataText(LastMinLeftElbowAngle.ToString("0.0000") + " | " + LastMaxLeftElbowAngle.ToString("0.0000"), 8, 1);
+                SetResultDataText(LastMinRightElbowAngle.ToString("0.0000") + " | " + LastMaxRightElbowAngle.ToString("0.0000"), 9, 1);
+                SetResultDataText(LastMinLeftLegAngle.ToString("0.0000") + " | " + LastMaxLeftLegAngle.ToString("0.0000"), 10, 1);
+                SetResultDataText(LastMinRightLegAngle.ToString("0.0000") + " | " + LastMaxRightLegAngle.ToString("0.0000"), 11, 1);
+                SetResultDataText(LastMinLeftHipAngle.ToString("0.0000") + " | " + LastMaxLeftHipAngle.ToString("0.0000"), 12, 1);
+                SetResultDataText(LastMinRightHipAngle.ToString("0.0000") + " | " + LastMaxRightHipAngle.ToString("0.0000"), 13, 1);
+                SetResultDataText(LastMinHipAngle.ToString("0.0000") + " | " + LastMaxHipAngle.ToString("0.0000"), 14, 1);
+                SetResultDataText(LastMinLeftKneeAngle.ToString("0.0000") + " | " + LastMaxLeftKneeAngle.ToString("0.0000"), 15, 1);
+                SetResultDataText(LastMinRightKneeAngle.ToString("0.0000") + " | " + LastMaxRightKneeAngle.ToString("0.0000"), 16, 1);
+                SetResultDataText(LastMinLeftAnkleAngle.ToString("0.0000") + " | " + LastMaxLeftAnkleAngle.ToString("0.0000"), 17, 1);
+                SetResultDataText(LastMinRightAnkleAngle.ToString("0.0000") + " | " + LastMaxRightAnkleAngle.ToString("0.0000"), 18, 1);
+
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 4), 2, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle,LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 4), 3, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle,LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 4), 4, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle,LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 4), 5, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle,LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 4), 6, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle,LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 4), 7, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle,LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 4), 8, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle,LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 4), 9, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle,LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 4), 10, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle,LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 4), 11, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle,LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 4), 12, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle,LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 4), 13, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle,LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 4), 14, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle,LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 4), 15, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle,LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 4), 16, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle,LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 4), 17, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 4), 18, 4);
+
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 2), 2, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle, LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 2), 3, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle, LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 2), 4, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle, LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 2), 5, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle, LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 2), 6, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle, LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 2), 7, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle, LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 2), 8, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle, LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 2), 9, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle, LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 2), 10, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle, LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 2), 11, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle, LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 2), 12, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle, LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 2), 13, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle, LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 2), 14, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle, LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 2), 15, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle, LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 2), 16, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle, LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 2), 17, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 2), 18, 4);
+            }
+        }
 
         // 修改结果对比的数据
         public void SetResultDataText(string DataText, int i, int j)
@@ -755,20 +596,6 @@ namespace XCharts
             return ResultString;
         }
 
-        public void RemoveLines()
-        {
-            VectorLine.Destroy(ref NowFrontLine);
-            VectorLine.Destroy(ref NowBehindLine);
-            VectorLine.Destroy(ref LastFrontLine);
-            VectorLine.Destroy(ref LastBehindLine);
-            VectorLine.Destroy(ref SideLine);
-
-            VectorLine.Destroy(ref ConvexHullLine);
-            VectorLine.Destroy(ref ConvexHullArea);
-            VectorLine.Destroy(ref LastConvexHullLine);
-            VectorLine.Destroy(ref LastConvexHullArea);
-            VectorLine.Destroy(ref LastNowConvexHullArea);
-        }
         void Update()
         {
 

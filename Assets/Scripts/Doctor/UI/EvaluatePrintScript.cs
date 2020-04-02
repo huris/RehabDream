@@ -150,10 +150,10 @@ namespace XCharts
 
                 EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
                 float TrainingEvaluationRate = evaluation.EvaluationScore;
-                if (TrainingEvaluationRate >= 0.95f) { EvaluationRank.text = "1 级"; }
-                else if (TrainingEvaluationRate >= 0.90f) { EvaluationRank.text = "2 级"; }
-                else if (TrainingEvaluationRate >= 0.80f) { EvaluationRank.text = "3 级"; }
-                else if (TrainingEvaluationRate >= 0.70f) { EvaluationRank.text = "4 级"; }
+                if (TrainingEvaluationRate >= 80f) { EvaluationRank.text = "1 级"; }
+                else if (TrainingEvaluationRate >= 70f) { EvaluationRank.text = "2 级"; }
+                else if (TrainingEvaluationRate >= 60f) { EvaluationRank.text = "3 级"; }
+                else if (TrainingEvaluationRate >= 50f) { EvaluationRank.text = "4 级"; }
                 else { EvaluationRank.text = "5 级"; }
 
                 EvaluationResult = transform.Find("Evaluation/EvaluationInfo/Result/EvaluationResult").GetComponent<Text>();
