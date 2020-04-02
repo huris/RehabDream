@@ -539,6 +539,7 @@ public class PatientDatabaseManager : MonoBehaviour
                 }
             );
 
+
             Debug.Log("@DatabaseManager: Write MaxDirection Success");
             return DatabaseReturn.Success;
         }
