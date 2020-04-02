@@ -24,7 +24,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 	{
 		NoTrainingData = transform.Find("NoTrainingData").gameObject;
 		Report = transform.parent.parent.parent.Find("Report").gameObject;
-		TrainingToggle = transform.parent.parent.parent.Find("Report/Training").GetComponent<Toggle>();
+		TrainingToggle = transform.parent.parent.parent.Find("Report/ReportToggle/TrainingToggle").GetComponent<Toggle>();
 
 		//DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 

@@ -84,6 +84,16 @@ namespace XCharts
 
         void OnEnable()
         {
+            if (DoctorDataManager.instance.doctor.patient.Evaluations == null)
+            {
+                DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+                if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+                {
+                    DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+                }
+            }
+
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
                 SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;

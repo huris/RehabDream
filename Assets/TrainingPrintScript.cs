@@ -44,6 +44,24 @@ namespace XCharts
 
         void OnEnable()
         {
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays == null)
+            {
+                DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
+                if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
+                {
+                    foreach (var item in DoctorDataManager.instance.doctor.patient.TrainingPlays)
+                    {
+                        if (DoctorDataManager.instance.doctor.patient.MaxSuccessCount < item.SuccessCount)
+                        {
+                            DoctorDataManager.instance.doctor.patient.SetMaxSuccessCount(item.SuccessCount);
+                        }
+                    }
+
+                    DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
+                    //print(DoctorDataManager.instance.doctor.patient.TrainingPlayIndex);
+                }
+            }
+            
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
                 SingleTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlayIndex;
@@ -179,18 +197,18 @@ namespace XCharts
         public void DrawGravityCenterOffset()
         {
             GravityCenterCount = trainingPlay.gravityCenters.Count;
-            GravityCenterChart = transform.Find("GravityCenterChart").GetComponent<LineChart>();
-            if (GravityCenterChart == null) GravityCenterChart = transform.Find("GravityCenterChart").gameObject.AddComponent<LineChart>();
+            GravityCenterChart = transform.Find("Chart/GravityCenterChart").GetComponent<LineChart>();
+            if (GravityCenterChart == null) GravityCenterChart = transform.Find("Chart/GravityCenterChart").gameObject.AddComponent<LineChart>();
 
             GravityCenterChart.themeInfo.theme = Theme.Light;
             //chart.themeInfo.tooltipBackgroundColor = Color.white;
             //chart.themeInfo.backgroundColor = Color.grey;
 
             GravityCenterChart.title.show = true;
-            GravityCenterChart.title.text = "与 初 始 点 距 离";
-            GravityCenterChart.title.textStyle.fontSize = 20;
+            GravityCenterChart.title.text = "重 心 坐 标 偏 移 量";
+            GravityCenterChart.title.textStyle.fontSize = 14;
             GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
-            GravityCenterChart.title.location.top = 13;
+            GravityCenterChart.title.location.top = 22;
 
             //chart.title.subText = "前30s";
             //chart.title.subTextFontSize = 18;
@@ -211,7 +229,7 @@ namespace XCharts
 
             GravityCenterChart.xAxis0.show = true;
             GravityCenterChart.xAxis0.type = XAxis.AxisType.Category;
-            GravityCenterChart.xAxis0.splitNumber = 10;   // 把数据分成多少份
+            GravityCenterChart.xAxis0.splitNumber = 8;   // 把数据分成多少份
             GravityCenterChart.xAxis0.boundaryGap = true;   // 坐标轴两边是否留白
             GravityCenterChart.xAxis0.axisLine.width = 1;    // 坐标轴轴线宽
             GravityCenterChart.xAxis0.axisLine.symbol = true;    // 坐标轴箭头
@@ -225,7 +243,7 @@ namespace XCharts
             GravityCenterChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
             GravityCenterChart.xAxis0.axisName.rotate = 0;
             GravityCenterChart.xAxis0.axisName.color = Color.black;
-            GravityCenterChart.xAxis0.axisName.fontSize = 15;
+            GravityCenterChart.xAxis0.axisName.fontSize = 13;
             GravityCenterChart.xAxis0.axisName.fontStyle = FontStyle.Normal;
             GravityCenterChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
             GravityCenterChart.xAxis0.axisLabel.fontSize = 12;
@@ -237,7 +255,7 @@ namespace XCharts
 
             GravityCenterChart.yAxis0.show = true;
             GravityCenterChart.yAxis0.type = YAxis.AxisType.Value;
-            GravityCenterChart.yAxis0.splitNumber = 10;   // 把数据分成多少份
+            GravityCenterChart.yAxis0.splitNumber = 8;   // 把数据分成多少份
             GravityCenterChart.yAxis0.boundaryGap = false;   // 坐标轴两边是否留白
             GravityCenterChart.yAxis0.axisLine.width = 1;    // 坐标轴轴线宽
             GravityCenterChart.yAxis0.axisLine.symbol = true;    // 坐标轴箭头
@@ -251,7 +269,7 @@ namespace XCharts
             GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
             GravityCenterChart.yAxis0.axisName.rotate = 90;
             GravityCenterChart.yAxis0.axisName.color = Color.black;
-            GravityCenterChart.yAxis0.axisName.fontSize = 15;
+            GravityCenterChart.yAxis0.axisName.fontSize = 13;
             GravityCenterChart.yAxis0.axisName.fontStyle = FontStyle.Normal;
             GravityCenterChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
             GravityCenterChart.yAxis0.axisLabel.fontSize = 12;
@@ -394,23 +412,23 @@ namespace XCharts
                 MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, trainingPlay.angles[i].RightAnkleAngle);
             }
 
-            SetResultDataText(MinLeftSideAngle.ToString("0.0000") + " | " + MaxLeftSideAngle.ToString("0.0000"), 2, 2);
-            SetResultDataText(MinRightSideAngle.ToString("0.0000") + " | " + MaxRightSideAngle.ToString("0.0000"), 3, 2);
-            SetResultDataText(MinUponSideAngle.ToString("0.0000") + " | " + MaxUponSideAngle.ToString("0.0000"), 4, 2);
-            SetResultDataText(MinDownSideAngle.ToString("0.0000") + " | " + MaxDownSideAngle.ToString("0.0000"), 5, 2);
-            SetResultDataText(MinLeftArmAngle.ToString("0.0000") + " | " + MaxLeftArmAngle.ToString("0.0000"), 6, 2);
-            SetResultDataText(MinRightArmAngle.ToString("0.0000") + " | " + MaxRightArmAngle.ToString("0.0000"), 7, 2);
-            SetResultDataText(MinLeftElbowAngle.ToString("0.0000") + " | " + MaxLeftElbowAngle.ToString("0.0000"), 8, 2);
-            SetResultDataText(MinRightElbowAngle.ToString("0.0000") + " | " + MaxRightElbowAngle.ToString("0.0000"), 9, 2);
-            SetResultDataText(MinLeftLegAngle.ToString("0.0000") + " | " + MaxLeftLegAngle.ToString("0.0000"), 10, 2);
-            SetResultDataText(MinRightLegAngle.ToString("0.0000") + " | " + MaxRightLegAngle.ToString("0.0000"), 11, 2);
-            SetResultDataText(MinLeftHipAngle.ToString("0.0000") + " | " + MaxLeftHipAngle.ToString("0.0000"), 12, 2);
-            SetResultDataText(MinRightHipAngle.ToString("0.0000") + " | " + MaxRightHipAngle.ToString("0.0000"), 13, 2);
-            SetResultDataText(MinHipAngle.ToString("0.0000") + " | " + MaxHipAngle.ToString("0.0000"), 14, 2);
-            SetResultDataText(MinLeftKneeAngle.ToString("0.0000") + " | " + MaxLeftKneeAngle.ToString("0.0000"), 15, 2);
-            SetResultDataText(MinRightKneeAngle.ToString("0.0000") + " | " + MaxRightKneeAngle.ToString("0.0000"), 16, 2);
-            SetResultDataText(MinLeftAnkleAngle.ToString("0.0000") + " | " + MaxLeftAnkleAngle.ToString("0.0000"), 17, 2);
-            SetResultDataText(MinRightAnkleAngle.ToString("0.0000") + " | " + MaxRightAnkleAngle.ToString("0.0000"), 18, 2);
+            SetResultDataText(MinLeftSideAngle.ToString("0.00") + " | " + MaxLeftSideAngle.ToString("0.00"), 2, 2);
+            SetResultDataText(MinRightSideAngle.ToString("0.00") + " | " + MaxRightSideAngle.ToString("0.00"), 3, 2);
+            SetResultDataText(MinUponSideAngle.ToString("0.00") + " | " + MaxUponSideAngle.ToString("0.00"), 4, 2);
+            SetResultDataText(MinDownSideAngle.ToString("0.00") + " | " + MaxDownSideAngle.ToString("0.00"), 5, 2);
+            SetResultDataText(MinLeftArmAngle.ToString("0.00") + " | " + MaxLeftArmAngle.ToString("0.00"), 6, 2);
+            SetResultDataText(MinRightArmAngle.ToString("0.00") + " | " + MaxRightArmAngle.ToString("0.00"), 7, 2);
+            SetResultDataText(MinLeftElbowAngle.ToString("0.00") + " | " + MaxLeftElbowAngle.ToString("0.00"), 8, 2);
+            SetResultDataText(MinRightElbowAngle.ToString("0.00") + " | " + MaxRightElbowAngle.ToString("0.00"), 9, 2);
+            SetResultDataText(MinLeftLegAngle.ToString("0.00") + " | " + MaxLeftLegAngle.ToString("0.00"), 10, 2);
+            SetResultDataText(MinRightLegAngle.ToString("0.00") + " | " + MaxRightLegAngle.ToString("0.00"), 11, 2);
+            SetResultDataText(MinLeftHipAngle.ToString("0.00") + " | " + MaxLeftHipAngle.ToString("0.00"), 12, 2);
+            SetResultDataText(MinRightHipAngle.ToString("0.00") + " | " + MaxRightHipAngle.ToString("0.00"), 13, 2);
+            SetResultDataText(MinHipAngle.ToString("0.00") + " | " + MaxHipAngle.ToString("0.00"), 14, 2);
+            SetResultDataText(MinLeftKneeAngle.ToString("0.00") + " | " + MaxLeftKneeAngle.ToString("0.00"), 15, 2);
+            SetResultDataText(MinRightKneeAngle.ToString("0.00") + " | " + MaxRightKneeAngle.ToString("0.00"), 16, 2);
+            SetResultDataText(MinLeftAnkleAngle.ToString("0.00") + " | " + MaxLeftAnkleAngle.ToString("0.00"), 17, 2);
+            SetResultDataText(MinRightAnkleAngle.ToString("0.00") + " | " + MaxRightAnkleAngle.ToString("0.00"), 18, 2);
 
             if(SingleTrainingPlay > 0)
             {
@@ -489,41 +507,41 @@ namespace XCharts
                     MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, LastTrainingPlay.angles[i].RightAnkleAngle);
                 }
 
-                SetResultDataText(LastMinLeftSideAngle.ToString("0.0000") + " | " + LastMaxLeftSideAngle.ToString("0.0000"), 2, 1);
-                SetResultDataText(LastMinRightSideAngle.ToString("0.0000") + " | " + LastMaxRightSideAngle.ToString("0.0000"), 3, 1);
-                SetResultDataText(LastMinUponSideAngle.ToString("0.0000") + " | " + LastMaxUponSideAngle.ToString("0.0000"), 4, 1);
-                SetResultDataText(LastMinDownSideAngle.ToString("0.0000") + " | " + LastMaxDownSideAngle.ToString("0.0000"), 5, 1);
-                SetResultDataText(LastMinLeftArmAngle.ToString("0.0000") + " | " + LastMaxLeftArmAngle.ToString("0.0000"), 6, 1);
-                SetResultDataText(LastMinRightArmAngle.ToString("0.0000") + " | " + LastMaxRightArmAngle.ToString("0.0000"), 7, 1);
-                SetResultDataText(LastMinLeftElbowAngle.ToString("0.0000") + " | " + LastMaxLeftElbowAngle.ToString("0.0000"), 8, 1);
-                SetResultDataText(LastMinRightElbowAngle.ToString("0.0000") + " | " + LastMaxRightElbowAngle.ToString("0.0000"), 9, 1);
-                SetResultDataText(LastMinLeftLegAngle.ToString("0.0000") + " | " + LastMaxLeftLegAngle.ToString("0.0000"), 10, 1);
-                SetResultDataText(LastMinRightLegAngle.ToString("0.0000") + " | " + LastMaxRightLegAngle.ToString("0.0000"), 11, 1);
-                SetResultDataText(LastMinLeftHipAngle.ToString("0.0000") + " | " + LastMaxLeftHipAngle.ToString("0.0000"), 12, 1);
-                SetResultDataText(LastMinRightHipAngle.ToString("0.0000") + " | " + LastMaxRightHipAngle.ToString("0.0000"), 13, 1);
-                SetResultDataText(LastMinHipAngle.ToString("0.0000") + " | " + LastMaxHipAngle.ToString("0.0000"), 14, 1);
-                SetResultDataText(LastMinLeftKneeAngle.ToString("0.0000") + " | " + LastMaxLeftKneeAngle.ToString("0.0000"), 15, 1);
-                SetResultDataText(LastMinRightKneeAngle.ToString("0.0000") + " | " + LastMaxRightKneeAngle.ToString("0.0000"), 16, 1);
-                SetResultDataText(LastMinLeftAnkleAngle.ToString("0.0000") + " | " + LastMaxLeftAnkleAngle.ToString("0.0000"), 17, 1);
-                SetResultDataText(LastMinRightAnkleAngle.ToString("0.0000") + " | " + LastMaxRightAnkleAngle.ToString("0.0000"), 18, 1);
+                SetResultDataText(LastMinLeftSideAngle.ToString("0.00") + " | " + LastMaxLeftSideAngle.ToString("0.00"), 2, 1);
+                SetResultDataText(LastMinRightSideAngle.ToString("0.00") + " | " + LastMaxRightSideAngle.ToString("0.00"), 3, 1);
+                SetResultDataText(LastMinUponSideAngle.ToString("0.00") + " | " + LastMaxUponSideAngle.ToString("0.00"), 4, 1);
+                SetResultDataText(LastMinDownSideAngle.ToString("0.00") + " | " + LastMaxDownSideAngle.ToString("0.00"), 5, 1);
+                SetResultDataText(LastMinLeftArmAngle.ToString("0.00") + " | " + LastMaxLeftArmAngle.ToString("0.00"), 6, 1);
+                SetResultDataText(LastMinRightArmAngle.ToString("0.00") + " | " + LastMaxRightArmAngle.ToString("0.00"), 7, 1);
+                SetResultDataText(LastMinLeftElbowAngle.ToString("0.00") + " | " + LastMaxLeftElbowAngle.ToString("0.00"), 8, 1);
+                SetResultDataText(LastMinRightElbowAngle.ToString("0.00") + " | " + LastMaxRightElbowAngle.ToString("0.00"), 9, 1);
+                SetResultDataText(LastMinLeftLegAngle.ToString("0.00") + " | " + LastMaxLeftLegAngle.ToString("0.00"), 10, 1);
+                SetResultDataText(LastMinRightLegAngle.ToString("0.00") + " | " + LastMaxRightLegAngle.ToString("0.00"), 11, 1);
+                SetResultDataText(LastMinLeftHipAngle.ToString("0.00") + " | " + LastMaxLeftHipAngle.ToString("0.00"), 12, 1);
+                SetResultDataText(LastMinRightHipAngle.ToString("0.00") + " | " + LastMaxRightHipAngle.ToString("0.00"), 13, 1);
+                SetResultDataText(LastMinHipAngle.ToString("0.00") + " | " + LastMaxHipAngle.ToString("0.00"), 14, 1);
+                SetResultDataText(LastMinLeftKneeAngle.ToString("0.00") + " | " + LastMaxLeftKneeAngle.ToString("0.00"), 15, 1);
+                SetResultDataText(LastMinRightKneeAngle.ToString("0.00") + " | " + LastMaxRightKneeAngle.ToString("0.00"), 16, 1);
+                SetResultDataText(LastMinLeftAnkleAngle.ToString("0.00") + " | " + LastMaxLeftAnkleAngle.ToString("0.00"), 17, 1);
+                SetResultDataText(LastMinRightAnkleAngle.ToString("0.00") + " | " + LastMaxRightAnkleAngle.ToString("0.00"), 18, 1);
 
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 4), 2, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle,LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 4), 3, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle,LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 4), 4, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle,LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 4), 5, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle,LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 4), 6, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle,LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 4), 7, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle,LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 4), 8, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle,LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 4), 9, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle,LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 4), 10, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle,LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 4), 11, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle,LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 4), 12, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle,LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 4), 13, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle,LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 4), 14, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle,LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 4), 15, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle,LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 4), 16, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle,LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 4), 17, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 4), 18, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 4), 2, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle,LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 4), 3, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle,LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 4), 4, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle,LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 4), 5, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle,LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 4), 6, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle,LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 4), 7, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle,LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 4), 8, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle,LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 4), 9, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle,LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 4), 10, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle,LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 4), 11, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle,LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 4), 12, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle,LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 4), 13, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle,LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 4), 14, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle,LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 4), 15, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle,LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 4), 16, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle,LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 4), 17, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 4), 18, 3);
 
                 SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 2), 2, 4);
                 SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle, LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 2), 3, 4);
@@ -591,7 +609,7 @@ namespace XCharts
             }
             else if (bits == 4)
             {
-                ResultString = (Diff).ToString("0.0000");
+                ResultString = (Diff).ToString("0.000");
             }
             return ResultString;
         }
