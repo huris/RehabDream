@@ -11,13 +11,13 @@ namespace XCharts
     public class TrainingPrintScript : MonoBehaviour
     {
 
-        public int SingleEvaluation;
-        public Evaluation evaluation;
+        public int SingleTrainingPlay;
+        public TrainingPlay trainingPlay;
         public SoccerDistance NowSoccerDistance;
         public SoccerDistance LastSoccerDistance;
 
         // Title
-        public Text EvaluationTitle;
+        public Text TrainingTitle;
 
         // Information
         public Text InformationPatientID;
@@ -29,12 +29,12 @@ namespace XCharts
         public Text InformationPatientSymptom;
         public Text InformationPatientDoctor;
 
-        // Evaluation
-        public Text EvaluationScore;
-        public Text EvaluationDuration;
-        public Text EvaluationRank;
-        public Text EvaluationResult;
-        public Text EvaluationTime;
+        // Training
+        public Text TrainingDifficulty;
+        public Text TrainingRank;
+        public Text TrainingDuration;
+        public Text TrainingSuccessRate;
+        public Text TrainingTime;
 
         // Chart
         public List<Point> EvaluationPoints;
@@ -84,12 +84,10 @@ namespace XCharts
 
         void OnEnable()
         {
-            if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
-                SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
-                evaluation = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation];
-
-                NowSoccerDistance = evaluation.soccerDistance;
+                SingleTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlayIndex;
+                trainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay];
 
                 // Title
                 string PatientNameBlock = "";
@@ -97,8 +95,8 @@ namespace XCharts
                 {
                     PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
                 }
-                EvaluationTitle = transform.Find("EvaluationTitle").GetComponent<Text>();
-                EvaluationTitle.text = PatientNameBlock + "第  " + (SingleEvaluation + 1).ToString() + "  次  评  估  报  告  表";
+                TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
+                TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  训  练  报  告  表";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
@@ -140,57 +138,30 @@ namespace XCharts
                 InformationPatientDoctor.text = DoctorDataManager.instance.doctor.DoctorName;
 
 
-                // Evaluation
-                EvaluationScore = transform.Find("Evaluation/EvaluationInfo/Score/EvaluationScore").GetComponent<Text>();
-                EvaluationScore.text = evaluation.EvaluationScore.ToString("0.00") + " 分";
+                // Training
+                TrainingDifficulty = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Difficulty/TrainingDifficulty").GetComponent<Text>();
+                TrainingDifficulty.text = trainingPlay.TrainingDifficulty;
 
-                EvaluationDuration = transform.Find("Evaluation/EvaluationInfo/Duration/EvaluationDuration").GetComponent<Text>();
-                EvaluationDuration.text = (long.Parse(evaluation.EvaluationEndTime.Substring(9, 2)) * 3600 + long.Parse(evaluation.EvaluationEndTime.Substring(12, 2)) * 60 + long.Parse(evaluation.EvaluationEndTime.Substring(15, 2))
-                                           - long.Parse(evaluation.EvaluationStartTime.Substring(9, 2)) * 3600 - long.Parse(evaluation.EvaluationStartTime.Substring(12, 2)) * 60 - long.Parse(evaluation.EvaluationStartTime.Substring(15, 2))).ToString() + " 秒";
+                TrainingRank = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Rank/TrainingRank").GetComponent<Text>();
+                float TrainingEvaluationRate = 1.0f * trainingPlay.SuccessCount / trainingPlay.GameCount;
+                if (TrainingEvaluationRate >= 0.8f) { TrainingRank.text = "S 级"; }
+                else if (TrainingEvaluationRate >= 0.7f) { TrainingRank.text = "A 级"; }
+                else if (TrainingEvaluationRate >= 0.6f) { TrainingRank.text = "B 级"; }
+                else if (TrainingEvaluationRate >= 0.5f) { TrainingRank.text = "C 级"; }
+                else if (TrainingEvaluationRate >= 0.4f) { TrainingRank.text = "D 级"; }
+                else { TrainingRank.text = "E 级"; }
 
-                EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
-                float TrainingEvaluationRate = evaluation.EvaluationScore;
-                if (TrainingEvaluationRate >= 0.95f) { EvaluationRank.text = "1 级"; }
-                else if (TrainingEvaluationRate >= 0.90f) { EvaluationRank.text = "2 级"; }
-                else if (TrainingEvaluationRate >= 0.80f) { EvaluationRank.text = "3 级"; }
-                else if (TrainingEvaluationRate >= 0.70f) { EvaluationRank.text = "4 级"; }
-                else { EvaluationRank.text = "5 级"; }
 
-                EvaluationResult = transform.Find("Evaluation/EvaluationInfo/Result/EvaluationResult").GetComponent<Text>();
-                EvaluationResult.text = "各方位正常";
+                TrainingDuration = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Duration/TrainingDuration").GetComponent<Text>();
+                TrainingDuration.text = (long.Parse(trainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(trainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(trainingPlay.TrainingEndTime.Substring(15, 2))
+                                           - long.Parse(trainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(trainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(trainingPlay.TrainingStartTime.Substring(15, 2))).ToString() + " 秒";
 
-                List<Tuple<float, string>> HemiPos = new List<Tuple<float, string>>();  // 偏瘫方位
 
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponSoccerDistance, "正上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponRightSoccerDistance, "右上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.RightSoccerDistance, "正右"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownRightSoccerDistance, "右下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownSoccerDistance, "正下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownLeftSoccerDistance, "左下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.LeftSoccerDistance, "正左"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponLeftSoccerDistance, "左上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.FrontSoccerDistance, "正前"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.BehindSoccerDistance, "正后"));
+                TrainingSuccessRate = transform.Find("TrainingFeedback/TrainingFeedbackInfo/SuccessRate/TrainingSuccessRate").GetComponent<Text>();
+                TrainingSuccessRate.text = trainingPlay.SuccessCount.ToString() + "/" + trainingPlay.GameCount.ToString();
 
-                HemiPos.Sort();  //升序
-
-                int HemiPosCount = 0;
-                if (HemiPos[0].Item1 < 0.75f)
-                {
-                    EvaluationResult.text = HemiPos[0].Item2;
-                }
-                for (int i = 1; i < 4 && HemiPos[i].Item1 < 0.75f; i++)
-                {
-                    HemiPosCount++;
-
-                    EvaluationResult.text += "|" + HemiPos[i].Item2;
-                }
-
-                //print(HemiPosCount);
-                //EvaluationResult.transform.parent.localScale = new Vector2(80f + 20 * HemiPosCount, 22.9f);
-
-                EvaluationTime = transform.Find("Evaluation/EvaluationInfo/Time/EvaluationTime").GetComponent<Text>();
-                EvaluationTime.text = evaluation.EvaluationStartTime;
+                TrainingTime = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Time/TrainingTime").GetComponent<Text>();
+                TrainingTime.text = trainingPlay.TrainingStartTime;
 
 
                 // Chart
@@ -204,7 +175,7 @@ namespace XCharts
                 }
 
                 EvaluationPoints = new List<Point>();
-                foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].Points)
+                foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].Points)
                 {
                     EvaluationPoints.Add(new Point(point.x, point.y));
                 }
@@ -247,18 +218,18 @@ namespace XCharts
                     EvaluationPoints[i].x += GravityDiff.x;
                     EvaluationPoints[i].y += GravityDiff.y;
 
-                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
-                    EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight;
+                    //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationWidth;
+                    EvaluationPoints[i].x = EvaluationPoints[0].x + (EvaluationPoints[i].x - EvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationHeight;
+                    EvaluationPoints[i].y = EvaluationPoints[0].y + (EvaluationPoints[i].y - EvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationHeight;
                 }
 
 
-                if (SingleEvaluation > 0)
+                if (SingleTrainingPlay > 0)
                 {
-                    LastSoccerDistance = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance;
+                    LastSoccerDistance = DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].soccerDistance;
 
                     LastEvaluationPoints = new List<Point>();
-                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
+                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].Points)
                     {
                         LastEvaluationPoints.Add(new Point(point.x, point.y));
                     }
@@ -271,9 +242,9 @@ namespace XCharts
                         LastEvaluationPoints[i].x += GravityDiff.x;
                         LastEvaluationPoints[i].y += GravityDiff.y;
 
-                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
-                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                        //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay].EvaluationWidth;
+                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].EvaluationHeight;
+                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleTrainingPlay - 1].EvaluationHeight;
                     }
                 }
 
@@ -344,7 +315,7 @@ namespace XCharts
             SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 2);
             SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 2);
 
-            if (SingleEvaluation > 0)
+            if (SingleTrainingPlay > 0)
             {
                 SetResultDataText(LastSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 1);
                 SetResultDataText(LastSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 1);
@@ -507,7 +478,7 @@ namespace XCharts
 
                 IsDrawNowConvexHull = true;
 
-                if (SingleEvaluation > 0)
+                if (SingleTrainingPlay > 0)
                 {
                     List<Point> tempPoints = new List<Point>();
 
@@ -695,7 +666,7 @@ namespace XCharts
             float FrontX = SideModelGravity.x + NowSoccerDistance.FrontSoccerDistance * SideCoefficient;
             float BehindX = SideModelGravity.x - NowSoccerDistance.BehindSoccerDistance * SideCoefficient;
 
-            if (SingleEvaluation > 0)
+            if (SingleTrainingPlay > 0)
             {
                 LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
                 LastFrontLine.smoothColor = false;   // 设置平滑颜色
