@@ -39,28 +39,37 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         PatientInfo = transform.parent.parent.Find("PatientInfo").gameObject;
         PatientListBG = transform.parent.parent.Find("PatientListBG").gameObject;
 
-        if(DoctorDataManager.instance.DoctorsIDAndName != null && DoctorDataManager.instance.DoctorsIDAndName.Count > 0)
+        if(DoctorDataManager.instance.doctor.DoctorName == "root")
         {
-            //DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
-
-            DoctorString2Int.Clear();
-            DoctorInt2String.Clear();
-            PatientDoctorName.Clear();
-            PatientDoctor.ClearOptions();
-
-            //print(DoctorDataManager.instance.Doctors.Count);
-            for (int i = 0; i < DoctorDataManager.instance.DoctorsIDAndName.Count; i++)
+            if (DoctorDataManager.instance.DoctorsIDAndName != null && DoctorDataManager.instance.DoctorsIDAndName.Count > 0)
             {
-                DoctorString2Int.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2, i);
-                DoctorInt2String.Add(i, DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
-                PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
-            }
+                //DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
-            PatientDoctorName.Add("请选择医生");
-            PatientDoctor.AddOptions(PatientDoctorName);
-            PatientDoctor.value = PatientDoctorName.Count;
-            //print(PatientDoctor.options.Count);
+                DoctorString2Int.Clear();
+                DoctorInt2String.Clear();
+                PatientDoctorName.Clear();
+                PatientDoctor.ClearOptions();
+
+                //print(DoctorDataManager.instance.Doctors.Count);
+                for (int i = 0; i < DoctorDataManager.instance.DoctorsIDAndName.Count; i++)
+                {
+                    DoctorString2Int.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2, i);
+                    DoctorInt2String.Add(i, DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
+                    PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
+                }
+
+                PatientDoctorName.Add("请选择医生");
+                PatientDoctor.AddOptions(PatientDoctorName);
+                PatientDoctor.value = PatientDoctorName.Count;
+                //print(PatientDoctor.options.Count);
+            }
         }
+        else
+        {
+            PatientDoctor.transform.parent.gameObject.SetActive(false);
+        }
+
+        
     }
 
     // Update is called once per frame
@@ -79,7 +88,47 @@ public class PatientInformationQueryButtonScript : MonoBehaviour {
         // DoctorDataManager.instance.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientSex, long.Parse(PatientAge.text, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowLeadingSign), DoctorDataManager.instance.doctor.DoctorID);
 
         // 如果用户没有选择医生，则传入医生工号为-1
-        DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, PatientDoctor.value == PatientDoctorName.Count ? "root" : DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName);
+        //DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value==PatientDoctorName.Count?-1:DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorID, PatientDoctor.value == PatientDoctorName.Count ? "root" : DoctorDataManager.instance.Doctors[PatientDoctor.value].DoctorName);
+        if (DoctorDataManager.instance.doctor.DoctorName == "root")
+        {
+            DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.PatientQueryInformation(PatientName.text, PatientDoctor.value == PatientDoctorName.Count ? -1 : DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item1, PatientDoctor.value == PatientDoctorName.Count ? "root" : DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item2);
+        }
+        else if (PatientName.text != "")
+        {
+            bool IsID = false;
+            
+            if (PatientName.text[0] >= '0' && PatientName.text[0] <= '9')
+            {
+                IsID = true;
+            }
+            else
+            {
+                IsID = false;
+            }
+
+            List<Patient> tempPatients = new List<Patient>();
+
+            for (int i = 0; i < DoctorDataManager.instance.doctor.Patients.Count; i++)
+            {
+                if (IsID)
+                {
+                    if (long.Parse(PatientName.text) == DoctorDataManager.instance.doctor.Patients[i].PatientID)
+                    {
+                        tempPatients.Add(DoctorDataManager.instance.doctor.Patients[i]);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (PatientName.text == DoctorDataManager.instance.doctor.Patients[i].PatientName)
+                    {
+                        tempPatients.Add(DoctorDataManager.instance.doctor.Patients[i]);
+                    }
+                }
+            }
+            DoctorDataManager.instance.doctor.Patients = tempPatients;
+        }
+
         if(DoctorDataManager.instance.doctor.Patients != null && DoctorDataManager.instance.doctor.Patients.Count > 0)
         {
             //DoctorDataManager.instance.doctor.Patients[0].SetPatientData();

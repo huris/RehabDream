@@ -193,24 +193,27 @@ public class PatientInfoAddButtonScript : MonoBehaviour
 
                         //DoctorDataManager.instance.doctor.Patients = DoctorDatabaseManager.instance.ReadDoctorPatientInformation(DoctorDataManager.instance.doctor.DoctorID, DoctorDataManager.instance.doctor.DoctorName);
 
-                        // 插入用户
-                        int z = 0;
-                        for (z = 0; z < DoctorDataManager.instance.doctor.Patients.Count; z++)
+                        if (DoctorDataManager.instance.DoctorsIDAndName[PatientDoctor.value].Item1 == DoctorDataManager.instance.doctor.DoctorID)
                         {
-                            if(patient.PatientPinyin.CompareTo(DoctorDataManager.instance.doctor.Patients[z].PatientPinyin) < 0)
+                            // 插入用户
+                            int z = 0;
+                            for (z = 0; z < DoctorDataManager.instance.doctor.Patients.Count; z++)
+                            {
+                                if (patient.PatientPinyin.CompareTo(DoctorDataManager.instance.doctor.Patients[z].PatientPinyin) < 0)
+                                {
+                                    DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
+                                    break;
+                                }
+                            }
+                            if (z == DoctorDataManager.instance.doctor.Patients.Count)
                             {
                                 DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
-                                break;
                             }
-                        }
-                        if(z == DoctorDataManager.instance.doctor.Patients.Count)
-                        {
-                            DoctorDataManager.instance.doctor.Patients.Insert(z, patient);
-                        }
 
-                        DoctorDataManager.instance.doctor.patient = patient;
-
+                            DoctorDataManager.instance.doctor.patient = patient;
+                        }
                         StartCoroutine(DelayTime(3));
+                        
                     }
                     else if (RETURN == DoctorDatabaseManager.DatabaseReturn.NullInput)
                     {
@@ -238,6 +241,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour
         PatientHeight.text = "";
         PatientWeight.text = "";
         PatientSymptom.text = "";
+
 
         // 如果注册成功,则进入医生管理界面
         PatientAdd.SetActive(false);

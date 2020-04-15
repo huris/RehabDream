@@ -114,7 +114,7 @@ public class DoctorRegisterScript : MonoBehaviour {
             }
             else
             {
-                if(DoctorDatabaseManager.instance.CheckDoctor(long.Parse(DoctorID.text)) == DoctorDatabaseManager.DatabaseReturn.Success)
+                if(DoctorID.text!="12345" && DoctorDatabaseManager.instance.CheckDoctor(long.Parse(DoctorID.text)) == DoctorDatabaseManager.DatabaseReturn.Success)
                 {
                     //Doctor doctor = new Doctor();
                     //doctor.SetDoctorMessage(long.Parse(DoctorID.text), MD5Encrypt(DoctorPassword.text), DoctorName.text);

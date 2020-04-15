@@ -430,12 +430,15 @@
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\StartTipInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingFeedbackInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlanMakingDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPrintScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\TrainingStartInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
      <Compile Include="Assets\Scripts\Game\GameState.cs" />
      <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
@@ -558,9 +561,6 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
-     <Compile Include="Assets\StartTipInitScript.cs" />
-     <Compile Include="Assets\TrainingPrintScript.cs" />
-     <Compile Include="Assets\TrainingStartInitScript.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
