@@ -1028,7 +1028,7 @@ namespace XCharts
 
                 ColorFistLineTrack.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
-                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight / HeightPixel);
 
                 if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
                 else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
@@ -1107,7 +1107,7 @@ namespace XCharts
 
                 ColorFistLineReality.points2.Add(new Vector2(tempPoints[i].x, tempPoints[i].y));
 
-                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7);
+                DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight / HeightPixel);
 
                 if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
                 else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }

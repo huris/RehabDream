@@ -22,10 +22,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 909, y: 342}
-  m_MaxSize: {x: 22004, y: 10000}
+  m_MinSize: {x: 911, y: 342}
+  m_MaxSize: {x: 22006, y: 10021}
   vertical: 0
-  controlID: 174
+  controlID: 340
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 342}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 175
+  controlID: 341
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -403,7 +403,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 00ca9a3b
     m_LastClickedID: 1000000000
-    m_ExpandedIDs: 00000000a02f000012300000c43000000e320000fc3200004e330000083400008a350000ce360000e6380000bc3a0000143b0000c23b0000163c0000e43c00005e3f000070410000bc410000764500008a4a00008c4a00008e4a0000904a000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000009e2f000010300000c23000000c320000fa3200004c3300000634000088350000cc360000e4380000ba3a0000123b0000c03b0000143c0000e23c00005c3f00006e410000ba410000744500008a4a00008c4a00008e4a0000904a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -431,7 +431,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a02f000012300000c43000000e320000fc3200004e330000083400008a350000ce360000e6380000bc3a0000143b0000c23b0000163c0000e43c00005e3f000070410000bc410000764500008a4a00008c4a00008e4a0000904a0000
+    m_ExpandedIDs: 000000009e2f000010300000c23000000c320000fa3200004c3300000634000088350000cc360000e4380000ba3a0000123b0000c03b0000143c0000e23c00005c3f00006e410000ba410000744500008a4a00008c4a00008e4a0000904a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -504,8 +504,8 @@ MonoBehaviour:
     y: 0
     width: 279
     height: 947
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
