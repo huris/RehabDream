@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：DataManager 
-* Author：ChenShuwei 
-* CreateDate：2019/10/20 10:35:23
-* Version: 1.0
-* ==============================================================================*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

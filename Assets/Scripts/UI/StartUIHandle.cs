@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：StartUIHandle 
-* Author：ChenShuwei 
-* CreateDate：2019/10/18 ‏‎‏‎‏‎21:30:08 
-* Version: 1.0
-* ==============================================================================*/
-
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 

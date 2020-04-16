@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：Arrow 
-* Author：ChenShuwei 
-* CreateDate：2019/10/30 20:47:32 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

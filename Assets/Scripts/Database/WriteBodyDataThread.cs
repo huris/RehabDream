@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：WriteBodyDataThread 
-* Author：ChenShuwei 
-* CreateDate：2019/11/16 10:29:11 
-* Version: 1.0
-* ==============================================================================*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

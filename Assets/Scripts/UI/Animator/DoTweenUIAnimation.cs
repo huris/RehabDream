@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：DoTweenUIAnimation 
-* Author：ChenShuwei 
-* CreateDate：2019/11/6 18:23:39 
-* Version: 1.0
-* ==============================================================================*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 using System.Collections;
 

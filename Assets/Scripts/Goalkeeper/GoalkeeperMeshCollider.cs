@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：GoalkeeperMeshCollider 
-* Author：ChenShuwei 
-* CreateDate：2019/10/13 ‏‎‏‎16:30:01 
-* Version: 1.0
-* ==============================================================================*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Threading;
 //generate mesh collider of goalkeeper

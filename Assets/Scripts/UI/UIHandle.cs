@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：UIHandle 
-* Author：ChenShuwei 
-* CreateDate：2019/10/18 ‏‎‏‎21:37:57 
-* Version: 1.0
-* ==============================================================================*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 

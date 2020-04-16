@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：UIAnimator 
-* Author：ChenShuwei 
-* CreateDate：2019/11/6 15:55:03 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

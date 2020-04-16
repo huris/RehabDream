@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：GameUIHandle 
-* Author：ChenShuwei 
-* CreateDate：2019/10/18 ‏‎‏‎21:32:01 
-* Version: 1.0
-* ==============================================================================*/
-
-using DG.Tweening;
+﻿using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;

@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：SoccerballCreate 
-* Author：ChenShuwei 
-* CreateDate：2019/10/14 ‏‎‏‎19:48:06 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

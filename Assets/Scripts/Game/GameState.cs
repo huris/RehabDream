@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：GameState 
-* Author：ChenShuwei 
-* CreateDate：2019/10/14 16:27:26 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +35,7 @@ public class GameState : MonoBehaviour
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
-    public static float AddDistancePercent = 0.5f;
+    public static float AddDistancePercent = 0.2f;
     public static float MaxDistancePercent = 1.1f;
     public static float MinDistancePercent = 0.8f;
 

@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：Shooting 
-* Author：ChenShuwei 
-* CreateDate：2019/10/30 20:16:27 
-* Version: 1.0
-* ==============================================================================*/
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Shooting : MonoBehaviour {
 

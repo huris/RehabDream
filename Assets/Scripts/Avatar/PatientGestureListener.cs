@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：PatientGestureListener 
-* Author：ChenShuwei 
-* CreateDate：2019/11/20 16:56:54 
-* Version: 1.0
-* ==============================================================================*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

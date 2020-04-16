@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：CollisionHandle 
-* Author：ChenShuwei 
-* CreateDate：2019/10/13 ‏‎‏‎20:28:23 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

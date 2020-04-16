@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：DatabaseManager 
-* Author：ChenShuwei 
-* CreateDate：2019/10/20 10:32:12 
-* Version: 1.0
-* ==============================================================================*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using Mono.Data.Sqlite;
 using System;
 using System.IO;

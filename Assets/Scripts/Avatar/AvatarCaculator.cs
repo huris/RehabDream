@@ -1,11 +1,4 @@
-﻿/* ============================================================================== 
-* ClassName：AvatarCaculator(改自原GravityCenter类) 
-* Author：ChenShuwei 
-* CreateDate：2019/11/15 14:44:35 
-* Version: 1.0
-* ==============================================================================*/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
