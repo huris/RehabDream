@@ -42,7 +42,7 @@ public class GameState : MonoBehaviour
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
-    public static float AddDistancePercent = 0.1f;
+    public static float AddDistancePercent = 0.5f;
     public static float MaxDistancePercent = 1.1f;
     public static float MinDistancePercent = 0.8f;
 

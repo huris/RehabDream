@@ -93,7 +93,7 @@ public class ReportScript : MonoBehaviour
 
     IEnumerator GetScreenShot(string ReportPath)
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame(); // 停两秒后截图
 
         Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, true);
         tex.ReadPixels(new Rect(x, y, width, height), 0, 0, false);
