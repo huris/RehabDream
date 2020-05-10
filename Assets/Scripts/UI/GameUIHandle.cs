@@ -91,7 +91,7 @@ public class GameUIHandle : UIHandle
 
     void FixedUpdate()
     {
-        
+
         if (!IsOver)
         {
             KinectManager manager = KinectManager.Instance;
@@ -155,9 +155,9 @@ public class GameUIHandle : UIHandle
         }
 
 
-    
+
         //this.OpenUIAnimation(GameUI);
-        //GameState.StateShoot2SessionOver();
+        // GameState.StateShoot2SessionOver();
     }
 
 
@@ -325,10 +325,11 @@ public class GameUIHandle : UIHandle
     //set General Comment of GameoverUI
     public void SetGeneralComment()
     {
-        SuccessCountText.text = "成功次数  " + PatientDataManager.instance.SuccessCount.ToString();
-        GameCountText.text = "训练总量  " + PatientDataManager.instance.GameCount.ToString();
-        TrainingDifficulty.text = "训练难度  " + PatientDataManager.DifficultyType2Str(PatientDataManager.instance.PlanDifficulty);
-        TrainingTime.text = "训练时长  " + ((int)(PatientDataManager.instance.TrainingEndTime - PatientDataManager.instance.TrainingStartTime).TotalSeconds).ToString();
+        SuccessCountText.text = "Successful Saves: " + PatientDataManager.instance.SuccessCount.ToString();
+        GameCountText.text = "Total Saves: " + PatientDataManager.instance.GameCount.ToString();
+        TrainingDifficulty.text = "Difficulty Level: " + ((int)PatientDataManager.instance.PlanDifficulty).ToString().TrimStart('0') + 1;
+        TrainingTime.text = "Total Time: " + ((int)(PatientDataManager.instance.TrainingEndTime - PatientDataManager.instance.TrainingStartTime).TotalSeconds).ToString() + "s";
+
         Debug.Log("@GameUIHandle: Set GeneralComment success");
     }
 
@@ -385,9 +386,17 @@ public class GameUIHandle : UIHandle
         }
         else
         {
+            string[] TipsEng = new string[] { "Upper direction",
+                "Upper right direction",
+                "Right direction",
+                "Down right direction",
+                "Down direction",
+                "Down left direction",
+                "Left direction",
+                "Upper left direction" };
 
             // 是方向字符串
-            GameUITipsText.text = "请双手握拳，朝" + Tip + "接球";
+            GameUITipsText.text = "Direction:" + TipsEng[Array.IndexOf(Tips, Tip)];
         }
 
     }
@@ -424,7 +433,7 @@ public class GameUIHandle : UIHandle
     // set patientinfo of GameUI
     public void SetPatientInfoText(string PatientName, long Max_SuccessCount)
     {
-        GameUIPatientNameText.text = "用户名：" + PatientName;
+        GameUIPatientNameText.text = "Name：" + PatientName;
         GameUIMaxSuccessCountText.text = Max_SuccessCount.ToString();
     }
 
@@ -432,7 +441,7 @@ public class GameUIHandle : UIHandle
     public void SetTrainingProgress(float TimeCount, float TrainingTime)
     {
         GameUIProgressSlider.value = TimeCount / TrainingTime;
-        GameUITrainProgressText.text = "训练进度：" + GameUIProgressSlider.value.ToString("0%");
+        GameUITrainProgressText.text = "Training Progress：" + GameUIProgressSlider.value.ToString("0%");
     }
 
     // set Progress of KinectDetect
