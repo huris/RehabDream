@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Assets"
+    "\\Assets",
+    "\\Assets\\Scripts"
   ],
   "PreviewInSolutionExplorer": false
 }
