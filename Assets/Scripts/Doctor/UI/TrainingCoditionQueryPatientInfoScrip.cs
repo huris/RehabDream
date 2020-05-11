@@ -47,7 +47,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
 
             if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
             {
-                PatientHeight.text = "未填写";
+                PatientHeight.text = "NULL";
             }
             else
             {
@@ -56,7 +56,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
 
             if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
             {
-                PatientWeight.text = "未填写";
+                PatientWeight.text = "NULL";
             }
             else
             {
@@ -100,7 +100,7 @@ public class TrainingCoditionQueryPatientInfoScrip : MonoBehaviour {
             {
                 PlanDifficultyText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDifficulty;
                 PlanDirectionText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection.ToString();
-                PlanTimeText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString();
+                PlanTimeText.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString() + " min";
             }
         }
         else

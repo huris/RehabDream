@@ -98,7 +98,7 @@ public class PatientInfoAddButtonScript : MonoBehaviour
                 PatientDoctorName.Add(DoctorDataManager.instance.DoctorsIDAndName[i].Item2);
             }
 
-            PatientDoctorName.Add("请选择医生");
+            PatientDoctorName.Add("Choose doctor");
             //print("请输入医生");
             //print(PatientDoctorName.Count);
             PatientDoctor.AddOptions(PatientDoctorName);
@@ -158,8 +158,8 @@ public class PatientInfoAddButtonScript : MonoBehaviour
             PatientAlreadyExist.SetActive(false);
 
             PatientSex = "";
-            if (Man.isOn) PatientSex = "男";
-            else if (Woman.isOn) PatientSex = "女";
+            if (Man.isOn) PatientSex = "Male";
+            else if (Woman.isOn) PatientSex = "Female";
 
             //print("!!!!!");
 

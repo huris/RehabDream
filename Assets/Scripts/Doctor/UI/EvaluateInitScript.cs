@@ -194,8 +194,8 @@ namespace XCharts
                 //SaveButton.SetActive(true);
 
                 //print(LastEvaluation.TrainingStartTime);
-                EvaluateTime.text = "第" + (DoctorDataManager.instance.doctor.patient.EvaluationIndex + 1).ToString() + "次评估时间：" + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime;
-                EvaluateButtonText.text = "再次评估";
+                EvaluateTime.text = "Evaluation Time: " + DoctorDataManager.instance.doctor.patient.Evaluations[DoctorDataManager.instance.doctor.patient.EvaluationIndex].EvaluationStartTime;
+                EvaluateButtonText.text = "Evaluate";
 
                 EvaluationButtonImage.color = Color.white;
 
@@ -205,10 +205,16 @@ namespace XCharts
                 ListEvaluationTime.Clear();
                 EvaluationSelect.ClearOptions();
 
+                List<string> sequence = new List<string>();
+                sequence.Add("st");
+                sequence.Add("nd");
+                sequence.Add("rd");
+                sequence.Add("th");
+
                 for (int i = DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1; i >= 0; i--)
                 {
                     string tempEvaluationTime = DoctorDataManager.instance.doctor.patient.Evaluations[i].EvaluationStartTime;
-                    ListEvaluationTime.Add("第" + (i + 1).ToString() + "次 | " + tempEvaluationTime.Substring(4, 2) + "." + tempEvaluationTime.Substring(6, 2));
+                    ListEvaluationTime.Add((i + 1).ToString() +sequence[i]+ " | " + tempEvaluationTime.Substring(4, 2) + "." + tempEvaluationTime.Substring(6, 2));
                 }
 
                 EvaluationSelect.AddOptions(ListEvaluationTime);
@@ -223,7 +229,7 @@ namespace XCharts
 
                 tempSoccerDistance = new SoccerDistance(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance);
 
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "Male")
                 {
                     ManImage.SetActive(true); ManSideImage.SetActive(true);
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);
@@ -314,8 +320,8 @@ namespace XCharts
 
                 SideLineColor = new Color32(255, 140, 5, 255);
 
-                LastConvexHullText.text = "上次评估";
-                NowConvexHullText.text = "本次评估";
+                LastConvexHullText.text = "Last: ";
+                NowConvexHullText.text = "Now: ";
 
                 //// 画侧身直线
                 //DrawSideLine();
@@ -364,20 +370,20 @@ namespace XCharts
 
                 float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
 
-                if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1 级"; }
-                else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "2 级"; }
-                else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "3 级"; }
-                else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "4 级"; }
-                else { Rank5.SetActive(true); EvaluationRank.text = "5 级"; }
+                if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1"; }
+                else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "2"; }
+                else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "3"; }
+                else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "4"; }
+                else { Rank5.SetActive(true); EvaluationRank.text = "5"; }
 
-                EvaluationScore.text = TrainingEvaluationRate.ToString("0.00") + " 分";
+                EvaluationScore.text = TrainingEvaluationRate.ToString("0.00");
 
                 EvaluationStartTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationStartTime;
                 EvaluationEndTime.text = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationEndTime;
 
                 // 计算有效训练时长
                 EvaluationTime.text = (long.Parse(EvaluationEndTime.text.Substring(9, 2)) * 3600 + long.Parse(EvaluationEndTime.text.Substring(12, 2)) * 60 + long.Parse(EvaluationEndTime.text.Substring(15, 2))
-                                           - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + " 秒";
+                                           - long.Parse(EvaluationStartTime.text.Substring(9, 2)) * 3600 - long.Parse(EvaluationStartTime.text.Substring(12, 2)) * 60 - long.Parse(EvaluationStartTime.text.Substring(15, 2))).ToString() + "s";
 
 
             }
@@ -390,8 +396,8 @@ namespace XCharts
                 EvaluationSelect.gameObject.SetActive(false);
                 //SaveButton.SetActive(false);
 
-                EvaluateTime.text = "点击右侧按钮对患者进行状况评估";
-                EvaluateButtonText.text = "状况评估";
+                EvaluateTime.text = "Click the right button to evaluate!";
+                EvaluateButtonText.text = "Evaluate";
 
                 Tweener t1 = EvaluationButtonImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 0.8f);
                 Tweener t2 = EvaluationButtonImage.DOColor(Color.white, 0.8f);
@@ -684,9 +690,9 @@ namespace XCharts
                 //}
                 //}
 
-                LastConvexHullText.text = "上次评估:雷达图(" + (LastConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
-                LastConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
-                LastConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                LastConvexHullText.text = "Last: Radar Area(" + (LastConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                LastConvexHullText.text += ", Forward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                LastConvexHullText.text += ", Backward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
 
                 if (NowConvexHullToggle.isOn)
                 {
@@ -738,32 +744,32 @@ namespace XCharts
 
                     LastNowConvexHullArea.Draw();
 
-                    NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text = "Now: Radar Area(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
 
                     float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
 
-                    if (Mathf.Abs(RadarAreaIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(RadarAreaIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (RadarAreaIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
-                    NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text += ", Forward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
 
 
-                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (FrontIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (FrontIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
-                    NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text += ", Backward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
 
-                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (BehindIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (BehindIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
@@ -890,9 +896,9 @@ namespace XCharts
                 ConvexHullArea.Draw();
                 //}
                 //}
-                NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
-                NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
-                NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                NowConvexHullText.text = "Now: Radar Area(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                NowConvexHullText.text += ", Forward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
+                NowConvexHullText.text += ", Backward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00") + ")";
 
                 if (LastConvexHullToggle.isOn)
                 {
@@ -942,32 +948,32 @@ namespace XCharts
                     }
                     LastNowConvexHullArea.Draw();
 
-                    NowConvexHullText.text = "本次评估:雷达图(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text = "Now: Radar Area(" + (NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient).ToString("0.00");
 
                     float RadarAreaIncreaseRate = (NowConvexHull.ConvexHullArea - LastConvexHull.ConvexHullArea) / LastConvexHull.ConvexHullArea;
 
-                    if (Mathf.Abs(RadarAreaIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(RadarAreaIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (RadarAreaIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (RadarAreaIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (RadarAreaIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
-                    NowConvexHullText.text += ",前倾(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text += ", Forward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float FrontIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.FrontSoccerDistance * SideCoefficient);
 
 
-                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (FrontIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (FrontIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (FrontIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";
 
-                    NowConvexHullText.text += ",后仰(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
+                    NowConvexHullText.text += ", Backward(" + (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient / SideCoefficient).ToString("0.00");
                     float BehindIncreaseRate = (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.BehindSoccerDistance * SideCoefficient
                                                 - DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient)
                                                 / (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance.BehindSoccerDistance * SideCoefficient);
 
-                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>基本不变</color>";
+                    if (Mathf.Abs(FrontIncreaseRate) < 1e-5) NowConvexHullText.text += " <color=blue>Around</color>";
                     else if (BehindIncreaseRate < 0) NowConvexHullText.text += " <color=red>" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     else if (BehindIncreaseRate > 0) NowConvexHullText.text += " <color=green>+" + (BehindIncreaseRate * 100).ToString("0.00") + "%</color>";
                     NowConvexHullText.text += ")";

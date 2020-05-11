@@ -345,7 +345,6 @@ MonoBehaviour:
     m_trigger: 0
     m_physicsMaterial: {fileID: 0}
     m_alignOddWidthToPixels: 0
-  DirectionImage: {fileID: 0}
 --- !u!4 &17942846
 Transform:
   m_ObjectHideFlags: 0
@@ -482,7 +481,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u76F4 \u63A5 \u8FD4 \u56DE"
+  m_Text: Quit
 --- !u!222 &52003732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -678,7 +677,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6362 \u7403 \u65F6 \u95F4"
+  m_Text: Time
 --- !u!222 &180073332
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -752,7 +751,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "568 \u79D2"
+  m_Text: 568s
 --- !u!222 &184191160
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1091,7 +1090,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u91CD \u65B0 \u6D4B \u8BC4"
+  m_Text: Restart
 --- !u!222 &322749592
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1237,7 +1236,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4FDD \u5B58 \u8FD4 \u56DE"
+  m_Text: Save
 --- !u!222 &342575505
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1344,7 +1343,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 364112639}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 123, y: 0, z: 0}
+  m_LocalPosition: {x: 120.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1315664084}
@@ -1352,8 +1351,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123, y: 0}
-  m_SizeDelta: {x: 685, y: 74.1}
+  m_AnchoredPosition: {x: 120.5, y: 0}
+  m_SizeDelta: {x: 705.9, y: 74.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &364112641
 MonoBehaviour:
@@ -1387,8 +1386,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u53CC \u624B \u524D \u540E \u4F38 \u4F7F \u4E2D \u95F4 \u8DB3 \u7403 \u53D8
-    \u5927 \u5C0F"
+  m_Text: Stretch the handclasp back and forth
 --- !u!222 &364112642
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1541,7 +1539,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 447266874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 123, y: 0, z: 0}
+  m_LocalPosition: {x: 110, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 994114456}
@@ -1549,7 +1547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123, y: 0}
+  m_AnchoredPosition: {x: 110, y: 0}
   m_SizeDelta: {x: 685, y: 74.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &447266876
@@ -1584,8 +1582,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4FDD \u6301 \u53CC \u624B \u63E1 \u62F3 \u79FB \u52A8 \u5230 \u8DB3 \u7403
-    \u4F4D \u7F6E"
+  m_Text: Keep handclasp and move to the ball position
 --- !u!222 &447266877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1931,7 +1928,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u663E \u793A \u8F68 \u8FF9"
+  m_Text: Track
 --- !u!222 &708323354
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2713,7 +2710,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8BED \u97F3 \u4ECB \u7ECD"
+  m_Text: Introduction
 --- !u!222 &1025814480
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2982,7 +2979,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1153795241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 123, y: 0, z: 0}
+  m_LocalPosition: {x: 110, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1636307956}
@@ -2990,7 +2987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123, y: 0}
+  m_AnchoredPosition: {x: 110, y: 0}
   m_SizeDelta: {x: 685, y: 74.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1153795243
@@ -3025,8 +3022,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u53CC \u624B \u8DDF \u968F \u8DB3 \u7403 \u79FB \u52A8 \u81F3 \u6700 \u5927
-    \u8DDD \u79BB"
+  m_Text: Control the handclasp to follow the ball
 --- !u!222 &1153795244
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3172,8 +3168,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u53CC \u624B \u63E1 \u62F3 \u653E \u4E8E \u809A \u8110 \u524D \u9759 \u6B62
-    3 \u79D2 \u949F \u540E \u5F00 \u59CB \u8BC4 \u4F30\n"
+  m_Text: "\rKeep handclasp and put them in front of navel for 3 seconds, then evaluating
+    will start."
 --- !u!222 &1230531337
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4952,7 +4948,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u7EE7 \u7EED \u8BC4 \u4F30"
+  m_Text: Continue
 --- !u!222 &1907897274
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5046,6 +5042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799e7c25253f6fc41afe8c8ad4e84cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsOver: 0
 --- !u!114 &1954471425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5394,7 +5391,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5F53 \u524D \u5F97 \u5206"
+  m_Text: Score
 --- !u!222 &1974923380
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5504,7 +5501,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u91CD \u5FC3 \u8303 \u56F4 \u8BC4 \u4F30"
+  m_Text: Balance Evaluating
 --- !u!222 &1982028622
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5648,7 +5645,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "568 \u5206"
+  m_Text: 568
 --- !u!222 &2057057864
 CanvasRenderer:
   m_ObjectHideFlags: 0
