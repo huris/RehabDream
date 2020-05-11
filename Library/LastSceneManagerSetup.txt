@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/07-DoctorTest.unity
+- path: Assets/Scenes/01-DoctorLogin.unity
   isLoaded: 1
   isActive: 1
