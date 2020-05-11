@@ -1,0 +1,6 @@
+1. EvaluateInitScript.cs中的DrawColorFistTrack和DrawColorFistLine中：
+DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight / HeightPixel);
+更改为：
+DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight / HeightPixel);
+
+2. 
