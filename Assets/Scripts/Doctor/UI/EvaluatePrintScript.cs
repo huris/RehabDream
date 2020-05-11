@@ -102,13 +102,20 @@ namespace XCharts
                 NowSoccerDistance = evaluation.soccerDistance;
 
                 // Title
-                string PatientNameBlock = "";
-                for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
-                {
-                    PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
-                }
+                //string PatientNameBlock = "";
+                //for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
+                //{
+                //    PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
+                //}
+
+                List<string> sequence = new List<string>();
+                sequence.Add("st");
+                sequence.Add("nd");
+                sequence.Add("rd");
+                sequence.Add("th");
+
                 EvaluationTitle = transform.Find("EvaluationTitle").GetComponent<Text>();
-                EvaluationTitle.text = PatientNameBlock + "第  " + (SingleEvaluation + 1).ToString() + "  次  评  估  报  告  表";
+                EvaluationTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s" + (SingleEvaluation + 1).ToString() + sequence[SingleEvaluation] + "Evaluation Report";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
@@ -126,7 +133,7 @@ namespace XCharts
                 InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
                 {
-                    InformationPatientHeight.text = "未填写";
+                    InformationPatientHeight.text = "NULL";
                 }
                 else
                 {
@@ -136,7 +143,7 @@ namespace XCharts
                 InformationPatientWeight = transform.Find("Information/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
                 {
-                    InformationPatientWeight.text = "未填写";
+                    InformationPatientWeight.text = "NULL";
                 }
                 else
                 {
@@ -152,7 +159,7 @@ namespace XCharts
 
                 // Evaluation
                 EvaluationScore = transform.Find("Evaluation/EvaluationInfo/Score/EvaluationScore").GetComponent<Text>();
-                EvaluationScore.text = evaluation.EvaluationScore.ToString("0.00") + " 分";
+                EvaluationScore.text = evaluation.EvaluationScore.ToString("0.00");
 
                 EvaluationDuration = transform.Find("Evaluation/EvaluationInfo/Duration/EvaluationDuration").GetComponent<Text>();
                 EvaluationDuration.text = (long.Parse(evaluation.EvaluationEndTime.Substring(9, 2)) * 3600 + long.Parse(evaluation.EvaluationEndTime.Substring(12, 2)) * 60 + long.Parse(evaluation.EvaluationEndTime.Substring(15, 2))
@@ -160,27 +167,27 @@ namespace XCharts
 
                 EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
                 float TrainingEvaluationRate = evaluation.EvaluationScore;
-                if (TrainingEvaluationRate >= 80f) { EvaluationRank.text = "1 级"; }
-                else if (TrainingEvaluationRate >= 70f) { EvaluationRank.text = "2 级"; }
-                else if (TrainingEvaluationRate >= 60f) { EvaluationRank.text = "3 级"; }
-                else if (TrainingEvaluationRate >= 50f) { EvaluationRank.text = "4 级"; }
-                else { EvaluationRank.text = "5 级"; }
+                if (TrainingEvaluationRate >= 80f) { EvaluationRank.text = "Level 1"; }
+                else if (TrainingEvaluationRate >= 70f) { EvaluationRank.text = "Level 2"; }
+                else if (TrainingEvaluationRate >= 60f) { EvaluationRank.text = "Level 3"; }
+                else if (TrainingEvaluationRate >= 50f) { EvaluationRank.text = "Level 4"; }
+                else { EvaluationRank.text = "Level 5"; }
 
                 EvaluationResult = transform.Find("Evaluation/EvaluationInfo/Result/EvaluationResult").GetComponent<Text>();
-                EvaluationResult.text = "各方位正常";
+                EvaluationResult.text = "Normal";
 
                 List<Tuple<float, string>> HemiPos = new List<Tuple<float, string>>();  // 偏瘫方位
 
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponSoccerDistance, "正上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponRightSoccerDistance, "右上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.RightSoccerDistance, "正右"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownRightSoccerDistance, "右下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownSoccerDistance, "正下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownLeftSoccerDistance, "左下"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.LeftSoccerDistance, "正左"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponLeftSoccerDistance, "左上"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.FrontSoccerDistance, "正前"));
-                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.BehindSoccerDistance, "正后"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponSoccerDistance, "U"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponRightSoccerDistance, "UR"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.RightSoccerDistance, "R"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownRightSoccerDistance, "DR"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownSoccerDistance, "D"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.DownLeftSoccerDistance, "DL"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.LeftSoccerDistance, "L"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.UponLeftSoccerDistance, "UL"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.FrontSoccerDistance, "F"));
+                HemiPos.Add(new Tuple<float, string>(evaluation.soccerDistance.BehindSoccerDistance, "B"));
 
                 HemiPos.Sort();  //升序
 
@@ -763,7 +770,7 @@ namespace XCharts
 
             if (Mathf.Abs(Diff) < 1e-5)
             {
-                return "<color=blue>" + "基本无变化" + "</color>";
+                return "<color=blue>" + "Around" + "</color>";
             }
             else if (Diff < 0)
             {

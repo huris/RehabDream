@@ -370,11 +370,11 @@ namespace XCharts
 
                 float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
 
-                if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1"; }
-                else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "2"; }
-                else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "3"; }
-                else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "4"; }
-                else { Rank5.SetActive(true); EvaluationRank.text = "5"; }
+                if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "Level 1"; }
+                else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "Level 2"; }
+                else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "Level 3"; }
+                else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "Level 4"; }
+                else { Rank5.SetActive(true); EvaluationRank.text = "Level 5"; }
 
                 EvaluationScore.text = TrainingEvaluationRate.ToString("0.00");
 

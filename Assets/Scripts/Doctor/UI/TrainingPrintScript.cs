@@ -73,13 +73,20 @@ namespace XCharts
                 }
 
                 // Title
-                string PatientNameBlock = "";
-                for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
-                {
-                    PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
-                }
+                //string PatientNameBlock = "";
+                //for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
+                //{
+                //    PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
+                //}
+
+                List<string> sequence = new List<string>();
+                sequence.Add("st");
+                sequence.Add("nd");
+                sequence.Add("rd");
+                sequence.Add("th");
+
                 TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
-                TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  训  练  报  告  表";
+                TrainingTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s" + (SingleTrainingPlay + 1).ToString() + sequence[SingleTrainingPlay] + "Training Report";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
@@ -205,10 +212,11 @@ namespace XCharts
             //chart.themeInfo.backgroundColor = Color.grey;
 
             GravityCenterChart.title.show = true;
-            GravityCenterChart.title.text = "重 心 坐 标 偏 移 量";
+            GravityCenterChart.title.text = "Gravity Center";
             GravityCenterChart.title.textStyle.fontSize = 14;
             GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
             GravityCenterChart.title.location.top = 22;
+            GravityCenterChart.title.subText = "Origin Offset Distance";
 
             //chart.title.subText = "前30s";
             //chart.title.subTextFontSize = 18;
@@ -238,7 +246,7 @@ namespace XCharts
             GravityCenterChart.xAxis0.axisLine.symbolOffset = 0;
             GravityCenterChart.xAxis0.axisLine.symbolDent = 3;
             GravityCenterChart.xAxis0.axisName.show = true;  // 坐标轴名称
-            GravityCenterChart.xAxis0.axisName.name = "时间（秒）";
+            GravityCenterChart.xAxis0.axisName.name = "Time";
             GravityCenterChart.xAxis0.axisName.location = AxisName.Location.Middle;
             GravityCenterChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
             GravityCenterChart.xAxis0.axisName.rotate = 0;
@@ -264,7 +272,7 @@ namespace XCharts
             GravityCenterChart.yAxis0.axisLine.symbolOffset = 0;
             GravityCenterChart.yAxis0.axisLine.symbolDent = 3;
             GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
-            GravityCenterChart.yAxis0.axisName.name = "距离（毫米）";
+            GravityCenterChart.yAxis0.axisName.name = "Distance";
             GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
             GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
             GravityCenterChart.yAxis0.axisName.rotate = 90;
@@ -583,7 +591,7 @@ namespace XCharts
 
             if (Mathf.Abs(Diff) < 1e-5)
             {
-                return "<color=blue>" + "基本无变化" + "</color>";
+                return "<color=blue>" + "Around" + "</color>";
             }
             else if (Diff < 0)
             {
