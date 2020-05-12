@@ -55,7 +55,7 @@ public class TrainEvaluationInitScript : MonoBehaviour {
             EndTime.text = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay].TrainingEndTime;
 
             TrainingTime.text = (long.Parse(EndTime.text.Substring(9, 2)) * 3600 + long.Parse(EndTime.text.Substring(12, 2)) * 60 + long.Parse(EndTime.text.Substring(15, 2))
-                                          - long.Parse(StartTime.text.Substring(9, 2)) * 3600 - long.Parse(StartTime.text.Substring(12, 2)) * 60 - long.Parse(StartTime.text.Substring(15, 2))).ToString() + " 秒";
+                                          - long.Parse(StartTime.text.Substring(9, 2)) * 3600 - long.Parse(StartTime.text.Substring(12, 2)) * 60 - long.Parse(StartTime.text.Substring(15, 2))).ToString() + "s";
 
 
             double TrainingEvaluationRate = 1.0 * DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay].GameCount;

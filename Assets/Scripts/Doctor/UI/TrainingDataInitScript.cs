@@ -58,12 +58,12 @@ public class TrainingDataInitScript : MonoBehaviour {
 			if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
 			{
 				TrainingButton.gameObject.SetActive(true);
-				NoTrainingDataText.text = "抱歉，该患者目前未进行相关训练\n\n请患者训练后再查看数据";
+				NoTrainingDataText.text = "Sorry, the patient doesn't have any training data.\n\nAsk the patient to train firstly!";
 			}
 			else
 			{
 				TrainingButton.gameObject.SetActive(false);
-				NoTrainingDataText.text = "抱歉，该患者目前暂未制定训练计划\n\n请先制定计划后开始训练";
+				NoTrainingDataText.text = "Sorry, the patient doesn't make the training plan.\n\nPlease make the training plan for the patient firstly!";
 			}
 		}
 	}

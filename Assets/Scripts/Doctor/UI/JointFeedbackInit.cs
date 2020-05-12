@@ -64,10 +64,11 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 LeftRightChart.title.show = true;
-                LeftRightChart.title.text = "左 右 弯 曲 角";
+                LeftRightChart.title.text = "LR Flexion";
                 LeftRightChart.title.textStyle.fontSize = 20;
                 LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LeftRightChart.title.location.top = 2;
+                LeftRightChart.title.location.left = 15;
 
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;
@@ -97,7 +98,7 @@ namespace XCharts
                 LeftRightChart.xAxis0.axisLine.symbolOffset = 0;
                 LeftRightChart.xAxis0.axisLine.symbolDent = 3;
                 LeftRightChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                LeftRightChart.xAxis0.axisName.name = "时间（秒）";
+                LeftRightChart.xAxis0.axisName.name = "Time";
                 LeftRightChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 LeftRightChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 LeftRightChart.xAxis0.axisName.rotate = 0;
@@ -123,9 +124,9 @@ namespace XCharts
                 LeftRightChart.yAxis0.axisLine.symbolOffset = 0;
                 LeftRightChart.yAxis0.axisLine.symbolDent = 3;
                 LeftRightChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                LeftRightChart.yAxis0.axisName.name = "夹角（度）";
+                LeftRightChart.yAxis0.axisName.name = "Angle";
                 LeftRightChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                LeftRightChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                LeftRightChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 LeftRightChart.yAxis0.axisName.rotate = 90;
                 LeftRightChart.yAxis0.axisName.color = Color.black;
                 LeftRightChart.yAxis0.axisName.fontSize = 15;
@@ -139,8 +140,8 @@ namespace XCharts
                 LeftRightChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 LeftRightChart.RemoveData();
-                LeftSerie = LeftRightChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightSerie = LeftRightChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftSerie = LeftRightChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightSerie = LeftRightChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftSerie.areaStyle.show = true;
                 LeftSerie.areaStyle.opacity = 0.4f;
@@ -174,7 +175,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 UponDownChart.title.show = true;
-                UponDownChart.title.text = "前 后 弯 曲 角";
+                UponDownChart.title.text = "FB Flexion";
                 UponDownChart.title.textStyle.fontSize = 20;
                 UponDownChart.title.textStyle.fontStyle = FontStyle.Bold;
                 UponDownChart.title.location.top = 2;
@@ -208,7 +209,7 @@ namespace XCharts
                 UponDownChart.xAxis0.axisLine.symbolOffset = 0;
                 UponDownChart.xAxis0.axisLine.symbolDent = 3;
                 UponDownChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                UponDownChart.xAxis0.axisName.name = "时间（秒）";
+                UponDownChart.xAxis0.axisName.name = "Time";
                 UponDownChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 UponDownChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 UponDownChart.xAxis0.axisName.rotate = 0;
@@ -234,9 +235,9 @@ namespace XCharts
                 UponDownChart.yAxis0.axisLine.symbolOffset = 0;
                 UponDownChart.yAxis0.axisLine.symbolDent = 3;
                 UponDownChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                UponDownChart.yAxis0.axisName.name = "夹角（度）";
+                UponDownChart.yAxis0.axisName.name = "Angle";
                 UponDownChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                UponDownChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                UponDownChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 UponDownChart.yAxis0.axisName.rotate = 90;
                 UponDownChart.yAxis0.axisName.color = Color.black;
                 UponDownChart.yAxis0.axisName.fontSize = 15;
@@ -250,8 +251,8 @@ namespace XCharts
                 UponDownChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 UponDownChart.RemoveData();
-                UponSerie = UponDownChart.AddSerie(SerieType.Line, "前");//添加折线图
-                DownSerie = UponDownChart.AddSerie(SerieType.Line, "后");//添加折线
+                UponSerie = UponDownChart.AddSerie(SerieType.Line, "F");//添加折线图
+                DownSerie = UponDownChart.AddSerie(SerieType.Line, "B");//添加折线
 
                 UponSerie.areaStyle.show = true;
                 UponSerie.areaStyle.opacity = 0.4f;
@@ -284,7 +285,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 ArmChart.title.show = true;
-                ArmChart.title.text = "胳 膊 弯 曲 角";
+                ArmChart.title.text = "Arm Flexion";
                 ArmChart.title.textStyle.fontSize = 20;
                 ArmChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ArmChart.title.location.top = 2;
@@ -318,7 +319,7 @@ namespace XCharts
                 ArmChart.xAxis0.axisLine.symbolOffset = 0;
                 ArmChart.xAxis0.axisLine.symbolDent = 3;
                 ArmChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                ArmChart.xAxis0.axisName.name = "时间（秒）";
+                ArmChart.xAxis0.axisName.name = "Time";
                 ArmChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 ArmChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 ArmChart.xAxis0.axisName.rotate = 0;
@@ -344,9 +345,9 @@ namespace XCharts
                 ArmChart.yAxis0.axisLine.symbolOffset = 0;
                 ArmChart.yAxis0.axisLine.symbolDent = 3;
                 ArmChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                ArmChart.yAxis0.axisName.name = "夹角（度）";
+                ArmChart.yAxis0.axisName.name = "Angle";
                 ArmChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                ArmChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                ArmChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 ArmChart.yAxis0.axisName.rotate = 90;
                 ArmChart.yAxis0.axisName.color = Color.black;
                 ArmChart.yAxis0.axisName.fontSize = 15;
@@ -360,8 +361,8 @@ namespace XCharts
                 ArmChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 ArmChart.RemoveData();
-                LeftArmSerie = ArmChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightArmSerie = ArmChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftArmSerie = ArmChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightArmSerie = ArmChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftArmSerie.symbol.type = SerieSymbolType.None;
                 RightArmSerie.symbol.type = SerieSymbolType.None;
@@ -394,7 +395,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 ElbowChart.title.show = true;
-                ElbowChart.title.text = "肘 部 弯 曲 角";
+                ElbowChart.title.text = "Elbow Flexion";
                 ElbowChart.title.textStyle.fontSize = 20;
                 ElbowChart.title.textStyle.fontStyle = FontStyle.Bold;
                 ElbowChart.title.location.top = 2;
@@ -427,7 +428,7 @@ namespace XCharts
                 ElbowChart.xAxis0.axisLine.symbolOffset = 0;
                 ElbowChart.xAxis0.axisLine.symbolDent = 3;
                 ElbowChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                ElbowChart.xAxis0.axisName.name = "时间（秒）";
+                ElbowChart.xAxis0.axisName.name = "Time";
                 ElbowChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 ElbowChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 ElbowChart.xAxis0.axisName.rotate = 0;
@@ -453,9 +454,9 @@ namespace XCharts
                 ElbowChart.yAxis0.axisLine.symbolOffset = 0;
                 ElbowChart.yAxis0.axisLine.symbolDent = 3;
                 ElbowChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                ElbowChart.yAxis0.axisName.name = "夹角（度）";
+                ElbowChart.yAxis0.axisName.name = "Angle";
                 ElbowChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                ElbowChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                ElbowChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 ElbowChart.yAxis0.axisName.rotate = 90;
                 ElbowChart.yAxis0.axisName.color = Color.black;
                 ElbowChart.yAxis0.axisName.fontSize = 15;
@@ -469,8 +470,8 @@ namespace XCharts
                 ElbowChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 ElbowChart.RemoveData();
-                LeftElbowSerie = ElbowChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightElbowSerie = ElbowChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftElbowSerie = ElbowChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightElbowSerie = ElbowChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftElbowSerie.areaStyle.show = true;
                 LeftElbowSerie.areaStyle.opacity = 0.4f;
@@ -502,7 +503,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 LegChart.title.show = true;
-                LegChart.title.text = "腿 部 与 中 垂 线";
+                LegChart.title.text = "Leg Flexion";
                 LegChart.title.textStyle.fontSize = 20;
                 LegChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LegChart.title.location.top = 2;
@@ -535,7 +536,7 @@ namespace XCharts
                 LegChart.xAxis0.axisLine.symbolOffset = 0;
                 LegChart.xAxis0.axisLine.symbolDent = 3;
                 LegChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                LegChart.xAxis0.axisName.name = "时间（秒）";
+                LegChart.xAxis0.axisName.name = "Time";
                 LegChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 LegChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 LegChart.xAxis0.axisName.rotate = 0;
@@ -561,9 +562,9 @@ namespace XCharts
                 LegChart.yAxis0.axisLine.symbolOffset = 0;
                 LegChart.yAxis0.axisLine.symbolDent = 3;
                 LegChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                LegChart.yAxis0.axisName.name = "夹角（度）";
+                LegChart.yAxis0.axisName.name = "Angle";
                 LegChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                LegChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                LegChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 LegChart.yAxis0.axisName.rotate = 90;
                 LegChart.yAxis0.axisName.color = Color.black;
                 LegChart.yAxis0.axisName.fontSize = 15;
@@ -577,8 +578,8 @@ namespace XCharts
                 LegChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 LegChart.RemoveData();
-                LeftLegSerie = LegChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightLegSerie = LegChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftLegSerie = LegChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightLegSerie = LegChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftLegSerie.areaStyle.show = true;
                 LeftLegSerie.areaStyle.opacity = 0.4f;
@@ -610,7 +611,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 HipChart.title.show = true;
-                HipChart.title.text = "髋 关 节 弯 曲 角";
+                HipChart.title.text = "Hip Flexion";
                 HipChart.title.textStyle.fontSize = 20;
                 HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
@@ -644,7 +645,7 @@ namespace XCharts
                 HipChart.xAxis0.axisLine.symbolOffset = 0;
                 HipChart.xAxis0.axisLine.symbolDent = 3;
                 HipChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                HipChart.xAxis0.axisName.name = "时间（秒）";
+                HipChart.xAxis0.axisName.name = "Time";
                 HipChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 HipChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 HipChart.xAxis0.axisName.rotate = 0;
@@ -670,9 +671,9 @@ namespace XCharts
                 HipChart.yAxis0.axisLine.symbolOffset = 0;
                 HipChart.yAxis0.axisLine.symbolDent = 3;
                 HipChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                HipChart.yAxis0.axisName.name = "夹角（度）";
+                HipChart.yAxis0.axisName.name = "Angle";
                 HipChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                HipChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                HipChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 HipChart.yAxis0.axisName.rotate = 90;
                 HipChart.yAxis0.axisName.color = Color.black;
                 HipChart.yAxis0.axisName.fontSize = 15;
@@ -686,9 +687,9 @@ namespace XCharts
                 HipChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 HipChart.RemoveData();
-                LeftHipSerie = HipChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightHipSerie = HipChart.AddSerie(SerieType.Line, "右");//添加折线
-                HipSerie = HipChart.AddSerie(SerieType.Line, "胯");//添加折线
+                LeftHipSerie = HipChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightHipSerie = HipChart.AddSerie(SerieType.Line, "R");//添加折线
+                HipSerie = HipChart.AddSerie(SerieType.Line, "C");//添加折线
 
                 LeftHipSerie.areaStyle.show = true;
                 LeftHipSerie.areaStyle.opacity = 0.4f;
@@ -725,7 +726,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 KneeChart.title.show = true;
-                KneeChart.title.text = "膝 关 节";
+                KneeChart.title.text = "Knee Flexion";
                 KneeChart.title.textStyle.fontSize = 20;
                 KneeChart.title.textStyle.fontStyle = FontStyle.Bold;
                 KneeChart.title.location.top = 2;
@@ -758,7 +759,7 @@ namespace XCharts
                 KneeChart.xAxis0.axisLine.symbolOffset = 0;
                 KneeChart.xAxis0.axisLine.symbolDent = 3;
                 KneeChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                KneeChart.xAxis0.axisName.name = "时间（秒）";
+                KneeChart.xAxis0.axisName.name = "Time";
                 KneeChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 KneeChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 KneeChart.xAxis0.axisName.rotate = 0;
@@ -784,9 +785,9 @@ namespace XCharts
                 KneeChart.yAxis0.axisLine.symbolOffset = 0;
                 KneeChart.yAxis0.axisLine.symbolDent = 3;
                 KneeChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                KneeChart.yAxis0.axisName.name = "夹角（度）";
+                KneeChart.yAxis0.axisName.name = "Angle";
                 KneeChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                KneeChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                KneeChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 KneeChart.yAxis0.axisName.rotate = 90;
                 KneeChart.yAxis0.axisName.color = Color.black;
                 KneeChart.yAxis0.axisName.fontSize = 15;
@@ -800,8 +801,8 @@ namespace XCharts
                 KneeChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 KneeChart.RemoveData();
-                LeftKneeSerie = KneeChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightKneeSerie = KneeChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftKneeSerie = KneeChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightKneeSerie = KneeChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftKneeSerie.areaStyle.show = true;
                 LeftKneeSerie.areaStyle.opacity = 0.4f;
@@ -833,7 +834,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 AnkleChart.title.show = true;
-                AnkleChart.title.text = "踝 关 节";
+                AnkleChart.title.text = "Ankle";
                 AnkleChart.title.textStyle.fontSize = 20;
                 AnkleChart.title.textStyle.fontStyle = FontStyle.Bold;
                 AnkleChart.title.location.top = 2;
@@ -866,7 +867,7 @@ namespace XCharts
                 AnkleChart.xAxis0.axisLine.symbolOffset = 0;
                 AnkleChart.xAxis0.axisLine.symbolDent = 3;
                 AnkleChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                AnkleChart.xAxis0.axisName.name = "时间（秒）";
+                AnkleChart.xAxis0.axisName.name = "Time";
                 AnkleChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 AnkleChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 AnkleChart.xAxis0.axisName.rotate = 0;
@@ -892,9 +893,9 @@ namespace XCharts
                 AnkleChart.yAxis0.axisLine.symbolOffset = 0;
                 AnkleChart.yAxis0.axisLine.symbolDent = 3;
                 AnkleChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                AnkleChart.yAxis0.axisName.name = "夹角（度）";
+                AnkleChart.yAxis0.axisName.name = "Angle";
                 AnkleChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                AnkleChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                AnkleChart.yAxis0.axisName.offset = new Vector2(45f, 18f);
                 AnkleChart.yAxis0.axisName.rotate = 90;
                 AnkleChart.yAxis0.axisName.color = Color.black;
                 AnkleChart.yAxis0.axisName.fontSize = 15;
@@ -908,8 +909,8 @@ namespace XCharts
                 AnkleChart.yAxis0.axisLabel.formatter = "{value:f1}";
 
                 AnkleChart.RemoveData();
-                LeftAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "左");//添加折线图
-                RightAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "右");//添加折线
+                LeftAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "L");//添加折线图
+                RightAnkleSerie = AnkleChart.AddSerie(SerieType.Line, "R");//添加折线
 
                 LeftAnkleSerie.areaStyle.show = true;
                 LeftAnkleSerie.areaStyle.opacity = 0.4f;

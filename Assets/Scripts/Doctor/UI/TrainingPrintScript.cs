@@ -99,7 +99,7 @@ namespace XCharts
                 InformationPatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
 
                 InformationPatientAge = transform.Find("Information/PatientInfo/Age/PatientAge").GetComponent<Text>();
-                InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString() + " 岁";
+                InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString();
 
                 InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
@@ -134,17 +134,17 @@ namespace XCharts
 
                 TrainingRank = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Rank/TrainingRank").GetComponent<Text>();
                 float TrainingEvaluationRate = 1.0f * trainingPlay.SuccessCount / trainingPlay.GameCount;
-                if (TrainingEvaluationRate >= 0.8f) { TrainingRank.text = "S 级"; }
-                else if (TrainingEvaluationRate >= 0.7f) { TrainingRank.text = "A 级"; }
-                else if (TrainingEvaluationRate >= 0.6f) { TrainingRank.text = "B 级"; }
-                else if (TrainingEvaluationRate >= 0.5f) { TrainingRank.text = "C 级"; }
-                else if (TrainingEvaluationRate >= 0.4f) { TrainingRank.text = "D 级"; }
-                else { TrainingRank.text = "E 级"; }
+                if (TrainingEvaluationRate >= 0.8f) { TrainingRank.text = "S"; }
+                else if (TrainingEvaluationRate >= 0.7f) { TrainingRank.text = "A"; }
+                else if (TrainingEvaluationRate >= 0.6f) { TrainingRank.text = "B"; }
+                else if (TrainingEvaluationRate >= 0.5f) { TrainingRank.text = "C"; }
+                else if (TrainingEvaluationRate >= 0.4f) { TrainingRank.text = "D"; }
+                else { TrainingRank.text = "E"; }
 
 
                 TrainingDuration = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Duration/TrainingDuration").GetComponent<Text>();
                 TrainingDuration.text = (long.Parse(trainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(trainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(trainingPlay.TrainingEndTime.Substring(15, 2))
-                                           - long.Parse(trainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(trainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(trainingPlay.TrainingStartTime.Substring(15, 2))).ToString() + " 秒";
+                                           - long.Parse(trainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(trainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(trainingPlay.TrainingStartTime.Substring(15, 2))).ToString() + "s";
 
                 TrainingDirection = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Direction/TrainingDirection").GetComponent<Text>();
                 TrainingDirection.text = trainingPlay.TrainingDirection;

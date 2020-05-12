@@ -35,7 +35,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 GravityCenterChart.title.show = true;
-                GravityCenterChart.title.text = "与 初 始 点 距 离";
+                GravityCenterChart.title.text = "Origin Offset Distance";
                 GravityCenterChart.title.textStyle.fontSize = 20;
                 GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
                 GravityCenterChart.title.location.top = 13;
@@ -68,7 +68,7 @@ namespace XCharts
                 GravityCenterChart.xAxis0.axisLine.symbolOffset = 0;
                 GravityCenterChart.xAxis0.axisLine.symbolDent = 3;
                 GravityCenterChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                GravityCenterChart.xAxis0.axisName.name = "时间（秒）";
+                GravityCenterChart.xAxis0.axisName.name = "Time";
                 GravityCenterChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 GravityCenterChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 GravityCenterChart.xAxis0.axisName.rotate = 0;
@@ -94,9 +94,9 @@ namespace XCharts
                 GravityCenterChart.yAxis0.axisLine.symbolOffset = 0;
                 GravityCenterChart.yAxis0.axisLine.symbolDent = 3;
                 GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                GravityCenterChart.yAxis0.axisName.name = "距离（毫米）";
+                GravityCenterChart.yAxis0.axisName.name = "Distance";
                 GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 38f);
                 GravityCenterChart.yAxis0.axisName.rotate = 90;
                 GravityCenterChart.yAxis0.axisName.color = Color.black;
                 GravityCenterChart.yAxis0.axisName.fontSize = 15;
