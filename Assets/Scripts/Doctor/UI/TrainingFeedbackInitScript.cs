@@ -104,7 +104,7 @@ namespace XCharts
                 RadarAreaChart.yAxis0.axisName.show = true;  // 坐标轴名称
                 RadarAreaChart.yAxis0.axisName.name = "Area";
                 RadarAreaChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                RadarAreaChart.yAxis0.axisName.offset = new Vector2(45f, 40f);
+                RadarAreaChart.yAxis0.axisName.offset = new Vector2(45f, 20f);
                 RadarAreaChart.yAxis0.axisName.rotate = 90;
                 RadarAreaChart.yAxis0.axisName.color = Color.black;
                 RadarAreaChart.yAxis0.axisName.fontSize = 15;
@@ -210,7 +210,7 @@ namespace XCharts
                 SuccessRateChart.yAxis0.axisName.show = true;  // 坐标轴名称
                 SuccessRateChart.yAxis0.axisName.name = "Rate";
                 SuccessRateChart.yAxis0.axisName.location = AxisName.Location.Middle;
-                SuccessRateChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+                SuccessRateChart.yAxis0.axisName.offset = new Vector2(45f, 20f);
                 SuccessRateChart.yAxis0.axisName.rotate = 90;
                 SuccessRateChart.yAxis0.axisName.color = Color.black;
                 SuccessRateChart.yAxis0.axisName.fontSize = 15;
