@@ -50,6 +50,24 @@ namespace XCharts
                 RadarAreaText.text = "";
 
 
+                List<string> sequence = new List<string>();
+                sequence.Add("st");
+                sequence.Add("nd");
+                sequence.Add("rd");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+                sequence.Add("th");
+
                 for (int i = 0; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
                 {
                     //DoctorDataManager.instance.patient.TrainingPlays[i].direction = DoctorDatabaseManager.instance.ReadDirectionRecord(DoctorDataManager.instance.patient.TrainingPlays[i].TrainingID);
@@ -68,12 +86,12 @@ namespace XCharts
                         DirectionRadarChart.RefreshChart();
 
                         if (i != 0) RadarAreaText.text += WhiteLine;
-                        RadarAreaText.text += "本次面积: ";
+                        RadarAreaText.text += (i+1).ToString()+sequence[i]+" Radar Area: ";
                     }
                     else
                     {
                         RadarAreaText.text += WhiteLine;
-                        RadarAreaText.text += "第(" + (i + 1).ToString() + ")次面积: ";
+                        RadarAreaText.text += (i + 1).ToString() + sequence[i] + " Radar Area: ";
                     }
                     // print(DoctorDataManager.instance.patient.Evaluations[i].direction.UponDirection+"+++++");
 

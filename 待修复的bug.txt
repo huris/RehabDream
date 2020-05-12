@@ -3,4 +3,4 @@ DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * D
 更改为：
 DeltaBase = (int)(Point.PointsDistance(tempPoints[i - 1], tempPoints[i]) * 7 * DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationHeight / HeightPixel);
 
-2. 
+2. 没有制定训练计划，按开始训练按钮后没反应

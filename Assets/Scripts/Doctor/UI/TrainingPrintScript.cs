@@ -86,7 +86,7 @@ namespace XCharts
                 sequence.Add("th");
 
                 TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
-                TrainingTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s" + (SingleTrainingPlay + 1).ToString() + sequence[SingleTrainingPlay] + "Training Report";
+                TrainingTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s " + (SingleTrainingPlay + 1).ToString() + sequence[SingleTrainingPlay] + " Training Report";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
@@ -104,7 +104,7 @@ namespace XCharts
                 InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
                 {
-                    InformationPatientHeight.text = "未填写";
+                    InformationPatientHeight.text = "NULL";
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace XCharts
                 InformationPatientWeight = transform.Find("Information/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
                 {
-                    InformationPatientWeight.text = "未填写";
+                    InformationPatientWeight.text = "NULL";
                 }
                 else
                 {
@@ -216,7 +216,7 @@ namespace XCharts
             GravityCenterChart.title.textStyle.fontSize = 14;
             GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
             GravityCenterChart.title.location.top = 22;
-            GravityCenterChart.title.subText = "Origin Offset Distance";
+            //GravityCenterChart.title.subText = "Origin Offset Distance";
 
             //chart.title.subText = "前30s";
             //chart.title.subTextFontSize = 18;
@@ -274,7 +274,7 @@ namespace XCharts
             GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
             GravityCenterChart.yAxis0.axisName.name = "Distance";
             GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
-            GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
+            GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 30f);
             GravityCenterChart.yAxis0.axisName.rotate = 90;
             GravityCenterChart.yAxis0.axisName.color = Color.black;
             GravityCenterChart.yAxis0.axisName.fontSize = 13;

@@ -68,7 +68,6 @@ namespace XCharts
                 LeftRightChart.title.textStyle.fontSize = 20;
                 LeftRightChart.title.textStyle.fontStyle = FontStyle.Bold;
                 LeftRightChart.title.location.top = 2;
-                LeftRightChart.title.location.left = 15;
 
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;
@@ -615,7 +614,7 @@ namespace XCharts
                 HipChart.title.textStyle.fontSize = 20;
                 HipChart.title.textStyle.fontStyle = FontStyle.Bold;
                 HipChart.title.location.top = 2;
-                HipChart.title.location.left = 100;
+                HipChart.title.location.left = 131;
 
                 //chart.title.subText = "前30s";
                 //chart.title.subTextFontSize = 18;

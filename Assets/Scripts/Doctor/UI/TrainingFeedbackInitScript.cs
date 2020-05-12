@@ -42,7 +42,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 RadarAreaChart.title.show = true;
-                RadarAreaChart.title.text = "雷 达 面 积 趋 势 图";
+                RadarAreaChart.title.text = "Radar Area Trend";
                 RadarAreaChart.title.textStyle.fontSize = 20;
                 RadarAreaChart.title.textStyle.fontStyle = FontStyle.Bold;
                 RadarAreaChart.title.location.top = 2;
@@ -76,7 +76,7 @@ namespace XCharts
                 RadarAreaChart.xAxis0.axisLine.symbolOffset = 0;
                 RadarAreaChart.xAxis0.axisLine.symbolDent = 3;
                 RadarAreaChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                RadarAreaChart.xAxis0.axisName.name = "时间(次)";
+                RadarAreaChart.xAxis0.axisName.name = "Number";
                 RadarAreaChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 RadarAreaChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 RadarAreaChart.xAxis0.axisName.rotate = 0;
@@ -102,7 +102,7 @@ namespace XCharts
                 RadarAreaChart.yAxis0.axisLine.symbolOffset = 0;
                 RadarAreaChart.yAxis0.axisLine.symbolDent = 3;
                 RadarAreaChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                RadarAreaChart.yAxis0.axisName.name = "面积(平方米)";
+                RadarAreaChart.yAxis0.axisName.name = "Area";
                 RadarAreaChart.yAxis0.axisName.location = AxisName.Location.Middle;
                 RadarAreaChart.yAxis0.axisName.offset = new Vector2(45f, 40f);
                 RadarAreaChart.yAxis0.axisName.rotate = 90;
@@ -148,7 +148,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 SuccessRateChart.title.show = true;
-                SuccessRateChart.title.text = "成 功 接 球 率 趋 势 图";
+                SuccessRateChart.title.text = "Success Trend";
                 SuccessRateChart.title.textStyle.fontSize = 20;
                 SuccessRateChart.title.textStyle.fontStyle = FontStyle.Bold;
                 SuccessRateChart.title.location.top = 2;
@@ -182,7 +182,7 @@ namespace XCharts
                 SuccessRateChart.xAxis0.axisLine.symbolOffset = 0;
                 SuccessRateChart.xAxis0.axisLine.symbolDent = 3;
                 SuccessRateChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                SuccessRateChart.xAxis0.axisName.name = "时间(次)";
+                SuccessRateChart.xAxis0.axisName.name = "Number";
                 SuccessRateChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 SuccessRateChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 SuccessRateChart.xAxis0.axisName.rotate = 0;
@@ -208,7 +208,7 @@ namespace XCharts
                 SuccessRateChart.yAxis0.axisLine.symbolOffset = 0;
                 SuccessRateChart.yAxis0.axisLine.symbolDent = 3;
                 SuccessRateChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                SuccessRateChart.yAxis0.axisName.name = "成功接球率(%)";
+                SuccessRateChart.yAxis0.axisName.name = "Rate";
                 SuccessRateChart.yAxis0.axisName.location = AxisName.Location.Middle;
                 SuccessRateChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
                 SuccessRateChart.yAxis0.axisName.rotate = 90;
@@ -252,7 +252,7 @@ namespace XCharts
                 //chart.themeInfo.backgroundColor = Color.grey;
 
                 DirectionsChart.title.show = true;
-                DirectionsChart.title.text = "方 位 距 离 趋 势 图";
+                DirectionsChart.title.text = "Max Distance Trend";
                 DirectionsChart.title.textStyle.fontSize = 20;
                 DirectionsChart.title.textStyle.fontStyle = FontStyle.Bold;
                 DirectionsChart.title.location.top = 2;
@@ -286,7 +286,7 @@ namespace XCharts
                 DirectionsChart.xAxis0.axisLine.symbolOffset = 0;
                 DirectionsChart.xAxis0.axisLine.symbolDent = 3;
                 DirectionsChart.xAxis0.axisName.show = true;  // 坐标轴名称
-                DirectionsChart.xAxis0.axisName.name = "时间(秒)";
+                DirectionsChart.xAxis0.axisName.name = "Number";
                 DirectionsChart.xAxis0.axisName.location = AxisName.Location.Middle;
                 DirectionsChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
                 DirectionsChart.xAxis0.axisName.rotate = 0;
@@ -312,7 +312,7 @@ namespace XCharts
                 DirectionsChart.yAxis0.axisLine.symbolOffset = 0;
                 DirectionsChart.yAxis0.axisLine.symbolDent = 3;
                 DirectionsChart.yAxis0.axisName.show = true;  // 坐标轴名称
-                DirectionsChart.yAxis0.axisName.name = "距离(米)";
+                DirectionsChart.yAxis0.axisName.name = "Distance";
                 DirectionsChart.yAxis0.axisName.location = AxisName.Location.Middle;
                 DirectionsChart.yAxis0.axisName.offset = new Vector2(45f, 30f);
                 DirectionsChart.yAxis0.axisName.rotate = 90;
