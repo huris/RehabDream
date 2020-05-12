@@ -11,7 +11,7 @@ public class Patient
     public string PatientDoctorName { get; private set; } = "PatientDoctorName";
     public string PatientSymptom { get; private set; } = "Symptom";
     public long PatientAge { get; private set; } = 0;
-    public string PatientSex { get; private set; } = "男";
+    public string PatientSex { get; private set; } = "Male";
     public long PatientHeight { get; private set; } = 0;
     public long PatientWeight { get; private set; } = 0;
     public string PatientPinyin { get; private set; } = "";

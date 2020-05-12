@@ -177,7 +177,7 @@ public class PatientDatabaseManager : MonoBehaviour
     // read patientsex
     public string ReadPatientSex(long PatientID)
     {
-        string PatientSex = "男";
+        string PatientSex = "Male";
         SqliteDataReader reader;    //sql读取器
 
         try

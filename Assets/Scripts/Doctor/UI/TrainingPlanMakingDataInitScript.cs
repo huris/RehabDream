@@ -77,44 +77,44 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             NoEvaluationData.SetActive(false);
 
             DifficultString2Int = new Dictionary<string, int>();
-            DifficultString2Int.Add("请选择难度", 0);
-            DifficultString2Int.Add("入门", 1);
-            DifficultString2Int.Add("初级", 2);
-            DifficultString2Int.Add("一般", 3);
-            DifficultString2Int.Add("中级", 4);
-            DifficultString2Int.Add("高级", 5);
+            DifficultString2Int.Add("Difficulty", 0);
+            DifficultString2Int.Add("Level 1", 1);
+            DifficultString2Int.Add("Level 2", 2);
+            DifficultString2Int.Add("Level 3", 3);
+            DifficultString2Int.Add("Level 4", 4);
+            DifficultString2Int.Add("Level 5", 5);
 
             DifficultInt2String = new Dictionary<int, string>();
-            DifficultInt2String.Add(0, "请选择难度");
-            DifficultInt2String.Add(1, "入门");
-            DifficultInt2String.Add(2, "初级");
-            DifficultInt2String.Add(3, "一般");
-            DifficultInt2String.Add(4, "中级");
-            DifficultInt2String.Add(5, "高级");
+            DifficultInt2String.Add(0, "Difficulty");
+            DifficultInt2String.Add(1, "Level 1");
+            DifficultInt2String.Add(2, "Level 2");
+            DifficultInt2String.Add(3, "Level 3");
+            DifficultInt2String.Add(4, "Level 4");
+            DifficultInt2String.Add(5, "Level 5");
 
             DirectionString2Int = new Dictionary<string, int>();
-            DirectionString2Int.Add("请选择方向", 0);
-            DirectionString2Int.Add("全方位", 1);
-            DirectionString2Int.Add("正上方", 2);
-            DirectionString2Int.Add("右上方", 3);
-            DirectionString2Int.Add("正右方", 4);
-            DirectionString2Int.Add("右下方", 5);
-            DirectionString2Int.Add("正下方", 6);
-            DirectionString2Int.Add("左下方", 7);
-            DirectionString2Int.Add("正左方", 8);
-            DirectionString2Int.Add("左上方", 9);
+            DirectionString2Int.Add("Direction", 0);
+            DirectionString2Int.Add("All", 1);
+            DirectionString2Int.Add("U", 2);
+            DirectionString2Int.Add("UR", 3);
+            DirectionString2Int.Add("R", 4);
+            DirectionString2Int.Add("DR", 5);
+            DirectionString2Int.Add("D", 6);
+            DirectionString2Int.Add("DL", 7);
+            DirectionString2Int.Add("L", 8);
+            DirectionString2Int.Add("UL", 9);
 
             DirectionInt2String = new Dictionary<int, string>();
-            DirectionInt2String.Add(0, "请选择方向");
-            DirectionInt2String.Add(1, "全方位");
-            DirectionInt2String.Add(2, "正上方");
-            DirectionInt2String.Add(3, "右上方");
-            DirectionInt2String.Add(4, "正右方");
-            DirectionInt2String.Add(5, "右下方");
-            DirectionInt2String.Add(6, "正下方");
-            DirectionInt2String.Add(7, "左下方");
-            DirectionInt2String.Add(8, "正左方");
-            DirectionInt2String.Add(9, "左上方");
+            DirectionInt2String.Add(0, "Direction");
+            DirectionInt2String.Add(1, "All");
+            DirectionInt2String.Add(2, "U");
+            DirectionInt2String.Add(3, "UR");
+            DirectionInt2String.Add(4, "R");
+            DirectionInt2String.Add(5, "DR");
+            DirectionInt2String.Add(6, "D");
+            DirectionInt2String.Add(7, "DL");
+            DirectionInt2String.Add(8, "L");
+            DirectionInt2String.Add(9, "UL");
 
             DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
             if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
@@ -126,7 +126,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 PlanDirection.value = DirectionString2Int[DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection];
                 PlanTime.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString();
 
-                PlanMakingButtonText.text = "修改计划";
+                PlanMakingButtonText.text = "Make";
             }
             else
             {
@@ -134,7 +134,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 PlanDirection.value = 0;
                 PlanTime.text = "";
 
-                PlanMakingButtonText.text = "制定计划";
+                PlanMakingButtonText.text = "Make";
             }
 
         }

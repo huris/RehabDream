@@ -232,7 +232,7 @@ namespace XCharts
                 WomanSideImage = transform.Find("Chart/RadarChart/WomanSideImage").gameObject; ;   // 女患者侧身
 
 
-                if (DoctorDataManager.instance.doctor.patient.PatientSex == "男")
+                if (DoctorDataManager.instance.doctor.patient.PatientSex == "Male")
                 {
                     ManImage.SetActive(true); ManSideImage.SetActive(true);
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);

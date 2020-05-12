@@ -8,10 +8,10 @@ public class TrainingPlay
     public long TrainingID { get; private set; } = 0;
     public string TrainingStartTime { get; private set; } = "00000000 00:00:00";
     public string TrainingEndTime { get; private set; } = "00000000 00:00:00";
-    public string TrainingDifficulty { get; private set; } = "初级";
+    public string TrainingDifficulty { get; private set; } = "Level 2";
     public long SuccessCount { get; private set; } = 0;
     public long GameCount { get; private set; } = 0;
-    public string TrainingDirection { get; private set; } = "全方位";
+    public string TrainingDirection { get; private set; } = "All";
     public long TrainingTime { get; private set; } = 20;
     public float EvaluationScore { get; private set; } = 0.0f;
 

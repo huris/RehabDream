@@ -8,10 +8,10 @@ public class TrainingPlan{
     //Read Only
     //[Header("TrainingPlan")]
 
-    public string PlanDifficulty { get; private set; } = "未制定计划";
+    public string PlanDifficulty { get; private set; } = "Difficulty";
     public long GameCount { get; private set; } = 0;
     public long PlanCount { get; private set; } = 0;
-    public string PlanDirection { get; private set; } = "全方位";
+    public string PlanDirection { get; private set; } = "All";
     public long PlanTime { get; private set; } = 20;  // 默认训练时间为20分钟
 
     public TrainingPlan() { }

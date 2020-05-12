@@ -356,7 +356,7 @@ public class GameState : MonoBehaviour
     {
         WriteBodyDataThread Thread = new WriteBodyDataThread(
            PatientDataManager.instance.TrainingID,
-           _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
+           _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("Male") ? true : false),
            _Caculator.LeftArmAngle(),
            _Caculator.RightArmAngle(),
            _Caculator.LeftLegAngle(),

@@ -96,7 +96,7 @@ public class PatientDataManager : MonoBehaviour
     //[Header("UserMessage")]
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
-    public string PatientSex { get; private set; } = "男";
+    public string PatientSex { get; private set; } = "Male";
 
 
 
@@ -306,17 +306,17 @@ public class PatientDataManager : MonoBehaviour
         switch (PlanDifficulty)
         {
             case DifficultyType.Entry:
-                return "入门";
+                return "Level 1";
             case DifficultyType.Primary:
-                return "初级";
+                return "Level 2";
             case DifficultyType.General:
-                return "一般";
+                return "Level 3";
             case DifficultyType.Intermediate:
-                return "中级";
+                return "Level 4";
             case DifficultyType.Advanced:
-                return "高级";
+                return "Level 5";
             default:
-                return "初级";
+                return "Level 2";
         }
     }
 
@@ -325,15 +325,15 @@ public class PatientDataManager : MonoBehaviour
     {
         switch (str)
         {
-            case "入门":
+            case "Level 1":
                 return DifficultyType.Entry;
-            case "初级":
+            case "Level 2":
                 return DifficultyType.Primary;
-            case "一般":
+            case "Level 3":
                 return DifficultyType.General;
-            case "中级":
+            case "Level 4":
                 return DifficultyType.Intermediate;
-            case "高级":
+            case "Level 5":
                 return DifficultyType.Advanced;
             default:
                 return DifficultyType.Primary;
@@ -344,23 +344,23 @@ public class PatientDataManager : MonoBehaviour
     {
         switch (str)
         {
-            case "正上方":
+            case "U":
                 return DirectionType.UponDirection;
-            case "左上方":
+            case "UL":
                 return DirectionType.UponLeftDirection;
-            case "右上方":
+            case "UR":
                 return DirectionType.UponRightDirection;
-            case "正下方":
+            case "D":
                 return DirectionType.DownDirection;
-            case "左下方":
+            case "DL":
                 return DirectionType.DownLeftDirection;
-            case "右下方":
+            case "DR":
                 return DirectionType.DownRightDirection;
-            case "正左方":
+            case "L":
                 return DirectionType.LeftDirection;
-            case "正右方":
+            case "R":
                 return DirectionType.RightDirection;
-            case "全方位":
+            case "All":
                 return DirectionType.AnyDirection;
             default:
                 return DirectionType.UponDirection;
@@ -372,25 +372,25 @@ public class PatientDataManager : MonoBehaviour
         switch (PlanDirection)
         {
             case DirectionType.UponDirection:
-                return "正上方";
+                return "U";
             case DirectionType.UponLeftDirection:
-                return "左上方";
+                return "UL";
             case DirectionType.UponRightDirection:
-                return "右上方";
+                return "UR";
             case DirectionType.DownDirection:
-                return "正下方";
+                return "D";
             case DirectionType.DownLeftDirection:
-                return "左下方";
+                return "DL";
             case DirectionType.DownRightDirection:
-                return "右下方";
+                return "DR";
             case DirectionType.LeftDirection:
-                return "正左方";
+                return "L";
             case DirectionType.RightDirection:
-                return "正右方";
+                return "R";
             case DirectionType.AnyDirection:
-                return "全方位";
+                return "All";
             default:
-                return "正上方";
+                return "U";
         }
     }
 

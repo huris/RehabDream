@@ -378,7 +378,7 @@ public class GameUIHandle : UIHandle
     public void SetTipsText(string Tip)
     {
         //print(Tip + "   @@@@@");
-        string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
+        string[] Tips = new string[] { "U", "UR", "R", "DR", "D", "DL", "L", "UL" };
         if (Array.IndexOf(Tips, Tip) == -1)
         {
             // 不是方向字符串

@@ -71,8 +71,8 @@ public class PatientModifyInitScript : MonoBehaviour {
         else PatientWeight.text = DoctorDataManager.instance.doctor.TempPatient.PatientWeight.ToString();
         PatientSymptom.text = DoctorDataManager.instance.doctor.TempPatient.PatientSymptom;
 
-        if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "男") { Man.isOn = true; Woman.isOn = false; }
-        else if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "女") { Woman.isOn = true; Man.isOn = false; }
+        if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "Male") { Man.isOn = true; Woman.isOn = false; }
+        else if(DoctorDataManager.instance.doctor.TempPatient.PatientSex == "Female") { Woman.isOn = true; Man.isOn = false; }
 
         // DoctorDataManager.instance.Doctors = DoctorDataManager.instance.Doctors.OrderBy(s => s.DoctorPinyin).ToList();
 
@@ -147,8 +147,8 @@ public class PatientModifyInitScript : MonoBehaviour {
         ModifySuccess.SetActive(false);
 
         PatientSex = "";
-        if (Man.isOn) PatientSex = "男";
-        else if (Woman.isOn) PatientSex = "女";
+        if (Man.isOn) PatientSex = "Male";
+        else if (Woman.isOn) PatientSex = "Female";
 
         if (PatientName.text == "" || PatientSex == "" || PatientAge.text == "" || PatientSymptom.text == "") 
         {
