@@ -115,7 +115,7 @@ namespace XCharts
                 sequence.Add("th");
 
                 EvaluationTitle = transform.Find("EvaluationTitle").GetComponent<Text>();
-                EvaluationTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s" + (SingleEvaluation + 1).ToString() + sequence[SingleEvaluation] + "Evaluation Report";
+                EvaluationTitle.text = DoctorDataManager.instance.doctor.patient.PatientName + "\'s " + (SingleEvaluation + 1).ToString() + sequence[SingleEvaluation] + " Evaluation Report";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
@@ -128,7 +128,7 @@ namespace XCharts
                 InformationPatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
 
                 InformationPatientAge = transform.Find("Information/PatientInfo/Age/PatientAge").GetComponent<Text>();
-                InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString() + " 岁";
+                InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString();
 
                 InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
                 if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
