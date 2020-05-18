@@ -692,7 +692,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 {
                     WaitPeopleTouchBall(ChangeBallWaitFrame);
                 }
-
+                DirectionLine.color = Color.red;
                 DrawDirectionLine(Kinect2UIPosition(FistPos), Kinect2UIPosition(TargetSoccerBall.transform.position));
             }
 
@@ -759,6 +759,9 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponSoccerTime++;
             evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+            TempPos = Kinect2UIPosition(TempPos);
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(TempPos, new Vector3(TempPos.x, Math.Min(TempPos.y + 250, 1079), TempPos.z));
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball1")
@@ -769,6 +772,32 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponRightSoccerTime++;
             evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            Vector3 origin = Kinect2UIPosition(TempPos);
+            Vector3 destination = origin;
+            destination.x += 176;
+            destination.y += 176;
+
+            if (destination.x < 1920 && destination.y >= 1080)
+            {
+                destination.x = destination.x - (destination.y - 1080 + 1);
+                destination.y = 1079;
+            }
+            else if (destination.x >= 1920 && destination.y >= 1080)
+            {
+                float maxdiff = Math.Max(destination.x - 1920 + 1, destination.y - 1080 + 1);
+                destination.x -= maxdiff;
+                destination.y -= maxdiff;
+            }
+            else if (destination.x >= 1920 && destination.y < 1080)
+            {
+                destination.y = destination.y - (destination.x - 1920 + 1);
+                destination.x = 1919;
+            }
+
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(origin, destination);
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball2")
@@ -778,6 +807,11 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.RightSoccerTime++;
             evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            TempPos = Kinect2UIPosition(TempPos);
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(TempPos, new Vector3(Math.Min(TempPos.x + 250, 1919), TempPos.y, TempPos.z));
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball3")
@@ -788,6 +822,31 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownRightSoccerTime++;
             evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            Vector3 origin = Kinect2UIPosition(TempPos);
+            Vector3 destination = origin;
+            destination.x += 176;
+            destination.y -= 176;
+            if (destination.y < 0 && destination.x < 1920)
+            {
+                destination.x += destination.y;
+                destination.y = 0;
+            }
+            else if (destination.y < 0 && destination.x >= 1920)
+            {
+                float maxdiff = Math.Max(-destination.y, destination.x - 1920 + 1);
+                destination.y += maxdiff;
+                destination.x -= maxdiff;
+            }
+            else if (destination.y >= 0 && destination.x >= 1920)
+            {
+                destination.y = destination.y + (destination.x - 1920 + 1);
+                destination.x = 1919;
+            }
+
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(origin, destination);
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball4")
@@ -797,6 +856,11 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownSoccerTime++;
             evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            TempPos = Kinect2UIPosition(TempPos);
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(TempPos, new Vector3(TempPos.x, Math.Max(TempPos.y - 250, 0), TempPos.z));
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball5")
@@ -807,6 +871,31 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownLeftSoccerTime++;
             evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            Vector3 origin = Kinect2UIPosition(TempPos);
+            Vector3 destination = origin;
+            destination.x -= 176;
+            destination.y -= 176;
+            if (destination.x < 0 && destination.y >= 0)
+            {
+                destination.y -= destination.x;
+                destination.x = 0;
+            }
+            else if (destination.x < 0 && destination.y < 0)
+            {
+                float maxdiff = Math.Max(-destination.x, -destination.y);
+                destination.x += maxdiff;
+                destination.y += maxdiff;
+            }
+            else if (destination.x >= 0 && destination.y < 0)
+            {
+                destination.x -= destination.y;
+                destination.y = 0;
+            }
+
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(origin, destination);
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball6")
@@ -816,6 +905,11 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.LeftSoccerTime++;
             evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            TempPos = Kinect2UIPosition(TempPos);
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(TempPos, new Vector3(Math.Max(TempPos.x - 250, 0), TempPos.y, TempPos.z));
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball7")
@@ -826,6 +920,31 @@ public class SkeletonOverlayer : MonoBehaviour
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponLeftSoccerTime++;
             evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+
+            Vector3 origin = Kinect2UIPosition(TempPos);
+            Vector3 destination = origin;
+            destination.x -= 176;
+            destination.y += 176;
+            if (destination.x < 0 && destination.y < 1080)
+            {
+                destination.y += destination.x;
+                destination.x = 0;
+            }
+            else if (destination.x < 0 && destination.y >= 1080)
+            {
+                float maxdiff = Math.Max(-destination.x, destination.y - 1080 + 1);
+                destination.x += maxdiff;
+                destination.y -= maxdiff;
+            }
+            else if (destination.x >= 0 && destination.y >= 1080)
+            {
+                destination.x = destination.x + (destination.y - 1080 + 1);
+                destination.y = 1079;
+            }
+
+            DirectionLine.color = Color.green;
+            DrawDirectionLine(origin, destination);
+
             ChangeCurrentScore();
         }
         else if (Soccerball.name == "Soccerball")
