@@ -752,9 +752,17 @@ public class SkeletonOverlayer : MonoBehaviour
         float SpeedIncrease = 1.0f * SoccerHighlightTime / 100;
 
         // 上:2,右上:3,右:4,右下:5,下:6,左下:7,左:0,左上:1,
-        if (Soccerball.name == "Soccerball0")
+        if (Soccerball.name == "Soccerball0")   
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos)-Kinect2UIPosition(SpineMid)).magnitude;
+           
+            while(TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.y += sdir;
+            }
+
             TempPos.y += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponSoccerTime++;
@@ -767,6 +775,15 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball1")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x -= ddir;
+                TempPos.y += ddir;
+            }
+
             TempPos.x -= ddir * SpeedIncrease;
             TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
@@ -803,6 +820,14 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball2")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x -= ddir;
+            }
+
             TempPos.x -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.RightSoccerTime++;
@@ -817,6 +842,15 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball3")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x -= ddir;
+                TempPos.y -= ddir;
+            }
+
             TempPos.x -= ddir * SpeedIncrease;
             TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
@@ -852,6 +886,14 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball4")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.y -= ddir;
+            }
+
             TempPos.y -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownSoccerTime++;
@@ -866,6 +908,15 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball5")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x += ddir;
+                TempPos.y -= ddir;
+            }
+
             TempPos.x += ddir * SpeedIncrease;
             TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
@@ -901,6 +952,14 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball6")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x += ddir;
+            }
+
             TempPos.x += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.LeftSoccerTime++;
@@ -915,6 +974,15 @@ public class SkeletonOverlayer : MonoBehaviour
         else if (Soccerball.name == "Soccerball7")
         {
             Vector3 TempPos = Soccerball.transform.position;
+
+            float TempDiff = (Kinect2UIPosition(FistPos) - Kinect2UIPosition(SpineMid)).magnitude;
+
+            while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
+            {
+                TempPos.x += ddir;
+                TempPos.y += ddir;
+            }
+
             TempPos.x += ddir * SpeedIncrease;
             TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
@@ -976,11 +1044,10 @@ public class SkeletonOverlayer : MonoBehaviour
                 if(tempDis > evaluation.soccerDistance.FrontSoccerDistance)
                 {
                     evaluation.soccerDistance.FrontSoccerDistance = tempDis;
+                    evaluation.soccerDistance.FrontSoccerTime++;
+                    evaluation.soccerDistance.FrontSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                    ChangeCurrentScore();
                 }
-
-                evaluation.soccerDistance.FrontSoccerTime++;
-                evaluation.soccerDistance.FrontSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
-                ChangeCurrentScore();
             }
             else if(TempPos.x < 3.5f) 
             { 
@@ -990,10 +1057,10 @@ public class SkeletonOverlayer : MonoBehaviour
                 if (tempDis > evaluation.soccerDistance.BehindSoccerDistance)
                 {
                     evaluation.soccerDistance.BehindSoccerDistance = tempDis;
+                    evaluation.soccerDistance.BehindSoccerTime++;
+                    evaluation.soccerDistance.BehindSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                    ChangeCurrentScore();
                 }
-                evaluation.soccerDistance.BehindSoccerTime++;
-                evaluation.soccerDistance.BehindSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
-                ChangeCurrentScore();
             }
             TempPos.x = TempPos.y = TempPos.z = TempPos.x + ZOffset * ScaleOffset;
             //print(FistPos + " " + FirstFistZ);
