@@ -292,6 +292,7 @@ public class GameUIHandle : UIHandle
             DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
             DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
         }
+        DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
         base.LoadScene("03-DoctorUI");
     }
 

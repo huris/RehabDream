@@ -15,6 +15,10 @@ public class TrainingDataInitScript : MonoBehaviour {
 	public Text NoTrainingDataText;
 	public Button TrainingButton;
 
+	public GameObject PlanIsNoMaking;
+
+	public Toggle TrainingPlanMakingToggle;
+
 	// Use this for initialization
 	void Start() {
 
@@ -25,6 +29,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 		NoTrainingData = transform.Find("NoTrainingData").gameObject;
 		Report = transform.parent.parent.parent.Find("Report").gameObject;
 		TrainingToggle = transform.parent.parent.parent.Find("Report/ReportToggle/TrainingToggle").GetComponent<Toggle>();
+		PlanIsNoMaking.SetActive(false);
 
 		//DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
 
@@ -83,6 +88,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 	{
 		if(DoctorDataManager.instance.doctor.patient.PlanIsMaking == false)
 		{
+			PlanIsNoMaking.SetActive(true);
 			return;
 		}
 
@@ -119,4 +125,11 @@ public class TrainingDataInitScript : MonoBehaviour {
 		DoctorDataManager.instance.FunctionManager = 3; // 返回的时候进入训练状况查询界面
 		SceneManager.LoadScene("06-Game");  // 如果登录成功,则进入医生管理界面
 	}
+
+	public void MakingPlanOnClick()
+	{
+		PlanIsNoMaking.SetActive(false);
+		TrainingPlanMakingToggle = transform.parent.parent.parent.Find("FunctionManager/TrainingPlanMakingItem").GetComponent<Toggle>();
+		TrainingPlanMakingToggle.isOn = true;
+	}	
 }
