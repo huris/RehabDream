@@ -604,7 +604,7 @@ public class SkeletonOverlayer : MonoBehaviour
            evaluation.EvaluationID,
            evaluation.Points[evaluation.Points.Count-1]);
 
-        Thread.StartThread();
+        Thread.StartThread();      
     }
 
     public void SoccerballReset()
