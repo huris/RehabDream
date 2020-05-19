@@ -761,6 +761,9 @@ public class SkeletonOverlayer : MonoBehaviour
             while(TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
             {
                 TempPos.y += sdir;
+                evaluation.soccerDistance.UponSoccerTime++;
+                evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.y += sdir * SpeedIncrease;
@@ -782,6 +785,9 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x -= ddir;
                 TempPos.y += ddir;
+                evaluation.soccerDistance.UponRightSoccerTime++;
+                evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x -= ddir * SpeedIncrease;
@@ -826,6 +832,9 @@ public class SkeletonOverlayer : MonoBehaviour
             while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
             {
                 TempPos.x -= ddir;
+                evaluation.soccerDistance.RightSoccerTime++;
+                evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x -= sdir * SpeedIncrease;
@@ -849,6 +858,9 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x -= ddir;
                 TempPos.y -= ddir;
+                evaluation.soccerDistance.DownRightSoccerTime++;
+                evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x -= ddir * SpeedIncrease;
@@ -892,6 +904,9 @@ public class SkeletonOverlayer : MonoBehaviour
             while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
             {
                 TempPos.y -= ddir;
+                evaluation.soccerDistance.DownSoccerTime++;
+                evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.y -= sdir * SpeedIncrease;
@@ -915,6 +930,9 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x += ddir;
                 TempPos.y -= ddir;
+                evaluation.soccerDistance.DownLeftSoccerTime++;
+                evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x += ddir * SpeedIncrease;
@@ -958,6 +976,9 @@ public class SkeletonOverlayer : MonoBehaviour
             while (TempDiff > (Kinect2UIPosition(TempPos) - Kinect2UIPosition(SpineMid)).magnitude)
             {
                 TempPos.x += ddir;
+                evaluation.soccerDistance.LeftSoccerTime++;
+                evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x += sdir * SpeedIncrease;
@@ -981,6 +1002,9 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x += ddir;
                 TempPos.y += ddir;
+                evaluation.soccerDistance.UponLeftSoccerTime++;
+                evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // 每次加除以100的值
+                ChangeCurrentScore();
             }
 
             TempPos.x += ddir * SpeedIncrease;
