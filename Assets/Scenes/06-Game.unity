@@ -2415,7 +2415,6 @@ GameObject:
   - component: {fileID: 273710881}
   - component: {fileID: 273710880}
   - component: {fileID: 273710877}
-  - component: {fileID: 273710879}
   - component: {fileID: 273710878}
   m_Layer: 5
   m_Name: Introduction
@@ -2446,7 +2445,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2516,18 +2515,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &273710879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 273710876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66aa33d0914a05643b2d57d00c366c84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSource: {fileID: 0}
 --- !u!114 &273710880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3028,7 +3015,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8BED \u97F3 \u4ECB \u7ECD"
+  m_Text: "\u89C6 \u9891 \u6559 \u7A0B"
 --- !u!222 &336184456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8927,7 +8914,7 @@ GameObject:
   - component: {fileID: 1003791195}
   - component: {fileID: 1003791194}
   m_Layer: 5
-  m_Name: VoiceIntroductionButton
+  m_Name: VideoIntroductionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8992,7 +8979,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 273710877}
-        m_MethodName: VoiceIntroductionPlayOnClick
+        m_MethodName: VideoIntroductionPlayOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

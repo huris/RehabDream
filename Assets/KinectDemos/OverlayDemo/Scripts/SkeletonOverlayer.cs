@@ -116,6 +116,8 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public static SkeletonOverlayer _instance;
 
+    public bool IsFirstGreen;
+
 
     //public static SkeletonOverlayer instance = null;
 
@@ -258,6 +260,8 @@ public class SkeletonOverlayer : MonoBehaviour
         audiosource.playOnAwake = false;  //playOnAwake设为false时，通过调用play()方法启用
 
         _instance = this; //通过Sound._instance.方法调用
+
+        IsFirstGreen = false;
     }
 
     void FixedUpdate()
@@ -467,6 +471,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                         IsOver = true;
 
+                                        _instance.PlayMusicByName("EvaluationOver");
 
                                         //for (int z = 0; z < 9; z++)
                                         //{
@@ -658,6 +663,11 @@ public class SkeletonOverlayer : MonoBehaviour
                 Soccerball = hit.collider.gameObject;
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
+                    if (IsFirstGreen == false)
+                    {
+                        _instance.PlayMusicByName("GreenMove");
+                        IsFirstGreen = true;
+                    }
                     Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
                 }
             }
