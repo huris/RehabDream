@@ -111,6 +111,12 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public VectorLine DirectionLine;
 
+
+    public AudioSource audiosource;
+
+    public static SkeletonOverlayer _instance;
+
+
     //public static SkeletonOverlayer instance = null;
 
     //void Awake()
@@ -248,6 +254,10 @@ public class SkeletonOverlayer : MonoBehaviour
         DirectionLine.smoothColor = false;   // 设置平滑颜色
         DirectionLine.smoothWidth = false;   // 设置平滑宽度
         DirectionLine.color = Color.red;
+
+        audiosource.playOnAwake = false;  //playOnAwake设为false时，通过调用play()方法启用
+
+        _instance = this; //通过Sound._instance.方法调用
     }
 
     void FixedUpdate()
@@ -389,6 +399,9 @@ public class SkeletonOverlayer : MonoBehaviour
                                                 transform.GetChild(z).gameObject.SetActive(false);
                                             }
                                             WaitPeopleTouchBall(ChangeBallWaitFrame);
+
+                                            _instance.PlayMusicByName("RedMove");
+                                            
                                         }
                                         else
                                         {
@@ -1317,8 +1330,20 @@ public class SkeletonOverlayer : MonoBehaviour
     //    //PatientDatabaseManager.instance.wri
     //    int a = 3;
 
-       
+
     //}
+    public void PlayMusicByName(string name)
+    {
+        AudioClip clip = Resources.Load<AudioClip>("Sounds/" + name);
+
+        if (audiosource.isPlaying)
+        {
+            audiosource.Stop();
+        }
+
+        audiosource.clip = clip;
+        audiosource.Play();
+    }
 
     public Vector2 Kinect2UIPosition(Vector3 pos)
     {
