@@ -44,6 +44,7 @@ public class GameUIHandle : UIHandle
     public Toggle AdvancedToggle;
     public Toggle SoccerTrackTipsToggle;
     public Toggle WordTipsToggle;
+    public Toggle SETipsTogle;
 
     [Header("SettingUI Slider")]
     public Slider BgmSlider;
@@ -529,6 +530,7 @@ public class GameUIHandle : UIHandle
     {
         SoccerTrackTipsToggle.isOn = PatientDataManager.instance.SoccerTrackTips;
         WordTipsToggle.isOn = PatientDataManager.instance.WordTips;
+        SETipsTogle.isOn = PatientDataManager.instance.SETips;
     }
 
     //set Music Slider
@@ -652,6 +654,15 @@ public class GameUIHandle : UIHandle
 
         PatientDataManager.instance.SetWordTips(isOn);
         Debug.Log("@WordTipsToggle: WordTips is set " + isOn.ToString());
+
+    }
+
+    // SETips Toggle
+    public void OnSETipsToggleValueChanged(bool isOn)
+    {
+
+        PatientDataManager.instance.SetSETips(isOn);
+        Debug.Log("@WordTipsToggle: SETips is set " + isOn.ToString());
 
     }
 
