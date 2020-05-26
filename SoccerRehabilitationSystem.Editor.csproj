@@ -489,6 +489,7 @@
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisLineDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisNameDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisSplitAreaDrawer.cs" />
+    <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisSplitLineDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisTickDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\DataZoomDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\EmphasisStyleDrawer.cs" />
@@ -512,6 +513,7 @@
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SeriesDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SerieSymbolDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SettingsDrawer.cs" />
+    <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TextLimitDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TextStyleDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\ThemeInfoDrawer.cs" />
     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TitleDrawer.cs" />

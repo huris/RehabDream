@@ -92,6 +92,7 @@ public class PatientDataManager : MonoBehaviour
     //[Header("TipsSetting")]
     public bool SoccerTrackTips { get; private set; } = true;
     public bool WordTips { get; private set; } = true;
+    public bool SETips { get; private set; } = true;
 
     //[Header("UserMessage")]
     public string PatientName { get; private set; } = "PatientName";
@@ -254,6 +255,13 @@ public class PatientDataManager : MonoBehaviour
         this.WordTips = WordTips;
     }
 
+
+    // set SETips
+    public void SetSETips(bool SETips)
+    {
+        this.SETips = SETips;
+    }
+
     // set bgmVolume
     public void SetbgmVolume(float Volume)
     {
@@ -283,6 +291,7 @@ public class PatientDataManager : MonoBehaviour
         this.SuccessCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.SETips = true;
         this.GameCount = 0;
         this.TimeCount = 0f;
         SetTrainingStartTime();
@@ -294,6 +303,7 @@ public class PatientDataManager : MonoBehaviour
         this.SuccessCount = 0;
         this.SoccerTrackTips = true;
         this.WordTips = true;
+        this.SETips = true;
         this.GameCount = 0;
         this.TimeCount = 0f;
         SetTrainingStartTime();

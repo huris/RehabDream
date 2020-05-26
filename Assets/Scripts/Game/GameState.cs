@@ -25,6 +25,15 @@ public class GameState : MonoBehaviour
     [Header("Music")]
     public AudioClip CheerUpSE;         //cheer up music
 
+    public AudioClip UponSeTip;         // Se tips
+    public AudioClip UponRightSeTip;
+    public AudioClip RightSeTip;
+    public AudioClip DownRightSeTip;
+    public AudioClip DownSeTip;
+    public AudioClip DownLeftSeTip;
+    public AudioClip LeftSeTip;
+    public AudioClip UponLeftSeTip;
+
     [Header("UI")]
     public GameUIHandle GameUIHandle;
 
@@ -379,7 +388,7 @@ public class GameState : MonoBehaviour
         Thread.StartThread();
     }
 
-    // stop playing se
+    // stop playing Se
     private void StopSeSounds()
     {
         SoundManager.instance.StopSounds(SoundManager.SoundType.SE);
@@ -467,10 +476,31 @@ public class GameState : MonoBehaviour
         _CollisionHandle.Reset();
     }
 
-    //play cheer up SE
+    //play cheer up Se
     private void PlayWinSe()
     {
         SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
+    }
+
+    //play tips se
+    private void PlaySeTips(AudioClip SETips)
+    {
+        SoundManager.instance.Play(SETips, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
+    }
+
+    // wordtip to SEtip
+    private AudioClip Word2Se(string Tip)
+    {
+        string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
+        AudioClip[] SeTips = new AudioClip[]{UponSeTip, UponRightSeTip, RightSeTip, DownRightSeTip, DownSeTip, DownLeftSeTip,LeftSeTip,UponLeftSeTip};
+        if (System.Array.IndexOf(Tips, Tip) != -1)
+        {
+            return SeTips[System.Array.IndexOf(Tips, Tip)];
+        }
+        else
+        {
+            return SeTips[0];
+        }
     }
 
     //SuccessCount+1
@@ -896,7 +926,13 @@ public class GameState : MonoBehaviour
         }
         else
         {
-            ShowWordTips("");
+            ShowWordTips("");   // no word tips
+        }
+
+        //play Se
+        if (PatientDataManager.instance.SETips)
+        {
+            PlaySeTips(Word2Se(_Tips));
         }
 
         Debug.Log("@GameState: GenerateShoot Over");

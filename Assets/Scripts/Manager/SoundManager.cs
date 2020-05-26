@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
     // List holding Sounds
     public List<GameObject> bgmList = new List<GameObject>();
     public List<GameObject> bgsList = new List<GameObject>();
-    public GameObject Se ;
+    public List<GameObject> SeList = new List<GameObject>();
 
     // volume percentage
     private float _bgmVolume
@@ -98,7 +98,7 @@ public class SoundManager : MonoBehaviour
                 bgsList.Add(sourceGO);
                 break;
             default:
-                Se = sourceGO;
+                SeList.Add(sourceGO);
                 break;
         }
 
@@ -161,7 +161,11 @@ public class SoundManager : MonoBehaviour
                 }
                 break;
             case SoundType.SE:
-                Destroy(this.Se);
+                foreach (GameObject go in SeList)
+                {
+                    Destroy(go);
+                }
+                break;
                 break;
             default:
                 break;
@@ -178,7 +182,10 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(go);
         }
-        Destroy(this.Se);
+        foreach (GameObject go in SeList)
+        {
+            Destroy(go);
+        }
     }
 
     public void SetVolume(SoundType type, float volume)
@@ -200,6 +207,11 @@ public class SoundManager : MonoBehaviour
                 }
                 break;
             default:
+                foreach (GameObject bgs in SeList)
+                {
+                    AudioSource a = bgs.GetComponent<AudioSource>();
+                    a.volume = volume;
+                }
                 break;
         }
     }
