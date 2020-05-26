@@ -113,6 +113,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
 
     public AudioSource audiosource;
+    public AudioSource Background;
 
     public static SkeletonOverlayer _instance;
 
@@ -258,6 +259,12 @@ public class SkeletonOverlayer : MonoBehaviour
         DirectionLine.color = Color.red;
 
         audiosource.playOnAwake = false;  //playOnAwake设为false时，通过调用play()方法启用
+        Background.playOnAwake = false;
+        Background.loop = true;
+
+        AudioClip BackgroundClip = Resources.Load<AudioClip>("Sounds/Background1");
+
+        Background.clip = BackgroundClip;
 
         _instance = this; //通过Sound._instance.方法调用
 
@@ -405,7 +412,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             WaitPeopleTouchBall(ChangeBallWaitFrame);
 
                                             _instance.PlayMusicByName("RedMove");
-                                            
+                                            Background.Play();
                                         }
                                         else
                                         {
@@ -472,6 +479,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                         IsOver = true;
 
                                         _instance.PlayMusicByName("EvaluationOver");
+                                        Background.Stop();
 
                                         //for (int z = 0; z < 9; z++)
                                         //{
