@@ -2602,6 +2602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOver: 0
+  audiosource: {fileID: 0}
 --- !u!82 &273710878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10871,7 +10872,7 @@ MonoBehaviour:
   AdvancedToggle: {fileID: 1509908251}
   SoccerTrackTipsToggle: {fileID: 1599203285}
   WordTipsToggle: {fileID: 851033643}
-  SETipsTogle: {fileID: 0}
+  SETipsTogle: {fileID: 54846934}
   BgmSlider: {fileID: 377168734}
   BgsSlider: {fileID: 0}
   SeSlider: {fileID: 1995138119}
