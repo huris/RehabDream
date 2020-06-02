@@ -112,6 +112,7 @@
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
+     <Compile Include="Assets\EvaluationScript.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
