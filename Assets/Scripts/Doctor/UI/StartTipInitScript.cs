@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class StartTipInitScript : MonoBehaviour {
 
@@ -11,6 +13,9 @@ public class StartTipInitScript : MonoBehaviour {
 
 	public static StartTipInitScript _instance;
 
+	public RawImage rawImage;
+	public MovieTexture _Movie;
+
 	void Awake()
 	{
 		//audiosource = gameObject.AddComponent<AudioSource>();
@@ -19,6 +24,7 @@ public class StartTipInitScript : MonoBehaviour {
 
 		_instance = this; //通过Sound._instance.方法调用
 		_instance.PlayMusicByName("EvaluationIntroduce");
+		rawImage.gameObject.SetActive(false);
 	}
 
 	void Start () {
@@ -47,11 +53,6 @@ public class StartTipInitScript : MonoBehaviour {
 
 	public void VideoIntroductionPlayOnClick()
 	{
-
-		//这里目标文件处在 Resources/Sounds/目标文件name
-		AudioClip clip = Resources.Load<AudioClip>("Sounds/RedMove");
-		audiosource.clip = clip;
-		audiosource.Play();
 		//if (this.transform.GetComponent<AudioSource>().isPlaying)
 		//{
 		//	this.transform.GetComponent<AudioSource>().Stop();
@@ -62,6 +63,13 @@ public class StartTipInitScript : MonoBehaviour {
 		//				+ "注意，当足球出现在中间位置时，需要双手做出向前伸或向后拉的操作。"
 		//				+ "准备好开始了吗？请将双手握拳放于肚脐前准备吧！";
 		//transform.GetComponent<SangCtrl>().SpeechSynthesis(StartTip);
+		if (audiosource.isPlaying)
+		{
+			audiosource.Stop();
+		}
+
+		rawImage.gameObject.SetActive(true);
+		_Movie.Play();
 	}
 
 	//如果当前有其他音频正在播放，停止当前音频，播放下一个
