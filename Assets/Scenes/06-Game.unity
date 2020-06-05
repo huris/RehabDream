@@ -2602,7 +2602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOver: 0
-  audiosource: {fileID: 0}
+  audiosource: {fileID: 273710878}
 --- !u!82 &273710878
 AudioSource:
   m_ObjectHideFlags: 0
