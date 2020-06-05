@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ActionDetailScript.cs" />
      <Compile Include="Assets\ActionItemScript.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Buffer16BitStereo.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\ABuffer.cs" />
