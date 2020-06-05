@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ActionItemScript.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Buffer16BitStereo.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\ABuffer.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\BitReserve.cs" />
@@ -563,6 +564,7 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+     <Compile Include="Assets\ThroughWallDataInitScript.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />

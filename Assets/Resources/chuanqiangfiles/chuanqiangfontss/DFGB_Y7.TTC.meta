@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 67b75064fa9e8ed4aa4a1d41cef036dd
+timeCreated: 1515832560
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DFYuanW7-GB
+  fontNames:
+  - DFYuanW7-GB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
