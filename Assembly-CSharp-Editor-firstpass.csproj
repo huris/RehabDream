@@ -55,11 +55,13 @@
      <Compile Include="Assets\Plugins\Editor\HighlightingRendererEditor.cs" />
      <Compile Include="Assets\Standard Assets\Editor\KinectCopyPluginDataHelper.cs" />
      <Compile Include="Assets\Standard Assets\Editor\KinectFacePostBuildCopyPluginData.cs" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
      <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
      <None Include="Assets\Vectrosity\What to import!.txt" />
      <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -67,39 +69,53 @@
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
      <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
      <None Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
      <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_WaterfallFoam.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
      <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\DepthOfField.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Resources\AmbientOcclusion.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
      <None Include="Assets\printer\LCPrinter\Readme.txt" />
      <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\FXAA\Resources\FXAA.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramRender.shader" />
+     <None Include="Assets\WallTrainingResources\Breakable Objects\Breakable Window\Shaders\Unluck Reflective Glass SDR.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeTrunk.shader" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
      <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
      <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\SMAA\Resources\SMAA.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBillboard.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBranch.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_SunshaftParticle.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
@@ -109,30 +125,41 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Grass.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
      <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_Waterfall.shader" />
      <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\MedianFilter.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
      <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\BokehSplatting.shader" />
      <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
      <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
      <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\LensAberrations\Resources\LensAberrations.shader" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
      <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramCompute.compute" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
      <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
+     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -261,6 +288,9 @@
  </Reference>
  <Reference Include="UnityEditor.Purchasing">
  <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/Editor/UnityEditor.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

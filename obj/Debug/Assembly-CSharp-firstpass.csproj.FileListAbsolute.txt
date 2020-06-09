@@ -106,3 +106,4 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CoreCom
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.pdb
+D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csprojAssemblyReference.cache
