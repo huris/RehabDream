@@ -66,61 +66,6 @@
      <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Radar_Graph_E.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Ring_Graph_E.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Series_E.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\DragEventSenderEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\EasyTweenEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialBaseEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialButtonEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialCheckboxEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialDropdownEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialInputFieldEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialRadioEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialRippleEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialScreenEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialSliderEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialSwitchEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\MaterialToggleBaseEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\RectTransformSnapEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\ScreenViewEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\ShadowGeneratorEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\TabItemEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\TabPageEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\TabViewEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\TweenManagerEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Custom Inspectors\VectorImageEditor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\PostProcessors\GeneratedShadowPostProcessor.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\PropertyDrawers\ImageDataPropertyDrawer.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\PropertyDrawers\OptionDataListPropertyDrawer.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\PropertyDrawers\RippleDataPropertyDrawer.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\PropertyDrawers\VectorImageDataPropertyDrawer.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\MaterialUIDataTool.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\MaterialUIEditorTools.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\MaterialUIInspectorFields.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\File\Editor\VectorImageFileParserFontastic.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\File\Editor\VectorImageFileParserFontello.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\File\Editor\VectorImageFileParserIcoMoon.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\VectorImageFontParser.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserBrandico.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserCommunityMD.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserFontAwesome.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserFontelico.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserIcoMoon.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserIonicons.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserJustVector.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserKenney.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserMapVectorImages.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserMaterialDesign.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserOcticons.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserOpenIconic.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserOpenWebVectorImages.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserPayment.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserSocialicious.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Parser\Web\VectorImageParserWeatherVectorImages.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Sections\ImportCustomFontSection.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Sections\ImportFontParametersSection.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\Sections\ImportWebFontSection.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\VectorImageManagerWindow.cs" />
-     <Compile Include="Assets\MaterialUI\Editor\Tools\Vector Image Manager\VectorImagePickerWindow.cs" />
-     <Compile Include="Assets\MaterialUI\Utils\Editor\UnityZip\Zip.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Editor\Attributes\PostProcessingModelEditorAttribute.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Editor\Models\AmbientOcclusionModelEditor.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Editor\Models\AntialiasingModelEditor.cs" />
@@ -225,7 +170,6 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
-     <None Include="Assets\MaterialUI\README.txt" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
@@ -257,11 +201,9 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
-     <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
-     <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
@@ -272,7 +214,6 @@
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
-     <None Include="Assets\MaterialUI\CHANGELOG.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
@@ -382,9 +323,6 @@
  </Reference>
  <Reference Include="DOTweenProEditor">
  <HintPath>D:/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
- </Reference>
- <Reference Include="Ionic.Zip">
- <HintPath>D:/SoccerRehabilitationSystem/Assets/MaterialUI/Utils/Editor/UnityZip/Ionic.Zip.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
  <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>

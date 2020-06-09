@@ -198,7 +198,6 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
-     <None Include="Assets\MaterialUI\README.txt" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
@@ -230,11 +229,9 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
      <None Include="Assets\Plugins\UWP\Attribution.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
-     <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
-     <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
@@ -245,7 +242,6 @@
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
-     <None Include="Assets\MaterialUI\CHANGELOG.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
