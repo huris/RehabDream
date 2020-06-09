@@ -11923,7 +11923,7 @@ MonoBehaviour:
   posRelativeToCamera: {fileID: 0}
   posRelOverlayColor: 0
   posRelInvertedZ: 0
-  groundedFeet: 0
+  groundedFeet: 1
   applyMuscleLimits: 0
   flipLeftRight: 0
   verticalOffset: 0
