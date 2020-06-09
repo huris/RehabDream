@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: a0043c5bf287cd94284b3d01af7438dc
+timeCreated: 1522484453
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: BDZongYi-A001
+  fontNames:
+  - BDZongYi-A001
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
