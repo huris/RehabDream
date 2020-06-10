@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,11 @@ public class GameState : MonoBehaviour
     public GameObject Gate;
     public GameObject TrackRoot;
     public GameObject GoalKeeper;
+    public GameObject Shooter;
     public Transform SoccerStart;
     public Transform ControlPoint;
     public Transform SoccerTarget;
+    public Transform ShooterStart;
 
     [Header("Range of Gate")]
     public Transform BottomLeft;
@@ -38,6 +41,7 @@ public class GameState : MonoBehaviour
     public GameUIHandle GameUIHandle;
 
     [Header("Time Paraments")]
+    public static float ShooterTime = 1.0f;
     public static float SessionRestTime = 3.0f;      // rest after each shoot
     public static float AddSuccessCountTime = 1.0f;  // show "+1" in ui
     public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
@@ -457,9 +461,50 @@ public class GameState : MonoBehaviour
 
     }
 
-    //shoot
-    private void Shoot()
-    {
+    // Shoot
+    private void Shoot() {
+        StartCoroutine(StartShoot());
+    }
+
+    //Shooter run and shoot
+    private IEnumerator StartShoot() {
+        Animator animator = Shooter.GetComponent<Animator>();
+        AnimationClip[] Clips = animator.runtimeAnimatorController.animationClips;
+        float length = 1.0f;        // length of animation "running"
+        foreach (AnimationClip clip in Clips) {
+            if (clip.name.Equals("running")){
+                length = clip.length;
+                break;
+            }
+        }
+
+        // shooter start to run
+        animator.speed = length / ShooterTime;
+        animator.CrossFade("running", 0.01f, 0); 
+
+        // distance between shooter and soccer
+        float Distance = SoccerStart.transform.position.x - ShooterStart.transform.position.x;
+        Vector3 NewPosition = new Vector3(Shooter.transform.position.x, Shooter.transform.position.y, Shooter.transform.position.z);
+        // update shooter position
+        while (true)
+        {
+
+            // Update Shooter position
+            if (this._state != State.Pause)
+            {
+                if (NewPosition.x > SoccerStart.transform.position.x)
+                {
+                    // time to shoot
+                    animator.speed = 1;
+                    animator.CrossFade("shoot", 0.01f, 0);
+                    break;
+                }
+                NewPosition.x += Time.deltaTime / ShooterTime * Distance;
+                Shooter.transform.position = NewPosition;
+            }
+            yield return null;
+        }
+
         _Shooting.Shoot(SoccerStart.position, ControlPoint.position, SoccerTarget.position, PatientDataManager.instance.BallSpeed);
     }
 
@@ -472,6 +517,7 @@ public class GameState : MonoBehaviour
     // reset after every shooting
     private void GameObjectReset()
     {
+        Shooter.transform.position = ShooterStart.position;
         _Shooting.Reset(SoccerStart.position);
         _CollisionHandle.Reset();
     }

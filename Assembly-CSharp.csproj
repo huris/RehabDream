@@ -787,6 +787,9 @@
  <Reference Include="Mono.Data.Tds">
  <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ </Reference>
  <Reference Include="NPinyin">
  <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
  </Reference>
@@ -810,9 +813,6 @@
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>D:/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
