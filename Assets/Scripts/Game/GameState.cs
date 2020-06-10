@@ -514,10 +514,16 @@ public class GameState : MonoBehaviour
         _Shooting.ShootOver();
     }
 
+
+    private void ResetShooter()
+    {
+        Shooter.transform.position = ShooterStart.position;
+        Shooter.GetComponent<Animator>().CrossFade("rest", 0.01f, 0);
+    }
+
     // reset after every shooting
     private void GameObjectReset()
     {
-        Shooter.transform.position = ShooterStart.position;
         _Shooting.Reset(SoccerStart.position);
         _CollisionHandle.Reset();
     }
