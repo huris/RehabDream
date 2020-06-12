@@ -488,23 +488,27 @@ public class GameState : MonoBehaviour
         // update shooter position
         while (true)
         {
-
-            // Update Shooter position
-            if (this._state != State.Pause)
+            if(this._state == State.Pause)
             {
-                if (NewPosition.x > SoccerStart.transform.position.x)
+                animator.speed = 0;     //stop animation
+            }
+            else{
+                float Offset = Time.deltaTime / ShooterTime * Distance;
+
+                if (NewPosition.x + 10 * Offset > SoccerStart.transform.position.x)     // arrive soccer
                 {
                     // time to shoot
-                    animator.speed = 1;
-                    animator.CrossFade("shoot", 0.01f, 0);
+                    animator.speed = 1f;
+                    animator.CrossFade("shoot", 0.2f, 0);
+                    yield return new WaitForSeconds(0.2f);  // play shooting animation for 0.2f
                     break;
                 }
-                NewPosition.x += Time.deltaTime / ShooterTime * Distance;
+                // Update Shooter position
+                NewPosition.x += Offset;
                 Shooter.transform.position = NewPosition;
             }
             yield return null;
         }
-
         _Shooting.Shoot(SoccerStart.position, ControlPoint.position, SoccerTarget.position, PatientDataManager.instance.BallSpeed);
     }
 
@@ -524,6 +528,7 @@ public class GameState : MonoBehaviour
     // reset after every shooting
     private void GameObjectReset()
     {
+        ResetShooter();
         _Shooting.Reset(SoccerStart.position);
         _CollisionHandle.Reset();
     }
