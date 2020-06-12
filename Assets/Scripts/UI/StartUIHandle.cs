@@ -302,7 +302,7 @@ public class StartUIHandle : UIHandle
     //quick start
     public void OnClickQuickStartButton()   
     {
-        LoadScene("Game");
+        LoadScene("kangfuxunlianertao");
     }
 
     //quit game
