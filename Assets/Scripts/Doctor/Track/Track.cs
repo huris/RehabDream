@@ -6,6 +6,9 @@ using UnityEngine;
 public class Track : MonoBehaviour {
 
     public LineRenderer[] LineRendererList;    //lines of arrow
+    public LineRenderer LeftLine;
+    public LineRenderer RightLine;
+
     public int SegmentCount = 30;  //count of lines
     public float SegmentWidth = 0.05f; //
     public Color StartColor = Color.red;
@@ -54,6 +57,24 @@ public class Track : MonoBehaviour {
             //加入列表
             LineRendererList[i] = lineRenderer;
         }
+
+        GameObject LeftArrowObject = new GameObject("Arrow_Left");
+        LeftArrowObject.transform.SetParent(gameObject.transform);
+
+        //添加LineRenderer组件
+        LeftLine = LeftArrowObject.AddComponent<LineRenderer>();
+        LeftLine.material = LineMaterial;
+        LeftLine.startWidth = SegmentWidth;
+        LeftLine.startWidth = SegmentWidth;
+
+        GameObject RightArrowObject = new GameObject("Arrow_Right");
+        RightArrowObject.transform.SetParent(gameObject.transform);
+
+        //添加LineRenderer组件
+        RightLine = RightArrowObject.AddComponent<LineRenderer>();
+        RightLine.material = LineMaterial;
+        RightLine.startWidth = SegmentWidth;
+        LeftLine.startWidth = SegmentWidth;
     }
 
 
@@ -69,7 +90,8 @@ public class Track : MonoBehaviour {
         //所以需要LineRendererList.Length+1个坐标
         for (int i = 0; i < SegmentCount; i++)
         {
-            this.LineRendererList[i].SetPosition(0, this.Positions[i]); //设置起始点
+            Vector3 Start = this.Positions[i];
+            this.LineRendererList[i].SetPosition(0, Start); //设置起始点
 
             //使各个LineRenderer间保持一定距离，不要相交
             Vector3 delta = this.Positions[i + 1] - this.Positions[i];
@@ -77,9 +99,23 @@ public class Track : MonoBehaviour {
             change.x = delta.x * gap;
             change.y = delta.y * gap;
             change.z = delta.z * gap;
-            this.LineRendererList[i].SetPosition(1, this.Positions[i+1]- change);   //设置终点
-            //this.LineRendererList[i].startWidth = (1 - gap) * (1 - gap) * delta.magnitude / HeighDivideWidth;
-            //this.LineRendererList[i].endWidth = this.LineRendererList[i].startWidth;
+            Vector3 End = this.Positions[i + 1] - change;
+            this.LineRendererList[i].SetPosition(1, End);   //设置终点
+
+            if((i+1) == SegmentCount)   // 箭镞的两翼
+            {
+                float Offset =  (End - Start).sqrMagnitude/2;
+                Vector3 LeftStart = new Vector3(End.x - 4 *Offset, End.y + Offset, End.z - 2*Offset);
+                Vector3 RightStart = new Vector3(End.x - 4 * Offset, End.y + Offset, End.z + 2*Offset);
+                Vector3 LeftEnd = new Vector3(End.x , End.y , End.z);
+                Vector3 RightEnd = new Vector3(End.x , End.y , End.z);
+
+                this.LeftLine.SetPosition(0, LeftStart);
+                this.LeftLine.SetPosition(1, LeftEnd);
+
+                this.RightLine.SetPosition(0, RightStart);
+                this.RightLine.SetPosition(1, RightEnd);
+            }
         }
     }
 }

@@ -266,6 +266,7 @@
      <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
      <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\MedianFilter.shader" />
+     <None Include="Assets\Shader\ArrowShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
      <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />

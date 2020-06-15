@@ -470,21 +470,12 @@ public class GameState : MonoBehaviour
     private IEnumerator StartShoot() {
         Animator animator = Shooter.GetComponent<Animator>();
         AnimationClip[] Clips = animator.runtimeAnimatorController.animationClips;
-        float length = 1.0f;        // length of animation "running"
-        foreach (AnimationClip clip in Clips) {
-            if (clip.name.Equals("running")){
-                length = clip.length;
-                break;
-            }
-        }
-
-        // shooter start to run
-        animator.speed = length / ShooterTime;
-        animator.CrossFade("running", 0.01f, 0); 
 
         // distance between shooter and soccer
-        float Distance = SoccerStart.transform.position.x - ShooterStart.transform.position.x;
-        Vector3 NewPosition = new Vector3(Shooter.transform.position.x, Shooter.transform.position.y, Shooter.transform.position.z);
+        float Distance = Mathf.Abs(SoccerStart.transform.position.x - ShooterStart.transform.position.x);
+
+        animator.CrossFade("BlendTree", 0.2f, 0);
+        animator.SetFloat("Blend", 0.5f);
         // update shooter position
         while (true)
         {
@@ -494,18 +485,20 @@ public class GameState : MonoBehaviour
             }
             else{
                 float Offset = Time.deltaTime / ShooterTime * Distance;
+                float Percent = 1.0f - Mathf.Abs(Shooter.transform.position.x - SoccerStart.transform.position.x) / Distance;
+                Debug.Log(animator.GetFloat("Blend"));
 
-                if (NewPosition.x + 10 * Offset > SoccerStart.transform.position.x)     // arrive soccer
+                if (Percent > 0.8f)     // arrive soccer
                 {
+                    Debug.Log(Percent);
                     // time to shoot
                     animator.speed = 1f;
-                    animator.CrossFade("shoot", 0.2f, 0);
+                    animator.CrossFade("shoot", 0.1f, 0);
                     yield return new WaitForSeconds(0.2f);  // play shooting animation for 0.2f
                     break;
                 }
-                // Update Shooter position
-                NewPosition.x += Offset;
-                Shooter.transform.position = NewPosition;
+                // Update Animation parament
+                animator.SetFloat("Blend", Percent>0.5f?Percent:0.5f);
             }
             yield return null;
         }
@@ -522,7 +515,9 @@ public class GameState : MonoBehaviour
     private void ResetShooter()
     {
         Shooter.transform.position = ShooterStart.position;
-        Shooter.GetComponent<Animator>().CrossFade("rest", 0.01f, 0);
+        Shooter.GetComponent<Animator>().CrossFade("rest", 0f, 0);
+        Shooter.GetComponent<Animator>().SetFloat("Blend", 0f);
+
     }
 
     // reset after every shooting
