@@ -73,6 +73,9 @@ public class PlayGame : MonoBehaviour
     public Image overNoCircle;
     List<Sprite> sprites;
     public Text debug_text;
+
+
+
     private void OnEnable()
     {
 
@@ -121,6 +124,12 @@ public class PlayGame : MonoBehaviour
                         }
                         currentUser = GameData.user_info[GameData.current_user_id];
                         currentLevel = currentUser.level;
+
+
+
+
+
+                        //生成游戏中以此出现的动作序列
                         actionIds = new List<int>();
                         actionNum = 0;
                         foreach (var item in currentLevel.actionRates)
@@ -131,6 +140,12 @@ public class PlayGame : MonoBehaviour
                                 actionIds.Add(item.Key);
                             }
                         }//以上是生成该关卡所包含的动作的index,关卡内该动作出现几次生成几次。
+
+
+
+
+
+
                         averageTime = currentLevel.wallSpeed;       //averageTime为墙运动到人所需要的时间
                         wallActionIds = new List<int>();
                         transform.root.Find("Game/Playing").gameObject.SetActive(true);
@@ -239,8 +254,6 @@ public class PlayGame : MonoBehaviour
                             state = "start";
                             StateTimes = 0;
                             time = 0;
-
-                            Debug.Log(6666666666666666);
                         }
 
                     }
@@ -887,8 +900,7 @@ public class PlayGame : MonoBehaviour
         //{
         //    return 0;
         //}
-        #endregion
-        #region 根据角度差判定动作是否标准
+
         Action current_action = new Action();
         Action standord_action = new Action();
         for (int i = 0; i < DATA.actionList.Count; i++)
@@ -898,13 +910,39 @@ public class PlayGame : MonoBehaviour
                 standord_action = DATA.actionList[i];       //读取标准动作
             }
         }
+
+
+        // 对于特殊需求的动作（双足并拢、双手笔直向前等），需要加入坐标距离判断
+        PositionCalculator PC = new PositionCalculator(standord_action, tmpPosition);
+        int PCScore = PC.CheckPosition();
+        Debug.Log(PCScore);
+
+
+        #endregion
+        #region 根据角度差判定动作是否标准
+
         AngleCalculator AG = new AngleCalculator();
         AG.actionName = standord_action.name;
         current_action.actionData = AG.GetActionData(tmpPosition);      //计算使用多个检测方法对患者动作的检测结果，以及结果是否有效
-        return AG.ActionMatching(current_action.actionData, standord_action, ref trainingData);     //使用多个方法对多个关节点检测，取最差结果返回，同时将结果记录在trainingData中
+        int AGScore = AG.ActionMatching(current_action.actionData, standord_action, ref trainingData);     //使用多个方法对多个关节点检测，取最差结果返回，同时将结果记录在trainingData中
+
         #endregion
 
+
+        if (PCScore >= 0)   //特殊动作坐标评测不通过
+        {
+            return PCScore;
+        }
+        else if(PCScore > AGScore)  //取角度、坐标评测的最低分
+        {
+            return PCScore;
+        }
+        else
+        {
+            return AGScore;
+        }
     }
+
     void CompleteTrainingData()
     {
         //List<float> accuracyList = new List<float>();

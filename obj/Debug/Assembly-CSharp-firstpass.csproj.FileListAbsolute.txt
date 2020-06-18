@@ -107,3 +107,4 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyCom
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.pdb
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csprojAssemblyReference.cache
+D:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll

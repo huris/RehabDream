@@ -116,6 +116,7 @@ public class GameState : MonoBehaviour
 
     private State _state = State.Pause;
     private State _oldstate;
+    private float _OldShooterAnimationSpeed = 1.0f;
 
     void Awake()
     {
@@ -469,24 +470,19 @@ public class GameState : MonoBehaviour
     //Shooter run and shoot
     private IEnumerator StartShoot() {
         Animator animator = Shooter.GetComponent<Animator>();
-        AnimationClip[] Clips = animator.runtimeAnimatorController.animationClips;
-
         // distance between shooter and soccer
         float Distance = Mathf.Abs(SoccerStart.transform.position.x - ShooterStart.transform.position.x);
-
         animator.CrossFade("BlendTree", 0.2f, 0);
         animator.SetFloat("Blend", 0.5f);
-        // update shooter position
+        
+        
+        // play animation
         while (true)
         {
-            if(this._state == State.Pause)
+            if(this._state != State.Pause)  //pause
             {
-                animator.speed = 0;     //stop animation
-            }
-            else{
-                float Offset = Time.deltaTime / ShooterTime * Distance;
                 float Percent = 1.0f - Mathf.Abs(Shooter.transform.position.x - SoccerStart.transform.position.x) / Distance;
-                Debug.Log(animator.GetFloat("Blend"));
+                //Debug.Log(animator.GetFloat("Blend"));
 
                 if (Percent > 0.8f)     // arrive soccer
                 {
@@ -498,7 +494,11 @@ public class GameState : MonoBehaviour
                     break;
                 }
                 // Update Animation parament
-                animator.SetFloat("Blend", Percent>0.5f?Percent:0.5f);
+                animator.SetFloat("Blend", Percent > 0.5f ? Percent : 0.5f);
+            }
+            else{
+
+                
             }
             yield return null;
         }
@@ -509,6 +509,16 @@ public class GameState : MonoBehaviour
     private void ShootOver()
     {
         _Shooting.ShootOver();
+    }
+
+    private  IEnumerator Coroutine2()
+    {
+        yield return new WaitForSeconds(0.2f);
+    }
+
+    private IEnumerator Coroutine1()
+    {
+        yield return StartCoroutine(Coroutine2());
     }
 
 
@@ -1065,7 +1075,9 @@ public class GameState : MonoBehaviour
     public void Pause()
     {
         _oldstate = _state;
+        _OldShooterAnimationSpeed = Shooter.GetComponent<Animator>().speed;
         _state = State.Pause;
+        Shooter.GetComponent<Animator>().speed = 0f;
         _Shooting.PauseShooting();
     }
 
@@ -1074,6 +1086,7 @@ public class GameState : MonoBehaviour
     public void Continue()
     {
         _state = _oldstate;
+        Shooter.GetComponent<Animator>().speed = _OldShooterAnimationSpeed;
         _Shooting.ContinueShooting();
     }
 

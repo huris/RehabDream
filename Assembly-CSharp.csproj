@@ -505,12 +505,12 @@
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLoading.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogin.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogout.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameUtils.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\JsonHelper.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\LoadGameDatas.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\Menu.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\ModelManager.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PlayGame.cs" />
+     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PositionCalculator.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\SQLiteDemo.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\Rate.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\SocialMedia.cs" />

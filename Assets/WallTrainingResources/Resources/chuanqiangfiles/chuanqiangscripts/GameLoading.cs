@@ -9,10 +9,13 @@ public class GameLoading : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         time = new List<float>();
+        //Debug.Log(GameData.user_info.Count);
+        //GameData.current_user_id = GameData.user_info[0].ID;
+        //Debug.Log("ID" + GameData.user_info[0].ID.ToString());
+
         Debug.Log(GameData.user_info.Count);
         GameData.current_user_id = GameData.user_info[0].ID;
         Debug.Log("ID" + GameData.user_info[0].ID.ToString());
-
     }
     private void OnEnable()
     {

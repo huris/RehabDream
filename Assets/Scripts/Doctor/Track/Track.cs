@@ -102,11 +102,11 @@ public class Track : MonoBehaviour {
             Vector3 End = this.Positions[i + 1] - change;
             this.LineRendererList[i].SetPosition(1, End);   //设置终点
 
-            if((i+1) == SegmentCount)   // 箭镞的两翼
+            if((i+1) == SegmentCount)   // 画箭镞的两翼
             {
                 float Offset =  (End - Start).sqrMagnitude/2;
-                Vector3 LeftStart = new Vector3(End.x - 4 *Offset, End.y + Offset, End.z - 2*Offset);
-                Vector3 RightStart = new Vector3(End.x - 4 * Offset, End.y + Offset, End.z + 2*Offset);
+                Vector3 LeftStart = new Vector3(End.x - 5 *Offset, End.y + Offset, End.z - 1.5f*Offset);
+                Vector3 RightStart = new Vector3(End.x - 5 * Offset, End.y + Offset, End.z + 1.5f * Offset);
                 Vector3 LeftEnd = new Vector3(End.x , End.y , End.z);
                 Vector3 RightEnd = new Vector3(End.x , End.y , End.z);
 

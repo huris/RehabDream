@@ -108,3 +108,5 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.pdb
+D:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll
+D:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
