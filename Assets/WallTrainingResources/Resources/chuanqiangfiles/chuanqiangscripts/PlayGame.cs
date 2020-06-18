@@ -917,7 +917,6 @@ public class PlayGame : MonoBehaviour
         int PCScore = PC.CheckPosition();
         Debug.Log(PCScore);
 
-
         #endregion
         #region 根据角度差判定动作是否标准
 

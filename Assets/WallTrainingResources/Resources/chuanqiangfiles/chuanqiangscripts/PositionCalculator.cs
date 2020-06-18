@@ -39,7 +39,7 @@ public class PositionCalculator
                 this._check = new CheckMethod(CheckArmForward);
                 break;
             default:
-                this._check = new CheckMethod((list) => 100);   //不属于特殊动作则不检测，输出100分
+                this._check = new CheckMethod((x) => 100);   //不属于特殊动作则不检测，输出100分
                 break;
 
         }

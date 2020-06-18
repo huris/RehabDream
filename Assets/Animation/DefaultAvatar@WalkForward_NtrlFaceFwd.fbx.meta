@@ -533,7 +533,7 @@ ModelImporter:
     - serializedVersion: 16
       name: WalkForward_NtrlFaceFwd (1)
       takeName: _1_a_U1_M_P_WalkForward_NtrlFaceFwd__Fb_p0_No_0_PJ_3
-      firstFrame: 0
+      firstFrame: 13
       lastFrame: 108
       wrapMode: 0
       orientationOffsetY: 0
