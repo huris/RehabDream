@@ -2240,7 +2240,7 @@ GameObject:
   - component: {fileID: 203762195}
   m_Layer: 0
   m_Name: BackCollider
-  m_TagString: NetTrigger
+  m_TagString: BackNetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8431,7 +8431,7 @@ GameObject:
   - component: {fileID: 823854302}
   m_Layer: 0
   m_Name: TopCollider
-  m_TagString: NetTrigger
+  m_TagString: TopNetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8443,7 +8443,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 823854300}
   m_LocalRotation: {x: 0.7071069, y: -0, z: -0, w: -0.70710677}
-  m_LocalPosition: {x: -5.3341994, y: -0, z: 0.09200593}
+  m_LocalPosition: {x: -5.346, y: -0, z: 0.09200593}
   m_LocalScale: {x: 0.84625363, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1158813093}
@@ -8838,7 +8838,7 @@ GameObject:
   - component: {fileID: 849803797}
   m_Layer: 0
   m_Name: LeftCollider
-  m_TagString: NetTrigger
+  m_TagString: LeftNetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9701,7 +9701,7 @@ GameObject:
   - component: {fileID: 920899707}
   m_Layer: 0
   m_Name: ButtomCollider
-  m_TagString: NetTrigger
+  m_TagString: ButtomNetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17090,7 +17090,7 @@ GameObject:
   - component: {fileID: 1455640409}
   m_Layer: 0
   m_Name: RightCollider
-  m_TagString: NetTrigger
+  m_TagString: RightNetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21881,7 +21881,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1845480776}
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
-  m_LocalPosition: {x: -5.329001, y: 0.006000579, z: -0.024999991}
+  m_LocalPosition: {x: -5.34, y: 0.006000579, z: -0.024999991}
   m_LocalScale: {x: 0.15891807, y: 0.7191092, z: 0.2172397}
   m_Children: []
   m_Father: {fileID: 1158813093}
@@ -22028,7 +22028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: e4e9a4f823790b64681768f8d351a075, type: 2}
+  profile: {fileID: 11400000, guid: 5e335f9685192a1438c08cc077f8e4d3, type: 2}
 --- !u!81 &1855786432
 AudioListener:
   m_ObjectHideFlags: 0

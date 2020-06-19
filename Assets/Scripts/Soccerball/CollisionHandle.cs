@@ -17,6 +17,11 @@ public class CollisionHandle : MonoBehaviour
     public const string GateTrigger = "GateTrigger";
     public const string GoalkeeperTrigger = "GoalkeeperTrigger";
     public const string NetTrigger = "NetTrigger";
+    public const string LeftNetTrigger = "LeftNetTrigger";
+    public const string RightNetTrigger = "RightNetTrigger";
+    public const string TopNetTrigger = "TopNetTrigger";
+    public const string ButtomNetTrigger = "ButtomNetTrigger";
+    public const string BackNetTrigger = "BackNetTrigger";
 
     // Use this for initialization
     void Start()
@@ -72,8 +77,20 @@ public class CollisionHandle : MonoBehaviour
                 Debug.Log("Goalkeeper win!!!!!!!!!!!!!!");
                 break;
 
-            case NetTrigger:
-                Debug.Log("Crash net!");
+            case LeftNetTrigger:
+                Debug.Log("Crash left net!");
+                break;
+            case RightNetTrigger:
+                Debug.Log("Crash right net!");
+                break;
+            case ButtomNetTrigger:
+                Debug.Log("Crash buttom net!");
+                break;
+            case TopNetTrigger:
+                Debug.Log("Crash top net!");
+                break;
+            case BackNetTrigger:
+                Debug.Log("Crash back net!");
                 break;
             default:
 

@@ -486,7 +486,7 @@ public class GameState : MonoBehaviour
 
                 if (Percent > 0.8f)     // arrive soccer
                 {
-                    Debug.Log(Percent);
+                    //Debug.Log(Percent);
                     // time to shoot
                     animator.speed = 1f;
                     animator.CrossFade("shoot", 0.1f, 0);

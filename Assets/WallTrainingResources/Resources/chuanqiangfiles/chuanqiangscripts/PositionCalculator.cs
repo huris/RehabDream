@@ -51,26 +51,7 @@ public class PositionCalculator
         int Score =  _check(this.Joints);
 
 
-        if (Score >= DATA.ActionMatchThreshold["PERFECT"])       //最低准确率大于0.9 * 100
-        {
-            return -3;
-        }
-        else if (Score >= DATA.ActionMatchThreshold["GREAT"])     //最低准确率大于0.8 * 100
-        {
-            return -2;
-        }
-        else if (Score > DATA.ActionMatchThreshold["GOOD"])        //最低准确率大于0.7 * 100
-        {
-            return -1;
-        }
-        else if(NowAction.id == _FeetTogetherID)
-        {
-            return 14;  //左脚不标准
-        }
-        else //if (NowAction.id == _ArmForward)
-        {
-            return 34;  //肩关节不标准
-        }
+        return Score2Result(Score);
     }
 
     // 双足并拢站立的检测
@@ -136,5 +117,28 @@ public class PositionCalculator
     }
 
 
-
+    // 从分数（百分制）转换为评级
+    private int Score2Result(int Score)
+    {
+        if (Score >= DATA.ActionMatchThreshold["PERFECT"])       //最低准确率大于0.9 * 100
+        {
+            return -3;
+        }
+        else if (Score >= DATA.ActionMatchThreshold["GREAT"])     //最低准确率大于0.8 * 100
+        {
+            return -2;
+        }
+        else if (Score > DATA.ActionMatchThreshold["GOOD"])        //最低准确率大于0.7 * 100
+        {
+            return -1;
+        }
+        else if (NowAction.id == _FeetTogetherID)
+        {
+            return 14;  //左脚不标准
+        }
+        else //if (NowAction.id == _ArmForward)
+        {
+            return 34;  //肩关节不标准
+        }
+    }
 }

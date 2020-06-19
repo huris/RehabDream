@@ -48,13 +48,13 @@ public class Shooting : MonoBehaviour {
             if(index >= PointNumber)
             {
                 ShootOver();
-                _Rigid.velocity = _Velocity * _Direction.normalized;
+                _Rigid.velocity = _Velocity * _Direction.normalized;    // set velocity
                 this.gameObject.transform.position = _OldPosition;
                 return;
             }
             _OldPosition = this.gameObject.transform.position;
             this.gameObject.transform.position = _path[index];
-            _Direction = _path[index] - _path[_OldIndex];
+            _Direction = _path[index] - _path[_OldIndex];       // direction of soccer
             transform.rotation = Quaternion.LookRotation(_Direction);
             _OldIndex = index;
         }
@@ -119,6 +119,7 @@ public class Shooting : MonoBehaviour {
     public void ShootOver()
     {
         _IsShooting = false;
+        _Rigid.velocity = _Velocity * _Direction.normalized;
         _TimeSum = 0f;
         _OldIndex = 0;
         _path = new Vector3[]{ };
