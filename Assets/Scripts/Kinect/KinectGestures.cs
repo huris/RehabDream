@@ -141,6 +141,13 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 		UserGesture8 = 108,
 		UserGesture9 = 109,
 		UserGesture10 = 110,
+
+		Stand2Sit,
+		Sit2Stand,
+		Sit,
+		Stand,
+		Surrender,
+		Bobath
 	}
 	
 	
@@ -189,6 +196,9 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 	protected int leftAnkleIndex;
 	protected int rightAnkleIndex;
 
+	// 此处为新加关节点
+	protected int SpineMidIndex;
+
 
 	/// <summary>
 	/// Gets the list of gesture joint indexes.
@@ -217,11 +227,15 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 		
 		leftAnkleIndex = manager.GetJointIndex(KinectInterop.JointType.AnkleLeft);
 		rightAnkleIndex = manager.GetJointIndex(KinectInterop.JointType.AnkleRight);
-		
+
+		// 此处为新加关节点
+		SpineMidIndex = manager.GetJointIndex(KinectInterop.JointType.SpineMid);
+
+
 		int[] neededJointIndexes = {
 			leftHandIndex, rightHandIndex, leftElbowIndex, rightElbowIndex, leftShoulderIndex, rightShoulderIndex,
 			hipCenterIndex, shoulderCenterIndex, leftHipIndex, rightHipIndex, leftKneeIndex, rightKneeIndex, 
-			leftAnkleIndex, rightAnkleIndex
+			leftAnkleIndex, rightAnkleIndex, SpineMidIndex
 		};
 
 		return neededJointIndexes;
@@ -348,6 +362,7 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 	/// <param name="jointsTracked">Joints-tracked array</param>
 	public virtual void CheckForGesture(long userId, ref GestureData gestureData, float timestamp, ref Vector3[] jointsPos, ref bool[] jointsTracked)
 	{
+		Debug.Log("Start" + gestureData.state);
 		if(gestureData.complete)
 			return;
 
@@ -1643,8 +1658,230 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 					break;
 				}
 				break;
-				
+
 			// here come more gesture-cases
+
+            //check for Sit
+            case Gestures.Sit:
+                switch (gestureData.state)
+                {
+                    case 0:  // gesture detection	此处用于识别第一阶段姿势，当符合第一阶段姿势时才能继续第二阶段姿势的判断
+                        if (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+                            jointsTracked[leftHipIndex] &&      //识别到右髋关节
+                            jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+                            jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+                            jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+                            jointsTracked[leftShoulderIndex] &&
+
+                            (jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y < 0.1f) &&    //髋关节和膝关节在竖直方向上距离小于0.1m
+                            (jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y < 0.1f) &&
+                            (jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.1f) &&    //髋关节和肩关节在竖直方向上距离大于0.1m
+                            (jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.1f)
+                            )
+                        {
+                            // 符合第一阶段姿势，记录时间戳及一个关节点Index、坐标，同时state++，进入下一阶段姿势检测
+                            SetGestureJoint(ref gestureData, timestamp, rightHipIndex, jointsPos[rightHipIndex]);
+                        }
+                        break;
+
+                    case 1:  // gesture complete	此处用于识别第二阶段姿势
+							 // 若满足第二阶段姿势，则 isInPose = true;
+
+						bool isInPose = (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+                            jointsTracked[leftHipIndex] &&      //识别到右髋关节
+                            jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+                            jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+                            jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+                            jointsTracked[leftShoulderIndex] &&
+
+                            (jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y < 0.1f) &&    //髋关节和膝关节在竖直方向上距离小于0.1m
+                            (jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y < 0.1f) &&
+                            (jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.1f) &&    //髋关节和肩关节在竖直方向上距离大于0.1m
+                            (jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.1f)
+                            );
+                        Vector3 jointPos = jointsPos[gestureData.joint];
+
+						//sit姿势需要保持1.5s才判断成功
+						CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 0f);
+                        break;
+                }
+                break;
+
+			//check for Sit
+			case Gestures.Surrender:
+				switch (gestureData.state)
+				{
+					case 0:  // gesture detection	此处用于识别第一阶段姿势，当符合第一阶段姿势时才能继续第二阶段姿势的判断
+						if (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f)	&&
+							(jointsPos[leftHandIndex].y - jointsPos[leftShoulderIndex].y > 0.1f) && //手比肩在竖直方向上距离大于0.1m
+							(jointsPos[rightHandIndex].y - jointsPos[rightShoulderIndex].y > 0.1f)
+							)
+						{
+							// 符合第一阶段姿势，记录时间戳及一个关节点Index、坐标，同时state++，进入下一阶段姿势检测
+							SetGestureJoint(ref gestureData, timestamp, rightHipIndex, jointsPos[rightHipIndex]);
+						}
+						break;
+
+					case 1:  // gesture complete	此处用于识别第二阶段姿势
+							 // 若满足第二阶段姿势，则 isInPose = true;
+
+						bool isInPose = (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f) &&
+							(jointsPos[leftHandIndex].y - jointsPos[leftShoulderIndex].y > 0.1f) &&     //手比肩在竖直方向上距离大于0.1m
+							(jointsPos[rightHandIndex].y - jointsPos[rightShoulderIndex].y > 0.1f)
+							);
+
+						Vector3 jointPos = jointsPos[gestureData.joint];
+
+						CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 0f);
+						break;
+				}
+				break;
+
+			//check for Bobath
+			case Gestures.Bobath:
+				switch (gestureData.state)
+				{
+					case 0:  // gesture detection	此处用于识别第一阶段姿势，当符合第一阶段姿势时才能继续第二阶段姿势的判断
+						Debug.Log("SpineMid: " + jointsPos[SpineMidIndex]);
+						Debug.Log("handDistance: " + (jointsPos[leftHandIndex] - jointsPos[rightHandIndex]).magnitude);
+						if (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f) &&
+							((jointsPos[leftHandIndex] - jointsPos[rightHandIndex]).magnitude < 0.1f)      //左右手距离小于0.1m
+
+							)
+						{
+							// 符合第一阶段姿势，记录时间戳及一个关节点Index、坐标，同时state++，进入下一阶段姿势检测
+							SetGestureJoint(ref gestureData, timestamp, rightHipIndex, jointsPos[rightHipIndex]);
+						}
+						break;
+
+					case 1:  // gesture complete	此处用于识别第二阶段姿势
+							 // 若满足第二阶段姿势，则 isInPose = true;
+
+						bool isInPose = (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f) &&
+							((jointsPos[leftHandIndex] - jointsPos[rightHandIndex]).magnitude < 0.1f)     //左右手竖直距离小于0.1m
+
+							);
+						Vector3 jointPos = jointsPos[gestureData.joint];
+						CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 0f);
+						break;
+				}
+				break;
+
+
+
+			//check for Stand
+			case Gestures.Stand:
+				switch (gestureData.state)
+				{
+					case 0:  // gesture detection	此处用于识别第一阶段姿势，当符合第一阶段姿势时才能继续第二阶段姿势的判断
+						if (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f) &&
+							(jointsPos[leftHandIndex].y - jointsPos[leftShoulderIndex].y < -0.2f) &&     //手比肩在竖直方向上距离小于0.2m
+							(jointsPos[rightHandIndex].y - jointsPos[rightShoulderIndex].y < -0.2f) &&
+
+							//上臂、小臂自然下垂且与竖直(0,-1,0)呈180度左右
+							(AvatarCaculator.CaculateAngle(jointsPos[rightShoulderIndex] - jointsPos[rightElbowIndex], new Vector3(0f,-1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[rightElbowIndex] - jointsPos[rightHandIndex], new Vector3(0f, -1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[leftShoulderIndex] - jointsPos[leftElbowIndex], new Vector3(0f, -1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[leftElbowIndex] - jointsPos[leftHandIndex], new Vector3(0f, -1f, 0f), 180f) > 150f)
+							)
+						{
+							// 符合第一阶段姿势，记录时间戳及一个关节点Index、坐标，同时state++，进入下一阶段姿势检测
+							SetGestureJoint(ref gestureData, timestamp, rightHipIndex, jointsPos[rightHipIndex]);
+						}
+						break;
+
+					case 1:  // gesture complete	此处用于识别第二阶段姿势
+							 // 若满足第二阶段姿势，则 isInPose = true;
+
+						bool isInPose = (jointsTracked[rightHipIndex] &&     //识别到左髋关节
+							jointsTracked[leftHipIndex] &&      //识别到右髋关节
+							jointsTracked[leftKneeIndex] &&     //识别到左膝关节
+							jointsTracked[rightKneeIndex] &&    //识别到右膝关节
+							jointsTracked[rightShoulderIndex] &&    //识别到右肩关节
+							jointsTracked[leftShoulderIndex] &&
+							jointsTracked[leftHandIndex] &&
+							jointsTracked[rightHandIndex] &&
+
+							(jointsPos[rightHipIndex].y - jointsPos[rightKneeIndex].y > 0.2f) &&    //髋关节和膝关节在竖直方向上距离大于0.2m
+							(jointsPos[leftHipIndex].y - jointsPos[leftKneeIndex].y > 0.2f) &&
+							(jointsPos[rightShoulderIndex].y - jointsPos[rightHipIndex].y > 0.2f) &&    //髋关节和肩关节在竖直方向上距离大于0.2m
+							(jointsPos[leftShoulderIndex].y - jointsPos[leftHipIndex].y > 0.2f) &&
+							(jointsPos[leftHandIndex].y - jointsPos[leftShoulderIndex].y < -0.2f) &&     //手比肩在竖直方向上距离小于0.2m
+							(jointsPos[rightHandIndex].y - jointsPos[rightShoulderIndex].y < -0.2f) &&
+
+							//上臂、小臂自然下垂且与竖直(0,-1,0)呈180度左右
+							(AvatarCaculator.CaculateAngle(jointsPos[rightShoulderIndex] - jointsPos[rightElbowIndex], new Vector3(0f, -1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[rightElbowIndex] - jointsPos[rightHandIndex], new Vector3(0f, -1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[leftShoulderIndex] - jointsPos[leftElbowIndex], new Vector3(0f, -1f, 0f), 180f) > 150f) &&
+							(AvatarCaculator.CaculateAngle(jointsPos[leftElbowIndex] - jointsPos[leftHandIndex], new Vector3(0f, -1f, 0f), 180f) > 150f)
+							);
+						Vector3 jointPos = jointsPos[gestureData.joint];
+
+						CheckPoseComplete(ref gestureData, timestamp, jointPos, isInPose, 0f);
+						break;
+				}
+				break;
+
 		}
 	}
 

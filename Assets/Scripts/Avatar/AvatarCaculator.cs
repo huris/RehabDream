@@ -446,7 +446,7 @@ public class AvatarCaculator : MonoBehaviour
 
 
     // Unity为左手系，故叉乘满足左手法则，以axis方向为叉乘后的正方向 
-    public float CaculateAngle(Vector3 from, Vector3 to, float range = 180)
+    public static float CaculateAngle(Vector3 from, Vector3 to, float range = 180)
     {
 
         float Angle = Vector3.Angle(from, to);

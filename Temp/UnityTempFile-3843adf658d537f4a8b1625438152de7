@@ -4,11 +4,7 @@
 -langversion:6
 -out:Temp/Assembly-CSharp-Editor.dll
 -unsafe
--r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
 -r:Library/ScriptAssemblies/Assembly-CSharp.dll
--r:Library/ScriptAssemblies/Assembly-Boo.dll
--r:Library/ScriptAssemblies/Assembly-UnityScript.dll
--r:Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll
@@ -54,6 +50,10 @@
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-Boo.dll
+-r:Library/ScriptAssemblies/Assembly-UnityScript.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll

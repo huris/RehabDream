@@ -6,7 +6,7 @@
 -nowarn:BCW0016
 -nowarn:BCW0003
 -method:Main
--out:Temp/Assembly-UnityScript.dll
+-out:Temp/Assembly-UnityScript-Editor.dll
 -x-type-inference-rule-attribute:UnityEngineInternal.TypeInferenceRuleAttribute
 -define:UNITY_5_3_OR_NEWER
 -define:UNITY_5_4_OR_NEWER
@@ -101,7 +101,7 @@
 -define:UNITY_EDITOR_WIN
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
--r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll
@@ -147,18 +147,37 @@
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-Boo.dll
+-r:Library/ScriptAssemblies/Assembly-UnityScript.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.Graphs.dll
+-r:C:/Users/81567/Desktop/Unity2017/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll
 -r:Assets/Demigiant/DemiLib/Core/DemiLib.dll
+-r:Assets/Demigiant/DemiLib/Core/Editor/DemiEditor.dll
 -r:Assets/Demigiant/DOTween/DOTween.dll
+-r:Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll
 -r:Assets/Demigiant/DOTweenPro/DOTweenPro.dll
+-r:Assets/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll
 -r:Assets/Plugins/itextsharp.dll
 -r:Assets/Plugins/Mono.Data.dll
 -r:Assets/Plugins/Mono.Data.Sqlite.dll
@@ -170,11 +189,11 @@
 -r:Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll
 -r:Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll
 -r:Assets/Vectrosity/Plugins/Vectrosity.dll
+-r:Assets/Vectrosity/Plugins/Editor/VectrosityEditor.dll
+-r:C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/Editor/UnityEditor.Advertisements.dll
 -r:C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll
+-r:C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/Editor/UnityEditor.Analytics.dll
 -r:C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll
+-r:C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/Editor/UnityEditor.Purchasing.dll
 -i:UnityEditor
-Assets/HighlightingSystemDemo/Scripts/Basic/JSHighlighterController.js
-"Assets/WallTrainingResources/Breakable Objects/BreakableObject.js"
-"Assets/WallTrainingResources/Breakable Objects/Scripts/Demo/MouseOrbitCycle.js"
-"Assets/WallTrainingResources/Breakable Objects/Scripts/Demo/respawner.js"
-"Assets/WallTrainingResources/Breakable Objects/Scripts/Demo/RollingBall.js"
+"Assets/WallTrainingResources/Breakable Objects/Scripts/Editor/BreakableObjectEditor.js"

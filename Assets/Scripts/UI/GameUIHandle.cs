@@ -82,7 +82,6 @@ public class GameUIHandle : UIHandle
         // 因此将 SetDataPatientRecord() 放在 GameUIHandle类/start() 调用
         //SetDataPatientRecord();
         InitUIValue();
-        PatientGestureListener.Instance.ResetTposeLastTime();
 
         WaitTime = 0f;
         IsOver = false;

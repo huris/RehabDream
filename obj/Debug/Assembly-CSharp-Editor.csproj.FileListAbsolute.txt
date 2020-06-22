@@ -102,7 +102,6 @@ D:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTween.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenEditor.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenPro.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenProEditor.dll
-D:\SoccerRehabilitationSystem\Temp\bin\Debug\Ionic.Zip.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\itextsharp.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\LCPrinter.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\LZ4Sharp.dll
@@ -151,9 +150,6 @@ D:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.Cecil.Mdb.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.CecilTools.dll
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.Cecil.Pdb.dll
-D:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
-D:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp.pdb
-D:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-Editor-firstpass.pdb
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.xml
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEditor.xml
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.UI.xml
@@ -187,3 +183,4 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompil
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll

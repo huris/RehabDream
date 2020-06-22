@@ -177,3 +177,4 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor-firstpass.csproj.
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor-firstpass.csproj.CopyComplete
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor-firstpass.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-Editor-firstpass.pdb
+D:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll

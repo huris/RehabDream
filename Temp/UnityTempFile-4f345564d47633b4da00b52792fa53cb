@@ -2,9 +2,9 @@
 -target:library
 -nowarn:0169
 -langversion:6
--out:Temp/Assembly-CSharp-Editor-firstpass.dll
+-out:Temp/Assembly-CSharp-Editor.dll
 -unsafe
--r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll
@@ -50,6 +50,10 @@
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-Boo.dll
+-r:Library/ScriptAssemblies/Assembly-UnityScript.dll
+-r:Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll
 -r:C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
@@ -187,10 +191,136 @@
 -define:UNITY_EDITOR_WIN
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
-Assets/Plugins/Editor/HighlightingBaseEditor.cs
-Assets/Plugins/Editor/HighlightingRendererEditor.cs
-"Assets/Standard Assets/Editor/KinectCopyPluginDataHelper.cs"
-"Assets/Standard Assets/Editor/KinectFacePostBuildCopyPluginData.cs"
+Assets/Demigiant/DOTweenPro/Editor/DOTweenAnimationInspector.cs
+Assets/Demigiant/DOTweenPro/Editor/DOTweenPreviewManager.cs
+Assets/Graph_Maker/Examples/X_Plot_Overtime/Editor/WMG_X_Plot_Overtime_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Axis_Graph_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Bezier_Band_Graph_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_E_Util.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_EnumFlagDrawer.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Hierarchical_Tree_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Legend_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Pie_Graph_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Pie_Graph_Slice_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Prefab_Gen.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Radar_Graph_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Ring_Graph_E.cs
+Assets/Graph_Maker/Scripts/Editor/WMG_Series_E.cs
+Assets/Shooting/PostProcessing/Editor/Attributes/PostProcessingModelEditorAttribute.cs
+Assets/Shooting/PostProcessing/Editor/Models/AmbientOcclusionModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/AntialiasingModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/BloomModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/BuiltinDebugViewsEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/ChromaticAberrationEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/ColorGradingModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/DefaultPostFxModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/DepthOfFieldModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/DitheringModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/EyeAdaptationModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/FogModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/GrainModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/MotionBlurModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/ScreenSpaceReflectionModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/UserLutModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Models/VignetteModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/Monitors/HistogramMonitor.cs
+Assets/Shooting/PostProcessing/Editor/Monitors/ParadeMonitor.cs
+Assets/Shooting/PostProcessing/Editor/Monitors/VectorscopeMonitor.cs
+Assets/Shooting/PostProcessing/Editor/Monitors/WaveformMonitor.cs
+Assets/Shooting/PostProcessing/Editor/PostProcessingBehaviourEditor.cs
+Assets/Shooting/PostProcessing/Editor/PostProcessingFactory.cs
+Assets/Shooting/PostProcessing/Editor/PostProcessingInspector.cs
+Assets/Shooting/PostProcessing/Editor/PostProcessingModelEditor.cs
+Assets/Shooting/PostProcessing/Editor/PostProcessingMonitor.cs
+Assets/Shooting/PostProcessing/Editor/PropertyDrawers/GetSetDrawer.cs
+Assets/Shooting/PostProcessing/Editor/PropertyDrawers/MinDrawer.cs
+Assets/Shooting/PostProcessing/Editor/PropertyDrawers/TrackballGroupDrawer.cs
+Assets/Shooting/PostProcessing/Editor/Utils/CurveEditor.cs
+Assets/Shooting/PostProcessing/Editor/Utils/EditorGUIHelper.cs
+Assets/Shooting/PostProcessing/Editor/Utils/EditorResources.cs
+Assets/Shooting/PostProcessing/Editor/Utils/FxStyles.cs
+Assets/Shooting/PostProcessing/Editor/Utils/ReflectionUtils.cs
+Assets/Shooting/VolumeGrass/_Internal/Editor/GrassTextureDataPreset.cs
+Assets/Shooting/VolumeGrass/_Internal/Editor/VolumeGrass_CustomMeshEditor.cs
+Assets/Shooting/VolumeGrass/_Internal/Editor/VolumeGrass_MakeGrassTexture.cs
+Assets/Shooting/VolumeGrass/_Internal/Editor/VolumeGrassEditor.cs
+Assets/Shooting/VolumeGrass/_Internal/Editor/VolumeGrassMaterialInspector.cs
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/CliffAppearanceInspector.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/FoliageShaderGUI.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/GrassShaderGUI.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/GUIHelper.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/PigmentMapGeneratorInspector.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/SubstanceBakerGUI.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/TreeBranchShaderGUI.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/TreeTrunkShaderGUI.cs"
+"Assets/WallTrainingResources/Fantasy Adventure Environment/Scripts/Editor/WindControllerInspector.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(ALPHA)/AntiAliasing/Editor/AntiAliasingEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(ALPHA)/AntiAliasing/Editor/IAntiAliasingEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(ALPHA)/AntiAliasing/FXAA/Editor/FXAAEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(ALPHA)/AntiAliasing/SMAA/Editor/SMAAEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/AmbientOcclusion/Editor/AmbientOcclusionEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/Bloom/Editor/BloomEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/Common/Editor/EditorGUIHelper.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/Common/Editor/FieldFinder.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/Common/Editor/MinDrawer.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/DepthOfField/Editor/DepthOfFieldEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/LensAberrations/Editor/LensAberrationsEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/ScreenSpaceReflection/Editor/ScreenSpaceReflectionEditor.cs"
+"Assets/WallTrainingResources/Resources/chuanqiangfiles/Standard Assets/Effects/CinematicEffects(BETA)/TonemappingColorGrading/Editor/TonemappingColorGradingEditor.cs"
+Assets/XCharts/Editor/BarChartEditor.cs
+Assets/XCharts/Editor/BaseChartEditor.cs
+Assets/XCharts/Editor/CheckVersionEditor.cs
+Assets/XCharts/Editor/CoordinateChartEditor.cs
+Assets/XCharts/Editor/GaugeChartEditor.cs
+Assets/XCharts/Editor/HeatmapChartEditor.cs
+Assets/XCharts/Editor/LineChartEditor.cs
+Assets/XCharts/Editor/PieChartEditor.cs
+Assets/XCharts/Editor/PropertyDrawers/AnimationDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AreaStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisLabelDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisLineDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisNameDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisSplitAreaDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisSplitLineDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/AxisTickDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/DataZoomDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/EmphasisStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugeAxisDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugeAxisLineDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugeAxisLineStageColorDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugeAxisSplitDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugeAxisTickDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GaugePointerDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/GridDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/IconStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/ItemStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/LegendDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/LineArrowDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/LineStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/LocationDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/RadarDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/RadarIndicatorDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/SerieDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/SerieLabelDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/SeriesDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/SerieSymbolDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/SettingsDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/TextLimitDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/TextStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/ThemeInfoDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/TitleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/TitleStyleDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/TooltipDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/VisualMapDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/XAxisDrawer.cs
+Assets/XCharts/Editor/PropertyDrawers/YAxisDrawer.cs
+Assets/XCharts/Editor/RadarChartEditor.cs
+Assets/XCharts/Editor/ScatterChartEditor.cs
+Assets/XCharts/Editor/Utility/ChartEditorHelper.cs
+Assets/XCharts/Editor/XChartEditor.cs
+Assets/XChartsDemo/Editor/ChartModuleDrawer.cs
+Assets/XChartsDemo/Editor/DemoEditor.cs
 -r:C:\Users\81567\Desktop\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.5\System.Runtime.Serialization.dll
 -r:C:\Users\81567\Desktop\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.5\System.Xml.Linq.dll
 -r:C:\Users\81567\Desktop\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.5\UnityScript.dll
