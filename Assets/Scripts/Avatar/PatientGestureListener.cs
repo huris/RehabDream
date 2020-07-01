@@ -29,7 +29,11 @@ public class PatientGestureListener : MonoBehaviour, KinectGestures.GestureListe
 		manager.DetectGesture(userId, KinectGestures.Gestures.Sit);
 		manager.DetectGesture(userId, KinectGestures.Gestures.Stand);
 		manager.DetectGesture(userId, KinectGestures.Gestures.Surrender);
+		manager.DetectGesture(userId, KinectGestures.Gestures.ArmExtend);
+		manager.DetectGesture(userId, KinectGestures.Gestures.FeetTogetherStand);
 		manager.DetectGesture(userId, KinectGestures.Gestures.Bobath);
+		manager.DetectGesture(userId, KinectGestures.Gestures.LeftLegStand);
+		manager.DetectGesture(userId, KinectGestures.Gestures.RightLegStand);
 		//manager.DetectGesture(userId, KinectGestures.Gestures.Sit2Stand);
 
 		if (gestureInfo != null)
@@ -95,11 +99,12 @@ public class PatientGestureListener : MonoBehaviour, KinectGestures.GestureListe
 	public bool GestureCompleted(long userId, int userIndex, KinectGestures.Gestures gesture,
 								  KinectInterop.JointType joint, Vector3 screenPos)
 	{
+
 		if (userIndex != playerIndex)
-        {
+		{
 			gestureInfo.text = "No Gesture";
 			return false;
-        }
+		}
 		if (progressDisplayed)
 		{
 			gestureInfo.text = "No Gesture";
@@ -107,9 +112,10 @@ public class PatientGestureListener : MonoBehaviour, KinectGestures.GestureListe
 		}
 		string sGestureText = gesture + " detected";
 
-		if(LastGesture == KinectGestures.Gestures.Sit && 
+		if (LastGesture == KinectGestures.Gestures.Sit &&
 			gesture == KinectGestures.Gestures.Stand &&
-			Time.realtimeSinceStartup - LastTime < 1f) {
+			Time.realtimeSinceStartup - LastTime < 1f)
+		{
 
 			sGestureText = "Sit2Stand detected";
 			Debug.Log("Sit2Stand Gesture");
@@ -123,6 +129,7 @@ public class PatientGestureListener : MonoBehaviour, KinectGestures.GestureListe
 			Debug.Log("Stand2Sit Gesture");
 		}
 
+
 		// 重置上一个姿势
 		LastGesture = gesture;
 		LastTime = Time.realtimeSinceStartup;
@@ -131,8 +138,8 @@ public class PatientGestureListener : MonoBehaviour, KinectGestures.GestureListe
 
 			gestureInfo.text = sGestureText;
 		}
-        else
-        {
+		else
+		{
 			Debug.Log("No Gesture");
 		}
 		return true;

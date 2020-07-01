@@ -55,6 +55,7 @@
      <Compile Include="Assets\Plugins\Editor\HighlightingRendererEditor.cs" />
      <Compile Include="Assets\Standard Assets\Editor\KinectCopyPluginDataHelper.cs" />
      <Compile Include="Assets\Standard Assets\Editor\KinectFacePostBuildCopyPluginData.cs" />
+     <Compile Include="Assets\Standard Assets\Editor\KinectVisualGestureBuilderPostBuildCopyPluginData.cs" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
      <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />

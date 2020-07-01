@@ -1,5 +1,4 @@
-﻿#if !(UNITY_WSA_10_0 && NETFX_CORE)
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -69,4 +68,3 @@ public static class KinectCopyPluginDataHelper
     }
 
 }
-#endif

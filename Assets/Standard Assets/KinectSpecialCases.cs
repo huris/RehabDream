@@ -1,5 +1,4 @@
-﻿#if !(UNITY_WSA_10_0 && NETFX_CORE)
-using RootSystem = System;
+﻿using RootSystem = System;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -603,4 +602,3 @@ namespace Windows.Kinect
         }
     }
 }
-#endif
