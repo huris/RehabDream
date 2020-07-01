@@ -32,10 +32,11 @@ public class ActionItemScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
         {
+            int WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex; 
 
-            if (this.transform.childCount > DoctorDataManager.instance.doctor.patient.WallEvaluations.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
+            if (this.transform.childCount > DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
             {
-                for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i--)
+                for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count; i--)
                 {
                     this.transform.GetChild(i).gameObject.SetActive(false);
                     // Destroy(this.transform.GetChild(i).gameObject);
@@ -43,15 +44,16 @@ public class ActionItemScript : MonoBehaviour {
             }
             else   // 否则说明数目不够，需要再生成几个预制体
             {
-                for (int i = this.transform.childCount; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
+                for (int i = this.transform.childCount; i < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count; i++)
                 {
                     Prefab = Resources.Load("Prefabs/ActionItem") as GameObject;
                     Instantiate(Prefab).transform.SetParent(this.transform);
                 }
             }
 
+            List<int> ActionID = new List<int>(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Keys);
             // 在将列表中的内容放入
-            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count; i++)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
 
@@ -60,7 +62,18 @@ public class ActionItemScript : MonoBehaviour {
                 //this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
                 this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = "A" + (i + 1).ToString();
-                //this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingStartTime;
+                
+                for(int z = 0; z < DoctorDataManager.instance.Actions.Count; z++)
+                {
+                    if(DoctorDataManager.instance.Actions[z].id == ActionID[i])
+                    {
+                        this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].name;
+                        this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].id.ToString();
+                        this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].passPercent.ToString() + " %";
+                        this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].accuracy.ToString() + " %";
+                        break;
+                    }
+                }
                 //this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDifficulty;
                 //this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDirection;
                 //this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingTime.ToString();
@@ -86,13 +99,13 @@ public class ActionItemScript : MonoBehaviour {
                 //this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = TrainingEvaluation;
             }
 
-            if (DoctorDataManager.instance.doctor.patient.WallEvaluations.Count <= 5)
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count <= 5)
             {
                 this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f);
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (this.transform.childCount - 5) * 39.02f);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (this.transform.childCount - 5) * 45f);
             }
 
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
