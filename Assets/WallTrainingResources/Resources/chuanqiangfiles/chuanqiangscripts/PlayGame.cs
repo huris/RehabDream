@@ -76,6 +76,18 @@ public class PlayGame : MonoBehaviour
 
 
 
+    private static Dictionary<int, KinectGestures.Gestures> _GestureName =
+    new Dictionary<int, KinectGestures.Gestures>{
+        {77, KinectGestures.Gestures.Sit},
+        {78, KinectGestures.Gestures.Stand},
+        {80, KinectGestures.Gestures.ArmExtend},
+        {79, KinectGestures.Gestures.FeetTogetherStand},
+        {81, KinectGestures.Gestures.LeftLegStand},
+        {82, KinectGestures.Gestures.RightLegStand},
+};
+
+
+
     private void OnEnable()
     {
 
@@ -288,7 +300,7 @@ public class PlayGame : MonoBehaviour
                             if (leftTime == 0)              //倒计时到达0
                             {//患者不再进行训练
                                 transform.Find("BackRemind").Find("Image").Find("seconds").gameObject.GetComponent<Text>().text = "10";     //恢复倒计时为10
-                                transform.Find("BackRemind").gameObject.SetActive (false);
+                                transform.Find("BackRemind").gameObject.SetActive(false);
                                 leaveTime = 0;//初始化退出倒计时
                                 restartText.gameObject.SetActive(false);
                                 restartText.text = 3 + "";
@@ -364,7 +376,7 @@ public class PlayGame : MonoBehaviour
 
 
                     #region 如果游戏刚开始或时间间隔大于averageTime，则需要生成一个墙
-                    if (((int)(before / averageTime) < (int)(after / averageTime) || before == 0f) && actionIds.Count != 0) 
+                    if (((int)(before / averageTime) < (int)(after / averageTime) || before == 0f) && actionIds.Count != 0)
                     {
                         int index = 0;
                         if (currentLevel.isWallRandom) index = UnityEngine.Random.Range(0, actionIds.Count);    //随机选取动作，如果不随机，则每次选取index=0的动作，玩成后从列表中删除
@@ -407,24 +419,33 @@ public class PlayGame : MonoBehaviour
                         if (walls[0].transform.position.x < -214)       //如果第一个墙实例已经穿过了人物模型
                         {
                             totalNum++;
-                            int value = CheckThePosition();     //对动作评分
-                            Action action_temp = new Action();
+
+
+                            //使用角度检测对动作评分
+                            int value = CheckThePosition();     
+
+
+                            //使用Kinect模型对动作评分
+                            Action standord_action = new Action();
                             for (int i = 0; i < DATA.actionList.Count; i++)
                             {
                                 if (wallActionIds[0] == DATA.actionList[i].id)
                                 {
-                                    action_temp = DATA.actionList[i];       //读取当前墙对应的动作，后面没有再次使用到这个变量
+                                    standord_action = DATA.actionList[i];       //读取标准动作
                                 }
                             }
+                            int KinectValue = Scores2CodeResult((int)(GestureSourceManager.instance.GetGestureConfidence(_GestureName[standord_action.id]) * 100));
 
-                            #region 按照动作评分在屏幕上显示结果
-                            if (value < 0)
+
+
+                            #region 按照Kinect模型评分在屏幕上显示结果
+                            if (KinectValue < 0)
                             {
                                 passNum++;
                                 //AudiosManager.instance.PlayAudioEffect("pass");
                                 performance.SetActive(true);
                                 performanceTimes.SetActive(false);
-                                if (value == -1)//good
+                                if (KinectValue == -1)//good
                                 {
                                     AudiosManager.instance.PlayAudioEffect("棒");
                                     perfectNum = 0;
@@ -434,7 +455,7 @@ public class PlayGame : MonoBehaviour
 
 
                                 }
-                                else if (value == -2)//GREAT
+                                else if (KinectValue == -2)//GREAT
                                 {
                                     AudiosManager.instance.PlayAudioEffect("很棒");
                                     perfectNum = 0;
@@ -451,6 +472,16 @@ public class PlayGame : MonoBehaviour
                                     goodNum = 0;
                                     StartCoroutine(ComboFadeInFadeOut("perfect", perfectNum));
                                 }
+
+                            }
+
+                            #endregion
+
+
+
+                            #region 按照角度检测评分在屏幕上显示不标准的关节
+                            if (value < 0)
+                            {
 
                             }
                             else
@@ -912,7 +943,7 @@ public class PlayGame : MonoBehaviour
         }
 
 
-        // 对于特殊需求的动作（双足并拢、双手笔直向前等），需要加入坐标距离判断
+        // 对于特殊需求的动作（双足并拢、双手笔直向前等），需要加入坐标距离检测
         PositionCalculator PC = new PositionCalculator(standord_action, tmpPosition);
         int PCScore = PC.CheckPosition();
         Debug.Log(PCScore);
@@ -923,8 +954,9 @@ public class PlayGame : MonoBehaviour
         AngleCalculator AG = new AngleCalculator();
         AG.actionName = standord_action.name;
         current_action.actionData = AG.GetActionData(tmpPosition);      //计算使用多个检测方法对患者动作的检测结果，以及结果是否有效
-        int AGScore = AG.ActionMatching(current_action.actionData, standord_action, ref trainingData);     //使用多个方法对多个关节点检测，取最差结果返回，同时将结果记录在trainingData中
 
+        //使用多个方法对多个关节点角度检测，取最差结果返回，同时将结果记录在trainingData中
+        int AGScore = AG.ActionMatching(current_action.actionData, standord_action, ref trainingData);
         #endregion
 
 
@@ -932,7 +964,7 @@ public class PlayGame : MonoBehaviour
         {
             return PCScore;
         }
-        else if(PCScore > AGScore)  //取角度、坐标评测的最低分
+        else if (PCScore > AGScore)  //取角度、坐标评测的最低分
         {
             return PCScore;
         }
@@ -941,6 +973,26 @@ public class PlayGame : MonoBehaviour
             return AGScore;
         }
     }
+
+
+    private int Scores2CodeResult(int lowestAccuracy)
+    {
+        if (lowestAccuracy >= DATA.ActionMatchThreshold["PERFECT"])       //最低准确率大于0.9 * 100
+        {
+            return -3;
+        }
+        else if (lowestAccuracy >= DATA.ActionMatchThreshold["GREAT"])     //最低准确率大于0.8 * 100
+        {
+            return -2;
+        }
+        else if (lowestAccuracy > DATA.ActionMatchThreshold["GOOD"])        //最低准确率大于0.7 * 100
+        {
+            return -1;
+        }
+        return 1;
+    }
+
+
 
     void CompleteTrainingData()
     {
