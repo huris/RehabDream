@@ -434,8 +434,9 @@ public class PlayGame : MonoBehaviour
                                     standord_action = DATA.actionList[i];       //读取标准动作
                                 }
                             }
-                            int KinectValue = Scores2CodeResult((int)(GestureSourceManager.instance.GetGestureConfidence(_GestureName[standord_action.id]) * 100));
-
+                            int KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(_GestureName[standord_action.id]) * 100);
+                            int KinectValue = Scores2CodeResult(KinectScore);
+                            Debug.Log("Gesture " + _GestureName[standord_action.id] + " : " + KinectScore);
 
 
                             #region 按照Kinect模型评分在屏幕上显示结果
@@ -472,7 +473,12 @@ public class PlayGame : MonoBehaviour
                                     goodNum = 0;
                                     StartCoroutine(ComboFadeInFadeOut("perfect", perfectNum));
                                 }
-
+                            }
+                            else
+                            {
+                                StartCoroutine(RedScreenForNotPass());  //红屏1.5s
+                                performance.SetActive(false);
+                                performanceTimes.SetActive(false);
                             }
 
                             #endregion
@@ -551,9 +557,6 @@ public class PlayGame : MonoBehaviour
                                 {
                                     AudiosManager.instance.PlayAudioEffect("右脚不标准");
                                 }
-                                StartCoroutine(RedScreenForNotPass());  //红屏1.5s
-                                performance.SetActive(false);
-                                performanceTimes.SetActive(false);
                             }
                             #endregion
 
