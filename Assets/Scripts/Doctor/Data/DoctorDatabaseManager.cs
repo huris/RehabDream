@@ -2146,6 +2146,54 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    public List<OneTrainingData> ReadPatientWallEvaluations(long PatientID)
+    {
+        SQLiteHelper sql;
+        SqliteDataReader reader;
+        sql = new SQLiteHelper("data source=" + DATA.databasePath);
+
+        List<OneTrainingData> results = new List<OneTrainingData>();
+
+        string queryString = "SELECT * FROM trainingdata WHERE UserId=" + PatientID + " order by StartTime";
+
+        print(queryString);
+
+        try
+        {
+            reader = sql.ExecuteQuery(queryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                do
+                {
+                    var res = new OneTrainingData(
+                        reader.GetString(reader.GetOrdinal("StartTime")),
+                        reader.GetInt32(reader.GetOrdinal("TrainingType")),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingOverrall>(reader.GetString(reader.GetOrdinal("Overrall"))),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingOverview>(reader.GetString(reader.GetOrdinal("Overview"))),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingDetail>(reader.GetString(reader.GetOrdinal("Detail")))
+                    );
+                    results.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read PatientWallEvaluations Success" + results);
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read PatientWallEvaluations Fail");
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read PatientWallEvaluations SqliteException");
+        }
+
+        sql?.CloseConnection();
+        return results;
+    }
+
+
     // create Data/
     private void CheckDataFolder()
     {

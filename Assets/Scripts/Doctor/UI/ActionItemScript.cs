@@ -11,10 +11,6 @@ public class ActionItemScript : MonoBehaviour {
 
     public Scrollbar TrainingPlayListScrollBar;
 
-    public Dropdown Directions;
-    List<string> directions = new List<string>();
-
-    public Toggle SingleTrainingToggle;
     // Use this for initialization
     void Start()
     {
@@ -23,34 +19,23 @@ public class ActionItemScript : MonoBehaviour {
 
     void OnEnable()
     {
-        SingleTrainingToggle = transform.parent.parent.parent.parent.Find("DataBG/SingleTrainingData").GetComponent<Toggle>();
 
-        Directions = transform.parent.parent.Find("Directions").GetComponent<Dropdown>();
-        Directions.ClearOptions();
-
-        directions.Clear();
-        directions.Add("正上方");
-        directions.Add("右上方");
-        directions.Add("正右方");
-        directions.Add("右下方");
-        directions.Add("正下方");
-        directions.Add("左下方");
-        directions.Add("正左方");
-        directions.Add("左上方");
-
-        Directions.AddOptions(directions);
-
-        Directions.value = 0;
-
-        //DoctorDataManager.instance.doctor.patient.TrainingPlays = DoctorDatabaseManager.instance.ReadPatientRecord(DoctorDataManager.instance.doctor.patient.PatientID, 0);
-
-        if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
+        if (DoctorDataManager.instance.doctor.patient.WallEvaluations == null)
         {
-            //print(DoctorDataManager.instance.patient.TrainingPlays.Count+"!!!!");
+            DoctorDataManager.instance.doctor.patient.WallEvaluations = DoctorDatabaseManager.instance.ReadPatientWallEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
 
-            if (this.transform.childCount > DoctorDataManager.instance.doctor.patient.TrainingPlays.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
             {
-                for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i--)
+                DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count - 1);
+            }
+        }
+
+        if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
+        {
+
+            if (this.transform.childCount > DoctorDataManager.instance.doctor.patient.WallEvaluations.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
+            {
+                for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i--)
                 {
                     this.transform.GetChild(i).gameObject.SetActive(false);
                     // Destroy(this.transform.GetChild(i).gameObject);
@@ -58,34 +43,34 @@ public class ActionItemScript : MonoBehaviour {
             }
             else   // 否则说明数目不够，需要再生成几个预制体
             {
-                for (int i = this.transform.childCount; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
+                for (int i = this.transform.childCount; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
                 {
-                    Prefab = Resources.Load("Prefabs/TrainingPlay") as GameObject;
+                    Prefab = Resources.Load("Prefabs/ActionItem") as GameObject;
                     Instantiate(Prefab).transform.SetParent(this.transform);
                 }
             }
 
             // 在将列表中的内容放入
-            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
 
                 this.transform.GetChild(i).name = i.ToString();   // 重新命名为0,1,2,3,4...
 
-                this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
+                //this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
-                this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = (i + 1).ToString();
-                this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingStartTime;
-                this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDifficulty;
-                this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDirection;
-                this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingTime.ToString();
+                this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = "A" + (i + 1).ToString();
+                //this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingStartTime;
+                //this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDifficulty;
+                //this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDirection;
+                //this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingTime.ToString();
 
-                float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
-                this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
+                //float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
+                //this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
 
-                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea.ToString("0.00");
+                //this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea.ToString("0.00");
 
-                this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
+                //this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
 
 
                 //string TrainingEvaluation = "";
@@ -101,41 +86,18 @@ public class ActionItemScript : MonoBehaviour {
                 //this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = TrainingEvaluation;
             }
 
-            if (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count <= 7)
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations.Count <= 5)
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f);
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f + (this.transform.childCount - 7) * 39.4f);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (this.transform.childCount - 5) * 39.02f);
             }
 
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
             TrainingPlayListScrollBar.value = 1;
 
-        }
-    }
-
-    public void QuerySingleTrainingButtonOnClick()
-    {
-
-        GameObject obj = EventSystem.current.currentSelectedGameObject;
-        // print(obj.transform.parent.parent.name);  // obj.transform.parent.parent.name为当前按钮的编号
-
-        //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.name)];
-        DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(int.Parse(obj.transform.name));
-        //TrainingPlay trainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[int.Parse(obj.transform.name)];
-        //DoctorDataManager.instance.doctor.patient.TrainingPlays[int.Parse(obj.transform.name)] = DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1];
-        //DoctorDataManager.instance.doctor.patient.TrainingPlays[DoctorDataManager.instance.doctor.patient.TrainingPlays.Count-1] = trainingPlay;
-
-        SingleTrainingToggle.isOn = true;
-    }
-
-    public void DirectionValueChange()
-    {
-        for (int i = 0; i < DoctorDataManager.instance.doctor.patient.TrainingPlays.Count; i++)
-        {
-            this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
         }
     }
 	
