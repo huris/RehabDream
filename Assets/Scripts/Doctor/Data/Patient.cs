@@ -19,10 +19,12 @@ public class Patient
     public bool PlanIsMaking { get; private set; } = false;
     public int TrainingPlayIndex { get; private set; } = -1;    // 当前是哪次训练,不是最后一次训练
     public int EvaluationIndex { get; private set; } = -1;
+    //public int WallEvaluationIndex { get; private set; } = -1;
 
     public TrainingPlan trainingPlan = null;      // 患者训练计划
     public List<TrainingPlay> TrainingPlays = null;   // 患者训练列表
     public List<Evaluation> Evaluations = null;   // 患者评估列表
+    //public List<WallEvaluation> WallEvaluations = null; // 穿墙评估列表
 
     public Patient() { }
 
@@ -83,6 +85,12 @@ public class Patient
         {
             this.EvaluationIndex = this.Evaluations.Count - 1;
         }
+
+        //if (this.WallEvaluations == null) this.WallEvaluations = DoctorDatabaseManager.instance.ReadPatientWallEvaluations(this.PatientID);
+        //if(this.WallEvaluations != null && this.WallEvaluations.Count > 0)
+        //{
+        //    this.WallEvaluationIndex = this.WallEvaluations.Count - 1;
+        //}
     }
 
     public void SetPatientPinyin(string PatientPinyin)
