@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,11 @@ public class GameState : MonoBehaviour
     public GameObject Gate;
     public GameObject TrackRoot;
     public GameObject GoalKeeper;
+    public GameObject Shooter;
     public Transform SoccerStart;
     public Transform ControlPoint;
     public Transform SoccerTarget;
+    public Transform ShooterStart;
 
     [Header("Range of Gate")]
     public Transform BottomLeft;
@@ -38,6 +41,7 @@ public class GameState : MonoBehaviour
     public GameUIHandle GameUIHandle;
 
     [Header("Time Paraments")]
+    public static float ShooterTime = 1.0f;
     public static float SessionRestTime = 3.0f;      // rest after each shoot
     public static float AddSuccessCountTime = 1.0f;  // show "+1" in ui
     public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
@@ -112,6 +116,7 @@ public class GameState : MonoBehaviour
 
     private State _state = State.Pause;
     private State _oldstate;
+    private float _OldShooterAnimationSpeed = 1.0f;
 
     void Awake()
     {
@@ -457,9 +462,46 @@ public class GameState : MonoBehaviour
 
     }
 
-    //shoot
-    private void Shoot()
-    {
+    // Shoot
+    private void Shoot() {
+        StartCoroutine(StartShoot());
+    }
+
+    //Shooter run and shoot
+    private IEnumerator StartShoot() {
+        Animator animator = Shooter.GetComponent<Animator>();
+        // distance between shooter and soccer
+        float Distance = Mathf.Abs(SoccerStart.transform.position.x - ShooterStart.transform.position.x);
+        animator.CrossFade("BlendTree", 0.2f, 0);
+        animator.SetFloat("Blend", 0.5f);
+        
+        
+        // play animation
+        while (true)
+        {
+            if(this._state != State.Pause)  //pause
+            {
+                float Percent = 1.0f - Mathf.Abs(Shooter.transform.position.x - SoccerStart.transform.position.x) / Distance;
+                //Debug.Log(animator.GetFloat("Blend"));
+
+                if (Percent > 0.8f)     // arrive soccer
+                {
+                    //Debug.Log(Percent);
+                    // time to shoot
+                    animator.speed = 1f;
+                    animator.CrossFade("shoot", 0.1f, 0);
+                    yield return new WaitForSeconds(0.2f);  // play shooting animation for 0.2f
+                    break;
+                }
+                // Update Animation parament
+                animator.SetFloat("Blend", Percent > 0.5f ? Percent : 0.5f);
+            }
+            else{
+
+                
+            }
+            yield return null;
+        }
         _Shooting.Shoot(SoccerStart.position, ControlPoint.position, SoccerTarget.position, PatientDataManager.instance.BallSpeed);
     }
 
@@ -469,9 +511,29 @@ public class GameState : MonoBehaviour
         _Shooting.ShootOver();
     }
 
+    private  IEnumerator Coroutine2()
+    {
+        yield return new WaitForSeconds(0.2f);
+    }
+
+    private IEnumerator Coroutine1()
+    {
+        yield return StartCoroutine(Coroutine2());
+    }
+
+
+    private void ResetShooter()
+    {
+        Shooter.transform.position = ShooterStart.position;
+        Shooter.GetComponent<Animator>().CrossFade("rest", 0f, 0);
+        Shooter.GetComponent<Animator>().SetFloat("Blend", 0f);
+
+    }
+
     // reset after every shooting
     private void GameObjectReset()
     {
+        ResetShooter();
         _Shooting.Reset(SoccerStart.position);
         _CollisionHandle.Reset();
     }
@@ -1013,7 +1075,9 @@ public class GameState : MonoBehaviour
     public void Pause()
     {
         _oldstate = _state;
+        _OldShooterAnimationSpeed = Shooter.GetComponent<Animator>().speed;
         _state = State.Pause;
+        Shooter.GetComponent<Animator>().speed = 0f;
         _Shooting.PauseShooting();
     }
 
@@ -1022,6 +1086,7 @@ public class GameState : MonoBehaviour
     public void Continue()
     {
         _state = _oldstate;
+        Shooter.GetComponent<Animator>().speed = _OldShooterAnimationSpeed;
         _Shooting.ContinueShooting();
     }
 

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 21ed092e2beed174aa3908faf0f487b6
+timeCreated: 1522478282
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DFZongYiW9-GB
+  fontNames:
+  - DFZongYiW9-GB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
