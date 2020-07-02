@@ -69,8 +69,8 @@ public class ActionItemScript : MonoBehaviour {
                     {
                         this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].name;
                         this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].id.ToString();
-                        this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].passPercent.ToString() + " %";
-                        this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].accuracy.ToString() + " %";
+                        this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].accuracy.ToString() + " %";
+                        this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas[ActionID[i]].passPercent.ToString() + " %";
                         break;
                     }
                 }
