@@ -75,7 +75,7 @@ public class PlayGame : MonoBehaviour
     public Text debug_text;
 
 
-
+    // 动作编号对应的gesture
     private static Dictionary<int, KinectGestures.Gestures> _GestureName =
     new Dictionary<int, KinectGestures.Gestures>{
         {77, KinectGestures.Gestures.Sit},
@@ -84,6 +84,10 @@ public class PlayGame : MonoBehaviour
         {79, KinectGestures.Gestures.FeetTogetherStand},
         {81, KinectGestures.Gestures.LeftLegStand},
         {82, KinectGestures.Gestures.RightLegStand},
+        {83, KinectGestures.Gestures.LeftArmRise},
+        {84, KinectGestures.Gestures.RightArmRise},
+        {85, KinectGestures.Gestures.LeftStep},
+        {86, KinectGestures.Gestures.RightStep},
 };
 
 

@@ -147,11 +147,15 @@ public class KinectGestures : MonoBehaviour, GestureManagerInterface
 		Sit,
 		Stand,
 		Surrender,
-		ArmExtend,
-		FeetTogetherStand,
+		ArmExtend,	//双手前平举
+		FeetTogetherStand,	//双脚并拢站立
 		Bobath,
-		LeftLegStand,
-		RightLegStand
+		LeftLegStand,   //左脚单脚站立
+		RightLegStand,  //右脚单脚站立
+		LeftArmRise,	//坐时完全举起左手
+		RightArmRise,   //坐时完全举起右手
+		LeftStep,       //左脚前右脚后站立
+		RightStep       //右脚前左脚后站立
 	}
 
 
