@@ -127,7 +127,7 @@ namespace XCharts
 
         public void JointToggleChange()
         {
-            DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(1);
+            //DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(1);
 
             WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
 
@@ -146,11 +146,8 @@ namespace XCharts
                 }
             }
 
-            for(int i = 0; i < MethodToggles.Count; i++)
-            {
-                MethodToggles[i].isOn = false;
-            }
-
+            //MethodToggles[0].isOn = true;
+            
             while(ActionPassRateChart.series.list[0].data.Count > ActionID.Count)
             {
                 ActionPassRateChart.series.list[0].data.RemoveAt(ActionPassRateChart.series.list[0].data.Count - 1);
@@ -163,27 +160,27 @@ namespace XCharts
                 ActionPassRateChart.xAxis0.data.Add("A" + (ActionPassRateChart.xAxis0.data.Count + 1).ToString());
             }
 
-            if (JointToggleIndex == -1)
-            {
-                ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-                for (int i = 0; i < ActionPassRateChart.series.list[0].data.Count; i++)
-                {
-                    ActionPassRateChart.series.UpdateData(0, i, -1f);
-                }
+            //if (JointToggleIndex == -1)
+            //{
+            //    ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+            //    for (int i = 0; i < ActionPassRateChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionPassRateChart.series.UpdateData(0, i, -1f);
+            //    }
 
-                ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-                for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-                {
-                    ActionDeviationChart.series.UpdateData(0, i, -1f);
-                }
+            //    ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+            //    for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionDeviationChart.series.UpdateData(0, i, -1f);
+            //    }
 
-                for (int i = 0; i < 4; i++)
-                {
-                    MethodToggles[i].gameObject.SetActive(false);
-                }
-            }
-            else
-            {
+            //    for (int i = 0; i < 4; i++)
+            //    {
+            //        MethodToggles[i].gameObject.SetActive(false);
+            //    }
+            //}
+            //else
+            //{
                 if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore == -1)
                 {
                     ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
@@ -216,7 +213,11 @@ namespace XCharts
                 {
                     ActionDeviationChart.series.UpdateData(0, i, -1f);
                 }
-            }
+
+            MethodToggles[0].isOn = true;
+            MethodToggleChange();
+
+            //}
         }
 
         public void MethodToggleChange()
@@ -231,16 +232,16 @@ namespace XCharts
                 }
             }
 
-            if(MethodToggleIndex == -1)
-            {
-                ActionDeviationChart.title.subText = "请选择检测方法后查看";
-                for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-                {
-                    ActionDeviationChart.series.UpdateData(0, i, -1f);
-                }
-            }
-            else
-            {
+            //if(MethodToggleIndex == -1)
+            //{
+            //    ActionDeviationChart.title.subText = "请选择检测方法后查看";
+            //    for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionDeviationChart.series.UpdateData(0, i, -1f);
+            //    }
+            //}
+            //else
+            //{
                 if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].eps == -1)
                 {
                     ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
@@ -267,7 +268,7 @@ namespace XCharts
                 {
                     ActionDeviationChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep[i]);
                 }
-            }
+            //}
         }
 
         // Use this for initialization
