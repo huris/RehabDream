@@ -19,11 +19,40 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
     public Text WallEvaluationStartTime;
 
+    public Dropdown ScaleSelect;
+    public Dropdown NumberSelect;
+
+    public Dictionary<string, int> ScaleString2Int = new Dictionary<string, int>();
+    public Dictionary<int, string> ScaleInt2String = new Dictionary<int, string>();
+    public List<string> ListScaleEvaluation = new List<string>();
+
+    public Dictionary<string, int> NumberString2Int = new Dictionary<string, int>();
+    public Dictionary<int, string> NumberInt2String = new Dictionary<int, string>();
+    public List<string> ListNumberEvaluation = new List<string>();
+
+    public GameObject NoEvaluateData;
+
     void OnEnable()
 	{
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
         {
+            NoEvaluateData.SetActive(false);
+
             int WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
+
+            ScaleString2Int.Clear();
+            ScaleInt2String.Clear();
+            ListScaleEvaluation.Clear();
+            ScaleSelect.ClearOptions();
+
+            // 写一下量表选择
+
+            for(int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
+            {
+                
+            }
+
+
 
             float rate = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.passScore / 100f;
 
@@ -64,6 +93,10 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
             string s = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].startTime;
             WallEvaluationStartTime.text = "20" + s.Substring(0, 2) + s.Substring(3, 2) + s.Substring(6, 2) + " " + s.Substring(9, 2) + ":" + s.Substring(12, 2) + ":00";
+        }
+        else
+        {
+            NoEvaluateData.SetActive(true);
         }
     }
 
