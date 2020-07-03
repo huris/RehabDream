@@ -505,7 +505,7 @@ public class DoctorDatabaseManager : MonoBehaviour
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
     }
 
-    // check login
+        // check login
     public DatabaseReturn DoctorIDLogin(long DoctorID, string DoctorPassword) // DoctorLogin
     {
         if (DoctorID <= 0)   // input Null
@@ -1961,6 +1961,51 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    //public List<WallEvaluation> ReadPatientWallEvaluations(long PatientID)
+    //{
+    //    SqliteDataReader reader;    //sql读取器
+    //    List<WallEvaluation> result = new List<WallEvaluation>(); //返回值
+    //    string QueryString = "SELECT * FROM trainingdata where UserId=" + PatientID.ToString() + " order by StartTime";
+
+    //    //print(QueryString);
+
+    //    try
+    //    {
+    //        reader = PatientDatabase.ExecuteQuery(QueryString);
+    //        reader.Read();
+    //        if (reader.HasRows)
+    //        {
+    //            //result = new List<Angle>();
+    //            //存在用户训练任务
+    //            do
+    //            {
+    //                var res = new WallEvaluation(
+    //                //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+    //                reader.GetInt64(reader.GetOrdinal("EvaluationID")),
+    //                //reader.GetFloat(reader.GetOrdinal("EvaluationWidth")),
+    //                reader.GetFloat(reader.GetOrdinal("EvaluationHeight")),
+    //                reader.GetString(reader.GetOrdinal("EvaluationStartTime")),
+    //                reader.GetString(reader.GetOrdinal("EvaluationEndTime")));
+    //                result.Add(res);
+    //            } while (reader.Read());
+
+    //            Debug.Log("@UserManager:Read EvaluationPatient Success" + result);
+    //            return result;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("@UserManager: Read EvaluationPatient Fail");
+    //            return result;
+    //        }
+    //    }
+    //    catch (SqliteException e)
+    //    {
+    //        Debug.Log("@UserManager: Read EvaluationPatient SqliteException");
+    //        PatientDatabase?.CloseConnection();
+    //        return result;
+    //    }
+    //}
+
     // 获取当前数据库中最大的EvaluationID
     public long ReadMaxEvaluationID()
     {
@@ -2100,6 +2145,54 @@ public class DoctorDatabaseManager : MonoBehaviour
             return result;
         }
     }
+
+    public List<OneTrainingData> ReadPatientWallEvaluations(long PatientID)
+    {
+        SQLiteHelper sql;
+        SqliteDataReader reader;
+        sql = new SQLiteHelper("data source=" + DATA.databasePath);
+
+        List<OneTrainingData> results = new List<OneTrainingData>();
+
+        string queryString = "SELECT * FROM trainingdata WHERE UserId=" + PatientID + " order by StartTime";
+
+        print(queryString);
+
+        try
+        {
+            reader = sql.ExecuteQuery(queryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                do
+                {
+                    var res = new OneTrainingData(
+                        reader.GetString(reader.GetOrdinal("StartTime")),
+                        reader.GetInt32(reader.GetOrdinal("TrainingType")),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingOverrall>(reader.GetString(reader.GetOrdinal("Overrall"))),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingOverview>(reader.GetString(reader.GetOrdinal("Overview"))),
+                        JsonHelper.DeserializeJsonToObject<OneTrainingDetail>(reader.GetString(reader.GetOrdinal("Detail")))
+                    );
+                    results.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read PatientWallEvaluations Success" + results);
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read PatientWallEvaluations Fail");
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read PatientWallEvaluations SqliteException");
+        }
+
+        sql?.CloseConnection();
+        return results;
+    }
+
 
     // create Data/
     private void CheckDataFolder()

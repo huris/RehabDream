@@ -434,6 +434,16 @@ public class OneTrainingData
         detail = new OneTrainingDetail();
     }
 
+    public OneTrainingData(string startTime, int type, OneTrainingOverrall overrall, OneTrainingOverview overview, OneTrainingDetail detail)
+    {
+        this.startTime = startTime;
+        this.type = type;
+        this.actionDatas = new List<ActionData>();
+        this.overrall = overrall;
+        this.overview = overview;
+        this.detail = detail;
+    }
+
 }
 public class ActionData
 {

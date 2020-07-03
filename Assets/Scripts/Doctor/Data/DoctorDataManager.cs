@@ -12,6 +12,7 @@ public class DoctorDataManager : MonoBehaviour {
     public Doctor doctor = null;
     public List<Doctor>Doctors = null;
     public List<Tuple<long, string> > DoctorsIDAndName = null;   // 返回所有医生的姓名,item1是pinyin，item2是中文
+    public List<Action> Actions = null; // 所有动作
 
     // 医生端UI界面子窗口选择
     // 0:患者信息管理(默认)，1:患者状况评估，2:训练任务制定，3:训练状况查询

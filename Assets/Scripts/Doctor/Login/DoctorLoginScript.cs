@@ -82,6 +82,8 @@ public class DoctorLoginScript : MonoBehaviour {
             if (DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
             {
                 DoctorDataManager.instance.FunctionManager = 0; // 进入患者主界面
+                DoctorDataManager.instance.Actions = DataBaseUtil.LoadActions();
+                DataBaseUtil.LoadTrainingType();
                 SceneManager.LoadScene("03-DoctorUI");
             }
             else
