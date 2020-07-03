@@ -35,6 +35,7 @@ public class GameUIHandle : UIHandle
     public Text GameCountText;
     public Text TrainingDifficulty;
     public Text TrainingTime;
+    public GameObject[] EncouragePictures;
 
     [Header("SettingUI Toggle")]
     public Toggle EntryToggle;
@@ -416,6 +417,14 @@ public class GameUIHandle : UIHandle
         GameUIAddSuccessCountText.text = "+" + AddCount.ToString();
         yield return new WaitForSeconds(AddSuccessCountTime);
         GameUIAddSuccessCountText.enabled = false;
+    }
+
+    // show EncouragePicture
+    public IEnumerator ShowEncouragePicture(int index, float DisapperaTime)
+    {
+        this.ShowPicture(this.EncouragePictures[index], 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        this.ClosePicture(this.EncouragePictures[index], DisapperaTime);
     }
 
 

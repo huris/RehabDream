@@ -261,7 +261,7 @@ public class GameState : MonoBehaviour
     private void InitWinDelegate()
     {
         _Win += this.WriteDatabaseInGame;
-        _Win += this.PlayWinSe;
+        _Win += this.Encourage;
         _Win += this.ShowAddSuccessCountText;
         _Win += this.AddSuccessCount;
         _Win += this.ResetFailCount;
@@ -536,6 +536,13 @@ public class GameState : MonoBehaviour
         ResetShooter();
         _Shooting.Reset(SoccerStart.position);
         _CollisionHandle.Reset();
+    }
+
+    // encourage
+    private void Encourage()
+    {
+        StartCoroutine(GameUIHandle.ShowEncouragePicture(UnityEngine.Random.Range(0,3), 3.0f));
+        SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
     }
 
     //play cheer up Se

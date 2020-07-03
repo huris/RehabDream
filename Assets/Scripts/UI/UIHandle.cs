@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using Newtonsoft.Json;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -74,6 +77,71 @@ public class UIHandle : MonoBehaviour {
             button.enabled = false;
         }
         Debug.Log("@UIHandle: " + UI.name + " disabled");
+    }
+
+
+    // display picture in ShowTime
+    public virtual void ShowPicture(GameObject Picture, float ShowTime)
+    {
+        Picture.SetActive(true);
+        Sequence AnimationSequence = DOTween.Sequence();
+
+        CanvasGroup CanvasGroup = Picture.GetComponent<CanvasGroup>();
+
+        CanvasGroup.alpha = 0;
+        CanvasGroup.blocksRaycasts = true;
+
+
+        Tweener tweener2 = CanvasGroup.DOFade(1, ShowTime);
+        Tweener tweener3 = transform.DOScale(1, ShowTime);
+
+        tweener2.SetEase(Ease.OutQuad);
+        tweener3.SetEase(Ease.OutQuad);
+
+
+        // 并行播放
+        AnimationSequence.Insert(0f, tweener2);          //变深
+        AnimationSequence.Insert(0f, tweener3);         //由小变大
+        Debug.Log(1);
+    }
+
+    // disactive picture in DisappearTime
+    public virtual void ClosePicture(GameObject Picture, float DisappearTime)
+    {
+        Sequence AnimationSequence = DOTween.Sequence();
+
+        CanvasGroup CanvasGroup = Picture.GetComponent<CanvasGroup>();
+
+        CanvasGroup.alpha = 1;
+        CanvasGroup.blocksRaycasts = true;
+
+
+        Tweener tweener2 = CanvasGroup.DOFade(0, DisappearTime);
+        Tweener tweener3 = transform.DOScale(0, DisappearTime);
+
+        tweener2.SetEase(Ease.OutQuad);
+        tweener3.SetEase(Ease.OutQuad);
+
+
+        // 并行播放
+        AnimationSequence.Insert(0f, tweener2);          //变深
+        AnimationSequence.Insert(0f, tweener3);         //由大变小
+        Debug.Log(1);
+        // 时间到后关闭picture
+        StartCoroutine(Disactive(Picture, DisappearTime));
+    }
+
+    // disactive Go
+    private IEnumerator Disactive(GameObject Go, float WaitTime)
+    {
+        yield return new WaitForSeconds(WaitTime); //先直接返回，之后的代码等待给定的时间周期过完后执行
+        Go.SetActive(false);
+    }
+
+    private IEnumerator Active(GameObject Go, float WaitTime)
+    {
+        yield return new WaitForSeconds(WaitTime); //先直接返回，之后的代码等待给定的时间周期过完后执行
+        Go.SetActive(true);
     }
 
 }
