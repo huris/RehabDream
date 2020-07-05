@@ -271,13 +271,18 @@ namespace XCharts
             //}
         }
 
-        // Use this for initialization
-        void Start()
+        public void ActionDetailInit()
         {
             if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
             {
                 JointToggleChange();
             }
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+            ActionDetailInit();
         }
         // Update is called once per frame
         void Update() {
