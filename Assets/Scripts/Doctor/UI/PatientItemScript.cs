@@ -117,7 +117,7 @@ public class PatientItemScript : MonoBehaviour {
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f + (this.transform.childCount - 7) * 70.2f);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1622f, 495.3f + (DoctorDataManager.instance.doctor.Patients.Count - 7) * 70.2f);
             }
 
             PatientListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();

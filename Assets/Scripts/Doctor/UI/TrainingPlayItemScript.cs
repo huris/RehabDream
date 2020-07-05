@@ -105,7 +105,7 @@ public class TrainingPlayItemScript : MonoBehaviour {
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f + (this.transform.childCount - 7) * 39.4f);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1222f, 270.36f + (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 7) * 39.4f);
             }
 
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();

@@ -38,7 +38,7 @@ public class ActionItemScript : MonoBehaviour {
                 for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count; i--)
                 {
                     this.transform.GetChild(i).gameObject.SetActive(false);
-                    // Destroy(this.transform.GetChild(i).gameObject);
+                    //Destroy(this.transform.GetChild(i).gameObject);
                 }
             }
             else   // 否则说明数目不够，需要再生成几个预制体
@@ -104,7 +104,8 @@ public class ActionItemScript : MonoBehaviour {
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (this.transform.childCount - 5) * 45f);
+                print(this.transform.childCount);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count - 5) * 42f);
             }
 
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
