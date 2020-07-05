@@ -308,6 +308,18 @@ namespace XCharts
                 toggleIndexTojointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
 
                 int FirstAngleID = 0;
+
+                for (int i = 0; i < AngleToggles.Count; i++)
+                { 
+                    if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore != -1)
+                    {
+                        FirstAngleID = i;
+                        AngleToggles[FirstAngleID].isOn = true;
+                        break;
+                    }
+
+                }
+
                 for (int i = 0; i < AngleToggles.Count; i++)
                 {
                     PeopleToggles[i].isOn = false;
@@ -320,16 +332,11 @@ namespace XCharts
                     }
                     else
                     {
-                        if (FirstAngleID == 0)
-                        {
-                            FirstAngleID = i;
-                        }
                         PeopleToggles[i].gameObject.SetActive(true);
                         AngleToggles[i].gameObject.SetActive(true);
                     }
                 }
 
-                AngleToggles[FirstAngleID].isOn = true;
 
                 JointToggleChange();
             }
