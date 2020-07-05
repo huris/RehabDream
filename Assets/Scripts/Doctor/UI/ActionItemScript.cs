@@ -104,7 +104,7 @@ public class ActionItemScript : MonoBehaviour {
             }
             else
             {
-                print(this.transform.childCount);
+                //print(this.transform.childCount);
                 this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count - 5) * 42f);
             }
 
