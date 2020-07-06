@@ -32,6 +32,8 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
     public GameObject NoEvaluateData;
 
+    public GameObject ActionResource;
+
     void OnEnable()
 	{
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
@@ -143,6 +145,10 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         WallEvaluationStartTime.text = "20" + s.Substring(0, 2) + s.Substring(3, 2) + s.Substring(6, 2) + " " + s.Substring(9, 2) + ":" + s.Substring(12, 2) + ":00";
     }
 
+    public void ActionSelectButtonOnClick()
+    {
+        ActionResource.SetActive(true);
+    }
 
     // Use this for initialization
     void Start () {
