@@ -83,6 +83,7 @@ public class DoctorLoginScript : MonoBehaviour {
             {
                 DoctorDataManager.instance.FunctionManager = 0; // 进入患者主界面
                 DoctorDataManager.instance.Actions = DataBaseUtil.LoadActions();
+                DoctorDataManager.instance.users = DataBaseUtil.LoadUserInfo();
                 DataBaseUtil.LoadTrainingType();
                 SceneManager.LoadScene("03-DoctorUI");
             }
