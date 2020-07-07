@@ -74,24 +74,6 @@ public class PlayGame : MonoBehaviour
     List<Sprite> sprites;
     public Text debug_text;
 
-
-    // 动作编号对应的gesture
-    private static Dictionary<int, KinectGestures.Gestures> _GestureName =
-    new Dictionary<int, KinectGestures.Gestures>{
-        {77, KinectGestures.Gestures.Sit},
-        {78, KinectGestures.Gestures.Stand},
-        {80, KinectGestures.Gestures.ArmExtend},
-        {79, KinectGestures.Gestures.FeetTogetherStand},
-        {81, KinectGestures.Gestures.LeftLegStand},
-        {82, KinectGestures.Gestures.RightLegStand},
-        {83, KinectGestures.Gestures.LeftArmRise},
-        {84, KinectGestures.Gestures.RightArmRise},
-        {85, KinectGestures.Gestures.LeftStep},
-        {86, KinectGestures.Gestures.RightStep},
-};
-
-
-
     private void OnEnable()
     {
 
@@ -166,7 +148,7 @@ public class PlayGame : MonoBehaviour
                         wallActionIds = new List<int>();
                         transform.root.Find("Game/Playing").gameObject.SetActive(true);
                         name.text = GameData.user_info[GameData.current_user_id].name;
-                        leftTime.text = (currentLevel.wallSpeed * currentLevel.actionNum).ToString() + "S";
+                        leftTime.text = (currentLevel.wallSpeed * currentLevel.actionNum).ToString() + "秒";
                         wallprogress.text = "0 / " + actionNum;
                         totalNum = 0;
                         passNum = 0;
@@ -376,7 +358,7 @@ public class PlayGame : MonoBehaviour
                     time += Time.deltaTime;
                     float after = time;
                     int tmp = (currentLevel.wallSpeed * currentLevel.actionNum - (int)time) >= 0 ? (currentLevel.wallSpeed * currentLevel.actionNum - (int)time) : 0;
-                    leftTime.text = tmp.ToString() + "S";       //更新游戏时间倒计时
+                    leftTime.text = tmp.ToString() + "秒";       //更新游戏时间倒计时
 
 
                     #region 如果游戏刚开始或时间间隔大于averageTime，则需要生成一个墙
@@ -438,9 +420,9 @@ public class PlayGame : MonoBehaviour
                                     standord_action = DATA.actionList[i];       //读取标准动作
                                 }
                             }
-                            int KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(_GestureName[standord_action.id]) * 100);
+                            int KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
                             int KinectValue = Scores2CodeResult(KinectScore);
-                            Debug.Log("Gesture " + _GestureName[standord_action.id] + " : " + KinectScore);
+                            Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
 
 
                             #region 按照Kinect模型评分在屏幕上显示结果
@@ -818,7 +800,12 @@ public class PlayGame : MonoBehaviour
             }
         }
         GameObject go = new GameObject();
+
+        Debug.Log("trainingData.overrall.passScore: " + trainingData.overrall.passScore);
+
         rate = trainingData.overrall.passScore / 100f;
+
+
         if (trainingData.overrall.duration >= 10)
         {
             Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;

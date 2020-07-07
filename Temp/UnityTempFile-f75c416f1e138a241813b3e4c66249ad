@@ -168,8 +168,6 @@
 -define:UNITY_EDITOR_WIN
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
-Assets/ActionDetailScript.cs
-Assets/ActionItemScript.cs
 Assets/BaiduAip/MP3Sharp/Buffer16BitStereo.cs
 Assets/BaiduAip/MP3Sharp/Decoding/ABuffer.cs
 Assets/BaiduAip/MP3Sharp/Decoding/BitReserve.cs
@@ -231,8 +229,6 @@ Assets/Demigiant/DOTweenPro/DOTweenAnimation.cs
 Assets/Demigiant/DOTweenPro/DOTweenProShortcuts.cs
 Assets/Demigiant/DOTweenPro/DOTweenTextMeshPro.cs
 Assets/Demigiant/DOTweenPro/DOTweenTk2d.cs
-Assets/EvaluationScript.cs
-Assets/EvaluationTypeScript.cs
 Assets/Graph_Maker/Examples/X_Dynamic/WMG_X_Data_Provider.cs
 Assets/Graph_Maker/Examples/X_Dynamic/WMG_X_Dynamic.cs
 Assets/Graph_Maker/Examples/X_Equation_Plotter/WMG_X_Equation_Plotter.cs
@@ -407,6 +403,8 @@ Assets/Scripts/Doctor/Modify/ModifyReturnButtonScript.cs
 Assets/Scripts/Doctor/Register/DoctorRegisterExitButtonScript.cs
 Assets/Scripts/Doctor/Register/DoctorRegisterScript.cs
 Assets/Scripts/Doctor/Track/Track.cs
+Assets/Scripts/Doctor/UI/ActionDetailScript.cs
+Assets/Scripts/Doctor/UI/ActionItemScript.cs
 Assets/Scripts/Doctor/UI/ArmChart.cs
 Assets/Scripts/Doctor/UI/DirectionRadarChartScript.cs
 Assets/Scripts/Doctor/UI/DirectionRadarTrainingScript.cs
@@ -418,6 +416,8 @@ Assets/Scripts/Doctor/UI/EvaluateInitScript.cs
 Assets/Scripts/Doctor/UI/EvaluatePrintScript.cs
 Assets/Scripts/Doctor/UI/EvaluationConditionScript.cs
 Assets/Scripts/Doctor/UI/EvaluationSceneInit.cs
+Assets/Scripts/Doctor/UI/EvaluationScript.cs
+Assets/Scripts/Doctor/UI/EvaluationTypeScript.cs
 Assets/Scripts/Doctor/UI/FunctionManagerInitScript.cs
 Assets/Scripts/Doctor/UI/GetUsesClrTex.cs
 Assets/Scripts/Doctor/UI/GravityCenterEvaluationScript.cs
@@ -442,6 +442,7 @@ Assets/Scripts/Doctor/UI/PatientQueryExitButtonScript.cs
 Assets/Scripts/Doctor/UI/ReportScript.cs
 Assets/Scripts/Doctor/UI/SoccerBarTest.cs
 Assets/Scripts/Doctor/UI/StartTipInitScript.cs
+Assets/Scripts/Doctor/UI/ThroughWallDataInitScript.cs
 Assets/Scripts/Doctor/UI/TrainEvaluationInitScript.cs
 Assets/Scripts/Doctor/UI/TrainingCoditionQueryPatientInfoScrip.cs
 Assets/Scripts/Doctor/UI/TrainingDataInitScript.cs
@@ -572,7 +573,6 @@ Assets/Shooting/VolumeGrass/_Scripts/WindZoneSync.cs
 "Assets/Shooting/VolumeGrass/VolumeGrass Sample Assets/MouseOrbitCS.cs"
 "Assets/Shooting/VolumeGrass/VolumeGrass Sample Assets/Soccer/SoccerBall.cs"
 "Assets/Shooting/VolumeGrass/VolumeGrass Sample Assets/SteerCamTarget.cs"
-Assets/ThroughWallDataInitScript.cs
 Assets/Vectrosity/Demos/Scripts/_Simple2DLine/Line.cs
 Assets/Vectrosity/Demos/Scripts/_Simple2DLine/ReallyBasicLine.cs
 Assets/Vectrosity/Demos/Scripts/_Simple2DLine/UniformTexturedLine.cs

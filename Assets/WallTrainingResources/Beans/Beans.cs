@@ -334,6 +334,22 @@ public static class DATA
     };
     public static Dictionary<int, string> TrainingProgramIDToName = new Dictionary<int, string>();
     public static Dictionary<int, List<int>> TrainingProgramIDToActionIDs = new Dictionary<int, List<int>>();
+
+
+    // 动作名称对应的gesture
+    public static Dictionary<string, KinectGestures.Gestures> Name2Gesture =
+    new Dictionary<string, KinectGestures.Gestures>{
+        {"无支撑下坐位", KinectGestures.Gestures.Sit},
+        {"无支撑的站立", KinectGestures.Gestures.Stand},
+        {"站立双上肢前伸", KinectGestures.Gestures.ArmExtend},
+        {"双足并拢站立", KinectGestures.Gestures.FeetTogetherStand},
+        {"左脚单脚站立", KinectGestures.Gestures.LeftLegStand},
+        {"右脚单脚站立", KinectGestures.Gestures.RightLegStand},
+        {"独坐举左臂", KinectGestures.Gestures.LeftArmRise},
+        {"独坐举右臂", KinectGestures.Gestures.RightArmRise},
+        {"左脚前跨步", KinectGestures.Gestures.LeftStep},
+        {"右脚前跨步", KinectGestures.Gestures.RightStep},
+    };
 }
 public static class GameData
 {

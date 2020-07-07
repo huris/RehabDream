@@ -51,8 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ActionDetailScript.cs" />
-     <Compile Include="Assets\ActionItemScript.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Buffer16BitStereo.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\ABuffer.cs" />
      <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\BitReserve.cs" />
@@ -114,8 +112,6 @@
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
-     <Compile Include="Assets\EvaluationScript.cs" />
-     <Compile Include="Assets\EvaluationTypeScript.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -290,6 +286,8 @@
      <Compile Include="Assets\Scripts\Doctor\Register\DoctorRegisterExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\Register\DoctorRegisterScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\Track\Track.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ActionDetailScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ActionItemScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ArmChart.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarChartScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarTrainingScript.cs" />
@@ -301,6 +299,8 @@
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluatePrintScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationSceneInit.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationTypeScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\FunctionManagerInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\GetUsesClrTex.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
@@ -325,6 +325,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\StartTipInitScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ThroughWallDataInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
@@ -455,7 +456,6 @@
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
-     <Compile Include="Assets\ThroughWallDataInitScript.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
      <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
