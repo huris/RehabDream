@@ -36,6 +36,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public InputField FindActionInputField;
 
+    public GameObject ModifyButton;
+
     void OnEnable()
     {
         ScaleID = new List<int>(DATA.TrainingProgramIDToName.Keys);
@@ -109,7 +111,20 @@ public class ScaleActionInitScript : MonoBehaviour
             if (ScaleActionID2Num.ContainsKey(DoctorDataManager.instance.Actions[i].id)) 
             {
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
-                
+
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+                    if (obj.transform.GetComponent<Toggle>().isOn)
+                    {
+                        ModifyButton.SetActive(true);
+                    }
+                    else
+                    {
+                        ModifyButton.SetActive(false);
+                    }
+                });
+
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(3).GetComponent<InputField>().text = ScaleActionID2Num[DoctorDataManager.instance.Actions[i].id].ToString();
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate
                 {
@@ -173,6 +188,19 @@ public class ScaleActionInitScript : MonoBehaviour
             else
             {
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+                    if (obj.transform.GetComponent<Toggle>().isOn)
+                    {
+                        ModifyButton.SetActive(true);
+                    }
+                    else
+                    {
+                        ModifyButton.SetActive(false);
+                    }
+                });
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().text = "0";
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate{
@@ -266,7 +294,9 @@ public class ScaleActionInitScript : MonoBehaviour
             int TempAllActionNum = 0;
             for(int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
             {
-                if(FindActionInputField.GetComponent<InputField>().text == "")
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn = false;
+
+                if (FindActionInputField.GetComponent<InputField>().text == "")
                 {
                     this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(true);
                     TempAllActionNum++;
@@ -367,6 +397,22 @@ public class ScaleActionInitScript : MonoBehaviour
             ActionNumText.text = (long.Parse(ActionNumText.text) - 1).ToString();
         }
     }
+
+
+
+
+    public void SaveButtonOnClick()
+    {
+
+
+    }
+
+    public void ExitButtonOnClick()
+    {
+
+
+    }
+
 
     // Use this for initialization
     void Start()
