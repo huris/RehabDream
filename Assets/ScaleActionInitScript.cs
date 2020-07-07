@@ -26,12 +26,15 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public Text AllActionText;
     public Scrollbar AllActionScrollbar;
+    public Scrollbar ScaleActionScrolbar;
 
     public Text ScaleActionText;
 
     public Dictionary<int, int> ScaleActionID2Num = new Dictionary<int, int>();
 
     public int ScaleActionNum = 0;
+
+    public InputField FindActionInputField;
 
     void OnEnable()
     {
@@ -119,6 +122,7 @@ public class ScaleActionInitScript : MonoBehaviour
                     else
                     {
                         obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                        ScaleActionScrolbar.value = 0;
                     }
 
                     AdjustActionSetLayout();
@@ -182,6 +186,7 @@ public class ScaleActionInitScript : MonoBehaviour
                     else
                     {
                         obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                        ScaleActionScrolbar.value = 0;
                     }
 
                     AdjustActionSetLayout();
@@ -230,9 +235,6 @@ public class ScaleActionInitScript : MonoBehaviour
 
             //this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(true);  // 要设置激活状态
 
-            
-
-
         }
         //}
 
@@ -258,6 +260,39 @@ public class ScaleActionInitScript : MonoBehaviour
         AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
 
         ActionNumText.text = ScaleActionNum.ToString();
+
+        FindActionInputField.GetComponent<InputField>().onValueChanged.AddListener(delegate
+        {
+            int TempAllActionNum = 0;
+            for(int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+            {
+                if(FindActionInputField.GetComponent<InputField>().text == "")
+                {
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(true);
+                    TempAllActionNum++;
+                }
+                else if (this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(1).GetComponent<Text>().text.IndexOf(FindActionInputField.GetComponent<InputField>().text) >= 0)   // 存在所需的文字
+                {
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(true);
+                    TempAllActionNum++;
+                }
+                else
+                {
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            if (TempAllActionNum <= 14)
+            {
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f);
+            }
+            else
+            {
+                //print(this.transform.childCount);
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((TempAllActionNum - 15) / 7 + 1) * 185f);
+            }
+        });
+
  
     }
 
@@ -301,7 +336,7 @@ public class ScaleActionInitScript : MonoBehaviour
                 AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
 
                 AdjustActionSetLayout();
-
+                ScaleActionScrolbar.value = 0;
             }
 
             obj.transform.parent.GetChild(3).GetComponent<InputField>().text = (long.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) + 1).ToString();
