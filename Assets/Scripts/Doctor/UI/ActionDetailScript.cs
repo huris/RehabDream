@@ -7,7 +7,8 @@ using UnityEngine.UI;
 namespace XCharts
 {
     [DisallowMultipleComponent]
-    public class ActionDetailScript : MonoBehaviour {
+    public class ActionDetailScript : MonoBehaviour
+    {
 
         public Dictionary<int, int> toggleIndexTojointId;
         public GameObject jointCheckBox;
@@ -20,6 +21,7 @@ namespace XCharts
 
         public int WallEvaluationIndex;
 
+        public List<Toggle> PeopleToggles;
         public List<Toggle> AngleToggles;
         public List<Toggle> MethodToggles;
 
@@ -44,13 +46,13 @@ namespace XCharts
         { 18, new List<int>() { 22 } }};//21号检测方法不可靠，暂时去掉
 
         public static List<int> JointOfMethod = new List<int>() { 0, 4, 4, 4, 4, 8, 8, 8, 8, 5, 9, 12, 12, 12, 16, 16, 16, 13, 17, 14, 14, 18, 18, 2, 2 };
-        public static Dictionary<int, int> MaxValueOfMethod = new Dictionary<int, int>() { 
+        public static Dictionary<int, int> MaxValueOfMethod = new Dictionary<int, int>() {
             { 1,180}, { 2, 180 }, { 3, 180 }, { 4, 180 }, { 5, 180 },
             { 6,180}, { 7, 180 }, { 8, 180 }, { 9, 180 }, { 10, 180 },
             { 11,90}, { 12, 90 }, { 13, 150 }, { 14, 90 }, { 15, 90 },
             { 16,150}, { 17, 180 }, { 18, 180 }, { 19, 180 }, { 20, 180 },
             { 21,180}, { 22, 180 }, { 23, 135 }, { 24, 135 }};
-        public static Dictionary<int, int> MinValueOfMethod = new Dictionary<int, int>() { 
+        public static Dictionary<int, int> MinValueOfMethod = new Dictionary<int, int>() {
             { 1,0}, { 2, 0 }, { 3, 0 }, { 4, 20 }, { 5, 0 },
             { 6,0}, { 7, 0 }, { 8, 20 }, { 9, 25 }, { 10, 25 },
             { 11,0}, { 12, 0 }, { 13, 60 }, { 14, 0 }, { 15, 0 },
@@ -127,13 +129,7 @@ namespace XCharts
 
         public void JointToggleChange()
         {
-            DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(1);
-
-            WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
-
-            ActionID = new List<int>(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Keys);
-
-            toggleIndexTojointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
+            //DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(1);
 
             JointToggleIndex = -1;
 
@@ -146,12 +142,9 @@ namespace XCharts
                 }
             }
 
-            for(int i = 0; i < MethodToggles.Count; i++)
-            {
-                MethodToggles[i].isOn = false;
-            }
+            //MethodToggles[0].isOn = true;
 
-            while(ActionPassRateChart.series.list[0].data.Count > ActionID.Count)
+            while (ActionPassRateChart.series.list[0].data.Count > ActionID.Count)
             {
                 ActionPassRateChart.series.list[0].data.RemoveAt(ActionPassRateChart.series.list[0].data.Count - 1);
                 ActionPassRateChart.xAxis0.data.RemoveAt(ActionPassRateChart.xAxis0.data.Count - 1);
@@ -163,15 +156,112 @@ namespace XCharts
                 ActionPassRateChart.xAxis0.data.Add("A" + (ActionPassRateChart.xAxis0.data.Count + 1).ToString());
             }
 
-            if (JointToggleIndex == -1)
+            //if (JointToggleIndex == -1)
+            //{
+            //    ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+            //    for (int i = 0; i < ActionPassRateChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionPassRateChart.series.UpdateData(0, i, -1f);
+            //    }
+
+            //    ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+            //    for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionDeviationChart.series.UpdateData(0, i, -1f);
+            //    }
+
+            //    for (int i = 0; i < 4; i++)
+            //    {
+            //        MethodToggles[i].gameObject.SetActive(false);
+            //    }
+            //}
+            //else
+            //{
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    MethodToggles[i].gameObject.SetActive(false);
+            //}
+
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore == -1)
             {
                 ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+
                 for (int i = 0; i < ActionPassRateChart.series.list[0].data.Count; i++)
                 {
                     ActionPassRateChart.series.UpdateData(0, i, -1f);
                 }
 
                 ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+                for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+                {
+                    ActionDeviationChart.series.UpdateData(0, i, -1f);
+                }
+            }
+            else
+            {
+                ActionPassRateChart.title.subText = checkjointIDToName[toggleIndexTojointId[JointToggleIndex]] + " 整体通过率: " + " <color=#4BABDCFF>" + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore + "%</color>";
+            }
+
+
+            for (int i = 0; i < ActionID.Count; i++)
+            {
+                ActionPassRateChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercent[ActionID[i]]);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                MethodToggles[i].isOn = false;
+
+                if (i < JointCheckMethod[toggleIndexTojointId[JointToggleIndex]].Count)
+                {
+                    MethodToggles[i].gameObject.SetActive(true);
+                    MethodToggles[i].transform.Find("Label").GetComponent<Text>().text = methodIDToName[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][i]];
+                }
+                else
+                {
+                    MethodToggles[i].gameObject.SetActive(false);
+                }
+            }
+
+
+            //ActionDeviationChart.title.subText = "请选择检测方法后查看";
+            //for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+            //{
+            //    ActionDeviationChart.series.UpdateData(0, i, -1f);
+            //}
+
+            MethodToggles[0].isOn = true;
+            MethodToggleChange();
+
+            //}
+        }
+
+        public void MethodToggleChange()
+        {
+            MethodToggleIndex = -1;
+            for (int i = 0; i < 4; i++)
+            {
+                if (MethodToggles[i].isOn)
+                {
+                    MethodToggleIndex = i;
+                    break;
+                }
+            }
+
+            //if(MethodToggleIndex == -1)
+            //{
+            //    ActionDeviationChart.title.subText = "请选择检测方法后查看";
+            //    for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
+            //    {
+            //        ActionDeviationChart.series.UpdateData(0, i, -1f);
+            //    }
+            //}
+            //else
+            //{
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].eps == -1)
+            {
+                ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
+
                 for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
                 {
                     ActionDeviationChart.series.UpdateData(0, i, -1f);
@@ -184,99 +274,82 @@ namespace XCharts
             }
             else
             {
-                if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore == -1)
-                {
-                    ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-                }
-                else
-                {
-                    ActionPassRateChart.title.subText = checkjointIDToName[toggleIndexTojointId[JointToggleIndex]] + " 整体通过率: " + " <color=#4BABDCFF>" + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore + "%</color>";
-                }
+                ActionDeviationChart.title.subText = methodIDToName[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]] + " 整体误差率: " + " <color=#C23531FF>" + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].eps + "%</color>";
+            }
 
-                for (int i = 0; i < ActionID.Count; i++)
-                {
-                    ActionPassRateChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercent[ActionID[i]]);
-                }
+            while (ActionDeviationChart.series.list[0].data.Count > DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count)
+            {
 
-                for(int i = 0; i < 4; i++)
-                {
-                    if(i < JointCheckMethod[toggleIndexTojointId[JointToggleIndex]].Count)
+                ActionDeviationChart.series.list[0].data.RemoveAt(ActionDeviationChart.series.list[0].data.Count - 1);
+                ActionDeviationChart.xAxis0.data.RemoveAt(ActionDeviationChart.xAxis0.data.Count - 1);
+            }
+
+            while (ActionDeviationChart.series.list[0].data.Count < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count)
+            {
+                ActionDeviationChart.series.list[0].AddYData(-1f);
+                ActionDeviationChart.xAxis0.data.Add("G" + (ActionDeviationChart.xAxis0.data.Count + 1).ToString());
+            }
+
+            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count; i++)
+            {
+                ActionDeviationChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep[i]);
+            }
+            //}
+        }
+
+        public void ActionDetailInit()
+        {
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
+            {
+                WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
+
+                ActionID = new List<int>(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Keys);
+
+                toggleIndexTojointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
+
+                int FirstAngleID = 0;
+
+                for (int i = 0; i < AngleToggles.Count; i++)
+                { 
+                    if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore != -1)
                     {
-                        MethodToggles[i].gameObject.SetActive(true);
-                        MethodToggles[i].transform.Find("Label").GetComponent<Text>().text = methodIDToName[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][i]];
+                        FirstAngleID = i;
+                        AngleToggles[FirstAngleID].isOn = true;
+                        break;
+                    }
+
+                }
+
+                for (int i = 0; i < AngleToggles.Count; i++)
+                {
+                    PeopleToggles[i].isOn = false;
+                    AngleToggles[i].isOn = false;
+
+                    if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore == -1)
+                    {
+                        PeopleToggles[i].gameObject.SetActive(false);
+                        AngleToggles[i].gameObject.SetActive(false);
                     }
                     else
                     {
-                        MethodToggles[i].gameObject.SetActive(false);
+                        PeopleToggles[i].gameObject.SetActive(true);
+                        AngleToggles[i].gameObject.SetActive(true);
                     }
                 }
 
-                ActionDeviationChart.title.subText = "请选择检测方法后查看";
-                for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-                {
-                    ActionDeviationChart.series.UpdateData(0, i, -1f);
-                }
-            }
-        }
 
-        public void MethodToggleChange()
-        {
-            MethodToggleIndex = -1;
-            for(int i = 0; i < 4; i++)
-            {
-                if (MethodToggles[i].isOn)
-                {
-                    MethodToggleIndex = i;
-                    break;
-                }
-            }
-
-            if(MethodToggleIndex == -1)
-            {
-                ActionDeviationChart.title.subText = "请选择检测方法后查看";
-                for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-                {
-                    ActionDeviationChart.series.UpdateData(0, i, -1f);
-                }
-            }
-            else
-            {
-                if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].eps == -1)
-                {
-                    ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-                }
-                else
-                {
-                    ActionDeviationChart.title.subText = methodIDToName[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]] + " 整体误差率: " + " <color=#C23531FF>" + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].eps + "%</color>";
-                }
-
-                while (ActionDeviationChart.series.list[0].data.Count > DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count)
-                {
-
-                    ActionDeviationChart.series.list[0].data.RemoveAt(ActionDeviationChart.series.list[0].data.Count - 1);
-                    ActionDeviationChart.xAxis0.data.RemoveAt(ActionDeviationChart.xAxis0.data.Count - 1);
-                }
-
-                while (ActionDeviationChart.series.list[0].data.Count < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count)
-                {
-                    ActionDeviationChart.series.list[0].AddYData(-1f);
-                    ActionDeviationChart.xAxis0.data.Add("G" + (ActionDeviationChart.xAxis0.data.Count + 1).ToString());
-                }
-
-                for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep.Count; i++)
-                {
-                    ActionDeviationChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].methodDatas[JointCheckMethod[toggleIndexTojointId[JointToggleIndex]][MethodToggleIndex]].ep[i]);
-                }
+                JointToggleChange();
             }
         }
 
         // Use this for initialization
         void Start()
-        {   
-            JointToggleChange();
+        {
+            ActionDetailInit();
         }
         // Update is called once per frame
-        void Update() {
+        void Update()
+        {
 
         }
     }

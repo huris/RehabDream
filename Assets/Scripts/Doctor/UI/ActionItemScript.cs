@@ -17,9 +17,8 @@ public class ActionItemScript : MonoBehaviour {
 
     }
 
-    void OnEnable()
+    public void ActionItemInit()
     {
-
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations == null)
         {
             DoctorDataManager.instance.doctor.patient.WallEvaluations = DoctorDatabaseManager.instance.ReadPatientWallEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
@@ -32,14 +31,14 @@ public class ActionItemScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
         {
-            int WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex; 
+            int WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
 
             if (this.transform.childCount > DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count)   // 如果数目大于训练数据，说明足够存储了，需要把之后的几个给设置未激活
             {
                 for (int i = this.transform.childCount - 1; i >= DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count; i--)
                 {
                     this.transform.GetChild(i).gameObject.SetActive(false);
-                    // Destroy(this.transform.GetChild(i).gameObject);
+                    //Destroy(this.transform.GetChild(i).gameObject);
                 }
             }
             else   // 否则说明数目不够，需要再生成几个预制体
@@ -62,10 +61,10 @@ public class ActionItemScript : MonoBehaviour {
                 //this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
                 this.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = "A" + (i + 1).ToString();
-                
-                for(int z = 0; z < DoctorDataManager.instance.Actions.Count; z++)
+
+                for (int z = 0; z < DoctorDataManager.instance.Actions.Count; z++)
                 {
-                    if(DoctorDataManager.instance.Actions[z].id == ActionID[i])
+                    if (DoctorDataManager.instance.Actions[z].id == ActionID[i])
                     {
                         this.transform.GetChild(i).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].name;
                         this.transform.GetChild(i).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].id.ToString();
@@ -105,13 +104,19 @@ public class ActionItemScript : MonoBehaviour {
             }
             else
             {
-                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (this.transform.childCount - 5) * 45f);
+                //print(this.transform.childCount);
+                this.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(840.2f, 183.98f + (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Count - 5) * 42f);
             }
 
             TrainingPlayListScrollBar = transform.parent.Find("Scrollbar").GetComponent<Scrollbar>();
             TrainingPlayListScrollBar.value = 1;
 
         }
+    }
+
+    void OnEnable()
+    {
+        ActionItemInit();
     }
 	
 	// Update is called once per frame
