@@ -31,6 +31,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public Dictionary<int, int> ScaleActionID2Num = new Dictionary<int, int>();
 
+    public int ScaleActionNum = 0;
+
     void OnEnable()
     {
         ScaleID = new List<int>(DATA.TrainingProgramIDToName.Keys);
@@ -106,6 +108,34 @@ public class ScaleActionInitScript : MonoBehaviour
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
                 
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(3).GetComponent<InputField>().text = ScaleActionID2Num[DoctorDataManager.instance.Actions[i].id].ToString();
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate
+                {
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+                    if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
+                    {
+                        obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                    }
+                    else
+                    {
+                        obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                    }
+
+                    AdjustActionSetLayout();
+
+                    ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
+                    AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
+
+                    int TempScaleActionNum = 0;
+
+                    for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
+                    {
+                        TempScaleActionNum += int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(3).GetComponent<InputField>().text);
+                    }
+
+                    ActionNumText.text = TempScaleActionNum.ToString();
+
+                });
 
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).name = i.ToString();   // 重新命名为0,1,2,3,4...
 
@@ -141,6 +171,33 @@ public class ScaleActionInitScript : MonoBehaviour
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().text = "0";
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate{
+
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+                    if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
+                    {
+                        obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                    }
+                    else
+                    {
+                        obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                    }
+
+                    AdjustActionSetLayout();
+
+                    ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
+                    AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
+
+                    int TempScaleActionNum = 0;
+
+                    for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
+                    {
+                        TempScaleActionNum += int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(3).GetComponent<InputField>().text);
+                    }
+
+                    ActionNumText.text = TempScaleActionNum.ToString();
+                });
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).name = i.ToString();   // 重新命名为0,1,2,3,4...
 
@@ -186,26 +243,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
         //}
 
-        // 设置布局
-        if (this.transform.GetChild(3).GetChild(0).GetChild(0).childCount <= 7)
-        {
-            this.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1115.7f, 180f);
-        }
-        else
-        {
-            //print(this.transform.childCount);
-            this.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1115.7f, 180f + (this.transform.GetChild(3).GetChild(0).GetChild(0).childCount - 1) / 7  * 185f);
-        }
 
-        if (this.transform.GetChild(4).GetChild(0).GetChild(0).childCount <= 14)
-        {
-            this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f);
-        }
-        else
-        {
-            //print(this.transform.childCount);
-            this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((this.transform.GetChild(4).GetChild(0).GetChild(0).childCount - 14) / 7 + 1) * 185f);
-        }
+        AdjustActionSetLayout();
 
         // 计算动作个数
         int ScaleActionNum = 0;
@@ -219,16 +258,52 @@ public class ScaleActionInitScript : MonoBehaviour
         AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
 
         ActionNumText.text = ScaleActionNum.ToString();
-
  
     }
+
+
+    public void AdjustActionSetLayout()
+    {
+        // 设置布局
+        if (this.transform.GetChild(3).GetChild(0).GetChild(0).childCount <= 7)
+        {
+            this.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1115.7f, 180f);
+        }
+        else
+        {
+            //print(this.transform.childCount);
+            this.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1115.7f, 180f + (this.transform.GetChild(3).GetChild(0).GetChild(0).childCount - 1) / 7 * 185f);
+        }
+
+        if (this.transform.GetChild(4).GetChild(0).GetChild(0).childCount <= 14)
+        {
+            this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f);
+        }
+        else
+        {
+            //print(this.transform.childCount);
+            this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((this.transform.GetChild(4).GetChild(0).GetChild(0).childCount - 15) / 7 + 1) * 185f);
+        }
+    }
+
 
     public void ActionUponArrowOnClick()
     {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
 
-        if (long.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) < 99)
+        if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) < 99)
         {
+            if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
+            {
+                obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+
+                ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
+                AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
+
+                AdjustActionSetLayout();
+
+            }
+
             obj.transform.parent.GetChild(3).GetComponent<InputField>().text = (long.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) + 1).ToString();
 
             ActionNumText.text = (long.Parse(ActionNumText.text) + 1).ToString();
@@ -239,8 +314,19 @@ public class ScaleActionInitScript : MonoBehaviour
     {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
 
-        if (long.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) > 0)
+        if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) > 0)
         {
+            if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 1)
+            {
+                obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+
+                ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
+                AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
+
+                AdjustActionSetLayout();
+
+            }
+
             obj.transform.parent.GetChild(3).GetComponent<InputField>().text = (long.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) - 1).ToString();
 
             ActionNumText.text = (long.Parse(ActionNumText.text) - 1).ToString();
