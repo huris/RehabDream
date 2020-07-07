@@ -39,7 +39,11 @@ public class GestureSourceManager : MonoBehaviour
         "Sit",  //坐
         "Stand",    //站
         "Sit2Stand",    //由坐到站
-        "Stand2Sit" //由站到坐
+        "Stand2Sit", //由站到坐
+        "leftArmRise",
+        "RightArmRise",
+        "LeftStep",
+        "RightStep"
     };
 
     // 优先级
@@ -53,7 +57,11 @@ public class GestureSourceManager : MonoBehaviour
         {"Sit", 1 },
         {"Stand", 0 },
         {"Sit2Stand", 1 },
-        {"Stand2Sit", 1 }
+        {"Stand2Sit", 1 },
+        {"leftArmRise", 2},
+        {"RightArmRise", 2},
+        {"LeftStep", 2},
+        {"RightStep", 2 }
     };
 
 
@@ -69,7 +77,11 @@ public class GestureSourceManager : MonoBehaviour
         {KinectGestures.Gestures.Sit, 0.75f },
         {KinectGestures.Gestures.Stand, 0.75f },
         {KinectGestures.Gestures.Sit2Stand, 0.75f },
-        {KinectGestures.Gestures.Stand2Sit, 0.75f }
+        {KinectGestures.Gestures.Stand2Sit, 0.75f },
+        {KinectGestures.Gestures.LeftArmRise, 0.75f },
+        {KinectGestures.Gestures.RightArmRise, 0.75f },
+        {KinectGestures.Gestures.LeftStep, 0.75f },
+        {KinectGestures.Gestures.RightStep, 0.75f }
 };
 
 

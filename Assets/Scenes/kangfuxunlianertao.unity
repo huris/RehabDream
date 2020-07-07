@@ -12103,6 +12103,16 @@ Prefab:
       propertyPath: InitialModule.startSize.minScalar
       value: 0.1000
       objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4222d3bd8d11edc4a808cb2a283aa227, type: 2}
   m_IsPrefabParent: 0
@@ -18113,8 +18123,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 503168252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 574, y: 319, z: 0}
+  m_LocalScale: {x: 0.59791666, y: 0.59791666, z: 0.59791666}
   m_Children:
   - {fileID: 1303687380}
   - {fileID: 2138695936}
@@ -57675,7 +57685,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2140337977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -28.5, y: 3.7000008, z: 0}
+  m_LocalPosition: {x: -28.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1367221236}
@@ -57683,7 +57693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5195618, y: 0.5}
-  m_AnchoredPosition: {x: -31, y: 3.7}
+  m_AnchoredPosition: {x: -31, y: -0}
   m_SizeDelta: {x: 1915, y: 103.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2140337979
@@ -57715,11 +57725,11 @@ MonoBehaviour:
     m_MaxSize: 78
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 120S
+  m_Text: "120\u79D2"
 --- !u!222 &2140337980
 CanvasRenderer:
   m_ObjectHideFlags: 0
