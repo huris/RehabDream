@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -568,10 +569,12 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public void EvaluateButtonOnClick()
     {
+        SaveButtonOnClick();
 
+        PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
+
+        SceneManager.LoadScene("08-WallEvaluation");
     }
-
-
 
     public void SaveButtonOnClick()
     {

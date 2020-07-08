@@ -144,6 +144,12 @@ public class PatientDataManager : MonoBehaviour
         NewMaxDirection[7] = soccerDistance.UponLeftSoccerDistance;
     }
 
+
+    public void SetPatientID(long PatientID)
+    {
+        this.PatientID = PatientID;
+    }
+
     // 已废弃
     public void SetIsEvaluated(long IsEvaluated)
     {
