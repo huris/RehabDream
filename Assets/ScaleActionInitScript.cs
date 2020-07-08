@@ -40,6 +40,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public GameObject ActionModify;
 
+    public GameObject ActionResource;
+
     public int ModifyActionID;
     //public Transform ActionModifyTransform;
     public Text ActionModifyTitle;
@@ -53,13 +55,16 @@ public class ScaleActionInitScript : MonoBehaviour
     public InputField ActionModifyDescription;
 
     public Dictionary<int, int> toggleJointId2Index;
+    public Dictionary<int, int> toggleIndex2JointId;
 
     public Dictionary<int, int> ActionID2Index;
 
+    public int UserID;
 
     void OnEnable()
     {
         toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
+        toggleIndex2JointId = new Dictionary<int, int>() { {0, 2}, {1, 4}, {2, 8}, {3, 5}, {4, 9}, {5, 12}, {6, 16}, {7, 13}, {8, 17}, {9, 14}, {10, 18} };
 
         ActionID2Index = new Dictionary<int, int>();
 
@@ -76,12 +81,13 @@ public class ScaleActionInitScript : MonoBehaviour
             ScaleInt2Type.Add(i, ScaleID[i]);
             ListScaleEvaluation.Add(DATA.TrainingProgramIDToName[ScaleID[i]]);
         }
-
+        ScaleType2Int.Add(ScaleID.Count, ScaleID.Count);
+        ScaleInt2Type.Add(ScaleID.Count, ScaleID.Count);
         ListScaleEvaluation.Add("自定义");
 
         ScaleSelect.AddOptions(ListScaleEvaluation);
 
-        int UserID = -1;
+        UserID = -1;
         for (int i = 0; i < DoctorDataManager.instance.users.Count; i++)
         {
             if (DoctorDataManager.instance.doctor.patient.PatientID == DoctorDataManager.instance.users[i].ID)
@@ -524,24 +530,83 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public void ActionModifySaveButtonOnClick()
     {
+        List<int> TempActionJointsId = new List<int>();
+        for(int i = 0; i < JointToggles.Count; i++)
+        {
+            if (JointToggles[i].isOn)
+            {
+                TempActionJointsId.Add(toggleIndex2JointId[i]);
+            }
+        }
 
+        DoctorDatabaseManager.instance.ModifyWallEvaluationActionInfo(ModifyActionID, ActionModifyName.text, ActionModifyCreateTime.text, ActionModifyDescription.text, TempActionJointsId);
+
+        ActionModifyExitButtonOnClick();
     }
 
     public void ActionModifyExitButtonOnClick()
     {
+        ActionModify.SetActive(false);
+    }
+
+
+
+    //public Level(int ws, string st, int td, bool wr, int an, Dictionary<int, int> ar)
+    //{
+    //    wallSpeed = ws;
+    //    StartTime = st;
+    //    trainingDays = td;
+    //    isWallRandom = wr;
+    //    actionNum = an;
+    //    actionRates = new Dictionary<int, int>();
+    //    foreach (var item in ar)
+    //    {
+    //        actionRates.Add(item.Key, item.Value);
+    //    }
+    //}
+
+
+    public void EvaluateButtonOnClick()
+    {
 
     }
+
+
 
     public void SaveButtonOnClick()
     {
 
+        Dictionary<int, int> TempSingleActionNum = new Dictionary<int, int>();
 
+        for(int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        {
+            TempSingleActionNum.Add(int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name), int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text));
+        }
+
+        Level TempLevel = new Level(ActionSpeedDropdown.value + 3, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), 100000, false, int.Parse(ActionNumText.text), TempSingleActionNum);
+
+        if(UserID == -1)
+        {
+            DoctorDatabaseManager.instance.InsertWallEvaluationScaleInfo(DoctorDataManager.instance.doctor.patient.PatientID,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientName,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientSex,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientAge,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientWeight,
+                                                                          ScaleInt2Type[ScaleSelect.value],
+                                                                          "123456",
+                                                                          JsonHelper.SerializeObject(TempLevel));
+        }
+        else
+        {
+            DoctorDatabaseManager.instance.ModifyWallEvaluationScaleInfo(DoctorDataManager.instance.doctor.patient.PatientID, ScaleInt2Type[ScaleSelect.value], JsonHelper.SerializeObject(TempLevel));
+        }
+
+        ExitButtonOnClick();
     }
 
     public void ExitButtonOnClick()
     {
-
-
+        ActionResource.SetActive(false);
     }
 
 

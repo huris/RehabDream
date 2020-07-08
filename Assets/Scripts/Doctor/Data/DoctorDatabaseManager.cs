@@ -2102,6 +2102,80 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    public void ModifyWallEvaluationScaleInfo(long PatientID, int TrainingTypeId, string Levels)
+    {
+        SQLiteHelper sql;
+        SqliteDataReader reader;
+        sql = new SQLiteHelper("data source=" + DATA.databasePath);
+        try
+        {
+            string QueryString = "UPDATE userinfo SET TrainingTypeId=" + TrainingTypeId.ToString() + " , Levels=" + AddSingleQuotes(Levels) + " where ID=" + PatientID.ToString();
+            sql.ExecuteQuery(QueryString);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("wrong");
+        }
+        sql.CloseConnection();
+    }
+
+    public void InsertWallEvaluationScaleInfo(long ID, string Name, string Sex, long Age, long Weight, int TrainingTypeId, string Pwd, string Levels)
+    {
+        SQLiteHelper sql;
+        SqliteDataReader reader;
+        sql = new SQLiteHelper("data source=" + DATA.databasePath);
+        try
+        {
+            sql.InsertValues("userinfo", //table name
+                            new String[] { ID.ToString(), AddSingleQuotes(Name), AddSingleQuotes(Sex), Age.ToString(), Weight.ToString(), TrainingTypeId.ToString(), AddSingleQuotes(Pwd), AddSingleQuotes(Levels)}
+                            );
+            //sql.ExecuteQuery(QueryString);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("wrong");
+        }
+        sql.CloseConnection();
+    }
+
+
+    public void ModifyWallEvaluationActionInfo(int ActionID, string ActionName, string ActionCreatTime, string ActionDescription, List<int> ActionJointsId)
+    {
+        SQLiteHelper sql;
+        SqliteDataReader reader;
+        sql = new SQLiteHelper("data source=" + DATA.databasePath);
+        try
+        {
+            
+            string ActionJointsIDString = "";
+            if(ActionJointsId.Count == 0)
+            {
+                ActionJointsIDString += "[";
+            }
+            else
+            {
+                ActionJointsIDString += "[" + ActionJointsId[0].ToString();
+            }
+
+            for (int i = 1; i < ActionJointsId.Count; i++)
+            {
+
+                ActionJointsIDString += "," + ActionJointsId[i].ToString();
+            }
+
+            ActionJointsIDString += "]";
+
+            
+            string QueryString = "UPDATE actions SET Name=" + AddSingleQuotes(ActionName) + " , ActionCreatTime=" + AddSingleQuotes(ActionCreatTime) + " , Describe=" + AddSingleQuotes(ActionDescription) + " , Checkjoints=" + AddSingleQuotes(ActionJointsIDString) + " where ID=" + ActionID.ToString();
+            sql.ExecuteQuery(QueryString);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("wrong");
+        }
+        sql.CloseConnection();
+    }
+
     // read Angle
     public List<Point> ReadEvaluationPointsRecord(long EvaluationID)
     {

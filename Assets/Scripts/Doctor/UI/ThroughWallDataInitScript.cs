@@ -34,6 +34,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
     public GameObject ActionResource;
 
+
     void OnEnable()
 	{
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
@@ -148,6 +149,12 @@ public class ThroughWallDataInitScript : MonoBehaviour {
     public void ActionSelectButtonOnClick()
     {
         ActionResource.SetActive(true);
+    }
+
+    public void NoEvaluateDataButtonOnClick()
+    {
+        NoEvaluateData.SetActive(false);
+        ActionSelectButtonOnClick();
     }
 
     // Use this for initialization
