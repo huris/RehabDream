@@ -395,20 +395,14 @@ public class GameUIHandle : UIHandle
     }
 
     // 提示使用了错误肢体
-    public void ShowWrongLimb()
+    public IEnumerator ShowWrongLimb()
     {
         Tips.SetActive(false);
-        WrongLimb.SetActive(true);
-        StartCoroutine(CloseWrongLimb(_ShowWrongLimbTime));
+        this.ShowCanvaUI(this.WrongLimb, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        this.CloseCanvaUI(this.WrongLimb, 2.0f);
     }
 
-    // 结束报错
-    private IEnumerator CloseWrongLimb(float ShowWrongLimbTime)
-    {
-        yield return new WaitForSeconds(ShowWrongLimbTime); //先直接返回，之后的代码等待给定的时间周期过完后执行
-        WrongLimb.SetActive(false);
-        Tips.SetActive(true);
-    }
 
     // show ShowAddSuccessCountText
     public IEnumerator ShowAddSuccessCountText(int AddCount, float AddSuccessCountTime)
@@ -422,9 +416,9 @@ public class GameUIHandle : UIHandle
     // show EncouragePicture
     public IEnumerator ShowEncouragePicture(int index, float DisapperaTime)
     {
-        this.ShowPicture(this.EncouragePictures[index], 0.3f);
+        this.ShowCanvaUI(this.EncouragePictures[index], 0.3f);
         yield return new WaitForSeconds(0.3f);
-        this.ClosePicture(this.EncouragePictures[index], DisapperaTime);
+        this.CloseCanvaUI(this.EncouragePictures[index], DisapperaTime);
     }
 
 

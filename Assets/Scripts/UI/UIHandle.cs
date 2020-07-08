@@ -80,13 +80,13 @@ public class UIHandle : MonoBehaviour {
     }
 
 
-    // display picture in ShowTime
-    public virtual void ShowPicture(GameObject Picture, float ShowTime)
+    // display CanvaUI in ShowTime
+    public virtual void ShowCanvaUI(GameObject CanvaUI, float ShowTime)
     {
-        Picture.SetActive(true);
+        CanvaUI.SetActive(true);
         Sequence AnimationSequence = DOTween.Sequence();
 
-        CanvasGroup CanvasGroup = Picture.GetComponent<CanvasGroup>();
+        CanvasGroup CanvasGroup = CanvaUI.GetComponent<CanvasGroup>();
 
         CanvasGroup.alpha = 0;
         CanvasGroup.blocksRaycasts = true;
@@ -102,15 +102,14 @@ public class UIHandle : MonoBehaviour {
         // 并行播放
         AnimationSequence.Insert(0f, tweener2);          //变深
         AnimationSequence.Insert(0f, tweener3);         //由小变大
-        Debug.Log(1);
     }
 
-    // disactive picture in DisappearTime
-    public virtual void ClosePicture(GameObject Picture, float DisappearTime)
+    // disactive CanvaUI in DisappearTime
+    public virtual void CloseCanvaUI(GameObject CanvaUI, float DisappearTime)
     {
         Sequence AnimationSequence = DOTween.Sequence();
 
-        CanvasGroup CanvasGroup = Picture.GetComponent<CanvasGroup>();
+        CanvasGroup CanvasGroup = CanvaUI.GetComponent<CanvasGroup>();
 
         CanvasGroup.alpha = 1;
         CanvasGroup.blocksRaycasts = true;
@@ -126,9 +125,8 @@ public class UIHandle : MonoBehaviour {
         // 并行播放
         AnimationSequence.Insert(0f, tweener2);          //变深
         AnimationSequence.Insert(0f, tweener3);         //由大变小
-        Debug.Log(1);
-        // 时间到后关闭picture
-        StartCoroutine(Disactive(Picture, DisappearTime));
+        // 时间到后关闭CanvaUI
+        StartCoroutine(Disactive(CanvaUI, DisappearTime));
     }
 
     // disactive Go

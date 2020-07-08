@@ -508,17 +508,17 @@ public class AvatarCaculator : MonoBehaviour
         HumanBodyBones[] RightHandArray = new HumanBodyBones[]
         {
             HumanBodyBones.RightHand,
-            HumanBodyBones.RightLowerArm,
-            HumanBodyBones.RightUpperArm,
-            HumanBodyBones.RightShoulder
+           // HumanBodyBones.RightLowerArm,
+           // HumanBodyBones.RightUpperArm,
+           // HumanBodyBones.RightShoulder
         };
 
         HumanBodyBones[] LeftHandArray = new HumanBodyBones[]
         {
             HumanBodyBones.LeftHand,
-            HumanBodyBones.LeftLowerArm,
-            HumanBodyBones.LeftUpperArm,
-            HumanBodyBones.LeftShoulder
+           // HumanBodyBones.LeftLowerArm,
+           // HumanBodyBones.LeftUpperArm,
+           // HumanBodyBones.LeftShoulder
         };
 
         HumanBodyBones[] RightFootArray = new HumanBodyBones[]
@@ -567,6 +567,7 @@ public class AvatarCaculator : MonoBehaviour
 
         return false;
     }
+
 
 
     public string Point2Limb(HumanBodyBones Point)
