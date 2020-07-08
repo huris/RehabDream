@@ -38,6 +38,14 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public GameObject ModifyButton;
 
+    public GameObject ActionModify;
+
+    public int ModifyActionID;
+    public Text ActionModifyTitle;
+    public Image FrontViewImage;
+    public Image SideViewImage;
+
+
     void OnEnable()
     {
         ScaleID = new List<int>(DATA.TrainingProgramIDToName.Keys);
@@ -121,6 +129,7 @@ public class ScaleActionInitScript : MonoBehaviour
                     }
                     else
                     {
+                        ModifyButtonOnClick();
                         ModifyButton.SetActive(false);
                     }
                 });
@@ -156,7 +165,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
                 });
 
-                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).name = i.ToString();   // 重新命名为0,1,2,3,4...
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).name = DoctorDataManager.instance.Actions[i].id.ToString();   // 重新命名为0,1,2,3,4...
 
                 //this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
@@ -198,6 +207,7 @@ public class ScaleActionInitScript : MonoBehaviour
                     }
                     else
                     {
+                        ModifyButtonOnClick();
                         ModifyButton.SetActive(false);
                     }
                 });
@@ -232,7 +242,7 @@ public class ScaleActionInitScript : MonoBehaviour
                     ActionNumText.text = TempScaleActionNum.ToString();
                 });
 
-                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).name = i.ToString();   // 重新命名为0,1,2,3,4...
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).name = DoctorDataManager.instance.Actions[i].id.ToString();   // 重新命名为0,1,2,3,4...
 
                 //this.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.AddListener(QuerySingleTrainingButtonOnClick);  // 查询身体状况
 
@@ -322,8 +332,6 @@ public class ScaleActionInitScript : MonoBehaviour
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((TempAllActionNum - 15) / 7 + 1) * 185f);
             }
         });
-
- 
     }
 
 
@@ -397,9 +405,36 @@ public class ScaleActionInitScript : MonoBehaviour
             ActionNumText.text = (long.Parse(ActionNumText.text) - 1).ToString();
         }
     }
+    
+    public void ModifyButtonOnClick()
+    {
+        ModifyActionID = -9999; // 首先令ModifyActionID为一个不可能的值，然后进行查找
+        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        {
+            if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
+            {
+                ModifyActionID = int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name);
+                break;
+            }
+        }
+
+        if(ModifyActionID == -9999)
+        {
+            for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+            {
+                if (this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
+                {
+                    ModifyActionID = int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name);
+                    break;
+                }
+            }
+        }
+
+        ActionModify.SetActive(true);
 
 
 
+    }
 
     public void SaveButtonOnClick()
     {
