@@ -51,6 +51,7 @@ public class ScaleActionInitScript : MonoBehaviour
     public List<Toggle> JointToggles;
     public List<Toggle> PersonToggles;
     public InputField ActionModifyName;
+    public Text ActionModifyID;
     public InputField ActionModifyCreateTime;
     public Text ActionModifyJointNum;
     public InputField ActionModifyDescription;
@@ -499,6 +500,7 @@ public class ScaleActionInitScript : MonoBehaviour
         StartCoroutine(new Utils().Load(SideViewImage, Environment.CurrentDirectory + DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].sideFilename));
 
         ActionModifyName.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].name;
+        ActionModifyID.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].id.ToString();
         ActionModifyCreateTime.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].createTime;
         //ActionModifyJointNum.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints.Count.ToString();
         ActionModifyJointNum.text = "0";

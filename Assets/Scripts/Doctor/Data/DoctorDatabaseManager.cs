@@ -2167,6 +2167,9 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             
             string QueryString = "UPDATE actions SET Name=" + AddSingleQuotes(ActionName) + " , ActionCreatTime=" + AddSingleQuotes(ActionCreatTime) + " , Describe=" + AddSingleQuotes(ActionDescription) + " , Checkjoints=" + AddSingleQuotes(ActionJointsIDString) + " where ID=" + ActionID.ToString();
+
+            print(QueryString);
+            
             sql.ExecuteQuery(QueryString);
         }
         catch (Exception e)
