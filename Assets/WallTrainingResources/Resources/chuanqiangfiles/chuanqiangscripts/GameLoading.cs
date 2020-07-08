@@ -14,7 +14,7 @@ public class GameLoading : MonoBehaviour {
         //Debug.Log("ID" + GameData.user_info[0].ID.ToString());
 
         Debug.Log(GameData.user_info.Count);
-        GameData.current_user_id = GameData.user_info[0].ID;
+        GameData.current_user_id = (int)PatientDataManager.instance.PatientID;
         Debug.Log("ID" + GameData.user_info[0].ID.ToString());
     }
     private void OnEnable()

@@ -5200,6 +5200,7 @@ GameObject:
   - component: {fileID: 446923404}
   - component: {fileID: 446923406}
   - component: {fileID: 446923405}
+  - component: {fileID: 446923407}
   m_Layer: 5
   m_Name: WrongText
   m_TagString: Untagged
@@ -5246,7 +5247,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 546d83055c21ce0458087c3060352691, type: 3}
-    m_FontSize: 35
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
@@ -5255,15 +5256,26 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u4F7F\u7528\u4E86\u9519\u8BEF\u7684\u80A2\u4F53"
+  m_Text: "\u8BF7\u4F7F\u7528\u53CC\u624B\u63A5\u7403"
 --- !u!222 &446923406
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 446923403}
+--- !u!225 &446923407
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 446923403}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &476124930
 GameObject:
   m_ObjectHideFlags: 0

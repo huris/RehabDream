@@ -262,7 +262,6 @@ public class GameState : MonoBehaviour
     {
         _Win += this.WriteDatabaseInGame;
         _Win += this.Encourage;
-        _Win += this.ShowAddSuccessCountText;
         _Win += this.AddSuccessCount;
         _Win += this.ResetFailCount;
         _Win += this.UpdateOneMaxDirection;
@@ -313,10 +312,24 @@ public class GameState : MonoBehaviour
     }
 
     // show "+1" in gameUI
-    private void ShowAddSuccessCountText()
+    private void AddSuccessCountText()
     {
         //Debug.Log("StartCoroutine");
         StartCoroutine(GameUIHandle.ShowAddSuccessCountText(AddCount, AddSuccessCountTime));
+    }
+
+    //SuccessCount+1
+    private void AddSuccessCount()
+    {
+        PatientDataManager.instance.SetSuccessCount(PatientDataManager.instance.SuccessCount + 1);
+        GameUIHandle.SetSuccessCountText(PatientDataManager.instance.SuccessCount);
+        AddSuccessCountText();
+    }
+
+    // FailCount++
+    private void AddFailCount()
+    {
+        _FailCount++;
     }
 
     private void Shoot2SessionOverFunc()
@@ -335,33 +348,18 @@ public class GameState : MonoBehaviour
     // check if player obey rules
     private void CheckObeyRules()
     {
-        //  CheckObeyRules()需要修改
-        //if (PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Entry||
-        //    PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Intermediate ||
-        //    PatientDataManager.instance.TrainingDifficulty == PatientDataManager.DifficultyType.Advanced)
-        //{
-        //    this._Win?.Invoke();
-        //    return;
-        //}
-
-        //HumanBodyBones Point = _Caculator.NearestPoint(Soccer.transform.position);
-        //if (_TipsLimb.Equals(_Caculator.Point2Limb(Point)))
-        //{
-        //    Debug.Log("@GameState: Nearest " + _TipsLimb);
-        //    this._Win?.Invoke();
-        //}
-        //else if (_Caculator.CloseEnough(Soccer.transform.position, _TipsLimb, _MinDis))
-        //{
-        //    Debug.Log("@GameState: Nearest _MinDis");
-        //    this._Win?.Invoke();
-        //}
-        //else
-        //{
-        //    this.ShowWrongLimb();
-        //    this._Fail?.Invoke();
-        //}
-
-        this._Win?.Invoke();
+        // 必须用双手接球
+        if (_Caculator.CloseEnough(Soccer.transform.position, "左手", 0.2f) &&
+            _Caculator.CloseEnough(Soccer.transform.position, "右手", 0.2f))
+        {
+        
+            this._Win?.Invoke();
+        }
+        else
+        {
+              this.ShowWrongLimb();
+               this._Fail?.Invoke();
+        }
     }
 
 
@@ -570,19 +568,6 @@ public class GameState : MonoBehaviour
         {
             return SeTips[0];
         }
-    }
-
-    //SuccessCount+1
-    private void AddSuccessCount()
-    {
-        PatientDataManager.instance.SetSuccessCount(PatientDataManager.instance.SuccessCount + 1);
-        GameUIHandle.SetSuccessCountText(PatientDataManager.instance.SuccessCount);
-    }
-
-    // FailCount++
-    private void AddFailCount()
-    {
-        _FailCount++;
     }
 
     // FailCount=0
@@ -958,7 +943,7 @@ public class GameState : MonoBehaviour
     // 提示使用了错误肢体
     private void ShowWrongLimb()
     {
-        GameUIHandle.ShowWrongLimb();
+        StartCoroutine(GameUIHandle.ShowWrongLimb());
     }
 
     // Generate everything for next Shoot
