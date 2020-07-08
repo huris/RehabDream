@@ -41,13 +41,28 @@ public class ScaleActionInitScript : MonoBehaviour
     public GameObject ActionModify;
 
     public int ModifyActionID;
+    //public Transform ActionModifyTransform;
     public Text ActionModifyTitle;
     public Image FrontViewImage;
     public Image SideViewImage;
+    public List<Toggle> JointToggles;
+    public List<Toggle> PersonToggles;
+    public InputField ActionModifyName;
+    public InputField ActionModifyCreateTime;
+    public Text ActionModifyJointNum;
+    public InputField ActionModifyDescription;
+
+    public Dictionary<int, int> toggleJointId2Index;
+
+    public Dictionary<int, int> ActionID2Index;
 
 
     void OnEnable()
     {
+        toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
+
+        ActionID2Index = new Dictionary<int, int>();
+
         ScaleID = new List<int>(DATA.TrainingProgramIDToName.Keys);
 
         ScaleType2Int.Clear();
@@ -116,6 +131,9 @@ public class ScaleActionInitScript : MonoBehaviour
         {
             ActionPrefab = Resources.Load("Prefabs/ActionImageItem") as GameObject;
 
+            //print(DoctorDataManager.instance.Actions[i].id + "    " + i);
+            ActionID2Index.Add(DoctorDataManager.instance.Actions[i].id, i);
+
             if (ScaleActionID2Num.ContainsKey(DoctorDataManager.instance.Actions[i].id)) 
             {
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
@@ -123,6 +141,8 @@ public class ScaleActionInitScript : MonoBehaviour
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
+                    ModifyActionID = int.Parse(obj.transform.parent.name);
+
                     if (obj.transform.GetComponent<Toggle>().isOn)
                     {
                         ModifyButton.SetActive(true);
@@ -201,6 +221,8 @@ public class ScaleActionInitScript : MonoBehaviour
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
+                    ModifyActionID = int.Parse(obj.transform.parent.name);
+
                     if (obj.transform.GetComponent<Toggle>().isOn)
                     {
                         ModifyButton.SetActive(true);
@@ -332,6 +354,24 @@ public class ScaleActionInitScript : MonoBehaviour
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((TempAllActionNum - 15) / 7 + 1) * 185f);
             }
         });
+
+        for (int i = 0; i < JointToggles.Count; i++)
+        {
+            JointToggles[i].onValueChanged.AddListener(delegate
+            {
+                int TempJointNum = 0;
+                for(int j = 0; j < JointToggles.Count; j++)
+                {
+                    if (JointToggles[j].isOn)
+                    {
+                        TempJointNum++;
+                    }
+                }
+
+                ActionModifyJointNum.text = TempJointNum.ToString();
+            });
+        }
+
     }
 
 
@@ -408,31 +448,87 @@ public class ScaleActionInitScript : MonoBehaviour
     
     public void ModifyButtonOnClick()
     {
-        ModifyActionID = -9999; // 首先令ModifyActionID为一个不可能的值，然后进行查找
-        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
-        {
-            if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
-            {
-                ModifyActionID = int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name);
-                break;
-            }
-        }
+        //ModifyActionID = -9999; // 首先令ModifyActionID为一个不可能的值，然后进行查找
 
-        if(ModifyActionID == -9999)
-        {
-            for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
-            {
-                if (this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
-                {
-                    ModifyActionID = int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name);
-                    break;
-                }
-            }
-        }
+        ////ActionModifyTransform = null;
+        //for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        //{
+        //    if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
+        //    {
+        //        ModifyActionID = int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name);
+        //        break;
+        //    }
+        //}
+
+        //if(ModifyActionID == -9999)
+        //{
+        //    for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+        //    {
+        //        if (this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn)
+        //        {
+        //            ModifyActionID = int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name);
+        //            break;
+        //        }
+        //    }
+        //}
 
         ActionModify.SetActive(true);
 
+        //for(int i = 0; i < DoctorDataManager.instance.Actions.Count; i++)
+        //{
+        //    if(DoctorDataManager.instance.Actions[i].id == ModifyActionID)
+        //    {
+        //        ModifyActionID = i;
+        //        break;
+        //    }
+        //}
 
+        //print(ModifyActionID);
+        //print(ActionID2Index[ModifyActionID]);
+
+
+        ActionModifyTitle.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].name;
+        StartCoroutine(new Utils().Load(FrontViewImage, Environment.CurrentDirectory + DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].filename));
+        StartCoroutine(new Utils().Load(SideViewImage, Environment.CurrentDirectory + DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].sideFilename));
+
+        ActionModifyName.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].name;
+        ActionModifyCreateTime.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].createTime;
+        //ActionModifyJointNum.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints.Count.ToString();
+        ActionModifyJointNum.text = "0";
+        ActionModifyDescription.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].describe;
+        //print("!!!!!!");
+        //print(JointToggles.Count + "   " + PersonToggles.Count);
+
+        for (int i = 0; i < JointToggles.Count; i++)
+        {
+            //print(i + "!!!!");
+            JointToggles[i].isOn = false;
+            //print(i + "!!!!");
+            PersonToggles[i].isOn = false;
+        }
+        
+        //print("!!!!!!@@@1");
+
+        //print(DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints.Count);
+        for (int i = 0; i < DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints.Count; i++)
+        {
+            //print(DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints[i]);
+
+            //print(toggleJointId2Index[DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints[i]]);
+
+            JointToggles[toggleJointId2Index[DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints[i]]].isOn = true;
+        }
+
+    }
+
+
+    public void ActionModifySaveButtonOnClick()
+    {
+
+    }
+
+    public void ActionModifyExitButtonOnClick()
+    {
 
     }
 

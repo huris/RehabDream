@@ -2156,7 +2156,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         string queryString = "SELECT * FROM trainingdata WHERE UserId=" + PatientID + " order by StartTime";
 
-        print(queryString);
+        //print(queryString);
 
         try
         {
