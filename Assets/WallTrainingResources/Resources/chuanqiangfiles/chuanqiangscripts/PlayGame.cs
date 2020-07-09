@@ -1597,6 +1597,8 @@ public class PlayGame : MonoBehaviour
                 "'" + JsonHelper.SerializeObject(td.overview) + "'",
                 "'" + JsonHelper.SerializeObject(td.detail) + "'" });
             reader.Close();
+
+            DoctorDataManager.instance.doctor.patient.WallEvaluations.Add(td);
         }
         catch (Exception e)
         {
