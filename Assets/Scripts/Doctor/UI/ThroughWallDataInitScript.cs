@@ -135,7 +135,15 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         }
 
         WallEvaluationScore.text = "评分: " + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.score.ToString();
-        LastWallEvaluationScore.text = "上次评分: " + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.lastScore.ToString();
+        
+        if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.lastScore == -1)
+        {
+            LastWallEvaluationScore.text = "";
+        }
+        else
+        {
+            LastWallEvaluationScore.text = "上次评分: " + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.lastScore.ToString();
+        }
 
         WallEvaluationPassScore.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.passScore.ToString() + "%";
         WallEvaluationAccuracyScore.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.accuracyScore.ToString() + "%";
