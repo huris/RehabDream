@@ -33,5 +33,5 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/kangfuxunlianertao.unity
+    path: Assets/Scenes/08-WallEvaluation.unity
     guid: 8df6c78b22878164e8cd1bf5e9c0a1ed

@@ -65,6 +65,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public bool IsUserSave;
 
+    public GameObject NoActionNum;
+
     void OnEnable()
     {
         toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
@@ -605,14 +607,22 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public void EvaluateButtonOnClick()
     {
-        SaveButtonOnClick();
+        //// TODO: 判断动作数是否有
 
-        PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
+        //print(ActionNumText);
 
-        // TODO: 判断动作数是否有
+        if(ActionNumText.text == "0")
+        {
+            NoActionNum.SetActive(true);
+        }
+        else
+        {
+            SaveButtonOnClick();
 
+            PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
-        SceneManager.LoadScene("08-WallEvaluation");
+            SceneManager.LoadScene("08-WallEvaluation");
+        }
     }
 
     public void SaveButtonOnClick()
@@ -651,9 +661,12 @@ public class ScaleActionInitScript : MonoBehaviour
         ExitButtonOnClick();
     }
 
-    // TODO: 量表改变，动作库改变
+    //// TODO: 量表改变，动作库改变
+    //public void ScaleValueChanged()
+    //{
 
 
+    //}
 
     public void ExitButtonOnClick()
     {
