@@ -668,7 +668,7 @@ public class ScaleActionInitScript : MonoBehaviour
     // TODO: 量表改变，动作库改变
     public void ScaleValueChanged()
     {
-        if (ScaleSelectValueChangedFirst)
+        if (ScaleSelectValueChangedFirst &&　(UserID != -1))
         {
             ScaleSelectValueChangedFirst = false;
         }
