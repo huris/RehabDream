@@ -121,11 +121,13 @@ public class PlayGame : MonoBehaviour
                         {
                             transform.GetChild(i).gameObject.SetActive(false);
                         }
-                        currentUser = GameData.user_info[GameData.current_user_id];
-                        currentLevel = currentUser.level;
-
-
-
+                        foreach(var user in GameData.user_info)
+                        {
+                            if(user.ID == GameData.current_user_id)
+                            {
+                                currentLevel = currentUser.level;
+                            }
+                        }
 
 
                         //生成游戏中以此出现的动作序列
