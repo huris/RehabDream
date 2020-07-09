@@ -5,6 +5,7 @@ using Windows.Kinect;
 using Microsoft.Kinect.VisualGestureBuilder;
 using UnityEngine.UI;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 // Adapted from DiscreteGestureBasics-WPF by Momo the Monster 2014-11-25
 // For Helios Interactive - http://heliosinteractive.com
@@ -145,11 +146,25 @@ public class GestureSourceManager : MonoBehaviour
 
             // Load all gestures
             IList<Gesture> gesturesList = _Database.AvailableGestures;
-            for (int g = 0; g < gesturesList.Count; g++)
+
+            Debug.Log("gesturesList.Count: " + gesturesList.Count);
+
+            foreach(var gesture in gesturesList)
             {
-                Gesture gesture = gesturesList[g];
+
                 Debug.Log("@GestureSourceManager: Model name is: " + gesture.Name);
-                _Source.AddGesture(gesture);
+
+
+                try { 
+
+                    _Source.AddGesture(gesture);
+
+                }
+                catch(COMException e)
+                {
+
+                }
+
             }
 
         }
@@ -347,7 +362,7 @@ public class GestureSourceManager : MonoBehaviour
 
             Debug.Log("@GestureSourceManager: No Kinect frame!");
 
-            return 0f;
+            return -1f;
         }
     }
 

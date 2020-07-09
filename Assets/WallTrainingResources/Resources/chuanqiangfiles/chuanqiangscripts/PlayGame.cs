@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class PlayGame : MonoBehaviour
 {
@@ -425,127 +426,165 @@ public class PlayGame : MonoBehaviour
                             Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
 
 
-                            #region 按照Kinect模型评分在屏幕上显示结果
-                            if (KinectValue < 0)
+                            // 动作可以使用Kinect检测
+                            if(KinectScore != -100)
                             {
-                                passNum++;
-                                //AudiosManager.instance.PlayAudioEffect("pass");
-                                performance.SetActive(true);
-                                performanceTimes.SetActive(false);
-                                if (KinectValue == -1)//good
+                                #region 按照Kinect模型评分在屏幕上显示结果
+                                if (KinectValue < 0)
                                 {
-                                    AudiosManager.instance.PlayAudioEffect("棒");
-                                    perfectNum = 0;
-                                    greatNum = 0;
-                                    goodNum++;
-                                    StartCoroutine(ComboFadeInFadeOut("good", goodNum));
+                                    passNum++;
+                                    //AudiosManager.instance.PlayAudioEffect("pass");
+                                    performance.SetActive(true);
+                                    performanceTimes.SetActive(false);
+                                    if (KinectValue == -1)//good
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("棒");
+                                        perfectNum = 0;
+                                        greatNum = 0;
+                                        goodNum++;
+                                        StartCoroutine(ComboFadeInFadeOut("good", goodNum));
 
 
-                                }
-                                else if (KinectValue == -2)//GREAT
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("很棒");
-                                    perfectNum = 0;
-                                    greatNum++;
-                                    goodNum = 0;
-                                    StartCoroutine(ComboFadeInFadeOut("great", greatNum));
+                                    }
+                                    else if (KinectValue == -2)//GREAT
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("很棒");
+                                        perfectNum = 0;
+                                        greatNum++;
+                                        goodNum = 0;
+                                        StartCoroutine(ComboFadeInFadeOut("great", greatNum));
 
+                                    }
+                                    else//PERFECT
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("完美");
+                                        perfectNum++;
+                                        greatNum = 0;
+                                        goodNum = 0;
+                                        StartCoroutine(ComboFadeInFadeOut("perfect", perfectNum));
+                                    }
                                 }
-                                else//PERFECT
+                                else
                                 {
-                                    AudiosManager.instance.PlayAudioEffect("完美");
-                                    perfectNum++;
-                                    greatNum = 0;
-                                    goodNum = 0;
-                                    StartCoroutine(ComboFadeInFadeOut("perfect", perfectNum));
+                                    StartCoroutine(RedScreenForNotPass());  //红屏1.5s
+                                    performance.SetActive(false);
+                                    performanceTimes.SetActive(false);
                                 }
+
+                                #endregion
                             }
                             else
                             {
-                                StartCoroutine(RedScreenForNotPass());  //红屏1.5s
-                                performance.SetActive(false);
-                                performanceTimes.SetActive(false);
+                                #region 按照角度检测评分
+                                if (value < 0)
+                                {
+                                    passNum++;
+                                    //AudiosManager.instance.PlayAudioEffect("pass");
+                                    performance.SetActive(true);
+                                    performanceTimes.SetActive(false);
+                                    if (value == -1)//good
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("棒");
+                                        perfectNum = 0;
+                                        greatNum = 0;
+                                        goodNum++;
+                                        StartCoroutine(ComboFadeInFadeOut("good", goodNum));
+
+
+                                    }
+                                    else if (value == -2)//GREAT
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("很棒");
+                                        perfectNum = 0;
+                                        greatNum++;
+                                        goodNum = 0;
+                                        StartCoroutine(ComboFadeInFadeOut("great", greatNum));
+
+                                    }
+                                    else//PERFECT
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("完美");
+                                        perfectNum++;
+                                        greatNum = 0;
+                                        goodNum = 0;
+                                        StartCoroutine(ComboFadeInFadeOut("perfect", perfectNum));
+                                    }
+                                }
+                                else
+                                {
+
+                                    StartCoroutine(RedScreenForNotPass());  //红屏1.5s
+                                    performance.SetActive(false);
+                                    performanceTimes.SetActive(false);
+
+                                    //重置连续成功次数
+                                    perfectNum = 0;
+                                    greatNum = 0;
+                                    goodNum = 0;
+                                    //AudiosManager.instance.PlayAudioEffect("not_pass");
+                                    if (value == 2)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("脖子歪了");
+                                    }
+                                    else if (value == 4)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("左肩不标准");
+                                    }
+                                    else if (value == 34 || value == 38)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("肩关节不标准");
+                                    }
+                                    else if (value == 5)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("左肘不标准");
+                                    }
+                                    else if (value == 35 || value == 39)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("肘关节不标准");
+                                    }
+                                    else if (value == 8)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("右肩不标准");
+                                    }
+                                    else if (value == 9)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("右肘不标准");
+                                    }
+                                    else if (value == 12)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("左髋不标准");
+                                    }
+                                    else if (value == 42 || value == 46)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("髋关节不标准");
+                                    }
+                                    else if (value == 16)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("右髋不标准");
+                                    }
+                                    else if (value == 13)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("左膝不标准");
+                                    }
+                                    else if (value == 43 || value == 47)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("膝关节不标准");
+                                    }
+                                    else if (value == 14)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("左脚不标准");
+                                    }
+                                    else if (value == 17)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("右膝不标准");
+                                    }
+                                    else if (value == 18)
+                                    {
+                                        AudiosManager.instance.PlayAudioEffect("右脚不标准");
+                                    }
+                                }
+                                #endregion
                             }
-
-                            #endregion
-
-
-
-                            #region 按照角度检测评分在屏幕上显示不标准的关节
-                            if (value < 0)
-                            {
-
-                            }
-                            else
-                            {
-                                //重置连续成功次数
-                                perfectNum = 0;
-                                greatNum = 0;
-                                goodNum = 0;
-                                //AudiosManager.instance.PlayAudioEffect("not_pass");
-                                if (value == 2)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("脖子歪了");
-                                }
-                                else if (value == 4)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("左肩不标准");
-                                }
-                                else if (value == 34 || value == 38)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("肩关节不标准");
-                                }
-                                else if (value == 5)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("左肘不标准");
-                                }
-                                else if (value == 35 || value == 39)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("肘关节不标准");
-                                }
-                                else if (value == 8)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("右肩不标准");
-                                }
-                                else if (value == 9)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("右肘不标准");
-                                }
-                                else if (value == 12)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("左髋不标准");
-                                }
-                                else if (value == 42 || value == 46)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("髋关节不标准");
-                                }
-                                else if (value == 16)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("右髋不标准");
-                                }
-                                else if (value == 13)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("左膝不标准");
-                                }
-                                else if (value == 43 || value == 47)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("膝关节不标准");
-                                }
-                                else if (value == 14)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("左脚不标准");
-                                }
-                                else if (value == 17)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("右膝不标准");
-                                }
-                                else if (value == 18)
-                                {
-                                    AudiosManager.instance.PlayAudioEffect("右脚不标准");
-                                }
-                            }
-                            #endregion
-
 
 
                             GameObject tmpgo = walls[0];
@@ -1518,11 +1557,13 @@ public class PlayGame : MonoBehaviour
         //transform.root.Find("Login").gameObject.SetActive(true);
         //transform.root.Find("Loading").gameObject.SetActive(true);
 
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-            Application.Quit();
-    #endif
+        //#if UNITY_EDITOR
+        //    UnityEditor.EditorApplication.isPlaying = false;
+        //#else
+        //        Application.Quit();
+        //#endif
+
+        SceneManager.LoadScene("03-DoctorUI");
     }
     void UpdateDatabase()
     {
