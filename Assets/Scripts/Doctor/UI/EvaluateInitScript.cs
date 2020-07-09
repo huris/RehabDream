@@ -1208,6 +1208,7 @@ namespace XCharts
             RemoveLine();
 
             Report.SetActive(true);
+
             EvaluationToggle.isOn = true;
         }
 

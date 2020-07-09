@@ -121,11 +121,12 @@ public class PlayGame : MonoBehaviour
                         {
                             transform.GetChild(i).gameObject.SetActive(false);
                         }
-                        foreach(var user in GameData.user_info)
+                        foreach (var user in GameData.user_info)
                         {
-                            if(user.ID == GameData.current_user_id)
+                            if (user.ID == GameData.current_user_id)
                             {
-                                currentLevel = currentUser.level;
+                                currentLevel = user.level;
+                                currentUser = user;
                             }
                         }
 
@@ -150,7 +151,7 @@ public class PlayGame : MonoBehaviour
                         averageTime = currentLevel.wallSpeed;       //averageTime为墙运动到人所需要的时间
                         wallActionIds = new List<int>();
                         transform.root.Find("Game/Playing").gameObject.SetActive(true);
-                        name.text = GameData.user_info[GameData.current_user_id].name;
+                        name.text = currentUser.name;
                         leftTime.text = (currentLevel.wallSpeed * currentLevel.actionNum).ToString() + "秒";
                         wallprogress.text = "0 / " + actionNum;
                         totalNum = 0;
@@ -411,7 +412,7 @@ public class PlayGame : MonoBehaviour
 
 
                             //使用角度检测对动作评分
-                            int value = CheckThePosition();     
+                            int value = CheckThePosition();
 
 
                             //使用Kinect模型对动作评分
@@ -423,13 +424,26 @@ public class PlayGame : MonoBehaviour
                                     standord_action = DATA.actionList[i];       //读取标准动作
                                 }
                             }
-                            int KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                            int KinectScore = 0;
+
+
+                            // 存在该动作的Kinect模型
+                            if (DATA.Name2Gesture.ContainsKey(standord_action.name))
+                            {
+                                KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                            }
+                            else
+                            {
+                                Debug.Log("No Kinect gesture model: " + standord_action.name);
+                                KinectScore = -100;
+                            }
+
                             int KinectValue = Scores2CodeResult(KinectScore);
                             Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
 
 
                             // 动作可以使用Kinect检测
-                            if(KinectScore != -100)
+                            if (KinectScore != -100)
                             {
                                 #region 按照Kinect模型评分在屏幕上显示结果
                                 if (KinectValue < 0)
@@ -1242,7 +1256,7 @@ public class PlayGame : MonoBehaviour
         try
         {
             //queryString中的 StartTime 为疗程开始的时间
-            string queryString = "SELECT * FROM periodtrainingdata WHERE UserId=" + GameData.current_user_id + " and StartTime='" + GameData.user_info[GameData.current_user_id].level.StartTime + "' and TrainingType=" + trainingData.type;
+            string queryString = "SELECT * FROM periodtrainingdata WHERE UserId=" + GameData.current_user_id + " and StartTime='" + currentUser.level.StartTime + "' and TrainingType=" + trainingData.type;
             reader = sql.ExecuteQuery(queryString);
             reader.Read();
             periodData = new OnePeriodTrainingData();
@@ -1633,14 +1647,14 @@ public class PlayGame : MonoBehaviour
                     reader = sql.ExecuteQuery(queryString);
                     reader.Read();
                     int id = reader.GetInt32(0) + 1;
-                    sql.InsertValues("periodtrainingdata", 
-                        new string[] { 
-                            "" + id, 
-                            "" + GameData.current_user_id, 
-                            "'" + periodData.startTime + "'", 
-                            "" + periodData.type, 
+                    sql.InsertValues("periodtrainingdata",
+                        new string[] {
+                            "" + id,
+                            "" + GameData.current_user_id,
+                            "'" + periodData.startTime + "'",
+                            "" + periodData.type,
                             "'" + JsonHelper.SerializeObject(periodData.overview) + "'",
-                            "'" + JsonHelper.SerializeObject(periodData.detail) + "'" 
+                            "'" + JsonHelper.SerializeObject(periodData.detail) + "'"
                         });
                     reader.Close();
                 }
