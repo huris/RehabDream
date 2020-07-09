@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ThroughWallDataInitScript : MonoBehaviour {
 
@@ -156,6 +157,16 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         NoEvaluateData.SetActive(false);
         ActionSelectButtonOnClick();
     }
+
+    public void WallEvaluateButtonOnclick()
+    {
+
+        PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
+
+        SceneManager.LoadScene("08-WallEvaluation");
+          
+    }
+
 
     // Use this for initialization
     void Start () {

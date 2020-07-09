@@ -67,8 +67,12 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public GameObject NoActionNum;
 
+    public bool ScaleSelectValueChangedFirst;
+
     void OnEnable()
     {
+        ScaleSelectValueChangedFirst = true;
+
         toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
         toggleIndex2JointId = new Dictionary<int, int>() { {0, 2}, {1, 4}, {2, 8}, {3, 5}, {4, 9}, {5, 12}, {6, 16}, {7, 13}, {8, 17}, {9, 14}, {10, 18} };
 
@@ -661,12 +665,71 @@ public class ScaleActionInitScript : MonoBehaviour
         ExitButtonOnClick();
     }
 
-    //// TODO: 量表改变，动作库改变
-    //public void ScaleValueChanged()
-    //{
+    // TODO: 量表改变，动作库改变
+    public void ScaleValueChanged()
+    {
+        if (ScaleSelectValueChangedFirst)
+        {
+            ScaleSelectValueChangedFirst = false;
+        }
+        else
+        {
+            ScaleActionID2Num = new Dictionary<int, int>();
 
+            // 说明是自定义的量表，上面没有动作
+            if (ScaleSelect.value != ScaleSelect.options.Count - 1)
+            {
+                for (int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
+                {
+                    ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 6;
+                }
+            }
 
-    //}
+            //print(ScaleActionID2Num.Keys.Count);
+
+            for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+            {
+                //print(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name);
+                if (ScaleActionID2Num.ContainsKey(int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name)) && (ScaleActionID2Num[int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name)] > 0))
+                {
+                    this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text = (ScaleActionID2Num[int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name)]).ToString();
+                }
+                else
+                {
+                    this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text = "0";
+                    this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+            {
+                //print(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name);
+
+                if (ScaleActionID2Num.ContainsKey(int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)) && (ScaleActionID2Num[int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)] > 0))
+                {
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text = (ScaleActionID2Num[int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)]).ToString();
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                    i--;
+                }
+            }
+
+            int TempScaleActionNum = 0;
+
+            for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
+            {
+                TempScaleActionNum += int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(3).GetComponent<InputField>().text);
+            }
+
+            ActionNumText.text = TempScaleActionNum.ToString();
+
+            ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
+            AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
+
+            AdjustActionSetLayout();
+
+        }
+    }
 
     public void ExitButtonOnClick()
     {
@@ -700,8 +763,20 @@ public class ScaleActionInitScript : MonoBehaviour
                 {
                     this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text = "0";
                     this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                    i--;
                 }
             }
+
+            for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+            {
+                if (ScaleActionID2Num.ContainsKey(int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)) && (ScaleActionID2Num[int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)] > 0))
+                {
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text = (ScaleActionID2Num[int.Parse(this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).name)]).ToString();
+                    this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                    i--;
+                }
+            }
+
 
             int TempScaleActionNum = 0;
 
