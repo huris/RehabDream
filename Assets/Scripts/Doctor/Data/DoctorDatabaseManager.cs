@@ -2166,9 +2166,10 @@ public class DoctorDatabaseManager : MonoBehaviour
             ActionJointsIDString += "]";
 
             
-            string QueryString = "UPDATE actions SET Name=" + AddSingleQuotes(ActionName) + " , ActionCreatTime=" + AddSingleQuotes(ActionCreatTime) + " , Describe=" + AddSingleQuotes(ActionDescription) + " , Checkjoints=" + AddSingleQuotes(ActionJointsIDString) + " where ID=" + ActionID.ToString();
+            string QueryString = "UPDATE actions SET Name=" + AddSingleQuotes(ActionName) + " , CreateTime=" + AddSingleQuotes(ActionCreatTime) + " , Describe=" + AddSingleQuotes(ActionDescription) + " , CheckJoints=" + AddSingleQuotes(ActionJointsIDString) + " where ID=" + ActionID.ToString();
 
-            print(QueryString);
+            //print(sql);
+            //print(QueryString);
             
             sql.ExecuteQuery(QueryString);
         }
