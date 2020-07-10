@@ -69,6 +69,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public bool ScaleSelectValueChangedFirst;
 
+    public GameObject NoEvaluateData;
+
     void OnEnable()
     {
         ScaleSelectValueChangedFirst = true;
@@ -794,6 +796,11 @@ public class ScaleActionInitScript : MonoBehaviour
         }
 
         ActionResource.SetActive(false);
+
+        if(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count == 0)
+        {
+            NoEvaluateData.SetActive(true);
+        }
     }
 
 

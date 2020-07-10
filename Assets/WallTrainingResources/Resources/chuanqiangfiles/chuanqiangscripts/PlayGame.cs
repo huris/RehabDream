@@ -121,9 +121,9 @@ public class PlayGame : MonoBehaviour
                         {
                             transform.GetChild(i).gameObject.SetActive(false);
                         }
-                        foreach(var user in GameData.user_info)
+                        foreach (var user in GameData.user_info)
                         {
-                            if(user.ID == GameData.current_user_id)
+                            if (user.ID == GameData.current_user_id)
                             {
                                 currentLevel = user.level;
                                 currentUser = user;
@@ -412,7 +412,7 @@ public class PlayGame : MonoBehaviour
 
 
                             //使用角度检测对动作评分
-                            int value = CheckThePosition();     
+                            int value = CheckThePosition();
 
 
                             //使用Kinect模型对动作评分
@@ -443,7 +443,7 @@ public class PlayGame : MonoBehaviour
 
 
                             // 动作可以使用Kinect检测
-                            if(KinectScore != -100)
+                            if (KinectScore != -100)
                             {
                                 #region 按照Kinect模型评分在屏幕上显示结果
                                 if (KinectValue < 0)
@@ -1647,14 +1647,14 @@ public class PlayGame : MonoBehaviour
                     reader = sql.ExecuteQuery(queryString);
                     reader.Read();
                     int id = reader.GetInt32(0) + 1;
-                    sql.InsertValues("periodtrainingdata", 
-                        new string[] { 
-                            "" + id, 
-                            "" + GameData.current_user_id, 
-                            "'" + periodData.startTime + "'", 
-                            "" + periodData.type, 
+                    sql.InsertValues("periodtrainingdata",
+                        new string[] {
+                            "" + id,
+                            "" + GameData.current_user_id,
+                            "'" + periodData.startTime + "'",
+                            "" + periodData.type,
                             "'" + JsonHelper.SerializeObject(periodData.overview) + "'",
-                            "'" + JsonHelper.SerializeObject(periodData.detail) + "'" 
+                            "'" + JsonHelper.SerializeObject(periodData.detail) + "'"
                         });
                     reader.Close();
                 }
