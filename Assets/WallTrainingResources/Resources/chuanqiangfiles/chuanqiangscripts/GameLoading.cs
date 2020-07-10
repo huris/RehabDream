@@ -6,6 +6,8 @@ public class GameLoading : MonoBehaviour {
     float constant_time = 2f;
     List<float> time;
     public GameObject progressbar;      // 识别人物进度条
+    public AvatarController avatar;
+
 	// Use this for initialization
 	void Start () {
         time = new List<float>();
@@ -34,6 +36,15 @@ public class GameLoading : MonoBehaviour {
                 }
             }
         }
+
+
+        // 保证切换场景时kinect 与 AvatarController不会失效
+        avatar.playerId = KinectManager.Instance.GetPrimaryUserID();
+        if (!KinectManager.Instance.avatarControllers.Contains(avatar))
+        {
+            KinectManager.Instance.avatarControllers.Add(avatar);
+        }
+
         for (int i=0;i<KinectManager.Instance.GetUsersCount();i++)
         {
             long userId = KinectManager.Instance.GetUserIdByIndex(i);
