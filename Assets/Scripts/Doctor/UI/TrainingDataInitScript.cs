@@ -19,6 +19,8 @@ public class TrainingDataInitScript : MonoBehaviour {
 
 	public Toggle TrainingPlanMakingToggle;
 
+	public Toggle Training;
+
 	// Use this for initialization
 	void Start() {
 
@@ -82,6 +84,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 	{
 		Report.SetActive(true);
 		TrainingToggle.isOn = true;
+		Training.isOn = true;
 	}
 
 	public void StartTraining()

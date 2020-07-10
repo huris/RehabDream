@@ -142,6 +142,7 @@ namespace XCharts
         public BarChart SoccerBar;
         public Serie DistanceSerie, TimeSerie;
 
+        public Toggle EvaluateToggle;
 
         void Start()
         {
@@ -1210,6 +1211,7 @@ namespace XCharts
             Report.SetActive(true);
 
             EvaluationToggle.isOn = true;
+            EvaluateToggle.isOn = true;
         }
 
     }
