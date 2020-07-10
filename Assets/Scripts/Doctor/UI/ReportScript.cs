@@ -35,7 +35,7 @@ public class ReportScript : MonoBehaviour
     void OnEnable()
     {
         WallEvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/WallEvaluationToggle").GetComponent<Toggle>();
-        EvaluationToggle = transform.Find("ReportToggle/EvaluationTogglee/Evaluation/Evaluations/EvaluationToggle").GetComponent<Toggle>();
+        EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/EvaluationToggle").GetComponent<Toggle>();
         TrainingToggle = transform.Find("ReportToggle/TrainingToggle/Training/Trainings/Training").GetComponent<Toggle>();
 
         x = 382.5f; y = 119.43f;   // 设置起始点

@@ -108,7 +108,7 @@ namespace XCharts
                     PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
                 }
                 EvaluationTitle = transform.Find("EvaluationTitle").GetComponent<Text>();
-                EvaluationTitle.text = PatientNameBlock + "第  " + (SingleEvaluation + 1).ToString() + "  次  评  估  报  告  表";
+                EvaluationTitle.text = PatientNameBlock + "第  " + (SingleEvaluation + 1).ToString() + "  次  Bobath  评  估  报  告  表";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
