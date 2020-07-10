@@ -125,7 +125,8 @@ public class PlayGame : MonoBehaviour
                         {
                             if(user.ID == GameData.current_user_id)
                             {
-                                currentLevel = currentUser.level;
+                                currentLevel = user.level;
+                                currentUser = user;
                             }
                         }
 
@@ -150,7 +151,7 @@ public class PlayGame : MonoBehaviour
                         averageTime = currentLevel.wallSpeed;       //averageTime为墙运动到人所需要的时间
                         wallActionIds = new List<int>();
                         transform.root.Find("Game/Playing").gameObject.SetActive(true);
-                        name.text = GameData.user_info[GameData.current_user_id].name;
+                        name.text = currentUser.name;
                         leftTime.text = (currentLevel.wallSpeed * currentLevel.actionNum).ToString() + "秒";
                         wallprogress.text = "0 / " + actionNum;
                         totalNum = 0;
@@ -423,7 +424,20 @@ public class PlayGame : MonoBehaviour
                                     standord_action = DATA.actionList[i];       //读取标准动作
                                 }
                             }
-                            int KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                            int KinectScore = 0;
+
+
+                            // 存在该动作的Kinect模型
+                            if (DATA.Name2Gesture.ContainsKey(standord_action.name))
+                            {
+                                KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                            }
+                            else
+                            {
+                                Debug.Log("No Kinect gesture model: " + standord_action.name);
+                                KinectScore = -100;
+                            }
+
                             int KinectValue = Scores2CodeResult(KinectScore);
                             Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
 
@@ -1242,7 +1256,7 @@ public class PlayGame : MonoBehaviour
         try
         {
             //queryString中的 StartTime 为疗程开始的时间
-            string queryString = "SELECT * FROM periodtrainingdata WHERE UserId=" + GameData.current_user_id + " and StartTime='" + GameData.user_info[GameData.current_user_id].level.StartTime + "' and TrainingType=" + trainingData.type;
+            string queryString = "SELECT * FROM periodtrainingdata WHERE UserId=" + GameData.current_user_id + " and StartTime='" + currentUser.level.StartTime + "' and TrainingType=" + trainingData.type;
             reader = sql.ExecuteQuery(queryString);
             reader.Read();
             periodData = new OnePeriodTrainingData();
