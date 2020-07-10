@@ -20,25 +20,32 @@ public class ReportScript : MonoBehaviour
 
     
 
-    public static string EvaluationReportPath = "Data/报告/评估报告";  //保存路径
-    public static string TrainingReportPath = "Data/报告/训练报告";  //保存路径
+    public static string WallEvaluationReportPath = "Data/报告/评估报告/动作姿势评估";  //保存路径
+    public static string EvaluationReportPath = "Data/报告/评估报告/Bobath评估";  //保存路径
+    public static string TrainingReportPath = "Data/报告/训练报告/足球守门训练";  //保存路径
     public string ReportPath = "";  // 报告完整路径
 
     public Rectangle pageSize = PageSize.A4;
     public int pagemode = 1;
 
+    public Toggle WallEvaluationToggle;
     public Toggle EvaluationToggle;
     public Toggle TrainingToggle;
 
     void OnEnable()
     {
-        EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle").GetComponent<Toggle>();
-        TrainingToggle = transform.Find("ReportToggle/TrainingToggle").GetComponent<Toggle>();
+        WallEvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/WallEvaluationToggle").GetComponent<Toggle>();
+        EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/EvaluationToggle").GetComponent<Toggle>();
+        TrainingToggle = transform.Find("ReportToggle/TrainingToggle/Training/Trainings/Training").GetComponent<Toggle>();
 
         x = 382.5f; y = 119.43f;   // 设置起始点
         width = 595; height = 842;  // 设置大小
 
-        if (EvaluationToggle.isOn)
+        if (WallEvaluationToggle.isOn)
+        {
+            SaveWallEvaluationReport();
+        }
+        else if (EvaluationToggle.isOn)
         {
             SaveEvaluationReport();
         }
@@ -47,6 +54,29 @@ public class ReportScript : MonoBehaviour
             SaveTrainingReport();
         }
 
+    }
+
+    public void SaveWallEvaluationReport()
+    {
+        ReportPath = WallEvaluationReportPath + "/" + DoctorDataManager.instance.doctor.patient.PatientID.ToString() + DoctorDataManager.instance.doctor.patient.PatientName;
+
+        string StartTime = DoctorDataManager.instance.doctor.patient.WallEvaluations[DoctorDataManager.instance.doctor.patient.WallEvaluationIndex].startTime;
+
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.WallEvaluationIndex + 1).ToString() + "次"
+            + "20" + StartTime.Substring(0, 2) + StartTime.Substring(3, 2) + StartTime.Substring(6, 2);
+
+        if (!Directory.Exists(ReportPath))
+        {
+            Directory.CreateDirectory(ReportPath);
+        }
+
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.WallEvaluationIndex + 1).ToString() + "次"
+            + "20" + StartTime.Substring(0, 2) + StartTime.Substring(3, 2) + StartTime.Substring(6, 2);
+
+        if (File.Exists(ReportPath + pdfName) == false)
+        {
+            StartCoroutine(GetScreenShot(ReportPath));
+        }
     }
 
     public void SaveEvaluationReport()

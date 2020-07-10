@@ -35,6 +35,10 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
     public GameObject ActionResource;
 
+    public GameObject Report;
+    public Toggle EvaluationToggle;
+    public Toggle WallEvaluateToggle;
+
 
     void OnEnable()
 	{
@@ -173,6 +177,14 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
         SceneManager.LoadScene("08-WallEvaluation");
           
+    }
+
+    public void ReadWallEvaluateReportButtonOnclick()
+    {
+        Report.SetActive(true);
+
+        EvaluationToggle.isOn = true;
+        WallEvaluateToggle.isOn = true;
     }
 
 

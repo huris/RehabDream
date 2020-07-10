@@ -502,6 +502,7 @@
      <Compile Include="Assets\Vectrosity\Demos\Scripts\Xray\XrayLineData.cs" />
      <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\BloomOptimized.cs" />
      <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\PostEffectsBase.cs" />
+     <Compile Include="Assets\WallEvaluatePrintScript.cs" />
      <Compile Include="Assets\WallTrainingResources\Beans\Beans.cs" />
      <Compile Include="Assets\WallTrainingResources\Beans\DSTSingleton.cs" />
      <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_DemoOrbitCamera.cs" />

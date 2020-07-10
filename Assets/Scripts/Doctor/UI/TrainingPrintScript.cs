@@ -79,7 +79,7 @@ namespace XCharts
                     PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
                 }
                 TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
-                TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  训  练  报  告  表";
+                TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  足  球  守  门  训  练  报  告  表";
 
                 // Information
                 InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
