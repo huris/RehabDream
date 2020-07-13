@@ -179,12 +179,43 @@ public class ScaleActionInitScript : MonoBehaviour
 
                     if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
                     {
-                        obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                        if (obj.transform.parent.parent.parent.parent.name == "ScaleAction")
+                        {
+                            int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                            for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                            {
+                                obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                            }
+
+                            obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+                        }
+                        else
+                        {
+                            obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                        }
                     }
                     else
                     {
-                        obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
-                        ScaleActionScrolbar.value = 0;
+                        if (obj.transform.parent.parent.parent.parent.name == "AllAction")
+                        {
+                            int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                            for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                            {
+                                obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                            }
+
+                            obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+
+                            ScaleActionScrolbar.value = 0;
+                        }
+                        else
+                        {
+                            obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                        }
                     }
 
                     AdjustActionSetLayout();
@@ -202,6 +233,23 @@ public class ScaleActionInitScript : MonoBehaviour
                     ActionNumText.text = TempScaleActionNum.ToString();
 
                 });
+
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(7).GetComponent<InputField>().text = (ScaleActionChildNum + 1).ToString();
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(7).GetComponent<InputField>().onEndEdit.AddListener(delegate
+                {
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+                    int TempID = int.Parse(obj.GetComponent<InputField>().text);
+
+                    obj.transform.parent.SetSiblingIndex(TempID - 1);
+
+                    for(int z = 0; z < obj.transform.parent.parent.childCount; z++)
+                    {
+                        obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
+                    }
+
+                });
+
 
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).name = DoctorDataManager.instance.Actions[i].id.ToString();   // 重新命名为0,1,2,3,4...
 
@@ -228,6 +276,9 @@ public class ScaleActionInitScript : MonoBehaviour
 
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(4).GetComponent<Button>().onClick.AddListener(ActionUponArrowOnClick);
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(5).GetComponent<Button>().onClick.AddListener(ActionDownArrowOnClick);
+
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(8).GetComponent<Button>().onClick.AddListener(ActionLeftArrowOnClick);
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(9).GetComponent<Button>().onClick.AddListener(ActionRightArrowOnClick);
 
                 ScaleActionChildNum++;
 
@@ -259,12 +310,43 @@ public class ScaleActionInitScript : MonoBehaviour
 
                     if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
                     {
-                        obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                        if (obj.transform.parent.parent.parent.parent.name == "ScaleAction")
+                        {
+                            int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                            for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                            {
+                                obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                            }
+
+                            obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+                        }
+                        else
+                        {
+                            obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                        }
                     }
                     else
                     {
-                        obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
-                        ScaleActionScrolbar.value = 0;
+                        if (obj.transform.parent.parent.parent.parent.name == "AllAction")
+                        {
+                            int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                            for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                            {
+                                obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                            }
+
+                            obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+
+                            ScaleActionScrolbar.value = 0;
+                        }
+                        else
+                        {
+                            obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                        }
                     }
 
                     AdjustActionSetLayout();
@@ -280,6 +362,22 @@ public class ScaleActionInitScript : MonoBehaviour
                     }
 
                     ActionNumText.text = TempScaleActionNum.ToString();
+                });
+
+
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(7).GetComponent<InputField>().text = (AllActionChildNum + 1).ToString();
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(7).GetComponent<InputField>().onEndEdit.AddListener(delegate
+                {
+                    GameObject obj = EventSystem.current.currentSelectedGameObject;
+                    
+                    int TempID = int.Parse(obj.GetComponent<InputField>().text);
+
+                    obj.transform.parent.SetSiblingIndex(TempID - 1);
+
+                    for (int z = 0; z < obj.transform.parent.parent.childCount; z++)
+                    {
+                        obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
+                    }
                 });
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).name = DoctorDataManager.instance.Actions[i].id.ToString();   // 重新命名为0,1,2,3,4...
@@ -307,6 +405,9 @@ public class ScaleActionInitScript : MonoBehaviour
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(4).GetComponent<Button>().onClick.AddListener(ActionUponArrowOnClick);
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(5).GetComponent<Button>().onClick.AddListener(ActionDownArrowOnClick);
+
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(8).GetComponent<Button>().onClick.AddListener(ActionLeftArrowOnClick);
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(9).GetComponent<Button>().onClick.AddListener(ActionRightArrowOnClick);
 
                 AllActionChildNum++;
             }
@@ -427,7 +528,25 @@ public class ScaleActionInitScript : MonoBehaviour
         {
             if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 0)
             {
-                obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+
+                if (obj.transform.parent.parent.parent.parent.name == "AllAction")
+                {
+                    int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                    for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                    {
+                        obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                    }
+
+                    obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                    obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+
+                    ScaleActionScrolbar.value = 0;
+                }
+                else
+                {
+                    obj.transform.parent.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
+                }
 
                 ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
                 AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
@@ -450,7 +569,22 @@ public class ScaleActionInitScript : MonoBehaviour
         {
             if (int.Parse(obj.transform.parent.GetChild(3).GetComponent<InputField>().text) == 1)
             {
-                obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                if (obj.transform.parent.parent.parent.parent.name == "ScaleAction")
+                {
+                    int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+                    for (int z = TempID; z < obj.transform.parent.parent.childCount; z++)
+                    {
+                        obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = z.ToString();
+                    }
+
+                    obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                    obj.transform.parent.GetChild(7).GetComponent<InputField>().text = obj.transform.parent.parent.childCount.ToString();
+                }
+                else
+                {
+                    obj.transform.parent.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
+                }
 
                 ScaleActionText.text = "量表动作（" + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount + "）";
                 AllActionText.text = "所有动作（" + this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + "）";
@@ -464,7 +598,35 @@ public class ScaleActionInitScript : MonoBehaviour
             ActionNumText.text = (long.Parse(ActionNumText.text) - 1).ToString();
         }
     }
-    
+
+    public void ActionLeftArrowOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+        int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+        if(TempID > 1)
+        {
+            obj.transform.parent.SetSiblingIndex(TempID - 2);
+            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = (TempID - 1).ToString();
+            obj.transform.parent.parent.GetChild(TempID - 1).GetChild(7).GetComponent<InputField>().text = TempID.ToString();
+        }
+    }
+
+    public void ActionRightArrowOnClick()
+    {
+        GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+        int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
+
+        if (TempID < obj.transform.parent.parent.childCount)
+        {
+            obj.transform.parent.SetSiblingIndex(TempID);
+            obj.transform.parent.GetChild(7).GetComponent<InputField>().text = (TempID + 1).ToString();
+            obj.transform.parent.parent.GetChild(TempID - 1).GetChild(7).GetComponent<InputField>().text = TempID.ToString();
+        }
+    }
+
     public void ModifyButtonOnClick()
     {
         //ModifyActionID = -9999; // 首先令ModifyActionID为一个不可能的值，然后进行查找
@@ -802,7 +964,6 @@ public class ScaleActionInitScript : MonoBehaviour
             NoEvaluateData.SetActive(true);
         }
     }
-
 
     // Use this for initialization
     void Start()
