@@ -431,6 +431,7 @@ public class PlayGame : MonoBehaviour
                             if (DATA.Name2Gesture.ContainsKey(standord_action.name))
                             {
                                 KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                                Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
                             }
                             else
                             {
@@ -439,7 +440,6 @@ public class PlayGame : MonoBehaviour
                             }
 
                             int KinectValue = Scores2CodeResult(KinectScore);
-                            Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
 
 
                             // 动作可以使用Kinect检测
@@ -1564,6 +1564,8 @@ public class PlayGame : MonoBehaviour
         transform.root.Find("Game/Over").gameObject.SetActive(false);
         state = "ready";
         StateTimes = 0;
+
+        SceneManager.LoadScene("08-WallEvaluation");
 
     }
     public void ClickNo()

@@ -349,8 +349,8 @@ public class GameState : MonoBehaviour
     private void CheckObeyRules()
     {
         // 必须用双手接球
-        if (_Caculator.CloseEnough(Soccer.transform.position, "左手", 0.2f) &&
-            _Caculator.CloseEnough(Soccer.transform.position, "右手", 0.2f))
+        if (_Caculator.CloseEnough(Soccer.transform.position, "左手", 0.3f) &&
+            _Caculator.CloseEnough(Soccer.transform.position, "右手", 0.3f))
         {
         
             this._Win?.Invoke();
