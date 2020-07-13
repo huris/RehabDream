@@ -151,6 +151,8 @@ namespace XCharts
                 // Chart
                 // 初始化对比结果
                
+                
+                
 
             }
 

@@ -10444,6 +10444,16 @@ Prefab:
       propertyPath: InitialModule.startSize.minScalar
       value: 0.1000
       objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4222d3bd8d11edc4a808cb2a283aa227, type: 2}
   m_IsPrefabParent: 0
@@ -43883,6 +43893,14 @@ Prefab:
     - target: {fileID: 1157831816364656, guid: 721860779f776ee49bfb61158deefc5c, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322671181163144, guid: 721860779f776ee49bfb61158deefc5c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322671181163144, guid: 721860779f776ee49bfb61158deefc5c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 721860779f776ee49bfb61158deefc5c, type: 2}

@@ -1579,6 +1579,7 @@ public class PlayGame : MonoBehaviour
         //        Application.Quit();
         //#endif
 
+
         SceneManager.LoadScene("03-DoctorUI");
     }
     void UpdateDatabase()
@@ -1702,7 +1703,7 @@ public class PlayGame : MonoBehaviour
 
         //创建Texture
         int width = 192;
-        int height = 108;
+        int height = 192;
         Texture2D texture = new Texture2D(width, height);
         texture.LoadImage(bytes);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));

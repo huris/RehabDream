@@ -71,6 +71,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public GameObject NoEvaluateData;
 
+    public GameObject LoadScene;
+
     void OnEnable()
     {
         ScaleSelectValueChangedFirst = true;
@@ -112,7 +114,7 @@ public class ScaleActionInitScript : MonoBehaviour
         if(UserID == -1)
         {
             ScaleSelect.value = 0;
-            ActionSpeedDropdown.value = 0;
+            ActionSpeedDropdown.value = 2;
             
             for(int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
             {
@@ -122,7 +124,7 @@ public class ScaleActionInitScript : MonoBehaviour
         else
         {
             ScaleSelect.value = ScaleType2Int[DoctorDataManager.instance.users[UserID].trainingTypeId];
-            ActionSpeedDropdown.value = DoctorDataManager.instance.users[UserID].level.wallSpeed - 3;
+            ActionSpeedDropdown.value = DoctorDataManager.instance.users[UserID].level.wallSpeed - 7;
 
             ScaleActionID2Num = DoctorDataManager.instance.users[UserID].level.actionRates;
         }
@@ -492,6 +494,8 @@ public class ScaleActionInitScript : MonoBehaviour
         }
 
         IsUserSave = false;
+
+        LoadScene.SetActive(false);
     }
 
 
@@ -789,6 +793,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
             PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
+            LoadScene.SetActive(true);
+
             SceneManager.LoadScene("08-WallEvaluation");
         }
     }
@@ -803,7 +809,7 @@ public class ScaleActionInitScript : MonoBehaviour
             TempSingleActionNum.Add(int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name), int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text));
         }
 
-        Level TempLevel = new Level(ActionSpeedDropdown.value + 3, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), 100000, false, int.Parse(ActionNumText.text), TempSingleActionNum);
+        Level TempLevel = new Level(ActionSpeedDropdown.value + 7, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), 100000, false, int.Parse(ActionNumText.text), TempSingleActionNum);
 
 
         //print(UserID);
@@ -878,11 +884,21 @@ public class ScaleActionInitScript : MonoBehaviour
                 }
             }
 
+
+
+
             int TempScaleActionNum = 0;
 
             for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
             {
                 TempScaleActionNum += int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(3).GetComponent<InputField>().text);
+
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
+            }
+
+            for (int z = 0; z < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; z++)
+            {
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
             }
 
             ActionNumText.text = TempScaleActionNum.ToString();
@@ -902,7 +918,7 @@ public class ScaleActionInitScript : MonoBehaviour
             if (UserID == -1)
             {
                 ScaleSelect.value = 0;
-                ActionSpeedDropdown.value = 0;
+                ActionSpeedDropdown.value = 2;
 
                 for (int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
                 {
@@ -912,7 +928,7 @@ public class ScaleActionInitScript : MonoBehaviour
             else
             {
                 ScaleSelect.value = ScaleType2Int[DoctorDataManager.instance.users[UserID].trainingTypeId];
-                ActionSpeedDropdown.value = DoctorDataManager.instance.users[UserID].level.wallSpeed - 3;
+                ActionSpeedDropdown.value = DoctorDataManager.instance.users[UserID].level.wallSpeed - 7;
 
                 ScaleActionID2Num = DoctorDataManager.instance.users[UserID].level.actionRates;
             }

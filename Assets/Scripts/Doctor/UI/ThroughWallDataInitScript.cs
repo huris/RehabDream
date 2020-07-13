@@ -39,7 +39,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
     public Toggle EvaluationToggle;
     public Toggle WallEvaluateToggle;
 
-
+    public GameObject LoadScene;
     void OnEnable()
 	{
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
@@ -75,6 +75,8 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         {
             NoEvaluateData.SetActive(true);
         }
+
+        LoadScene.SetActive(false);
     }
 
     public void ScaleChange()
@@ -175,8 +177,8 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
         PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
+        LoadScene.SetActive(true);
         SceneManager.LoadScene("08-WallEvaluation");
-          
     }
 
     public void ReadWallEvaluateReportButtonOnclick()
