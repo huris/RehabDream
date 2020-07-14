@@ -447,7 +447,6 @@
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
-     <Compile Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\_Internal\GrassRenderingReservedLayer.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\SetupForGrassRendering.cs" />
      <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\VolumeGrass.cs" />
@@ -651,9 +650,7 @@
      <Compile Include="Assets\XChartsDemo\Runtime\Demo_Animation.cs" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
-     <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
      <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
-     <None Include="Assets\Vectrosity\What to import!.txt" />
      <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
@@ -669,7 +666,6 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
      <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
      <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
      <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
@@ -678,7 +674,6 @@
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_WaterfallFoam.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
-     <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
      <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
      <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
