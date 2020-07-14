@@ -1240,13 +1240,13 @@ public class PlayGame : MonoBehaviour
         OneTrainingData oldData = new OneTrainingData();
         try
         {
-            string queryString = "SELECT * FROM trainingdata WHERE UserID=0 order by ID DESC limit 1";  //只返回UserID=0且ID最大的行
+            string queryString = "SELECT * FROM trainingdata WHERE UserID=" + GameData.current_user_id + " order by ID DESC limit 1";  //只返回UserID=0且ID最大的行
             reader = sql.ExecuteQuery(queryString);
             reader.Read();
             oldData.overrall = JsonHelper.DeserializeJsonToObject<OneTrainingOverrall>(reader.GetString(4));        //Json解码
             reader.Close();
         }
-        catch (Exception e)
+        catch (Exception e)///
         {
             print("训练数据为空！");
         }
@@ -1581,7 +1581,7 @@ public class PlayGame : MonoBehaviour
         //        Application.Quit();
         //#endif
 
-
+        
         SceneManager.LoadScene("03-DoctorUI");
     }
     void UpdateDatabase()
@@ -1618,6 +1618,7 @@ public class PlayGame : MonoBehaviour
             reader.Close();
 
             DoctorDataManager.instance.doctor.patient.WallEvaluations.Add(td);
+            DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count - 1);
         }
         catch (Exception e)
         {

@@ -73,9 +73,13 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public GameObject LoadScene;
 
+    public List<int> ActionSequence;
+
     void OnEnable()
     {
         ScaleSelectValueChangedFirst = true;
+
+        ActionSequence = null;
 
         toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
         toggleIndex2JointId = new Dictionary<int, int>() { {0, 2}, {1, 4}, {2, 8}, {3, 5}, {4, 9}, {5, 12}, {6, 16}, {7, 13}, {8, 17}, {9, 14}, {10, 18} };
@@ -147,12 +151,16 @@ public class ScaleActionInitScript : MonoBehaviour
         int ScaleActionChildNum = 0;
         int AllActionChildNum = 0;
 
+        for (int i = 0; i < DoctorDataManager.instance.Actions.Count; i++)
+        {
+            ActionID2Index.Add(DoctorDataManager.instance.Actions[i].id, i);
+        }
+
         for (int i = this.transform.GetChild(4).GetChild(0).GetChild(0).childCount + this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i < DoctorDataManager.instance.Actions.Count; i++)
         {
             ActionPrefab = Resources.Load("Prefabs/ActionImageItem") as GameObject;
 
             //print(DoctorDataManager.instance.Actions[i].id + "    " + i);
-            ActionID2Index.Add(DoctorDataManager.instance.Actions[i].id, i);
 
             if (ScaleActionID2Num.ContainsKey(DoctorDataManager.instance.Actions[i].id)) 
             {
@@ -472,7 +480,7 @@ public class ScaleActionInitScript : MonoBehaviour
             else
             {
                 //print(this.transform.childCount);
-                this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((TempAllActionNum - 15) / 7 + 1) * 185f);
+                GetComponent<RectTransform>().sizeDelta = new Vector2(1129.8f, 364.8f + ((TempAllActionNum - 15) / 7 + 1) * 185f);
             }
         });
 
@@ -493,9 +501,38 @@ public class ScaleActionInitScript : MonoBehaviour
             });
         }
 
+
+        if(UserID != -1)
+        {
+            List<int> TempActionSequenceList = new List<int>(DoctorDataManager.instance.users[UserID].level.actionRates.Keys);
+
+            for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
+            {
+                if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).name != TempActionSequenceList[z].ToString())
+                {
+                    for (int zz = z + 1; zz < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; zz++)
+                    {
+                        if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(zz).name == TempActionSequenceList[z].ToString())
+                        {
+                            this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(zz).SetSiblingIndex(z);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (int z = 0; z < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; z++)
+            {
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
+            }
+        }
+
         IsUserSave = false;
 
         LoadScene.SetActive(false);
+
+        //print("AAAAAAAA");
+        
     }
 
 
@@ -671,6 +708,12 @@ public class ScaleActionInitScript : MonoBehaviour
         //print(ModifyActionID);
         //print(ActionID2Index[ModifyActionID]);
 
+        //print(ModifyActionID);
+        //print(ActionID2Index.Count);
+        //foreach(var item in ActionID2Index)
+        //{
+        //    print(item);
+        //}
 
         ActionModifyTitle.text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].name;
         StartCoroutine(new Utils().Load(FrontViewImage, Environment.CurrentDirectory + DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].filename));
@@ -794,6 +837,8 @@ public class ScaleActionInitScript : MonoBehaviour
             PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
             LoadScene.SetActive(true);
+            
+            DoctorDataManager.instance.FunctionManager = 1;
 
             SceneManager.LoadScene("08-WallEvaluation");
         }

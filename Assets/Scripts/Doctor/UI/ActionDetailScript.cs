@@ -127,22 +127,32 @@ namespace XCharts
 
         public List<int> ActionID;
 
-        public void JointToggleChange()
+        public void PersonToggleChange()
         {
-            //DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(1);
-
-            JointToggleIndex = -1;
-
-            for (int i = 0; i < AngleToggles.Count; i++)
+            int TempPersonToggleChangeID = 0;
+            for (; TempPersonToggleChangeID < PeopleToggles.Count; TempPersonToggleChangeID++)
             {
-                if (AngleToggles[i].isOn)
-                {
-                    JointToggleIndex = i;
-                    break;
-                }
+                if (PeopleToggles[TempPersonToggleChangeID].isOn) break;
             }
 
-            //MethodToggles[0].isOn = true;
+            if (!AngleToggles[TempPersonToggleChangeID].isOn)
+            {
+                AngleToggles[TempPersonToggleChangeID].isOn = true;
+            }
+        }
+
+        public void JointToggleChange()
+        {
+            for (JointToggleIndex = 0; JointToggleIndex < AngleToggles.Count; JointToggleIndex++)
+            {
+                if (AngleToggles[JointToggleIndex].isOn) break;
+            }
+
+            if (!PeopleToggles[JointToggleIndex].isOn)
+            {
+                PeopleToggles[JointToggleIndex].isOn = true;
+            }
+
 
             while (ActionPassRateChart.series.list[0].data.Count > ActionID.Count)
             {
@@ -155,6 +165,7 @@ namespace XCharts
                 ActionPassRateChart.series.list[0].AddYData(-1f);
                 ActionPassRateChart.xAxis0.data.Add("A" + (ActionPassRateChart.xAxis0.data.Count + 1).ToString());
             }
+
 
             //if (JointToggleIndex == -1)
             //{
@@ -314,11 +325,15 @@ namespace XCharts
                     if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore != -1)
                     {
                         FirstAngleID = i;
+                        //print(FirstAngleID);
+                        //print(AngleToggles.Count);
                         AngleToggles[FirstAngleID].isOn = true;
                         break;
                     }
 
                 }
+
+                //print("!!!");
 
                 for (int i = 0; i < AngleToggles.Count; i++)
                 {

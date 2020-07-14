@@ -515,7 +515,7 @@ public class OneTrainingOverrall
         passScore = -1;
         accuracyScore = -1;
         duration = 0;
-        lastScore = 0;
+        lastScore = -1;
         compliance = 0;
         actionNum = 0;
     }

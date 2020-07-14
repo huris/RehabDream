@@ -54,6 +54,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
             ScaleSelect.ClearOptions();
 
             // 写一下量表选择
+
             int NumID = 0;
             for(int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
             {
@@ -102,8 +103,16 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
         NumberSelect.AddOptions(ListNumberEvaluation);
 
-        NumberSelect.value = NumIndex - 1;
-
+        //print(NumIndex);
+        if (NumberSelect.value == NumIndex - 1)
+        {
+            NumberChange();
+        }
+        else
+        {
+            //NumberSelect.RefreshShownValue();
+            NumberSelect.value = NumIndex - 1;
+        }
     }
 
     public void NumberChange()
@@ -178,6 +187,9 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
         LoadScene.SetActive(true);
+
+        DoctorDataManager.instance.FunctionManager = 1;
+
         SceneManager.LoadScene("08-WallEvaluation");
     }
 
