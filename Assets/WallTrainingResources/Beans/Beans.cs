@@ -560,7 +560,7 @@ public class OneJointData
     {
         actionPassBool = new Dictionary<int, List<int>>();
         passPercent = new Dictionary<int, float>();
-        passPercentScore = 0;
+        passPercentScore = -1;
         methodDatas = new Dictionary<int, OneMethodData>();
     }
 

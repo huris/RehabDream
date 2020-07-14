@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -143,10 +144,13 @@ namespace XCharts
 
         public void JointToggleChange()
         {
+            MethodToggles[0].isOn = true;
+
             for (JointToggleIndex = 0; JointToggleIndex < AngleToggles.Count; JointToggleIndex++)
             {
                 if (AngleToggles[JointToggleIndex].isOn) break;
             }
+
 
             if (!PeopleToggles[JointToggleIndex].isOn)
             {
@@ -165,33 +169,6 @@ namespace XCharts
                 ActionPassRateChart.series.list[0].AddYData(-1f);
                 ActionPassRateChart.xAxis0.data.Add("A" + (ActionPassRateChart.xAxis0.data.Count + 1).ToString());
             }
-
-
-            //if (JointToggleIndex == -1)
-            //{
-            //    ActionPassRateChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-            //    for (int i = 0; i < ActionPassRateChart.series.list[0].data.Count; i++)
-            //    {
-            //        ActionPassRateChart.series.UpdateData(0, i, -1f);
-            //    }
-
-            //    ActionDeviationChart.title.subText = "动作组均未涉及该关节,请选择其他关节";
-            //    for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-            //    {
-            //        ActionDeviationChart.series.UpdateData(0, i, -1f);
-            //    }
-
-            //    for (int i = 0; i < 4; i++)
-            //    {
-            //        MethodToggles[i].gameObject.SetActive(false);
-            //    }
-            //}
-            //else
-            //{
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    MethodToggles[i].gameObject.SetActive(false);
-            //}
 
             if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[JointToggleIndex]].passPercentScore == -1)
             {
@@ -234,17 +211,7 @@ namespace XCharts
                 }
             }
 
-
-            //ActionDeviationChart.title.subText = "请选择检测方法后查看";
-            //for (int i = 0; i < ActionDeviationChart.series.list[0].data.Count; i++)
-            //{
-            //    ActionDeviationChart.series.UpdateData(0, i, -1f);
-            //}
-
-            MethodToggles[0].isOn = true;
             MethodToggleChange();
-
-            //}
         }
 
         public void MethodToggleChange()
@@ -315,25 +282,10 @@ namespace XCharts
                 WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
 
                 ActionID = new List<int>(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overview.actionDatas.Keys);
+                //print(ActionID.Count);
 
                 toggleIndexTojointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
 
-                int FirstAngleID = 0;
-
-                for (int i = 0; i < AngleToggles.Count; i++)
-                { 
-                    if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore != -1)
-                    {
-                        FirstAngleID = i;
-                        //print(FirstAngleID);
-                        //print(AngleToggles.Count);
-                        AngleToggles[FirstAngleID].isOn = true;
-                        break;
-                    }
-
-                }
-
-                //print("!!!");
 
                 for (int i = 0; i < AngleToggles.Count; i++)
                 {
@@ -352,14 +304,47 @@ namespace XCharts
                     }
                 }
 
+                //print("!!!!");
 
-                JointToggleChange();
+                int FirstAngleID = 0;
+
+                for (int i = 0; i < AngleToggles.Count; i++)
+                {
+                    if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].detail.jointDatas[toggleIndexTojointId[i]].passPercentScore != -1)
+                    {
+                        FirstAngleID = i;
+                        //print(FirstAngleID);
+                        //print(AngleToggles.Count);
+                        AngleToggles[FirstAngleID].isOn = true;
+                        break;
+                    }
+                    //else
+                    //{
+                    //    AngleToggles[i].isOn = false;
+                    //}
+                }
+
+
+                //JointToggleChange();
             }
         }
 
         // Use this for initialization
         void Start()
         {
+
+            AngleToggles[0].onValueChanged.AddListener(delegate{if(AngleToggles[0].isOn)JointToggleChange();});
+            AngleToggles[1].onValueChanged.AddListener(delegate{if(AngleToggles[1].isOn)JointToggleChange();});
+            AngleToggles[2].onValueChanged.AddListener(delegate{if(AngleToggles[2].isOn)JointToggleChange();});
+            AngleToggles[3].onValueChanged.AddListener(delegate{if(AngleToggles[3].isOn)JointToggleChange();});
+            AngleToggles[4].onValueChanged.AddListener(delegate{if(AngleToggles[4].isOn)JointToggleChange();});
+            AngleToggles[5].onValueChanged.AddListener(delegate{if(AngleToggles[5].isOn)JointToggleChange();});
+            AngleToggles[6].onValueChanged.AddListener(delegate{if(AngleToggles[6].isOn)JointToggleChange();});
+            AngleToggles[7].onValueChanged.AddListener(delegate{if(AngleToggles[7].isOn)JointToggleChange();});
+            AngleToggles[8].onValueChanged.AddListener(delegate{if(AngleToggles[8].isOn)JointToggleChange();});
+            AngleToggles[9].onValueChanged.AddListener(delegate{if(AngleToggles[9].isOn)JointToggleChange();});
+            AngleToggles[10].onValueChanged.AddListener(delegate{if(AngleToggles[10].isOn)JointToggleChange();});
+
             ActionDetailInit();
         }
         // Update is called once per frame

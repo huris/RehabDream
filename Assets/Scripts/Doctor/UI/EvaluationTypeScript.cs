@@ -18,6 +18,20 @@ public class EvaluationTypeScript : MonoBehaviour {
 	public GameObject ThroughData;
 
 	// Use this for initialization
+
+	void OnEnable()
+	{
+		if(DoctorDataManager.instance.EvaluationType == 0)
+		{
+			ThroughWallToggle.isOn = true;
+		}
+		else if (DoctorDataManager.instance.EvaluationType == 1)
+		{
+			BobathToggle.isOn = true;
+		}
+
+	}
+
 	void Start () {
 		
 	}
@@ -31,6 +45,8 @@ public class EvaluationTypeScript : MonoBehaviour {
 	{
 		if(ThroughWallToggle.isOn)
 		{
+			DoctorDataManager.instance.EvaluationType = 0;
+
 			ThroughWallImage.color = new Color32(107, 125, 247, 255);
 			BobathImage.color = new Color32(233, 239, 244, 255);
 
@@ -46,6 +62,8 @@ public class EvaluationTypeScript : MonoBehaviour {
 	{
 		if (BobathToggle.isOn)
 		{
+			DoctorDataManager.instance.EvaluationType = 1;
+
 			ThroughWallImage.color = new Color32(233, 239, 244, 255); 
 			BobathImage.color = new Color32(107, 125, 247, 255);
 

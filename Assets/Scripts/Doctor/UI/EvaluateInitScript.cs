@@ -1198,7 +1198,7 @@ namespace XCharts
         {
 
             DoctorDataManager.instance.FunctionManager = 1;  // 返回的时候进入患者状况评估界面
-            
+            DoctorDataManager.instance.EvaluationType = 1;
             RemoveLine();
 
             SceneManager.LoadScene("05-RadarTest");

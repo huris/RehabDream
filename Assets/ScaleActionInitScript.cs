@@ -122,7 +122,7 @@ public class ScaleActionInitScript : MonoBehaviour
             
             for(int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
             {
-                ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 6;
+                ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 3;
             }
         }
         else
@@ -839,6 +839,7 @@ public class ScaleActionInitScript : MonoBehaviour
             LoadScene.SetActive(true);
             
             DoctorDataManager.instance.FunctionManager = 1;
+            DoctorDataManager.instance.EvaluationType = 0;
 
             SceneManager.LoadScene("08-WallEvaluation");
         }
@@ -896,7 +897,7 @@ public class ScaleActionInitScript : MonoBehaviour
             {
                 for (int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
                 {
-                    ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 6;
+                    ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 3;
                 }
             }
 
@@ -967,7 +968,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
                 for (int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
                 {
-                    ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 6;
+                    ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 3;
                 }
             }
             else

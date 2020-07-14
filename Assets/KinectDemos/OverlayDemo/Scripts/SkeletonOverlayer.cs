@@ -273,12 +273,10 @@ public class SkeletonOverlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        LeftTimeText.text = (LeftTouchFrame / 50).ToString();
-        CurrentScoreText.text = CurrentScore.ToString();
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (UponButton.activeSelf == true)
+            if (UponButton != null && UponButton.activeSelf == true)
             {
                 UponButtonOnClick();
             }
@@ -308,14 +306,17 @@ public class SkeletonOverlayer : MonoBehaviour
         //    //Buttons.transform.localPosition = new Vector3(0f, -641.9f, 0);
         //}
 
-        if(WaitTime == 0)
-        {
-            KinectDetectUIProgressSlider.gameObject.SetActive(false);
-        }
-        else if(WaitTime > 0)
-        {
-            KinectDetectUIProgressSlider.gameObject.SetActive(true);
-        }
+        //if(KinectDetectUIProgressSlider != null)
+        //{
+            //if (WaitTime == 0)
+            //{
+            //    KinectDetectUIProgressSlider.gameObject.SetActive(false);
+            //}
+            //else if (WaitTime > 0)
+            //{
+            //    KinectDetectUIProgressSlider.gameObject.SetActive(true);
+            //}
+        //}
 
         if (!IsOver && manager && manager.IsInitialized() && foregroundCamera)
         {
@@ -376,7 +377,17 @@ public class SkeletonOverlayer : MonoBehaviour
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
-                                    if(WaitTime < 3.0f)
+
+                                    if (WaitTime == 0)
+                                    {
+                                        KinectDetectUIProgressSlider.gameObject.SetActive(false);
+                                    }
+                                    else if (WaitTime > 0)
+                                    {
+                                        KinectDetectUIProgressSlider.gameObject.SetActive(true);
+                                    }
+
+                                    if (WaitTime < 3.0f)
                                     {
                                         WaitTime += Time.deltaTime;
                                         KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
@@ -439,6 +450,8 @@ public class SkeletonOverlayer : MonoBehaviour
                                         //{
                                         //    transform.GetChild(z).gameObject.SetActive(true);
                                         //}
+                                        LeftTimeText.text = (LeftTouchFrame / 50).ToString();
+                                        CurrentScoreText.text = CurrentScore.ToString();
 
                                         RayCastResult(posJoint);    // 发出射线射到哪个足球
                                                                     //DrawRayLine(camera.transform.position, posJoint);
@@ -1322,6 +1335,9 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         // 先判断数据库中是否有多余数据再删除
         PatientDatabaseManager.instance.DelTempEvaluationPoints(evaluation.EvaluationID);
+        DoctorDataManager.instance.FunctionManager = 1;
+        DoctorDataManager.instance.EvaluationType = 1;
+
 
         SceneManager.LoadScene("03-DoctorUI");
     }
@@ -1339,7 +1355,11 @@ public class SkeletonOverlayer : MonoBehaviour
 
             DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
         }
-        DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+        DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);        
+        DoctorDataManager.instance.FunctionManager = 1;
+        DoctorDataManager.instance.EvaluationType = 1;
+
+
         SceneManager.LoadScene("03-DoctorUI");
     }
 

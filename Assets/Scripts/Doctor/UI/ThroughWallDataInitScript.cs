@@ -71,6 +71,12 @@ public class ThroughWallDataInitScript : MonoBehaviour {
             ScaleSelect.AddOptions(ListScaleEvaluation);
 
             ScaleSelect.value = ScaleType2Int[DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].type];
+            
+            if(ScaleSelect.value == 0)
+            {
+                ScaleChange();
+            }
+            
         }
         else
         {
@@ -78,14 +84,18 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         }
 
         LoadScene.SetActive(false);
+
     }
 
     public void ScaleChange()
     {
+
         NumberID2Int.Clear();
         NumberInt2ID.Clear();
         ListNumberEvaluation.Clear();
         NumberSelect.ClearOptions();
+
+        //print("!!!!!");
 
         int NumIndex = 0;
         for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
@@ -101,6 +111,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
             }
         }
 
+        //print(ListNumberEvaluation.Count);
         NumberSelect.AddOptions(ListNumberEvaluation);
 
         //print(NumIndex);
@@ -189,6 +200,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         LoadScene.SetActive(true);
 
         DoctorDataManager.instance.FunctionManager = 1;
+        DoctorDataManager.instance.EvaluationType = 0;
 
         SceneManager.LoadScene("08-WallEvaluation");
     }
