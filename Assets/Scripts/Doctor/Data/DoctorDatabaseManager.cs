@@ -973,11 +973,15 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         try
         {
+
             reader = PatientDatabase.ExecuteQuery(QueryString);
             reader.Read();
 
             if (reader.HasRows)
             {
+                print(QueryString);
+
+
                 //write PatientID-PlanDifficulty-GameCount-PlanCount to DoctorDataBase.db
                 DoctorDatabase.InsertValues("TrainingPlan", //table name
                                             new String[] {
