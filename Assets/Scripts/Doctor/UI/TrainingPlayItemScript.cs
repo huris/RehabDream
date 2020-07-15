@@ -78,12 +78,20 @@ public class TrainingPlayItemScript : MonoBehaviour {
                 this.transform.GetChild(i).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingDirection;
                 this.transform.GetChild(i).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].TrainingTime.ToString();
 
-                float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
-                this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
 
-                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea.ToString("0.00");
+                if(DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount == 0)
+                {
+                    this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = "0.00%";
+                }
+                else
+                {
+                    float TrainingSuccessRate = 100.0f * DoctorDataManager.instance.doctor.patient.TrainingPlays[i].SuccessCount / DoctorDataManager.instance.doctor.patient.TrainingPlays[i].GameCount;
+                    this.transform.GetChild(i).GetChild(5).gameObject.GetComponent<Text>().text = TrainingSuccessRate.ToString("0.00") + "%";
+                }
 
-                this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString();
+                this.transform.GetChild(i).GetChild(6).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.DirectionRadarArea.ToString("0.0000");
+
+                this.transform.GetChild(i).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.TrainingPlays[i].direction.GetDirectionsArray()[Directions.value].ToString("0.0000");
 
 
                 //string TrainingEvaluation = "";

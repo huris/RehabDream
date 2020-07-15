@@ -2898,7 +2898,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -10129,8 +10129,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ReturnBackUI
+      - m_Target: {fileID: 273710877}
+        m_MethodName: DirectionReturnDoctorUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
