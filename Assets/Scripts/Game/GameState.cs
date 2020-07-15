@@ -55,8 +55,8 @@ public class GameState : MonoBehaviour
     [Header("Other Paraments")]
     public static int AddCount = 1;
     public static float MinDis = 0.1f;
-    public static float MinGate = 0.6f;
-    public static float MaxGate = 0.8f;
+    public static float MinGate = 1f;
+    public static float MaxGate = 1f;
 
     [Header("Random Range")]
     public float RandomXmin = -0.2f;
@@ -823,7 +823,7 @@ public class GameState : MonoBehaviour
 
         //Target = Target + Distance * e_Direction
         Target = Distance2Vector3(_TargetDistance, _Direction, Target);
-        _Tips = "请左右走动，朝" + PatientDataManager.DirectionType2Str(_Direction) + "方接球";
+        _Tips = "请左右走动，朝" + PatientDataManager.DirectionType2Str(_Direction) + "接球";
         return Target;
     }
 

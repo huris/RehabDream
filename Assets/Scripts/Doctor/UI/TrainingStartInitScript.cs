@@ -65,6 +65,7 @@ public class TrainingStartInitScript : MonoBehaviour {
 
 	public void DirectionReturnDoctorUI()
 	{
+		//DoctorDataManager.instance.FunctionManager = 3;
 		SceneManager.LoadScene("03-DoctorUI");
 	}
 
