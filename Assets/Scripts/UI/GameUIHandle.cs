@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -290,6 +291,8 @@ public class GameUIHandle : UIHandle
 
         if (trainingPlay != null)
         {
+            //Debug.Log(DoctorDataManager.instance.doctor.patient.TrainingPlays == null);
+            if (DoctorDataManager.instance.doctor.patient.TrainingPlays == null) DoctorDataManager.instance.doctor.patient.TrainingPlays = new List<TrainingPlay>();
             DoctorDataManager.instance.doctor.patient.TrainingPlays.Add(trainingPlay);
             DoctorDataManager.instance.doctor.patient.SetTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.TrainingPlays.Count - 1);
         }
@@ -338,7 +341,7 @@ public class GameUIHandle : UIHandle
     public void SetDataPatientRecord()
     {
         // set TrainingID
-        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID());
+        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID() + 1);
 
         // set  MaxSuccessCount
         PatientDataManager.instance.SetMaxSuccessCount(
@@ -380,6 +383,7 @@ public class GameUIHandle : UIHandle
     {
         //print(Tip + "   @@@@@");
         string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
+
         if (Array.IndexOf(Tips, Tip) == -1)
         {
             // 不是方向字符串
@@ -401,6 +405,7 @@ public class GameUIHandle : UIHandle
         this.ShowCanvaUI(this.WrongLimb, 0.2f);
         yield return new WaitForSeconds(0.2f);
         this.CloseCanvaUI(this.WrongLimb, 2.0f);
+        Tips.SetActive(true);
     }
 
 
