@@ -319,7 +319,7 @@ public class StartUIHandle : UIHandle
     public void SetDataPatientRecord()
     {
         // set TrainingID
-        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID());
+        PatientDataManager.instance.SetTrainingID(PatientDatabaseManager.instance.GenerateTrainingID() + 1);
 
         // set  MaxSuccessCount
         PatientDataManager.instance.SetMaxSuccessCount(
