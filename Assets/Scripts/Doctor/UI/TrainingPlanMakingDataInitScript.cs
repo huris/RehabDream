@@ -33,6 +33,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     private Selectable SelecInput;   // 当前焦点所处的Input
     private Selectable NextInput;   // 目标Input
 
+    public GameObject PatientInfo;
 
     // Use this for initialization
     void Start() {
@@ -217,6 +218,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 
                 DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
 
+                PatientInfo.SetActive(false);
+                PatientInfo.SetActive(true);
+
                 PlanMakingSuccess.SetActive(true);
 
                 //StartCoroutine(DelayTime(3));
@@ -250,6 +254,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 {
                     DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
                     //DoctorDataManager.instance.Patients[DoctorDataManager.instance.PatientIndex].trainingPlan.SetPlanIsMaking(false);
+
+                    PatientInfo.SetActive(false);
+                    PatientInfo.SetActive(true);
 
                     PlanDeleteSuccess.SetActive(true);
 
