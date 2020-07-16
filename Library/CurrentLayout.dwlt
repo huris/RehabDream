@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -43,7 +43,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -228,7 +228,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1205
-    height: 221
+    height: 230
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 16}
@@ -251,9 +251,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 221
+    y: 230
     width: 1205
-    height: 726
+    height: 717
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
@@ -289,25 +289,25 @@ MonoBehaviour:
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: f6430000
     m_LastClickedID: 0
-    m_ExpandedIDs: a6fbffff00000000
+    m_ExpandedIDs: 6a49fbff445ffbfffe62fbff6481fbff0885fbffc0ddfbffeceefbff2814fcff68a3fcff44a5fcff3a24fdfff631fdff9440fdfff49cfdff820ffefff636feffe048feff5458feff22befeff9274ffffec89ffff769fffff28c9ffffa6fbfffff4ffffff00000000c04f010090e703009ae8030096c20400a0c30400f2c40400fcc50400a0f4060034640700aecf07001e970900
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: KinectController
+      m_OriginalName: KinectController
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 631022
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 7}
     m_SearchString: 
   m_ExpandedScenes:
   - 01-DoctorLogin
@@ -385,18 +385,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Scenes
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: F:\underground\SoccerRehabilitationSystem
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 682f0000
-    m_LastClickedID: 12136
+    m_SelectedIDs: ba450000
+    m_LastClickedID: 17850
     m_ExpandedIDs: 00000000682f00001c300000e03000006e320000bc330000cc3300007e340000be3400000035000058350000a2350000243700006437000020380000ce380000d2380000f23b0000c43d00004e3e0000c03e000036400000f0410000b8420000ba430000fc440000ac4600007c470000624800006a490000ea490000924a0000ea4a0000f04b0000ae4c0000784d0000c8520000ca520000cc520000ce520000d0520000d2520000d4520000d6520000d8520000da52000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -452,24 +452,24 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: GameState
+      m_OriginalName: GameState
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 2902
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 8}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -503,9 +503,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 313
+    y: 322
     width: 1203
-    height: 705
+    height: 696
   m_MaximizeOnPlay: 0
   m_Gizmos: 0
   m_Stats: 0
@@ -535,9 +535,9 @@ MonoBehaviour:
       x: 0
       y: 17
       width: 1203
-      height: 688
+      height: 679
     m_Scale: {x: 0.6265625, y: 0.6265625}
-    m_Translation: {x: 601.5, y: 344}
+    m_Translation: {x: 601.5, y: 339.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -545,14 +545,14 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -960.00006
-      y: -549.02747
+      y: -541.8454
       width: 1920.0001
-      height: 1098.0549
+      height: 1083.6908
     m_MinimalGUI: 1
   m_defaultScale: 0.6265625
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1203, y: 705}
+  m_LastWindowPixelSize: {x: 1203, y: 696}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -581,7 +581,7 @@ MonoBehaviour:
     x: 0
     y: 92
     width: 1203
-    height: 200
+    height: 209
   m_SceneLighting: 1
   lastFramingTime: 0
   m_2DMode: 1

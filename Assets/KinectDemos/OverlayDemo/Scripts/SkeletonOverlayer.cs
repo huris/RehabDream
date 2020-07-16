@@ -389,6 +389,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
+                                //if (i == 23 && GestureSourceManager.instance.CheckGesture(KinectGestures.Gestures.Bobath))
                                 {
                                     if (WaitTime < 3.0f)
                                     {
