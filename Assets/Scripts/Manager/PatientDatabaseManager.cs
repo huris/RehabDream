@@ -939,7 +939,7 @@ public class PatientDatabaseManager : MonoBehaviour
         public string PlanDifficulty = "初级";
         public long GameCount = 10;
         public long PlanCount = 10;
-        public string PlanDirection = "上";
+        public string PlanDirection = "正上方";
         public long PlanTime = 20;
     }
 
