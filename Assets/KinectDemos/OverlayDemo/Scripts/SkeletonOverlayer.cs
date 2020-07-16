@@ -140,9 +140,10 @@ public class SkeletonOverlayer : MonoBehaviour
 
     void Start()
     {
+        KinectManager manager = KinectManager.Instance;
+
         //new VectorLine("L1", new List<Vector3> {new Vector3(0.0f, 0.0f, 0.0f), new Vector3(1.0f, 1.0f, 1.0f)}, 7.0f);
 
-        KinectManager manager = KinectManager.Instance;
 
         if (manager && manager.IsInitialized())
         {
@@ -308,18 +309,30 @@ public class SkeletonOverlayer : MonoBehaviour
 
         //if(KinectDetectUIProgressSlider != null)
         //{
-            //if (WaitTime == 0)
-            //{
-            //    KinectDetectUIProgressSlider.gameObject.SetActive(false);
-            //}
-            //else if (WaitTime > 0)
-            //{
-            //    KinectDetectUIProgressSlider.gameObject.SetActive(true);
-            //}
+        //if (WaitTime == 0)
+        //{
+        //    KinectDetectUIProgressSlider.gameObject.SetActive(false);
         //}
+        //else if (WaitTime > 0)
+        //{
+        //    KinectDetectUIProgressSlider.gameObject.SetActive(true);
+        //}
+        //}
+
 
         if (!IsOver && manager && manager.IsInitialized() && foregroundCamera)
         {
+
+            if (WaitTime == 0)
+            {
+                KinectDetectUIProgressSlider.gameObject.SetActive(false);
+            }
+            else if (WaitTime > 0)
+            {
+                KinectDetectUIProgressSlider.gameObject.SetActive(true);
+            }
+
+
             //backgroundImage.renderer.material.mainTexture = manager.GetUsersClrTex();
             if (backgroundImage && (backgroundImage.texture == null))
             {
@@ -377,16 +390,6 @@ public class SkeletonOverlayer : MonoBehaviour
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
-
-                                    if (WaitTime == 0)
-                                    {
-                                        KinectDetectUIProgressSlider.gameObject.SetActive(false);
-                                    }
-                                    else if (WaitTime > 0)
-                                    {
-                                        KinectDetectUIProgressSlider.gameObject.SetActive(true);
-                                    }
-
                                     if (WaitTime < 3.0f)
                                     {
                                         WaitTime += Time.deltaTime;
