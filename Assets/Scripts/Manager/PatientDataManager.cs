@@ -123,7 +123,10 @@ public class PatientDataManager : MonoBehaviour
     public void SetTrainingData(TrainingPlay trainingPlay, TrainingPlan trainingPlan, SoccerDistance soccerDistance, long MaxSuccessCount)
     {
         SetTrainingID(trainingPlay.TrainingID);
-        SetMaxSuccessCount(MaxSuccessCount);
+        SetMaxSuccessCount(PatientDatabaseManager.instance.ReadMaxSuccessCount(
+                PatientDataManager.instance.PatientID,
+                trainingPlan.PlanDifficulty
+                ));
         SetPlanDifficulty(Str2DifficultyType(trainingPlan.PlanDifficulty));
         SetPlanCount(trainingPlan.PlanCount);
         SetPlanDirection(Str2DirectionType(trainingPlan.PlanDirection));

@@ -228,6 +228,8 @@ public class GameUIHandle : UIHandle
     public void OnClickQuitGame()
     {
         //base.LoadScene("Start");
+
+        PatientDataManager.instance.ResetGameData();
         PatientDatabaseManager.instance.DelTempTrainingData(PatientDataManager.instance.TrainingID);
         base.LoadScene("03-DoctorUI");
     }
