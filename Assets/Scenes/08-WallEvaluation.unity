@@ -4346,8 +4346,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114321306007371468, guid: 815a2e26025fd024a95c80cb7d17d084,
-          type: 2}
+      - m_Target: {fileID: 1491476215}
         m_MethodName: Contin
         m_Mode: 1
         m_Arguments:
@@ -5247,6 +5246,26 @@ Prefab:
         type: 2}
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
+        type: 2}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1000
       objectReference: {fileID: 0}
     - target: {fileID: 198000010333416364, guid: 4222d3bd8d11edc4a808cb2a283aa227,
         type: 2}
@@ -20728,8 +20747,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114321306007371468, guid: 815a2e26025fd024a95c80cb7d17d084,
-          type: 2}
+      - m_Target: {fileID: 1491476215}
         m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
