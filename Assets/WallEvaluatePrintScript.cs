@@ -37,8 +37,10 @@ namespace XCharts
         public Text EvaluationTime;
 
         //// Chart
-        
+        public GameObject ActionFeedback;
+        public GameObject JointFeedback;
 
+        public Dictionary<int, int> toggleIndexTojointId;
 
         void OnEnable()
         {
@@ -150,10 +152,47 @@ namespace XCharts
 
                 // Chart
                 // 初始化对比结果
-               
-                
-                
+                int ActionNum = Math.Min(WallEvaluation.overview.actionDatas.Count, 11);
+                ActionFeedback.transform.localPosition = new Vector3(0f, 32f - (11 - ActionNum) * 5, 0f);
+                JointFeedback.transform.localPosition = new Vector3(0f, -238f + (11 - ActionNum) * 7, 0f);
 
+                List<int> ActionID = new List<int>(WallEvaluation.overview.actionDatas.Keys);
+
+                for (int i = 0; i < ActionNum; i++)
+                {
+                    for (int z = 0; z < DoctorDataManager.instance.Actions.Count; z++)
+                    {
+                        if (DoctorDataManager.instance.Actions[z].id == ActionID[i])
+                        {
+                            this.transform.GetChild(4).GetChild(1).GetChild(i).GetChild(1).GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].name;
+                            this.transform.GetChild(4).GetChild(1).GetChild(i).GetChild(2).GetComponent<Text>().text = DoctorDataManager.instance.Actions[z].id.ToString();
+                            this.transform.GetChild(4).GetChild(1).GetChild(i).GetChild(3).GetComponent<Text>().text = WallEvaluation.overview.actionDatas[ActionID[i]].accuracy.ToString() + " %";
+                            this.transform.GetChild(4).GetChild(1).GetChild(i).GetChild(4).GetComponent<Text>().text = WallEvaluation.overview.actionDatas[ActionID[i]].passPercent.ToString() + " %";
+                            break;
+                        }
+                    }
+                }
+
+                for(int i = ActionNum; i < 11; i++)
+                {
+                    this.transform.GetChild(4).GetChild(1).GetChild(i).gameObject.SetActive(false);
+                }
+
+                toggleIndexTojointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
+
+                float TempMethodEPS = 0f;
+                for (int i = 0; i < 11; i++)
+                {
+                    this.transform.GetChild(4).GetChild(2).GetChild(i).GetChild(1).GetComponent<Text>().text = WallEvaluation.detail.jointDatas[toggleIndexTojointId[i]].passPercentScore.ToString("0.00") + "%";
+
+                    TempMethodEPS = 0f;
+                    foreach (var item in WallEvaluation.detail.jointDatas[toggleIndexTojointId[i]].methodDatas)
+                    {
+                        TempMethodEPS += item.Value.eps;
+                    }
+
+                    this.transform.GetChild(4).GetChild(2).GetChild(i).GetChild(2).GetComponent<Text>().text = (TempMethodEPS / WallEvaluation.detail.jointDatas[toggleIndexTojointId[i]].methodDatas.Count).ToString("0.00") + "%";
+                }
             }
 
         }
