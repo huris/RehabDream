@@ -476,10 +476,23 @@ public class PatientDatabaseManager : MonoBehaviour
     public DatabaseReturn WritePatientRecord(long TrainingID, long PatientID, string TrainingStartTime, string TrainingEndTime, string TrainingDifficulty, long GameCount, long SuccessCount, string TrainingDirection, long TrainingTime, long IsEvaluated, float EvaluationSocre)
     {
 
-        //try
-        //{
-        //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
-        PatientDatabase.InsertValues(
+        try
+        {
+            //write TrainingID-TrainingStartTime-TrainingEndTime-TrainingDifficulty-GameCount-SuccessCount to PatientRecord
+
+            //print(TrainingID.ToString());
+            //print(PatientID.ToString());
+            //print(AddSingleQuotes(TrainingStartTime));
+            //print(AddSingleQuotes(TrainingEndTime));
+            //print(AddSingleQuotes(TrainingDifficulty));
+            //print(GameCount.ToString());
+            //print(SuccessCount.ToString());
+            //print(AddSingleQuotes(TrainingDirection));
+            //print(TrainingTime.ToString());
+            //print(IsEvaluated.ToString());
+            //print(EvaluationSocre.ToString());
+
+            PatientDatabase.InsertValues(
             PatientRecordTableName, //table name
             new string[] {
                     TrainingID.ToString(),
@@ -498,13 +511,13 @@ public class PatientDatabaseManager : MonoBehaviour
 
         Debug.Log("@DatabaseManager: Write PatientRecord Success");
         return DatabaseReturn.Success;
-        //}
-        //catch (SqliteException e)
-        //{
+        }
+        catch (SqliteException e)
+        {
             Debug.Log("@DatabaseManager: Write PatientRecord SqliteException");
-            this.PatientDatabase.CloseConnection();
+            //this.PatientDatabase.CloseConnection();
             return DatabaseReturn.Exception;
-        //}
+        }
     }
 
     //write patient record

@@ -41,6 +41,14 @@ public class ReportScript : MonoBehaviour
         x = 382.5f; y = 119.43f;   // 设置起始点
         width = 595; height = 842;  // 设置大小
 
+        StartCoroutine(DelayTime(3));        
+
+    }
+
+    IEnumerator DelayTime(int time)
+    {
+        yield return new WaitForSeconds(time);
+
         if (WallEvaluationToggle.isOn)
         {
             SaveWallEvaluationReport();
@@ -53,7 +61,6 @@ public class ReportScript : MonoBehaviour
         {
             SaveTrainingReport();
         }
-
     }
 
     public void SaveWallEvaluationReport()

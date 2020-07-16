@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TrainingStartInitScript : MonoBehaviour {
 
@@ -13,6 +14,9 @@ public class TrainingStartInitScript : MonoBehaviour {
 
 	public static TrainingStartInitScript _instance;
 
+	public RawImage rawImage;
+	public MovieTexture _Movie;
+
 	void Awake()
 	{
 		//audiosource = gameObject.AddComponent<AudioSource>();
@@ -21,6 +25,8 @@ public class TrainingStartInitScript : MonoBehaviour {
 
 		_instance = this; //通过Sound._instance.方法调用
 		_instance.PlayMusicByName("TrainingIntroduce");
+
+		rawImage.gameObject.SetActive(false);
 	}
 
 
@@ -61,6 +67,14 @@ public class TrainingStartInitScript : MonoBehaviour {
 		//				+ "足球的速度和方向随着难度不同会有所变化"
 		//				+ "准备好开始了吗？请将双手握拳放于肚脐前准备吧！";
 		//transform.GetComponent<SangCtrl>().SpeechSynthesis(StartTip);
+
+		if (audiosource.isPlaying)
+		{
+			audiosource.Stop();
+		}
+
+		rawImage.gameObject.SetActive(true);
+		_Movie.Play();
 	}
 
 	public void DirectionReturnDoctorUI()
