@@ -659,16 +659,16 @@ public class PatientDatabaseManager : MonoBehaviour
                     soccerDistance.UponLeftSoccerScore.ToString(),
                     soccerDistance.FrontSoccerScore.ToString(),
                     soccerDistance.BehindSoccerScore.ToString(),
-                    soccerDistance.UponSoccerTime.ToString(),
-                    soccerDistance.UponRightSoccerTime.ToString(),
-                    soccerDistance.RightSoccerTime.ToString(),
-                    soccerDistance.DownRightSoccerTime.ToString(),
-                    soccerDistance.DownSoccerTime.ToString(),
-                    soccerDistance.DownLeftSoccerTime.ToString(),
-                    soccerDistance.LeftSoccerTime.ToString(),
-                    soccerDistance.UponLeftSoccerTime.ToString(),
-                    soccerDistance.FrontSoccerTime.ToString(),
-                    soccerDistance.BehindSoccerTime.ToString()
+                    Math.Max(soccerDistance.UponRightSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.RightSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.UponSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.DownRightSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.DownSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.DownLeftSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.LeftSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.UponLeftSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.FrontSoccerTime, 1).ToString(),
+                    Math.Max(soccerDistance.BehindSoccerTime, 1).ToString()
             }
         );
 

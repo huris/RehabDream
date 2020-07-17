@@ -1311,7 +1311,7 @@ public class SkeletonOverlayer : MonoBehaviour
             MinX = Math.Max(0, MinX);
             MinY = Math.Max(0, MinY);
      
-            ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
+            ConvexHullColors = m_texture.GetPixels(MinX, MinY, Math.Min(MaxX - MinX, 1919 - MinX), Math.Min(MaxY - MinY, 1079 - MinY));
 
             MaxY = MaxY - MinY - 1;
 

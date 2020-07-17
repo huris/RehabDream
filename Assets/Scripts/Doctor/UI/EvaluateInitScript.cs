@@ -359,6 +359,12 @@ namespace XCharts
 
                 // EvaluationInfo
 
+                //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore);
+                //print(NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 4f);
+                //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 3f);
+                //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f);
+
+
                 DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 4f;
                 DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 3f;
                 DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f;
@@ -370,6 +376,9 @@ namespace XCharts
                 else if (TrainingEvaluationRate >= 60f) { Rank3.SetActive(true); EvaluationRank.text = "3 级"; }
                 else if (TrainingEvaluationRate >= 50f) { Rank4.SetActive(true); EvaluationRank.text = "4 级"; }
                 else { Rank5.SetActive(true); EvaluationRank.text = "5 级"; }
+
+
+                //print(TrainingEvaluationRate);
 
                 EvaluationScore.text = TrainingEvaluationRate.ToString("0.00") + " 分";
 
