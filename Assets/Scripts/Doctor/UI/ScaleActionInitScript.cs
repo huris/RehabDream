@@ -99,9 +99,9 @@ public class ScaleActionInitScript : MonoBehaviour
             ScaleInt2Type.Add(i, ScaleID[i]);
             ListScaleEvaluation.Add(DATA.TrainingProgramIDToName[ScaleID[i]]);
         }
-        ScaleType2Int.Add(ScaleID.Count, ScaleID.Count);
-        ScaleInt2Type.Add(ScaleID.Count, ScaleID.Count);
-        ListScaleEvaluation.Add("自定义");
+        //ScaleType2Int.Add(ScaleID.Count, ScaleID.Count);
+        //ScaleInt2Type.Add(ScaleID.Count, ScaleID.Count);
+        //ListScaleEvaluation.Add("自定义");
 
         ScaleSelect.AddOptions(ListScaleEvaluation);
 

@@ -1617,8 +1617,6 @@ public class PlayGame : MonoBehaviour
                 "'" + JsonHelper.SerializeObject(td.detail) + "'" });
             reader.Close();
 
-            DoctorDataManager.instance.doctor.patient.WallEvaluations.Add(td);
-            DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count - 1);
         }
         catch (Exception e)
         {
@@ -1634,6 +1632,11 @@ public class PlayGame : MonoBehaviour
         }
         try
         {
+
+            DoctorDataManager.instance.doctor.patient.WallEvaluations.Add(td);
+            DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count - 1);
+
+
             // 更新periodtrainingdata
 
             string queryString = "SELECT * FROM periodtrainingdata WHERE StartTime = " + "'" + periodData.startTime + "'";

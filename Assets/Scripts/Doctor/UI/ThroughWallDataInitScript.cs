@@ -42,6 +42,9 @@ public class ThroughWallDataInitScript : MonoBehaviour {
     public GameObject LoadScene;
     void OnEnable()
 	{
+
+        //print(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count);
+
         if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
         {
             NoEvaluateData.SetActive(false);
