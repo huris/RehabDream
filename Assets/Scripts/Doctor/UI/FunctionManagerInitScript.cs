@@ -13,13 +13,26 @@ public class FunctionManagerInitScript : MonoBehaviour {
 	}
 
 	void OnEnable()
-	{	
-		for(int i = 0; i < 4; i++)
+	{
+		for (int i = 0; i < 4; i++)
 		{
-			FunctionToggle[0].isOn = false;
+			FunctionToggle[i].isOn = false;
 		}
 
 		FunctionToggle[DoctorDataManager.instance.FunctionManager].isOn = true;
+	}
+
+	public void FunctionToggleChanged()
+	{
+		for(int i = 0; i < 4; i++)
+		{
+			if (FunctionToggle[i].isOn)
+			{
+				DoctorDataManager.instance.FunctionManager = i;
+				break;
+			}
+		}
+
 	}
 
 	// Update is called once per frame
