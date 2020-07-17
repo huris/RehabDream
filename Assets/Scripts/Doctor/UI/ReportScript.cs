@@ -32,6 +32,9 @@ public class ReportScript : MonoBehaviour
     public Toggle EvaluationToggle;
     public Toggle TrainingToggle;
 
+    public Toggle DoctorUIThroughWall;
+    public Toggle DoctorUIBobath;
+
     void OnEnable()
     {
         WallEvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/WallEvaluationToggle").GetComponent<Toggle>();
@@ -217,6 +220,18 @@ public class ReportScript : MonoBehaviour
             //UnityEngine.Debug.Log("Texture printing.");
         }
 
+    }
+
+    public void ReturnBobathButtonOnClick()
+    {
+        //print(DoctorDataManager.instance.FunctionManager);
+        //print(DoctorDataManager.instance.EvaluationType);
+
+        if (DoctorDataManager.instance.FunctionManager == 1 && DoctorDataManager.instance.EvaluationType == 1)
+        {
+            DoctorUIThroughWall.isOn = true;
+            DoctorUIBobath.isOn = true;
+        }
     }
 
 }

@@ -230,7 +230,7 @@ namespace XCharts
                     WomanImage.SetActive(false); WomanSideImage.SetActive(false);
 
                     //WidthPixel = 100;
-                    HeightPixel = 120;
+                    HeightPixel = 160;
 
                     ModelGravity = new Vector2(1270, 400);
 
@@ -242,7 +242,7 @@ namespace XCharts
                     WomanImage.SetActive(true); WomanSideImage.SetActive(true);
 
                     //WidthPixel = 80;
-                    HeightPixel = 120;
+                    HeightPixel = 160;
 
                     ModelGravity = new Vector2(1270, 410);
                     SideModelGravity = new Vector2(1635, 410);
