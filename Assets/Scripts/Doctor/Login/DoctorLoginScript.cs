@@ -79,6 +79,9 @@ public class DoctorLoginScript : MonoBehaviour {
         {
             //print("2!!!");
 
+            Debug.Log(DoctorID.text);
+            Debug.Log(DoctorPassword.text);
+
             if (DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
             {
                 DoctorDataManager.instance.FunctionManager = 0; // 进入患者主界面
@@ -98,6 +101,7 @@ public class DoctorLoginScript : MonoBehaviour {
         {
             //print("4!!!");
             ErrorInformation.SetActive(true);
+            Debug.LogError(e);
         }
         
     }

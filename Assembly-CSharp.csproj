@@ -786,6 +786,12 @@
  <Reference Include="DOTweenPro">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
+ <Reference Include="I18N.CJK">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
+ </Reference>
+ <Reference Include="I18N">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
+ </Reference>
  <Reference Include="itextsharp">
  <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
  </Reference>
