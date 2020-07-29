@@ -119,6 +119,69 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public bool IsFirstGreen;
 
+    public GameObject GravityCenterRadar;
+
+    public bool IsMale = true;
+
+    // mass of each segment / total mass
+    private static float[] MaleMi =
+        {
+        0.0862f,    //Head
+        0.1682f,    //upperbody
+        0.2723f,    //lowerbody
+        0.1419f,    //thigh
+        0.0367f,    //shank
+        0.0243f,    //arm
+        0.0125f,    //forearm
+        0.0064f,    //hand
+        0.0148f     //foot
+    };
+
+    private static float[] FealeMi =
+        {
+        0.0820f,    //Head
+        0.1635f,    //upperbody
+        0.2748f,    //lowerbody
+        0.1410f,    //thigh
+        0.0443f,    //shank
+        0.0266f,    //arm
+        0.0114f,    //forearm
+        0.0042f,    //hand
+        0.0124f     //foot
+    };
+
+    // distance from gravity center to upperpoint / whole length
+    private static float[] MaleLCS =
+       {
+        0.469f,    //Head
+        0.536f,    //upperbody
+        0.403f,    //lowerbody
+        0.453f,    //thigh
+        0.393f,    //shank
+        0.478f,    //arm
+        0.424f,    //forearm
+        0.366f,    //hand
+        0.438f     //foot
+    };
+
+    private static float[] FealeLCS =
+       {
+        0.473f,    //Head
+        0.493f,    //upperbody
+        0.446f,    //lowerbody
+        0.442f,    //thigh
+        0.425f,    //shank
+        0.467f,    //arm
+        0.453f,    //forearm
+        0.349f,    //hand
+        0.445f     //foot
+    };
+
+    public Vector3[] PersonJoints = new Vector3[25];
+
+    private float _RecordTimeCount = 0;
+    public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+
 
     //public static SkeletonOverlayer instance = null;
 
@@ -251,6 +314,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
         LeftTimeText.transform.parent.gameObject.SetActive(false);
         CurrentScoreText.transform.parent.gameObject.SetActive(false);
+        GravityCenterRadar.SetActive(false);
 
         CurrentScore = 0;   // 刚开始分数为0
 
@@ -270,6 +334,14 @@ public class SkeletonOverlayer : MonoBehaviour
         _instance = this; //通过Sound._instance.方法调用
 
         IsFirstGreen = false;
+
+        if (DoctorDataManager.instance.doctor.patient.PatientSex == "男") IsMale = true;
+        else IsMale = false;
+
+        for(int i = 0; i < PersonJoints.Length; i++)
+        {
+            PersonJoints[i] = new Vector3(0f, 0f, 0f);
+        }
     }
 
     void FixedUpdate()
@@ -370,7 +442,7 @@ public class SkeletonOverlayer : MonoBehaviour
                             // overlay the joint
                             if (posJoint != Vector3.zero)
                             {
-
+                                PersonJoints[i] = posJoint;
                                 //posJoint.z = 0f;  // 将z轴改为0,平面显示
 
                                 joints[i].SetActive(true);
@@ -408,6 +480,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                             LeftTimeText.transform.parent.gameObject.SetActive(true);
                                             CurrentScoreText.transform.parent.gameObject.SetActive(true);
+                                            GravityCenterRadar.SetActive(true);
 
                                             ButtonChange();
 
@@ -576,8 +649,119 @@ public class SkeletonOverlayer : MonoBehaviour
                 {
                     evaluation.SetEvaluationHeight(SpineShoulderY);
                 }
+
+                if (RecordTimeOver())
+                {
+
+                }
             }
         }
+    }
+
+
+    private bool RecordTimeOver()
+    {
+        _RecordTimeCount += Time.deltaTime;
+        if (_RecordTimeCount < RecordTime)
+        {
+            return false;
+        }
+        else
+        {
+            _RecordTimeCount = 0f;
+            return true;
+
+        }
+    }
+
+    // 新增节段法计算人体重心
+    //Calculate Gravity Center using Avatar
+    public Vector3 CalculateGravityCenter(bool IsMale)
+    {
+
+        Vector3 HeadTop = PersonJoints[3] + (PersonJoints[3] - PersonJoints[2]);
+        Vector3 HeadDown = PersonJoints[2];
+
+        Vector3 UpperTorsoTop = PersonJoints[2];
+        Vector3 UpperTorsoDown = PersonJoints[1];
+
+        Vector3 LowerTorsoTop = PersonJoints[1];
+        Vector3 LowerTorsoDown = (PersonJoints[12] + PersonJoints[16]) / 2;
+
+        Vector3 LeftUpperArmTop = PersonJoints[4];
+        Vector3 LeftUpperArmDown = PersonJoints[5];
+
+        Vector3 RightUpperArmTop = PersonJoints[8];
+        Vector3 RightUpperArmDown = PersonJoints[9];
+
+        Vector3 LeftForearmTop = PersonJoints[5];
+        Vector3 LeftForearmDown = PersonJoints[6];
+
+        Vector3 RightForearmTop = PersonJoints[9];
+        Vector3 RightForearmDown = PersonJoints[10];
+
+        Vector3 LeftHandTop = PersonJoints[6];
+        Vector3 LeftHandDown = PersonJoints[21];
+
+        Vector3 RightHandTop = PersonJoints[10];
+        Vector3 RightHandDown = PersonJoints[23];
+
+        Vector3 LeftLegTop = PersonJoints[12];
+        Vector3 LeftLegDown = PersonJoints[13];
+
+        Vector3 RightLegTop = PersonJoints[16];
+        Vector3 RightLegDown = PersonJoints[17];
+
+        Vector3 LeftShankTop = PersonJoints[13];
+        Vector3 LeftShankDown = PersonJoints[14];
+
+        Vector3 RightShankTop = PersonJoints[17];
+        Vector3 RightShankDown = PersonJoints[18];
+
+        Vector3 LeftFootTop = PersonJoints[14];
+        Vector3 LeftFootDown = PersonJoints[15] + (PersonJoints[15] - PersonJoints[14]);
+
+        Vector3 RightFootTop = PersonJoints[18];
+        Vector3 RightFootDown = PersonJoints[19] + (PersonJoints[19] - PersonJoints[18]);
+
+        float[] Mi;
+        float[] LCS;
+        Vector3 com = Vector3.zero;
+        if (IsMale)
+        {
+            Mi = MaleMi;
+            LCS = MaleLCS;
+
+        }
+        else
+        {
+            Mi = FealeMi;
+            LCS = FealeLCS;
+        }
+
+        com = Center(HeadTop, HeadDown, LCS[0]) * Mi[0]  //head
+            + Center(UpperTorsoTop, UpperTorsoDown, LCS[1]) * Mi[1]   //upper body
+            + Center(LowerTorsoTop, LowerTorsoDown, LCS[2]) * Mi[2]   //Lower body
+            + Center(LeftLegTop, LeftLegDown, LCS[3]) * Mi[3]    //left thigh
+            + Center(RightLegTop, RightLegDown, LCS[3]) * Mi[3]    //right thigh
+            + Center(LeftShankTop, LeftShankDown, LCS[4]) * Mi[4]    //left shank
+            + Center(RightShankTop, RightShankDown, LCS[4]) * Mi[4]    //right shank
+            + Center(LeftUpperArmTop, LeftUpperArmDown, LCS[5]) * Mi[5]    //left arm
+            + Center(RightUpperArmTop, RightUpperArmDown, LCS[5]) * Mi[5]    //right arm
+            + Center(LeftForearmTop, LeftForearmDown, LCS[6]) * Mi[6]    //left forearm
+            + Center(RightForearmTop, RightForearmDown, LCS[6]) * Mi[6]    //right aforerm
+            + Center(LeftHandTop, LeftHandDown, LCS[7]) * Mi[7]    //left hand
+            + Center(RightHandTop, RightHandDown, LCS[7]) * Mi[7]    //right hand
+            + Center(LeftFootTop, LeftFootDown, LCS[8]) * Mi[8]    //left foot
+            + Center(RightFootTop, RightFootDown, LCS[8]) * Mi[8];   //right foot
+        
+        return com;
+    }
+
+    // return gravity center of segment
+    private Vector3 Center(Vector3 up, Vector3 low, float LCS)
+    {
+        return up - LCS * (up - low);
     }
 
     public void WaitPeopleTouchBall(long WaitFrame)

@@ -337,6 +337,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingPrintScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\TrainingStartInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\WallEvaluatePrintScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\WriteBobathGCDataThread.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
      <Compile Include="Assets\Scripts\Game\GameState.cs" />
      <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
