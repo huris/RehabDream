@@ -514,6 +514,12 @@ public class SkeletonOverlayer : MonoBehaviour
                                             {
                                                 evaluation.Points.Add(new Point(NowPosition));
                                                 WritePointInGame();
+
+                                                //if (RecordTimeOver())
+                                                //{
+                                                //print("!!!!");
+                                                WriteBobathGCInGame();
+                                                //}
                                             }
 
                                         }
@@ -648,11 +654,6 @@ public class SkeletonOverlayer : MonoBehaviour
                 if(SpineShoulderY > evaluation.EvaluationHeight)
                 {
                     evaluation.SetEvaluationHeight(SpineShoulderY);
-                }
-
-                if (RecordTimeOver())
-                {
-
                 }
             }
         }
@@ -820,6 +821,24 @@ public class SkeletonOverlayer : MonoBehaviour
         DownButton.SetActive(false);
 
         Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
+    }
+
+
+    // use Thread to write database
+    public void WriteBobathGCInGame()
+    {
+        Vector3 tempGravityCenter = CalculateGravityCenter(IsMale);
+        DateTime tempTime = System.DateTime.Now;
+        
+        evaluation.GravityCenters.Add(new GravityCenter(tempGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
+
+        //print(evaluation.Points[evaluation.Points.Count - 1].x);
+        WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
+           evaluation.EvaluationID,
+           tempGravityCenter,
+           tempTime
+           );
+        Thread.StartThread();
     }
 
 

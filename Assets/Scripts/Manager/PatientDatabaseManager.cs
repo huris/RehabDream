@@ -15,6 +15,8 @@ public class PatientDatabaseManager : MonoBehaviour
     private string PatientRecordTableName = "PatientRecord";
     private string GravityCenterTableName = "GravityCenter";
     private string AnglesTableName = "Angles";
+    private string BobathGravityCenterTableName = "BobathGravityCenter";
+
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -718,7 +720,9 @@ public class PatientDatabaseManager : MonoBehaviour
 
             QueryString = "DELETE FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString();
             PatientDatabase.ExecuteQuery(QueryString);
-            
+
+            QueryString = "DELETE FROM BobathGravityCenter where EvaluationID=" + EvaluationID.ToString();
+            PatientDatabase.ExecuteQuery(QueryString);
 
             Debug.Log("@UserManager: Delete TempEvaluationPoints Success");
             return DatabaseReturn.Success;
@@ -885,9 +889,11 @@ public class PatientDatabaseManager : MonoBehaviour
     {
         try
         {
+            //print("!!!!!");
+            //print(EvaluationID + "  " + Coordinate + "   " + Time);
 
             PatientDatabase.InsertValues(
-                GravityCenterTableName,
+                BobathGravityCenterTableName,
                 new string[] {
                     EvaluationID.ToString(),      //INTEGER TrainingID
                     AddSingleQuotes(Coordinate),//TEXT Coordinate

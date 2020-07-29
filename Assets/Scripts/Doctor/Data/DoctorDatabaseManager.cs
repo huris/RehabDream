@@ -1203,6 +1203,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                 QueryString = "DELETE FROM EvaluationPoints where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationPoints.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
+                // 删除患者评估重心点记录表
+                QueryString = "DELETE FROM BobathGravityCenter where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=BobathGravityCenter.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
             }
 
             Debug.Log("@UserManager: Delete PatientInfo Success");
@@ -2242,6 +2246,54 @@ public class DoctorDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Read EvaluationPoints SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
+    public List<GravityCenter> ReadEvaluationGravityCenterRecord(long EvaluationID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<GravityCenter> result = new List<GravityCenter>(); //返回值
+        string QueryString = "SELECT * FROM BobathGravityCenter where EvaluationID=" + EvaluationID.ToString();
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //result = new List<Point>(); //返回值
+
+                //result = new List<Angle>();
+                //存在用户训练任务
+                do
+                {
+                    string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
+                    string[] XYZ = Coordinate.Split(',');
+                    Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+
+
+                    var res = new GravityCenter(
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    CoordinateVector3,
+                    reader.GetString(reader.GetOrdinal("Time"))
+                    );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read GravityCenterRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read GravityCenterRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read GravityCenterRecord SqliteException");
             PatientDatabase?.CloseConnection();
             return result;
         }

@@ -9,16 +9,19 @@ public class WriteBobathGCDataThread
 {
     //暂时存储要插入数据库的值
     private long _EvaluationID;
-    private Point _point;
+    private Vector3 _BobathGC;
+    private DateTime _dateTime;
     private Thread _WriteDatabaseThread;
 
     public WriteBobathGCDataThread(
         long EvaluationID,
-        Point point
+        Vector3 BobathGC,
+        DateTime dateTime
         )
     {
         _EvaluationID = EvaluationID;
-        _point = point;
+        _BobathGC = BobathGC;
+        _dateTime = dateTime;
         _WriteDatabaseThread = new Thread(WriteDatabase);
         //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Init");
     }
@@ -41,13 +44,13 @@ public class WriteBobathGCDataThread
     // write Gravity Center
     private void WritePoint()
     {
+        //Debug.Log("!!!!!!");
         //Debug.Log(_EvaluationID+" "+_point.x + " " + _point.y);
-        PatientDatabaseManager.instance.WritePoint(
+        PatientDatabaseManager.instance.WriteBobathGravityCenter(
             _EvaluationID,
-            _point
+            _BobathGC.ToString().Replace("(", "").Replace(")", ""),
+            _dateTime.ToString("yyyyMMdd HH:mm:ss")
         );
-
-
     }
 
     //// write angles to database

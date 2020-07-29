@@ -14,6 +14,8 @@ public class Evaluation
 
     public List<Point> Points = new List<Point>();  // 数据点的集合 
 
+    public List<GravityCenter> GravityCenters = new List<GravityCenter>();  // 重心点集合
+
     public SoccerDistance soccerDistance = new SoccerDistance();  // 四周8个方向足球位移的最大值和中间足球的最大最小面积
 
     public float EvaluationScore { get; set; } = 0.0f;
@@ -57,6 +59,7 @@ public class Evaluation
 
         this.soccerDistance = DoctorDatabaseManager.instance.ReadEvaluationSoccerDistanceRecord(this.EvaluationID);
         this.Points = DoctorDatabaseManager.instance.ReadEvaluationPointsRecord(this.EvaluationID);
+        this.GravityCenters = DoctorDatabaseManager.instance.ReadEvaluationGravityCenterRecord(this.EvaluationID);
 
         this.SetEvaluationScore();
     }

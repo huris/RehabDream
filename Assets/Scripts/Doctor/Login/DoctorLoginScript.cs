@@ -79,8 +79,8 @@ public class DoctorLoginScript : MonoBehaviour {
         {
             //print("2!!!");
 
-            Debug.Log(DoctorID.text);
-            Debug.Log(DoctorPassword.text);
+            //Debug.Log(DoctorID.text);
+            //Debug.Log(DoctorPassword.text);
 
             if (DoctorDataManager.instance.DoctorLoginCheck(DoctorID.text, DoctorPassword.text) == true)
             {
