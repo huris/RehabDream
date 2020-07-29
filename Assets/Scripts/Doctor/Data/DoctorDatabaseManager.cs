@@ -38,6 +38,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string PatientEvaluationTableName = "PatientEvaluation";
     private string EvaluationSoccerTableName = "EvaluationSoccer";
     private string EvaluationPointsTableName = "EvaluationPoints";
+    private string BobathGravityCenterTableName = "BobathGravityCenter";
 
 
     private string DoctorInfoTableName = "DoctorInfo";
@@ -297,6 +298,24 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL" }
                 );
             Debug.Log("@DatabaseManager: Create GravityCenterTable");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(BobathGravityCenterTableName))  //check BobathGravityCenter table
+        {
+            this.PatientDatabase.CreateTable(
+                BobathGravityCenterTableName,   //table name
+                new String[] {
+                    "EvaluationID",
+                    "Coordinate",
+                    "Time" },
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL" }
+                );
+            Debug.Log("@DatabaseManager: Create BobathGravityCenterTable");
         }
 
         //check GravityCenterTable

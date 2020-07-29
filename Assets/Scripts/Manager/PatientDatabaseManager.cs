@@ -880,6 +880,34 @@ public class PatientDatabaseManager : MonoBehaviour
         }
     }
 
+    //write Bobath gravity center to GravityCenter table
+    public DatabaseReturn WriteBobathGravityCenter(long EvaluationID, string Coordinate, string Time)
+    {
+        try
+        {
+
+            PatientDatabase.InsertValues(
+                GravityCenterTableName,
+                new string[] {
+                    EvaluationID.ToString(),      //INTEGER TrainingID
+                    AddSingleQuotes(Coordinate),//TEXT Coordinate
+                    AddSingleQuotes(Time)       //TEXT Time
+                }
+            );
+
+
+            //Debug.Log("@DatabaseManager: Write BobathGravityCenter");
+            return DatabaseReturn.Success;
+
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: Write BobathGravityCenter SqliteException");
+            PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
     //write Angles to Angles table
     public DatabaseReturn WriteAngles(long TrainingID, float[] Angles, string Time)
     {
