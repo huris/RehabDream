@@ -134,7 +134,10 @@
      <Compile Include="Assets\XCharts\Editor\GaugeChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\HeatmapChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\LineChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\LiquidChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\PieChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\PolarChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AngleAxisDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AnimationDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AreaStyleDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisDrawer.cs" />
@@ -144,6 +147,7 @@
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisSplitAreaDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisSplitLineDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\AxisTickDrawer.cs" />
+     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\BackgroundDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\DataZoomDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\EmphasisStyleDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\GaugeAxisDrawer.cs" />
@@ -159,8 +163,10 @@
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\LineArrowDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\LineStyleDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\LocationDrawer.cs" />
+     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\PolarDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\RadarDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\RadarIndicatorDrawer.cs" />
+     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\RadiusAxisDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SerieDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SerieLabelDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\SeriesDrawer.cs" />
@@ -172,13 +178,16 @@
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TitleDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TitleStyleDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\TooltipDrawer.cs" />
+     <Compile Include="Assets\XCharts\Editor\PropertyDrawers\VesselDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\VisualMapDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\XAxisDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\PropertyDrawers\YAxisDrawer.cs" />
      <Compile Include="Assets\XCharts\Editor\RadarChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\RingChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\ScatterChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\Utility\ChartEditorHelper.cs" />
      <Compile Include="Assets\XCharts\Editor\XChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\XChartMgrEditor.cs" />
      <Compile Include="Assets\XChartsDemo\Editor\ChartModuleDrawer.cs" />
      <Compile Include="Assets\XChartsDemo\Editor\DemoEditor.cs" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />

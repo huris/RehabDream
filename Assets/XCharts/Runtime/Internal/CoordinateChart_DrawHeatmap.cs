@@ -31,9 +31,9 @@ namespace XCharts
                 }
                 return;
             }
-            if (local.x < 0 || local.x > chartWidth ||
-                local.y < 0 || local.y > chartHeight ||
-                !m_VisualMap.IsInRangeRect(local, chartWidth, chartHeight))
+            if (local.x < chartX || local.x > chartX + chartWidth ||
+                local.y < chartY || local.y > chartY + chartHeight ||
+                !m_VisualMap.IsInRangeRect(local, chartRect))
             {
                 if (m_VisualMap.runtimeSelectedIndex >= 0)
                 {
@@ -45,7 +45,7 @@ namespace XCharts
             var pos1 = Vector3.zero;
             var pos2 = Vector3.zero;
             var halfHig = m_VisualMap.itemHeight / 2;
-            var centerPos = m_VisualMap.location.GetPosition(chartWidth, chartHeight);
+            var centerPos = chartPosition + m_VisualMap.location.GetPosition(chartWidth, chartHeight);
             var selectedIndex = -1;
             var value = 0f;
             switch (m_VisualMap.orient)
@@ -71,8 +71,8 @@ namespace XCharts
         protected void OnDragVisualMapStart()
         {
             if (!m_VisualMap.enable || !m_VisualMap.show || !m_VisualMap.calculable) return;
-            var inMinRect = m_VisualMap.IsInRangeMinRect(pointerPos, chartWidth, chartHeight, m_Settings.visualMapTriangeLen);
-            var inMaxRect = m_VisualMap.IsInRangeMaxRect(pointerPos, chartWidth, chartHeight, m_Settings.visualMapTriangeLen);
+            var inMinRect = m_VisualMap.IsInRangeMinRect(pointerPos, chartRect, m_Settings.visualMapTriangeLen);
+            var inMaxRect = m_VisualMap.IsInRangeMaxRect(pointerPos, chartRect, m_Settings.visualMapTriangeLen);
             if (inMinRect || inMaxRect)
             {
                 if (inMinRect)
@@ -91,7 +91,7 @@ namespace XCharts
             if (!m_VisualMap.enable || !m_VisualMap.show || !m_VisualMap.calculable) return;
             if (!m_VisualMapMinDrag && !m_VisualMapMaxDrag) return;
 
-            var value = m_VisualMap.GetValue(pointerPos, chartWidth, chartHeight);
+            var value = m_VisualMap.GetValue(pointerPos, chartRect);
             if (m_VisualMapMinDrag)
             {
                 m_VisualMap.rangeMin = value;
@@ -121,11 +121,11 @@ namespace XCharts
             var xAxis = m_XAxises[serie.axisIndex];
             var xCount = xAxis.data.Count;
             var yCount = yAxis.data.Count;
-            var xWidth = coordinateWidth / xCount;
-            var yWidth = coordinateHeight / yCount;
+            var xWidth = m_CoordinateWidth / xCount;
+            var yWidth = m_CoordinateHeight / yCount;
 
-            var zeroX = coordinateX;
-            var zeroY = coordinateY;
+            var zeroX = m_CoordinateX;
+            var zeroY = m_CoordinateY;
             var dataList = serie.GetDataList();
             var rangeMin = m_VisualMap.rangeMin;
             var rangeMax = m_VisualMap.rangeMax;
@@ -145,14 +145,13 @@ namespace XCharts
                     var dataIndex = i * yCount + j;
                     if (dataIndex >= dataList.Count) continue;
                     var serieData = dataList[dataIndex];
-                    var dimension = m_VisualMap.enable && m_VisualMap.dimension > 0 ? m_VisualMap.dimension - 1 :
-                        serieData.data.Count - 1;
+                    var dimension = VisualMapHelper.GetDimension(m_VisualMap, serieData.data.Count);
                     if (serie.IsIgnoreIndex(dataIndex, dimension))
                     {
                         serie.dataPoints.Add(Vector3.zero);
                         continue;
                     }
-                    var value = serieData.GetCurrData(dimension, dataChangeDuration);
+                    var value = serieData.GetCurrData(dimension, dataChangeDuration, yAxis.inverse);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     var pos = new Vector3(zeroX + (i + 0.5f) * xWidth, zeroY + (j + 0.5f) * yWidth);
                     serie.dataPoints.Add(pos);
@@ -175,7 +174,7 @@ namespace XCharts
                     var rectWid = xWidth - 2 * borderWidth;
                     var rectHig = yWidth - 2 * borderWidth;
                     ChartDrawer.DrawPolygon(vh, pos, rectWid / 2, rectHig / 2, color);
-                    if (borderWidth > 0 && borderColor != Color.clear)
+                    if (borderWidth > 0 && !ChartHelper.IsClearColor(borderColor))
                     {
                         ChartDrawer.DrawBorder(vh, pos, rectWid, rectHig, borderWidth, borderColor);
                     }
@@ -202,7 +201,7 @@ namespace XCharts
         protected void DrawVisualMap(VertexHelper vh)
         {
             if (!m_VisualMap.enable || !m_VisualMap.show) return;
-            var centerPos = m_VisualMap.location.GetPosition(chartWidth, chartHeight);
+            var centerPos = chartPosition + m_VisualMap.location.GetPosition(chartWidth, chartHeight);
 
             var pos1 = Vector3.zero;
             var pos2 = Vector3.zero;

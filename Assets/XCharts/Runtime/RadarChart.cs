@@ -1,4 +1,5 @@
-﻿/******************************************/
+﻿using System.Linq;
+/******************************************/
 /*                                        */
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
@@ -25,7 +26,7 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            CheckDataShow(legendName, show);
+            LegendHelper.CheckDataShow(m_Series, legendName, show);
             UpdateLegendColor(legendName, show);
             RefreshChart();
         }
@@ -33,14 +34,14 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName, true);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName, false);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, false);
             RefreshChart();
         }
 
@@ -84,6 +85,7 @@ namespace XCharts
             m_Radars.Add(Radar.defaultRadar);
             m_Title.text = "RadarChart";
             var serie = AddSerie(SerieType.Radar, "serie1");
+            serie.symbol.show = true;
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
@@ -103,13 +105,19 @@ namespace XCharts
         }
 #endif
 
+        protected override void OnSizeChanged()
+        {
+            base.OnSizeChanged();
+            m_RadarsDirty = true;
+        }
+
         private void InitIndicator()
         {
             ChartHelper.HideAllObject(transform, INDICATOR_TEXT);
             for (int n = 0; n < m_Radars.Count; n++)
             {
                 Radar radar = m_Radars[n];
-                radar.UpdateRadarCenter(chartWidth, chartHeight);
+                radar.UpdateRadarCenter(chartPosition, chartWidth, chartHeight);
                 int indicatorNum = radar.indicatorList.Count;
                 float txtWid = 100;
                 float txtHig = 20;
@@ -119,30 +127,15 @@ namespace XCharts
                     var pos = radar.GetIndicatorPosition(i);
                     TextAnchor anchor = TextAnchor.MiddleCenter;
                     var textStyle = indicator.textStyle;
-                    var textColor = textStyle.color == Color.clear ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
+                    var textColor = ChartHelper.IsClearColor(textStyle.color) ? (Color)m_ThemeInfo.axisTextColor : textStyle.color;
                     var txt = ChartHelper.AddTextObject(INDICATOR_TEXT + "_" + n + "_" + i, transform, m_ThemeInfo.font,
                     textColor, anchor, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                     new Vector2(txtWid, txtHig), textStyle.fontSize, textStyle.rotate, textStyle.fontStyle, textStyle.lineSpacing);
+                    txt.gameObject.hideFlags = chartHideFlags;
                     txt.text = radar.indicatorList[i].name;
                     txt.gameObject.SetActive(radar.indicator);
-                    var txtWidth = txt.preferredWidth;
-                    var sizeDelta = new Vector2(txt.preferredWidth, txt.preferredHeight);
-                    txt.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-                    var diff = pos.x - radar.runtimeCenterPos.x;
-                    if (diff < -1f) //left
-                    {
-                        pos = new Vector3(pos.x - txtWidth / 2, pos.y);
-                    }
-                    else if (diff > 1f) //right
-                    {
-                        pos = new Vector3(pos.x + txtWidth / 2, pos.y);
-                    }
-                    else
-                    {
-                        float y = pos.y > radar.runtimeCenterPos.y ? pos.y + txtHig / 2 : pos.y - txtHig / 2;
-                        pos = new Vector3(pos.x, y);
-                    }
-                    txt.transform.localPosition = pos + new Vector3(textStyle.offset.x, textStyle.offset.y);
+                    var offset = new Vector3(textStyle.offset.x, textStyle.offset.y);
+                    AxisHelper.AdjustCircleLabelPos(txt, pos, radar.runtimeCenterPos, txtHig, offset);
                 }
             }
         }
@@ -165,7 +158,7 @@ namespace XCharts
             base.DrawChart(vh);
             foreach (var radar in m_Radars)
             {
-                radar.UpdateRadarCenter(chartWidth, chartHeight);
+                radar.UpdateRadarCenter(chartPosition, chartWidth, chartHeight);
                 if (radar.shape == Radar.Shape.Circle)
                 {
                     DrawCricleRadar(vh, radar);
@@ -242,6 +235,7 @@ namespace XCharts
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            SerieHelper.GetAllMinMaxData(serie, radar.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -285,14 +279,12 @@ namespace XCharts
                 for (int n = 0; n < dataCount; n++)
                 {
                     if (n >= serieData.data.Count) break;
-                    float min = radar.GetIndicatorMin(n);
                     float max = radar.GetIndicatorMax(n);
                     float value = serieData.GetCurrData(n, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
-                        serie.GetMinMaxData(n, out min, out max);
-                        min = radar.GetIndicatorMin(n);
+                        max = serie.runtimeDataMax;
                     }
                     var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
                     : radar.runtimeDataRadius * value / max;
@@ -314,7 +306,7 @@ namespace XCharts
                         }
                         if (serie.lineStyle.show)
                         {
-                            DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
+                            ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                         }
                         startPoint = toPoint;
                     }
@@ -326,18 +318,19 @@ namespace XCharts
                 }
                 if (serie.lineStyle.show)
                 {
-                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
-                if (serie.symbol.type != SerieSymbolType.None)
+                if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
                 {
                     var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     foreach (var point in pointList)
                     {
                         DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                           symbolToColor, serie.symbol.gap);
+                           symbolToColor, serie.symbol.gap, cornerRadius);
                     }
                 }
             }
@@ -383,6 +376,7 @@ namespace XCharts
             var pointList = radar.runtimeDataPosList[key];
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
+            SerieHelper.UpdateMinMaxData(serie, 1, radar.ceilRate);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -417,14 +411,12 @@ namespace XCharts
                 int dataCount = radar.indicatorList.Count;
                 var index = serieData.index;
                 var p = radar.runtimeCenterPos;
-                var min = radar.GetIndicatorMin(index);
                 var max = radar.GetIndicatorMax(index);
                 var value = serieData.GetCurrData(1, dataChangeDuration);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {
-                    serie.GetMinMaxData(index, out min, out max);
-                    min = radar.GetIndicatorMin(index);
+                    max = serie.runtimeDataMax;
                 }
                 var radius = max < 0 ? radar.runtimeDataRadius - radar.runtimeDataRadius * value / max
                 : radar.runtimeDataRadius * value / max;
@@ -446,7 +438,7 @@ namespace XCharts
                     }
                     if (serie.lineStyle.show)
                     {
-                        DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
+                        ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, toPoint, lineColor);
                     }
                     startPoint = toPoint;
                 }
@@ -459,10 +451,10 @@ namespace XCharts
                 }
                 if (serie.lineStyle.show && j == endIndex)
                 {
-                    DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, serie.lineStyle, startPoint, firstPoint, lineColor);
                 }
             }
-            if (serie.symbol.type != SerieSymbolType.None)
+            if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
             {
                 for (int j = 0; j < serie.data.Count; j++)
                 {
@@ -475,8 +467,9 @@ namespace XCharts
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                     DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.labelPosition, symbolColor,
-                           symbolToColor, serie.symbol.gap);
+                           symbolToColor, serie.symbol.gap, cornerRadius);
                 }
             }
             if (!serie.animation.IsFinish())
@@ -510,16 +503,17 @@ namespace XCharts
         private void DrawRadarSymbol(VertexHelper vh, Serie serie, SerieData serieData, int serieIndex, bool isHighlight,
             List<Vector3> pointList)
         {
-            if (serie.symbol.type != SerieSymbolType.None)
+            if (serie.symbol.show && serie.symbol.type != SerieSymbolType.None)
             {
                 var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
                 var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                 var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieIndex, isHighlight);
                 var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, isHighlight);
+                var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, isHighlight);
                 foreach (var point in pointList)
                 {
                     DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                       symbolToColor, serie.symbol.gap);
+                       symbolToColor, serie.symbol.gap, cornerRadius);
                 }
             }
         }
@@ -556,7 +550,7 @@ namespace XCharts
                     }
                     if (radar.splitLine.NeedShow(i))
                     {
-                        DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
+                        ChartDrawer.DrawLineStyle(vh, radar.splitLine.lineStyle, p2, p3, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -570,7 +564,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.splitLine.show)
                 {
-                    DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
+                    ChartDrawer.DrawLineStyle(vh, radar.splitLine.lineStyle, p, p3, lineColor);
                 }
             }
         }
@@ -595,7 +589,7 @@ namespace XCharts
                 if (radar.splitArea.show)
                 {
                     ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, color, Color.clear,
-                         m_Settings.cicleSmoothness, 0, 360);
+                          0, 360, m_Settings.cicleSmoothness);
                 }
                 if (radar.splitLine.show)
                 {
@@ -626,6 +620,7 @@ namespace XCharts
             if (m_IsEnterLegendButtom) return;
 
             bool highlight = false;
+            //m_Tooltip.ClearValue();
             for (int i = 0; i < m_Series.Count; i++)
             {
                 if (!IsActive(i)) continue;
@@ -645,12 +640,16 @@ namespace XCharts
                             if (radar.runtimeDataPosList.ContainsKey(posKey))
                             {
                                 var posList = radar.runtimeDataPosList[posKey];
-                                foreach (var pos in posList)
+                                for (int k = 0; k < posList.Count; k++)
                                 {
-                                    if (Vector2.Distance(pos, local) <= serie.symbol.size * 1.2f)
+                                    if (Vector2.Distance(posList[k], local) <= serie.symbol.size * 1.3f)
                                     {
                                         m_Tooltip.runtimeDataIndex[0] = i;
                                         m_Tooltip.runtimeDataIndex[1] = n;
+                                        if (m_Tooltip.runtimeDataIndex.Count >= 3)
+                                            m_Tooltip.runtimeDataIndex[2] = k;
+                                        else
+                                            m_Tooltip.runtimeDataIndex.Add(k);
                                         highlight = true;
                                         break;
                                     }
@@ -662,7 +661,7 @@ namespace XCharts
                         for (int n = 0; n < serie.data.Count; n++)
                         {
                             var serieData = serie.data[n];
-                            if (Vector2.Distance(serieData.labelPosition, local) <= serie.symbol.size * 1.2f)
+                            if (Vector2.Distance(serieData.labelPosition, local) <= serie.symbol.size * 1.3f)
                             {
                                 m_Tooltip.runtimeDataIndex[0] = i;
                                 m_Tooltip.runtimeDataIndex[1] = n;
@@ -685,7 +684,7 @@ namespace XCharts
             }
             else
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
                 RefreshChart();
             }
@@ -707,19 +706,10 @@ namespace XCharts
             m_Tooltip.SetActive(true);
             var serie = m_Series.GetSerie(serieIndex);
             var radar = m_Radars[serie.radarIndex];
+            var dataIndex = tooltip.runtimeDataIndex[1];
             StringBuilder sb = new StringBuilder();
-            TooltipHelper.InitRadarTooltip(ref sb, tooltip, serie, radar, themeInfo);
-            m_Tooltip.UpdateContentText(sb.ToString());
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.runtimeWidth;
-            }
-            if (pos.y - m_Tooltip.runtimeHeight < 0)
-            {
-                pos.y = m_Tooltip.runtimeHeight;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            var content = TooltipHelper.GetFormatterContent(m_Tooltip, dataIndex, m_Series, m_ThemeInfo, null, null, false, radar);
+            TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
         }
 
         protected override void OnRefreshLabel()
@@ -733,23 +723,24 @@ namespace XCharts
                 for (int n = 0; n < serie.dataCount; n++)
                 {
                     var serieData = serie.data[n];
+                    if (serieData.labelObject == null) continue;
                     var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
                     var labelPos = serieData.labelPosition;
                     if (serieLabel.margin != 0)
                     {
                         labelPos += serieLabel.margin * (labelPos - center).normalized;
                     }
-                    serieData.SetGameObjectPosition(labelPos);
-                    serieData.UpdateIcon();
+                    serieData.labelObject.SetPosition(labelPos);
+                    serieData.labelObject.UpdateIcon(serieData.iconStyle);
                     if (serie.show && serieLabel.show && serieData.canShowLabel)
                     {
                         var value = serieData.GetCurrData(1);
                         var max = radar.GetIndicatorMax(n);
                         SerieLabelHelper.ResetLabel(serieData, serieLabel, themeInfo, i);
                         serieData.SetLabelActive(serieData.labelPosition != Vector3.zero);
-                        serieData.SetLabelPosition(serieLabel.offset);
-                        var content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, max);
-                        if (serieData.SetLabelText(content)) RefreshChart();
+                        serieData.labelObject.SetLabelPosition(serieLabel.offset);
+                        var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, max, serieLabel);
+                        if (serieData.labelObject.SetText(content)) RefreshChart();
                     }
                     else
                     {

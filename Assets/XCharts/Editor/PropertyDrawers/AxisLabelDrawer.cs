@@ -29,7 +29,9 @@ namespace XCharts
             SerializedProperty m_Color = prop.FindPropertyRelative("m_Color");
             SerializedProperty m_FontSize = prop.FindPropertyRelative("m_FontSize");
             SerializedProperty m_FontStyle = prop.FindPropertyRelative("m_FontStyle");
-            SerializedProperty m_ForceENotation = prop.FindPropertyRelative("m_ForceENotation");
+            SerializedProperty m_NumericFormatter = prop.FindPropertyRelative("m_NumericFormatter");
+            SerializedProperty m_ShowAsPositiveNumber = prop.FindPropertyRelative("m_ShowAsPositiveNumber");
+            SerializedProperty m_OnZero = prop.FindPropertyRelative("m_OnZero");
             SerializedProperty m_TextLimit = prop.FindPropertyRelative("m_TextLimit");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_AxisLabelToggle, prop, "Axis Label", show, false);
@@ -37,6 +39,8 @@ namespace XCharts
             if (ChartEditorHelper.IsToggle(m_AxisLabelToggle, prop))
             {
                 ++EditorGUI.indentLevel;
+                EditorGUI.PropertyField(drawRect, m_OnZero);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Inside);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Interval);
@@ -53,7 +57,9 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Formatter);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_ForceENotation);
+                EditorGUI.PropertyField(drawRect, m_NumericFormatter);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_ShowAsPositiveNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_TextLimit);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_TextLimit);
@@ -66,7 +72,7 @@ namespace XCharts
             float height = 0;
             if (ChartEditorHelper.IsToggle(m_AxisLabelToggle, prop))
             {
-                height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
+                height += 12 * EditorGUIUtility.singleLineHeight + 11 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_TextLimit"));
             }
             return height;

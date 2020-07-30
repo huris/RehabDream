@@ -5,7 +5,8 @@
 /*                                        */
 /******************************************/
 
-
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XCharts
@@ -37,6 +38,7 @@ namespace XCharts
         [SerializeField] private bool m_Show = false;
         [SerializeField] private Color m_Color;
         [SerializeField] private Color m_ToColor;
+        [SerializeField] private Color m_ToColor2;
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color m_CenterColor;
@@ -46,6 +48,35 @@ namespace XCharts
         [SerializeField] private Color m_BorderColor;
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
         [SerializeField] private string m_TooltipFormatter;
+        [SerializeField] private string m_NumericFormatter = "";
+        [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
+
+        public void Reset()
+        {
+            m_Show = false;
+            m_Color = Color.clear;
+            m_ToColor = Color.clear;
+            m_ToColor2 = Color.clear;
+            m_BackgroundColor = Color.clear;
+            m_BackgroundWidth = 0;
+            m_CenterColor = Color.clear;
+            m_CenterGap = 0;
+            m_BorderType = Type.Solid;
+            m_BorderWidth = 0;
+            m_BorderColor = Color.clear;
+            m_Opacity = 1;
+            m_TooltipFormatter = null;
+            m_NumericFormatter = "";
+            if (m_CornerRadius == null)
+            {
+                m_CornerRadius = new float[] { 0, 0, 0, 0 };
+            }
+            else
+            {
+                for (int i = 0; i < m_CornerRadius.Length; i++)
+                    m_CornerRadius[i] = 0;
+            }
+        }
 
         /// <summary>
         /// 是否启用。
@@ -64,13 +95,22 @@ namespace XCharts
             set { if (PropertyUtility.SetColor(ref m_Color, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// Gradient color, start color to toColor.
-        /// 渐变色的终点颜色。
+        /// Gradient color1.
+        /// 渐变色的颜色1。
         /// </summary>
         public Color toColor
         {
             get { return m_ToColor; }
             set { if (PropertyUtility.SetColor(ref m_ToColor, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Gradient color2.Only valid in line diagrams.
+        /// 渐变色的颜色2。只在折线图中有效。
+        /// </summary>
+        public Color toColor2
+        {
+            get { return m_ToColor2; }
+            set { if (PropertyUtility.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 数据项背景颜色。
@@ -145,6 +185,27 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_TooltipFormatter, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// </summary>
+        /// <value></value>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
+        /// 圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
+        /// </summary>
+        public float[] cornerRadius
+        {
+            get { return m_CornerRadius; }
+            set { if (PropertyUtility.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 实际边框宽。边框不显示时为0。
         /// </summary>
         public float runtimeBorderWidth { get { return NeedShowBorder() ? borderWidth : 0; } }
@@ -154,14 +215,36 @@ namespace XCharts
         /// </summary>
         public bool NeedShowBorder()
         {
-            return borderWidth != 0 && borderColor != Color.clear;
+            return borderWidth != 0 && !ChartHelper.IsClearColor(borderColor);
         }
 
         public Color GetColor()
         {
+            if (m_Opacity == 1) return m_Color;
             var color = m_Color;
             color.a *= m_Opacity;
             return color;
+        }
+
+        public bool IsNeedGradient()
+        {
+            return !ChartHelper.IsClearColor(m_ToColor) || !ChartHelper.IsClearColor(m_ToColor2);
+        }
+
+        public Color GetGradientColor(float value, Color defaultColor)
+        {
+            if (!IsNeedGradient()) return Color.clear;
+            value = Mathf.Clamp01(value);
+            var startColor = m_Color == Color.clear ? defaultColor : m_Color;
+            if (m_ToColor2 != Color.clear)
+            {
+                if (value <= 0.5f) return Color.Lerp(startColor, m_ToColor, 2 * value);
+                else return Color.Lerp(m_ToColor, m_ToColor2, 2 * (value - 0.5f));
+            }
+            else
+            {
+                return Color.Lerp(startColor, m_ToColor, value);
+            }
         }
     }
 }

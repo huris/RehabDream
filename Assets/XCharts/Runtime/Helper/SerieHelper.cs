@@ -4,234 +4,83 @@
 /*     https://github.com/monitor1394     */
 /*                                        */
 /******************************************/
+
+using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class SerieHelper
+    public static partial class SerieHelper
     {
-        internal static Color GetItemBackgroundColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight, bool useDefault = true)
+        /// <summary>
+        /// Gets the maximum and minimum values of the specified dimension of a serie.
+        /// 获得系列指定维数的最大最小值。
+        /// </summary>
+        /// <param name="serie">指定系列</param>
+        /// <param name="dimension">指定维数</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="dataZoom">缩放组件，默认null</param>
+        public static void GetMinMaxData(Serie serie, int dimension, out float min, out float max, DataZoom dataZoom = null)
         {
-            var itemStyle = GetItemStyle(serie, serieData);
-            var color = Color.clear;
-            if (highlight)
+            max = float.MinValue;
+            min = float.MaxValue;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
             {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.backgroundColor != Color.clear)
+                var serieData = dataList[i];
+                if (serieData.show && serieData.data.Count > dimension)
                 {
-                    color = itemStyleEmphasis.backgroundColor;
-                    color.a *= itemStyleEmphasis.opacity;
-                    return color;
+                    var value = serieData.data[dimension];
+                    if (value > max) max = value;
+                    if (value < min) min = value;
                 }
             }
-            if (itemStyle.backgroundColor != Color.clear)
-            {
-                color = itemStyle.backgroundColor;
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
-            else if (useDefault)
-            {
-                color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a = 0.2f;
-                return color;
-            }
-            return Color.clear;
         }
 
-        internal static Color GetItemColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
+        /// <summary>
+        /// Gets the maximum and minimum values of all data in the serie.
+        /// 获得系列所有数据的最大最小值。
+        /// </summary>
+        /// <param name="serie"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="dataZoom"></param>
+        public static void GetMinMaxData(Serie serie, out float min, out float max, DataZoom dataZoom = null)
         {
-            var itemStyle = GetItemStyle(serie, serieData);
-            if (highlight)
+            max = float.MinValue;
+            min = float.MaxValue;
+            var dataList = serie.GetDataList(dataZoom);
+            for (int i = 0; i < dataList.Count; i++)
             {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.color != Color.clear)
+                var serieData = dataList[i];
+                if (serieData.show)
                 {
-                    var color = itemStyleEmphasis.color;
-                    color.a *= itemStyleEmphasis.opacity;
-                    return color;
+                    var count = serie.showDataDimension > serieData.data.Count ? serieData.data.Count : serie.showDataDimension;
+                    for (int j = 0; j < count; j++)
+                    {
+                        var value = serieData.data[j];
+                        if (value > max) max = value;
+                        if (value < min) min = value;
+                    }
                 }
             }
-            if (itemStyle.color != Color.clear)
-            {
-                var color = itemStyle.color;
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
         }
 
-        internal static Color GetItemToColor(Serie serie, SerieData serieData, ThemeInfo theme, int index, bool highlight)
+        /// <summary>
+        /// Whether the data for the specified dimension of serie are all 0.
+        /// 系列指定维数的数据是否全部为0。
+        /// </summary>
+        /// <param name="serie">系列</param>
+        /// <param name="dimension">指定维数</param>
+        /// <returns></returns>
+        public static bool IsAllZeroValue(Serie serie, int dimension = 1)
         {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (highlight)
+            foreach (var serieData in serie.data)
             {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, serieData);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.toColor != Color.clear)
-                {
-                    var color = itemStyleEmphasis.toColor;
-                    color.a *= itemStyleEmphasis.opacity;
-                    return color;
-                }
+                if (serieData.GetData(dimension) != 0) return false;
             }
-            if (itemStyle == null) itemStyle = serieData.itemStyle;
-            if (itemStyle.toColor != Color.clear)
-            {
-                var color = itemStyle.toColor;
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
-            if (itemStyle.color != Color.clear)
-            {
-                var color = itemStyle.color;
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= itemStyle.opacity;
-                return color;
-            }
-        }
-
-        public static bool IsDownPoint(Serie serie, int index)
-        {
-            var dataPoints = serie.dataPoints;
-            if (dataPoints.Count < 2) return false;
-            else if (index > 0 && index < dataPoints.Count - 1)
-            {
-                var lp = dataPoints[index - 1];
-                var np = dataPoints[index + 1];
-                var cp = dataPoints[index];
-                var dot = Vector3.Cross(np - lp, cp - np);
-                return dot.z < 0;
-            }
-            else if (index == 0)
-            {
-                return dataPoints[0].y < dataPoints[1].y;
-            }
-            else if (index == dataPoints.Count - 1)
-            {
-                return dataPoints[index].y < dataPoints[index - 1].y;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, bool highlight = false)
-        {
-            if (highlight)
-            {
-                var style = GetItemStyleEmphasis(serie, serieData);
-                if (style == null) return GetItemStyle(serie, serieData, false);
-                else return style;
-            }
-            else if (serieData.enableItemStyle) return serieData.itemStyle;
-            else return serie.itemStyle;
-        }
-
-        public static ItemStyle GetItemStyleEmphasis(Serie serie, SerieData serieData)
-        {
-            if (serieData != null && serieData.enableEmphasis && serieData.emphasis.show)
-                return serieData.emphasis.itemStyle;
-            else if (serie.emphasis.show) return serie.emphasis.itemStyle;
-            else return null;
-        }
-
-        public static SerieLabel GetSerieLabel(Serie serie, SerieData serieData, bool highlight = false)
-        {
-            if (highlight)
-            {
-                if (serieData.enableEmphasis && serieData.emphasis.show) return serieData.emphasis.label;
-                else if (serie.emphasis.show) return serie.emphasis.label;
-                else return serie.label;
-            }
-            else
-            {
-                if (serieData.enableLabel) return serieData.label;
-                else return serie.label;
-            }
-        }
-
-        public static Color GetAreaColor(Serie serie, ThemeInfo theme, int index, bool highlight)
-        {
-            var areaStyle = serie.areaStyle;
-            var color = areaStyle.color != Color.clear ? areaStyle.color : (Color)theme.GetColor(index);
-            if (highlight)
-            {
-                if (areaStyle.highlightColor != Color.clear) color = areaStyle.highlightColor;
-                else color *= color;
-            }
-            color.a *= areaStyle.opacity;
-            return color;
-        }
-
-        public static Color GetAreaToColor(Serie serie, ThemeInfo theme, int index, bool highlight)
-        {
-            var areaStyle = serie.areaStyle;
-            if (areaStyle.toColor != Color.clear)
-            {
-                var color = areaStyle.toColor;
-                if (highlight)
-                {
-                    if (areaStyle.highlightToColor != Color.clear) color = areaStyle.highlightToColor;
-                    else color *= color;
-                }
-                color.a *= areaStyle.opacity;
-                return color;
-            }
-            else
-            {
-                return GetAreaColor(serie, theme, index, highlight);
-            }
-        }
-
-        public static Color GetLineColor(Serie serie, ThemeInfo theme, int index, bool highlight)
-        {
-            var color = Color.clear;
-            if (highlight)
-            {
-                var itemStyleEmphasis = GetItemStyleEmphasis(serie, null);
-                if (itemStyleEmphasis != null && itemStyleEmphasis.color != Color.clear)
-                {
-                    color = itemStyleEmphasis.color;
-                    color.a *= itemStyleEmphasis.opacity;
-                    return color;
-                }
-            }
-            if (serie.lineStyle.color != Color.clear) color = serie.lineStyle.GetColor();
-            else if (serie.itemStyle.color != Color.clear) color = serie.itemStyle.GetColor();
-            if (color == Color.clear)
-            {
-                color = (Color)theme.GetColor(index);
-                color.a = serie.lineStyle.opacity;
-            }
-            if (highlight) color *= color;
-            return color;
-        }
-
-        public static float GetSymbolBorder(Serie serie, SerieData serieData, bool highlight)
-        {
-            var itemStyle = GetItemStyle(serie, serieData, highlight);
-            if (itemStyle != null && itemStyle.borderWidth != 0) return itemStyle.borderWidth;
-            else if (serie.lineStyle.width != 0) return serie.lineStyle.width;
-            else return 1;
+            return true;
         }
     }
 }

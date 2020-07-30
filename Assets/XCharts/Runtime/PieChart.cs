@@ -5,7 +5,6 @@
 /*                                        */
 /******************************************/
 
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -65,9 +64,9 @@ namespace XCharts
                 }
                 bool isFinish = true;
                 if (serie.pieClickOffset) isClickOffset = true;
-                serie.runtimePieDataMax = serie.yMax;
+                serie.runtimeDataMax = serie.yMax;
                 serie.runtimePieDataTotal = serie.yTotal;
-                serie.UpdateCenter(chartWidth, chartHeight);
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
 
                 float totalDegree = 360;
                 float startDegree = 0;
@@ -79,16 +78,26 @@ namespace XCharts
                 }
                 bool dataChanging = false;
                 float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+                bool isAllZeroValue = SerieHelper.IsAllZeroValue(serie, 1);
+                float zeroReplaceValue = 360f / data.Count;
+                if (isAllZeroValue)
+                {
+                    serie.runtimeDataMax = zeroReplaceValue;
+                    serie.runtimePieDataTotal = 360f;
+                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
-                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     serieData.index = n;
-                    float value = serieData.GetCurrData(1, dataChangeDuration);
+                    float value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, dataChangeDuration);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.legendName);
                     var color = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
                     var toColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, serieNameCount, serieData.highlighted);
+                    var borderWidth = itemStyle.borderWidth;
+                    var borderColor = itemStyle.borderColor;
+
                     serieData.runtimePieStartAngle = startDegree;
                     serieData.runtimePieToAngle = startDegree;
                     serieData.runtimePieHalfAngle = startDegree;
@@ -102,14 +111,14 @@ namespace XCharts
                     serieData.runtimePieToAngle = startDegree + degree;
 
                     serieData.runtimePieOutsideRadius = serie.pieRoseType > 0 ?
-                        serie.runtimeInsideRadius + (serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimePieDataMax :
+                        serie.runtimeInsideRadius + (serie.runtimeOutsideRadius - serie.runtimeInsideRadius) * value / serie.runtimeDataMax :
                         serie.runtimeOutsideRadius;
                     if (serieData.highlighted)
                     {
                         isDataHighlight = true;
                         serieData.runtimePieOutsideRadius += m_Settings.pieTooltipExtraRadius;
                     }
-                    var offset = serie.pieSpace;
+                    var offset = 0f;
                     if (serie.pieClickOffset && serieData.selected)
                     {
                         offset += m_Settings.pieSelectedOffset;
@@ -131,7 +140,7 @@ namespace XCharts
                     }
                     if (offset > 0)
                     {
-                        serieData.runtimePieOffsetRadius = serie.pieSpace / Mathf.Sin(halfDegree * Mathf.Deg2Rad);
+                        serieData.runtimePieOffsetRadius = 0;
                         serieData.runtimePieInsideRadius -= serieData.runtimePieOffsetRadius;
                         serieData.runtimePieOutsideRadius -= serieData.runtimePieOffsetRadius;
                         if (serie.pieClickOffset && serieData.selected)
@@ -143,19 +152,20 @@ namespace XCharts
 
                         serieData.runtiemPieOffsetCenter = new Vector3(center.x + serieData.runtimePieOffsetRadius * currSin,
                             center.y + serieData.runtimePieOffsetRadius * currCos);
-                        var drawStartDegree = startDegree + serie.pieSpace;
-                        var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawRoundCap(vh, serie, serieData, serieData.runtiemPieOffsetCenter, color, ref drawStartDegree, ref drawEndDegree);
-                        ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, toColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                        var drawEndDegree = serieData.runtimePieCurrAngle;
+                        var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
+
+                        ChartDrawer.DrawDoughnut(vh, serieData.runtiemPieOffsetCenter, serieData.runtimePieInsideRadius,
+                            serieData.runtimePieOutsideRadius, color, toColor, Color.clear, startDegree, drawEndDegree,
+                             borderWidth, borderColor, serie.pieSpace / 2, m_Settings.cicleSmoothness, needRoundCap, true);
                     }
                     else
                     {
-                        var drawStartDegree = startDegree + serie.pieSpace;
-                        var drawEndDegree = serieData.runtimePieCurrAngle - serie.pieSpace;
-                        DrawRoundCap(vh, serie, serieData, center, color, ref drawStartDegree, ref drawEndDegree);
+                        var drawEndDegree = serieData.runtimePieCurrAngle;
+                        var needRoundCap = serie.roundCap && serieData.runtimePieInsideRadius > 0;
                         ChartDrawer.DrawDoughnut(vh, center, serieData.runtimePieInsideRadius, serieData.runtimePieOutsideRadius,
-                            color, toColor, Color.clear, m_Settings.cicleSmoothness, drawStartDegree, drawEndDegree);
+                            color, toColor, Color.clear, startDegree, drawEndDegree, borderWidth, borderColor, serie.pieSpace / 2,
+                            m_Settings.cicleSmoothness, needRoundCap, true);
                         DrawCenter(vh, serie, itemStyle, serieData.runtimePieInsideRadius);
                     }
                     serieData.canShowLabel = serieData.runtimePieCurrAngle >= serieData.runtimePieHalfAngle;
@@ -182,26 +192,10 @@ namespace XCharts
 
         private void DrawCenter(VertexHelper vh, Serie serie, ItemStyle itemStyle, float insideRadius)
         {
-            if (itemStyle.centerColor != Color.clear)
+            if (!ChartHelper.IsClearColor(itemStyle.centerColor))
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 ChartDrawer.DrawCricle(vh, serie.runtimeCenterPos, radius, itemStyle.centerColor, m_Settings.cicleSmoothness);
-            }
-        }
-
-        private void DrawRoundCap(VertexHelper vh, Serie serie, SerieData serieData, Vector3 centerPos,
-            Color color, ref float drawStartDegree, ref float drawEndDegree)
-        {
-            if (serie.roundCap && serieData.runtimePieInsideRadius > 0)
-            {
-                var width = (serieData.runtimePieOutsideRadius - serieData.runtimePieInsideRadius) / 2;
-                var radius = serieData.runtimePieInsideRadius + width;
-                var diffDegree = Mathf.Asin(width / radius) * Mathf.Rad2Deg;
-                drawStartDegree += diffDegree;
-                drawEndDegree -= diffDegree;
-
-                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawStartDegree, serie.clockwise, color, false);
-                ChartDrawer.DrawRoundCap(vh, centerPos, width, radius, drawEndDegree, serie.clockwise, color, true);
             }
         }
 
@@ -209,17 +203,15 @@ namespace XCharts
         {
             foreach (var serie in m_Series.list)
             {
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                foreach (var serieData in serie.data)
                 {
-                    foreach (var serieData in serie.data)
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                     {
-                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (serieLabel.show && serieData.canShowLabel)
-                        {
-                            int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
-                            Color color = m_ThemeInfo.GetColor(colorIndex);
-                            DrawLabelLine(vh, serie, serieData, color);
-                        }
+                        int colorIndex = m_LegendRealShowName.IndexOf(serieData.name);
+                        Color color = m_ThemeInfo.GetColor(colorIndex);
+                        DrawLabelLine(vh, serie, serieData, color);
                     }
                 }
             }
@@ -229,16 +221,14 @@ namespace XCharts
         {
             foreach (var serie in m_Series.list)
             {
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                foreach (var serieData in serie.data)
                 {
-                    foreach (var serieData in serie.data)
+                    var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+                    if (SerieLabelHelper.CanShowLabel(serie, serieData, serieLabel, 1))
                     {
-                        var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-                        if (serieLabel.show && serieData.canShowLabel)
-                        {
-                            UpdateLabelPostion(serie, serieData);
-                            DrawLabelBackground(vh, serie, serieData);
-                        }
+                        SerieLabelHelper.UpdatePieLabelPosition(serie, serieData);
+                        DrawLabelBackground(vh, serie, serieData);
                     }
                 }
             }
@@ -255,7 +245,7 @@ namespace XCharts
                 var outSideRadius = serieData.runtimePieOutsideRadius;
                 var center = serie.runtimeCenterPos;
                 var currAngle = serieData.runtimePieHalfAngle;
-                if (serieLabel.lineColor != Color.clear) color = serieLabel.lineColor;
+                if (!ChartHelper.IsClearColor(serieLabel.lineColor)) color = serieLabel.lineColor;
                 else if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine) color *= color;
                 float currSin = Mathf.Sin(currAngle * Mathf.Deg2Rad);
                 float currCos = Mathf.Cos(currAngle * Mathf.Deg2Rad);
@@ -267,7 +257,11 @@ namespace XCharts
                 radius1 -= 0.1f;
                 var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                 var pos1 = new Vector3(center.x + radius1 * currSin, center.y + radius1 * currCos);
-                var pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
+                var pos2 = serieData.labelPosition;
+                if (pos2.x == 0)
+                {
+                    pos2 = new Vector3(center.x + radius2 * currSin, center.y + radius2 * currCos);
+                }
                 float tx, ty;
                 Vector3 pos3, pos4, pos6;
                 var horizontalLineCircleRadius = serieLabel.lineWidth * 4f;
@@ -343,19 +337,10 @@ namespace XCharts
                 serie.index = i;
                 if (!serie.show) continue;
                 var data = serie.data;
-
-                int showdataCount = 0;
-                if (serie.pieRoseType == RoseType.Area)
-                {
-                    foreach (var sd in serie.data)
-                    {
-                        if (sd.show) showdataCount++;
-                    }
-                }
                 for (int n = 0; n < data.Count; n++)
                 {
                     var serieData = data[n];
-                    if (!serieData.canShowLabel)
+                    if (!serieData.canShowLabel || serie.IsIgnoreValue(serieData.GetData(1)))
                     {
                         serieData.SetLabelActive(false);
                         continue;
@@ -363,15 +348,15 @@ namespace XCharts
                     if (!serieData.show) continue;
                     serieNameCount = m_LegendRealShowName.IndexOf(serieData.name);
                     Color color = m_ThemeInfo.GetColor(serieNameCount);
-
                     DrawLabel(serie, n, serieData, color);
                 }
+                SerieLabelHelper.AvoidLabelOverlap(serie);
             }
         }
 
         private void DrawLabel(Serie serie, int dataIndex, SerieData serieData, Color serieColor)
         {
-            if (serieData.labelText == null) return;
+            if (serieData.labelObject == null) return;
             var currAngle = serieData.runtimePieHalfAngle;
             var isHighlight = (serieData.highlighted && serie.emphasis.label.show);
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
@@ -389,9 +374,9 @@ namespace XCharts
                 Color color = serieColor;
                 if (isHighlight)
                 {
-                    if (serie.emphasis.label.color != Color.clear) color = serie.emphasis.label.color;
+                    if (!ChartHelper.IsClearColor(serie.emphasis.label.color)) color = serie.emphasis.label.color;
                 }
-                else if (serieLabel.color != Color.clear)
+                else if (!ChartHelper.IsClearColor(serieLabel.color))
                 {
                     color = serieLabel.color;
                 }
@@ -402,95 +387,36 @@ namespace XCharts
                 var fontSize = isHighlight ? serie.emphasis.label.fontSize : serieLabel.fontSize;
                 var fontStyle = isHighlight ? serie.emphasis.label.fontStyle : serieLabel.fontStyle;
 
-                serieData.labelText.color = color;
-                serieData.labelText.fontSize = fontSize;
-                serieData.labelText.fontStyle = fontStyle;
-
-                serieData.labelRect.transform.localEulerAngles = new Vector3(0, 0, rotate);
-
-                UpdateLabelPostion(serie, serieData);
+                serieData.labelObject.label.color = color;
+                serieData.labelObject.label.fontSize = fontSize;
+                serieData.labelObject.label.fontStyle = fontStyle;
+                serieData.labelObject.SetLabelRotate(rotate);
+                SerieLabelHelper.UpdatePieLabelPosition(serie, serieData);
                 if (!string.IsNullOrEmpty(serieLabel.formatter))
                 {
                     var value = serieData.data[1];
                     var total = serie.yTotal;
-                    var content = serieLabel.GetFormatterContent(serie.name, serieData.name, value, total);
-                    if (serieData.SetLabelText(content)) RefreshChart();
+                    var content = SerieLabelHelper.GetFormatterContent(serie, serieData, value, total, serieLabel);
+                    if (serieData.labelObject.SetText(content)) RefreshChart();
                 }
                 else
                 {
-                    if (serieData.SetLabelText(serieData.name)) RefreshChart();
+                    if (serieData.labelObject.SetText(serieData.name)) RefreshChart();
                 }
-                serieData.SetGameObjectPosition(serieData.labelPosition);
-                if (showLabel) serieData.SetLabelPosition(serieLabel.offset);
+                serieData.labelObject.SetPosition(SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel));
+                if (showLabel) serieData.labelObject.SetLabelPosition(serieLabel.offset);
                 else serieData.SetLabelActive(false);
             }
             else
             {
                 serieData.SetLabelActive(false);
             }
-            serieData.UpdateIcon();
-        }
-
-        protected void UpdateLabelPostion(Serie serie, SerieData serieData)
-        {
-            if (serieData.labelText == null) return;
-            var currAngle = serieData.runtimePieHalfAngle;
-            var currRad = currAngle * Mathf.Deg2Rad;
-            var offsetRadius = serieData.runtimePieOffsetRadius;
-            var insideRadius = serieData.runtimePieInsideRadius;
-            var outsideRadius = serieData.runtimePieOutsideRadius;
-            var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
-            switch (serieLabel.position)
-            {
-                case SerieLabel.Position.Center:
-                    serieData.labelPosition = serie.runtimeCenterPos;
-                    break;
-                case SerieLabel.Position.Inside:
-                    var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2;
-                    var labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                        serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                    serieData.labelPosition = labelCenter;
-                    break;
-                case SerieLabel.Position.Outside:
-                    if (serieLabel.lineType == SerieLabel.LineType.HorizontalLine)
-                    {
-                        var radius1 = serie.runtimeOutsideRadius;
-                        var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
-                        var currSin = Mathf.Sin(currRad);
-                        var currCos = Mathf.Cos(currRad);
-                        var pos0 = new Vector3(serie.runtimeCenterPos.x + radius3 * currSin, serie.runtimeCenterPos.y + radius3 * currCos);
-                        if (currAngle > 180)
-                        {
-                            currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
-                            currCos = Mathf.Cos((360 - currAngle) * Mathf.Deg2Rad);
-                        }
-                        var r4 = Mathf.Sqrt(radius1 * radius1 - Mathf.Pow(currCos * radius3, 2)) - currSin * radius3;
-                        r4 += serieLabel.lineLength1 + serieLabel.lineWidth * 4;
-                        r4 += serieData.labelText.preferredWidth / 2;
-                        serieData.labelPosition = pos0 + (currAngle > 180 ? Vector3.left : Vector3.right) * r4;
-                    }
-                    else
-                    {
-                        labelRadius = serie.runtimeOutsideRadius + serieLabel.lineLength1;
-                        labelCenter = new Vector2(serie.runtimeCenterPos.x + labelRadius * Mathf.Sin(currRad),
-                            serie.runtimeCenterPos.y + labelRadius * Mathf.Cos(currRad));
-                        float labelWidth = serieData.labelText.preferredWidth;
-                        if (currAngle > 180)
-                        {
-                            serieData.labelPosition = new Vector2(labelCenter.x - serieLabel.lineLength2 - 5 - labelWidth / 2, labelCenter.y);
-                        }
-                        else
-                        {
-                            serieData.labelPosition = new Vector2(labelCenter.x + serieLabel.lineLength2 + 5 + labelWidth / 2, labelCenter.y);
-                        }
-                    }
-                    break;
-            }
+            serieData.labelObject.UpdateIcon(serieData.iconStyle);
         }
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            CheckDataShow(legendName, show);
+            LegendHelper.CheckDataShow(m_Series, legendName, show);
             UpdateLegendColor(legendName, show);
             RefreshChart();
         }
@@ -498,14 +424,14 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName, true);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName, false);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, false);
             RefreshChart();
         }
 
@@ -531,7 +457,7 @@ namespace XCharts
             }
             if (selected)
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
             }
             else if (m_Tooltip.IsActive())
@@ -547,7 +473,7 @@ namespace XCharts
             var dist = Vector2.Distance(local, serie.runtimeCenterPos);
             if (dist < serie.runtimeInsideRadius || dist > serie.runtimeOutsideRadius) return -1;
             Vector2 dir = local - new Vector2(serie.runtimeCenterPos.x, serie.runtimeCenterPos.y);
-            float angle = VectorAngle(Vector2.up, dir);
+            float angle = ChartHelper.GetAngle360(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
             {
                 var serieData = serie.data[i];
@@ -557,17 +483,6 @@ namespace XCharts
                 }
             }
             return -1;
-        }
-
-        float VectorAngle(Vector2 from, Vector2 to)
-        {
-            float angle;
-
-            Vector3 cross = Vector3.Cross(from, to);
-            angle = Vector2.Angle(from, to);
-            angle = cross.z > 0 ? -angle : angle;
-            angle = (angle + 360) % 360;
-            return angle;
         }
 
         protected override void UpdateTooltip()
@@ -580,23 +495,15 @@ namespace XCharts
                 if (index < 0) continue;
                 showTooltip = true;
                 var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
-                m_Tooltip.UpdateContentText(content);
-                var pos = m_Tooltip.GetContentPos();
-                if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-                {
-                    pos.x = chartWidth - m_Tooltip.runtimeWidth;
-                }
-                if (pos.y - m_Tooltip.runtimeHeight < 0)
-                {
-                    pos.y = m_Tooltip.runtimeHeight;
-                }
-                m_Tooltip.UpdateContentPos(pos);
+                TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             }
             m_Tooltip.SetActive(showTooltip);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            base.OnPointerDown(eventData);
+
             Vector2 local;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 eventData.position, canvas.worldCamera, out local))
@@ -606,16 +513,14 @@ namespace XCharts
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.GetSerie(i);
-                if (serie.type == SerieType.Pie)
+                if (serie.type != SerieType.Pie) continue;
+                var index = GetPosPieIndex(serie, local);
+                if (index >= 0)
                 {
-                    var index = GetPosPieIndex(serie, local);
-                    if (index >= 0)
+                    for (int j = 0; j < serie.data.Count; j++)
                     {
-                        for (int j = 0; j < serie.data.Count; j++)
-                        {
-                            if (j == index) serie.data[j].selected = !serie.data[j].selected;
-                            else serie.data[j].selected = false;
-                        }
+                        if (j == index) serie.data[j].selected = !serie.data[j].selected;
+                        else serie.data[j].selected = false;
                     }
                 }
             }

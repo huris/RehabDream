@@ -24,7 +24,7 @@ namespace XCharts
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
 
             var showData = serie.GetDataList(m_DataZoom);
-            float categoryWidth = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
+            float categoryWidth = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -43,7 +43,7 @@ namespace XCharts
                     seriesHig.Add(0);
                 }
             }
-            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float xMinValue = xAxis.GetCurrMinValue(dataChangeDuration);
@@ -65,12 +65,14 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                var borderWidth = itemStyle.runtimeBorderWidth;
+
                 serieData.canShowLabel = true;
-                float value = showData[i].GetCurrData(1, dataChangeDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
+                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (showData[i].IsDataChanged()) dataChanging = true;
-                float pX = seriesHig[i] + coordinateX + xAxis.runtimeZeroXOffset + yAxis.axisLine.width;
-                float pY = coordinateY + +i * categoryWidth;
+                float axisLineWidth = (value < 0 ? -1 : 1) * yAxis.axisLine.width;
+                float pX = seriesHig[i] + m_CoordinateX + xAxis.runtimeZeroXOffset + axisLineWidth;
+                float pY = m_CoordinateY + i * categoryWidth;
                 if (!yAxis.boundaryGap) pY -= categoryWidth / 2;
 
                 var barHig = 0f;
@@ -78,7 +80,7 @@ namespace XCharts
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateWidth) : 0;
+                    barHig = valueTotal != 0 ? (value / valueTotal * m_CoordinateWidth) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -86,17 +88,28 @@ namespace XCharts
                     valueTotal = xMaxValue - xMinValue;
                     if (valueTotal != 0)
                         barHig = (xMinValue > 0 ? value - xMinValue : value)
-                            / valueTotal * coordinateWidth;
+                            / valueTotal * m_CoordinateWidth;
                     seriesHig[i] += barHig;
                 }
 
-                float currHig = CheckAnimation(serie, i, barHig);
 
-                Vector3 plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 prt = new Vector3(pX + currHig - borderWidth, pY + space + barWidth - borderWidth);
-                Vector3 prb = new Vector3(pX + currHig - borderWidth, pY + space + borderWidth);
-                Vector3 plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
-                Vector3 top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
+                float currHig = CheckAnimation(serie, i, barHig);
+                Vector3 plt, prt, prb, plb, top;
+                if (value < 0)
+                {
+                    plt = new Vector3(pX - borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig + borderWidth - axisLineWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig + borderWidth - axisLineWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX - borderWidth, pY + space + borderWidth);
+                }
+                else
+                {
+                    plt = new Vector3(pX + borderWidth, pY + space + barWidth - borderWidth);
+                    prt = new Vector3(pX + currHig - borderWidth - axisLineWidth, pY + space + barWidth - borderWidth);
+                    prb = new Vector3(pX + currHig - borderWidth - axisLineWidth, pY + space + borderWidth);
+                    plb = new Vector3(pX + borderWidth, pY + space + borderWidth);
+                }
+                top = new Vector3(pX + currHig - borderWidth, pY + space + barWidth / 2);
                 plt = ClampInCoordinate(plt);
                 prt = ClampInCoordinate(prt);
                 prb = ClampInCoordinate(prb);
@@ -122,7 +135,7 @@ namespace XCharts
                     }
                 }
             }
-            if (!m_Series.IsStack(serie.stack, SerieType.Bar))
+            if (!SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
             }
@@ -134,7 +147,7 @@ namespace XCharts
 
         private float CheckAnimation(Serie serie, int dataIndex, float barHig)
         {
-            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig);
+            float currHig = serie.animation.CheckBarProgress(dataIndex, barHig, serie.dataCount);
             if (!serie.animation.IsFinish())
             {
                 RefreshChart();
@@ -145,14 +158,14 @@ namespace XCharts
 
         protected void DrawXBarSerie(VertexHelper vh, Serie serie, int colorIndex, ref List<float> seriesHig)
         {
-            if (!IsActive(serie.name)) return;
+            if (!IsActive(serie.index)) return;
             if (serie.animation.HasFadeOut()) return;
             var showData = serie.GetDataList(m_DataZoom);
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
 
-            float categoryWidth = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
+            float categoryWidth = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, showData.Count, m_DataZoom);
             float barGap = GetBarGap();
             float totalBarWidth = GetBarTotalWidth(categoryWidth, barGap);
             float barWidth = serie.GetBarWidth(categoryWidth);
@@ -171,7 +184,7 @@ namespace XCharts
                 }
             }
 
-            var isPercentStack = m_Series.IsPercentStack(serie.stack, SerieType.Bar);
+            var isPercentStack = SeriesHelper.IsPercentStack(m_Series, serie.stack, SerieType.Bar);
             bool dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
             float yMinValue = yAxis.GetCurrMinValue(dataChangeDuration);
@@ -192,20 +205,21 @@ namespace XCharts
                     || serie.data[i].highlighted
                     || serie.highlighted;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, highlight);
-                var borderWidth = itemStyle.runtimeBorderWidth;
-                float value = serieData.GetCurrData(1, dataChangeDuration);
+                float value = serieData.GetCurrData(1, dataChangeDuration, yAxis.inverse);
+                float borderWidth = value == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = coordinateX + i * categoryWidth;
-                float zeroY = coordinateY + yAxis.runtimeZeroYOffset;
+                float pX = m_CoordinateX + i * categoryWidth;
+                float zeroY = m_CoordinateY + yAxis.runtimeZeroYOffset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
-                float pY = seriesHig[i] + zeroY + xAxis.axisLine.width;
+                float axisLineWidth = (value < 0 ? -1 : 1) * xAxis.axisLine.width;
+                float pY = seriesHig[i] + zeroY + axisLineWidth;
 
                 var barHig = 0f;
                 var valueTotal = 0f;
                 if (isPercentStack)
                 {
                     valueTotal = GetSameStackTotalValue(serie.stack, i);
-                    barHig = valueTotal != 0 ? (value / valueTotal * coordinateHeight) : 0;
+                    barHig = valueTotal != 0 ? (value / valueTotal * m_CoordinateHeight) : 0;
                     seriesHig[i] += barHig;
                 }
                 else
@@ -213,22 +227,36 @@ namespace XCharts
                     valueTotal = yMaxValue - yMinValue;
                     if (valueTotal != 0)
                         barHig = (yMinValue > 0 ? value - yMinValue : value)
-                            / valueTotal * coordinateHeight;
+                            / valueTotal * m_CoordinateHeight;
                     seriesHig[i] += barHig;
                 }
                 float currHig = CheckAnimation(serie, i, barHig);
-                Vector3 plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
-                Vector3 plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth);
-                Vector3 prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth);
-                Vector3 prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
-                Vector3 top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
-                plb = ClampInCoordinate(plb);
-                plt = ClampInCoordinate(plt);
-                prt = ClampInCoordinate(prt);
-                prb = ClampInCoordinate(prb);
-                top = ClampInCoordinate(top);
+                Vector3 plb, plt, prt, prb, top;
+                if (value < 0)
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY - borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig + borderWidth - axisLineWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig + borderWidth - axisLineWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY - borderWidth);
+                }
+                else
+                {
+                    plb = new Vector3(pX + space + borderWidth, pY + borderWidth);
+                    plt = new Vector3(pX + space + borderWidth, pY + currHig - borderWidth - axisLineWidth);
+                    prt = new Vector3(pX + space + barWidth - borderWidth, pY + currHig - borderWidth - axisLineWidth);
+                    prb = new Vector3(pX + space + barWidth - borderWidth, pY + borderWidth);
+                }
+                top = new Vector3(pX + space + barWidth / 2, pY + currHig - borderWidth);
+                if (serie.clip)
+                {
+                    plb = ClampInCoordinate(plb);
+                    plt = ClampInCoordinate(plt);
+                    prt = ClampInCoordinate(prt);
+                    prb = ClampInCoordinate(prb);
+                    top = ClampInCoordinate(top);
+                }
                 serie.dataPoints.Add(top);
-                if (serie.show)
+                if (serie.show && currHig != 0)
                 {
                     switch (serie.barType)
                     {
@@ -251,7 +279,7 @@ namespace XCharts
             {
                 RefreshChart();
             }
-            if (!m_Series.IsStack(serie.stack, SerieType.Bar))
+            if (!SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Bar))
             {
                 m_BarLastOffset += barGapWidth;
             }
@@ -267,26 +295,54 @@ namespace XCharts
             var borderWidth = itemStyle.runtimeBorderWidth;
             if (isYAxis)
             {
-                CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
-                if (borderWidth > 0)
+                if (serie.clip)
                 {
-                    var borderColor = itemStyle.borderColor;
-                    var itemWidth = Mathf.Abs(prb.x - plt.x);
-                    var itemHeight = Mathf.Abs(prt.y - plb.y);
-                    var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                    prb = ClampInCoordinate(prb);
+                    plb = ClampInCoordinate(plb);
+                    plt = ClampInCoordinate(plt);
+                    prt = ClampInCoordinate(prt);
+                }
+                var borderColor = itemStyle.borderColor;
+                var itemWidth = Mathf.Abs(prb.x - plt.x);
+                var itemHeight = Mathf.Abs(prt.y - plb.y);
+                var center = new Vector3((plt.x + prb.x) / 2, (prt.y + plb.y) / 2);
+                if (itemWidth > 0 && itemHeight > 0)
+                {
+                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    {
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0, itemStyle.cornerRadius, isYAxis);
+                    }
+                    else
+                    {
+                        CheckClipAndDrawPolygon(vh, plb, plt, prt, prb, areaColor, areaToColor, serie.clip);
+                    }
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
             else
             {
-                CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
-                if (borderWidth > 0)
+                if (serie.clip)
                 {
-                    var borderColor = itemStyle.borderColor;
-                    var itemWidth = Mathf.Abs(prt.x - plb.x);
-                    var itemHeight = Mathf.Abs(plt.y - prb.y);
-                    var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor);
+                    prb = ClampInCoordinate(prb);
+                    plb = ClampInCoordinate(plb);
+                    plt = ClampInCoordinate(plt);
+                    prt = ClampInCoordinate(prt);
+                }
+                var borderColor = itemStyle.borderColor;
+                var itemWidth = Mathf.Abs(prt.x - plb.x);
+                var itemHeight = Mathf.Abs(plt.y - prb.y);
+                var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
+                if (itemWidth > 0 && itemHeight > 0)
+                {
+                    if (ItemStyleHelper.IsNeedCorner(itemStyle))
+                    {
+                        ChartDrawer.DrawRoundRectangle(vh, center, itemWidth, itemHeight, areaColor, areaToColor, 0, itemStyle.cornerRadius, isYAxis);
+                    }
+                    else
+                    {
+                        CheckClipAndDrawPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaToColor, serie.clip);
+                    }
+                    ChartDrawer.DrawBorder(vh, center, itemWidth, itemHeight, borderWidth, borderColor, 0, itemStyle.cornerRadius, isYAxis);
                 }
             }
         }
@@ -322,28 +378,105 @@ namespace XCharts
             DrawBarBackground(vh, serie, serieData, itemStyle, colorIndex, highlight, pX, pY, space, barWidth, isYAxis);
             var borderWidth = itemStyle.runtimeBorderWidth;
             var radius = barWidth / 2 - borderWidth;
+            var isGradient = !ChartHelper.IsValueEqualsColor(areaColor, areaToColor);
             if (isYAxis)
             {
                 var diff = Vector3.right * radius;
-                var pcl = (plt + plb) / 2 + diff;
-                var pcr = (prt + prb) / 2 - diff;
-                if (pcr.x > pcl.x)
+                if (plt.x < prt.x)
                 {
-                    CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
-                    ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
-                    ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                    var pcl = (plt + plb) / 2 + diff;
+                    var pcr = (prt + prb) / 2 - diff;
+                    if (pcr.x > pcl.x)
+                    {
+                        if (isGradient)
+                        {
+                            var barLen = prt.x - plt.x;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, rectStartColor, 180, 360, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcr, radius, rectEndColor, areaToColor, 0, 180, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, plb + diff, plt + diff, prt - diff, prb - diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 180, 360);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 0, 180);
+                        }
+                    }
+                }
+                else if (plt.x > prt.x)
+                {
+                    var pcl = (plt + plb) / 2 - diff;
+                    var pcr = (prt + prb) / 2 + diff;
+                    if (pcr.x < pcl.x)
+                    {
+                        if (isGradient)
+                        {
+                            var barLen = plt.x - prt.x;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, rectStartColor, areaColor, 0, 180, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, rectEndColor, 180, 360, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, plb - diff, plt - diff, prt + diff, prb + diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pcl, radius, areaColor, 0, 180);
+                            ChartDrawer.DrawSector(vh, pcr, radius, areaToColor, 180, 360);
+                        }
+                    }
                 }
             }
             else
             {
                 var diff = Vector3.up * radius;
-                var pct = (plt + prt) / 2 - diff;
-                var pcb = (plb + prb) / 2 + diff;
-                if (pct.y > pcb.y)
+                if (plt.y > plb.y)
                 {
-                    CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
-                    ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
-                    ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                    var pct = (plt + prt) / 2 - diff;
+                    var pcb = (plb + prb) / 2 + diff;
+                    if (pct.y > pcb.y)
+                    {
+                        if (isGradient)
+                        {
+                            var barLen = plt.y - plb.y;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 270, 450, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 90, 270, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, prb + diff, plb + diff, plt - diff, prt - diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 270, 450);
+                            ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 90, 270);
+                        }
+                    }
+                }
+                else if (plt.y < plb.y)
+                {
+                    var pct = (plt + prt) / 2 + diff;
+                    var pcb = (plb + prb) / 2 - diff;
+                    if (pct.y < pcb.y)
+                    {
+                        if (isGradient)
+                        {
+                            var barLen = plb.y - plt.y;
+                            var rectStartColor = Color.Lerp(areaColor, areaToColor, radius / barLen);
+                            var rectEndColor = Color.Lerp(areaColor, areaToColor, (barLen - radius) / barLen);
+                            CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, rectStartColor, rectEndColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, rectEndColor, areaToColor, 90, 270, 1, isYAxis);
+                            ChartDrawer.DrawSector(vh, pcb, radius, rectStartColor, areaColor, 270, 450, 1, isYAxis);
+                        }
+                        else
+                        {
+                            CheckClipAndDrawPolygon(vh, prb - diff, plb - diff, plt + diff, prt + diff, areaColor, areaToColor, serie.clip);
+                            ChartDrawer.DrawSector(vh, pct, radius, areaToColor, 90, 270);
+                            ChartDrawer.DrawSector(vh, pcb, radius, areaColor, 270, 450);
+                        }
+                    }
                 }
             }
         }
@@ -352,15 +485,15 @@ namespace XCharts
              bool highlight, float pX, float pY, float space, float barWidth, bool isYAxis)
         {
             Color color = SerieHelper.GetItemBackgroundColor(serie, serieData, m_ThemeInfo, colorIndex, highlight, false);
-            if (color == Color.clear) return;
+            if (ChartHelper.IsClearColor(color)) return;
             if (isYAxis)
             {
                 var axis = m_YAxises[serie.axisIndex];
                 var axisWidth = axis.axisLine.width;
-                Vector3 plt = new Vector3(coordinateX + axisWidth, pY + space + barWidth);
-                Vector3 prt = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space + barWidth);
-                Vector3 prb = new Vector3(coordinateX + axisWidth + coordinateWidth, pY + space);
-                Vector3 plb = new Vector3(coordinateX + axisWidth, pY + space);
+                Vector3 plt = new Vector3(m_CoordinateX + axisWidth, pY + space + barWidth);
+                Vector3 prt = new Vector3(m_CoordinateX + axisWidth + m_CoordinateWidth, pY + space + barWidth);
+                Vector3 prb = new Vector3(m_CoordinateX + axisWidth + m_CoordinateWidth, pY + space);
+                Vector3 plb = new Vector3(m_CoordinateX + axisWidth, pY + space);
                 if (serie.barType == BarType.Capsule)
                 {
                     var radius = barWidth / 2;
@@ -383,8 +516,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.up * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, smoothness, 180, 360);
-                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, smoothness, 0, 180);
+                        ChartDrawer.DrawDoughnut(vh, pcl, inRadius, outRadius, borderColor, Color.clear, 180, 360, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcr, inRadius, outRadius, borderColor, Color.clear, 0, 180, smoothness);
                     }
                 }
                 else
@@ -396,10 +529,10 @@ namespace XCharts
             {
                 var axis = m_XAxises[serie.axisIndex];
                 var axisWidth = axis.axisLine.width;
-                Vector3 plb = new Vector3(pX + space, coordinateY + axisWidth);
-                Vector3 plt = new Vector3(pX + space, coordinateY + coordinateHeight + axisWidth);
-                Vector3 prt = new Vector3(pX + space + barWidth, coordinateY + coordinateHeight + axisWidth);
-                Vector3 prb = new Vector3(pX + space + barWidth, coordinateY + axisWidth);
+                Vector3 plb = new Vector3(pX + space, m_CoordinateY + axisWidth);
+                Vector3 plt = new Vector3(pX + space, m_CoordinateY + m_CoordinateHeight + axisWidth);
+                Vector3 prt = new Vector3(pX + space + barWidth, m_CoordinateY + m_CoordinateHeight + axisWidth);
+                Vector3 prb = new Vector3(pX + space + barWidth, m_CoordinateY + axisWidth);
                 if (serie.barType == BarType.Capsule)
                 {
                     var radius = barWidth / 2;
@@ -422,8 +555,8 @@ namespace XCharts
                         var p4 = prt - diff - Vector3.right * borderWidth / 2;
                         ChartDrawer.DrawLine(vh, p1, p2, borderWidth / 2, borderColor);
                         ChartDrawer.DrawLine(vh, p3, p4, borderWidth / 2, borderColor);
-                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, smoothness, 270, 450);
-                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, smoothness, 90, 270);
+                        ChartDrawer.DrawDoughnut(vh, pct, inRadius, outRadius, borderColor, Color.clear, 270, 450, smoothness);
+                        ChartDrawer.DrawDoughnut(vh, pcb, inRadius, outRadius, borderColor, Color.clear, 90, 270, smoothness);
                     }
                 }
                 else

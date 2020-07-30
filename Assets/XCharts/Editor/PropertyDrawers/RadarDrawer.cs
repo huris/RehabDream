@@ -23,7 +23,9 @@ namespace XCharts
         SerializedProperty m_SplitArea;
         SerializedProperty m_Indicator;
         SerializedProperty m_IndicatorGap;
+        SerializedProperty m_CeilRate;
         SerializedProperty m_IndicatorList;
+        SerializedProperty m_IsAxisTooltip;
 
         private Dictionary<string, bool> m_RadarModuleToggle = new Dictionary<string, bool>();
         private Dictionary<string, bool> m_IndicatorToggle = new Dictionary<string, bool>();
@@ -43,7 +45,9 @@ namespace XCharts
             m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
             m_Indicator = prop.FindPropertyRelative("m_Indicator");
             m_IndicatorGap = prop.FindPropertyRelative("m_IndicatorGap");
+            m_CeilRate = prop.FindPropertyRelative("m_CeilRate");
             m_IndicatorList = prop.FindPropertyRelative("m_IndicatorList");
+            m_IsAxisTooltip = prop.FindPropertyRelative("m_IsAxisTooltip");
         }
 
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
@@ -72,10 +76,7 @@ namespace XCharts
                 var tempWidth = (pos.width - startX + 35) / 2;
                 var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
                 var centerYRect = new Rect(centerXRect.x + tempWidth - 20, drawRect.y, tempWidth, drawRect.height);
-                while (m_Center.arraySize < 2)
-                {
-                    m_Center.InsertArrayElementAtIndex(m_Center.arraySize);
-                }
+                while (m_Center.arraySize < 2) m_Center.arraySize++;
                 EditorGUI.PropertyField(centerXRect, m_Center.GetArrayElementAtIndex(0), GUIContent.none);
                 EditorGUI.PropertyField(centerYRect, m_Center.GetArrayElementAtIndex(1), GUIContent.none);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -83,6 +84,10 @@ namespace XCharts
                 EditorGUI.PropertyField(drawRect, m_Radius);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_CeilRate);
+                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.PropertyField(drawRect, m_IsAxisTooltip);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 EditorGUI.PropertyField(drawRect, m_SplitLine);
@@ -109,7 +114,7 @@ namespace XCharts
             int propNum = 1;
             if (ChartEditorHelper.IsToggle(m_RadarModuleToggle, prop))
             {
-                propNum += 7;
+                propNum += 9;
                 if (m_IndicatorJsonAreaToggle) propNum += 4;
                 float height = propNum * EditorGUIUtility.singleLineHeight + (propNum - 1) * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_SplitLine"));

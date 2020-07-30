@@ -1,6 +1,78 @@
 
 # 更新日志
 
+* (2020.07.30) 增加`LineChart`可通过`VisualMap`或`ItemStyle`配置渐变#78
+* (2020.07.25) 修复`LineChart`渐出动画绘制异常的问题#79
+* (2020.07.25) 修复`LiquidChart`在`100%`时渐变色会失效的问题#80
+* (2020.07.25) 增加`RadarChart`对`Tooltip`的`formatter`支持#77
+* (2020.07.23) 增加`RingChart`环形渐变支持#75
+* (2020.07.21) 增加`AxisLabel`和`SerieLabel`的`formatter`可单独配置数值格式化#68
+* (2020.07.17) 增加`SerieAnimation`动画完成回调接口
+* (2020.07.17) 优化`Chart`放在`ScrollView`下时不影响`ScrollView`的滚动和拖动
+* (2020.07.16) 修复`Tooltip`在上层有遮挡还会显示的问题#74
+* (2020.07.08) 优化`Scatter`类型`Serie`支持`Log`轴#70
+* (2020.07.07) 修复`SerieLabel`位置错乱的问题
+* (2020.07.07) 增加`Tooltip`的`offset`参数配置偏移
+* (2020.07.06) 增加`LiquidChart`水位图
+* (2020.07.01) 增加`PolarChart`极坐标图表
+* (2020.06.25) 发布`v1.5.2`版本
+* (2020.06.25) 修复`BarChart`在数值为`0`时还会绘制一小部分柱条的问题
+* (2020.06.24) 修复`PieChart`在设置`clockwise`后绘制异常的问题#65
+* (2020.06.23) 优化`LineChart`在峰谷差异过大时的绘制效果#64
+* (2020.06.18) 修复`SerieLabel`在重新添加数据时可能不显示的问题
+* (2020.06.17) 增加`SerieData`可单独设置`SerieSymbol`#66
+* (2020.06.17) 修复`Check For Update`在`Unity 2018`部分版本报错的问题#63
+* (2020.06.16) 增加`Serie`的`avoidLabelOverlap`参数避免饼图标签堆叠的情况#56
+* (2020.06.15) 修复`SerieLabel`单独控制显示时可能错乱的问题
+* (2020.06.11) 修复`Check warning`不生效的问题
+* (2020.06.11) 修复`PieChart`和`RingChart`在数据占比很小时不显示的问题
+* (2020.06.11) 增加`Tooltip`的`titleFormatter`支持配置占位符`{i}`表示忽略不显示标题
+* (2020.06.07) 增加`Animation`的`customFadeInDelay`等自定义数据项延时和时长回调函数#58
+* (2020.06.07) 优化`PieChart`在数据全为`0`时的显示为等份的效果#59
+* (2020.06.04) 增加`SerieLabel`的`autoOffset`参数设置是否自动判断上下偏移
+* (2020.06.04) 增加`Tooltip`的`alwayShow`参数设置触发后一直显示
+* (2020.06.04) 优化`Tooltip`的`formatter`支持`{.1}`通配符
+* (2020.06.04) 优化`Legend`数量过多时自动换行显示#53
+* (2020.06.03) 发布`v1.5.1`版本
+* (2020.06.02) 增加`Radar`的`ceilRate`，设置最大最小值的取整倍率
+* (2020.06.02) 优化`Tooltip`的`formatter`，支持`{c1:1-1:f1}`格式配置
+* (2020.05.31) 优化`Background`组件的生效条件，需要有单独的父节点（升级前需要自己处理旧的背景节点）
+* (2020.05.30) 优化`PieChart`支持设置`ignoreValue`不显示指定数据
+* (2020.05.30) 修复`RadarChart`为`Circle`时不绘制`SplitArea`的问题
+* (2020.05.30) 优化`RadarChart`在设置`max`为`0`时可自动刷新最大值
+* (2020.05.29) 修复`PieChart`设置`space`时只有一个数据时绘制异常的问题
+* (2020.05.27) 修复调用`UpdateDataName()`接口时不会自动刷新的问题
+* (2020.05.27) 优化`柱状图`的渐变色效果
+* (2020.05.24) 修复`Axis`同时设置`boundaryGap`和`alignWithLabel`时`Tick`绘制异常的问题
+* (2020.05.24) 优化版本更新检测
+* (2020.05.22) 发布`v1.5.0`版本
+* (2020.05.21) 增加`圆角柱图`支持渐变
+* (2020.05.21) 增加`Background`背景组件
+* (2020.05.19) 隐藏`Hierarchy`试图下自动生成的子节点
+* (2020.05.18) 增加`chartName`属性可指定图表的别称，可通过`XChartMgr.Instance.GetChart(chartName)`获取图表
+* (2020.05.16) 增加部分鼠标事件回调
+* (2020.05.15) 优化自带例子，`Demo`改名为`Example`
+* (2020.05.13) 增加`Serie`的`large`和`largeThreshold`参数配置折线图和柱状图的性能模式
+* (2020.05.13) 完善Demo，增加性能演示Demo
+* (2020.05.13) 优化性能，优化大数据绘制，重构代码
+* (2020.05.04) 增加`numericFormatter`参数可配置数值格式化显示，去掉`forceENotation`参数
+* (2020.04.28) 增加`自由锚点`支持，任意对齐方式
+* (2020.04.23) 优化`ScatterChart`的`Tooltip`显示效果
+* (2020.04.23) 增加`Tooltip`的`formatter`对`{.}`、`{c:0}`、`{c1:1}`的支持
+* (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
+* (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
+* (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数
+* (2020.04.18) 增加`Covert XY Axis`互换XY轴配置
+* (2020.04.17) 增加`Axis`可通过`inverse`参数设置坐标轴反转
+* (2020.04.16) 修复`Check warning`在`Unity2019.3`上的显示问题
+* (2020.04.16) 修复`PieChart`在设置`Space`参数后动画绘制异常的问题
+* (2020.04.11) 发布`v1.4.0`版本
+* (2020.04.11) 增加`Check warning`检测功能
+* (2020.04.09) 修复`Legend`初始化异常的问题
+* (2020.04.08) 增加`PieChart`通过`ItemStyle`设置边框的支持
+* (2020.03.29) 增加`Axis`的`ceilRate`设置最大最小值的取整倍率
+* (2020.03.29) 增加`BarChart`可通过`itemStyle`的`cornerRadius`设置`圆角柱图`
+* (2020.03.29) 增加`itemStyle`的`cornerRadius`支持圆角矩形
 * (2020.03.24) 优化`Editor`参数编辑，兼容`Unity2019.3`及以上版本
 * (2020.03.24) 增加`Serie`在`inspector`上可进行调整顺序、添加和删除操作
 * (2020.03.23) 修复`Title`的`textStyle`和`subTextStyle`无效的问题

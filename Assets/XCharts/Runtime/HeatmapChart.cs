@@ -36,8 +36,8 @@ namespace XCharts
             RemoveData();
             var serie = AddSerie(SerieType.Heatmap, "serie1");
             var heatmapGridWid = 10f;
-            int xSplitNumber = (int)(coordinateWidth / heatmapGridWid);
-            int ySplitNumber = (int)(coordinateHeight / heatmapGridWid);
+            int xSplitNumber = (int)(m_CoordinateWidth / heatmapGridWid);
+            int ySplitNumber = (int)(m_CoordinateHeight / heatmapGridWid);
             serie.itemStyle.show = true;
             serie.itemStyle.borderWidth = 1;
             serie.itemStyle.borderColor = Color.clear;
@@ -111,21 +111,11 @@ namespace XCharts
                             .Append(key).Append(!string.IsNullOrEmpty(key) ? "\n" : "")
                             .Append("<color=#").Append(ChartCached.ColorToStr(color)).Append(">● </color>")
                             .Append(xAxis.data[(int)xData]).Append(": ")
-                            .Append(ChartCached.FloatToStr(value));
+                            .Append(ChartCached.FloatToStr(value, string.Empty));
                     }
                 }
             }
-            m_Tooltip.UpdateContentText(sb.ToString().Trim());
-            var pos = m_Tooltip.GetContentPos();
-            if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-            {
-                pos.x = chartWidth - m_Tooltip.runtimeWidth;
-            }
-            if (pos.y - m_Tooltip.runtimeHeight < 0)
-            {
-                pos.y = m_Tooltip.runtimeHeight;
-            }
-            m_Tooltip.UpdateContentPos(pos);
+            TooltipHelper.SetContentAndPosition(tooltip, sb.ToString().Trim(), chartRect);
             m_Tooltip.SetActive(true);
 
             for (int i = 0; i < m_XAxises.Count; i++)

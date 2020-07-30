@@ -66,54 +66,80 @@ namespace XCharts
             chart.transform.SetParent(parent);
             chart.transform.localScale = Vector3.one;
             chart.transform.localPosition = Vector3.zero;
+            var rect = chart.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
         }
 
+        [MenuItem("XCharts/LineChart", priority = 44)]
         [MenuItem("GameObject/XCharts/LineChart", priority = 44)]
         public static void AddLineChart()
         {
             AddChart<LineChart>("LineChart");
         }
 
+        [MenuItem("XCharts/BarChart", priority = 45)]
         [MenuItem("GameObject/XCharts/BarChart", priority = 45)]
         public static void AddBarChart()
         {
             AddChart<BarChart>("BarChart");
         }
 
+        [MenuItem("XCharts/PieChart", priority = 46)]
         [MenuItem("GameObject/XCharts/PieChart", priority = 46)]
         public static void AddPieChart()
         {
             AddChart<PieChart>("PieChart");
         }
 
+        [MenuItem("XCharts/RadarChart", priority = 47)]
         [MenuItem("GameObject/XCharts/RadarChart", priority = 47)]
         public static void AddRadarChart()
         {
             AddChart<RadarChart>("RadarChart");
         }
 
+        [MenuItem("XCharts/ScatterChart", priority = 48)]
         [MenuItem("GameObject/XCharts/ScatterChart", priority = 48)]
         public static void AddScatterChart()
         {
             AddChart<ScatterChart>("ScatterChart");
         }
 
+        [MenuItem("XCharts/HeatmapChart", priority = 49)]
         [MenuItem("GameObject/XCharts/HeatmapChart", priority = 49)]
         public static void AddHeatmapChart()
         {
             AddChart<HeatmapChart>("HeatmapChart");
         }
 
+        [MenuItem("XCharts/GaugeChart", priority = 50)]
         [MenuItem("GameObject/XCharts/GaugeChart", priority = 50)]
         public static void AddGaugeChart()
         {
             AddChart<GaugeChart>("GaugeChart");
         }
 
+        [MenuItem("XCharts/RingChart", priority = 51)]
         [MenuItem("GameObject/XCharts/RingChart", priority = 51)]
         public static void AddRingChart()
         {
             AddChart<RingChart>("RingChart");
+        }
+
+        [MenuItem("XCharts/PolarChart", priority = 52)]
+        [MenuItem("GameObject/XCharts/PolarChart", priority = 52)]
+        public static void AddPolarChart()
+        {
+            AddChart<PolarChart>("PolarChart");
+        }
+
+        [MenuItem("XCharts/LiquidChart", priority = 53)]
+        [MenuItem("GameObject/XCharts/LiquidChart", priority = 53)]
+        public static void AddLiquidChart()
+        {
+            AddChart<LiquidChart>("LiquidChart");
         }
     }
 }

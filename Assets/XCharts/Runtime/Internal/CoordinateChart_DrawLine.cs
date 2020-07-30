@@ -17,33 +17,34 @@ namespace XCharts
     {
         protected void DrawLinePoint(VertexHelper vh)
         {
-            var clip = m_Series.IsAnyClipSerie();
+            var clip = SeriesHelper.IsAnyClipSerie(m_Series);
             for (int n = 0; n < m_Series.Count; n++)
             {
                 var serie = m_Series.GetSerie(n);
+                if (!serie.show || serie.IsPerformanceMode()) continue;
                 if (serie.type != SerieType.Line) continue;
-                if (!serie.show || serie.symbol.type == SerieSymbolType.None) continue;
                 var count = serie.dataPoints.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    if (!serie.symbol.ShowSymbol(i, count)) continue;
+                    var serieData = serie.GetSerieData(i);
+                    var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                    if (!symbol.show || !symbol.ShowSymbol(i, count)) continue;
                     if (serie.lineArrow.show)
                     {
                         if (serie.lineArrow.position == LineArrow.Position.Start && i == 0) continue;
                         if (serie.lineArrow.position == LineArrow.Position.End && i == count - 1) continue;
                     }
-                    Vector3 p = serie.dataPoints[i];
-                    var serieData = serie.GetSerieData(i);
-                    if (ChartHelper.IsIngore(p)) continue;
+                    if (ChartHelper.IsIngore(serie.dataPoints[i])) continue;
                     bool highlight = (m_Tooltip.show && m_Tooltip.IsSelected(i))
                         || serie.data[i].highlighted || serie.highlighted;
-                    float symbolSize = highlight ? serie.symbol.selectedSize : serie.symbol.size;
+                    float symbolSize = highlight ? symbol.selectedSize : symbol.size;
                     var symbolColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, n, highlight);
                     var symbolBorder = SerieHelper.GetSymbolBorder(serie, serieData, highlight);
+                    var cornerRadius = SerieHelper.GetSymbolCornerRadius(serie, serieData, highlight);
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
-                    CheckClipAndDrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, p, symbolColor,
-                        symbolToColor, serie.symbol.gap, clip);
+                    CheckClipAndDrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serie.dataPoints[i], symbolColor,
+                        symbolToColor, symbol.gap, clip, cornerRadius);
                 }
             }
         }
@@ -57,16 +58,24 @@ namespace XCharts
                 if (!serie.show || !serie.lineArrow.show) continue;
                 if (serie.dataPoints.Count < 2) return;
                 Color lineColor = SerieHelper.GetLineColor(serie, m_ThemeInfo, n, false);
-
+                Vector3 startPos, arrowPos;
                 switch (serie.lineArrow.position)
                 {
                     case LineArrow.Position.End:
                         var dataPoints = serie.GetUpSmoothList(serie.dataCount - 1);
-                        if (dataPoints.Count < 2) dataPoints = serie.dataPoints;
-                        var startPos = dataPoints[dataPoints.Count - 2];
-                        var arrowPos = dataPoints[dataPoints.Count - 1];
+                        if (dataPoints.Count < 3)
+                        {
+                            dataPoints = serie.dataPoints;
+                            startPos = dataPoints[dataPoints.Count - 2];
+                            arrowPos = dataPoints[dataPoints.Count - 1];
+                        }
+                        else
+                        {
+                            startPos = dataPoints[dataPoints.Count - 3];
+                            arrowPos = dataPoints[dataPoints.Count - 2];
+                        }
                         ChartDrawer.DrawArrow(vh, startPos, arrowPos, serie.lineArrow.width,
-                            serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
+                             serie.lineArrow.height, serie.lineArrow.offset, serie.lineArrow.dent, lineColor);
                         break;
                     case LineArrow.Position.Start:
                         dataPoints = serie.GetUpSmoothList(1);
@@ -95,11 +104,11 @@ namespace XCharts
             Vector3 lp = Vector3.zero, np = Vector3.zero, llp = Vector3.zero, nnp = Vector3.zero;
             var yAxis = m_YAxises[serie.axisIndex];
             var xAxis = m_XAxises[serie.axisIndex];
-            var zeroPos = new Vector3(coordinateX, coordinateY + yAxis.runtimeZeroYOffset);
-            var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
+            var zeroPos = new Vector3(m_CoordinateX, m_CoordinateY + yAxis.runtimeZeroYOffset);
+            var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             if (!xAxis.show) xAxis = m_XAxises[(serie.axisIndex + 1) % m_XAxises.Count];
-            float scaleWid = xAxis.GetDataWidth(coordinateWidth, showData.Count, m_DataZoom);
-            float startX = coordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
+            float scaleWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, showData.Count, m_DataZoom);
+            float startX = m_CoordinateX + (xAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -113,7 +122,7 @@ namespace XCharts
             }
             int rate = 1;
             var sampleDist = serie.sampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (m_CoordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
             var includeLastData = false;
             var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
@@ -134,7 +143,7 @@ namespace XCharts
                 else
                 {
                     float yValue = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage,
-                        i, dataChangeDuration, ref dataChanging);
+                        i, dataChangeDuration, ref dataChanging, yAxis.inverse);
                     seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
                         dataChangeDuration);
                     serie.dataPoints.Add(np);
@@ -154,7 +163,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
                     seriesHig[i] += GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, seriesHig[i], ref np,
                         dataChangeDuration);
                     serie.dataPoints.Add(np);
@@ -186,7 +195,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
                     GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref firstLastPos, dataChangeDuration);
                 }
             }
@@ -203,7 +212,7 @@ namespace XCharts
                 }
                 else
                 {
-                    float yValue = showData[i].GetCurrData(1, dataChangeDuration);
+                    float yValue = showData[i].GetCurrData(1, dataChangeDuration, yAxis.inverse);
                     GetDataPoint(xAxis, yAxis, showData, yValue, startX, i, scaleWid, 0, ref lastNextPos, dataChangeDuration);
                 }
             }
@@ -211,6 +220,7 @@ namespace XCharts
             {
                 lastNextPos = endPos;
             }
+            VisualMapHelper.AutoSetLineMinMax(visualMap, serie, xAxis, yAxis);
             for (i = startIndex + 1; i < serie.dataPoints.Count; i++)
             {
                 np = serie.dataPoints[i];
@@ -242,8 +252,6 @@ namespace XCharts
                         break;
                     case LineType.Smooth:
                     case LineType.SmoothDash:
-                        //llp = i > 1 ? serie.dataPoints[i - 2] : firstLastPos;
-                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : lastNextPos;
                         llp = GetLLPos(serie.dataPoints, i, firstLastPos);
                         nnp = GetNNPos(serie.dataPoints, i, lastNextPos);
                         isFinish = DrawSmoothLine(vh, serie, xAxis, lp, np, llp, nnp, i,
@@ -252,7 +260,6 @@ namespace XCharts
                     case LineType.StepStart:
                     case LineType.StepMiddle:
                     case LineType.StepEnd:
-                        //nnp = i < serie.dataPoints.Count - 1 ? serie.dataPoints[i + 1] : np;
                         nnp = GetNNPos(serie.dataPoints, i, np);
                         isFinish = DrawStepLine(vh, serie, xAxis, lp, np, nnp, i, lineColor,
                             areaColor, areaToColor, zeroPos);
@@ -269,7 +276,7 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                serie.animation.CheckProgress(totalDetailProgress);
+                serie.animation.CheckProgress(totalDetailProgress - currDetailProgress);
                 serie.animation.CheckSymbol(serie.symbol.size);
                 m_IsPlayingAnimation = true;
                 RefreshChart();
@@ -349,12 +356,13 @@ namespace XCharts
         }
 
         private float SampleValue(ref List<SerieData> showData, SampleType sampleType, int rate,
-            int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration, ref bool dataChanging)
+            int minCount, int maxCount, float totalAverage, int index, float dataChangeDuration,
+            ref bool dataChanging, bool inverse)
         {
             if (rate <= 1 || index == minCount)
             {
                 if (showData[index].IsDataChanged()) dataChanging = true;
-                return showData[index].GetCurrData(1, dataChangeDuration);
+                return showData[index].GetCurrData(1, dataChangeDuration, inverse);
             }
             switch (sampleType)
             {
@@ -363,7 +371,7 @@ namespace XCharts
                     float total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        total += showData[i].GetCurrData(1, dataChangeDuration);
+                        total += showData[i].GetCurrData(1, dataChangeDuration, inverse);
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
                     if (sampleType == SampleType.Average) return total / rate;
@@ -372,7 +380,7 @@ namespace XCharts
                     float max = float.MinValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
                         if (value > max) max = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -381,7 +389,7 @@ namespace XCharts
                     float min = float.MaxValue;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
                         if (value < min) min = value;
                         if (showData[i].IsDataChanged()) dataChanging = true;
                     }
@@ -392,7 +400,7 @@ namespace XCharts
                     total = 0;
                     for (int i = index; i > index - rate; i--)
                     {
-                        var value = showData[i].GetCurrData(1, dataChangeDuration);
+                        var value = showData[i].GetCurrData(1, dataChangeDuration, inverse);
                         total += value;
                         if (value < min) min = value;
                         if (value > max) max = value;
@@ -403,7 +411,7 @@ namespace XCharts
                     else return min;
             }
             if (showData[index].IsDataChanged()) dataChanging = true;
-            return showData[index].GetCurrData(1, dataChangeDuration);
+            return showData[index].GetCurrData(1, dataChangeDuration, inverse);
         }
 
         private float GetDataPoint(Axis xAxis, Axis yAxis, List<SerieData> showData, float yValue, float startX, int i,
@@ -421,47 +429,47 @@ namespace XCharts
             float yMaxValue = yAxis.GetCurrMaxValue(duration);
             if (xAxis.IsValue() || xAxis.IsLog())
             {
-                float xValue = i > showData.Count - 1 ? 0 : showData[i].data[0];
-                float pX = coordinateX + xAxis.axisLine.width;
-                float pY = serieHig + coordinateY + xAxis.axisLine.width;
+                float xValue = i > showData.Count - 1 ? 0 : showData[i].GetData(0, xAxis.inverse);
+                float pX = m_CoordinateX + xAxis.axisLine.width;
+                float pY = serieHig + m_CoordinateY + xAxis.axisLine.width;
                 if (xAxis.IsLog())
                 {
                     int minIndex = xAxis.runtimeMinLogIndex;
                     float nowIndex = xAxis.GetLogValue(xValue);
-                    xDataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                    xDataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * m_CoordinateWidth;
                 }
                 else
                 {
                     if ((xMaxValue - xMinValue) <= 0) xDataHig = 0;
-                    else xDataHig = (xValue - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                    else xDataHig = (xValue - xMinValue) / (xMaxValue - xMinValue) * m_CoordinateWidth;
                 }
                 if (yAxis.IsLog())
                 {
                     int minIndex = yAxis.runtimeMinLogIndex;
                     float nowIndex = yAxis.GetLogValue(yValue);
-                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * coordinateHeight;
+                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * m_CoordinateHeight;
                 }
                 else
                 {
                     if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * m_CoordinateHeight;
                 }
                 np = new Vector3(pX + xDataHig, pY + yDataHig);
             }
             else
             {
                 float pX = startX + i * scaleWid;
-                float pY = serieHig + coordinateY + yAxis.axisLine.width;
+                float pY = serieHig + m_CoordinateY + yAxis.axisLine.width;
                 if (yAxis.IsLog())
                 {
                     int minIndex = yAxis.runtimeMinLogIndex;
                     float nowIndex = yAxis.GetLogValue(yValue);
-                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * coordinateHeight;
+                    yDataHig = (nowIndex - minIndex) / (yAxis.splitNumber - 1) * m_CoordinateHeight;
                 }
                 else
                 {
                     if ((yMaxValue - yMinValue) <= 0) yDataHig = 0;
-                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * coordinateHeight;
+                    else yDataHig = (yValue - yMinValue) / (yMaxValue - yMinValue) * m_CoordinateHeight;
                 }
                 np = new Vector3(pX, pY + yDataHig);
             }
@@ -485,11 +493,11 @@ namespace XCharts
             Color areaColor, areaToColor;
             var xAxis = m_XAxises[serie.axisIndex];
             var yAxis = m_YAxises[serie.axisIndex];
-            var zeroPos = new Vector3(coordinateX + xAxis.runtimeZeroXOffset, coordinateY);
-            var isStack = m_Series.IsStack(serie.stack, SerieType.Line);
+            var zeroPos = new Vector3(m_CoordinateX + xAxis.runtimeZeroXOffset, m_CoordinateY);
+            var isStack = SeriesHelper.IsStack(m_Series, serie.stack, SerieType.Line);
             if (!yAxis.show) yAxis = m_YAxises[(serie.axisIndex + 1) % m_YAxises.Count];
-            float scaleWid = yAxis.GetDataWidth(coordinateHeight, showData.Count, m_DataZoom);
-            float startY = coordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
+            float scaleWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, showData.Count, m_DataZoom);
+            float startY = m_CoordinateY + (yAxis.boundaryGap ? scaleWid / 2 : 0);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow)
                 : showData.Count;
@@ -503,7 +511,7 @@ namespace XCharts
             }
             int rate = 1;
             var sampleDist = serie.sampleDist;
-            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (coordinateWidth / sampleDist));
+            if (sampleDist > 0) rate = (int)((maxCount - serie.minShow) / (m_CoordinateWidth / sampleDist));
             if (rate < 1) rate = 1;
             var dataChanging = false;
             float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -515,19 +523,19 @@ namespace XCharts
                 {
                     for (int j = 0; j < rate; j++) seriesHig.Add(0);
                 }
-                float value = showData[i].GetCurrData(1, dataChangeDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
                 float pY = startY + i * scaleWid;
-                float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
+                float pX = seriesHig[i] + m_CoordinateX + yAxis.axisLine.width;
                 float dataHig = 0;
                 if (xAxis.IsLog())
                 {
                     int minIndex = xAxis.runtimeMinLogIndex;
                     float nowIndex = xAxis.GetLogValue(value);
-                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * m_CoordinateWidth;
                 }
                 else
                 {
-                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * m_CoordinateWidth;
                 }
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
@@ -542,19 +550,19 @@ namespace XCharts
             {
                 i = maxCount - 1;
                 seriesHig.Add(0);
-                float value = showData[i].GetCurrData(1, dataChangeDuration);
+                float value = showData[i].GetCurrData(1, dataChangeDuration, xAxis.inverse);
                 float pY = startY + i * scaleWid;
-                float pX = seriesHig[i] + coordinateX + yAxis.axisLine.width;
+                float pX = seriesHig[i] + m_CoordinateX + yAxis.axisLine.width;
                 float dataHig = 0;
                 if (xAxis.IsLog())
                 {
                     int minIndex = xAxis.runtimeMinLogIndex;
                     float nowIndex = xAxis.GetLogValue(value);
-                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * coordinateWidth;
+                    dataHig = (nowIndex - minIndex) / (xAxis.splitNumber - 1) * m_CoordinateWidth;
                 }
                 else
                 {
-                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * coordinateWidth;
+                    dataHig = (value - xMinValue) / (xMaxValue - xMinValue) * m_CoordinateWidth;
                 }
                 np = new Vector3(pX + dataHig, pY);
                 serie.dataPoints.Add(np);
@@ -624,7 +632,7 @@ namespace XCharts
             }
             if (!serie.animation.IsFinish())
             {
-                float total = totalDetailProgress - dataCount * serie.lineStyle.width * 0.5f;
+                float total = totalDetailProgress - currDetailProgress - dataCount * serie.lineStyle.width * 0.5f;
                 serie.animation.CheckProgress(total);
                 serie.animation.CheckSymbol(serie.symbol.size);
                 m_IsPlayingAnimation = true;
@@ -633,11 +641,14 @@ namespace XCharts
         }
 
         private Vector3 stPos1, stPos2, lastDir, lastDnPos;
-        private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp,
-            Vector3 np, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
+        private bool lastIsDown;
+        private bool DrawNormalLine(VertexHelper vh, Serie serie, Axis axis, Vector3 lp, Vector3 np, Vector3 nnp,
+            int dataIndex, Color lineColor, Color areaColor, Color areaToColor,
             Vector3 zeroPos, int startIndex = 0)
         {
+            var defaultLineColor = lineColor;
             var isSecond = dataIndex == startIndex + 1;
+            var isTheLastPos = np == nnp;
             bool isYAxis = axis is YAxis;
             var lineWidth = serie.lineStyle.width;
             var ySmall = Mathf.Abs(lp.y - np.y) < lineWidth * 3;
@@ -653,7 +664,7 @@ namespace XCharts
                 return true;
             }
 
-            var lastSerie = m_Series.GetLastStackSerie(serie);
+            var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
             Vector3 dnPos, upPos1, upPos2, dir1v, dir2v;
             bool isDown;
             var dir1 = (np - lp).normalized;
@@ -706,20 +717,19 @@ namespace XCharts
                 if (serie.animation.CheckDetailBreak(cp, isYAxis)) isBreak = true;
                 var tp1 = cp - dir1v * serie.lineStyle.width;
                 var tp2 = cp + dir1v * serie.lineStyle.width;
+                CheckLineGradientColor(cp, serie.itemStyle, axis, defaultLineColor, ref lineColor);
                 if (isDown)
                 {
                     if (!isBreak)
                     {
                         if (!isStart)
                         {
-                            if ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x) || isSecond || IsValue())
+                            if (isSecond || IsValue() ||
+                                (lastIsDown && ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x))) ||
+                                (!lastIsDown && ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x))))
                             {
                                 isStart = true;
-                                if (stPos2 != Vector3.zero)
-                                {
-
-                                    CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
-                                }
+                                CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
                             }
                         }
                         else
@@ -748,17 +758,10 @@ namespace XCharts
                             }
                         }
                     }
-
-                    if (isYAxis)
-                    {
-                        if (tp1.y > lastDnPos.y || isSecond || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y < dnPos.y || IsValue()) smoothDownPoints.Add(tp2);
-                    }
-                    else
-                    {
-                        if (tp1.x > lastDnPos.x || isSecond || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x < dnPos.x || isSecond || IsValue()) smoothDownPoints.Add(tp2);
-                    }
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
+                        smoothPoints.Add(tp1);
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp2, dnPos) && IsInRightOrUp(isYAxis, stPos2, tp2)))
+                        smoothDownPoints.Add(tp2);
                 }
                 else
                 {
@@ -766,12 +769,13 @@ namespace XCharts
                     {
                         if (!isStart)
                         {
-                            if ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x) || isSecond || IsValue())
+                            if (isSecond || IsValue() ||
+                                (lastIsDown && ((isYAxis && tp2.y > lastDnPos.y) || (!isYAxis && tp2.x > lastDnPos.x))) ||
+                                (!lastIsDown && ((isYAxis && tp1.y > lastDnPos.y) || (!isYAxis && tp1.x > lastDnPos.x))))
                             {
                                 isStart = true;
                                 if (stPos2 != Vector3.zero)
                                 {
-
                                     CheckClipAndDrawPolygon(vh, stPos1, tp1, tp2, stPos2, lineColor, serie.clip);
                                 }
                             }
@@ -790,7 +794,9 @@ namespace XCharts
                             else
                             {
                                 if ((isYAxis && tp1.y < dnPos.y) || (!isYAxis && tp1.x < dnPos.x) || IsValue())
+                                {
                                     CheckClipAndDrawLine(vh, start, cp, serie.lineStyle.width, lineColor, serie.clip);
+                                }
                                 else
                                 {
                                     CheckClipAndDrawPolygon(vh, ltp1, dnPos, upPos1, ltp2, lineColor, serie.clip);
@@ -800,17 +806,10 @@ namespace XCharts
                             }
                         }
                     }
-
-                    if (isYAxis)
-                    {
-                        if (tp1.y < dnPos.y || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.y > lastDnPos.y || isSecond || IsValue()) smoothDownPoints.Add(tp2);
-                    }
-                    else
-                    {
-                        if (tp1.x < dnPos.x || IsValue()) smoothPoints.Add(tp1);
-                        if (tp2.x > lastDnPos.x || isSecond || IsValue()) smoothDownPoints.Add(tp2);
-                    }
+                    if (IsValue() || (IsInRightOrUp(isYAxis, tp1, dnPos) && IsInRightOrUp(isYAxis, lastDnPos, tp1)))
+                        smoothPoints.Add(tp1);
+                    if (IsValue() || IsInRightOrUp(isYAxis, lastDnPos, tp2))
+                        smoothDownPoints.Add(tp2);
                 }
                 start = cp;
                 ltp1 = tp1;
@@ -829,13 +828,22 @@ namespace XCharts
                     smoothPoints.Add(dnPos);
                     if (isYAxis)
                     {
-                        smoothDownPoints.Add(np != nnp ? upPos1 : upPos2);
-                        smoothDownPoints.Add(np != nnp ? upPos2 : upPos1);
+                        smoothDownPoints.Add(isTheLastPos ? upPos1 : upPos2);
+                        smoothDownPoints.Add(isTheLastPos ? upPos2 : upPos1);
                     }
                     else
                     {
-                        smoothDownPoints.Add(np != nnp ? upPos1 : upPos2);
-                        smoothDownPoints.Add(np != nnp ? upPos2 : upPos1);
+                        if (isTheLastPos)
+                        {
+                            smoothDownPoints.Add(upPos2);
+                            if (IsInRightOrUp(isYAxis, upPos2, upPos1))
+                                smoothDownPoints.Add(upPos1);
+                        }
+                        else
+                        {
+                            smoothDownPoints.Add(upPos1);
+                            smoothDownPoints.Add(upPos2);
+                        }
                     }
                 }
             }
@@ -844,17 +852,17 @@ namespace XCharts
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);
-                    DrawStackArea(vh, serie, axis, smoothDownPoints, lastSmoothPoints, lineColor, areaColor, areaToColor);
+                    DrawStackArea(vh, serie, axis, smoothDownPoints, lastSmoothPoints, areaColor, areaToColor);
                 }
                 else
                 {
                     var points = ((isYAxis && lp.x < zeroPos.x) || (!isYAxis && lp.y < zeroPos.y)) ? smoothPoints : smoothDownPoints;
-                    Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + coordinateHeight) : new Vector3(zeroPos.x + coordinateWidth, zeroPos.y);
+                    Vector3 aep = isYAxis ? new Vector3(zeroPos.x, zeroPos.y + m_CoordinateHeight) : new Vector3(zeroPos.x + m_CoordinateWidth, zeroPos.y);
                     var sindex = 0;
                     var eindex = 0;
                     var sp = GetStartPos(points, ref sindex);
                     var ep = GetEndPos(points, ref eindex);
-                    var cross = ChartHelper.GetIntersection(sp, ep, zeroPos, aep);
+                    var cross = ChartHelper.GetIntersection(lp, np, zeroPos, aep);
                     if (cross == Vector3.zero || smoothDownPoints.Count <= 3)
                     {
                         sp = points[sindex];
@@ -868,123 +876,106 @@ namespace XCharts
                     }
                     else
                     {
-                        var sp1 = smoothDownPoints[1];
-                        var ep1 = smoothDownPoints[smoothDownPoints.Count - 2];
+                        var sp1 = smoothDownPoints[0];
+                        var ep1 = smoothDownPoints[smoothDownPoints.Count - 1];
                         var axisUpStart = zeroPos + (isYAxis ? Vector3.right : Vector3.up) * axis.axisLine.width;
-                        var axisUpEnd = axisUpStart + (isYAxis ? Vector3.up * coordinateHeight : Vector3.right * coordinateWidth);
+                        var axisUpEnd = axisUpStart + (isYAxis ? Vector3.up * m_CoordinateHeight : Vector3.right * m_CoordinateWidth);
                         var axisDownStart = zeroPos - (isYAxis ? Vector3.right : Vector3.up) * axis.axisLine.width;
-                        var axisDownEnd = axisDownStart + (isYAxis ? Vector3.up * coordinateHeight : Vector3.right * coordinateWidth);
+                        var axisDownEnd = axisDownStart + (isYAxis ? Vector3.up * m_CoordinateHeight : Vector3.right * m_CoordinateWidth);
                         var luPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
-                        var ldPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
-                        sp1 = smoothPoints[1];
+                        sp1 = smoothPoints[0];
                         ep1 = smoothPoints[smoothPoints.Count - 2];
-
-                        var ruPos = ChartHelper.GetIntersection(sp1, ep1, axisUpStart, axisUpEnd);
                         var rdPos = ChartHelper.GetIntersection(sp1, ep1, axisDownStart, axisDownEnd);
-                        if (luPos == Vector3.zero || ldPos == Vector3.zero || ruPos == Vector3.zero || rdPos == Vector3.zero)
+                        if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
                         {
-                            sp = points[0];
-                            for (int i = 1; i < points.Count; i++)
+                            sp = smoothDownPoints[0];
+                            for (int i = 1; i < smoothDownPoints.Count; i++)
                             {
-                                ep = points[i];
+                                ep = smoothDownPoints[i];
                                 if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                if (luPos == Vector3.zero)
+                                {
+                                    sp = ep;
+                                    continue;
+                                }
+
+                                if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
+                                {
+                                    var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
+                                    CheckClipAndDrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
+                                    break;
+                                }
+                                DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                sp = ep;
+                            }
+                            sp = smoothPoints[0];
+                            bool first = false;
+                            for (int i = 1; i < smoothPoints.Count; i++)
+                            {
+                                ep = smoothPoints[i];
+                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                if ((isYAxis && ep.y <= rdPos.y) || (!isYAxis && ep.x <= rdPos.x)) continue;
+                                if (rdPos == Vector3.zero)
+                                {
+                                    sp = ep;
+                                    continue;
+                                }
+                                if (!first)
+                                {
+                                    first = true;
+                                    var tp = isYAxis ? new Vector3(rdPos.x, ep.y) : new Vector3(ep.x, rdPos.y);
+                                    CheckClipAndDrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor, serie.clip);
+                                    sp = ep;
+                                    continue;
+                                }
                                 DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                                 sp = ep;
                             }
                         }
                         else
                         {
-                            if ((isYAxis && lp.x >= zeroPos.x) || (!isYAxis && lp.y >= zeroPos.y))
+                            sp = smoothPoints[0];
+                            for (int i = 1; i < smoothPoints.Count; i++)
                             {
-                                sp = smoothDownPoints[0];
-                                for (int i = 1; i < smoothDownPoints.Count; i++)
+                                ep = smoothPoints[i];
+                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                if (rdPos == Vector3.zero)
                                 {
-                                    ep = smoothDownPoints[i];
-                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                    if (luPos == Vector3.zero)
-                                    {
-                                        sp = ep;
-                                        continue;
-                                    }
+                                    sp = ep;
+                                    continue;
+                                }
 
-                                    if ((isYAxis && ep.y > luPos.y) || (!isYAxis && ep.x > luPos.x))
-                                    {
-                                        var tp = isYAxis ? new Vector3(luPos.x, sp.y) : new Vector3(sp.x, luPos.y);
-                                        CheckClipAndDrawTriangle(vh, sp, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
-                                        break;
-                                    }
-                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                                    sp = ep;
-                                }
-                                sp = smoothPoints[0];
-                                bool first = false;
-                                for (int i = 1; i < smoothPoints.Count; i++)
+                                if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
                                 {
-                                    ep = smoothPoints[i];
-                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                    if ((isYAxis && ep.y <= rdPos.y) || (!isYAxis && ep.x <= rdPos.x)) continue;
-                                    if (rdPos == Vector3.zero)
-                                    {
-                                        sp = ep;
-                                        continue;
-                                    }
-                                    if (!first)
-                                    {
-                                        first = true;
-                                        var tp = isYAxis ? new Vector3(rdPos.x, ep.y) : new Vector3(ep.x, rdPos.y);
-                                        CheckClipAndDrawTriangle(vh, rdPos, tp, ep, areaToColor, areaToColor, areaColor, serie.clip);
-                                        sp = ep;
-                                        continue;
-                                    }
-                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
-                                    sp = ep;
+                                    var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
+                                    CheckClipAndDrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
+                                    break;
                                 }
+                                if (rdPos != Vector3.zero) DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                sp = ep;
                             }
-                            else
+                            sp = smoothDownPoints[0];
+                            bool first = false;
+                            for (int i = 1; i < smoothDownPoints.Count; i++)
                             {
-                                sp = smoothPoints[0];
-                                for (int i = 1; i < smoothPoints.Count; i++)
+                                ep = smoothDownPoints[i];
+                                if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
+                                if ((isYAxis && ep.y < luPos.y) || (!isYAxis && ep.x < luPos.x)) continue;
+                                if (luPos == Vector3.zero)
                                 {
-                                    ep = smoothPoints[i];
-                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                    if (rdPos == Vector3.zero)
-                                    {
-                                        sp = ep;
-                                        continue;
-                                    }
-
-                                    if ((isYAxis && ep.y > rdPos.y) || (!isYAxis && ep.x > rdPos.x))
-                                    {
-                                        var tp = isYAxis ? new Vector3(rdPos.x, sp.y) : new Vector3(sp.x, rdPos.y);
-                                        CheckClipAndDrawTriangle(vh, sp, rdPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
-                                        break;
-                                    }
-                                    if (rdPos != Vector3.zero) DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
                                     sp = ep;
+                                    continue;
                                 }
-                                sp = smoothDownPoints[0];
-                                bool first = false;
-                                for (int i = 1; i < smoothDownPoints.Count; i++)
+                                if (!first)
                                 {
-                                    ep = smoothDownPoints[i];
-                                    if (serie.animation.CheckDetailBreak(ep, isYAxis)) break;
-                                    if ((isYAxis && ep.y < luPos.y) || (!isYAxis && ep.x < luPos.x)) continue;
-                                    if (luPos == Vector3.zero)
-                                    {
-                                        sp = ep;
-                                        continue;
-                                    }
-                                    if (!first)
-                                    {
-                                        first = true;
-                                        var tp = isYAxis ? new Vector3(luPos.x, ep.y) : new Vector3(ep.x, luPos.y);
-                                        CheckClipAndDrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
-                                        sp = ep;
-                                        continue;
-                                    }
-                                    DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                    first = true;
+                                    var tp = isYAxis ? new Vector3(luPos.x, ep.y) : new Vector3(ep.x, luPos.y);
+                                    CheckClipAndDrawTriangle(vh, ep, luPos, tp, areaColor, areaToColor, areaToColor, serie.clip);
                                     sp = ep;
+                                    continue;
                                 }
+                                DrawPolygonToZero(vh, sp, ep, axis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                                sp = ep;
                             }
                         }
                     }
@@ -993,32 +984,64 @@ namespace XCharts
             stPos1 = isDown ? upPos2 : dnPos;
             stPos2 = isDown ? dnPos : upPos2;
             lastDnPos = dnPos;
+            lastIsDown = isDown;
             return !isBreak;
         }
 
+        private void CheckLineGradientColor(Vector3 cp, ItemStyle itemStyle, Axis axis, Color defaultLineColor, ref Color lineColor)
+        {
+            if (VisualMapHelper.IsNeedGradient(m_VisualMap))
+                lineColor = VisualMapHelper.GetLineGradientColor(m_VisualMap, cp, this, axis, defaultLineColor);
+            else if (itemStyle.IsNeedGradient())
+                lineColor = VisualMapHelper.GetItemStyleGradientColor(itemStyle, cp, this, axis, defaultLineColor);
+        }
+
+        private bool IsInRightOrUp(bool isYAxis, bool isLastDown, Vector3 dnPos, Vector3 checkPos)
+        {
+            if ((isLastDown && ((isYAxis && checkPos.y <= dnPos.y) || (!isYAxis && checkPos.x <= dnPos.x))) ||
+                (!isLastDown && ((isYAxis && checkPos.y <= dnPos.y) || (!isYAxis && checkPos.x <= dnPos.x))))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool IsInRightOrUp(bool isYAxis, Vector3 lp, Vector3 rp)
+        {
+            return lp == Vector3.zero || ((isYAxis && rp.y > lp.y) || (!isYAxis && rp.x > lp.x));
+        }
+
         private void DrawPolygonToZero(VertexHelper vh, Vector3 sp, Vector3 ep, Axis axis, Vector3 zeroPos,
-            Color areaColor, Color areaToColor, Vector3 areaDiff)
+            Color areaColor, Color areaToColor, Vector3 areaDiff, bool clip = false)
         {
             float diff = 0;
             if (axis is YAxis)
             {
                 var isLessthan0 = (sp.x < zeroPos.x || ep.x < zeroPos.x);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
+                areaColor = GetYLerpColor(areaColor, areaToColor, sp);
                 if (isLessthan0) areaDiff = -areaDiff;
-                ChartDrawer.DrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y), ep + areaDiff, sp + areaDiff, areaToColor, areaColor);
+                CheckClipAndDrawPolygon(vh, new Vector3(zeroPos.x + diff, sp.y), new Vector3(zeroPos.x + diff, ep.y),
+                    ep + areaDiff, sp + areaDiff, areaToColor, areaColor, clip);
             }
             else
             {
                 var isLessthan0 = (sp.y < zeroPos.y || ep.y < zeroPos.y);
                 diff = isLessthan0 ? -axis.axisLine.width : axis.axisLine.width;
+                areaColor = GetXLerpColor(areaColor, areaToColor, sp);
                 if (isLessthan0) areaDiff = -areaDiff;
                 if (isLessthan0)
                 {
-                    ChartDrawer.DrawPolygon(vh, ep + areaDiff, sp + areaDiff, new Vector3(sp.x, zeroPos.y + diff), new Vector3(ep.x, zeroPos.y + diff), areaColor, areaToColor);
+                    CheckClipAndDrawPolygon(vh, ep + areaDiff, sp + areaDiff, new Vector3(sp.x, zeroPos.y + diff),
+                        new Vector3(ep.x, zeroPos.y + diff), areaColor, areaToColor, clip);
                 }
                 else
                 {
-                    ChartDrawer.DrawPolygon(vh, sp + areaDiff, ep + areaDiff, new Vector3(ep.x, zeroPos.y + diff), new Vector3(sp.x, zeroPos.y + diff), areaColor, areaToColor);
+                    CheckClipAndDrawPolygon(vh, sp + areaDiff, ep + areaDiff, new Vector3(ep.x, zeroPos.y + diff),
+                         new Vector3(sp.x, zeroPos.y + diff), areaColor, areaToColor, clip);
                 }
             }
         }
@@ -1028,6 +1051,8 @@ namespace XCharts
             Vector3 np, int dataIndex, Color lineColor, Color areaColor,
             Color areaToColor, Vector3 zeroPos)
         {
+            //lp = ClampInChart(lp);
+            //np = ClampInChart(np);
             bool isYAxis = axis is YAxis;
             var lineWidth = serie.lineStyle.width;
             posList.Clear();
@@ -1068,6 +1093,7 @@ namespace XCharts
             Vector3 np, Vector3 llp, Vector3 nnp, int dataIndex, Color lineColor, Color areaColor,
             Color areaToColor, bool isStack, Vector3 zeroPos, int startIndex = 0)
         {
+            var defaultLineColor = lineColor;
             bool isYAxis = xAxis is YAxis;
             var lineWidth = serie.lineStyle.width;
             var smoothPoints = serie.GetUpSmoothList(dataIndex);
@@ -1082,6 +1108,7 @@ namespace XCharts
                 {
                     start = bezierPoints[i];
                     to = bezierPoints[i + 1];
+                    CheckLineGradientColor(start, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                     CheckClipAndDrawLine(vh, start, to, lineWidth, lineColor, serie.clip);
                 }
                 return true;
@@ -1093,15 +1120,21 @@ namespace XCharts
             var diff = dir1v * lineWidth;
             var startUp = start - diff;
             var startDn = start + diff;
-            Vector3 toUp, toDn, tnp, tlp;
+            var startAreaDn = Vector3.zero;
+            var startAreaUp = Vector3.zero;
+            Vector3 toUp, toDn;
 
             bool isFinish = true;
             if (dataIndex > startIndex + 1)
             {
                 if (smoothStartPosDn != Vector3.zero && smoothStartPosUp != Vector3.zero)
                 {
-                    CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
-                    CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
+                    if (!serie.animation.IsInFadeOut())
+                    {
+                        CheckLineGradientColor(lp, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
+                        CheckClipAndDrawTriangle(vh, smoothStartPosUp, startUp, lp, lineColor, serie.clip);
+                        CheckClipAndDrawTriangle(vh, smoothStartPosDn, startDn, lp, lineColor, serie.clip);
+                    }
                     smoothPoints.Add(smoothStartPosUp);
                     smoothDownPoints.Add(smoothStartPosDn);
                 }
@@ -1111,6 +1144,9 @@ namespace XCharts
                 smoothPoints.Add(startUp);
                 smoothDownPoints.Add(startDn);
             }
+            var sourAreaColor = areaColor;
+            var lastAreaDownEndPos = GetLastSmoothPos(serie.GetDownSmoothList(dataIndex - 1), isYAxis);
+            var lastAreaUpEndPos = GetLastSmoothPos(serie.GetUpSmoothList(dataIndex - 1), isYAxis);
             for (int k = 1; k < bezierPoints.Count; k++)
             {
                 to = bezierPoints[k];
@@ -1124,6 +1160,7 @@ namespace XCharts
                 diff = dir1v * lineWidth;
                 toUp = to - diff;
                 toDn = to + diff;
+                CheckLineGradientColor(to, serie.itemStyle, xAxis, defaultLineColor, ref lineColor);
                 if (isYAxis) CheckClipAndDrawPolygon(vh, startDn, toDn, toUp, startUp, lineColor, serie.clip);
                 else CheckClipAndDrawPolygon(vh, startUp, toUp, toDn, startDn, lineColor, serie.clip);
                 smoothPoints.Add(toUp);
@@ -1135,42 +1172,45 @@ namespace XCharts
                 }
                 if (serie.areaStyle.show && (serie.index == 0 || !isStack))
                 {
-                    if (k == 1 && dataIndex > startIndex + 1)
+                    var isAllLessthen0 = IsAllLessthen0(isYAxis, zeroPos, start, to);
+                    areaColor = isYAxis ? GetYLerpColor(sourAreaColor, areaToColor, start) : GetXLerpColor(sourAreaColor, areaToColor, start);
+                    if (startAreaDn == Vector3.zero)
                     {
-                        startDn = smoothStartPosDn;
+                        if (IsInRightOrUp(isYAxis, lastAreaDownEndPos, startDn) && IsInRightOrUp(isYAxis, lastAreaDownEndPos, toDn))
+                        {
+                            startAreaDn = startDn;
+                            if (lastAreaDownEndPos != Vector3.zero && !isAllLessthen0)
+                            {
+                                DrawPolygonToZero(vh, lastAreaDownEndPos, startAreaDn, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                            }
+                        }
                     }
-                    if (startDn != Vector3.zero)
+                    if (startAreaUp == Vector3.zero)
                     {
-                        if (isYAxis)
+                        if (IsInRightOrUp(isYAxis, lastAreaUpEndPos, startUp) && IsInRightOrUp(isYAxis, lastAreaUpEndPos, toUp))
                         {
-                            if (start.x > zeroPos.x && to.x > zeroPos.x)
+                            startAreaUp = startUp;
+                            if (lastAreaUpEndPos != Vector3.zero && isAllLessthen0)
                             {
-                                tnp = new Vector3(zeroPos.x + xAxis.axisLine.width, toDn.y);
-                                tlp = new Vector3(zeroPos.x + xAxis.axisLine.width, startDn.y);
-                                CheckClipAndDrawPolygon(vh, startDn, toDn, tnp, tlp, areaColor, areaToColor, serie.clip);
-                            }
-                            else if (start.x < zeroPos.x && to.x < zeroPos.x)
-                            {
-                                tnp = new Vector3(zeroPos.x - xAxis.axisLine.width, toUp.y);
-                                tlp = new Vector3(zeroPos.x - xAxis.axisLine.width, startUp.y);
-                                CheckClipAndDrawPolygon(vh, tnp, tlp, startUp, toUp, areaToColor, areaColor, serie.clip);
+                                DrawPolygonToZero(vh, lastAreaUpEndPos, startAreaUp, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
                             }
                         }
-                        else
+                    }
+                    if (startAreaDn != Vector3.zero)
+                    {
+                        if (!isAllLessthen0 && IsInRightOrUp(isYAxis, startAreaDn, toDn))
                         {
-                            if (start.y > zeroPos.y && to.y > zeroPos.y)
-                            {
-                                tnp = new Vector3(toDn.x, zeroPos.y + xAxis.axisLine.width);
-                                tlp = new Vector3(startDn.x, zeroPos.y + xAxis.axisLine.width);
-                                CheckClipAndDrawPolygon(vh, startDn, toDn, tnp, tlp, areaColor, areaToColor, serie.clip);
-                            }
-                            else if (start.y < zeroPos.y && to.y < zeroPos.y)
-                            {
-                                tnp = new Vector3(toUp.x, zeroPos.y - xAxis.axisLine.width);
-                                tlp = new Vector3(startUp.x, zeroPos.y - xAxis.axisLine.width);
-                                CheckClipAndDrawPolygon(vh, tlp, tnp, toUp, startUp, areaToColor, areaColor, serie.clip);
-                            }
+                            DrawPolygonToZero(vh, startAreaDn, toDn, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
                         }
+                        startAreaDn = toDn;
+                    }
+                    if (startAreaUp != Vector3.zero)
+                    {
+                        if (isAllLessthen0 && IsInRightOrUp(isYAxis, startAreaUp, toUp))
+                        {
+                            DrawPolygonToZero(vh, startAreaUp, toUp, xAxis, zeroPos, areaColor, areaToColor, Vector3.zero);
+                        }
+                        startAreaUp = toUp;
                     }
                 }
                 start = to;
@@ -1180,18 +1220,43 @@ namespace XCharts
 
             if (serie.areaStyle.show)
             {
-                var lastSerie = m_Series.GetLastStackSerie(serie);
+                var lastSerie = SeriesHelper.GetLastStackSerie(m_Series, serie);
                 if (lastSerie != null)
                 {
                     var lastSmoothPoints = lastSerie.GetUpSmoothList(dataIndex);
-                    DrawStackArea(vh, serie, xAxis, smoothDownPoints, lastSmoothPoints, lineColor, areaColor, areaToColor);
+                    DrawStackArea(vh, serie, xAxis, smoothDownPoints, lastSmoothPoints, areaColor, areaToColor);
                 }
             }
             return isFinish;
         }
 
+        private bool IsAllLessthen0(bool isYAxis, Vector3 zeroPos, Vector3 start, Vector3 to)
+        {
+            if (isYAxis) return start.x < zeroPos.x && to.x < zeroPos.x;
+            else return start.y < zeroPos.y && to.y < zeroPos.y;
+        }
+
+        private Vector3 GetLastSmoothPos(List<Vector3> list, bool isYAxis)
+        {
+            var count = list.Count;
+            if (count <= 0) return Vector3.zero;
+            var pos = list[count - 1];
+            for (int i = count - 2; i > count - 4 && i > 0; i--)
+            {
+                if (isYAxis)
+                {
+                    if (list[i].y > pos.y) pos = list[i];
+                }
+                else
+                {
+                    if (list[i].x > pos.x) pos = list[i];
+                }
+            }
+            return pos;
+        }
+
         private void DrawStackArea(VertexHelper vh, Serie serie, Axis axis, List<Vector3> smoothPoints,
-            List<Vector3> lastSmoothPoints, Color lineColor, Color areaColor, Color areaToColor)
+            List<Vector3> lastSmoothPoints, Color areaColor, Color areaToColor)
         {
             if (!serie.areaStyle.show || lastSmoothPoints.Count <= 0) return;
             Vector3 start, to;
@@ -1199,11 +1264,15 @@ namespace XCharts
 
             var lastCount = 1;
             start = smoothPoints[0];
+            var sourAreaColor = areaColor;
             for (int k = 1; k < smoothPoints.Count; k++)
             {
                 to = smoothPoints[k];
+                if (!IsInRightOrUp(isYAxis, start, to)) continue;
                 if (serie.animation.CheckDetailBreak(to, isYAxis)) break;
                 Vector3 tnp, tlp;
+                if (isYAxis) areaColor = GetYLerpColor(sourAreaColor, areaToColor, to);
+                else areaColor = GetXLerpColor(sourAreaColor, areaToColor, to);
                 if (k == smoothPoints.Count - 1)
                 {
                     if (k < lastSmoothPoints.Count - 1)
@@ -1301,6 +1370,7 @@ namespace XCharts
                         for (int i = 1; i < linePointList.Count; i++)
                         {
                             ep = linePointList[i];
+                            if (serie.animation.CheckDetailBreak(ep, isYAxis)) return false;
                             CheckClipAndDrawLine(vh, sp, ep, lineWidth, lineColor, serie.clip);
                             sp = ep;
                         }

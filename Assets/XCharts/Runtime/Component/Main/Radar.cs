@@ -14,7 +14,7 @@ using UnityEngine.UI;
 namespace XCharts
 {
     /// <summary>
-    /// Coordinate for radar charts. 
+    /// Radar coordinate conponnet for radar charts. 
     /// 雷达图坐标系组件，只适用于雷达图。
     /// </summary>
     [System.Serializable]
@@ -30,15 +30,18 @@ namespace XCharts
             Circle
         }
         /// <summary>
+        /// The position type of radar.
         /// 显示位置。
         /// </summary>
         public enum PositionType
         {
             /// <summary>
+            /// Display at the vertex.
             /// 显示在顶点处。
             /// </summary>
             Vertice,
             /// <summary>
+            /// Display at the middle of line.
             /// 显示在两者之间。
             /// </summary>
             Between,
@@ -56,6 +59,7 @@ namespace XCharts
             [SerializeField] private TextStyle m_TextStyle = new TextStyle();
 
             /// <summary>
+            /// The name of indicator.
             /// 指示器名称。
             /// </summary>
             public string name { get { return m_Name; } set { m_Name = value; } }
@@ -89,6 +93,8 @@ namespace XCharts
         [SerializeField] private bool m_Indicator = true;
         [SerializeField] private PositionType m_PositionType = PositionType.Vertice;
         [SerializeField] private float m_IndicatorGap = 10;
+        [SerializeField] private int m_CeilRate = 0;
+        [SerializeField] private bool m_IsAxisTooltip;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
@@ -156,6 +162,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Indicator, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// The gap of indicator and radar.
         /// 指示器和雷达的间距。
         /// </summary>
         public float indicatorGap
@@ -164,7 +171,25 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_IndicatorGap, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// /// 显示位置类型。
+        /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
+        /// 最大最小值向上取整的倍率。默认为0时自动计算。
+        /// </summary>
+        public int ceilRate
+        {
+            get { return m_CeilRate; }
+            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// 是否Tooltip显示轴线上的所有数据。
+        /// </summary>
+        public bool isAxisTooltip
+        {
+            get { return m_IsAxisTooltip; }
+            set { if (PropertyUtility.SetStruct(ref m_IsAxisTooltip, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The position type of indicator.
+        /// 显示位置类型。
         /// </summary>
         public PositionType positionType
         {
@@ -205,11 +230,11 @@ namespace XCharts
                     m_SplitNumber = 5,
                     m_Indicator = true,
                     m_IndicatorList = new List<Indicator>(5){
-                        new Indicator(){name="indicator1",max = 100},
-                        new Indicator(){name="indicator2",max = 100},
-                        new Indicator(){name="indicator3",max = 100},
-                        new Indicator(){name="indicator4",max = 100},
-                        new Indicator(){name="indicator5",max = 100},
+                        new Indicator(){name="indicator1",max = 0},
+                        new Indicator(){name="indicator2",max = 0},
+                        new Indicator(){name="indicator3",max = 0},
+                        new Indicator(){name="indicator4",max = 0},
+                        new Indicator(){name="indicator5",max = 0},
                     }
                 };
                 radar.center[0] = 0.5f;
@@ -282,12 +307,12 @@ namespace XCharts
             return 0;
         }
 
-        internal void UpdateRadarCenter(float chartWidth, float chartHeight)
+        internal void UpdateRadarCenter(Vector3 chartPosition, float chartWidth, float chartHeight)
         {
             if (center.Length < 2) return;
             var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
             var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            runtimeCenterPos = new Vector2(centerX, centerY);
+            runtimeCenterPos = chartPosition + new Vector3(centerX, centerY);
             if (radius <= 0)
             {
                 runtimeRadius = 0;

@@ -48,6 +48,8 @@ namespace XCharts
             SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
             SerializedProperty m_Min = prop.FindPropertyRelative("m_Min");
             SerializedProperty m_Max = prop.FindPropertyRelative("m_Max");
+            SerializedProperty m_CeilRate = prop.FindPropertyRelative("m_CeilRate");
+            SerializedProperty m_Inverse = prop.FindPropertyRelative("m_Inverse");
 
             int index = InitToggle(prop);
             bool toggle = m_AxisModuleToggle[index];
@@ -87,14 +89,18 @@ namespace XCharts
                             EditorGUI.indentLevel--;
                             break;
                     }
+                    EditorGUI.PropertyField(drawRect, m_CeilRate);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(drawRect, m_Inverse);
+                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
-
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_Interval);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, m_BoundaryGap);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                DrawExtended(ref drawRect, prop);
                 EditorGUI.PropertyField(drawRect, m_AxisLine);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AxisLine);
@@ -126,6 +132,11 @@ namespace XCharts
                 }
                 EditorGUI.indentLevel--;
             }
+        }
+
+        protected virtual void DrawExtended(ref Rect drawRect, SerializedProperty prop)
+        {
+
         }
 
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
@@ -168,7 +179,7 @@ namespace XCharts
                 }
                 else if (type == Axis.AxisType.Value)
                 {
-                    height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    height += 3 * EditorGUIUtility.singleLineHeight + 2 * EditorGUIUtility.standardVerticalSpacing;
                     SerializedProperty m_MinMaxType = prop.FindPropertyRelative("m_MinMaxType");
                     if (m_MinMaxType.enumValueIndex == (int)Axis.AxisMinMaxType.Custom)
                     {
@@ -190,8 +201,14 @@ namespace XCharts
                 height += EditorGUI.GetPropertyHeight(m_AxisLabel);
                 height += EditorGUI.GetPropertyHeight(m_SplitArea);
                 height += EditorGUI.GetPropertyHeight(m_SplitLine);
+                height += GetExtendedHeight();
                 return height;
             }
+        }
+
+        protected virtual float GetExtendedHeight()
+        {
+            return 0;
         }
 
         private int InitToggle(SerializedProperty prop)

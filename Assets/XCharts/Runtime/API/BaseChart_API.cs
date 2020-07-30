@@ -14,10 +14,28 @@ namespace XCharts
 {
     /// <summary>
     /// The base class of all charts.
-    /// 所有Chart的基类，不可直接使用。
+    /// 所有Chart的基类。
     /// </summary>
     public partial class BaseChart
     {
+        /// <summary>
+        /// The name of chart.
+        /// </summary>
+        public string chartName
+        {
+            get { return m_ChartName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && XChartsMgr.Instance.ContainsChart(value))
+                {
+                    Debug.LogError("chartName repeated:" + value);
+                }
+                else
+                {
+                    m_ChartName = value;
+                }
+            }
+        }
         /// <summary>
         /// The theme info.
         /// </summary>
@@ -48,6 +66,16 @@ namespace XCharts
         /// </summary>
         public Settings settings { get { return m_Settings; } }
         /// <summary>
+        /// The x of chart. 
+        /// 图表的X
+        /// </summary>
+        public float chartX { get { return m_ChartX; } }
+        /// <summary>
+        /// The y of chart. 
+        /// 图表的Y
+        /// </summary>
+        public float chartY { get { return m_ChartY; } }
+        /// <summary>
         /// The width of chart. 
         /// 图表的宽
         /// </summary>
@@ -58,29 +86,24 @@ namespace XCharts
         /// </summary>
         public float chartHeight { get { return m_ChartHeight; } }
         /// <summary>
-        /// The postion of pointer.
-        /// 鼠标位置
+        /// The position of chart.
+        /// 图表的左下角起始坐标。
         /// </summary>
-        public Vector2 pointerPos { get; protected set; }
+        public Vector3 chartPosition { get { return m_ChartPosition; } }
+        public Rect chartRect { get { return m_ChartRect; } }
+
         /// <summary>
         /// 自定义绘制回调。
         /// </summary>
-        public Action<VertexHelper> customDrawCallback { set { m_CustomDrawCallback = value; } }
-        /// <summary>
-        /// Set the size of chart.
-        /// 设置图表的大小。
-        /// </summary>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        public virtual void SetSize(float width, float height)
-        {
-            m_ChartWidth = width;
-            m_ChartHeight = height;
-            m_CheckWidth = width;
-            m_CheckHeight = height;
+        public Action<VertexHelper> onCustomDraw { set { m_OnCustomDrawCallback = value; } }
 
-            rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
-            OnSizeChanged();
+        /// <summary>
+        /// Redraw chart in next frame.
+        /// 在下一帧刷新图表。
+        /// </summary>
+        public void RefreshChart()
+        {
+            m_RefreshChart = true;
         }
 
         /// <summary>
@@ -110,6 +133,7 @@ namespace XCharts
             m_Tooltip.ClearValue();
             m_CheckAnimation = false;
             m_ReinitLabel = true;
+            m_SerieLabelRoot = null;
             RefreshChart();
         }
 
@@ -122,6 +146,7 @@ namespace XCharts
         {
             m_Series.Remove(serieName);
             m_Legend.RemoveData(serieName);
+            m_SerieLabelRoot = null;
             RefreshChart();
         }
 
@@ -152,8 +177,12 @@ namespace XCharts
             var serieData = m_Series.AddData(serieName, data, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -171,8 +200,12 @@ namespace XCharts
             var serieData = m_Series.AddData(serieIndex, data, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -190,8 +223,12 @@ namespace XCharts
             var serieData = m_Series.AddData(serieName, multidimensionalData, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -209,8 +246,12 @@ namespace XCharts
             var serieData = m_Series.AddData(serieIndex, multidimensionalData, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -229,8 +270,12 @@ namespace XCharts
             var serieData = m_Series.AddXYData(serieName, xValue, yValue, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieName);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -249,8 +294,12 @@ namespace XCharts
             var serieData = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
             if (serieData != null)
             {
+                var serie = m_Series.GetSerie(serieIndex);
+                if (SerieHelper.GetSerieLabel(serie, serieData).show)
+                {
+                    RefreshLabel();
+                }
                 RefreshChart();
-                RefreshLabel();
             }
             return serieData;
         }
@@ -474,26 +523,12 @@ namespace XCharts
         }
 
         /// <summary>
-        /// Redraw chart in next frame.
-        /// 在下一帧刷新图表。
-        /// </summary>
-        public void RefreshChart()
-        {
-            m_RefreshChart = true;
-        }
-
-        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
-        public void ReinitChartLabel()
-        {
-            RefreshLabel();
-        }
-
-        /// <summary>
         /// 刷新文本标签Label，重新初始化，当有改动Label参数时手动调用改接口
         /// </summary>
         public void RefreshLabel()
         {
             m_ReinitLabel = true;
+            m_SerieLabelRoot = null;
         }
 
         /// <summary>
@@ -537,15 +572,7 @@ namespace XCharts
             m_Series.AnimationEnable(flag);
         }
 
-        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
-        public void AnimationStart()
-        {
-        }
 
-        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
-        public void MissAnimationStart()
-        {
-        }
 
         /// <summary>
         /// fadeIn animation.
@@ -616,26 +643,70 @@ namespace XCharts
         /// <returns></returns>
         public bool IsInChart(Vector2 local)
         {
-            if (local.x < 0 || local.x > chartWidth ||
-                local.y < 0 || local.y > chartHeight)
+            return IsInChart(local.x, local.y);
+        }
+
+        public bool IsInChart(float x, float y)
+        {
+            if (x < m_ChartX || x > m_ChartX + m_ChartWidth ||
+               y < m_ChartY || y > m_ChartY + m_ChartHeight)
             {
                 return false;
             }
             return true;
         }
 
-        public Vector3 ClampInChart(Vector3 pos)
+        public void ClampInChart(ref Vector3 pos)
         {
-            if (IsInChart(pos)) return pos;
-            else
+            if (!IsInChart(pos.x, pos.y))
             {
-                var np = new Vector3(pos.x, pos.y);
-                if (np.x < 0) np.x = 0;
-                if (np.x > chartWidth) np.x = chartWidth;
-                if (np.y < 0) np.y = 0;
-                if (np.y > chartHeight) np.y = chartHeight;
-                return np;
+                if (pos.x < m_ChartX) pos.x = m_ChartX;
+                if (pos.x > m_ChartX + m_ChartWidth) pos.x = m_ChartX + m_ChartWidth;
+                if (pos.y < m_ChartY) pos.y = m_ChartY;
+                if (pos.y > m_ChartY + m_ChartHeight) pos.y = m_ChartY + m_ChartHeight;
             }
         }
+
+        /// <summary>
+        /// 是否可以开启背景组件。背景组件在chart受上层布局控制时无法开启。
+        /// </summary>
+        /// <returns></returns>
+        public bool CanShowBackgroundComponent()
+        {
+            return !m_IsControlledByLayout && m_Background.runtimeActive;
+        }
+
+        /// <summary>
+        /// 开启背景组件。背景组件在chart受上层布局控制时不适用。
+        /// </summary>
+        /// <param name="flag"></param>
+        public void EnableBackground(bool flag)
+        {
+            if (flag && !CanShowBackgroundComponent())
+            {
+                var msg = "The background component cannot be activated because chart is controlled by LayoutGroup,"
+                + " or its parent have more than one child.";
+                Debug.LogError(msg);
+                return;
+            }
+            m_Background.show = flag;
+        }
+
+        public Vector3 GetTitlePosition()
+        {
+            return chartPosition + m_Title.location.GetPosition(chartWidth, chartHeight);
+        }
+
+        [Obsolete("Use BaseChart.RefreshLabel() instead.", true)]
+        public void ReinitChartLabel() { }
+
+        [Obsolete("Use BaseChart.AnimationFadeIn() instead.", true)]
+        public void AnimationStart() { }
+
+        [Obsolete("Use BaseChart.AnimationFadeOut() instead.", true)]
+        public void MissAnimationStart() { }
+
+        [Obsolete("Use onCustomDraw instead.", false)]
+        public Action<VertexHelper> customDrawCallback { set { m_OnCustomDrawCallback = value; } }
     }
 }

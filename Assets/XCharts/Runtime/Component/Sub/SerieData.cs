@@ -30,12 +30,13 @@ namespace XCharts
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private bool m_EnableEmphasis = false;
         [SerializeField] private Emphasis m_Emphasis = new Emphasis();
+        [SerializeField] private bool m_EnableSymbol = false;
+        [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
         [SerializeField] private List<float> m_Data = new List<float>();
 
+        public LabelObject labelObject { get; set; }
+
         private bool m_Show = true;
-        private bool m_LabelAutoSize;
-        private float m_LabelPaddingLeftRight;
-        private float m_LabelPaddingTopBottom;
         private float m_RtPieOutsideRadius;
 
         public int index { get; set; }
@@ -88,6 +89,14 @@ namespace XCharts
         /// </summary>
         public Emphasis emphasis { get { return m_Emphasis; } set { m_Emphasis = value; } }
         /// <summary>
+        /// 是否启用单个数据项的标记设置。
+        /// </summary>
+        public bool enableSymbol { get { return m_EnableSymbol; } set { m_EnableSymbol = value; } }
+        /// <summary>
+        /// 单个数据项的标记设置。
+        /// </summary>
+        public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
+        /// <summary>
         /// An arbitrary dimension data list of data item.
         /// 可指定任意维数的数值列表。
         /// </summary>
@@ -102,15 +111,6 @@ namespace XCharts
         /// 该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
         public bool highlighted { get; set; }
-        /// <summary>
-        /// the label of data item.
-        /// 该数据项的文本标签。
-        /// </summary>
-        public Text labelText { get; private set; }
-        public RectTransform labelRect { get; private set; }
-        /// <summary>
-        /// 标志位置。
-        /// </summary>
         public Vector3 labelPosition { get; set; }
         private bool m_CanShowLabel = true;
         /// <summary>
@@ -127,11 +127,6 @@ namespace XCharts
         /// 最小值。
         /// </summary>
         public float min { get { return m_Data.Min(); } }
-
-        /// <summary>
-        /// 关联的gameObject
-        /// </summary>
-        public GameObject gameObject { get; private set; }
         /// <summary>
         /// 饼图数据项的开始角度（运行时自动计算）
         /// </summary>
@@ -171,25 +166,51 @@ namespace XCharts
         /// 饼图数据项的偏移半径
         /// </summary>
         public float runtimePieOffsetRadius { get; internal set; }
+        public Vector3 runtimePosition { get; internal set; }
+        public float runtimeAngle { get; internal set; }
         public Vector3 runtiemPieOffsetCenter { get; internal set; }
         private List<float> m_PreviousData = new List<float>();
         private List<float> m_DataUpdateTime = new List<float>();
         private List<bool> m_DataUpdateFlag = new List<bool>();
 
-        public float GetData(int index)
+        public void Reset()
+        {
+            index = 0;
+            labelObject = null;
+            highlighted = false;
+            m_Name = string.Empty;
+            m_Show = true;
+            m_Selected = false;
+            m_CanShowLabel = true;
+            m_EnableSymbol = false;
+            m_EnableLabel = false;
+            m_EnableEmphasis = false;
+            m_EnableItemStyle = false;
+            m_Radius = 0;
+            m_Data.Clear();
+            m_PreviousData.Clear();
+            m_DataUpdateTime.Clear();
+            m_DataUpdateFlag.Clear();
+            m_IconStyle.Reset();
+            m_Label.Reset();
+            m_ItemStyle.Reset();
+            m_Emphasis.Reset();
+        }
+
+        public float GetData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_Data.Count)
             {
-                return m_Data[index];
+                return inverse ? -m_Data[index] : m_Data[index];
             }
             else return 0;
         }
 
-        public float GetPreviousData(int index)
+        public float GetPreviousData(int index, bool inverse = false)
         {
             if (index >= 0 && index < m_PreviousData.Count)
             {
-                return m_PreviousData[index];
+                return inverse ? -m_PreviousData[index] : m_PreviousData[index];
             }
             else return 0;
         }
@@ -206,7 +227,7 @@ namespace XCharts
             return 0;
         }
 
-        public float GetCurrData(int index, float animationDuration = 500f)
+        public float GetCurrData(int index, float animationDuration = 500f, bool inverse = false)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
@@ -215,18 +236,18 @@ namespace XCharts
                 if (time <= total)
                 {
                     CheckLastData();
-                    var curr = Mathf.Lerp(GetPreviousData(index), GetData(index), time / total);
+                    var curr = Mathf.Lerp(GetPreviousData(index, inverse), GetData(index, inverse), time / total);
                     return curr;
                 }
                 else
                 {
                     m_DataUpdateFlag[index] = false;
-                    return GetData(index);
+                    return GetData(index, inverse);
                 }
             }
             else
             {
-                return GetData(index);
+                return GetData(index, inverse);
             }
         }
 
@@ -267,93 +288,21 @@ namespace XCharts
             return false;
         }
 
-        public void InitLabel(GameObject labelObj, bool autoSize, float paddingLeftRight, float paddingTopBottom)
-        {
-            gameObject = labelObj;
-            m_LabelAutoSize = autoSize;
-            m_LabelPaddingLeftRight = paddingLeftRight;
-            m_LabelPaddingTopBottom = paddingTopBottom;
-            labelText = labelObj.GetComponentInChildren<Text>();
-            labelRect = labelText.GetComponent<RectTransform>();
-        }
-
-        public void SetLabelActive(bool active)
-        {
-            if (labelRect)
-            {
-                ChartHelper.SetActive(labelRect, active);
-            }
-        }
-
-        public bool SetLabelText(string text)
-        {
-            if (labelText && !labelText.text.Equals(text))
-            {
-                labelText.text = text;
-                if (m_LabelAutoSize)
-                {
-                    var newSize = string.IsNullOrEmpty(text) ? Vector2.zero :
-                        new Vector2(labelText.preferredWidth + m_LabelPaddingLeftRight * 2,
-                                        labelText.preferredHeight + m_LabelPaddingTopBottom * 2);
-                    var sizeChange = newSize.x != labelRect.sizeDelta.x || newSize.y != labelRect.sizeDelta.y;
-                    if (sizeChange) labelRect.sizeDelta = newSize;
-                    return sizeChange;
-                }
-            }
-            return false;
-        }
-
-        public void SetLabelColor(Color color)
-        {
-            if (labelText)
-            {
-                labelText.color = color;
-            }
-        }
-
         public float GetLabelWidth()
         {
-            if (labelRect) return labelRect.sizeDelta.x;
+            if (labelObject != null) return labelObject.GetLabelWidth();
             else return 0;
         }
 
         public float GetLabelHeight()
         {
-            if (labelRect) return labelRect.sizeDelta.y;
+            if (labelObject != null) return labelObject.GetLabelHeight();
             return 0;
         }
 
-        public void SetGameObjectPosition(Vector3 position)
+        public void SetLabelActive(bool flag)
         {
-            if (gameObject)
-            {
-                gameObject.transform.localPosition = position;
-            }
-        }
-
-        public void SetLabelPosition(Vector3 position)
-        {
-            if (labelRect) labelRect.localPosition = position;
-        }
-
-        [Obsolete("Use SerieData.SetIconImage() instead.", true)]
-        public void SetIconObj(GameObject iconObj) { }
-
-        public void SetIconImage(Image image)
-        {
-            if (iconStyle == null) return;
-            iconStyle.SetImage(image);
-        }
-
-        public void UpdateIcon()
-        {
-            if (iconStyle == null) return;
-            iconStyle.UpdateIcon();
-        }
-
-        public bool IsInitLabel()
-        {
-            return labelText != null;
+            if (labelObject != null) labelObject.SetLabelActive(flag);
         }
     }
 }

@@ -79,7 +79,7 @@ namespace XCharts
             HorizontalLine
         }
         [SerializeField] private bool m_Show = false;
-        [SerializeField] Position m_Position;
+        [SerializeField] Position m_Position = Position.Outside;
         [SerializeField] private Vector3 m_Offset;
         [SerializeField] private float m_Margin;
         [SerializeField] private string m_Formatter;
@@ -101,7 +101,35 @@ namespace XCharts
         [SerializeField] private bool m_Border = false;
         [SerializeField] private float m_BorderWidth = 0.5f;
         [SerializeField] private Color m_BorderColor = Color.grey;
-        [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private string m_NumericFormatter = "";
+        [SerializeField] private bool m_AutoOffset = false;
+
+        public void Reset()
+        {
+            m_Show = false;
+            m_Position = Position.Outside;
+            m_Offset = Vector3.zero;
+            m_Margin = 0;
+            m_PaddingLeftRight = 2f;
+            m_PaddingTopBottom = 2f;
+            m_Color = Color.clear;
+            m_BackgroundColor = Color.clear;
+            m_BackgroundWidth = 0;
+            m_BackgroundHeight = 0;
+            m_FontSize = 18;
+            m_FontStyle = FontStyle.Normal;
+            m_Line = true;
+            m_LineType = LineType.BrokenLine;
+            m_LineColor = Color.clear;
+            m_LineWidth = 1.0f;
+            m_LineLength1 = 25f;
+            m_LineLength2 = 15f;
+            m_Border = false;
+            m_BorderWidth = 0.5f;
+            m_BorderColor = Color.grey;
+            m_NumericFormatter = "";
+            m_AutoOffset = false;
+        }
 
         /// <summary>
         /// Whether the label is showed.
@@ -110,7 +138,7 @@ namespace XCharts
         public bool show
         {
             get { return m_Show; }
-            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            set { if (PropertyUtility.SetStruct(ref m_Show, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The position of label.
@@ -321,38 +349,24 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        public bool forceENotation
+        /// <value></value>
+        public string numericFormatter
         {
-            get { return m_ForceENotation; }
-            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetVerticesDirty(); }
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
-
-        public string GetFormatterContent(string serieName, string dataName, float dataValue, float dataTotal = 0)
+        /// <summary>
+        /// 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
+        /// </summary>
+        public bool autoOffset
         {
-            if (string.IsNullOrEmpty(m_Formatter))
-                return ChartCached.FloatToStr(dataValue, 0, m_ForceENotation);
-            else
-            {
-                var content = m_Formatter.Replace("{a}", serieName);
-                content = content.Replace("{b}", dataName);
-                content = content.Replace("{c}", ChartCached.FloatToStr(dataValue, 0, m_ForceENotation));
-                content = content.Replace("{c:f0}", ChartCached.IntToStr((int)Mathf.Round(dataValue)));
-                content = content.Replace("{c:f1}", ChartCached.FloatToStr(dataValue, 1));
-                content = content.Replace("{c:f2}", ChartCached.FloatToStr(dataValue, 2));
-                if (dataTotal > 0)
-                {
-                    var percent = dataValue / dataTotal * 100;
-                    content = content.Replace("{d}", ChartCached.FloatToStr(percent, 1));
-                    content = content.Replace("{d:f0}", ChartCached.IntToStr((int)Mathf.Round(percent)));
-                    content = content.Replace("{d:f1}", ChartCached.FloatToStr(percent, 1));
-                    content = content.Replace("{d:f2}", ChartCached.FloatToStr(percent, 2));
-                }
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
-                return content;
-            }
+            get { return m_AutoOffset; }
+            set { if (PropertyUtility.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
         }
     }
 }

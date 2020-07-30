@@ -22,29 +22,23 @@ namespace XCharts
         /// The lower left position x of coordinate system.
         /// 坐标系的左下角坐标X。
         /// </summary>
-        public float coordinateX { get { return m_Grid.left; } }
+        public float coordinateX { get { return m_CoordinateX; } }
         /// <summary>
         /// The lower left position y of coordinate system.
         /// 坐标系的左下角坐标Y。
         /// </summary>
-        public float coordinateY { get { return m_Grid.bottom; } }
-
-        [Obsolete("Use CoordinateChart.coordinateWidth instead.", true)]
-        public float coordinateWid { get { return coordinateWidth; } }
-
-        [Obsolete("Use CoordinateChart.coordinateHeight instead.", true)]
-        public float coordinateHig { get { return coordinateHeight; } }
+        public float coordinateY { get { return m_CoordinateY; } }
 
         /// <summary>
         /// the width of coordinate system。
         /// 坐标系的宽。
         /// </summary>
-        public float coordinateWidth { get { return chartWidth - m_Grid.left - m_Grid.right; } }
+        public float coordinateWidth { get { return m_CoordinateWidth; } }
         /// <summary>
         /// the height of coordinate system。
         /// 坐标系的高。
         /// </summary>
-        public float coordinateHeight { get { return chartHeight - m_Grid.top - m_Grid.bottom; } }
+        public float coordinateHeight { get { return m_CoordinateHeight; } }
         /// <summary>
         /// grid component.
         /// 网格组件。
@@ -146,7 +140,6 @@ namespace XCharts
         /// reutrn true when all the show axis is `Value` type.
         /// 纯数值坐标轴（数值轴或对数轴）。
         /// </summary>
-        /// <returns></returns>
         public bool IsValue()
         {
             foreach (var axis in m_XAxises)
@@ -160,6 +153,9 @@ namespace XCharts
             return true;
         }
 
+        /// <summary>
+        /// 纯类目轴。
+        /// </summary>
         public bool IsCategory()
         {
             foreach (var axis in m_XAxises)
@@ -173,10 +169,23 @@ namespace XCharts
             return true;
         }
 
+        /// <summary>
+        /// 坐标是否在坐标轴内。
+        /// </summary>
         public bool IsInCooridate(Vector2 local)
         {
-            if (local.x < coordinateX - 1 || local.x > coordinateX + coordinateWidth + 1 ||
-                local.y < coordinateY - 1 || local.y > coordinateY + coordinateHeight + 1)
+            return IsInCooridate(local.x, local.y);
+        }
+
+        public bool IsInCooridate(Vector3 local)
+        {
+            return IsInCooridate(local.x, local.y);
+        }
+
+        public bool IsInCooridate(float x, float y)
+        {
+            if (x < m_CoordinateX - 1 || x > m_CoordinateX + m_CoordinateWidth + 1 ||
+                y < m_CoordinateY - 1 || y > m_CoordinateY + m_CoordinateHeight + 1)
             {
                 return false;
             }
@@ -204,13 +213,59 @@ namespace XCharts
             if (IsInCooridate(pos)) return pos;
             else
             {
-                var np = new Vector3(pos.x, pos.y);
-                if (np.x < coordinateX) np.x = coordinateX;
-                if (np.x > coordinateX + coordinateWidth) np.x = coordinateX + coordinateWidth;
-                if (np.y < coordinateY) np.y = coordinateY;
-                if (np.y > coordinateY + coordinateHeight) np.y = coordinateY + coordinateHeight;
-                return np;
+                // var pos = new Vector3(pos.x, pos.y);
+                if (pos.x < m_CoordinateX) pos.x = m_CoordinateX;
+                if (pos.x > m_CoordinateX + m_CoordinateWidth) pos.x = m_CoordinateX + m_CoordinateWidth;
+                if (pos.y < m_CoordinateY) pos.y = m_CoordinateY;
+                if (pos.y > m_CoordinateY + m_CoordinateHeight) pos.y = m_CoordinateY + m_CoordinateHeight;
+                return pos;
             }
+        }
+
+        /// <summary>
+        /// 转换X轴和Y轴的配置
+        /// </summary>
+        /// <param name="index">坐标轴索引，0或1</param>
+        public void CovertXYAxis(int index)
+        {
+            if (index >= 0 && index <= 1)
+            {
+                var xAxis = m_XAxises[index];
+                var yAxis = m_YAxises[index];
+                var tempX = m_XAxises[index].Clone();
+                xAxis.Copy(m_YAxises[index]);
+                yAxis.Copy(tempX);
+                xAxis.runtimeZeroXOffset = 0;
+                xAxis.runtimeZeroYOffset = 0;
+                yAxis.runtimeZeroXOffset = 0;
+                yAxis.runtimeZeroYOffset = 0;
+                xAxis.runtimeMinValue = 0;
+                xAxis.runtimeMaxValue = 0;
+                yAxis.runtimeMinValue = 0;
+                yAxis.runtimeMaxValue = 0;
+                RefreshChart();
+            }
+        }
+
+        /// <summary>
+        /// 更新坐标系原点和宽高
+        /// </summary>
+        public void UpdateCoordinate()
+        {
+            m_CoordinateX = m_ChartX + m_Grid.left;
+            m_CoordinateY = m_ChartY + m_Grid.bottom;
+            m_CoordinateWidth = m_ChartWidth - m_Grid.left - m_Grid.right;
+            m_CoordinateHeight = m_ChartHeight - m_Grid.top - m_Grid.bottom;
+        }
+
+        /// <summary>
+        /// 设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。
+        /// </summary>
+        public void SetMaxCache(int maxCache)
+        {
+            foreach (var serie in m_Series.list) serie.maxCache = maxCache;
+            foreach (var axis in m_XAxises) axis.maxCache = maxCache;
+            foreach (var axis in m_YAxises) axis.maxCache = maxCache;
         }
     }
 }

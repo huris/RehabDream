@@ -320,10 +320,10 @@ namespace XCharts
                     {
                         while (i > m_CustomColorPalette.arraySize - 1)
                         {
-                            m_CustomColorPalette.InsertArrayElementAtIndex(m_CustomColorPalette.arraySize);
+                            m_CustomColorPalette.arraySize++;
                         }
                         var customElement = m_CustomColorPalette.GetArrayElementAtIndex(i);
-                        color = customElement.colorValue != Color.clear ?
+                        color = !ChartHelper.IsClearColor(customElement.colorValue) ?
                             customElement :
                             m_ColorPalette.GetArrayElementAtIndex(i);
                         EditorGUI.BeginChangeCheck();

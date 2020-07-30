@@ -7,9 +7,11 @@
 主组件：
 
 * [Axis 坐标轴](#XAxis)  
+* [Background 背景图](#Background)  
 * [DataZoom 区域缩放](#DataZoom)  
 * [Grid 网格](#Grid)  
 * [Legend 图例](#Legend)  
+* [Polar 极坐标](#Polar)  
 * [Radar 雷达](#Radar)  
 * [Series 系列](#Series)  
 * [Serie-Line 折线图](#Serie-Line)  
@@ -20,9 +22,11 @@
 * [Serie-Heatmap 热力图](#Serie-Heatmap)  
 * [Serie-Gauge 仪表盘](#Serie-Gauge)  
 * [Serie-Ring 环形图](#Serie-Ring)  
+* [Serie-Liquid 水位图](#Serie-Liquid)  
 * [Settings 设置](#Settings)
 * [Theme 主题](#Theme)  
 * [Tooltip 提示框](#Tooltip)  
+* [Vessel 容器](#Vessel)  
 * [Title 标题](#Title)  
 * [VisualMap 视觉映射](#VisualMap)  
 
@@ -137,6 +141,17 @@
 * `GetData(int index)`：获得指定索引的图例。
 * `GetIndex(string legendName)`：获得指定图例的索引。
 
+## `Polar`
+
+极坐标系组件。极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
+
+相关参数：
+
+* `show`：是否显示直角坐标系网格。
+* `center`：极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+* `radius`：极坐标的半径。
+* `backgroundColor`：极坐标的背景色，默认透明。
+
 ## `Radar`
 
 * `shape`：雷达图绘制类型。
@@ -147,6 +162,9 @@
   * `Between`：显示在顶点之间。
 * `radius`：雷达图的半径。
 * `center`：雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+* `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
+* `splitNumber`：分割段数。默认为 `5`。
+* `isAxisTooltip`：是否Tooltip显示轴线上的所有数据。只对Mutiple类型的Radar有效。
 * `splitLine`：分割线条 [AxisSplitLine](#AxisSplitLine)。
 * `splitArea`：分割区域 [AxisSplitArea](#AxisSplitArea)。
 * `indicator`：是否显示指示器。
@@ -189,14 +207,23 @@
   * `Line`：线性指示器。
   * `Shadow`：阴影指示器。
   * `None`：无指示器。
-  * `Corss`：十字准星指示器。坐标轴显示Label和交叉线。
-* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。示例：`{a}:{c}`，`{a1}:{c1:f1}`。其中变量 `{a}`, `{b}`, `{c}`, `{d}` 在不同图表类型下代表数据含义为：
-  * 折线（区域）图、柱状（条形）图、K线图 : `{a}`（系列名称），`{b}`（类目值），`{c}`（数值）, `{d}`（无）。
-  * 散点图（气泡）图 : `{a}`（系列名称），`{b}`（数据名称），`{c}`（数值数组）, `{d}`（无）。
-  * 地图 : `{a}`（系列名称），`{b}`（区域名称），`{c}`（合并数值）, `{d}`（无）。
-  * 饼图、仪表盘、漏斗图: `{a}`（系列名称），`{b}`（数据项名称），`{c}`（数值）, `{d}`（百分比）。
-* `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。仅当`itemFormatter`生效时才有效。
-* `itemFormatter`：提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n` 或 `<br/>` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
+  * `Corss`：十字准星指示器。坐标轴显示`Label`和交叉线。
+* `formatter`：提示框内容字符串模版格式器。支持用 `\n` 换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
+  * 模板变量有`{.}`、`{a}`、`{b}`、`{c}`、`{d}`。
+  * `{.}`为当前所指示或`index`为`0`的`serie`的对应颜色的圆点。
+  * `{a}`为当前所指示或`index`为`0`的`serie`的系列名`name`。
+  * `{b}`为当前所指示或`index`为`0`的`serie`的数据项`serieData`的`name`，或者类目值（如折线图的`X`轴）。
+  * `{c}`为当前所指示或`index`为`0`的`serie`的`y`维（`dimesion`为`1`）的数值。
+  * `{d}`为当前所指示或`index`为`0`的`serie`的`y`维（`dimesion`为`1`）百分比值，注意不带`%`号。
+  * `{.1}`表示指定`index`为`1`的`serie`对应颜色的圆点。
+  * `{a1}`、`{b1}`、`{c1}`中的`1`表示指定`index`为`1`的`serie`。
+  * `{c1:2}`表示索引为`1`的`serie`的当前指示数据项的第`3`个数据（一个数据项有多个数据，index为`2`表示第`3`个数据）。
+  * `{c1:2-2}`表示索引为`1`的`serie`的第`3`个数据项的第`3`个数据（也就是要指定第几个数据项时必须要指定第几个数据）。
+  * `{d1:2:f2}`表示单独指定了数值的格式化字符串为`f2`（不指定时用`numericFormatter`）。
+  * 示例：`"{a}:{c}"`、`"{a1}:{c1:f1}"`、`"{a1}:{c1:1f1}"`
+* `titleFormatter`：提示框标题内容的字符串模版格式器。支持用 `\n` 换行。仅当`itemFormatter`生效时才有效。可以单独设置占位符`{i}`表示忽略不显示标题内容。
+* `itemFormatter`：提示框单个`serie`或数据项内容的字符串模版格式器。支持用 `\n`  换行。当`formatter`不为空时，优先使用`formatter`，否则使用`itemFormatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `fixedWidth`：固定宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
 * `fixedHeight`：固定高度。当同时设置 `fixedHeight` 和 `minHeight` 时，`fixedHeight` 比 `minHeight` 优先级高。
 * `minWidth`：最小宽度。当同时设置 `fixedWidth` 和 `minWidth` 时，`fixedWidth` 比 `minWidth` 优先级高。
@@ -204,10 +231,29 @@
 * `paddingLeftRight`：文字和边框的左右边距。
 * `paddingTopBottom`：文字和边框的上下边距。
 * `backgroundImage`：提示框的背景图。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 * `ignoreDataDefaultContent`：被忽略数据的默认显示字符信息。
+* `alwayShow`：是否触发后一直显示。
+* `offset`：`(since v1.5.3)`提示框相对于鼠标位置的偏移。
+
 * `lineStyle`：指示器线条样式 [LineStyle](#LineStyle)。
 * `textStyle`：显示内容文本样式 [TextStyle](#TextStyle)。
+
+## `Vessel`
+
+容器组件。一般用于LiquidChart。
+
+相关参数：
+
+* `show`：是否显示容器组件。
+* `shape`：容器形状。
+* `shapeWidth`：容器的厚度。
+* `gap`：间隙。容器和液体的间隙。
+* `center`：中心点。数组的第一项是横坐标，第二项是纵坐标。当值为0-1之间时表示百分比，设置成百分比时表示图表宽高最小值的百分比。
+* `radius`：半径。
+* `smoothness`：开启或关闭缩放区域功能。
+* `backgroundColor`：背景色，默认透明。
+* `color`：容器颜色。当`autoColor`为`false`时生效。
+* `autoColor`：是否自动颜色。默认`true`。为`true`时颜色会和`serie`一致。
 
 ## `DataZoom`
 
@@ -247,15 +293,16 @@
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
 
 * `enable`：开启或关闭视觉映射功能。
-* `show`：是否显示组件。如果设置为 false，不会显示，但是数据映射的功能还存在。
+* `show`：是否显示组件。如果设置为 `false`，不会显示，但是数据映射的功能还存在。
 * `type`：组件类型。支持以下类型：
   * `Continuous`：连续型。
   * ~~`Piecewise`：分段型。~~
 * ~~`selectedMode`：分段型的选择模式，支持以下模式：~~
   * ~~`Multiple`：多选。~~
   * ~~`Single`：单选。~~
-* `min`：允许的最小值。'min' 必须用户指定。[visualMap.min, visualMap.max] 形成了视觉映射的『定义域』。
-* `max`：允许的最大值。'max' 必须用户指定。[visualMap.min, visualMax.max] 形成了视觉映射的『定义域』。
+* `autoMinMax`：自动设置`min`，`max`的值。
+* `min`：允许的最小值。`autoMinMax`为`false`时必须指定。`[min, max]` 形成了视觉映射的『定义域』。
+* `max`：允许的最大值。`autoMinMax`为`false`时必须指定。`[min, max]` 形成了视觉映射的『定义域』。
 * `range`：指定手柄对应数值的位置。range 应在 min max 范围内。
 * ~~`text`：两端的文本，如 ['High', 'Low']。~~
 * ~~`textGap`：两端文字主体之间的距离，单位为px。~~
@@ -274,7 +321,7 @@
 
 ## `Grid`
 
-网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图（气泡图）。目前最多只能存在一个 `grid` 组件。
+网格组件。直角坐标系内绘图网格，单个 `grid` 内最多可以放置上下两个 `X` 轴，左右两个 `Y` 轴。可以在网格上绘制折线图，柱状图，散点图。目前最多只能存在一个 `grid` 组件。
 
 相关参数：
 
@@ -293,14 +340,14 @@
 * `splitLine`：坐标轴分割线样式。
 * `axisTick`：坐标轴刻度样式。
 * `axisLabel`：坐标轴刻度标签样式。
-* `axisLabelText`：坐标轴刻度标签自定义内容。当内容为空时，axisLabel根据刻度自动显示内容，否则取自该列表定义的内容。
+* `axisLabelText`：坐标轴刻度标签自定义内容。当内容为空时，`axisLabel`根据刻度自动显示内容，否则取自该列表定义的内容。
 
 ## `GaugePointer`
 
 仪表盘指针。
 
 * `width`：指针宽度。
-* `length`：指针长度。当为0-1的浮点数时表示相对仪表盘半径的百分比。
+* `length`：指针长度。当为`0-1`的浮点数时表示相对仪表盘半径的百分比。
 
 ## `XAxis`
 
@@ -321,10 +368,12 @@
   * `Custom`：自定义的最小值-最大值。
 * `min`：设定的坐标轴刻度最小值，当 `minMaxType` 为 `Custom` 时有效。
 * `max`：设定的坐标轴刻度最大值，当 `minMaxType` 为 `Custom` 时有效。
+* `ceilRate`：最大最小值向上取整的倍率。默认为0时自动计算。
 * `splitNumber`：坐标轴的分割段数。默认为 `5`。当 `splitNumber` 设为 `0` 时，表示绘制所有的类目数据。
-* `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置改值时 `splitNumber` 无效。
+* `interval`：强制设置坐标轴分割间隔。无法在类目轴中使用。设置该值时 `splitNumber` 无效。
 * `boundaryGap`：坐标轴两边是否留白。默认为 `true`。
-* `maxCache`：类目数据中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `maxCache`：类目数据中可缓存的最大数据量。默认为`0`没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+* `inverse`：是否反向坐标轴。只在数值轴`Value`中有效。
 * `data`：类目数据，在类目轴（`type: 'Category'`）中有效。
 * `axisLine`：坐标轴轴线相关配置 [AxisLine](#AxisLine)。
 * `axisName`：坐标轴名称相关配置 [AxisName](#AxisName)。
@@ -339,6 +388,22 @@
 * `IsCategory()`：是否为类目轴。
 * `IsValue()`：是否为数值轴。
 * `AddData(string category, int maxDataNumber)`：添加一个类目到类目数据列表。
+
+## `Background`
+
+背景组件。
+由于框架的局限性，背景组件使用有以下两个限制：
+1：`chart`的父节点不能有布局控制类组件。
+2：`chart`的父节点只能有当前`chart`一个子节点。
+背景组件的开启需要通过接口来开启：`BaseChart.EnableBackground(bool flag)`。
+
+相关参数：
+
+* `show`：是否显示启用背景组件。但能否激活背景组件还要受其他条件限制。
+* `image`：背景图。
+* `imageType`：背景图填充类型。
+* `imageColor`背景图颜色。默认`white`。
+* `hideThemeBackgroundColor`：当背景组件启用时，是否隐藏主题中设置的背景色。
 
 ## `YAxis`
 
@@ -468,6 +533,9 @@
 * `clip`：是否裁剪超出坐标系部分的图形。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+* `large`：是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。缺点：优化后不能自定义设置单个数据项的样式，不能显示Label，折线图不绘制Symbol。
+* `largeThreshold`：开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineType`：折线图样式类型。支持以下十种类型：
@@ -513,6 +581,9 @@
 * `clip`：是否裁剪超出坐标系部分的图形。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
 * `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+* `large`：是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。缺点：优化后不能自定义设置单个数据项的样式，不能显示Label，折线图不绘制Symbol。
+* `largeThreshold`：开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `itemStyle`：柱条样式 [ItemStyle](#ItemStyle)。
 * `areaStyle`：区域填充样式 [AreaStyle](#AreaStyle)。
@@ -533,9 +604,12 @@
   * `Radius`：扇区圆心角展现数据的百分比，半径展现数据的大小。
   * `Area`：所有扇区圆心角相同，仅通过半径展现数据大小。
 * `space`：扇区间隙。
-* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `center`：中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`：半径。`radius[0]`为内径，`radius[1]`为外径。当内径大于0时即为圆环图。
 * `roundCap`：是否启用圆弧效果。
+* `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制，对应的`Label`和`Legend`也不会显示。
+* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `avoidLabelOverlap`：在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -549,8 +623,8 @@
 * `type`：`Radar`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `radarType`：雷达图类型`RadarType`，支持以下类型：
-  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
-  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+  * `Multiple`：多圈雷达图。此时可一个雷达里绘制多个圈，一个`serieData`就可组成一个圈（多维数据）。
+  * `Single`：单圈雷达图。此时一个雷达只能绘制一个圈，多个`serieData`组成一个圈，数据取自`data[1]`。
 * `radarIndex`：雷达图所使用的 `radar` 组件的 `index`。
 * `symbol`：标记的图形 [SerieSymbol](#SerieSymbol)。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
@@ -582,7 +656,7 @@
 * `type`：`Scatter`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
 * `ignore`：是否开启忽略数据。当为 `true` 时，数据值为 `ignoreValue` 时不进行绘制。
-* `ignoreValue`：忽略数据的默认值。默认值默认为0，当 `ignore` 为 `true` 才有效。
+* `ignoreValue`：忽略数据的默认值。默认值默认为`0`，当 `ignore` 为 `true` 才有效。
 * `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
@@ -600,10 +674,10 @@
   * `ProgressBar`：进度条类型。
 * `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
 * `radius`：仪表盘半径。
-* `min`：最小的数据值。映射到startAngle。
-* `max`：最大的数据值。映射到endAngle。
-* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
-* `endAngle`：仪表盘结束角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `min`：最小的数据值。映射到`startAngle`。
+* `max`：最大的数据值。映射到`endAngle`。
+* `startAngle`：仪表盘起始角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
+* `endAngle`：仪表盘结束角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
 * `splitNumber`：仪表盘刻度分割段数。
 * `roundCap`：是否启用圆弧效果。
 * `titleStyle`：仪表盘标题 [TitleStyle](#TitleStyle)。
@@ -622,9 +696,9 @@
 * `show`：系列是否显示在图表上。
 * `type`：`Ring`。
 * `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
-* `center`：中心点坐标。当值为0-1的浮点数时表示百分比。
+* `center`：中心点坐标。当值为`0-1`的浮点数时表示百分比。
 * `radius`：仪表盘半径。
-* `startAngle`：仪表盘起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+* `startAngle`：仪表盘起始角度。和时钟一样，`12`点钟位置是`0`度，顺时针到`360`度。
 * `ringGap`：环形图的环间隙。
 * `roundCap`：是否启用圆弧效果。
 * `clockwise`：是否顺时针，默认为`true`。
@@ -634,6 +708,25 @@
 * `emphasis`：高亮样式 [Emphasis](#Emphasis)。
 * `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
 * `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。环形图的数据只有二维，`data[0]`表示当前值，`data[1]`表示最大值。
+
+## `Serie-Liquid`
+
+水位图系列。
+
+* `show`：系列是否显示在图表上。
+* `type`：`Liquid`。
+* `name`：系列名称。用于 `tooltip` 的显示，`legend` 的图例筛选。
+* `vesselIndex`：水位图所使用的`vessel`组件的`index`。
+* `min`：最小值。
+* `max`：最大值。
+* `waveLength`：水波长。
+* `waveHeight`：水波高。
+* `waveSpeed`：水波移动速度。正数时左移，负数时右移。
+* `waveOffset`：水波偏移。
+* `itemStyle`：环形图的圆环样式，包括设置背景颜色和边框等 [ItemStyle](#ItemStyle)。
+* `label`：图形上的文本标签 [SerieLabel](#SerieLabel)，可用于说明图形的一些数据信息，比如值，名称等。
+* `animation`：起始动画 [SerieAnimation](#SerieAnimation)。
+* `data`：系列中的数据项 [SerieData](#SerieData) 数组，可以设置`1`到`n`维数据。水位图的数据一般只有一个，表示当前水位值，用`max`设置最大水位值。
 
 ## `Settings`
 
@@ -648,9 +741,10 @@
 
 * `enable`：是否开启动画系统。
 * ~~`threshold`：是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。~~
-* `fadeInDelay`：设定的渐入动画延时，单位毫秒。
-* `fadeInDuration`：设定的渐入动画时长，单位毫秒。
-* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。
+* `fadeInDelay`：设定的渐入动画延时，单位毫秒。如果要设置单个数据项的延时，可以用代码定制：`customFadeInDelay`。
+* `fadeInDuration`：设定的渐入动画时长，单位毫秒。如果要设置单个数据项的渐入时长，可以用代码定制：`customFadeInDuration`。
+* `fadeOutDelay`：设定的渐出动画延时，单位毫秒。如果要设置单个数据项的延时，可以用代码定制：`customFadeOutDelay`。
+* `fadeOutDuration`：设定的渐出动画时长，单位毫秒。如果要设置单个数据项的渐出时长，可以用代码定制：`customFadeOutDuration`。
 * `dataChangeEnable`：是否开启数据变更动画。
 * `dataChangeDuration`：数据变更动画时长，单位毫秒。
 
@@ -665,27 +759,29 @@
 * `toColor`：区域填充的渐变色的终点颜色。
 * `highlightColor`：高亮时区域填充的颜色，默认取 `serie` 对应的颜色。如果 `highlightToColor` 不是默认值，则表示渐变色的起点颜色。
 * `highlightToColor`：高亮时区域填充的渐变色的终点颜色。
-* `opacity`：图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `opacity`：图形透明度。支持从 `0` 到 `1` 的数字，为 `0` 时不绘制该图形。
 * `tooltipHighlight`：鼠标悬浮时是否高亮之前的区域。
 
 ## `AxisLabel`
 
 * `show`：是否显示刻度标签。
-* `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `interval`：坐标轴刻度标签的显示间隔，在类目轴中有效。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `inside`：刻度标签是否朝内，默认朝外。
 * `rotate`：刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。
 * `margin`：刻度标签与轴线之间的距离。
-* `color`：刻度标签文字的颜色，默认取主题Theme的axisTextColor。
+* `color`：刻度标签文字的颜色，默认取主题`Theme`的`axisTextColor`。
 * `fontSize`：文字的字体大小。
 * `fontStyle`：文字字体的风格。
-* `formatter`：图例内容字符串模版格式器。支持用 \n 换行。模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+* `formatter`：图例内容字符串模版格式器。支持用 `\n` 换行。模板变量为图例名称 `{value}`，数值格式化通过`numericFormatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
+* `showAsPositiveNumber`：将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
+* `onZero`：刻度标签显示在`0`刻度上。
 * `textLimit`：文本自适应 [TextLimit](#TextLimit)。只在类目轴中有效。
 
 ## `AxisLine`
 
 * `show`：是否显示坐标轴轴线。
-* `onZero`：X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
+* `onZero`： `X` 轴或者 `Y` 轴的轴线是否在另一个轴的 `0` 刻度上，只有在另一个轴为数值轴且包含 `0` 刻度时有效。
 * `width`：坐标轴线线宽。
 * `symbol`：是否显示箭头。
 * `symbolWidth`：箭头宽。
@@ -710,7 +806,7 @@
 ## `AxisSplitLine`
 
 * `show`：是否显示坐标分割线。
-* `interval`：分割线的显示间隔。0表示显示所有分割线，1表示隔一个隔显示一个分割线，以此类推。
+* `interval`：分割线的显示间隔。`0` 表示显示所有分割线，`1` 表示隔一个隔显示一个分割线，以此类推。
 * `lineStyle`：线条样式 [LineStyle](#LineStyle)。
 
 ## `AxisSplitArea`
@@ -721,7 +817,7 @@
 ## `AxisTick`
 
 * `show`：是否显示坐标轴刻度。
-* `alignWithLabel`：类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
+* `alignWithLabel`：类目轴中在 `boundaryGap` 为 `true` 的时候有效，可以保证刻度线和标签对齐。
 * `inside`：坐标轴刻度是否朝内，默认朝外。
 * `length`：坐标轴刻度的长度。
 * `width`：坐标轴刻度的宽度。默认为0时宽度和坐标轴一致。
@@ -736,6 +832,8 @@
 
 * `show`：是否启用。
 * `color`：颜色。
+* `toColor`：渐变颜色1。
+* `toColor2`：渐变颜色2。只在折线图中有效。
 * `backgroundColor`：背景颜色。
 * `backgroundWidth`：背景的宽。
 * `centerColor`：中心区域的颜色。如环形图的中心区域。
@@ -745,6 +843,8 @@
 * `borderWidth`：边框宽。
 * `opacity`：透明度。
 * `tooltipFormatter`：提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。此字段优先于`SerieLabel`和`Tooltip`的`numericFormatter`。
+* `cornerRadius`：圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。支持用0-1的浮点数设置百分比。
 
 ## `LineArrow`
 
@@ -769,7 +869,7 @@
   * `DashDotDot`：双点划线。
 * `color`：线条颜色。默认和 `serie` 一致。
 * `width`：线条宽。
-* `opacity`：线条的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+* `opacity`：线条的透明度。支持从 `0` 到 `1` 的数字，为 `0` 时不绘制该图形。
 
 ## `Location`
 
@@ -793,12 +893,16 @@
 * `name`：数据项名称。
 * `selected`：该数据项是否被选中。
 * `radius`：自定义半径。可用在饼图中自定义某个数据项的半径。
-* `showIcon`：是否显示图标。
-* `iconImage`：图标的图片。
-* `iconColor`：图标颜色。
-* `iconWidth`：图标宽。
-* `iconHeight`：图标高。
-* `iconOffset`：图标偏移。
+* `iconStyle`：数据项图标样式。
+* `enableLabel`：是否启用单个数据项的标签设置。
+* `label`：单个数据项的标签设置。
+* `enableItemStyle`：是否启用单个数据项的样式。
+* `itemStyle`：单个数据项的样式设置。
+* `enableEmphasis`：是否启用单个数据项的高亮样式。
+* `emphasis`：单个数据项的高亮样式设置。
+* `enableSymbol`：是否启用单个数据项的标记设置。
+* `symbol`：单个数据项的标记设置。
+* `data`：可指定任意维数的数值列表。对于折线图和柱状图，`data`其实是`size`为`2`的数组，`data[0]`是x的编号，`data[1]`是`y`的数值，默认显示`data[1]`。其他图表看需求而定是长度大于`2`的数组。可通过`Serie`的`showDataDimension`指定数据长度。
 
 ## `SerieLabel`
 
@@ -809,8 +913,10 @@
   * `Center`：在中心位置（折线图，柱状图，饼图）。
   * `Top`：顶部（柱状图）。
   * `Bottom`：底部（柱状图）。
-* `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c:f1}`。
+* `formatter`：标签内容字符串模版格式器。支持用 `\n` 换行。模板变量有：`{a}`：系列名；`{b}`：数据名；`{c}`：数据值；`{d}`：百分比。示例：`{b}:{c}`。
+* `numericFormatter`：标准数字格式字符串。用于将数值格式化显示为字符串。使用`Axx`的形式：`A`是格式说明符的单字符，支持`C`货币、`D`十进制、`E`指数、`F`顶点数、`G`常规、`N`数字、`P`百分比、`R`往返过程、`X`十六进制等九种。`xx`是精度说明，从`0`-`99`。
 * `offset`：距离图形元素的偏移。
+* `autoOffset`：是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
 * `color`：自定义文字颜色，默认和系列的颜色一致。
 * `backgroundColor`：标签的背景色，默认无颜色。
 * `backgroundWidth`：标签的背景宽度。一般不用指定，不指定时则自动是文字的宽度。
@@ -832,14 +938,14 @@
 * `border`：是否显示边框。
 * `borderWidth`：边框宽度。
 * `borderColor`：边框颜色。
-* `forceENotation`：是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
 
 ## `SerieSymbol`
 
+* `show`：是否显示标记。
 * `type`：标记类型。支持以下六种类型：
   * `EmptyCircle`：空心圆。
   * `Circle`：实心圆。
-  * `Rect`：正方形。
+  * `Rect`：正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。
   * `Triangle`：三角形。
   * `Diamond`：菱形。
   * `None`：不显示标记。
@@ -858,7 +964,7 @@
 * `color`：标记图形的颜色，默认和系列一致。
 * `opacity`：图形标记的透明度。
 * `startIndex`：开始显示图形标记的索引。
-* `interval`：显示图形标记的间隔。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+* `interval`：显示图形标记的间隔。`0`表示显示所有标签，`1`表示隔一个隔显示一个标签，以此类推。
 * `forceShowLast`：是否强制显示最后一个图形标记。默认为 `false`。
 
 [返回首页](https://github.com/monitor1394/unity-ugui-XCharts)  

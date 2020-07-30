@@ -34,7 +34,7 @@ namespace XCharts
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo, m_LegendRealShowName);
             }
         }
 
@@ -73,7 +73,7 @@ namespace XCharts
                     continue;
                 }
                 serie.animation.InitProgress(data.Count, serie.startAngle, serie.startAngle + 360);
-                serie.UpdateCenter(chartWidth, chartHeight);
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
                 TitleStyleHelper.CheckTitle(serie, ref m_ReinitTitle, ref m_UpdateTitleText);
                 SerieLabelHelper.CheckLabel(serie, ref m_ReinitLabel, ref m_UpdateLabelText);
                 var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
@@ -89,23 +89,23 @@ namespace XCharts
                     var degree = 360 * value / max;
                     var startDegree = GetStartAngle(serie);
                     var toDegree = GetToAngle(serie, degree);
+                    var itemStyle = SerieHelper.GetItemStyle(serie, serieData, serieData.highlighted);
                     var itemColor = SerieHelper.GetItemColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
+                    var itemToColor = SerieHelper.GetItemToColor(serie, serieData, m_ThemeInfo, j, serieData.highlighted);
                     var outsideRadius = serie.runtimeOutsideRadius - j * (ringWidth + serie.ringGap);
                     var insideRadius = outsideRadius - ringWidth;
                     var centerRadius = (outsideRadius + insideRadius) / 2;
+                    var borderWidth = itemStyle.borderWidth;
+                    var borderColor = itemStyle.borderColor;
+                    var roundCap = serie.roundCap && insideRadius > 0;
 
                     serieData.runtimePieStartAngle = serie.clockwise ? startDegree : toDegree;
                     serieData.runtimePieToAngle = serie.clockwise ? toDegree : startDegree;
                     serieData.runtimePieInsideRadius = insideRadius;
                     serieData.runtimePieOutsideRadius = outsideRadius;
-
-                    DrawBackground(vh, serie, serieData, j, insideRadius, outsideRadius);
-                    DrawRoundCap(vh, serie, serie.runtimeCenterPos, itemColor, insideRadius, outsideRadius,
-                        ref startDegree, ref toDegree);
-                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius,
-                        outsideRadius, itemColor, Color.clear, m_Settings.cicleSmoothness,
-                        startDegree, toDegree);
-                    DrawBorder(vh, serie, serieData, insideRadius, outsideRadius);
+                    ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, insideRadius, outsideRadius, itemColor, itemToColor,
+                        Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, m_Settings.cicleSmoothness,
+                        roundCap, serie.clockwise);
                     DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);
                     UpateLabelPosition(serie, serieData, j, startDegree, toDegree, centerRadius);
                 }
@@ -132,7 +132,7 @@ namespace XCharts
             var toAngle = angle + serie.startAngle;
             if (!serie.clockwise)
             {
-                toAngle = 360 - toAngle - serie.startAngle;
+                toAngle = 360 - angle - serie.startAngle;
             }
             if (!serie.animation.IsFinish())
             {
@@ -152,7 +152,7 @@ namespace XCharts
         private void DrawCenter(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, bool last)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (itemStyle.centerColor != Color.clear && last)
+            if (!ChartHelper.IsClearColor(itemStyle.centerColor) && last)
             {
                 var radius = insideRadius - itemStyle.centerGap;
                 var smoothness = m_Settings.cicleSmoothness;
@@ -164,6 +164,7 @@ namespace XCharts
             float toAngle, float centerRadius)
         {
             if (!serie.label.show) return;
+            if (serieData.labelObject == null) return;
             switch (serie.label.position)
             {
                 case SerieLabel.Position.Center:
@@ -183,6 +184,7 @@ namespace XCharts
                     serieData.labelPosition = serie.runtimeCenterPos + new Vector3(px2, py2);
                     break;
             }
+            serieData.labelObject.SetLabelPosition(serieData.labelPosition);
         }
 
         private void DrawBackground(VertexHelper vh, Serie serie, SerieData serieData, int index, float insideRadius, float outsideRadius)
@@ -207,7 +209,7 @@ namespace XCharts
         private void DrawBorder(VertexHelper vh, Serie serie, SerieData serieData, float insideRadius, float outsideRadius)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
-            if (itemStyle.show && itemStyle.borderWidth > 0 && itemStyle.borderColor != Color.clear)
+            if (itemStyle.show && itemStyle.borderWidth > 0 && !ChartHelper.IsClearColor(itemStyle.borderColor))
             {
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, outsideRadius,
                 outsideRadius + itemStyle.borderWidth, itemStyle.borderColor,
@@ -237,7 +239,7 @@ namespace XCharts
 
         protected override void OnLegendButtonClick(int index, string legendName, bool show)
         {
-            CheckDataShow(legendName, show);
+            LegendHelper.CheckDataShow(m_Series, legendName, show);
             UpdateLegendColor(legendName, show);
             RefreshChart();
         }
@@ -245,14 +247,14 @@ namespace XCharts
         protected override void OnLegendButtonEnter(int index, string legendName)
         {
             m_IsEnterLegendButtom = true;
-            CheckDataHighlighted(legendName, true);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, true);
             RefreshChart();
         }
 
         protected override void OnLegendButtonExit(int index, string legendName)
         {
             m_IsEnterLegendButtom = false;
-            CheckDataHighlighted(legendName, false);
+            LegendHelper.CheckDataHighlighted(m_Series, legendName, false);
             RefreshChart();
         }
 
@@ -278,7 +280,7 @@ namespace XCharts
             }
             if (selected)
             {
-                m_Tooltip.UpdateContentPos(new Vector2(local.x + 18, local.y - 25));
+                m_Tooltip.UpdateContentPos(local + m_Tooltip.offset);
                 UpdateTooltip();
             }
             else if (m_Tooltip.IsActive())
@@ -330,18 +332,7 @@ namespace XCharts
                 if (index < 0) continue;
                 showTooltip = true;
                 var content = TooltipHelper.GetFormatterContent(m_Tooltip, index, m_Series, m_ThemeInfo);
-                m_Tooltip.UpdateContentText(content);
-
-                var pos = m_Tooltip.GetContentPos();
-                if (pos.x + m_Tooltip.runtimeWidth > chartWidth)
-                {
-                    pos.x = chartWidth - m_Tooltip.runtimeWidth;
-                }
-                if (pos.y - m_Tooltip.runtimeHeight < 0)
-                {
-                    pos.y = m_Tooltip.runtimeHeight;
-                }
-                m_Tooltip.UpdateContentPos(pos);
+                TooltipHelper.SetContentAndPosition(tooltip, content, chartRect);
             }
             m_Tooltip.SetActive(showTooltip);
         }

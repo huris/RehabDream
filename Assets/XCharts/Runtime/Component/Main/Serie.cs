@@ -56,6 +56,10 @@ namespace XCharts
         /// 环形图。只支持一个数据的环形图。
         /// </summary>
         Ring,
+        /// <summary>
+        /// 水位图。
+        /// </summary>
+        Liquid,
     }
 
     /// <summary>
@@ -185,22 +189,28 @@ namespace XCharts
     public enum SampleType
     {
         /// <summary>
+        /// Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', 
+        /// take the maximum value; If you do it the other way around, you get the minimum.
         /// 取峰值。
         /// </summary>
         Peak,
         /// <summary>
+        /// Take the average of the filter points.
         /// 取过滤点的平均值。
         /// </summary>
         Average,
         /// <summary>
+        /// Take the maximum value of the filter point.
         /// 取过滤点的最大值。
         /// </summary>
         Max,
         /// <summary>
+        /// Take the minimum value of the filter point.
         /// 取过滤点的最小值。
         /// </summary>
         Min,
         /// <summary>
+        /// Take the sum of the filter points.
         /// 取过滤点的和。
         /// </summary>
         Sum
@@ -218,6 +228,7 @@ namespace XCharts
         [SerializeField] private string m_Stack;
         [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
+        [SerializeField] private int m_VesselIndex = 0;
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
@@ -267,9 +278,17 @@ namespace XCharts
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
         [SerializeField] private bool m_ShowDataIcon;
-        [SerializeField] private bool m_Clip = true;
+        [SerializeField] private bool m_Clip = false;
         [SerializeField] private bool m_Ignore = false;
         [SerializeField] private float m_IgnoreValue = 0;
+        [SerializeField] private bool m_ShowAsPositiveNumber = false;
+        [SerializeField] private bool m_Large = true;
+        [SerializeField] private int m_LargeThreshold = 200;
+        [SerializeField] private bool m_AvoidLabelOverlap = false;
+        [SerializeField] private float m_WaveHeight = 10f;
+        [SerializeField] private float m_WaveLength = 20f;
+        [SerializeField] private float m_WaveSpeed = 5f;
+        [SerializeField] private float m_WaveOffset = 0f;
         [SerializeField] private RadarType m_RadarType = RadarType.Multiple;
 
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
@@ -312,6 +331,7 @@ namespace XCharts
             set { if (PropertyUtility.SetClass(ref m_Name, value)) { SetVerticesDirty(); SetNameDirty(); } }
         }
         /// <summary>
+        /// Legend name. When the serie name is not empty, the legend name is the series name; Otherwise, it is index.
         /// 图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
@@ -341,6 +361,15 @@ namespace XCharts
         {
             get { return m_RadarIndex; }
             set { if (PropertyUtility.SetStruct(ref m_RadarIndex, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Index of vesel component that liquid chart uses.
+        /// 水位图所使用的 vessel 组件的 index。
+        /// </summary>
+        public int vesselIndex
+        {
+            get { return m_VesselIndex; }
+            set { if (PropertyUtility.SetStruct(ref m_VesselIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The min number of data to show in chart.
@@ -743,6 +772,88 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Clip, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Show negative number as positive number.
+        /// 将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+        /// </summary>
+        public bool showAsPositiveNumber
+        {
+            get { return m_ShowAsPositiveNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// 是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。
+        /// 开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。
+        /// 缺点：优化后不能自定义设置单个数据项的样式，不能显示Label。
+        /// </summary>
+        public bool large
+        {
+            get { return m_Large; }
+            set
+            {
+                if (PropertyUtility.SetStruct(ref m_Large, value))
+                {
+                    SetAllDirty();
+                    label.SetComponentDirty();
+                }
+            }
+        }
+        /// <summary>
+        /// 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
+        /// </summary>
+        public int largeThreshold
+        {
+            get { return m_LargeThreshold; }
+            set
+            {
+                if (PropertyUtility.SetStruct(ref m_LargeThreshold, value))
+                {
+                    SetAllDirty();
+                    label.SetComponentDirty();
+                }
+            }
+        }
+        /// <summary>
+        /// 在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
+        /// </summary>
+        public bool avoidLabelOverlap
+        {
+            get { return m_AvoidLabelOverlap; }
+            set { if (PropertyUtility.SetStruct(ref m_AvoidLabelOverlap, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Wave length of the wave, which is relative to the diameter.
+        /// 波长。为0-1小数时指直线的百分比。
+        /// </summary>
+        public float waveLength
+        {
+            get { return m_WaveLength; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveLength, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波高。
+        /// </summary>
+        public float waveHeight
+        {
+            get { return m_WaveHeight; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveHeight, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波偏移。
+        /// </summary>
+        public float waveOffset
+        {
+            get { return m_WaveOffset; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveOffset, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// 波速。正数时左移，负数时右移。
+        /// </summary>
+        public float waveSpeed
+        {
+            get { return m_WaveSpeed; }
+            set { if (PropertyUtility.SetStruct(ref m_WaveSpeed, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
@@ -827,14 +938,19 @@ namespace XCharts
         /// </summary>
         public float runtimeOutsideRadius { get; internal set; }
         /// <summary>
-        /// 饼图的数据项最大值
+        /// 运行时的最大数据值
         /// </summary>
-        public float runtimePieDataMax { get; internal set; }
+        public float runtimeDataMax { get; internal set; }
+        /// <summary>
+        /// 运行时的最小数据值
+        /// </summary>
+        public float runtimeDataMin { get; internal set; }
         /// <summary>
         /// 饼图的数据项之和
         /// </summary>
         public float runtimePieDataTotal { get; internal set; }
-        internal int runtimeLastCheckDataCount { get; set; }
+        public float runtimeWaveSpeed { get; internal set; }
+        internal float runtimeCheckValue { get; set; }
         public bool nameDirty { get { return m_NameDirty; } }
 
         private void SetNameDirty()
@@ -859,7 +975,7 @@ namespace XCharts
             }
             else
             {
-                var list = new List<Vector3>(size);
+                var list = ListPool<Vector3>.Get();
                 m_UpSmoothPoints[dataIndex] = list;
                 return list;
             }
@@ -873,7 +989,7 @@ namespace XCharts
             }
             else
             {
-                var list = new List<Vector3>(size);
+                var list = ListPool<Vector3>.Get();
                 m_DownSmoothPoints[dataIndex] = list;
                 return list;
             }
@@ -1006,6 +1122,10 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
+            while (m_Data.Count > 0)
+            {
+                RemoveData(0);
+            }
             m_Data.Clear();
             SetVerticesDirty();
         }
@@ -1023,6 +1143,22 @@ namespace XCharts
                     SetNameDirty();
                 }
                 SetVerticesDirty();
+                var serieData = m_Data[index];
+                SerieDataPool.Release(serieData);
+                if (serieData.labelObject != null)
+                {
+                    SerieLabelPool.Release(serieData.labelObject.gameObject);
+                }
+                if (m_UpSmoothPoints.ContainsKey(serieData.index))
+                {
+                    ListPool<Vector3>.Release(m_UpSmoothPoints[serieData.index]);
+                    m_UpSmoothPoints.Remove(serieData.index);
+                }
+                if (m_DownSmoothPoints.ContainsKey(serieData.index))
+                {
+                    ListPool<Vector3>.Release(m_DownSmoothPoints[serieData.index]);
+                    m_DownSmoothPoints.Remove(serieData.index);
+                }
                 m_Data.RemoveAt(index);
             }
         }
@@ -1034,20 +1170,12 @@ namespace XCharts
         /// <param name="dataName"></param>
         public SerieData AddYData(float value, string dataName = null)
         {
-            if (m_MaxCache > 0)
-            {
-                while (m_Data.Count > m_MaxCache)
-                {
-                    m_NeedUpdateFilterData = true;
-                    m_Data.RemoveAt(0);
-                }
-            }
+            CheckMaxCache();
             int xValue = m_Data.Count;
-            var serieData = new SerieData()
-            {
-                data = new List<float>() { xValue, value },
-                name = dataName
-            };
+            var serieData = SerieDataPool.Get();
+            serieData.data.Add(xValue);
+            serieData.data.Add(value);
+            serieData.name = dataName;
             serieData.index = xValue;
             m_Data.Add(serieData);
             m_ShowDataDimension = 1;
@@ -1077,19 +1205,11 @@ namespace XCharts
         /// <param name="maxDataNumber"></param>
         public SerieData AddXYData(float xValue, float yValue, string dataName = null)
         {
-            if (m_MaxCache > 0)
-            {
-                while (m_Data.Count > m_MaxCache)
-                {
-                    m_NeedUpdateFilterData = true;
-                    m_Data.RemoveAt(0);
-                }
-            }
-            var serieData = new SerieData()
-            {
-                data = new List<float>() { xValue, yValue },
-                name = dataName
-            };
+            CheckMaxCache();
+            var serieData = SerieDataPool.Get();
+            serieData.data.Add(xValue);
+            serieData.data.Add(yValue);
+            serieData.name = dataName;
             serieData.index = m_Data.Count;
             m_Data.Add(serieData);
             m_ShowDataDimension = 2;
@@ -1118,16 +1238,9 @@ namespace XCharts
             }
             else
             {
-                if (m_MaxCache > 0)
-                {
-                    while (m_Data.Count > m_MaxCache)
-                    {
-                        m_NeedUpdateFilterData = true;
-                        m_Data.RemoveAt(0);
-                    }
-                }
+                CheckMaxCache();
                 m_ShowDataDimension = valueList.Count;
-                var serieData = new SerieData();
+                var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
                 serieData.index = m_Data.Count;
                 for (int i = 0; i < valueList.Count; i++)
@@ -1138,6 +1251,42 @@ namespace XCharts
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 return serieData;
+            }
+        }
+
+        private void CheckMaxCache()
+        {
+            if (m_MaxCache <= 0) return;
+            while (m_Data.Count > m_MaxCache)
+            {
+                m_NeedUpdateFilterData = true;
+                RemoveData(0);
+            }
+        }
+
+        /// <summary>
+        /// 获得指定index指定维数的数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="dimension"></param>
+        /// <param name="dataZoom"></param>
+        /// <returns></returns>
+        public float GetData(int index, int dimension, DataZoom dataZoom = null)
+        {
+            if (index < 0 || dimension < 0) return 0;
+            var serieData = GetSerieData(index, dataZoom);
+            if (serieData != null && dimension < serieData.data.Count)
+            {
+                var value = serieData.GetData(dimension);
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
+            }
+            else
+            {
+                return 0;
             }
         }
 
@@ -1153,7 +1302,12 @@ namespace XCharts
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                return serieData[index].data[1];
+                var value = serieData[index].data[1];
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
             }
             return 0;
         }
@@ -1164,7 +1318,12 @@ namespace XCharts
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                return serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration());
+                if (showAsPositiveNumber)
+                {
+                    value = Mathf.Abs(value);
+                }
+                return value;
             }
             return 0;
         }
@@ -1185,6 +1344,10 @@ namespace XCharts
             if (index < serieData.Count)
             {
                 yData = serieData[index].data[1];
+                if (showAsPositiveNumber)
+                {
+                    yData = Mathf.Abs(yData);
+                }
                 dataName = serieData[index].name;
             }
         }
@@ -1201,24 +1364,6 @@ namespace XCharts
             if (index >= 0 && index <= data.Count - 1)
             {
                 return data[index];
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// 获得指定索引的数据项的Label
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public SerieLabel GetSerieLabel(int index, DataZoom dataZoom = null)
-        {
-            var data = GetDataList(dataZoom);
-            if (index >= 0 && index <= data.Count - 1)
-            {
-                var serieData = data[index];
-                if (serieData.enableLabel) return serieData.label;
-                else return label;
             }
             return null;
         }
@@ -1241,7 +1386,23 @@ namespace XCharts
                 var serieData = showData[index];
                 xValue = serieData.data[0];
                 yVlaue = serieData.data[1];
+                if (showAsPositiveNumber)
+                {
+                    xValue = Mathf.Abs(xValue);
+                    yVlaue = Mathf.Abs(yVlaue);
+                }
             }
+        }
+
+        public float GetDataTotal(int dimension)
+        {
+            float total = 0;
+            foreach (var sdata in data)
+            {
+                if (sdata.show)
+                    total += sdata.GetData(dimension);
+            }
+            return total;
         }
 
         /// <summary>
@@ -1260,31 +1421,6 @@ namespace XCharts
             {
                 return m_Data;
             }
-        }
-
-        /// <summary>
-        /// 获得指定维数的最大最小值
-        /// </summary>
-        /// <param name="dimension"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        public void GetMinMaxData(int dimension, out float minValue, out float maxValue, DataZoom dataZoom = null)
-        {
-            var dataList = GetDataList(dataZoom);
-            float max = float.MinValue;
-            float min = float.MaxValue;
-            for (int i = 0; i < dataList.Count; i++)
-            {
-                var serieData = dataList[i];
-                if (serieData.data.Count > dimension)
-                {
-                    var value = serieData.data[dimension];
-                    if (value > max) max = value;
-                    if (value < min) min = value;
-                }
-            }
-            maxValue = max;
-            minValue = min;
         }
 
         private List<SerieData> emptyFilter = new List<SerieData>();
@@ -1402,9 +1538,9 @@ namespace XCharts
                 var serieData = m_Data[index];
                 serieData.name = name;
                 SetNameDirty();
-                if (serieData.labelText != null)
+                if (serieData.labelObject != null)
                 {
-                    serieData.labelText.text = name == null ? "" : name;
+                    serieData.labelObject.SetText(name == null ? "" : name);
                 }
                 return true;
             }
@@ -1417,40 +1553,28 @@ namespace XCharts
         public void ClearHighlight()
         {
             highlighted = false;
-            foreach (var sd in m_Data)
+            foreach (var serieData in m_Data)
             {
-                sd.highlighted = false;
+                serieData.highlighted = false;
             }
         }
 
         /// <summary>
         /// 设置指定索引的数据为高亮状态
         /// </summary>
-        /// <param name="index"></param>
-        public void SetHighlight(int index)
+        public void SetHighlight(int index, bool flag)
         {
-            if (index <= 0) return;
-            for (int i = 0; i < m_Data.Count; i++)
+            var serieData = GetSerieData(index);
+            if (serieData != null)
             {
-                m_Data[i].highlighted = index == i;
+                serieData.highlighted = flag;
             }
         }
-
-
-
-
 
         internal float GetBarWidth(float categoryWidth)
         {
             if (m_BarWidth > 1) return m_BarWidth;
             else return m_BarWidth * categoryWidth;
-        }
-
-        internal float GetBarGap(float categoryWidth)
-        {
-            if (m_BarGap == -1) return 0;
-            else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
-            else return m_BarGap;
         }
 
         /// <summary>
@@ -1507,15 +1631,6 @@ namespace XCharts
             }
         }
 
-        internal bool IsNeedShowDataIcon()
-        {
-            foreach (var data in m_Data)
-            {
-                if (data.iconStyle.show) return true;
-            }
-            return false;
-        }
-
         public bool IsIgnoreIndex(int index, int dimension)
         {
             if (m_Ignore)
@@ -1544,19 +1659,14 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 更新运行时中心点和半径
+        /// 是否为性能模式。只有折线图和柱状图才有性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。
         /// </summary>
-        /// <param name="chartWidth"></param>
-        /// <param name="chartHeight"></param>
-        internal void UpdateCenter(float chartWidth, float chartHeight)
+        public bool IsPerformanceMode()
         {
-            if (center.Length < 2) return;
-            var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
-            var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
-            runtimeCenterPos = new Vector2(centerX, centerY);
-            var minWidth = Mathf.Min(chartWidth, chartHeight);
-            runtimeInsideRadius = radius[0] <= 1 ? minWidth * radius[0] : radius[0];
-            runtimeOutsideRadius = radius[1] <= 1 ? minWidth * radius[1] : radius[1];
+            if (m_Type == SerieType.Line || m_Type == SerieType.Bar)
+                return m_Large && m_Data.Count > m_LargeThreshold;
+            else
+                return false;
         }
 
         /// <summary>

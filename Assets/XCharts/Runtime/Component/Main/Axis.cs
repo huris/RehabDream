@@ -76,6 +76,9 @@ namespace XCharts
         [SerializeField] protected int m_MaxCache = 0;
         [SerializeField] protected float m_LogBase = 10;
         [SerializeField] protected bool m_LogBaseE = false;
+        [SerializeField] protected int m_CeilRate = 0;
+        [SerializeField] protected bool m_Inverse = false;
+        [SerializeField] private bool m_Clockwise = true;
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
         [SerializeField] protected AxisName m_AxisName = AxisName.defaultAxisName;
@@ -84,11 +87,11 @@ namespace XCharts
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
 
-        [NonSerialized] private float m_ValueRange;
+        [NonSerialized] private float m_MinMaxValueRange;
         [NonSerialized] private bool m_NeedUpdateFilterData;
 
         /// <summary>
-        /// Set this to false to prevent the axis from showing.
+        /// Whether to show axis.
         /// 是否显示坐标轴。
         /// </summary>
         public bool show
@@ -115,7 +118,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_MinMaxType, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The minimun value of axis.
+        /// The minimun value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
         public float min
@@ -124,7 +127,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_Min, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The maximum value of axis.
+        /// The maximum value of axis.Valid when `minMaxType` is `Custom`
         /// 设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
         public float max
@@ -142,8 +145,8 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_SplitNumber, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
+        /// 强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// </summary>
         public float interval
         {
@@ -169,6 +172,7 @@ namespace XCharts
             set { if (PropertyUtility.SetStruct(ref m_LogBase, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// On the log axis, if base e is the natural number, and is true, logBase fails.
         /// 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
         /// </summary>
         public bool logBaseE
@@ -185,6 +189,33 @@ namespace XCharts
         {
             get { return m_MaxCache; }
             set { if (PropertyUtility.SetStruct(ref m_MaxCache, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
+        /// 最大最小值向上取整的倍率。默认为0时自动计算。
+        /// </summary>
+        public int ceilRate
+        {
+            get { return m_CeilRate; }
+            set { if (PropertyUtility.SetStruct(ref m_CeilRate, value < 0 ? 0 : value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the axis are reversed or not. Invalid in `Category` axis.
+        /// 是否反向坐标轴。在类目轴中无效。
+        /// </summary>
+        public bool inverse
+        {
+            get { return m_Inverse; }
+            set { if (m_Type == AxisType.Value && PropertyUtility.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the positive position of axis is in clockwise. True for clockwise by default.
+        /// 刻度增长是否按顺时针，默认顺时针。
+        /// </summary>
+        public bool clockwise
+        {
+            get { return m_Clockwise; }
+            set { if (PropertyUtility.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -272,6 +303,7 @@ namespace XCharts
             splitLine.ClearVerticesDirty();
             splitArea.ClearVerticesDirty();
         }
+        public int index { get; internal set; }
         /// <summary>
         /// the axis label text list. 
         /// 坐标轴刻度标签的Text列表。
@@ -319,7 +351,8 @@ namespace XCharts
         public float runtimeZeroYOffset { get; internal set; }
         public int runtimeMinLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMinValue) : (int)Mathf.Log(runtimeMinValue, logBase); } }
         public int runtimeMaxLogIndex { get { return logBaseE ? (int)Mathf.Log(runtimeMaxValue) : (int)Mathf.Log(runtimeMaxValue, logBase); } }
-
+        internal bool runtimeLastCheckInverse { get; set; }
+        internal float runtimeMinMaxRange { get { return m_MinMaxValueRange; } set { m_MinMaxValueRange = value; } }
         private int filterStart;
         private int filterEnd;
         private int filterMinShow;
@@ -338,6 +371,55 @@ namespace XCharts
         private float m_RuntimeMaxValueUpdateTime;
         private bool m_RuntimeMinValueFirstChanged = true;
         private bool m_RuntimeMaxValueFirstChanged = true;
+
+        public Axis Clone()
+        {
+            var axis = new Axis();
+            axis.show = show;
+            axis.type = type;
+            axis.minMaxType = minMaxType;
+            axis.min = min;
+            axis.max = max;
+            axis.splitNumber = splitNumber;
+            axis.interval = interval;
+            axis.boundaryGap = boundaryGap;
+            axis.maxCache = maxCache;
+            axis.logBase = logBase;
+            axis.logBaseE = logBaseE;
+            axis.ceilRate = ceilRate;
+            axis.axisLine = axisLine.Clone();
+            axis.axisName = axisName.Clone();
+            axis.axisTick = axisTick.Clone();
+            axis.axisLabel = axisLabel.Clone();
+            axis.splitLine = splitLine.Clone();
+            axis.splitArea = splitArea.Clone();
+            axis.data = new List<string>();
+            ChartHelper.CopyList(axis.data, data);
+            return axis;
+        }
+
+        public void Copy(Axis axis)
+        {
+            show = axis.show;
+            type = axis.type;
+            minMaxType = axis.minMaxType;
+            min = axis.min;
+            max = axis.max;
+            splitNumber = axis.splitNumber;
+            interval = axis.interval;
+            boundaryGap = axis.boundaryGap;
+            maxCache = axis.maxCache;
+            logBase = axis.logBase;
+            logBaseE = axis.logBaseE;
+            ceilRate = axis.ceilRate;
+            axisLine.Copy(axis.axisLine);
+            axisName.Copy(axis.axisName);
+            axisTick.Copy(axis.axisTick);
+            axisLabel.Copy(axis.axisLabel);
+            splitLine.Copy(axis.splitLine);
+            splitArea.Copy(axis.splitArea);
+            ChartHelper.CopyList(data, axis.data);
+        }
 
         /// <summary>
         /// 清空类目数据
@@ -394,12 +476,25 @@ namespace XCharts
         }
 
         /// <summary>
+        /// 获得指定索引的类目数据
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public string GetData(int index)
+        {
+            if (index >= 0 && index < m_Data.Count)
+                return m_Data[index];
+            else
+                return null;
+        }
+
+        /// <summary>
         /// 获得在dataZoom范围内指定索引的类目数据
         /// </summary>
         /// <param name="index">类目数据索引</param>
         /// <param name="dataZoom">区域缩放</param>
         /// <returns></returns>
-        internal string GetData(int index, DataZoom dataZoom)
+        public string GetData(int index, DataZoom dataZoom)
         {
             var showData = GetDataList(dataZoom);
             if (index >= 0 && index < showData.Count)
@@ -472,55 +567,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 获得分割段数
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal int GetSplitNumber(float coordinateWid, DataZoom dataZoom)
-        {
-            if (type == AxisType.Value)
-            {
-                if (m_Interval > 0)
-                {
-                    if (coordinateWid <= 0) return 0;
-                    int num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
-                    int maxNum = Mathf.CeilToInt(coordinateWid / 15);
-                    if (num > maxNum)
-                    {
-                        m_Interval = m_ValueRange / (maxNum - 1);
-                        num = Mathf.CeilToInt(m_ValueRange / m_Interval) + 1;
-                    }
-                    return num;
-                }
-                else return m_SplitNumber;
-            }
-            else if (type == AxisType.Log)
-            {
-                return m_SplitNumber;
-            }
-            int dataCount = GetDataList(dataZoom).Count;
-            if (m_SplitNumber <= 0) return dataCount;
-            if (dataCount > 2 * m_SplitNumber || dataCount <= 0)
-                return m_SplitNumber;
-            else
-                return dataCount;
-        }
-
-        /// <summary>
-        /// 获得分割段的宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetSplitWidth(float coordinateWidth, DataZoom dataZoom)
-        {
-            int split = GetSplitNumber(coordinateWidth, dataZoom);
-            int segment = (m_BoundaryGap ? split : split - 1);
-            segment = segment <= 0 ? 1 : segment;
-            return coordinateWidth / segment;
-        }
-
-        /// <summary>
         /// 获得类目数据个数
         /// </summary>
         /// <param name="dataZoom"></param>
@@ -528,122 +574,6 @@ namespace XCharts
         internal int GetDataNumber(DataZoom dataZoom)
         {
             return GetDataList(dataZoom).Count;
-        }
-
-        /// <summary>
-        /// 获得一个类目数据在坐标系中代表的宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetDataWidth(float coordinateWidth, int dataCount, DataZoom dataZoom)
-        {
-            if (dataCount < 1) dataCount = 1;
-            var categoryCount = GetDataNumber(dataZoom);
-            int segment = (m_BoundaryGap ? categoryCount : categoryCount - 1);
-            segment = segment <= 0 ? dataCount : segment;
-            return coordinateWidth / segment;
-        }
-
-        /// <summary>
-        /// 获得标签显示的名称
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="minValue"></param>
-        /// <param name="maxValue"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal string GetLabelName(float coordinateWidth, int index, float minValue, float maxValue,
-            DataZoom dataZoom, bool forcePercent)
-        {
-            int split = GetSplitNumber(coordinateWidth, dataZoom);
-
-            if (m_Type == AxisType.Value)
-            {
-                if (minValue == 0 && maxValue == 0) return string.Empty;
-                float value = 0;
-                if (forcePercent) maxValue = 100;
-                if (m_Interval > 0)
-                {
-                    if (index == split - 1) value = maxValue;
-                    else value = minValue + index * m_Interval;
-                }
-                else
-                {
-                    value = (minValue + (maxValue - minValue) * index / (split - 1));
-                }
-                if (forcePercent) return string.Format("{0}%", (int)value);
-                else return m_AxisLabel.GetFormatterContent(value, minValue, maxValue);
-            }
-            else if (m_Type == AxisType.Log)
-            {
-                float value = m_LogBaseE ? Mathf.Exp(runtimeMinLogIndex + index) :
-                    Mathf.Pow(m_LogBase, runtimeMinLogIndex + index);
-                return m_AxisLabel.GetFormatterContent(value, minValue, maxValue, true);
-            }
-            var showData = GetDataList(dataZoom);
-            int dataCount = showData.Count;
-            if (dataCount <= 0) return "";
-
-            if (index == split - 1 && !m_BoundaryGap)
-            {
-                return m_AxisLabel.GetFormatterContent(showData[dataCount - 1]);
-            }
-            else
-            {
-                float rate = dataCount / split;
-                if (rate < 1) rate = 1;
-                int offset = m_BoundaryGap ? (int)(rate / 2) : 0;
-                int newIndex = (int)(index * rate >= dataCount - 1 ?
-                    dataCount - 1 : offset + index * rate);
-                return m_AxisLabel.GetFormatterContent(showData[newIndex]);
-            }
-        }
-
-        /// <summary>
-        /// 获得分割线条数
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal int GetScaleNumber(float coordinateWidth, DataZoom dataZoom)
-        {
-            if (type == AxisType.Value || type == AxisType.Log)
-            {
-                int splitNum = GetSplitNumber(coordinateWidth, dataZoom);
-                return m_BoundaryGap ? splitNum + 1 : splitNum;
-            }
-            else
-            {
-                var showData = GetDataList(dataZoom);
-                int dataCount = showData.Count;
-                if (m_SplitNumber <= 0) return m_BoundaryGap ? dataCount + 1 : dataCount;
-                if (dataCount > 2 * splitNumber || dataCount <= 0)
-                    return m_BoundaryGap ? m_SplitNumber + 1 : m_SplitNumber;
-                else
-                    return m_BoundaryGap ? dataCount + 1 : dataCount;
-            }
-        }
-
-        /// <summary>
-        /// 获得分割段宽度
-        /// </summary>
-        /// <param name="coordinateWidth"></param>
-        /// <param name="dataZoom"></param>
-        /// <returns></returns>
-        internal float GetScaleWidth(float coordinateWidth, int index, DataZoom dataZoom)
-        {
-            int num = GetScaleNumber(coordinateWidth, dataZoom) - 1;
-            if (num <= 0) num = 1;
-            if (type == AxisType.Value && m_Interval > 0)
-            {
-                if (index == num - 1) return coordinateWidth - (num - 1) * m_Interval * coordinateWidth / m_ValueRange;
-                else return m_Interval * coordinateWidth / m_ValueRange;
-            }
-            else
-            {
-                return coordinateWidth / num;
-            }
-
         }
 
         /// <summary>
@@ -658,7 +588,8 @@ namespace XCharts
             {
                 if (axisLabelTextList[i] != null)
                 {
-                    axisLabelTextList[i].text = GetLabelName(coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, minValue, maxValue, dataZoom, forcePercent);
+                    axisLabelTextList[i].text = text;
                 }
             }
         }
@@ -668,7 +599,7 @@ namespace XCharts
             m_TooltipLabel = label;
             m_TooltipLabelRect = label.GetComponent<RectTransform>();
             m_TooltipLabelText = label.GetComponentInChildren<Text>();
-            m_TooltipLabel.SetActive(true);
+            ChartHelper.SetActive(m_TooltipLabel, true);
         }
 
         internal void SetTooltipLabelColor(Color bgColor, Color textColor)
@@ -681,7 +612,7 @@ namespace XCharts
         {
             if (m_TooltipLabel && m_TooltipLabel.activeInHierarchy != flag)
             {
-                m_TooltipLabel.SetActive(flag);
+                ChartHelper.SetActive(m_TooltipLabel, flag);
             }
         }
 
@@ -701,71 +632,6 @@ namespace XCharts
             {
                 m_TooltipLabel.transform.localPosition = pos;
             }
-        }
-
-        internal bool NeedShowSplit()
-        {
-            if (!show) return false;
-            if (IsCategory() && data.Count <= 0) return false;
-            else if (IsValue() && m_RuntimeMinValue == 0 && m_RuntimeMaxValue == 0) return false;
-            else return true;
-        }
-
-        /// <summary>
-        /// 调整最大最小值
-        /// </summary>
-        /// <param name="minValue"></param>
-        /// <param name="maxValue"></param>
-        internal void AdjustMinMaxValue(ref float minValue, ref float maxValue, bool needFormat)
-        {
-            if (m_Type == AxisType.Log)
-            {
-                int minSplit = 0;
-                int maxSplit = 0;
-                maxValue = ChartHelper.GetMaxLogValue(maxValue, m_LogBase, m_LogBaseE, out maxSplit);
-                minValue = ChartHelper.GetMinLogValue(minValue, m_LogBase, m_LogBaseE, out minSplit);
-                splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
-                return;
-            }
-            if (minMaxType == Axis.AxisMinMaxType.Custom)
-            {
-                if (min != 0 || max != 0)
-                {
-                    minValue = min;
-                    maxValue = max;
-                }
-            }
-            else
-            {
-                switch (minMaxType)
-                {
-                    case Axis.AxisMinMaxType.Default:
-                        if (minValue == 0 && maxValue == 0)
-                        {
-                        }
-                        else if (minValue > 0 && maxValue > 0)
-                        {
-                            minValue = 0;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
-                        }
-                        else if (minValue < 0 && maxValue < 0)
-                        {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
-                            maxValue = 0;
-                        }
-                        else
-                        {
-                            minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
-                            maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
-                        }
-                        break;
-                    case Axis.AxisMinMaxType.MinMax:
-                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue) : minValue;
-                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue) : maxValue;
-                        break;
-                }
-            }
-            m_ValueRange = maxValue - minValue;
         }
 
         internal void UpdateMinValue(float value, bool check)
@@ -948,6 +814,79 @@ namespace XCharts
                 axis.splitLine.show = true;
                 axis.splitLine.lineStyle.type = LineStyle.Type.Dashed;
                 axis.axisLabel.textLimit.enable = false;
+                return axis;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Radial axis of polar coordinate.
+    /// 极坐标系的径向轴。
+    /// </summary>
+    [System.Serializable]
+    public class RadiusAxis : Axis
+    {
+        public static RadiusAxis defaultRadiusAxis
+        {
+            get
+            {
+                var axis = new RadiusAxis
+                {
+                    m_Show = true,
+                    m_Type = AxisType.Value,
+                    m_Min = 0,
+                    m_Max = 0,
+                    m_SplitNumber = 5,
+                    m_BoundaryGap = false,
+                    m_Data = new List<string>(5),
+                };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Solid;
+                axis.axisLabel.textLimit.enable = false;
+                return axis;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Angle axis of Polar Coordinate.
+    /// 极坐标系的角度轴。
+    /// </summary>
+    [System.Serializable]
+    public class AngleAxis : Axis
+    {
+        [SerializeField] private float m_StartAngle = 90;
+
+        /// <summary>
+        /// Starting angle of axis. 90 degrees by default, standing for top position of center. 0 degree stands for right position of center.
+        /// 起始刻度的角度，默认为 90 度，即圆心的正上方。0 度为圆心的正右方。
+        /// </summary>
+        public float startAngle
+        {
+            get { return m_StartAngle; }
+            set { if (PropertyUtility.SetStruct(ref m_StartAngle, value)) SetAllDirty(); }
+        }
+
+        public float runtimeStartAngle { get; set; }
+
+        public static AngleAxis defaultAngleAxis
+        {
+            get
+            {
+                var axis = new AngleAxis
+                {
+                    m_Show = true,
+                    m_Type = AxisType.Value,
+                    m_SplitNumber = 13,
+                    m_BoundaryGap = false,
+                    m_Data = new List<string>(13),
+                };
+                axis.splitLine.show = true;
+                axis.splitLine.lineStyle.type = LineStyle.Type.Solid;
+                axis.axisLabel.textLimit.enable = false;
+                axis.minMaxType = AxisMinMaxType.Custom;
+                axis.min = 0;
+                axis.max = 360;
                 return axis;
             }
         }

@@ -27,7 +27,9 @@ namespace XCharts
         [SerializeField] private Color m_Color;
         [SerializeField] private int m_FontSize;
         [SerializeField] private FontStyle m_FontStyle;
-        [SerializeField] private bool m_ForceENotation = false;
+        [SerializeField] private string m_NumericFormatter = "";
+        [SerializeField] private bool m_ShowAsPositiveNumber = false;
+        [SerializeField] private bool m_OnZero = false;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
@@ -104,21 +106,46 @@ namespace XCharts
         }
         /// <summary>
         /// 图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}，支持{value:f0}，{value:f1}，{value:f2}
+        /// 模板变量为图例名称 {value}。
         /// </summary>
         public string formatter
         {
             get { return m_Formatter; }
             set { if (PropertyUtility.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
+
         /// <summary>
-        /// 是否强制使用科学计数法格式化显示数值。默认为false，当小数精度大于3时才采用科学计数法。
+        /// Standard numeric format strings.
+        /// 标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        public bool forceENotation
+        /// <value></value>
+        public string numericFormatter
         {
-            get { return m_ForceENotation; }
-            set { if (PropertyUtility.SetStruct(ref m_ForceENotation, value)) SetComponentDirty(); }
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtility.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
+
+        /// <summary>
+        /// Show negative number as positive number.
+        /// 将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
+        /// </summary>
+        public bool showAsPositiveNumber
+        {
+            get { return m_ShowAsPositiveNumber; }
+            set { if (PropertyUtility.SetStruct(ref m_ShowAsPositiveNumber, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// 刻度标签显示在0刻度上。
+        /// </summary>
+        public bool onZero
+        {
+            get { return m_OnZero; }
+            set { if (PropertyUtility.SetStruct(ref m_OnZero, value)) SetComponentDirty(); }
+        }
+
         /// <summary>
         /// 文本限制。
         /// </summary>
@@ -153,6 +180,36 @@ namespace XCharts
             }
         }
 
+        public AxisLabel Clone()
+        {
+            var axisLable = new AxisLabel();
+            axisLable.show = show;
+            axisLable.formatter = formatter;
+            axisLable.interval = interval;
+            axisLable.inside = inside;
+            axisLable.rotate = rotate;
+            axisLable.margin = margin;
+            axisLable.color = color;
+            axisLable.fontSize = fontSize;
+            axisLable.numericFormatter = numericFormatter;
+            axisLable.textLimit = textLimit.Clone();
+            return axisLable;
+        }
+
+        public void Copy(AxisLabel axisLable)
+        {
+            show = axisLable.show;
+            formatter = axisLable.formatter;
+            interval = axisLable.interval;
+            inside = axisLable.inside;
+            rotate = axisLable.rotate;
+            margin = axisLable.margin;
+            color = axisLable.color;
+            fontSize = axisLable.fontSize;
+            numericFormatter = axisLable.numericFormatter;
+            textLimit.Copy(axisLable.textLimit);
+        }
+
         public void SetRelatedText(Text txt, float labelWidth)
         {
             m_TextLimit.SetRelatedText(txt, labelWidth);
@@ -176,14 +233,15 @@ namespace XCharts
 
         public string GetFormatterContent(float value, float minValue, float maxValue, bool isLog = false)
         {
+            if (showAsPositiveNumber && value < 0)
+            {
+                value = Mathf.Abs(value);
+            }
             if (string.IsNullOrEmpty(m_Formatter))
             {
                 if (isLog)
                 {
-                    if (value - (int)value == 0)
-                        return ChartCached.IntToStr((int)value);
-                    else
-                        return ChartCached.FloatToStr(value);
+                    return ChartCached.NumberToStr(value, numericFormatter);
                 }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
@@ -191,37 +249,15 @@ namespace XCharts
                     int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
                     int curAcc = ChartHelper.GetFloatAccuracy(value);
                     int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
-                    return ChartCached.FloatToStr(value, acc, m_ForceENotation);
+                    return ChartCached.FloatToStr(value, numericFormatter, acc);
                 }
-                else if (value - (int)value == 0)
-                    return ChartCached.IntToStr((int)value);
-                else
-                    return ChartCached.FloatToStr(value, 1);
-            }
-            else if (m_Formatter.Contains("{value"))
-            {
-                var content = m_Formatter;
-                if (content.Contains("{value:f0}"))
-                    content = m_Formatter.Replace("{value:f0}", ChartCached.IntToStr((int)value));
-                if (content.Contains("{value:f2}"))
-                    content = m_Formatter.Replace("{value:f2}", ChartCached.FloatToStr(value, 2));
-                else if (content.Contains("{value:f1}"))
-                    content = m_Formatter.Replace("{value:f1}", ChartCached.FloatToStr(value, 1));
-                else if (content.Contains("{value}"))
-                {
-                    if (value - (int)value == 0)
-                        content = m_Formatter.Replace("{value}", ChartCached.IntToStr((int)value));
-                    else
-                        content = m_Formatter.Replace("{value}", ChartCached.FloatToStr(value, 1));
-                }
-
-                content = content.Replace("\\n", "\n");
-                content = content.Replace("<br/>", "\n");
-                return content;
+                return ChartCached.NumberToStr(value, numericFormatter);
             }
             else
             {
-                return value.ToString(m_Formatter);
+                var content = m_Formatter;
+                FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
+                return content;
             }
         }
     }

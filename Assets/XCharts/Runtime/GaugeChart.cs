@@ -49,7 +49,7 @@ namespace XCharts
             if (m_UpdateLabelText)
             {
                 m_UpdateLabelText = false;
-                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo);
+                SerieLabelHelper.UpdateLabelText(m_Series, m_ThemeInfo, m_LegendRealShowName);
                 UpdateAxisLabel();
             }
         }
@@ -84,17 +84,17 @@ namespace XCharts
 
         private void InitAxisLabel()
         {
-            var labelObject = ChartHelper.AddObject(s_AxisLabelObjectName, transform, Vector2.zero,
-                Vector2.zero, Vector2.zero, new Vector2(chartWidth, chartHeight));
+            var labelObject = ChartHelper.AddObject(s_AxisLabelObjectName, transform, m_ChartMinAnchor,
+                m_ChartMaxAnchor, m_ChartPivot, m_ChartSizeDelta);
             SerieLabelPool.ReleaseAll(labelObject.transform);
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series.list[i];
-
                 var serieLabel = serie.gaugeAxis.axisLabel;
-                serie.gaugeAxis.ClearLabelObject();
                 var count = serie.splitNumber > 36 ? 36 : (serie.splitNumber + 1);
                 var startAngle = serie.startAngle;
+                serie.gaugeAxis.ClearLabelObject();
+                SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
                 for (int j = 0; j < count; j++)
                 {
                     var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, i, j);
@@ -123,6 +123,12 @@ namespace XCharts
             base.OnThemeChanged();
         }
 
+        protected override void OnSizeChanged()
+        {
+            base.OnSizeChanged();
+            InitAxisLabel();
+        }
+
         private void DrawData(VertexHelper vh)
         {
             for (int i = 0; i < m_Series.Count; i++)
@@ -135,8 +141,7 @@ namespace XCharts
 
         private void DrawGauge(VertexHelper vh, Serie serie)
         {
-
-            serie.UpdateCenter(chartWidth, chartHeight);
+            SerieHelper.UpdateCenter(serie, chartPosition, chartWidth, chartHeight);
             var destAngle = GetCurrAngle(serie, true);
             serie.animation.InitProgress(0, serie.startAngle, destAngle);
             var currAngle = serie.animation.IsFinish() ? GetCurrAngle(serie, false) : serie.animation.GetCurrDetail();
@@ -147,7 +152,6 @@ namespace XCharts
             DrawPointer(vh, serie, currAngle);
             TitleStyleHelper.CheckTitle(serie, ref m_ReinitTitle, ref m_UpdateTitleText);
             SerieLabelHelper.CheckLabel(serie, ref m_ReinitLabel, ref m_UpdateLabelText);
-
             CheckAnimation(serie);
             if (!serie.animation.IsFinish())
             {
@@ -167,20 +171,14 @@ namespace XCharts
             var color = serie.gaugeAxis.GetAxisLineColor(m_ThemeInfo, serie.index);
             var backgroundColor = serie.gaugeAxis.GetAxisLineBackgroundColor(m_ThemeInfo, serie.index);
             var outsideRadius = serie.runtimeInsideRadius + serie.gaugeAxis.axisLine.width;
+            var borderWidth = serie.itemStyle.borderWidth;
+            var borderColor = serie.itemStyle.borderColor;
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                backgroundColor, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, serie.endAngle);
-            if (serie.roundCap)
-            {
-                DrawRoundCap(vh, serie, serie.startAngle, backgroundColor, true);
-                DrawRoundCap(vh, serie, serie.endAngle, backgroundColor);
-            }
+                backgroundColor, backgroundColor, Color.clear, serie.startAngle, serie.endAngle, 0, Color.clear,
+                0, m_Settings.cicleSmoothness, serie.roundCap);
             ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, serie.startAngle, currAngle);
-            if (serie.roundCap && currAngle != serie.startAngle)
-            {
-                DrawRoundCap(vh, serie, currAngle, color);
-                DrawRoundCap(vh, serie, serie.startAngle, color, true);
-            }
+                color, color, Color.clear, serie.startAngle, currAngle, 0, Color.clear,
+                0, m_Settings.cicleSmoothness, serie.roundCap);
         }
 
         private void DrawStageColor(VertexHelper vh, Serie serie)
@@ -198,7 +196,8 @@ namespace XCharts
                 tempEndAngle = serie.startAngle + totalAngle * stageColor.percent;
                 serie.gaugeAxis.runtimeStageAngle.Add(tempEndAngle);
                 ChartDrawer.DrawDoughnut(vh, serie.runtimeCenterPos, serie.runtimeInsideRadius, outsideRadius,
-                    stageColor.color, m_ThemeInfo.backgroundColor, m_Settings.cicleSmoothness, tempStartAngle, tempEndAngle);
+                    stageColor.color, stageColor.color, Color.clear, tempStartAngle, tempEndAngle, 0, Color.clear,
+                    0, m_Settings.cicleSmoothness);
                 tempStartAngle = tempEndAngle;
             }
         }
@@ -207,7 +206,7 @@ namespace XCharts
         {
             if (!serie.gaugePointer.show) return;
             var pointerColor = serie.gaugeAxis.GetPointerColor(m_ThemeInfo, serie.index, currAngle, serie.itemStyle);
-            var pointerToColor = serie.itemStyle.toColor != Color.clear ? serie.itemStyle.toColor : pointerColor;
+            var pointerToColor = !ChartHelper.IsClearColor(serie.itemStyle.toColor) ? serie.itemStyle.toColor : pointerColor;
             var len = serie.gaugePointer.length < 1 && serie.gaugePointer.length > -1 ?
                 serie.runtimeInsideRadius * serie.gaugePointer.length :
                 serie.gaugePointer.length;
@@ -317,7 +316,6 @@ namespace XCharts
             var diffValue = totalValue / count;
             var radius = serie.runtimeInsideRadius - serie.gaugeAxis.axisLabel.margin;
             var serieData = serie.GetSerieData(0);
-            var dataName = serieData != null ? serieData.name : null;
             var customLabelText = serie.gaugeAxis.axisLabelText;
             for (int j = 0; j <= count; j++)
             {
@@ -325,7 +323,7 @@ namespace XCharts
                 var value = serie.min + j * diffValue;
                 var pos = ChartHelper.GetPosition(serie.runtimeCenterPos, angle, radius);
                 var text = customLabelText != null && j < customLabelText.Count ? customLabelText[j] :
-                    serie.gaugeAxis.axisLabel.GetFormatterContent(serie.name, dataName, value, totalValue);
+                    SerieLabelHelper.GetFormatterContent(serie, serieData, value, totalValue, serie.gaugeAxis.axisLabel);
                 serie.gaugeAxis.SetLabelObjectText(j, text);
                 serie.gaugeAxis.SetLabelObjectPosition(j, pos);
             }
