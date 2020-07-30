@@ -182,6 +182,22 @@ public class SkeletonOverlayer : MonoBehaviour
     private float _RecordTimeCount = 0;
     public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
 
+    public Vector2 RadarPos;
+
+    public GameObject RedArrow;
+
+    public VectorLine GCLine;
+
+    public Vector2 GravityDiff;
+
+    public List<Point> tempGCPoints;  // 临时用于画凸包的点集
+    public ConvexHull GCconvexHull;   // 新建一个凸包
+
+    private VectorLine GCConvexHullLine;   // 凸包线
+    public VectorLine GCConvexHullArea;   // 画凸包透明面积
+    public bool GCConvexHullIsDraw;
+    public Color[] GCConvexHullColors;    // 凸包顶点颜色
+
 
     //public static SkeletonOverlayer instance = null;
 
@@ -342,6 +358,22 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             PersonJoints[i] = new Vector3(0f, 0f, 0f);
         }
+
+        RedArrow.SetActive(false);
+
+        // 雷达图的坐标位置
+        RadarPos = new Vector2(172.3f, 376f);
+
+        GCLine = new VectorLine("GCLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
+        GCLine.smoothColor = false;   // 设置平滑颜色
+        GCLine.smoothWidth = false;   // 设置平滑宽度
+        GCLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+        //GCLine.points2.Add(new Vector2(RadarPosX, RadarPosY));
+        GravityDiff = new Vector2(0f, 0f);
+
+        GCConvexHullIsDraw = false;
+
+        tempGCPoints = new List<Point>();        
     }
 
     void FixedUpdate()
@@ -481,6 +513,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             LeftTimeText.transform.parent.gameObject.SetActive(true);
                                             CurrentScoreText.transform.parent.gameObject.SetActive(true);
                                             GravityCenterRadar.SetActive(true);
+                                            RedArrow.SetActive(true);
 
                                             ButtonChange();
 
@@ -829,16 +862,60 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         Vector3 tempGravityCenter = CalculateGravityCenter(IsMale);
         DateTime tempTime = System.DateTime.Now;
-        
-        evaluation.GravityCenters.Add(new GravityCenter(tempGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
+
+        float TempChangeDate = tempGravityCenter.y;
+        tempGravityCenter.y = -tempGravityCenter.z;
+        tempGravityCenter.z = TempChangeDate;
+
+        Vector3 UIGravityCenter = Kinect2UIPosition(tempGravityCenter);
+
+        evaluation.GravityCenters.Add(new GravityCenter(UIGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
 
         //print(evaluation.Points[evaluation.Points.Count - 1].x);
         WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
            evaluation.EvaluationID,
-           tempGravityCenter,
+           UIGravityCenter,
            tempTime
            );
         Thread.StartThread();
+
+
+        if (GCLine.points2.Count == 0)
+        {
+            GravityDiff = new Vector2(RadarPos.x - UIGravityCenter.x, RadarPos.y - UIGravityCenter.y);
+            GCLine.points2.Add(RadarPos);
+
+            tempGCPoints.Add(new Point(RadarPos.x, RadarPos.y));
+        }
+        else
+        {
+            UIGravityCenter.x += GravityDiff.x;
+            UIGravityCenter.y += GravityDiff.y;
+
+            UIGravityCenter.x = GCLine.points2[0].x + (UIGravityCenter.x - GCLine.points2[0].x);
+            UIGravityCenter.y = GCLine.points2[0].y + (UIGravityCenter.y - GCLine.points2[0].y);
+
+            if (((UIGravityCenter.x - RadarPos.x) * (UIGravityCenter.x - RadarPos.x) + (UIGravityCenter.y - RadarPos.y) * (UIGravityCenter.y - RadarPos.y)) < 29500f)
+            {
+                GCLine.points2.Add(new Vector2(UIGravityCenter.x, UIGravityCenter.y));
+
+                tempGCPoints.Add(new Point(UIGravityCenter.x, UIGravityCenter.y));
+
+                int DeltaColorR = 0, DeltaColorG = 0;
+
+                int DeltaBase = (int)((GCLine.points2[GCLine.points2.Count - 2] - GCLine.points2[GCLine.points2.Count - 1]).magnitude * 40);
+
+                if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+                else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+                else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+                else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+                GCLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), GCLine.points2.Count - 2);
+
+                GCLine.Draw();
+                RedArrow.transform.position = UIGravityCenter;
+            }
+        }
     }
 
 
@@ -1400,6 +1477,9 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             tempPoints.Add(new Point(point.x, point.y));
         }
+        //print(tempGCPoints.Count);
+
+        StartCoroutine(DrawGCConvexHull());
 
         //evaluation.Points.ForEach(i => tempPoints.Add(i));  // 将所有的点复制给temppoints用于画凸包图
 
@@ -1433,6 +1513,116 @@ public class SkeletonOverlayer : MonoBehaviour
 
         StartCoroutine(DrawConvexHull());
     }
+
+    IEnumerator DrawGCConvexHull()
+    {
+        GCconvexHull = new ConvexHull(tempGCPoints);
+
+        //print(tempGCPoints);
+
+        // 画凸包圈
+        GCConvexHullLine = new VectorLine("GCConvexHullLine", new List<Vector2>(), 2.0f, LineType.Continuous, Joins.Weld);
+        GCConvexHullLine.smoothColor = false;   // 设置平滑颜色
+        GCConvexHullLine.smoothWidth = false;   // 设置平滑宽度
+        GCConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
+
+        ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
+
+        GCConvexHullLine.color = ConvexHullLineColor;
+
+        int MinX = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].x);   // 凸包的最大最小X
+        int MinY = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].y);   // 凸包的最大最小Y
+
+        // 先把初始点存入画图函数
+        GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[0].x, GCconvexHull.ConvexHullSet[0].y));
+        GCconvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+        for (int i = 1; i < GCconvexHull.ConvexHullNum; i++)
+        {
+            //print("!!!!!");
+            if (GCconvexHull.ConvexHullSet[i].x > 1919) GCconvexHull.ConvexHullSet[i].x = 1919;
+            else if (GCconvexHull.ConvexHullSet[i].x < 0) GCconvexHull.ConvexHullSet[i].x = 0;
+
+            if (GCconvexHull.ConvexHullSet[i].y > 1079) GCconvexHull.ConvexHullSet[i].y = 1079;
+            else if (GCconvexHull.ConvexHullSet[i].y < 0) GCconvexHull.ConvexHullSet[i].y = 0;
+
+            GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[i].x, GCconvexHull.ConvexHullSet[i].y));
+            //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+
+            if (i < GCconvexHull.ConvexHullNum - 1)
+            {
+                GCconvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(GCconvexHull.ConvexHullSet[0], GCconvexHull.ConvexHullSet[i], GCconvexHull.ConvexHullSet[i + 1]));
+            }
+
+            if (MinX > Mathf.FloorToInt(GCconvexHull.ConvexHullSet[i].x)) MinX = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[i].x);
+            if (MaxX < Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].x)) MaxX = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].x);
+            if (MinY > Mathf.FloorToInt(GCconvexHull.ConvexHullSet[i].y)) MinY = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[i].y);
+            if (MaxY < Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].y);
+
+            GCConvexHullLine.Draw();
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// 最后求出来的面积要除以2
+
+        GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[0].x, GCconvexHull.ConvexHullSet[0].y));
+        //ConvexHullLine.SetColor(Color.blue);  // 设置颜色
+        //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
+        GCConvexHullLine.Draw();
+
+        StartCoroutine(DrawGCConvexHullArea(MinX - 2, MaxX + 2, MinY - 2, MaxY + 2));
+    }
+
+    IEnumerator DrawGCConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (!GCConvexHullIsDraw)
+        {
+            //if (ConvexHullArea.points2 != 0 )
+            //{
+            // 画透明区域
+
+            GCConvexHullIsDraw = true;
+
+            Color32 ConvexHullAreaColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)40);
+
+            GCConvexHullArea = new VectorLine("GCConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
+            GCConvexHullArea.smoothColor = false;   // 设置平滑颜色
+            GCConvexHullArea.smoothWidth = false;   // 设置平滑宽度
+            GCConvexHullArea.color = ConvexHullAreaColor;
+
+            Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
+            m_texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+            //m_texture.Apply();
+
+            MinX = Math.Max(0, MinX);
+            MinY = Math.Max(0, MinY);
+
+            GCConvexHullColors = m_texture.GetPixels(MinX, MinY, Math.Min(MaxX - MinX, 1919 - MinX), Math.Min(MaxY - MinY, 1079 - MinY));
+
+            MaxY = MaxY - MinY - 1;
+
+            int x, y;
+            for (int i = 0; i < MaxY; i++)
+            {
+                x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
+
+                while ((x < y) && (GCConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
+                while ((x < y) && (GCConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
+
+                if (x != y)
+                {
+                    GCConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
+                    GCConvexHullArea.points2.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
+                }
+            }
+            GCConvexHullArea.Draw();
+            //}
+        }
+    }
+
+
     IEnumerator DrawConvexHull()
     {
         convexHull = new ConvexHull(tempPoints);
@@ -1456,6 +1646,12 @@ public class SkeletonOverlayer : MonoBehaviour
 
         for (int i = 1; i < convexHull.ConvexHullNum; i++)
         {
+            if (convexHull.ConvexHullSet[i].x > 1919) convexHull.ConvexHullSet[i].x = 1919;
+            else if (convexHull.ConvexHullSet[i].x < 0) convexHull.ConvexHullSet[i].x = 0;
+
+            if (convexHull.ConvexHullSet[i].y > 1079) convexHull.ConvexHullSet[i].y = 1079;
+            else if (convexHull.ConvexHullSet[i].y < 0) convexHull.ConvexHullSet[i].y = 0;
+
             ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
             //ConvexHullLine.SetColor(ConvexHullLineColor);  // 设置颜色
 
