@@ -595,7 +595,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
-            //print(EvaluationID+" "+ PatientID + " " + EvaluationHeight + " " + EvaluationStartTime + " " + EvaluationEndTime);
+            //print(EvaluationID + " " + PatientID + " " + EvaluationHeight + " " + EvaluationStartTime + " " + EvaluationEndTime);
 
             PatientDatabase.InsertValues(
             PatientEvaluationTableName, //table name
@@ -606,8 +606,7 @@ public class PatientDatabaseManager : MonoBehaviour
                     EvaluationHeight.ToString(),
                     AddSingleQuotes(EvaluationStartTime),
                     AddSingleQuotes(EvaluationEndTime)
-            }
-        ); ;
+            });
 
             Debug.Log("@DatabaseManager: Write EvaluationInfo Success");
             return DatabaseReturn.Success;
@@ -686,7 +685,7 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write patient record
-    public DatabaseReturn WritePoint(long EvaluationID, Point Points)
+    public DatabaseReturn WritePoint(long EvaluationID, Point Points, string DataTime)
     {
 
         try
@@ -697,6 +696,7 @@ public class PatientDatabaseManager : MonoBehaviour
                         EvaluationID.ToString(),
                         Points.x.ToString(),
                         Points.y.ToString(),
+                        AddSingleQuotes(DataTime)       //TEXT Time
                 }
             );
 

@@ -64,15 +64,18 @@ namespace XCharts
 
 		void OnEnable()
 		{
-			SoccerChartToggle.isOn = true;
+			if(DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+			{
+				SoccerChartToggle.isOn = true;
 
-			SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
+				SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
 
-			RadarPos = new Vector2(801f, 154f);
+				RadarPos = new Vector2(801f, 154f);
 
-			TrackIsDraw = false;
+				TrackIsDraw = false;
 
-			DrawNoDirect = DrawGCTrack();
+				DrawNoDirect = DrawGCTrack();
+			}
 		}
 
 		void Start()
@@ -88,7 +91,7 @@ namespace XCharts
 				if (GCTrackToggle.isOn)
 				{
 					TrackFastText.color = new Color32(110, 173, 220, 0);
-					
+
 					StopCoroutine(DrawNoDirect);
 					DrawGCTrackComplete();
 
@@ -264,6 +267,7 @@ namespace XCharts
 			{
 				tempGCPoints.Add(new Point(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].GravityCenters[i].Coordinate.x, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].GravityCenters[i].Coordinate.y));
 			}
+			//print(tempGCPoints[1].x + tempGCPoints[1].y);
 
 			for (int i = 1; i < tempGCPoints.Count; i++)
 			{

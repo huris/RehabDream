@@ -510,12 +510,14 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "EvaluationID",
                     "PointX",
-                    "PointY"},
+                    "PointY",
+                    "Time"},
 
                 new String[] {
                     "INTEGER NOT NULL",
                     "FLOAT NOT NULL",
-                    "FLOAT NOT NULL"
+                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL"
                     }
                 );
             Debug.Log("@DatabaseManager: Create EvaluationPoints");
@@ -1167,16 +1169,8 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
-                // 删除患者信息
-                QueryString = "DELETE FROM PatientInfo where PatientID=" + PatientID.ToString();
-                PatientDatabase.ExecuteQuery(QueryString);
-
                 // 删除患者重心数据
                 QueryString = "DELETE FROM GravityCenter where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=GravityCenter.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
-                PatientDatabase.ExecuteQuery(QueryString);
-
-                // 删除患者训练记录
-                QueryString = "DELETE FROM PatientRecord where PatientID=" + PatientID.ToString();
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者训练计划
@@ -1191,10 +1185,6 @@ public class DoctorDatabaseManager : MonoBehaviour
                 QueryString = "DELETE FROM Directions where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=Directions.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
-                // 删除患者评估记录
-                QueryString = "DELETE FROM PatientEvaluation where PatientID=" + PatientID.ToString();
-                PatientDatabase.ExecuteQuery(QueryString);
-
                 // 删除患者足球评估记录表
                 QueryString = "DELETE FROM EvaluationSoccer where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationSoccer.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
@@ -1205,6 +1195,34 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                 // 删除患者评估重心点记录表
                 QueryString = "DELETE FROM BobathGravityCenter where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=BobathGravityCenter.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                PatientDatabase.ExecuteQuery(QueryString);
+
+
+                SQLiteHelper sql;
+                sql = new SQLiteHelper("data source=" + DATA.databasePath);
+                
+                QueryString = "DELETE FROM userinfo WHERE ID=" + PatientID.ToString();
+                sql.ExecuteQuery(QueryString);
+
+                QueryString = "DELETE FROM trainingdata WHERE UserId=" + PatientID.ToString();
+                sql.ExecuteQuery(QueryString);
+
+                QueryString = "DELETE FROM periodtrainingdata WHERE UserId=" + PatientID.ToString();
+                sql.ExecuteQuery(QueryString);
+
+                sql.CloseConnection();
+
+
+                // 删除患者训练记录
+                QueryString = "DELETE FROM PatientRecord where PatientID=" + PatientID.ToString();
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者评估记录
+                QueryString = "DELETE FROM PatientEvaluation where PatientID=" + PatientID.ToString();
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者信息
+                QueryString = "DELETE FROM PatientInfo where PatientID=" + PatientID.ToString();
                 PatientDatabase.ExecuteQuery(QueryString);
 
             }
@@ -2212,7 +2230,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<Point> result = new List<Point>(); //返回值
-        string QueryString = "SELECT * FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString();
+        string QueryString = "SELECT * FROM EvaluationPoints where EvaluationID=" + EvaluationID.ToString() + " order by Time";
 
         try
         {
@@ -2255,7 +2273,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     {
         SqliteDataReader reader;    //sql读取器
         List<GravityCenter> result = new List<GravityCenter>(); //返回值
-        string QueryString = "SELECT * FROM BobathGravityCenter where EvaluationID=" + EvaluationID.ToString();
+        string QueryString = "SELECT * FROM BobathGravityCenter where EvaluationID=" + EvaluationID.ToString() + " order by Time";
 
         try
         {

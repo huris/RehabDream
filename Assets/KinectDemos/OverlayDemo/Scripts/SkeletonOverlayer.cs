@@ -180,7 +180,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Vector3[] PersonJoints = new Vector3[25];
 
     private float _RecordTimeCount = 0;
-    public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+    public static float RecordTime = 0.1f;           // record gravity,angles... each 0.2s 
 
     public Vector2 RadarPos;
 
@@ -551,7 +551,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                                 //if (RecordTimeOver())
                                                 //{
                                                 //print("!!!!");
-                                                WriteBobathGCInGame();
+                                                //WriteBobathGCInGame();
                                                 //}
                                             }
 
@@ -858,8 +858,71 @@ public class SkeletonOverlayer : MonoBehaviour
 
 
     // use Thread to write database
-    public void WriteBobathGCInGame()
+    //public void WriteBobathGCInGame()
+    //{
+    //    Vector3 tempGravityCenter = CalculateGravityCenter(IsMale);
+    //    DateTime tempTime = System.DateTime.Now;
+
+    //    float TempChangeDate = tempGravityCenter.y;
+    //    tempGravityCenter.y = -tempGravityCenter.z;
+    //    tempGravityCenter.z = TempChangeDate;
+
+    //    Vector3 UIGravityCenter = Kinect2UIPosition(tempGravityCenter);
+
+    //    evaluation.GravityCenters.Add(new GravityCenter(UIGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
+
+    //    //print(evaluation.Points[evaluation.Points.Count - 1].x);
+    //    WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
+    //       evaluation.EvaluationID,
+    //       UIGravityCenter,
+    //       tempTime
+    //       );
+    //    Thread.StartThread();
+
+
+    //    if (GCLine.points2.Count == 0)
+    //    {
+    //        GravityDiff = new Vector2(RadarPos.x - UIGravityCenter.x, RadarPos.y - UIGravityCenter.y);
+    //        GCLine.points2.Add(RadarPos);
+
+    //        tempGCPoints.Add(new Point(RadarPos.x, RadarPos.y));
+    //    }
+    //    else
+    //    {
+    //        UIGravityCenter.x += GravityDiff.x;
+    //        UIGravityCenter.y += GravityDiff.y;
+
+    //        UIGravityCenter.x = GCLine.points2[0].x + (UIGravityCenter.x - GCLine.points2[0].x);
+    //        UIGravityCenter.y = GCLine.points2[0].y + (UIGravityCenter.y - GCLine.points2[0].y);
+
+    //        if (((UIGravityCenter.x - RadarPos.x) * (UIGravityCenter.x - RadarPos.x) + (UIGravityCenter.y - RadarPos.y) * (UIGravityCenter.y - RadarPos.y)) < 29500f)
+    //        {
+    //            GCLine.points2.Add(new Vector2(UIGravityCenter.x, UIGravityCenter.y));
+
+    //            tempGCPoints.Add(new Point(UIGravityCenter.x, UIGravityCenter.y));
+
+    //            int DeltaColorR = 0, DeltaColorG = 0;
+
+    //            int DeltaBase = (int)((GCLine.points2[GCLine.points2.Count - 2] - GCLine.points2[GCLine.points2.Count - 1]).magnitude * 40);
+
+    //            if (DeltaBase <= 0) { DeltaColorR = 0; DeltaColorG = 0; }
+    //            else if (DeltaBase > 0 && DeltaBase <= 255) { DeltaColorR = DeltaBase; DeltaColorG = 0; }
+    //            else if (DeltaBase > 255 && DeltaBase <= 510) { DeltaColorR = 255; DeltaColorG = DeltaBase - 255; }
+    //            else if (DeltaBase > 510) { DeltaColorR = 255; DeltaColorG = 255; }
+
+    //            GCLine.SetColor(new Color32((Byte)DeltaColorR, (Byte)(255 - DeltaColorG), 0, (Byte)255), GCLine.points2.Count - 2);
+
+    //            GCLine.Draw();
+    //            RedArrow.transform.position = UIGravityCenter;
+    //        }
+    //    }
+    //}
+
+
+    // use Thread to write database
+    public void WritePointInGame()
     {
+
         Vector3 tempGravityCenter = CalculateGravityCenter(IsMale);
         DateTime tempTime = System.DateTime.Now;
 
@@ -872,12 +935,21 @@ public class SkeletonOverlayer : MonoBehaviour
         evaluation.GravityCenters.Add(new GravityCenter(UIGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
 
         //print(evaluation.Points[evaluation.Points.Count - 1].x);
-        WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
+        WritePointDataThread Thread = new WritePointDataThread(
            evaluation.EvaluationID,
+           evaluation.Points[evaluation.Points.Count - 1],
            UIGravityCenter,
            tempTime
            );
+
         Thread.StartThread();
+
+        ////print(evaluation.Points[evaluation.Points.Count - 1].x);
+        //WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
+        //   evaluation.EvaluationID,
+           
+        //   );
+        //Thread.StartThread();
 
 
         if (GCLine.points2.Count == 0)
@@ -915,19 +987,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 GCLine.Draw();
                 RedArrow.transform.position = UIGravityCenter;
             }
-        }
-    }
-
-
-    // use Thread to write database
-    public void WritePointInGame()
-    {
-        //print(evaluation.Points[evaluation.Points.Count - 1].x);
-        WritePointDataThread Thread = new WritePointDataThread(
-           evaluation.EvaluationID,
-           evaluation.Points[evaluation.Points.Count-1]);
-
-        Thread.StartThread();      
+        }   
     }
 
     public void SoccerballReset()
