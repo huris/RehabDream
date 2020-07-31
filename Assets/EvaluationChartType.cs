@@ -269,10 +269,10 @@ namespace XCharts
 			}
 			//print(tempGCPoints[1].x + tempGCPoints[1].y);
 
-			//for (int i = 0; i < 100; i++)
-			//{
-			//	print(tempGCPoints[i].x + "  " + tempGCPoints[i].y);
-			//}
+			for (int i = 0; i < 20; i++)
+			{
+				print(tempGCPoints[i].x + " !!! " + tempGCPoints[i].y);
+			}
 
 			for (int i = 1; i < tempGCPoints.Count; i++)
 			{
@@ -282,7 +282,7 @@ namespace XCharts
 				tempGCPoints[i].x = GCLine.points2[0].x + (tempGCPoints[i].x - GCLine.points2[0].x) * 250f / 344f;
 				tempGCPoints[i].y = GCLine.points2[0].y + (tempGCPoints[i].y - GCLine.points2[0].y) * 250f / 344f;
 
-				if(i < 50)
+				if(i < 20)
 				{
 					print(tempGCPoints[i].x + "  " + tempGCPoints[i].y);
 				}
