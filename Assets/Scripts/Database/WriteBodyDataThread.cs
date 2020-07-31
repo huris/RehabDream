@@ -81,7 +81,7 @@ public class WriteBodyDataThread
 
         PatientDatabaseManager.instance.WriteGravityCenter(
             _TrainingID,
-            _GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
+            _GraivtyCenter,
             _Time.ToString("yyyyMMdd HH:mm:ss")
         );
 

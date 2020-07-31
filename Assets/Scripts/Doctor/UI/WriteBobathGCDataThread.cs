@@ -48,7 +48,7 @@ public class WriteBobathGCDataThread
         //Debug.Log(_EvaluationID+" "+_point.x + " " + _point.y);
         PatientDatabaseManager.instance.WriteBobathGravityCenter(
             _EvaluationID,
-            _BobathGC.ToString().Replace("(", "").Replace(")", ""),
+            _BobathGC,
             _dateTime.ToString("yyyyMMdd HH:mm:ss")
         );
     }

@@ -289,12 +289,16 @@ public class DoctorDatabaseManager : MonoBehaviour
                 GravityCenterTableName,   //table name
                 new String[] {
                     "TrainingID",
-                    "Coordinate",
+                    "X",
+                    "Y",
+                    "Z",
                     "Time" },
 
                 new String[] {
                     "INTEGER NOT NULL",
-                    "TEXT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "TEXT NOT NULL" }
                 );
             Debug.Log("@DatabaseManager: Create GravityCenterTable");
@@ -307,12 +311,16 @@ public class DoctorDatabaseManager : MonoBehaviour
                 BobathGravityCenterTableName,   //table name
                 new String[] {
                     "EvaluationID",
-                    "Coordinate",
+                    "X",
+                    "Y",
+                    "Z",
                     "Time" },
 
                 new String[] {
                     "INTEGER NOT NULL",
-                    "TEXT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
                     "TEXT NOT NULL" }
                 );
             Debug.Log("@DatabaseManager: Create BobathGravityCenterTable");
@@ -1169,8 +1177,38 @@ public class DoctorDatabaseManager : MonoBehaviour
 
             if (reader.HasRows)
             {
+                //// 删除患者重心数据
+                //QueryString = "DELETE FROM GravityCenter where exists(select * from PatientRecord where PatientRecord.TrainingID=GravityCenter.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者训练计划
+                //QueryString = "DELETE FROM TrainingPlan where PatientID=" + PatientID.ToString();
+                //DoctorDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者角度数据
+                //QueryString = "DELETE FROM Angles where exists(select * from PatientRecord where PatientRecord.TrainingID=Angles.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者方向数据
+                //QueryString = "DELETE FROM Directions where exists(select * from PatientRecord where PatientRecord.TrainingID=Directions.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者足球评估记录表
+                //QueryString = "DELETE FROM EvaluationSoccer where exists(select * from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationSoccer.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者轨迹点记录表
+                //QueryString = "DELETE FROM EvaluationPoints where exists(select * from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationPoints.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+                //// 删除患者评估重心点记录表
+                //QueryString = "DELETE FROM BobathGravityCenter where exists(select * from PatientEvaluation where PatientEvaluation.EvaluationID=BobathGravityCenter.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                //PatientDatabase.ExecuteQuery(QueryString);
+
+
+
                 // 删除患者重心数据
-                QueryString = "DELETE FROM GravityCenter where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=GravityCenter.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM GravityCenter where GravityCenter.TrainingID in (select PatientRecord.TrainingID from PatientRecord where PatientRecord.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者训练计划
@@ -1178,23 +1216,23 @@ public class DoctorDatabaseManager : MonoBehaviour
                 DoctorDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者角度数据
-                QueryString = "DELETE FROM Angles where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=Angles.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM Angles where Angles.TrainingID in (select PatientRecord.TrainingID from PatientRecord where PatientRecord.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者方向数据
-                QueryString = "DELETE FROM Directions where exists(select TrainingID from PatientRecord where PatientRecord.TrainingID=Directions.TrainingID and PatientRecord.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM Directions where Directions.TrainingID in (select PatientRecord.TrainingID from PatientRecord where PatientRecord.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者足球评估记录表
-                QueryString = "DELETE FROM EvaluationSoccer where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationSoccer.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM EvaluationSoccer where EvaluationSoccer.EvaluationID in (select PatientEvaluation.EvaluationID from PatientEvaluation where PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者轨迹点记录表
-                QueryString = "DELETE FROM EvaluationPoints where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=EvaluationPoints.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM EvaluationPoints where EvaluationPoints.EvaluationID in (select PatientEvaluation.EvaluationID from PatientEvaluation where PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者评估重心点记录表
-                QueryString = "DELETE FROM BobathGravityCenter where exists(select EvaluationID from PatientEvaluation where PatientEvaluation.EvaluationID=BobathGravityCenter.EvaluationID and PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
+                QueryString = "DELETE FROM BobathGravityCenter where BobathGravityCenter.EvaluationID in (select PatientEvaluation.EvaluationID from PatientEvaluation where PatientEvaluation.PatientID=" + PatientID.ToString() + ")";
                 PatientDatabase.ExecuteQuery(QueryString);
 
 
@@ -1831,9 +1869,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                 //存在用户训练任务
                 do
                 {
-                    string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
-                    string[] XYZ = Coordinate.Split(',');
-                    Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                    //string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
+                    //string[] XYZ = Coordinate.Split(',');
+                    //Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                    Vector3 CoordinateVector3 = new Vector3(reader.GetFloat(reader.GetOrdinal("X")), reader.GetFloat(reader.GetOrdinal("Y")), reader.GetFloat(reader.GetOrdinal("Z")));
 
                     var res = new GravityCenter(
                     //reader.GetInt64(reader.GetOrdinal("TrainingID")),
@@ -2287,9 +2326,9 @@ public class DoctorDatabaseManager : MonoBehaviour
                 //存在用户训练任务
                 do
                 {
-                    string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
-                    string[] XYZ = Coordinate.Split(',');
-                    Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                    //string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
+                    //string[] XYZ = Coordinate.Split(',');
+                    Vector3 CoordinateVector3 = new Vector3(reader.GetFloat(reader.GetOrdinal("X")), reader.GetFloat(reader.GetOrdinal("Y")), reader.GetFloat(reader.GetOrdinal("Z")));
 
 
                     var res = new GravityCenter(

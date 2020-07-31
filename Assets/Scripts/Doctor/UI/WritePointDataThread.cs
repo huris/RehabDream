@@ -51,7 +51,7 @@ public class WritePointDataThread
     {
         PatientDatabaseManager.instance.WriteBobathGravityCenter(
             _EvaluationID,
-            _BobathGC.ToString().Replace("(", "").Replace(")", ""),
+            _BobathGC,
             _dateTime.ToString("yyyyMMdd HH:mm:ss")
         );
     }

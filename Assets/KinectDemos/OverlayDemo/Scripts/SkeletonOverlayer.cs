@@ -938,7 +938,7 @@ public class SkeletonOverlayer : MonoBehaviour
         WritePointDataThread Thread = new WritePointDataThread(
            evaluation.EvaluationID,
            evaluation.Points[evaluation.Points.Count - 1],
-           UIGravityCenter,
+           evaluation.GravityCenters[evaluation.GravityCenters.Count - 1].Coordinate,
            tempTime
            );
 

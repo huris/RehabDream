@@ -269,6 +269,11 @@ namespace XCharts
 			}
 			//print(tempGCPoints[1].x + tempGCPoints[1].y);
 
+			//for (int i = 0; i < 100; i++)
+			//{
+			//	print(tempGCPoints[i].x + "  " + tempGCPoints[i].y);
+			//}
+
 			for (int i = 1; i < tempGCPoints.Count; i++)
 			{
 				tempGCPoints[i].x += GravityDiff.x;
@@ -276,6 +281,11 @@ namespace XCharts
 
 				tempGCPoints[i].x = GCLine.points2[0].x + (tempGCPoints[i].x - GCLine.points2[0].x) * 250f / 344f;
 				tempGCPoints[i].y = GCLine.points2[0].y + (tempGCPoints[i].y - GCLine.points2[0].y) * 250f / 344f;
+
+				if(i < 50)
+				{
+					print(tempGCPoints[i].x + "  " + tempGCPoints[i].y);
+				}
 
 				GCLine.points2.Add(new Vector2(tempGCPoints[i].x, tempGCPoints[i].y));
 

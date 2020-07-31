@@ -595,7 +595,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
         try
         {
-            //print(EvaluationID + " " + PatientID + " " + EvaluationHeight + " " + EvaluationStartTime + " " + EvaluationEndTime);
+            print(EvaluationID + " " + PatientID + " " + EvaluationHeight + " " + EvaluationStartTime + " " + EvaluationEndTime);
 
             PatientDatabase.InsertValues(
             PatientEvaluationTableName, //table name
@@ -623,8 +623,8 @@ public class PatientDatabaseManager : MonoBehaviour
     public DatabaseReturn WriteMaxSoccerDistances(long EvaluationID, SoccerDistance soccerDistance)
     {
 
-        try
-        {
+        //try
+        //{
             //print(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", ""));
 
             //print(AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")));
@@ -675,21 +675,21 @@ public class PatientDatabaseManager : MonoBehaviour
 
             Debug.Log("@DatabaseManager: Write MaxSoccerDistances Success");
             return DatabaseReturn.Success;
-        }
-        catch (SqliteException e)
-        {
-            Debug.Log("@DatabaseManager: Write MaxSoccerDistances SqliteException");
-            this.PatientDatabase.CloseConnection();
-            return DatabaseReturn.Exception;
-        }
+        //}
+        //catch (SqliteException e)
+        //{
+        //    Debug.Log("@DatabaseManager: Write MaxSoccerDistances SqliteException");
+        //    this.PatientDatabase.CloseConnection();
+        //    return DatabaseReturn.Exception;
+        //}
     }
 
     //write patient record
     public DatabaseReturn WritePoint(long EvaluationID, Point Points, string DataTime)
     {
 
-        try
-        {
+        //try
+        //{
             PatientDatabase.InsertValues(
                 EvaluationPointsTableName, //table name
                 new string[] {
@@ -702,13 +702,13 @@ public class PatientDatabaseManager : MonoBehaviour
 
             //Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
             return DatabaseReturn.Success;
-        }
-        catch (SqliteException e)
-        {
-            Debug.Log("@DatabaseManager: Write EvaluationPoints SqliteException");
-            this.PatientDatabase.CloseConnection();
-            return DatabaseReturn.Exception;
-        }
+        //}
+        //catch (SqliteException e)
+        //{
+        //    Debug.Log("@DatabaseManager: Write EvaluationPoints SqliteException");
+        //    this.PatientDatabase.CloseConnection();
+        //    return DatabaseReturn.Exception;
+        //}
     }
 
     // Delete DoctorInfo
@@ -857,7 +857,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
 
     //write gravity center to GravityCenter table
-    public DatabaseReturn WriteGravityCenter(long TrainingID, string Coordinate, string Time)
+    public DatabaseReturn WriteGravityCenter(long TrainingID, Vector3 Coordinate, string Time)
     {
         try
         {
@@ -866,7 +866,9 @@ public class PatientDatabaseManager : MonoBehaviour
                 GravityCenterTableName,
                 new string[] {
                     TrainingID.ToString(),      //INTEGER TrainingID
-                    AddSingleQuotes(Coordinate),//TEXT Coordinate
+                    Coordinate.x.ToString(),//TEXT Coordinate
+                    Coordinate.y.ToString(),//TEXT Coordinate
+                    Coordinate.z.ToString(),//TEXT Coordinate
                     AddSingleQuotes(Time)       //TEXT Time
                 }
             );
@@ -885,10 +887,10 @@ public class PatientDatabaseManager : MonoBehaviour
     }
 
     //write Bobath gravity center to GravityCenter table
-    public DatabaseReturn WriteBobathGravityCenter(long EvaluationID, string Coordinate, string Time)
+    public DatabaseReturn WriteBobathGravityCenter(long EvaluationID, Vector3 Coordinate, string Time)
     {
-        try
-        {
+        //try
+        //{
             //print("!!!!!");
             //print(EvaluationID + "  " + Coordinate + "   " + Time);
 
@@ -896,7 +898,9 @@ public class PatientDatabaseManager : MonoBehaviour
                 BobathGravityCenterTableName,
                 new string[] {
                     EvaluationID.ToString(),      //INTEGER TrainingID
-                    AddSingleQuotes(Coordinate),//TEXT Coordinate
+                    Coordinate.x.ToString(),//TEXT Coordinate
+                    Coordinate.y.ToString(),//TEXT Coordinate
+                    Coordinate.z.ToString(),//TEXT Coordinate
                     AddSingleQuotes(Time)       //TEXT Time
                 }
             );
@@ -905,13 +909,13 @@ public class PatientDatabaseManager : MonoBehaviour
             //Debug.Log("@DatabaseManager: Write BobathGravityCenter");
             return DatabaseReturn.Success;
 
-        }
-        catch (SqliteException e)
-        {
-            Debug.Log("@DatabaseManager: Write BobathGravityCenter SqliteException");
-            PatientDatabase.CloseConnection();
-            return DatabaseReturn.Exception;
-        }
+        //}
+        //catch (SqliteException e)
+        //{
+        //    Debug.Log("@DatabaseManager: Write BobathGravityCenter SqliteException");
+        //    PatientDatabase.CloseConnection();
+        //    return DatabaseReturn.Exception;
+        //}
     }
 
     //write Angles to Angles table
