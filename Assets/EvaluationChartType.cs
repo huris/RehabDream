@@ -51,6 +51,7 @@ namespace XCharts
 		public Vector2 RadarPos;
 
 		public bool TrackIsDraw;
+		public bool IsCompleteDraw;
 
 		public Text TrackFastText;
 
@@ -72,9 +73,7 @@ namespace XCharts
 
 				RadarPos = new Vector2(801f, 154f);
 
-				TrackIsDraw = false;
-
-				DrawNoDirect = DrawGCTrack();
+				//DrawNoDirect = DrawGCTrack();
 			}
 		}
 
@@ -86,13 +85,14 @@ namespace XCharts
 		// Update is called once per frame
 		void Update()
 		{
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetMouseButtonDown(0) && IsCompleteDraw==false)
 			{
 				if (GCTrackToggle.isOn)
 				{
 					TrackFastText.color = new Color32(110, 173, 220, 0);
 
-					StopCoroutine(DrawNoDirect);
+					//StopCoroutine(DrawNoDirect);
+					IsCompleteDraw = true;
 					DrawGCTrackComplete();
 
 					//DrawColorFistTrack();
@@ -171,6 +171,11 @@ namespace XCharts
 		{
 			if (GCTrackToggle.isOn)
 			{
+				RemoveGCLine();
+
+				TrackIsDraw = false;
+				IsCompleteDraw = false;
+
 				SoccerChartImage.color = new Color32(233, 239, 244, 255);
 				GCTrackImage.color = new Color32(88, 181, 140, 255);
 
@@ -194,16 +199,17 @@ namespace XCharts
 				return;
 			}
 
-
 			TrackIsDraw = true;
 
 			TrackFastText.color = new Color32(110, 173, 220, 255);
 
-			StartCoroutine(DrawNoDirect);
+			StartCoroutine(DrawGCTrack());
 		}
 
 		public void DrawGCTrackComplete()
 		{
+			//TrackIsDraw = true;
+			IsCompleteDraw = true;
 
 			GCLineComplete = new VectorLine("GCLineComplete", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
 			GCLineComplete.smoothColor = false;   // 设置平滑颜色
@@ -251,6 +257,7 @@ namespace XCharts
 
 		IEnumerator DrawGCTrack()
 		{
+
 			GCLine = new VectorLine("GCLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
 			GCLine.smoothColor = false;   // 设置平滑颜色
 			GCLine.smoothWidth = false;   // 设置平滑宽度
@@ -276,6 +283,12 @@ namespace XCharts
 
 			for (int i = 1; i < tempGCPoints.Count; i++)
 			{
+				if (IsCompleteDraw)
+				{
+					VectorLine.Destroy(ref GCLine);
+					break;
+				}
+
 				tempGCPoints[i].x += GravityDiff.x;
 				tempGCPoints[i].y += GravityDiff.y;
 
@@ -428,7 +441,9 @@ namespace XCharts
 			VectorLine.Destroy(ref GCLineComplete);
 
 
-			TrackIsDraw = false;
+			//print(GCLineComplete);
+
+			//TrackIsDraw = false;
 		}
 	}
 }
