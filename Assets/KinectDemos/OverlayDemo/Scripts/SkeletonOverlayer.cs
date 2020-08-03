@@ -180,7 +180,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Vector3[] PersonJoints = new Vector3[25];
 
     private float _RecordTimeCount = 0;
-    public static float RecordTime = 0.1f;           // record gravity,angles... each 0.2s 
+    public static float RecordTime = 1f;           // record gravity,angles... each 0.2s 
 
     public Vector2 RadarPos;
 
@@ -197,6 +197,8 @@ public class SkeletonOverlayer : MonoBehaviour
     public VectorLine GCConvexHullArea;   // 画凸包透明面积
     public bool GCConvexHullIsDraw;
     public Color[] GCConvexHullColors;    // 凸包顶点颜色
+
+    public List<string> SQLStringList;
 
 
     //public static SkeletonOverlayer instance = null;
@@ -373,7 +375,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
         GCConvexHullIsDraw = false;
 
-        tempGCPoints = new List<Point>();        
+        tempGCPoints = new List<Point>();
+
+        SQLStringList = new List<string>();
     }
 
     void FixedUpdate()
@@ -934,15 +938,35 @@ public class SkeletonOverlayer : MonoBehaviour
 
         evaluation.GravityCenters.Add(new GravityCenter(UIGravityCenter, tempTime.ToString("yyyyMMdd HH:mm:ss")));
 
-        //print(evaluation.Points[evaluation.Points.Count - 1].x);
-        WritePointDataThread Thread = new WritePointDataThread(
-           evaluation.EvaluationID,
-           evaluation.Points[evaluation.Points.Count - 1],
-           evaluation.GravityCenters[evaluation.GravityCenters.Count - 1].Coordinate,
-           tempTime
-           );
+        SQLStringList.Add("INSERT INTO EvaluationPoints VALUES(" + evaluation.EvaluationID.ToString() 
+                            + "," + evaluation.Points[evaluation.Points.Count - 1].x.ToString() 
+                            + "," + evaluation.Points[evaluation.Points.Count - 1].y.ToString() 
+                            + "," + DoctorDatabaseManager.instance.AddSingleQuotes(tempTime.ToString("yyyyMMdd HH:mm:ss")) + ")");
 
-        Thread.StartThread();
+        SQLStringList.Add("INSERT INTO BobathGravityCenter VALUES(" + evaluation.EvaluationID.ToString()
+                            + "," + evaluation.GravityCenters[evaluation.GravityCenters.Count - 1].Coordinate.x.ToString() 
+                            + "," + evaluation.GravityCenters[evaluation.GravityCenters.Count - 1].Coordinate.y.ToString() 
+                            + "," + evaluation.GravityCenters[evaluation.GravityCenters.Count - 1].Coordinate.z.ToString()
+                            + "," + DoctorDatabaseManager.instance.AddSingleQuotes(tempTime.ToString("yyyyMMdd HH:mm:ss")) + ")");
+
+        //print(_RecordTimeCount);
+
+        if (RecordTimeOver())
+        {
+            //print("!!!!!");
+            //print(evaluation.Points[evaluation.Points.Count - 1].x);
+
+            List<string> TempSQLText = new List<string>();
+            foreach(var item in SQLStringList)
+            {
+                TempSQLText.Add(item);
+            }
+            SQLStringList.Clear();
+
+            WritePointDataThread Thread = new WritePointDataThread(TempSQLText);
+
+            Thread.StartThread();
+        }
 
         ////print(evaluation.Points[evaluation.Points.Count - 1].x);
         //WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(

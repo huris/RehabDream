@@ -21,6 +21,16 @@ public class SQLiteHelper
     /// </summary>
     private SqliteDataReader dataReader;
 
+    public SqliteCommand GetSqliteCommand()
+    {
+        return this.dbCommand;
+    }
+
+    public SqliteConnection GetSqliteConnection()
+    {
+        return this.dbConnection;
+    }
+
     /// <summary>
     /// 构造函数    
     /// </summary>

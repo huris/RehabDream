@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,27 +8,36 @@ using UnityEngine;
 
 public class WritePointDataThread
 {
-    //暂时存储要插入数据库的值
-    private long _EvaluationID;
-    private Point _point;
-    private Vector3 _BobathGC;
-    private DateTime _dateTime;
-    private Thread _WriteDatabaseThread;
+  
 
-    public WritePointDataThread(
-        long EvaluationID,
-        Point point,
-        Vector3 BobathGC,
-        DateTime dateTime
-        )
+
+    //暂时存储要插入数据库的值
+    //private long _EvaluationID;
+    //private Point _point;
+    //private Vector3 _BobathGC;
+    //private DateTime _dateTime;
+    private Thread _WriteDatabaseThread;
+    private List<string> SQLStringList;
+    public WritePointDataThread(List<string> SQLStringList)
     {
-        _EvaluationID = EvaluationID;
-        _point = point;
-        _BobathGC = BobathGC;
-        _dateTime = dateTime;
+        this.SQLStringList = SQLStringList;
+
         _WriteDatabaseThread = new Thread(WriteDatabase);
-        //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Init");
     }
+    //public WritePointDataThread(
+    //    long EvaluationID,
+    //    Point point,
+    //    Vector3 BobathGC,
+    //    DateTime dateTime
+    //    )
+    //{
+    //    _EvaluationID = EvaluationID;
+    //    _point = point;
+    //    _BobathGC = BobathGC;
+    //    _dateTime = dateTime;
+    //    _WriteDatabaseThread = new Thread(WriteDatabase);
+    //    //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Init");
+    //}
 
     public void StartThread()
     {
@@ -37,8 +47,13 @@ public class WritePointDataThread
 
     private void WriteDatabase()
     {
-        WritePoint();
-        WriteGCData();
+
+        PatientDatabaseManager.instance.ExecuteSqlTran(SQLStringList);
+
+        //WritePoint();
+
+
+        //WriteGCData();
         //WriteAngles();
         //Debug.Log("@WriteDatabaseThread: WriteDatabaseThread Over");
 
@@ -47,25 +62,25 @@ public class WritePointDataThread
 
     // write Gravity Center
 
-    private void WriteGCData()
-    {
-        PatientDatabaseManager.instance.WriteBobathGravityCenter(
-            _EvaluationID,
-            _BobathGC,
-            _dateTime.ToString("yyyyMMdd HH:mm:ss")
-        );
-    }
-    private void WritePoint()
-    {
-        //Debug.Log(_EvaluationID+" "+_point.x + " " + _point.y);
-        PatientDatabaseManager.instance.WritePoint(
-            _EvaluationID,
-            _point,
-            _dateTime.ToString("yyyyMMdd HH:mm:ss")
-        );
+    //private void WriteGCData()
+    //{
+    //    PatientDatabaseManager.instance.WriteBobathGravityCenter(
+    //        _EvaluationID,
+    //        _BobathGC,
+    //        _dateTime.ToString("yyyyMMdd HH:mm:ss")
+    //    );
+    //}
+    //private void WritePoint()
+    //{
+    //    //Debug.Log(_EvaluationID+" "+_point.x + " " + _point.y);
+    //    PatientDatabaseManager.instance.WritePoint(
+    //        _EvaluationID,
+    //        _point,
+    //        _dateTime.ToString("yyyyMMdd HH:mm:ss")
+    //    );
 
 
-    }
+    //}
 
     //// write angles to database
     //private void WriteAngles()
@@ -85,5 +100,5 @@ public class WritePointDataThread
         GC.Collect();
     }
 
-
+   
 }

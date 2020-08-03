@@ -2403,7 +2403,6 @@ public class DoctorDatabaseManager : MonoBehaviour
         return results;
     }
 
-
     // create Data/
     private void CheckDataFolder()
     {

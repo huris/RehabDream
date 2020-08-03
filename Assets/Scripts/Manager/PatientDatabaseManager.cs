@@ -3,6 +3,7 @@ using Mono.Data.Sqlite;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PatientDatabaseManager : MonoBehaviour
 {
@@ -993,6 +994,45 @@ public class PatientDatabaseManager : MonoBehaviour
         public string PlanDirection = "正上方";
         public long PlanTime = 20;
     }
+
+    /// <summary>
+    /// 执行多条SQL语句，实现数据库事务。
+    /// </summary>
+    /// <param name="SQLStringList">多条SQL语句</param>        
+    public void ExecuteSqlTran(List<string> SQLStringList)
+    {
+        //using (SQLiteConnection conn = new SQLiteConnection(connectionString))
+        //{
+        //conn.Open();
+       // print("@@@@");
+            SqliteCommand cmd = PatientDatabase.GetSqliteConnection().CreateCommand();
+        //Debug.Log(cmd == null);
+
+            
+            SqliteTransaction tx = PatientDatabase.GetSqliteConnection().BeginTransaction();
+            cmd.Transaction = tx;
+            //try
+            //{
+                for (int n = 0; n < SQLStringList.Count; n++)
+                {
+                    string strsql = SQLStringList[n].ToString();
+                    if (strsql.Trim().Length > 1)
+                    {
+                        cmd.CommandText = strsql;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                tx.Commit();
+            //}
+            //catch (Exception E)
+            //{
+            //    tx.Rollback();
+            //    throw new Exception(E.Message);
+            //}
+        //}
+    }
+
+
 
 
     #region 此处已移至DoctorDatabaseManager
