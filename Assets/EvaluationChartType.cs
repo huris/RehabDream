@@ -38,6 +38,7 @@ namespace XCharts
 
 		public List<Point> tempGCPoints;  // 临时用于画凸包的点集
 		public List<Point> tempGCPointsComplete;
+		public List<Point> GCconvexHullPoints;
 		public ConvexHull GCconvexHull;   // 新建一个凸包
 
 		public VectorLine GCConvexHullLine;   // 凸包线
@@ -107,6 +108,7 @@ namespace XCharts
 			{
 				OffsetArrangeImage.color = new Color32(85, 170, 173, 255);
 				OffsetArrangeText.color = new Color32(255, 255, 255, 255);
+				GCConvexHullIsDraw = false;
 
 				StartCoroutine(DrawGCConvexHull());
 			}
@@ -273,7 +275,15 @@ namespace XCharts
 			for (int i = 1; i < DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].GravityCenters.Count; i++)
 			{
 				tempGCPoints.Add(new Point(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].GravityCenters[i].Coordinate.x, DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].GravityCenters[i].Coordinate.y));
+
+				tempGCPoints[i].x += GravityDiff.x;
+				tempGCPoints[i].y += GravityDiff.y;
+
+				tempGCPoints[i].x = GCLine.points2[0].x + (tempGCPoints[i].x - GCLine.points2[0].x) * 250f / 344f;
+				tempGCPoints[i].y = GCLine.points2[0].y + (tempGCPoints[i].y - GCLine.points2[0].y) * 250f / 344f;
 			}
+
+
 			//print(tempGCPoints[1].x + tempGCPoints[1].y);
 
 			//for (int i = 0; i < 20; i++)
@@ -289,11 +299,11 @@ namespace XCharts
 					break;
 				}
 
-				tempGCPoints[i].x += GravityDiff.x;
-				tempGCPoints[i].y += GravityDiff.y;
+				//tempGCPoints[i].x += GravityDiff.x;
+				//tempGCPoints[i].y += GravityDiff.y;
 
-				tempGCPoints[i].x = GCLine.points2[0].x + (tempGCPoints[i].x - GCLine.points2[0].x) * 250f / 344f;
-				tempGCPoints[i].y = GCLine.points2[0].y + (tempGCPoints[i].y - GCLine.points2[0].y) * 250f / 344f;
+				//tempGCPoints[i].x = GCLine.points2[0].x + (tempGCPoints[i].x - GCLine.points2[0].x) * 250f / 344f;
+				//tempGCPoints[i].y = GCLine.points2[0].y + (tempGCPoints[i].y - GCLine.points2[0].y) * 250f / 344f;
 
 				//if(i < 20)
 				//{
@@ -325,10 +335,16 @@ namespace XCharts
 
 		IEnumerator DrawGCConvexHull()
 		{
+			GCconvexHullPoints = new List<Point>();
 
-			GCconvexHull = new ConvexHull(tempGCPoints);
+			foreach(var item in tempGCPoints)
+			{
+				GCconvexHullPoints.Add(item);
+			}
 
 			//print(tempGCPoints);
+			GCconvexHull = new ConvexHull(GCconvexHullPoints);
+
 
 			// 画凸包圈
 			GCConvexHullLine = new VectorLine("GCConvexHullLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
@@ -350,6 +366,7 @@ namespace XCharts
 
 			for (int i = 1; i < GCconvexHull.ConvexHullNum; i++)
 			{
+
 				//print("!!!!!");
 				if (GCconvexHull.ConvexHullSet[i].x > 1919) GCconvexHull.ConvexHullSet[i].x = 1919;
 				else if (GCconvexHull.ConvexHullSet[i].x < 0) GCconvexHull.ConvexHullSet[i].x = 0;
@@ -371,6 +388,7 @@ namespace XCharts
 				if (MaxY < Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].y)) MaxY = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[i].y);
 
 				GCConvexHullLine.Draw();
+				
 				yield return new WaitForSeconds(0.15f);
 			}
 
@@ -382,6 +400,7 @@ namespace XCharts
 			GCConvexHullLine.Draw();
 
 			StartCoroutine(DrawGCConvexHullArea(MinX - 2, MaxX + 2, MinY - 2, MaxY + 2));
+
 		}
 
 		IEnumerator DrawGCConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
