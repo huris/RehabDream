@@ -99,6 +99,8 @@ namespace XCharts
 
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
+                RemoveLines();
+
                 LastSingleEvaluation = FirstItem.value;
                 SingleEvaluation = SecondItem.value;
 

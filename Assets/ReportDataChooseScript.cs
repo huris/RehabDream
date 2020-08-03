@@ -18,6 +18,10 @@ public class ReportDataChooseScript : MonoBehaviour {
 
 	void OnEnable()
 	{
+    }
+
+    public void EvaluationTrainingToggleChanged()
+    {
         if (WallEvaluationToggle.isOn)
         {
             FirstItem.gameObject.SetActive(false);
@@ -59,7 +63,8 @@ public class ReportDataChooseScript : MonoBehaviour {
         }
         else if (TrainingToggle.isOn)
         {
-            ClearDropdown();
+            //ClearDropdown();    
+            //print("!!!!!");
 
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays == null)
             {
@@ -103,18 +108,19 @@ public class ReportDataChooseScript : MonoBehaviour {
         }
     }
 
-    public void EvaluationToggleChanged()
+    public void ItemToggleChanged()
     {
-        EvaluationGameobject.SetActive(false);
-        EvaluationGameobject.SetActive(true);
+        if (EvaluationToggle.isOn)
+        {
+            EvaluationGameobject.SetActive(false);
+            EvaluationGameobject.SetActive(true);
+        }
+        else if (TrainingToggle.isOn)
+        {
+            TrainingGameobject.SetActive(false);
+            TrainingGameobject.SetActive(true);
+        }
     }
-
-    public void TrainingToggleChanged()
-    {
-        TrainingGameobject.SetActive(false);
-        TrainingGameobject.SetActive(true);
-    }
-
 
     public void ClearDropdown()
     {
