@@ -399,7 +399,7 @@ public class PatientDatabaseManager : MonoBehaviour
     {
         SqliteDataReader EvaluationIDReader, EvaluationSoccerReader;    //sql读取器
         long EvaluationID = 0;
-        float[] EvaluateDirection = {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};    //default value
+        float[] EvaluateDirection = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };    //default value
 
         try
         {
@@ -462,7 +462,7 @@ public class PatientDatabaseManager : MonoBehaviour
                     Debug.Log("@DatabaseManager: Read MaxDirection NULL");
                 }
             }
-            
+
         }
         catch (SqliteException e)
         {
@@ -512,8 +512,8 @@ public class PatientDatabaseManager : MonoBehaviour
             }
         );
 
-        Debug.Log("@DatabaseManager: Write PatientRecord Success");
-        return DatabaseReturn.Success;
+            Debug.Log("@DatabaseManager: Write PatientRecord Success");
+            return DatabaseReturn.Success;
         }
         catch (SqliteException e)
         {
@@ -531,9 +531,9 @@ public class PatientDatabaseManager : MonoBehaviour
         {
 
 
-                PatientDatabase.InsertValues(
-                DirectionsTableName, //table name
-                new string[] {
+            PatientDatabase.InsertValues(
+            DirectionsTableName, //table name
+            new string[] {
                     TrainingID.ToString(),
                     MaxDirections[0].ToString(),
                     MaxDirections[1].ToString(),
@@ -543,10 +543,10 @@ public class PatientDatabaseManager : MonoBehaviour
                     MaxDirections[5].ToString(),
                     MaxDirections[6].ToString(),
                     MaxDirections[7].ToString()
-                    //MaxDirections[8].ToString(),
-                    //MaxDirections[9].ToString()
-                }
-            );
+                //MaxDirections[8].ToString(),
+                //MaxDirections[9].ToString()
+            }
+        );
 
 
             Debug.Log("@DatabaseManager: Write MaxDirection Success");
@@ -570,7 +570,7 @@ public class PatientDatabaseManager : MonoBehaviour
             //    evaluation.EvaluationStartTime + " " + evaluation.EvaluationEndTime);
 
             this.WriteEvaluationInfo(evaluation.EvaluationID, DoctorDataManager.instance.doctor.patient.PatientID,
-                evaluation.EvaluationHeight,evaluation.EvaluationStartTime, evaluation.EvaluationEndTime);
+                evaluation.EvaluationHeight, evaluation.EvaluationStartTime, evaluation.EvaluationEndTime);
 
             //print("1");
 
@@ -626,20 +626,20 @@ public class PatientDatabaseManager : MonoBehaviour
 
         //try
         //{
-            //print(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", ""));
+        //print(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", ""));
 
-            //print(AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", "")));
-            //print(AddSingleQuotes(soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.UponSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.UponRightSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.RightSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.DownRightSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.DownSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.DownLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.LeftSoccer.ToString().Replace("(", "").Replace(")", "")));
+        //print(AddSingleQuotes(soccerDistance.UponLeftSoccer.ToString().Replace("(", "").Replace(")", "")));
 
-            PatientDatabase.InsertValues(
-            EvaluationSoccerTableName, //table name
-            new string[] {
+        PatientDatabase.InsertValues(
+        EvaluationSoccerTableName, //table name
+        new string[] {
                     EvaluationID.ToString(),
                     soccerDistance.UponSoccerDistance.ToString(),
                     soccerDistance.UponRightSoccerDistance.ToString(),
@@ -671,11 +671,11 @@ public class PatientDatabaseManager : MonoBehaviour
                     Math.Max(soccerDistance.UponLeftSoccerTime, 1).ToString(),
                     Math.Max(soccerDistance.FrontSoccerTime, 1).ToString(),
                     Math.Max(soccerDistance.BehindSoccerTime, 1).ToString()
-            }
-        );
+        }
+    );
 
-            Debug.Log("@DatabaseManager: Write MaxSoccerDistances Success");
-            return DatabaseReturn.Success;
+        Debug.Log("@DatabaseManager: Write MaxSoccerDistances Success");
+        return DatabaseReturn.Success;
         //}
         //catch (SqliteException e)
         //{
@@ -691,18 +691,18 @@ public class PatientDatabaseManager : MonoBehaviour
 
         //try
         //{
-            PatientDatabase.InsertValues(
-                EvaluationPointsTableName, //table name
-                new string[] {
+        PatientDatabase.InsertValues(
+            EvaluationPointsTableName, //table name
+            new string[] {
                         EvaluationID.ToString(),
                         Points.x.ToString(),
                         Points.y.ToString(),
                         AddSingleQuotes(DataTime)       //TEXT Time
-                }
-            );
+            }
+        );
 
-            //Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
-            return DatabaseReturn.Success;
+        //Debug.Log("@DatabaseManager: Write EvaluationPoints Success");
+        return DatabaseReturn.Success;
         //}
         //catch (SqliteException e)
         //{
@@ -800,7 +800,7 @@ public class PatientDatabaseManager : MonoBehaviour
                 result.PlanTime = reader.GetInt64(reader.GetOrdinal("PlanTime"));
 
 
-                Debug.Log("@DatabaseManager:Read TrainingPlan Success " +result.PlanDifficulty + " " + result.GameCount.ToString() + " " + result.PlanCount.ToString());
+                Debug.Log("@DatabaseManager:Read TrainingPlan Success " + result.PlanDifficulty + " " + result.GameCount.ToString() + " " + result.PlanCount.ToString());
 
             }
             else
@@ -892,23 +892,23 @@ public class PatientDatabaseManager : MonoBehaviour
     {
         //try
         //{
-            //print("!!!!!");
-            //print(EvaluationID + "  " + Coordinate + "   " + Time);
+        //print("!!!!!");
+        //print(EvaluationID + "  " + Coordinate + "   " + Time);
 
-            PatientDatabase.InsertValues(
-                BobathGravityCenterTableName,
-                new string[] {
+        PatientDatabase.InsertValues(
+            BobathGravityCenterTableName,
+            new string[] {
                     EvaluationID.ToString(),      //INTEGER TrainingID
                     Coordinate.x.ToString(),//TEXT Coordinate
                     Coordinate.y.ToString(),//TEXT Coordinate
                     Coordinate.z.ToString(),//TEXT Coordinate
                     AddSingleQuotes(Time)       //TEXT Time
-                }
-            );
+            }
+        );
 
 
-            //Debug.Log("@DatabaseManager: Write BobathGravityCenter");
-            return DatabaseReturn.Success;
+        //Debug.Log("@DatabaseManager: Write BobathGravityCenter");
+        return DatabaseReturn.Success;
 
         //}
         //catch (SqliteException e)
@@ -1004,31 +1004,35 @@ public class PatientDatabaseManager : MonoBehaviour
         //using (SQLiteConnection conn = new SQLiteConnection(connectionString))
         //{
         //conn.Open();
-       // print("@@@@");
-            SqliteCommand cmd = PatientDatabase.GetSqliteConnection().CreateCommand();
+        // print("@@@@");
+
+        SqliteCommand cmd = PatientDatabase.GetSqliteConnection().CreateCommand();
         //Debug.Log(cmd == null);
 
-            
-            SqliteTransaction tx = PatientDatabase.GetSqliteConnection().BeginTransaction();
-            cmd.Transaction = tx;
-            //try
-            //{
-                for (int n = 0; n < SQLStringList.Count; n++)
+
+        SqliteTransaction tx = PatientDatabase.GetSqliteConnection().BeginTransaction();
+        cmd.Transaction = tx;
+        try
+        {
+            for (int n = 0; n < SQLStringList.Count; n++)
+            {
+                string strsql = SQLStringList[n].ToString();
+                if (strsql.Trim().Length > 1)
                 {
-                    string strsql = SQLStringList[n].ToString();
-                    if (strsql.Trim().Length > 1)
-                    {
-                        cmd.CommandText = strsql;
-                        cmd.ExecuteNonQuery();
-                    }
+                    cmd.CommandText = strsql;
+                    cmd.ExecuteNonQuery();
                 }
-                tx.Commit();
-            //}
-            //catch (Exception E)
-            //{
-            //    tx.Rollback();
-            //    throw new Exception(E.Message);
-            //}
+            }
+            tx.Commit();
+
+        }
+        catch (Exception E)
+        {
+            Debug.Log("ExecuteSqlTran is Error");
+
+            tx.Rollback();
+            throw new Exception(E.Message);
+        }
         //}
     }
 

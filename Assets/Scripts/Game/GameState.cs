@@ -44,7 +44,7 @@ public class GameState : MonoBehaviour
     public static float ShooterTime = 1.0f;
     public static float SessionRestTime = 3.0f;      // rest after each shoot
     public static float AddSuccessCountTime = 1.0f;  // show "+1" in ui
-    public static float RecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+    public static float RecordTime = 1f;           // record gravity,angles... each 0.2s 
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
@@ -83,6 +83,9 @@ public class GameState : MonoBehaviour
     private float _RestTimeCount = 0;
     private float _RecordTimeCount = 0;
 
+    private float _WriteRecordTimeCount = 0;
+    public static float WriteRecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+
     // tips
     private string _Tips = "";
 
@@ -117,6 +120,8 @@ public class GameState : MonoBehaviour
     private State _state = State.Pause;
     private State _oldstate;
     private float _OldShooterAnimationSpeed = 1.0f;
+
+    public List<string> SQLStringList = new List<string>();
 
     void Awake()
     {
@@ -178,11 +183,15 @@ public class GameState : MonoBehaviour
         }
 
         // record gravitycenter, angle and update TimeCount
-        if (RecordTimeOver())
+        //if (RecordTimeOver())
+        //{
+        if (WriteRecordTimeOver())
         {
             this.WriteDatabaseInGame();
-            GameUIHandle.SetTrainingProgress(PatientDataManager.instance.TimeCount, PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime));
         }
+
+        GameUIHandle.SetTrainingProgress(PatientDataManager.instance.TimeCount, PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime));
+        //}
         
         if (Input.GetKeyDown(KeyCode.Delete))
         {
@@ -309,6 +318,11 @@ public class GameState : MonoBehaviour
         this._OnSessionOver2GameOver += this.StopSeSounds;
         this._OnSessionOver2GameOver += this.GameoverUI;
         this._OnSessionOver2GameOver += this.GameOverWriteDatabase;
+        this._OnSessionOver2GameOver += this.ThreadWriteData;
+        //if(SQLStringList.Count > 0)
+        //{
+        //    ThreadWriteData();
+        //}
     }
 
     // show "+1" in gameUI
@@ -366,29 +380,83 @@ public class GameState : MonoBehaviour
     // use Thread to write database
     public void WriteDatabaseInGame()
     {
-        WriteBodyDataThread Thread = new WriteBodyDataThread(
-           PatientDataManager.instance.TrainingID,
-           _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
-           _Caculator.LeftArmAngle(),
-           _Caculator.RightArmAngle(),
-           _Caculator.LeftLegAngle(),
-           _Caculator.RightLegAngle(),
-           _Caculator.LeftElbowAngle(),
-           _Caculator.RightElbowAngle(),
-           _Caculator.LeftKneeAngle(),
-           _Caculator.RightKneeAngle(),
-           _Caculator.LeftAnkleAngle(),
-           _Caculator.RightAnkleAngle(),
-           _Caculator.LeftHipAngle(),
-           _Caculator.RightHipAngle(),
-           _Caculator.HipAngle(),
-           _Caculator.LeftSideAngle(),
-           _Caculator.RightSideAngle(),
-           _Caculator.UponSideAngle(),
-           _Caculator.DownSideAngle(),
-           System.DateTime.Now);
+        Vector3 TempeGravityCenter = _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false);
+        System.DateTime NowTime = System.DateTime.Now;
 
-        Thread.StartThread();
+
+        SQLStringList.Add("INSERT INTO GravityCenter VALUES(" + PatientDataManager.instance.TrainingID.ToString()
+                            + "," + TempeGravityCenter.x.ToString()
+                            + "," + TempeGravityCenter.y.ToString()
+                            + "," + TempeGravityCenter.z.ToString()
+                            + "," + DoctorDatabaseManager.instance.AddSingleQuotes(NowTime.ToString("yyyyMMdd HH:mm:ss")) + ")");
+
+        SQLStringList.Add("INSERT INTO Angles VALUES(" + PatientDataManager.instance.TrainingID.ToString()
+                            + "," + _Caculator.LeftArmAngle().ToString()
+                            + "," + _Caculator.RightArmAngle().ToString()
+                            + "," + _Caculator.LeftLegAngle().ToString()
+                            + "," + _Caculator.RightLegAngle().ToString()
+                            + "," + _Caculator.LeftElbowAngle().ToString()
+                            + "," + _Caculator.RightElbowAngle().ToString()
+                            + "," + _Caculator.LeftKneeAngle().ToString()
+                            + "," + _Caculator.RightKneeAngle().ToString()
+                            + "," + _Caculator.LeftAnkleAngle().ToString()
+                            + "," + _Caculator.RightAnkleAngle().ToString()
+                            + "," + _Caculator.LeftHipAngle().ToString()
+                            + "," + _Caculator.RightHipAngle().ToString()
+                            + "," + _Caculator.HipAngle().ToString()
+                            + "," + _Caculator.LeftSideAngle().ToString()
+                            + "," + _Caculator.RightSideAngle().ToString()
+                            + "," + _Caculator.UponSideAngle().ToString()
+                            + "," + _Caculator.DownSideAngle().ToString()
+                            + "," + DoctorDatabaseManager.instance.AddSingleQuotes(NowTime.ToString("yyyyMMdd HH:mm:ss")) + ")");
+
+        if (RecordTimeOver())
+        {
+            ThreadWriteData();
+        }
+
+
+
+        //WriteBodyDataThread Thread = new WriteBodyDataThread(
+        //   PatientDataManager.instance.TrainingID,
+        //   _Caculator.CalculateGravityCenter(PatientDataManager.instance.PatientSex.Equals("男") ? true : false),
+        //   _Caculator.LeftArmAngle(),
+        //   _Caculator.RightArmAngle(),
+        //   _Caculator.LeftLegAngle(),
+        //   _Caculator.RightLegAngle(),
+        //   _Caculator.LeftElbowAngle(),
+        //   _Caculator.RightElbowAngle(),
+        //   _Caculator.LeftKneeAngle(),
+        //   _Caculator.RightKneeAngle(),
+        //   _Caculator.LeftAnkleAngle(),
+        //   _Caculator.RightAnkleAngle(),
+        //   _Caculator.LeftHipAngle(),
+        //   _Caculator.RightHipAngle(),
+        //   _Caculator.HipAngle(),
+        //   _Caculator.LeftSideAngle(),
+        //   _Caculator.RightSideAngle(),
+        //   _Caculator.UponSideAngle(),
+        //   _Caculator.DownSideAngle(),
+        //   System.DateTime.Now);
+
+        //Thread.StartThread();
+    }
+
+    public void ThreadWriteData()
+    {
+        if (SQLStringList.Count > 0)
+        {
+            List<string> TempSQLText = new List<string>();
+            foreach (var item in SQLStringList)
+            {
+                TempSQLText.Add(item);
+            }
+            SQLStringList.Clear();
+
+            WritePointDataThread Thread = new WritePointDataThread(TempSQLText);
+
+            Thread.StartThread();
+        }
     }
 
     // stop playing Se
@@ -1161,4 +1229,21 @@ public class GameState : MonoBehaviour
 
         }
     }
+
+    private bool WriteRecordTimeOver()
+    {
+        _WriteRecordTimeCount += Time.deltaTime;
+        if (_WriteRecordTimeCount < WriteRecordTime)
+        {
+            return false;
+        }
+        else
+        {
+            _WriteRecordTimeCount = 0f;
+            return true;
+
+        }
+    }
+
+
 }

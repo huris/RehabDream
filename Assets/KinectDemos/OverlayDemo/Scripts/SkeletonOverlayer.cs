@@ -955,23 +955,24 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             //print("!!!!!");
             //print(evaluation.Points[evaluation.Points.Count - 1].x);
+            ThreadWriteData();
 
-            List<string> TempSQLText = new List<string>();
-            foreach(var item in SQLStringList)
-            {
-                TempSQLText.Add(item);
-            }
-            SQLStringList.Clear();
+            //List<string> TempSQLText = new List<string>();
+            //foreach(var item in SQLStringList)
+            //{
+            //    TempSQLText.Add(item);
+            //}
+            //SQLStringList.Clear();
 
-            WritePointDataThread Thread = new WritePointDataThread(TempSQLText);
+            //WritePointDataThread Thread = new WritePointDataThread(TempSQLText);
 
-            Thread.StartThread();
+            //Thread.StartThread();
         }
 
         ////print(evaluation.Points[evaluation.Points.Count - 1].x);
         //WriteBobathGCDataThread Thread = new WriteBobathGCDataThread(
         //   evaluation.EvaluationID,
-           
+
         //   );
         //Thread.StartThread();
 
@@ -1829,6 +1830,23 @@ public class SkeletonOverlayer : MonoBehaviour
         SceneManager.LoadScene("03-DoctorUI");
     }
 
+    public void ThreadWriteData()
+    {
+        if(SQLStringList.Count > 0)
+        {
+            List<string> TempSQLText = new List<string>();
+            foreach (var item in SQLStringList)
+            {
+                TempSQLText.Add(item);
+            }
+            SQLStringList.Clear();
+
+            WritePointDataThread Thread = new WritePointDataThread(TempSQLText);
+
+            Thread.StartThread();
+        }     
+    }
+
     public void EvaluationFinished() // 将数据写入数据库
     {
         if (DoctorDataManager.instance.doctor.patient.Evaluations == null) 
@@ -1842,6 +1860,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
             DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
         }
+
+        ThreadWriteData();
+
         DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);        
         DoctorDataManager.instance.FunctionManager = 1;
         DoctorDataManager.instance.EvaluationType = 1;
