@@ -12,6 +12,7 @@ namespace XCharts
     {
 
         public int SingleEvaluation;
+        public int LastSingleEvaluation;
         public Evaluation evaluation;
         public SoccerDistance NowSoccerDistance;
         public SoccerDistance LastSoccerDistance;
@@ -81,6 +82,8 @@ namespace XCharts
 
         public BarChart SoccerBar;
 
+        public Dropdown FirstItem;
+        public Dropdown SecondItem;
 
         void OnEnable()
         {
@@ -96,7 +99,9 @@ namespace XCharts
 
             if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
             {
-                SingleEvaluation = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
+                LastSingleEvaluation = FirstItem.value;
+                SingleEvaluation = SecondItem.value;
+
                 evaluation = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation];
 
                 NowSoccerDistance = evaluation.soccerDistance;
@@ -263,12 +268,12 @@ namespace XCharts
                 }
 
 
-                if (SingleEvaluation > 0)
+                if (LastSingleEvaluation != SingleEvaluation)
                 {
-                    LastSoccerDistance = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].soccerDistance;
+                    LastSoccerDistance = DoctorDataManager.instance.doctor.patient.Evaluations[LastSingleEvaluation].soccerDistance;
 
                     LastEvaluationPoints = new List<Point>();
-                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].Points)
+                    foreach (var point in DoctorDataManager.instance.doctor.patient.Evaluations[LastSingleEvaluation].Points)
                     {
                         LastEvaluationPoints.Add(new Point(point.x, point.y));
                     }
@@ -282,8 +287,8 @@ namespace XCharts
                         LastEvaluationPoints[i].y += GravityDiff.y;
 
                         //tempPoints[i].x = tempPoints[0].x + (tempPoints[i].x - tempPoints[0].x) * WidthPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationWidth;
-                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
-                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation - 1].EvaluationHeight;
+                        LastEvaluationPoints[i].x = LastEvaluationPoints[0].x + (LastEvaluationPoints[i].x - LastEvaluationPoints[0].x) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[LastSingleEvaluation].EvaluationHeight;
+                        LastEvaluationPoints[i].y = LastEvaluationPoints[0].y + (LastEvaluationPoints[i].y - LastEvaluationPoints[0].y) * HeightPixel / DoctorDataManager.instance.doctor.patient.Evaluations[LastSingleEvaluation].EvaluationHeight;
                     }
                 }
 
@@ -354,7 +359,7 @@ namespace XCharts
             SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 2);
             SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 2);
 
-            if (SingleEvaluation > 0)
+            if (LastSingleEvaluation != SingleEvaluation)
             {
                 SetResultDataText(LastSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 1);
                 SetResultDataText(LastSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 1);
@@ -517,7 +522,7 @@ namespace XCharts
 
                 IsDrawNowConvexHull = true;
 
-                if (SingleEvaluation > 0)
+                if (LastSingleEvaluation != SingleEvaluation)
                 {
                     List<Point> tempPoints = new List<Point>();
 
@@ -705,7 +710,7 @@ namespace XCharts
             float FrontX = SideModelGravity.x + NowSoccerDistance.FrontSoccerDistance * SideCoefficient;
             float BehindX = SideModelGravity.x - NowSoccerDistance.BehindSoccerDistance * SideCoefficient;
 
-            if (SingleEvaluation > 0)
+            if (LastSingleEvaluation != SingleEvaluation)
             {
                 LastFrontLine = new VectorLine("LastFrontLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
                 LastFrontLine.smoothColor = false;   // 设置平滑颜色

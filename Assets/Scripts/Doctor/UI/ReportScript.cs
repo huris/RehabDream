@@ -15,10 +15,7 @@ public class ReportScript : MonoBehaviour
     public int width = 1920, height = 1080;//截屏区域
 
     string picName = ".png";//图片名称
-    public string pdfName = ".pdf";//pdf名称    
-
-
-    
+    public string pdfName = ".pdf";//pdf名称        
 
     public static string WallEvaluationReportPath = "Data/报告/评估报告/动作姿势评估";  //保存路径
     public static string EvaluationReportPath = "Data/报告/评估报告/Bobath评估";  //保存路径
@@ -35,7 +32,13 @@ public class ReportScript : MonoBehaviour
     public Toggle DoctorUIThroughWall;
     public Toggle DoctorUIBobath;
 
+
     void OnEnable()
+    {
+        ReportInit();
+    }
+
+    public void ReportInit()
     {
         WallEvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/WallEvaluationToggle").GetComponent<Toggle>();
         EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/EvaluationToggle").GetComponent<Toggle>();
@@ -44,8 +47,7 @@ public class ReportScript : MonoBehaviour
         x = 382.5f; y = 119.43f;   // 设置起始点
         width = 595; height = 842;  // 设置大小
 
-        StartCoroutine(DelayTime(3));        
-
+        StartCoroutine(DelayTime(3));
     }
 
     IEnumerator DelayTime(int time)
@@ -65,6 +67,7 @@ public class ReportScript : MonoBehaviour
             SaveTrainingReport();
         }
     }
+
 
     public void SaveWallEvaluationReport()
     {

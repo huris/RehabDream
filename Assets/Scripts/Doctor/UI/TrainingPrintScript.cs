@@ -12,6 +12,7 @@ namespace XCharts
     {
 
         public int SingleTrainingPlay;
+        public int LastSingleTrainingPlay;
         public TrainingPlay trainingPlay;
         public TrainingPlay LastTrainingPlay;
 
@@ -42,6 +43,10 @@ namespace XCharts
         LineChart GravityCenterChart;
         Serie GravityCenterSerie;
 
+        public Dropdown FirstItem;
+        public Dropdown SecondItem;
+
+
         void OnEnable()
         {
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays == null)
@@ -64,12 +69,13 @@ namespace XCharts
             
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0)
             {
-                SingleTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlayIndex;
+                LastSingleTrainingPlay = FirstItem.value;
+                SingleTrainingPlay = SecondItem.value;
                 trainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay];
 
-                if (SingleTrainingPlay > 0)
+                if (LastSingleTrainingPlay != SingleTrainingPlay)
                 {
-                    LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay - 1];
+                    LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[LastSingleTrainingPlay];
                 }
 
                 // Title
@@ -185,7 +191,7 @@ namespace XCharts
 
             SetResultDataText(trainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 2);
 
-            if (SingleTrainingPlay > 0)
+            if (LastSingleTrainingPlay != SingleTrainingPlay)
             {
                 SetResultDataText(LastTrainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 1);
 
@@ -316,7 +322,7 @@ namespace XCharts
 
             SetResultDataText(MaxGravityCenter.ToString("0.0000"), 1, 2);
 
-            if (SingleTrainingPlay > 0)
+            if (LastSingleTrainingPlay != SingleTrainingPlay)
             {
                 float LastMaxGravityCenter = 0f;
 
@@ -430,7 +436,7 @@ namespace XCharts
             SetResultDataText(MinLeftAnkleAngle.ToString("0.00") + " | " + MaxLeftAnkleAngle.ToString("0.00"), 17, 2);
             SetResultDataText(MinRightAnkleAngle.ToString("0.00") + " | " + MaxRightAnkleAngle.ToString("0.00"), 18, 2);
 
-            if(SingleTrainingPlay > 0)
+            if(LastSingleTrainingPlay != SingleTrainingPlay)
             {
                 float LastMinLeftSideAngle = LastTrainingPlay.angles[0].LeftSideAngle;
                 float LastMinRightSideAngle = LastTrainingPlay.angles[0].RightSideAngle;
