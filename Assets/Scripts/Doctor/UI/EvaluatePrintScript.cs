@@ -85,6 +85,8 @@ namespace XCharts
         public Dropdown FirstItem;
         public Dropdown SecondItem;
 
+        public Toggle WallEvaluationToggle;
+
         void OnEnable()
         {
             if (DoctorDataManager.instance.doctor.patient.Evaluations == null)
@@ -103,6 +105,8 @@ namespace XCharts
 
                 LastSingleEvaluation = FirstItem.value;
                 SingleEvaluation = SecondItem.value;
+
+                //print(LastSingleEvaluation + "  " + SingleEvaluation);
 
                 evaluation = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation];
 
@@ -479,7 +483,7 @@ namespace XCharts
 
             IsDrawNowConvexHull = false;
             // 多算几个单位
-            StartCoroutine(DrawConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
+            StartCoroutine(DrawConvexHullArea(MinX - 2, MaxX + 2, MinY - 2, MaxY + 2));
         }
 
         IEnumerator DrawConvexHullArea(int MinX, int MaxX, int MinY, int MaxY)
@@ -498,6 +502,8 @@ namespace XCharts
 
                 ConvexHullColors = m_texture.GetPixels(MinX, MinY, MaxX - MinX, MaxY - MinY);
 
+                //print(MinX + "  " + MaxX + "  " + MinY + "  " + MaxY);
+
                 MaxY = MaxY - MinY - 1;
 
                 int x, y;
@@ -511,6 +517,8 @@ namespace XCharts
                     while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // 查找左边的凸包边界
                     while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // 查找右边的凸包边界
 
+                    //print(x + "  " + y);
+
                     if (x != y)
                     {
                         ConvexHullArea.points2.Add(new Vector2(MinX + x - i * (MaxX - MinX), MinY + i));
@@ -520,6 +528,9 @@ namespace XCharts
                         NowConvexHullPoints.Add(new Vector2(MinX + y - i * (MaxX - MinX), MinY + i));
                     }
                 }
+
+                //print(NowConvexHullPoints.Count);
+
                 ConvexHullArea.Draw();
 
                 IsDrawNowConvexHull = true;
@@ -584,7 +595,7 @@ namespace XCharts
 
                     IsDrawLastConvexHull = false;
                     // 多算几个单位
-                    StartCoroutine(DrawLastConvexHullArea(MinX - 10, MaxX + 10, MinY - 10, MaxY + 10));
+                    StartCoroutine(DrawLastConvexHullArea(MinX - 2, MaxX + 2, MinY - 2, MaxY + 2));
                 }
             }
         }
@@ -639,7 +650,13 @@ namespace XCharts
                 LastNowConvexHullArea.color = LastNowOverlappingColor;  // 设置颜色
 
                 int LastInx = 0, NowInx = 0;
-                while ((LastInx < LastConvexHullPoints.Count) && (LastConvexHullPoints[LastInx].y < NowConvexHullPoints[0].y)) LastInx++;
+
+                //print(LastInx + "  " + LastConvexHullPoints.Count + "  " + NowConvexHullPoints.Count);
+
+                while ((LastInx < LastConvexHullPoints.Count) && (LastConvexHullPoints[LastInx].y < NowConvexHullPoints[0].y))
+                {
+                    LastInx++;
+                }
                 while ((NowInx < NowConvexHullPoints.Count) && (NowConvexHullPoints[NowInx].y < LastConvexHullPoints[0].y)) NowInx++;
                 float x1, x2, x3, x4;
                 while ((LastInx < LastConvexHullPoints.Count) && (NowInx < NowConvexHullPoints.Count))
@@ -800,6 +817,15 @@ namespace XCharts
             }
             return ResultString;
         }
+
+        public void WallEvaluationToggleIsOn()
+        {
+            if(WallEvaluationToggle.isOn)
+            {
+                RemoveLines();
+            }
+        }
+
 
         public void RemoveLines()
         {

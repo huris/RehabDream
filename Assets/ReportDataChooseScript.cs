@@ -16,12 +16,47 @@ public class ReportDataChooseScript : MonoBehaviour {
     public GameObject EvaluationGameobject;
     public GameObject TrainingGameobject;
 
-	void OnEnable()
-	{
+    public GameObject Evaluations;
+    public GameObject Trainings;
+
+    public Toggle EvaluationsToggle;
+    public Toggle TrainingsToggle;
+
+    public void EvaluationsToggleChanged()
+    {
+        if (EvaluationsToggle.isOn)
+        {
+            TrainingToggle.isOn = false;
+
+            Evaluations.SetActive(true);
+            WallEvaluationToggle.isOn = true;
+            //EvaluationTrainingToggleChanged();
+
+            Trainings.SetActive(false);
+
+            //EvaluationTrainingToggleChanged();
+        }
+        else
+        {
+            WallEvaluationToggle.isOn = false;
+            EvaluationToggle.isOn = false;
+
+            //EvaluationTrainingToggleChanged();
+            Trainings.SetActive(true);
+            TrainingToggle.isOn = true;
+
+            Evaluations.SetActive(false);
+            //EvaluationTrainingToggleChanged();
+        }
+    }
+
+    void OnEnable()
+    {
     }
 
     public void EvaluationTrainingToggleChanged()
     {
+
         if (WallEvaluationToggle.isOn)
         {
             FirstItem.gameObject.SetActive(false);
@@ -41,6 +76,9 @@ public class ReportDataChooseScript : MonoBehaviour {
 
             if (DoctorDataManager.instance.doctor.patient.Evaluations.Count == 1)
             {
+                FirstItem.value = 0;
+                SecondItem.value = 0;
+
                 FirstItem.gameObject.SetActive(false);
                 SecondItem.gameObject.SetActive(false);
             }
@@ -59,12 +97,13 @@ public class ReportDataChooseScript : MonoBehaviour {
                 FirstItem.value = 0;
 
                 SecondItem.value = DoctorDataManager.instance.doctor.patient.EvaluationIndex;
+
+                //print(FirstItem.value + "  "  + SecondItem.value);
+
             }
         }
         else if (TrainingToggle.isOn)
         {
-            //ClearDropdown();    
-            //print("!!!!!");
 
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays == null)
             {
@@ -86,6 +125,9 @@ public class ReportDataChooseScript : MonoBehaviour {
 
             if (DoctorDataManager.instance.doctor.patient.TrainingPlays.Count == 1)
             {
+                FirstItem.value = 0;
+                SecondItem.value = 0;
+
                 FirstItem.gameObject.SetActive(false);
                 SecondItem.gameObject.SetActive(false);
             }

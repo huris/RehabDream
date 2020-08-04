@@ -261,6 +261,7 @@
      <Compile Include="Assets\printer\_Scripts\Xml.cs" />
      <Compile Include="Assets\printer\LCPrinter\LCExampleScript.cs" />
      <Compile Include="Assets\ReportDataChooseScript.cs" />
+     <Compile Include="Assets\ReportToggleManagerScript.cs" />
      <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
      <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
