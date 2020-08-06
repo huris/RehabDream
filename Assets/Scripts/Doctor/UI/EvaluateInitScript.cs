@@ -329,10 +329,11 @@ namespace XCharts
                 //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f);
 
 
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 4f;
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 3f;
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f;
+                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 6f;
+                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 5f;
+                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 6f;
 
+                if (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore > 100) DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore = 100f;
                 float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
 
                 if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1 级"; }

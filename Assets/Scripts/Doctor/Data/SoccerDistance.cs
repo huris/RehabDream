@@ -161,9 +161,9 @@ public class SoccerDistance
 
     public float SumScore()
     {
-        float a1 = 2.5f;
-        float a2 = 3f;
-        float a3 = 4f;
+        float a1 = 5f;
+        float a2 = 6f;
+        float a3 = 7f;
 
         return a1 * this.UponSoccerDistance * this.UponSoccerScore / this.UponSoccerTime 
              + a1 * this.UponRightSoccerDistance * this.UponRightSoccerScore / this.UponRightSoccerTime
