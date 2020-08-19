@@ -75,6 +75,9 @@ public class PlayGame : MonoBehaviour
     List<Sprite> sprites;
     public Text debug_text;
 
+
+    private Dictionary<int,int>  PassNum;   //<Action_ID, PassNum>
+
     private void OnEnable()
     {
 
@@ -100,6 +103,13 @@ public class PlayGame : MonoBehaviour
         GameObject.Find("Playing").transform.Find("continue").gameObject.SetActive(true);
 
     }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("03-DoctorUI");
+    }
+
+
     public void Contin()
     {
         Time.timeScale = 1;
@@ -127,6 +137,7 @@ public class PlayGame : MonoBehaviour
                             {
                                 currentLevel = user.level;
                                 currentUser = user;
+                                PassNum = new Dictionary<int, int>(user.level.actionNum);
                             }
                         }
 
@@ -136,6 +147,11 @@ public class PlayGame : MonoBehaviour
                         actionNum = 0;
                         foreach (var item in currentLevel.actionRates)
                         {
+                            if (!PassNum.ContainsKey(item.Key))
+                            {
+                                PassNum.Add(item.Key, 0);
+                            }
+
                             actionNum += item.Value;
                             for (int i = 0; i < item.Value; i++)
                             {
@@ -449,6 +465,9 @@ public class PlayGame : MonoBehaviour
                                 if (KinectValue < 0)
                                 {
                                     passNum++;
+
+                                    PassNum[standord_action.id]++;  //动作的通过数+1
+
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
                                     performanceTimes.SetActive(false);
@@ -495,6 +514,8 @@ public class PlayGame : MonoBehaviour
                                 if (value < 0)
                                 {
                                     passNum++;
+
+                                    PassNum[standord_action.id]++;  //动作的通过数+1
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
                                     performanceTimes.SetActive(false);
@@ -995,7 +1016,7 @@ public class PlayGame : MonoBehaviour
         // 对于特殊需求的动作（双足并拢、双手笔直向前等），需要加入坐标距离检测
         PositionCalculator PC = new PositionCalculator(standord_action, tmpPosition);
         int PCScore = PC.CheckPosition();
-        Debug.Log(PCScore);
+        //Debug.Log(PCScore);
 
         #endregion
         #region 根据角度差判定动作是否标准
@@ -1179,8 +1200,14 @@ public class PlayGame : MonoBehaviour
             for (int i = 0; i < accuracyList.Count; i++)
             {
                 average += accuracyList[i];
-                passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
+                //passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
             }
+            passNum = PassNum[actionData.Key];
+
+            //Debug.Log(actionData.Key + " PassNum: " + passNum);
+
+
+
             totalAccuracy += average;
             totalPassNum += passNum * 100;
             actionNum += accuracyList.Count;

@@ -109,3 +109,7 @@ D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.dll
 D:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.pdb
 D:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll
+E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.dll
+E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.pdb

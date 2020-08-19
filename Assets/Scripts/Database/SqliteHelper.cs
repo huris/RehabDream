@@ -164,7 +164,7 @@ public class SQLiteHelper
             queryString += ", " + colNames[i] + "=" + colValues[i];
         }
         queryString += " WHERE " + key + operation + value;
-        Debug.Log("@SqliteHelper: UpdateValues "+queryString);
+        //Debug.Log("@SqliteHelper: UpdateValues "+queryString);
         return ExecuteQuery(queryString);
     }
 
