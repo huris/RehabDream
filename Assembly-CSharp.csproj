@@ -112,7 +112,6 @@
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
-     <Compile Include="Assets\EvaluationChartType.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -256,12 +255,11 @@
      <Compile Include="Assets\KinectView\Scripts\InfraredSourceManager.cs" />
      <Compile Include="Assets\KinectView\Scripts\InfraredSourceView.cs" />
      <Compile Include="Assets\KinectView\Scripts\MultiSourceManager.cs" />
+     <Compile Include="Assets\NoUseDoctorTestScript.cs" />
      <Compile Include="Assets\printer\_Scripts\ScreenShot2Pdf.cs" />
      <Compile Include="Assets\printer\_Scripts\ScreenShot2PdfWS.cs" />
      <Compile Include="Assets\printer\_Scripts\Xml.cs" />
      <Compile Include="Assets\printer\LCPrinter\LCExampleScript.cs" />
-     <Compile Include="Assets\ReportDataChooseScript.cs" />
-     <Compile Include="Assets\ReportToggleManagerScript.cs" />
      <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
      <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
      <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
@@ -301,6 +299,7 @@
      <Compile Include="Assets\Scripts\Doctor\UI\DoctorUIExitButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluateInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluatePrintScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationChartType.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationSceneInit.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\EvaluationScript.cs" />
@@ -326,7 +325,9 @@
      <Compile Include="Assets\Scripts\Doctor\UI\PatientPasswordModifyButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryButtonScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ReportDataChooseScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
+     <Compile Include="Assets\Scripts\Doctor\UI\ReportToggleManagerScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\ScaleActionInitScript.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
      <Compile Include="Assets\Scripts\Doctor\UI\StartTipInitScript.cs" />

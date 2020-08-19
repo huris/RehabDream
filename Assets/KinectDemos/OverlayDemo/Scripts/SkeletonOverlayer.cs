@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -38,20 +38,20 @@ public class SkeletonOverlayer : MonoBehaviour
 
     private Quaternion initialRotation = Quaternion.identity;
 
-    ////ÓÃÀ´Ë÷Òı¶Ëµã
+    ////ç”¨æ¥ç´¢å¼•ç«¯ç‚¹
     //private int index = 0;
 
-    //¼ÇÂ¼×óÓÒÁ½¸öÖ¸¼âµÄ×ø±ê
+    //è®°å½•å·¦å³ä¸¤ä¸ªæŒ‡å°–çš„åæ ‡
     private Vector3 HandTipLeft;
-    private Vector3 SpineMid;   // »¼ÕßÖØĞÄ×ø±ê
-    private float FirstFistZ;   // »¼Õß³õÊ¼È­Í·¾àÀë
+    private Vector3 SpineMid;   // æ‚£è€…é‡å¿ƒåæ ‡
+    private float FirstFistZ;   // æ‚£è€…åˆå§‹æ‹³å¤´è·ç¦»
     private Vector2 LastPosition;
     private Vector2 NowPosition;
-    private float LastNowDis;  // Á½¸öµãµÄ²îÖµ
+    private float LastNowDis;  // ä¸¤ä¸ªç‚¹çš„å·®å€¼
 
     public Canvas canvas;
 
-    // ÉÏ:0,ÓÒÉÏ:1,ÓÒ:2,ÓÒÏÂ:3,ÏÂ:4,×óÏÂ:5,×ó:6,×óÉÏ:7,ÖĞ¼ä:8
+    // ä¸Š:0,å³ä¸Š:1,å³:2,å³ä¸‹:3,ä¸‹:4,å·¦ä¸‹:5,å·¦:6,å·¦ä¸Š:7,ä¸­é—´:8
     public GameObject Soccerball;
 
     public Camera camera;
@@ -67,47 +67,47 @@ public class SkeletonOverlayer : MonoBehaviour
     public GameObject DownButton;
 
     public Image Introduction;
-    public float WaitTime;   // Ë«ÊÖÎÕÈ­µÄÊ±¼ä,³õÊ¼ÉèÎª3Ãë
-    public Slider KinectDetectUIProgressSlider;  // ½ø¶ÈÌõ
+    public float WaitTime;   // åŒæ‰‹æ¡æ‹³çš„æ—¶é—´,åˆå§‹è®¾ä¸º3ç§’
+    public Slider KinectDetectUIProgressSlider;  // è¿›åº¦æ¡
 
-    public Image Buttons;   // ÏÂÃæÈı¸öbuttonµÄ±³¾°
-    //public GameObject FinishedButton;  // Íê³É²âÆÀ°´Å¥
+    public Image Buttons;   // ä¸‹é¢ä¸‰ä¸ªbuttonçš„èƒŒæ™¯
+    //public GameObject FinishedButton;  // å®Œæˆæµ‹è¯„æŒ‰é’®
 
-    public Evaluation evaluation;   // ĞÂ½¨Ò»¸öÆÀ¹À²âÊÔ
-    public List<Point> tempPoints;  // ÁÙÊ±ÓÃÓÚ»­Í¹°üµÄµã¼¯
-    public ConvexHull convexHull;   // ĞÂ½¨Ò»¸öÍ¹°ü
+    public Evaluation evaluation;   // æ–°å»ºä¸€ä¸ªè¯„ä¼°æµ‹è¯•
+    public List<Point> tempPoints;  // ä¸´æ—¶ç”¨äºç”»å‡¸åŒ…çš„ç‚¹é›†
+    public ConvexHull convexHull;   // æ–°å»ºä¸€ä¸ªå‡¸åŒ…
 
-    private VectorLine ColorFistLine;   // ²ÊÉ«ÊÖÊÆÏß
-    private VectorLine ConvexHullLine;   // Í¹°üÏß
+    private VectorLine ColorFistLine;   // å½©è‰²æ‰‹åŠ¿çº¿
+    private VectorLine ConvexHullLine;   // å‡¸åŒ…çº¿
 
-    //// Çó¼ç¿íEvaluationWidth
-    //public float ShoulderLeftX; // ×ó¼çµÄxÖµ
-    //public float ShoulderRightX; // ÓÒ¼çµÄxÖµ
+    //// æ±‚è‚©å®½EvaluationWidth
+    //public float ShoulderLeftX; // å·¦è‚©çš„xå€¼
+    //public float ShoulderRightX; // å³è‚©çš„xå€¼
 
-    // ÇóÉí¸ß¶ÎEvaluationHeight
-    public float SpineShoulderY; // ĞØÖĞĞÄY
-    public float SpineMidY; // ÖØĞÄY
+    // æ±‚èº«é«˜æ®µEvaluationHeight
+    public float SpineShoulderY; // èƒ¸ä¸­å¿ƒY
+    public float SpineMidY; // é‡å¿ƒY
 
-    public bool IsOver;     // ÅĞ¶ÏÊÇ·ñ½áÊø
+    public bool IsOver;     // åˆ¤æ–­æ˜¯å¦ç»“æŸ
 
-    public VectorLine ConvexHullArea;   // »­Í¹°üÍ¸Ã÷Ãæ»ı
-    public Color[] ConvexHullColors;    // Í¹°ü¶¥µãÑÕÉ«
-    public Color ConvexHullLineColor;   // Í¹°ü±ßÔµÑÕÉ«
-    public Color ConvexHullAreaColor;   // Í¹°üÄÚ²¿ÑÕÉ«
-    public bool ConvexHullIsDraw;   // Í¹°ü»æÖÆÍê³É
+    public VectorLine ConvexHullArea;   // ç”»å‡¸åŒ…é€æ˜é¢ç§¯
+    public Color[] ConvexHullColors;    // å‡¸åŒ…é¡¶ç‚¹é¢œè‰²
+    public Color ConvexHullLineColor;   // å‡¸åŒ…è¾¹ç¼˜é¢œè‰²
+    public Color ConvexHullAreaColor;   // å‡¸åŒ…å†…éƒ¨é¢œè‰²
+    public bool ConvexHullIsDraw;   // å‡¸åŒ…ç»˜åˆ¶å®Œæˆ
 
-    public long SoccerHighlightTime;    // ×ãÇò¸ßÁÁ³ÖĞøÊ±¼ä
+    public long SoccerHighlightTime;    // è¶³çƒé«˜äº®æŒç»­æ—¶é—´
 
-    // ×ãÇò³öÏÖË³Ğò
+    // è¶³çƒå‡ºç°é¡ºåº
     public static int[] SoccerBallOrder = {1,2,8,3,7,4,6,5,0};
     public GameObject TargetSoccerBall;
-    public int NowSoccerIndex;   // Ä¿Ç°µÄĞ¡ÇòË÷Òı
-    public static long ChangeBallWaitFrame = 1500;  // »»ÇòµÈ´ı1500Ö¡
-    public static long InterruptedBallWaitFrame = 250;  // ÖĞ¶ÏÇòµÈ´ı250
-    public long LeftTouchFrame;   // Ê£ÏÂÅöÇòµÄÖ¡Êı
+    public int NowSoccerIndex;   // ç›®å‰çš„å°çƒç´¢å¼•
+    public static long ChangeBallWaitFrame = 1500;  // æ¢çƒç­‰å¾…1500å¸§
+    public static long InterruptedBallWaitFrame = 250;  // ä¸­æ–­çƒç­‰å¾…250
+    public long LeftTouchFrame;   // å‰©ä¸‹ç¢°çƒçš„å¸§æ•°
     public Text LeftTimeText;
-    public long CurrentScore;   //µ±Ç°µÃ·Ö
-    public Text CurrentScoreText;   //µ±Ç°µÃ·Ö
+    public long CurrentScore;   //å½“å‰å¾—åˆ†
+    public Text CurrentScoreText;   //å½“å‰å¾—åˆ†
 
     public VectorLine DirectionLine;
 
@@ -190,16 +190,19 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Vector2 GravityDiff;
 
-    public List<Point> tempGCPoints;  // ÁÙÊ±ÓÃÓÚ»­Í¹°üµÄµã¼¯
-    public ConvexHull GCconvexHull;   // ĞÂ½¨Ò»¸öÍ¹°ü
+    public List<Point> tempGCPoints;  // ä¸´æ—¶ç”¨äºç”»å‡¸åŒ…çš„ç‚¹é›†
+    public ConvexHull GCconvexHull;   // æ–°å»ºä¸€ä¸ªå‡¸åŒ…
 
-    private VectorLine GCConvexHullLine;   // Í¹°üÏß
-    public VectorLine GCConvexHullArea;   // »­Í¹°üÍ¸Ã÷Ãæ»ı
+    private VectorLine GCConvexHullLine;   // å‡¸åŒ…çº¿
+    public VectorLine GCConvexHullArea;   // ç”»å‡¸åŒ…é€æ˜é¢ç§¯
     public bool GCConvexHullIsDraw;
-    public Color[] GCConvexHullColors;    // Í¹°ü¶¥µãÑÕÉ«
+    public Color[] GCConvexHullColors;    // å‡¸åŒ…é¡¶ç‚¹é¢œè‰²
 
     public List<string> SQLStringList;
 
+    public Image TipsImage;
+    public Text Tips;
+    public Sequence seq;
 
     //public static SkeletonOverlayer instance = null;
 
@@ -274,8 +277,8 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         //VectorLine.SetLine(Color.green, new Vector2(0, 0), new Vector2(222, 322));
         //PointHashSet = new HashSet<Point>();
-        evaluation = new Evaluation();   // ĞÂ½¨Ò»¸öÆÀ¹À²âÊÔ
-        // ¸øEvaluationID, ´Ó0¿ªÊ¼
+        evaluation = new Evaluation();   // æ–°å»ºä¸€ä¸ªè¯„ä¼°æµ‹è¯•
+        // ç»™EvaluationID, ä»0å¼€å§‹
         evaluation.SetEvaluationID(DoctorDatabaseManager.instance.ReadMaxEvaluationID());
 
         //Points = new List<Point>();
@@ -291,8 +294,8 @@ public class SkeletonOverlayer : MonoBehaviour
         //line = GetComponent<LineRenderer>();
         Soccerball = null;
 
-        UponButton.SetActive(false);  // °´Å¥¼ıÍ·ÏûÊ§
-        DownButton.SetActive(false);  // °´Å¥¼ıÍ·ÏûÊ§
+        UponButton.SetActive(false);  // æŒ‰é’®ç®­å¤´æ¶ˆå¤±
+        DownButton.SetActive(false);  // æŒ‰é’®ç®­å¤´æ¶ˆå¤±
 
         //Introduction.transform.DOLocalMove(new Vector3(0f, 101.9f,0), 2.5f);
         //Buttons.transform.DOLocalMove(new Vector3(0f, -438.05f, 0), 2.5f);
@@ -304,9 +307,10 @@ public class SkeletonOverlayer : MonoBehaviour
 
         WaitTime = 0f;
 
-        // °ÑÏßÈ¥µô
-        if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // ÎÕÈ­¹ì¼£Í¼
-        if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // Í¹°üÍ¼
+        // æŠŠçº¿å»æ‰
+        if (ColorFistLine != null) VectorLine.Destroy(ref ColorFistLine);  // æ¡æ‹³è½¨è¿¹å›¾
+        if (ConvexHullLine != null) VectorLine.Destroy(ref ConvexHullLine);  // å‡¸åŒ…å›¾
+        if (DirectionLine != null) VectorLine.Destroy(ref DirectionLine);
 
         ReturnButton.SetActive(true);
         ReturnButton.transform.localPosition = new Vector3(-400f, -13.6f, 0f);
@@ -316,16 +320,16 @@ public class SkeletonOverlayer : MonoBehaviour
         RestartButton.SetActive(false);
         TrackButton.SetActive(false);
         FinishedButton.SetActive(false);
-        ContinueButton.SetActive(false);// ¸Õ¿ªÊ¼·µ»Ø°´Å¥²»ÏÔÊ¾
+        ContinueButton.SetActive(false);// åˆšå¼€å§‹è¿”å›æŒ‰é’®ä¸æ˜¾ç¤º
 
         IsOver = false;
 
-        // ½ø¶ÈÌõ¸Õ¿ªÊ¼Òş²Ø
+        // è¿›åº¦æ¡åˆšå¼€å§‹éšè—
         KinectDetectUIProgressSlider.gameObject.SetActive(false);
 
-        SoccerHighlightTime = 100;   // ×ãÇò¸ßÁÁµÃ·Ö¸Õ¿ªÊ¼Îª100,¼ÆËãÊ±Ã¿´Î³ıÒÔ100
+        SoccerHighlightTime = 100;   // è¶³çƒé«˜äº®å¾—åˆ†åˆšå¼€å§‹ä¸º100,è®¡ç®—æ—¶æ¯æ¬¡é™¤ä»¥100
 
-        NowSoccerIndex = -1;    // ¸Õ¿ªÊ¼µÈÓÚ-1£¬·½±ãÖ®ºó¼Ó1¼ÆËã
+        NowSoccerIndex = -1;    // åˆšå¼€å§‹ç­‰äº-1ï¼Œæ–¹ä¾¿ä¹‹ååŠ 1è®¡ç®—
         TargetSoccerBall = null;
 
         LeftTouchFrame = ChangeBallWaitFrame;
@@ -334,14 +338,14 @@ public class SkeletonOverlayer : MonoBehaviour
         CurrentScoreText.transform.parent.gameObject.SetActive(false);
         GravityCenterRadar.SetActive(false);
 
-        CurrentScore = 0;   // ¸Õ¿ªÊ¼·ÖÊıÎª0
+        CurrentScore = 0;   // åˆšå¼€å§‹åˆ†æ•°ä¸º0
 
         DirectionLine = new VectorLine("ColorFistLine", new List<Vector2>(), 10.0f, LineType.Continuous, Joins.Weld);
-        DirectionLine.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-        DirectionLine.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+        DirectionLine.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+        DirectionLine.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
         DirectionLine.color = Color.red;
 
-        audiosource.playOnAwake = false;  //playOnAwakeÉèÎªfalseÊ±£¬Í¨¹ıµ÷ÓÃplay()·½·¨ÆôÓÃ
+        audiosource.playOnAwake = false;  //playOnAwakeè®¾ä¸ºfalseæ—¶ï¼Œé€šè¿‡è°ƒç”¨play()æ–¹æ³•å¯ç”¨
         Background.playOnAwake = false;
         Background.loop = true;
 
@@ -349,11 +353,11 @@ public class SkeletonOverlayer : MonoBehaviour
 
         Background.clip = BackgroundClip;
 
-        _instance = this; //Í¨¹ıSound._instance.·½·¨µ÷ÓÃ
+        _instance = this; //é€šè¿‡Sound._instance.æ–¹æ³•è°ƒç”¨
 
         IsFirstGreen = false;
 
-        if (DoctorDataManager.instance.doctor.patient.PatientSex == "ÄĞ") IsMale = true;
+        if (DoctorDataManager.instance.doctor.patient.PatientSex == "ç”·") IsMale = true;
         else IsMale = false;
 
         for(int i = 0; i < PersonJoints.Length; i++)
@@ -363,12 +367,12 @@ public class SkeletonOverlayer : MonoBehaviour
 
         RedArrow.SetActive(false);
 
-        // À×´ïÍ¼µÄ×ø±êÎ»ÖÃ
+        // é›·è¾¾å›¾çš„åæ ‡ä½ç½®
         RadarPos = new Vector2(172.3f, 376f);
 
         GCLine = new VectorLine("GCLine", new List<Vector2>(), 2.0f, Vectrosity.LineType.Continuous, Joins.Weld);
-        GCLine.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-        GCLine.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+        GCLine.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+        GCLine.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
         GCLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
         //GCLine.points2.Add(new Vector2(RadarPosX, RadarPosY));
         GravityDiff = new Vector2(0f, 0f);
@@ -378,6 +382,7 @@ public class SkeletonOverlayer : MonoBehaviour
         tempGCPoints = new List<Point>();
 
         SQLStringList = new List<string>();
+
     }
 
     void FixedUpdate()
@@ -392,7 +397,7 @@ public class SkeletonOverlayer : MonoBehaviour
         }
 
         KinectManager manager = KinectManager.Instance;
-        //Êó±êÏÂ»¬³öÏÖ°´Å¥¿ò
+        //é¼ æ ‡ä¸‹æ»‘å‡ºç°æŒ‰é’®æ¡†
         //Vector2 _pos1 = Vector2.one;
         //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
         //            Input.mousePosition, canvas.worldCamera, out _pos1);
@@ -479,24 +484,24 @@ public class SkeletonOverlayer : MonoBehaviour
                             if (posJoint != Vector3.zero)
                             {
                                 PersonJoints[i] = posJoint;
-                                //posJoint.z = 0f;  // ½«zÖá¸ÄÎª0,Æ½ÃæÏÔÊ¾
+                                //posJoint.z = 0f;  // å°†zè½´æ”¹ä¸º0,å¹³é¢æ˜¾ç¤º
 
                                 joints[i].SetActive(true);
                                 joints[i].transform.position = posJoint;
 
-                                //// »ñÈ¡¼ç¿í
+                                //// è·å–è‚©å®½
                                 //if(i == 4) { ShoulderLeftX = Kinect2UIPosition(posJoint).x; }
                                 //if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
                                 
-                                // »ñÈ¡Éí¸ß¶Î
+                                // è·å–èº«é«˜æ®µ
                                 if(i == 20) { SpineShoulderY = Kinect2UIPosition(posJoint).y; }
 
                                 if (i == 21) { HandTipLeft = posJoint; }
 
                                 if (i == 1) { SpineMid = posJoint; SpineMidY = Kinect2UIPosition(posJoint).y;}
 
-                                // µ±×óÓÒÊÖ¾àÀëĞ¡ÓÚ0.1fµÄÊ±ºò»­Ïß
-                                if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // »¼Õß¿ªÊ¼ÎÕÈ­ÁË
+                                // å½“å·¦å³æ‰‹è·ç¦»å°äº0.1fçš„æ—¶å€™ç”»çº¿
+                                if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // æ‚£è€…å¼€å§‹æ¡æ‹³äº†
                                 //if (i == 23 && GestureSourceManager.instance.CheckGesture(KinectGestures.Gestures.Bobath))
                                 {
                                     if (WaitTime < 3.0f)
@@ -525,7 +530,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             evaluation.Points.Add(new Point(LastPosition.x, LastPosition.y));
                                             WritePointInGame();
 
-                                            // ³õÊ¼·ÅÖÃ×ãÇò
+                                            // åˆå§‹æ”¾ç½®è¶³çƒ
                                             transform.GetChild(0).position = SpineMid;
                                             FirstFistZ = SpineMid.z;
                                             SoccerballReset();
@@ -538,6 +543,9 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                             _instance.PlayMusicByName("RedMove");
                                             Background.Play();
+
+                                            ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœæ­£ä¸Šæ–¹å°çƒç§»åŠ¨");
+
                                         }
                                         else
                                         {
@@ -560,7 +568,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                             }
 
                                         }
-                                        // ÅĞ¶ÏÊÇ·ñÅöµ½Çò
+                                        // åˆ¤æ–­æ˜¯å¦ç¢°åˆ°çƒ
                                         //print(Soccerball.transform.position + " " + posJoint + " " + (posJoint - Soccerball.transform.position).magnitude);
                                         //if((posJoint - Soccerball.transform.position).magnitude < 0.1f)
                                         //{
@@ -573,14 +581,14 @@ public class SkeletonOverlayer : MonoBehaviour
                                         LeftTimeText.text = (LeftTouchFrame / 50).ToString();
                                         CurrentScoreText.text = CurrentScore.ToString();
 
-                                        RayCastResult(posJoint);    // ·¢³öÉäÏßÉäµ½ÄÄ¸ö×ãÇò
+                                        RayCastResult(posJoint);    // å‘å‡ºå°„çº¿å°„åˆ°å“ªä¸ªè¶³çƒ
                                                                     //DrawRayLine(camera.transform.position, posJoint);
                                     }
 
                                 }
                                 else if (i == 23 && (HandTipLeft - posJoint).magnitude > 1.0f)
                                 {
-                                    SoccerHighlightTime = 100;  // ±ä»Ø100
+                                    SoccerHighlightTime = 100;  // å˜å›100
 
                                     if(evaluation.Points.Count > 0 && NowSoccerIndex == 8)
                                     {
@@ -593,13 +601,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
                                         UponButtonOnClick();
 
-                                        // ½áÊøºó»­Í¼
+                                        // ç»“æŸåç”»å›¾
                                         evaluation.SetEvaluationEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
 
 
                                         //_GraivtyCenter.ToString().Replace("(", "").Replace(")", ""),
 
-                                        // ¼ÇÂ¼×ãÇòµÄ¾àÀë
+                                        // è®°å½•è¶³çƒçš„è·ç¦»
                                         evaluation.soccerDistance.UponSoccerDistance = (transform.GetChild(1).position - transform.GetChild(0).position).magnitude;
                                         evaluation.soccerDistance.UponRightSoccerDistance = (transform.GetChild(2).position - transform.GetChild(0).position).magnitude;
                                         evaluation.soccerDistance.RightSoccerDistance = (transform.GetChild(3).position - transform.GetChild(0).position).magnitude;
@@ -652,7 +660,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                 //lines[i].SetPosition(0, posParent);
                                 //lines[i].SetPosition(1, posJoint);
 
-                                //¹Ç÷ÀÁ¬ÏßzÖá¸ÄÎª0,Æ½ÃæÏÔÊ¾
+                                //éª¨éª¼è¿çº¿zè½´æ”¹ä¸º0,å¹³é¢æ˜¾ç¤º
                                 lines[i].positionCount = 2;
                                 lines[i].SetPosition(0, new Vector3(posParent.x, posParent.y, 0));
                                 lines[i].SetPosition(1, new Vector3(posJoint.x, posJoint.y, 0));
@@ -679,14 +687,14 @@ public class SkeletonOverlayer : MonoBehaviour
 
                 }
 
-                // ¸üĞÂ¼ç¿í
+                // æ›´æ–°è‚©å®½
                 //ShoulderRightX = Math.Abs(ShoulderRightX - ShoulderLeftX);
                 //if (ShoulderRightX > evaluation.EvaluationWidth)
                 //{
                 //    evaluation.SetEvaluationWidth(ShoulderRightX);
                 //}
 
-                // ¸üĞÂÉí¸ß¶Î
+                // æ›´æ–°èº«é«˜æ®µ
                 SpineShoulderY = Math.Abs(SpineShoulderY - SpineMidY);
                 if(SpineShoulderY > evaluation.EvaluationHeight)
                 {
@@ -696,6 +704,19 @@ public class SkeletonOverlayer : MonoBehaviour
         }
     }
 
+    public void ShowTips(string tip)
+    {
+        Tweener t1 = TipsImage.GetComponent<Image>().DOColor(new Color32(255, 255, 255, 170), 0.4f);
+        Tweener t2 = Tips.GetComponent<Text>().DOText(tip, 3f);
+        Tweener t3 = TipsImage.GetComponent<Image>().DOColor(new Color32(255, 255, 255, 0), 0.1f);
+        Tweener t4 = Tips.GetComponent<Text>().DOText("", 0.1f);
+        seq = DOTween.Sequence();
+        seq.Append(t1);
+        seq.Append(t2);
+        seq.Append(t3);
+        seq.Append(t4);
+        seq.SetLoops(3);
+    }
 
     private bool RecordTimeOver()
     {
@@ -712,7 +733,7 @@ public class SkeletonOverlayer : MonoBehaviour
         }
     }
 
-    // ĞÂÔö½Ú¶Î·¨¼ÆËãÈËÌåÖØĞÄ
+    // æ–°å¢èŠ‚æ®µæ³•è®¡ç®—äººä½“é‡å¿ƒ
     //Calculate Gravity Center using Avatar
     public Vector3 CalculateGravityCenter(bool IsMale)
     {
@@ -804,14 +825,47 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public void WaitPeopleTouchBall(long WaitFrame)
     {
-        if (WaitFrame == ChangeBallWaitFrame && NowSoccerIndex < 8)
+        if (WaitFrame == ChangeBallWaitFrame)
         {
-            if (TargetSoccerBall != null) TargetSoccerBall.SetActive(false);
+            if(NowSoccerIndex < 8)
+            {
+                if (TargetSoccerBall != null) TargetSoccerBall.SetActive(false);
 
-            TargetSoccerBall = transform.GetChild(SoccerBallOrder[++NowSoccerIndex]).gameObject;
-            TargetSoccerBall.SetActive(true);
+                TargetSoccerBall = transform.GetChild(SoccerBallOrder[++NowSoccerIndex]).gameObject;
+                TargetSoccerBall.SetActive(true);
 
-            LeftTouchFrame = ChangeBallWaitFrame;
+                LeftTouchFrame = ChangeBallWaitFrame;
+            }
+            switch (NowSoccerIndex)
+            {
+                case 0:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœæ­£ä¸Šæ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 1:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœå³ä¸Šæ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 2:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœå·¦ä¸Šæ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 3:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœæ­£å³æ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 4:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœæ­£å·¦æ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 5:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœå³ä¸‹æ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 6:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœå·¦ä¸‹æ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 7:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœæ­£ä¸‹æ–¹å°çƒç§»åŠ¨");
+                    break;
+                case 8:
+                    ShowTips("ä¿æŒBobathæ¡æ‹³ï¼Œæœå‰åæ–¹å°çƒç§»åŠ¨");
+                    break;
+            }
         }
         else if (WaitFrame == InterruptedBallWaitFrame)
         {
@@ -832,7 +886,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
         TrackButton.SetActive(true);
         TrackButton.transform.localPosition = new Vector3(350f, -13.6f, 0f);
-        FinishedButton.SetActive(true);   // ¸Õ¿ªÊ¼·µ»Ø°´Å¥²»ÏÔÊ¾
+        FinishedButton.SetActive(true);   // åˆšå¼€å§‹è¿”å›æŒ‰é’®ä¸æ˜¾ç¤º
         FinishedButton.transform.localPosition = new Vector3(700f, -13.6f, 0f);
 
         VoiceIntroductionButton.SetActive(false);
@@ -1017,7 +1071,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public void SoccerballReset()
     {
-        List<Vector3> PositionOffset = new List<Vector3> {		// 8¸ö·½ÏòµÄÆ«ÒÆÁ¿
+        List<Vector3> PositionOffset = new List<Vector3> {		// 8ä¸ªæ–¹å‘çš„åç§»é‡
             new Vector3(0f, 0.5f, 0f),
             new Vector3(-0.32f, 0.32f, 0f),
             new Vector3(-0.5f, 0f, 0f),
@@ -1048,7 +1102,7 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             if (Soccerball == null)
             {
-                SoccerHighlightTime = 100;  // ±ä»Ø100
+                SoccerHighlightTime = 100;  // å˜å›100
 
                 Soccerball = hit.collider.gameObject;
                 if (Soccerball.GetComponent<Highlighter>() != null)
@@ -1063,7 +1117,7 @@ public class SkeletonOverlayer : MonoBehaviour
             }
             else if (Soccerball != hit.collider.gameObject)
             {
-                SoccerHighlightTime = 100;  // ±ä»Ø100
+                SoccerHighlightTime = 100;  // å˜å›100
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
                     Soccerball.GetComponent<Highlighter>().ConstantOff();
@@ -1076,7 +1130,7 @@ public class SkeletonOverlayer : MonoBehaviour
             }
             else if (Soccerball.GetComponent<Highlighter>() != null)
             {
-                SoccerHighlightTime++;  // Ã¿´Î¼Ó1
+                SoccerHighlightTime++;  // æ¯æ¬¡åŠ 1
 
                 Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
 
@@ -1113,7 +1167,7 @@ public class SkeletonOverlayer : MonoBehaviour
         }
         else
         {
-            SoccerHighlightTime = 100;  // ±ä»Ø100
+            SoccerHighlightTime = 100;  // å˜å›100
 
             if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
             {
@@ -1140,7 +1194,7 @@ public class SkeletonOverlayer : MonoBehaviour
         DirectionLine.points2.Add(origin);
         DirectionLine.points2.Add(destination);
 
-        // ¼ÆËã³öÈı½Ç¼ıÍ·µÄÁ½¶ËµãµÄ×ø±ê
+        // è®¡ç®—å‡ºä¸‰è§’ç®­å¤´çš„ä¸¤ç«¯ç‚¹çš„åæ ‡
         DirectionLine.points2.Add(new Vector2(destination.x + (int)(par * cosy - (par / 2.0 * siny)),
                                               destination.y + (int)(par * siny + (par / 2.0 * cosy))));
         
@@ -1158,13 +1212,13 @@ public class SkeletonOverlayer : MonoBehaviour
     }
 
 
-    public void SoccerballMove(Vector3 FistPos)  // ×ãÇòÒÆ¶¯
+    public void SoccerballMove(Vector3 FistPos)  // è¶³çƒç§»åŠ¨
     {
-        float sdir = 0.001f, ddir = 0.0007f;  // ¸ùºÅ2±¶
+        float sdir = 0.001f, ddir = 0.0007f;  // æ ¹å·2å€
         float ScaleOffset = 2f;
         float SpeedIncrease = 1.0f * SoccerHighlightTime / 100;
 
-        // ÉÏ:2,ÓÒÉÏ:3,ÓÒ:4,ÓÒÏÂ:5,ÏÂ:6,×óÏÂ:7,×ó:0,×óÉÏ:1,
+        // ä¸Š:2,å³ä¸Š:3,å³:4,å³ä¸‹:5,ä¸‹:6,å·¦ä¸‹:7,å·¦:0,å·¦ä¸Š:1,
         if (Soccerball.name == "Soccerball0")   
         {
             Vector3 TempPos = Soccerball.transform.position;
@@ -1175,14 +1229,14 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.y += sdir;
                 evaluation.soccerDistance.UponSoccerTime++;
-                evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
             TempPos.y += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponSoccerTime++;
-            evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.UponSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
             TempPos = Kinect2UIPosition(TempPos);
             DirectionLine.color = Color.green;
             DrawDirectionLine(TempPos, new Vector3(TempPos.x, Math.Min(TempPos.y + 250, 1079), TempPos.z));
@@ -1199,7 +1253,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 TempPos.x -= ddir;
                 TempPos.y += ddir;
                 evaluation.soccerDistance.UponRightSoccerTime++;
-                evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
@@ -1207,7 +1261,7 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponRightSoccerTime++;
-            evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.UponRightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             Vector3 origin = Kinect2UIPosition(TempPos);
             Vector3 destination = origin;
@@ -1246,14 +1300,14 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x -= ddir;
                 evaluation.soccerDistance.RightSoccerTime++;
-                evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
             TempPos.x -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.RightSoccerTime++;
-            evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.RightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             TempPos = Kinect2UIPosition(TempPos);
             DirectionLine.color = Color.green;
@@ -1272,7 +1326,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 TempPos.x -= ddir;
                 TempPos.y -= ddir;
                 evaluation.soccerDistance.DownRightSoccerTime++;
-                evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
@@ -1280,7 +1334,7 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownRightSoccerTime++;
-            evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.DownRightSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             Vector3 origin = Kinect2UIPosition(TempPos);
             Vector3 destination = origin;
@@ -1318,14 +1372,14 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.y -= ddir;
                 evaluation.soccerDistance.DownSoccerTime++;
-                evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
             TempPos.y -= sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownSoccerTime++;
-            evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.DownSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             TempPos = Kinect2UIPosition(TempPos);
             DirectionLine.color = Color.green;
@@ -1344,7 +1398,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 TempPos.x += ddir;
                 TempPos.y -= ddir;
                 evaluation.soccerDistance.DownLeftSoccerTime++;
-                evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
@@ -1352,7 +1406,7 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y -= ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.DownLeftSoccerTime++;
-            evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.DownLeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             Vector3 origin = Kinect2UIPosition(TempPos);
             Vector3 destination = origin;
@@ -1390,14 +1444,14 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 TempPos.x += ddir;
                 evaluation.soccerDistance.LeftSoccerTime++;
-                evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
             TempPos.x += sdir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.LeftSoccerTime++;
-            evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.LeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             TempPos = Kinect2UIPosition(TempPos);
             DirectionLine.color = Color.green;
@@ -1416,7 +1470,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 TempPos.x += ddir;
                 TempPos.y += ddir;
                 evaluation.soccerDistance.UponLeftSoccerTime++;
-                evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                 ChangeCurrentScore();
             }
 
@@ -1424,7 +1478,7 @@ public class SkeletonOverlayer : MonoBehaviour
             TempPos.y += ddir * SpeedIncrease;
             Soccerball.transform.position = TempPos;
             evaluation.soccerDistance.UponLeftSoccerTime++;
-            evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+            evaluation.soccerDistance.UponLeftSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
 
             Vector3 origin = Kinect2UIPosition(TempPos);
             Vector3 destination = origin;
@@ -1456,7 +1510,7 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             Vector3 TempPos = Soccerball.transform.localScale;
 
-            //// ¸üĞÂ×î´ó×îĞ¡Öµ
+            //// æ›´æ–°æœ€å¤§æœ€å°å€¼
             //if (evaluation.soccerDistance.CenterSoccerMin > TempPos.x)
             //{
             //    evaluation.soccerDistance.CenterSoccerMin = TempPos.x;
@@ -1482,7 +1536,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 {
                     evaluation.soccerDistance.FrontSoccerDistance = tempDis;
                     evaluation.soccerDistance.FrontSoccerTime++;
-                    evaluation.soccerDistance.FrontSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                    evaluation.soccerDistance.FrontSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                     ChangeCurrentScore();
                 }
             }
@@ -1495,7 +1549,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 {
                     evaluation.soccerDistance.BehindSoccerDistance = tempDis;
                     evaluation.soccerDistance.BehindSoccerTime++;
-                    evaluation.soccerDistance.BehindSoccerScore += SoccerHighlightTime / 100;  // Ã¿´Î¼Ó³ıÒÔ100µÄÖµ
+                    evaluation.soccerDistance.BehindSoccerScore += SoccerHighlightTime / 100;  // æ¯æ¬¡åŠ é™¤ä»¥100çš„å€¼
                     ChangeCurrentScore();
                 }
             }
@@ -1506,25 +1560,25 @@ public class SkeletonOverlayer : MonoBehaviour
         }
     }
 
-    public void DrawRayLine(Vector3 pos1, Vector3 pos2) // »­Ïßº¯Êı
+    public void DrawRayLine(Vector3 pos1, Vector3 pos2) // ç”»çº¿å‡½æ•°
     {
-        ////Ìí¼ÓLineRenderer×é¼ş
-        ////ÉèÖÃ²ÄÖÊ
+        ////æ·»åŠ LineRendererç»„ä»¶
+        ////è®¾ç½®æè´¨
         //FistLine.material = new Material(Resources.Load("Prefabs/RadarPrefabs/VirtualLineYellow") as Material);
 
-        //////ÉèÖÃÑÕÉ«
+        //////è®¾ç½®é¢œè‰²
         ////FistLine.startColor = Color.yellow;
         ////FistLine.endColor = Color.red;
-        ////ÉèÖÃ¿í¶È
+        ////è®¾ç½®å®½åº¦
         //FistLine.startWidth = 0.01f;
         //FistLine.endWidth = 0.02f;
 
-        line.positionCount = 2; //¡¡ÉèÖÃ¸ÃÏß¶ÎÓÉ¼¸¸öµã×é³É
+        line.positionCount = 2; //ã€€è®¾ç½®è¯¥çº¿æ®µç”±å‡ ä¸ªç‚¹ç»„æˆ
 
-        // ÉèÖÃÏß¶ÎµÄÆğµãÑÕÉ«ºÍÖÕµãÑÕÉ«
+        // è®¾ç½®çº¿æ®µçš„èµ·ç‚¹é¢œè‰²å’Œç»ˆç‚¹é¢œè‰²
         line.startColor = Color.blue;
         line.endColor = Color.red;
-        // ÉèÖÃÏß¶ÎÆğµã¿í¶ÈºÍÖÕµã¿í¶È
+        // è®¾ç½®çº¿æ®µèµ·ç‚¹å®½åº¦å’Œç»ˆç‚¹å®½åº¦
         line.startWidth = 0.01f;
         line.endWidth = 0.01f;
         line.SetPosition(0, pos1);
@@ -1537,7 +1591,7 @@ public class SkeletonOverlayer : MonoBehaviour
         OnEnable();
     }
 
-    public void EvaluationTrack() // ÇóÍ¹°ü²¢ÏÔÊ¾¹ì¼£
+    public void EvaluationTrack() // æ±‚å‡¸åŒ…å¹¶æ˜¾ç¤ºè½¨è¿¹
     {
 
         if (evaluation.Points != null && evaluation.Points.Count > 0)
@@ -1566,11 +1620,11 @@ public class SkeletonOverlayer : MonoBehaviour
 
         StartCoroutine(DrawGCConvexHull());
 
-        //evaluation.Points.ForEach(i => tempPoints.Add(i));  // ½«ËùÓĞµÄµã¸´ÖÆ¸øtemppointsÓÃÓÚ»­Í¹°üÍ¼
+        //evaluation.Points.ForEach(i => tempPoints.Add(i));  // å°†æ‰€æœ‰çš„ç‚¹å¤åˆ¶ç»™temppointsç”¨äºç”»å‡¸åŒ…å›¾
 
         ColorFistLine = new VectorLine("ColorFistLine", new List<Vector2>(), 7.0f, LineType.Continuous, Joins.Weld);
-        ColorFistLine.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-        ColorFistLine.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+        ColorFistLine.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+        ColorFistLine.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
         ColorFistLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
         int DeltaBase = 0, DeltaColorR = 0, DeltaColorG = 0;
@@ -1605,22 +1659,22 @@ public class SkeletonOverlayer : MonoBehaviour
 
         //print(tempGCPoints);
 
-        // »­Í¹°üÈ¦
+        // ç”»å‡¸åŒ…åœˆ
         GCConvexHullLine = new VectorLine("GCConvexHullLine", new List<Vector2>(), 2.0f, LineType.Continuous, Joins.Weld);
-        GCConvexHullLine.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-        GCConvexHullLine.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+        GCConvexHullLine.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+        GCConvexHullLine.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
         GCConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
         ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
 
         GCConvexHullLine.color = ConvexHullLineColor;
 
-        int MinX = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].x);   // Í¹°üµÄ×î´ó×îĞ¡X
-        int MinY = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].y);   // Í¹°üµÄ×î´ó×îĞ¡Y
+        int MinX = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].x);   // å‡¸åŒ…çš„æœ€å¤§æœ€å°X
+        int MinY = Mathf.FloorToInt(GCconvexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(GCconvexHull.ConvexHullSet[0].y);   // å‡¸åŒ…çš„æœ€å¤§æœ€å°Y
 
-        // ÏÈ°Ñ³õÊ¼µã´æÈë»­Í¼º¯Êı
+        // å…ˆæŠŠåˆå§‹ç‚¹å­˜å…¥ç”»å›¾å‡½æ•°
         GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[0].x, GCconvexHull.ConvexHullSet[0].y));
-        GCconvexHull.ConvexHullArea = 0f;   // ÁîÍ¹°üÃæ»ı³õÊ¼Îª0
+        GCconvexHull.ConvexHullArea = 0f;   // ä»¤å‡¸åŒ…é¢ç§¯åˆå§‹ä¸º0
 
         for (int i = 1; i < GCconvexHull.ConvexHullNum; i++)
         {
@@ -1632,7 +1686,7 @@ public class SkeletonOverlayer : MonoBehaviour
             else if (GCconvexHull.ConvexHullSet[i].y < 0) GCconvexHull.ConvexHullSet[i].y = 0;
 
             GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[i].x, GCconvexHull.ConvexHullSet[i].y));
-            //ConvexHullLine.SetColor(ConvexHullLineColor);  // ÉèÖÃÑÕÉ«
+            //ConvexHullLine.SetColor(ConvexHullLineColor);  // è®¾ç½®é¢œè‰²
 
             if (i < GCconvexHull.ConvexHullNum - 1)
             {
@@ -1648,11 +1702,11 @@ public class SkeletonOverlayer : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
 
-        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// ×îºóÇó³öÀ´µÄÃæ»ıÒª³ıÒÔ2
+        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// æœ€åæ±‚å‡ºæ¥çš„é¢ç§¯è¦é™¤ä»¥2
 
         GCConvexHullLine.points2.Add(new Vector2(GCconvexHull.ConvexHullSet[0].x, GCconvexHull.ConvexHullSet[0].y));
-        //ConvexHullLine.SetColor(Color.blue);  // ÉèÖÃÑÕÉ«
-        //ConvexHullLine.SetColor(ConvexHullLineColor);  // ÉèÖÃÑÕÉ«
+        //ConvexHullLine.SetColor(Color.blue);  // è®¾ç½®é¢œè‰²
+        //ConvexHullLine.SetColor(ConvexHullLineColor);  // è®¾ç½®é¢œè‰²
         GCConvexHullLine.Draw();
 
         StartCoroutine(DrawGCConvexHullArea(MinX - 2, MaxX + 2, MinY - 2, MaxY + 2));
@@ -1666,15 +1720,15 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             //if (ConvexHullArea.points2 != 0 )
             //{
-            // »­Í¸Ã÷ÇøÓò
+            // ç”»é€æ˜åŒºåŸŸ
 
             GCConvexHullIsDraw = true;
 
             Color32 ConvexHullAreaColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)40);
 
             GCConvexHullArea = new VectorLine("GCConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
-            GCConvexHullArea.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-            GCConvexHullArea.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+            GCConvexHullArea.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+            GCConvexHullArea.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
             GCConvexHullArea.color = ConvexHullAreaColor;
 
             Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
@@ -1693,8 +1747,8 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
 
-                while ((x < y) && (GCConvexHullColors[x] != ConvexHullLineColor)) x++;    // ²éÕÒ×ó±ßµÄÍ¹°ü±ß½ç
-                while ((x < y) && (GCConvexHullColors[y] != ConvexHullLineColor)) y--;    // ²éÕÒÓÒ±ßµÄÍ¹°ü±ß½ç
+                while ((x < y) && (GCConvexHullColors[x] != ConvexHullLineColor)) x++;    // æŸ¥æ‰¾å·¦è¾¹çš„å‡¸åŒ…è¾¹ç•Œ
+                while ((x < y) && (GCConvexHullColors[y] != ConvexHullLineColor)) y--;    // æŸ¥æ‰¾å³è¾¹çš„å‡¸åŒ…è¾¹ç•Œ
 
                 if (x != y)
                 {
@@ -1712,22 +1766,22 @@ public class SkeletonOverlayer : MonoBehaviour
     {
         convexHull = new ConvexHull(tempPoints);
 
-        // »­Í¹°üÈ¦
+        // ç”»å‡¸åŒ…åœˆ
         ConvexHullLine = new VectorLine("ConvexHullLine", new List<Vector2>(), 8.0f, LineType.Continuous, Joins.Weld);
-        ConvexHullLine.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-        ConvexHullLine.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+        ConvexHullLine.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+        ConvexHullLine.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
         ConvexHullLine.endPointsUpdate = 2;   // Optimization for updating only the last couple points of the line, and the rest is not re-computed
 
         ConvexHullLineColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)255);
 
         ConvexHullLine.color = ConvexHullLineColor;
 
-        int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // Í¹°üµÄ×î´ó×îĞ¡X
-        int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // Í¹°üµÄ×î´ó×îĞ¡Y
+        int MinX = Mathf.FloorToInt(convexHull.ConvexHullSet[0].x), MaxX = Mathf.CeilToInt(convexHull.ConvexHullSet[0].x);   // å‡¸åŒ…çš„æœ€å¤§æœ€å°X
+        int MinY = Mathf.FloorToInt(convexHull.ConvexHullSet[0].y), MaxY = Mathf.CeilToInt(convexHull.ConvexHullSet[0].y);   // å‡¸åŒ…çš„æœ€å¤§æœ€å°Y
 
-        // ÏÈ°Ñ³õÊ¼µã´æÈë»­Í¼º¯Êı
+        // å…ˆæŠŠåˆå§‹ç‚¹å­˜å…¥ç”»å›¾å‡½æ•°
         ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-        convexHull.ConvexHullArea = 0f;   // ÁîÍ¹°üÃæ»ı³õÊ¼Îª0
+        convexHull.ConvexHullArea = 0f;   // ä»¤å‡¸åŒ…é¢ç§¯åˆå§‹ä¸º0
 
         for (int i = 1; i < convexHull.ConvexHullNum; i++)
         {
@@ -1738,7 +1792,7 @@ public class SkeletonOverlayer : MonoBehaviour
             else if (convexHull.ConvexHullSet[i].y < 0) convexHull.ConvexHullSet[i].y = 0;
 
             ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[i].x, convexHull.ConvexHullSet[i].y));
-            //ConvexHullLine.SetColor(ConvexHullLineColor);  // ÉèÖÃÑÕÉ«
+            //ConvexHullLine.SetColor(ConvexHullLineColor);  // è®¾ç½®é¢œè‰²
 
             if (i < convexHull.ConvexHullNum - 1)
             {
@@ -1754,11 +1808,11 @@ public class SkeletonOverlayer : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
 
-        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// ×îºóÇó³öÀ´µÄÃæ»ıÒª³ıÒÔ2
+        //button.transform.GetChild(0).GetComponent<Text>().text = (ConvexHullArea / 2).ToString("0.00");// æœ€åæ±‚å‡ºæ¥çš„é¢ç§¯è¦é™¤ä»¥2
 
         ConvexHullLine.points2.Add(new Vector2(convexHull.ConvexHullSet[0].x, convexHull.ConvexHullSet[0].y));
-        //ConvexHullLine.SetColor(Color.blue);  // ÉèÖÃÑÕÉ«
-        //ConvexHullLine.SetColor(ConvexHullLineColor);  // ÉèÖÃÑÕÉ«
+        //ConvexHullLine.SetColor(Color.blue);  // è®¾ç½®é¢œè‰²
+        //ConvexHullLine.SetColor(ConvexHullLineColor);  // è®¾ç½®é¢œè‰²
         ConvexHullLine.Draw();
 
         ConvexHullIsDraw = false;
@@ -1777,15 +1831,15 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             //if (ConvexHullArea.points2 != 0 )
             //{
-            // »­Í¸Ã÷ÇøÓò
+            // ç”»é€æ˜åŒºåŸŸ
 
             ConvexHullIsDraw = true;
 
             Color32 ConvexHullAreaColor = new Color32((Byte)0, (Byte)191, (Byte)255, (Byte)40);
 
             ConvexHullArea = new VectorLine("ConvexHullLine", new List<Vector2>(), 1f, Vectrosity.LineType.Continuous, Joins.Weld);
-            ConvexHullArea.smoothColor = false;   // ÉèÖÃÆ½»¬ÑÕÉ«
-            ConvexHullArea.smoothWidth = false;   // ÉèÖÃÆ½»¬¿í¶È
+            ConvexHullArea.smoothColor = false;   // è®¾ç½®å¹³æ»‘é¢œè‰²
+            ConvexHullArea.smoothWidth = false;   // è®¾ç½®å¹³æ»‘å®½åº¦
             ConvexHullArea.color = ConvexHullAreaColor;
 
             Texture2D m_texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
@@ -1804,8 +1858,8 @@ public class SkeletonOverlayer : MonoBehaviour
             {
                 x = i * (MaxX - MinX); y = (i + 1) * (MaxX - MinX);
 
-                while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // ²éÕÒ×ó±ßµÄÍ¹°ü±ß½ç
-                while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // ²éÕÒÓÒ±ßµÄÍ¹°ü±ß½ç
+                while ((x < y) && (ConvexHullColors[x] != ConvexHullLineColor)) x++;    // æŸ¥æ‰¾å·¦è¾¹çš„å‡¸åŒ…è¾¹ç•Œ
+                while ((x < y) && (ConvexHullColors[y] != ConvexHullLineColor)) y--;    // æŸ¥æ‰¾å³è¾¹çš„å‡¸åŒ…è¾¹ç•Œ
 
                 if (x != y)
                 {
@@ -1821,7 +1875,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public void ReturnBackUI()
     {
-        // ÏÈÅĞ¶ÏÊı¾İ¿âÖĞÊÇ·ñÓĞ¶àÓàÊı¾İÔÙÉ¾³ı
+        // å…ˆåˆ¤æ–­æ•°æ®åº“ä¸­æ˜¯å¦æœ‰å¤šä½™æ•°æ®å†åˆ é™¤
         PatientDatabaseManager.instance.DelTempEvaluationPoints(evaluation.EvaluationID);
         DoctorDataManager.instance.FunctionManager = 1;
         DoctorDataManager.instance.EvaluationType = 1;
@@ -1847,7 +1901,7 @@ public class SkeletonOverlayer : MonoBehaviour
         }     
     }
 
-    public void EvaluationFinished() // ½«Êı¾İĞ´ÈëÊı¾İ¿â
+    public void EvaluationFinished() // å°†æ•°æ®å†™å…¥æ•°æ®åº“
     {
         if (DoctorDataManager.instance.doctor.patient.Evaluations == null) 
         {
@@ -1894,14 +1948,14 @@ public class SkeletonOverlayer : MonoBehaviour
     public Vector2 Kinect2UIPosition(Vector3 pos)
     {
         //print(pos);
-        Vector2 uisize = canvas.GetComponent<RectTransform>().sizeDelta;//µÃµ½»­²¼µÄ³ß´ç
-        Vector2 screenpos = Camera.main.WorldToScreenPoint(pos);//½«ÊÀ½ç×ø±ê×ª»»ÎªÆÁÄ»×ø±ê
+        Vector2 uisize = canvas.GetComponent<RectTransform>().sizeDelta;//å¾—åˆ°ç”»å¸ƒçš„å°ºå¯¸
+        Vector2 screenpos = Camera.main.WorldToScreenPoint(pos);//å°†ä¸–ç•Œåæ ‡è½¬æ¢ä¸ºå±å¹•åæ ‡
         Vector2 screenpos2;
-        screenpos2.x = screenpos.x;//×ª»»ÎªÒÔÆÁÄ»ÖĞĞÄÎªÔ­µãµÄÆÁÄ»×ø±ê
+        screenpos2.x = screenpos.x;//è½¬æ¢ä¸ºä»¥å±å¹•ä¸­å¿ƒä¸ºåŸç‚¹çš„å±å¹•åæ ‡
         screenpos2.y = screenpos.y;
         Vector2 uipos;
         uipos.x = (screenpos2.x / Screen.width) * uisize.x;
-        uipos.y = (screenpos2.y / Screen.height) * uisize.y;//µÃµ½UGUIµÄanchoredPosition
+        uipos.y = (screenpos2.y / Screen.height) * uisize.y;//å¾—åˆ°UGUIçš„anchoredPosition
 
         return uipos;
         //Mouse.transform.DOMove(uipos, 0.02f);
