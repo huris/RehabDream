@@ -114,7 +114,7 @@ namespace XCharts
                 EvaluationScore.text = WallEvaluation.overrall.score.ToString("0.00") + " 分";
 
                 EvaluationDuration = transform.Find("Evaluation/EvaluationInfo/Duration/EvaluationDuration").GetComponent<Text>();
-                EvaluationDuration.text = (WallEvaluation.overrall.duration * 60).ToString() + " 秒";
+                EvaluationDuration.text = (WallEvaluation.overrall.duration).ToString() + " 秒";
 
                 EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
                 float rate = WallEvaluation.overrall.passScore / 100f;

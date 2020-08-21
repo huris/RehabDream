@@ -176,7 +176,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
         WallEvaluationPassScore.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.passScore.ToString() + "%";
         WallEvaluationAccuracyScore.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.accuracyScore.ToString() + "%";
-        WallEvaluationDuration.text = (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.duration * 60).ToString() + "s";
+        WallEvaluationDuration.text = (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.duration).ToString() + "s";
         WallEvaluationActionNum.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.actionNum.ToString() + "个";
         WallEvaluationCompliance.text = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.compliance.ToString();
 
