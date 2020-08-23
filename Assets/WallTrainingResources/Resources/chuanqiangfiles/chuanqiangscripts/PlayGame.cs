@@ -701,8 +701,8 @@ public class PlayGame : MonoBehaviour
                             lastscore.text = trainingData.overrall.lastScore + "";
                         }
                         actionnum.text = trainingData.overrall.actionNum + "";
-                        duration.text = trainingData.overrall.duration / 60  + "min";
-                        //if (trainingData.overrall.duration / 60 >= 10)       //两位数显示需要调整UI位置
+                        duration.text = trainingData.overrall.duration + "s";
+                        //if (trainingData.overrall.duration >= 10)       //两位数显示需要调整UI位置
                         //{
                         //    Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
                         //    duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition = new Vector3(localpostion.x * 2, localpostion.y, localpostion.z);
@@ -881,7 +881,7 @@ public class PlayGame : MonoBehaviour
 
         rate = trainingData.overrall.passScore / 100f;
 
-        duration.text = trainingData.overrall.duration / 60 + "min";
+
         //if (trainingData.overrall.duration >= 10)
         //{
         //    Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
