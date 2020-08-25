@@ -44,10 +44,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:\Users\81567\Desktop\Unity2017\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>C:\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +409,113 @@
      <Compile Include="Assets\Scripts\UI\GameUIHandle.cs" />
      <Compile Include="Assets\Scripts\UI\StartUIHandle.cs" />
      <Compile Include="Assets\Scripts\UI\UIHandle.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\BasicButton.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Popup.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\PopupOpener.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\SceneTransition.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\SpriteSwapper.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Tooltip.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Transition.cs" />
+     <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Utils.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Bird\BirdScript.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Cockroach\CockroachLeaderScript.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Cockroach\CockroachScript.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Fish\FishLeaderScript.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Fish\FishScript.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\AirBoid.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\Boid.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\BoidType.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\Flock.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\FlockFollower.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\FlocksWindow.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\GroundBoid.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\WaterBoid.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Demos\Wallpapers\Gravity Clock\Scripts\BillboardCameraPlaneUVFX.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Demos\Wallpapers\Gravity Clock\Scripts\GravityClockInteractivityUVFX.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\DemoManager.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\FPSDisplay.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\FPSTest.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\LoopingParticleSystemsManager.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\MouseFollow.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\MouseRotateCamera.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\OneshotParticleSystemsManager.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\ParticleManager.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\AnimatedLight.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\Billboard.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\CameraShake.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyAfterTime.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyOnParticlesDead.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyOnTrailsDestroyed.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\IgnoreTimeScale.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\ParticleSystems.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\ParticleSystemsSimulationSpeed.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\PerlinNoise.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\RendererSortingOrder.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\Rotator.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\TrailRenderers.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\TransformNoise.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\Ultimate VFX\2 - Expansions\XP - TITLES\Scripts\DemoManager_XPTitles.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\_Common\CreateLUT.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\AttractionParticleAffector.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\MT (EXPERIMENTAL)\ParticleAffectorMT.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\MT (EXPERIMENTAL)\TurbulenceParticleAffectorMT.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\Noise.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\ParticleAffector.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\TurbulenceParticleAffector.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\VortexParticleAffector.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Flocking\ParticleFlocking.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts (DEMO ONLY)\ParticleForceFieldsDemo.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts (DEMO ONLY)\ParticleForceFieldsDemo_CameraRig.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\AttractionParticleForceField.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\Noise2.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\ParticleForceField.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\TurbulenceParticleForceField.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\VortexParticleForceField.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Lights\Scripts\ParticleLights.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Plexus\Scripts (DEMO ONLY)\ParticlePlexusDemo_CameraRig.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Plexus\Scripts\ParticlePlexus.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Shaders\_Common\IEBase.cs" />
+     <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Shaders\Image Effects\Resources\Sharpen\Sharpen.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\CoinLevel.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\FishFlock.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\FistButton.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\GameController.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\GameManager.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\GameState.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\GravityCenter.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\IntroState.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\LevelControllerBase.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\ManagerLoader.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\PositionIndicator.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\PositionIndicatorLine.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\ProgressRing.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\SkyboxRotator.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\SoundManager.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\SpawnRange.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\UIGravityCenterIndicator.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\User.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scenes\TestSceneScript.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BarrierScript.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BeingAtk.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BodySetting.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CameraShackScript.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CharController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\ComfirmBtn.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CrartsPanelController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\DataCollection.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\DetectionClass.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\FishFlockMoveScript.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GameGradient.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GameTime.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GravityCenterSegment.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\KinectJointController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\MapDetectionController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\MyGestureController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\QuitGameController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\ReportPanelController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\SceneGestureController.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\TextCoordinate.cs" />
+     <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\UserLevenController.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
      <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -689,6 +796,7 @@
      <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
      <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
+     <None Include="Assets\ShipNSea\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
      <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
@@ -781,85 +889,91 @@
      <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Timeline">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UIAutomation">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.GoogleAudioSpatializer">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="DemiLib">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
  </Reference>
  <Reference Include="DOTween">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="DOTweenPro">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
  <Reference Include="I18N.CJK">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
  </Reference>
  <Reference Include="I18N">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Sqlite">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Tds">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="NPinyin">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="LCPrinter">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
  </Reference>
  <Reference Include="LZ4Sharp">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+ </Reference>
+ <Reference Include="TextMeshPro-2017.2-1.0.56-Editor">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="TextMeshPro-2017.2-1.0.56-Runtime">
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
  </Reference>
  <Reference Include="Poly2Tri">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
  </Reference>
  <Reference Include="Vectrosity">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
+ <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+ <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

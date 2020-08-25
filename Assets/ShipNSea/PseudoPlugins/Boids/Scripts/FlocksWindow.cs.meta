@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: bbd081c1566c14fff9df79598c0b93ac
+labels:
+- flock
+- flocks
+- flocking
+- herd
+- school
+- bird
+- fish
+- boid
+- birds
+- fishes
+- boids
+- alife
+- AI
+- behavior
+- animal
+- artificial
+- intelligence
+timeCreated: 18446744011573954816
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
