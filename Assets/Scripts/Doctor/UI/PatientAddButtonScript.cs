@@ -47,7 +47,7 @@ public class PatientAddButtonScript : MonoBehaviour {
             seq = DOTween.Sequence();
             seq.Append(t1);
             seq.Append(t2);
-            seq.SetLoops(-1);
+            seq.SetLoops(3);
             //PatientAddImage.DOColor(new Color(60 / 255, 255 / 255, 60 / 255), 1).SetLoops(8);
         }
     }
