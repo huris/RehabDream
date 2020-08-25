@@ -419,6 +419,13 @@ public class PatientItemScript : MonoBehaviour {
             }
         }
 
+        if(DoctorDataManager.instance.doctor.Patients.Count == 0)
+        {
+            DoctorDataManager.instance.doctor.patient = null;
+            //print("!!!!!");
+        }
+
+
         PatientInfoDelete.SetActive(false);
         PatientInfo.SetActive(true);
         PatientListBG.SetActive(true);

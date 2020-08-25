@@ -21,6 +21,8 @@ public class TrainingDataInitScript : MonoBehaviour {
 
 	public Toggle Training;
 
+	public GameObject TrainingPlanData;
+
 	// Use this for initialization
 	void Start() {
 
@@ -55,23 +57,50 @@ public class TrainingDataInitScript : MonoBehaviour {
 
 		if (DoctorDataManager.instance.doctor.patient.TrainingPlays != null && DoctorDataManager.instance.doctor.patient.TrainingPlays.Count > 0) NoTrainingData.SetActive(false);
 		else
-		{ 
+		{
 			NoTrainingData.SetActive(true);
 
-			DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
-			if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
-			else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+			//DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+			//if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
+			//else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
 
-			if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
+			if (DoctorDataManager.instance.doctor.patient.Evaluations == null)
 			{
-				TrainingButton.gameObject.SetActive(true);
-				NoTrainingDataText.text = "抱歉，该患者目前未进行相关训练\n\n请患者训练后再查看数据";
+				DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+				if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+				{
+					DoctorDataManager.instance.doctor.patient.SetEvaluationIndex(DoctorDataManager.instance.doctor.patient.Evaluations.Count - 1);
+				}
+			}
+
+			if (DoctorDataManager.instance.doctor.patient.Evaluations == null || DoctorDataManager.instance.doctor.patient.Evaluations.Count == 0)
+			{
+				NoTrainingDataText.text = "该患者目前未进行Bobath评估\n\n请患者评估后再进行训练";
+
+				TrainingButton.gameObject.SetActive(false);
 			}
 			else
 			{
-				TrainingButton.gameObject.SetActive(false);
-				NoTrainingDataText.text = "抱歉，该患者目前暂未制定训练计划\n\n请先制定计划后开始训练";
+				NoTrainingDataText.text = "该患者目前暂未制定训练计划\n\n请制定计划后再进行训练";
+				TrainingButton.gameObject.SetActive(true);
 			}
+
+
+			//TrainingButton.gameObject.SetActive(true);
+
+			//if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
+			//{
+			//	NoTrainingDataText.text = "抱歉，该患者目前未进行相关训练\n\n请患者训练后再查看数据";
+
+			//	TrainingButton.transform.GetChild(0).GetComponent<Text>().text = "开始训练";
+			//}
+			//else
+			//{
+			//NoTrainingDataText.text = "抱歉，该患者目前暂未制定训练计划\n\n请先制定计划后开始训练";
+
+			//TrainingButton.transform.GetChild(0).GetComponent<Text>().text = "制定计划";
+			//}
 		}
 	}
 
@@ -135,4 +164,15 @@ public class TrainingDataInitScript : MonoBehaviour {
 		TrainingPlanMakingToggle = transform.parent.parent.parent.Find("FunctionManager/TrainingPlanMakingItem").GetComponent<Toggle>();
 		TrainingPlanMakingToggle.isOn = true;
 	}	
+
+	public void TrainingPlanMakeButtonOnClick()
+	{
+		TrainingPlanData.SetActive(true);
+	}
+
+	public void TrainingPlanMakeReturnButtonOnClick()
+	{
+		TrainingPlanData.SetActive(false);
+	}
+
 }

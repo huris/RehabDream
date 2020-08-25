@@ -16,9 +16,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     public GameObject PlanMakingFail;
     public GameObject PlanDeleteSuccess;
     public GameObject PlanDeleteFail;
-    public GameObject NoEvaluationData;
+    //public GameObject NoEvaluationData;
 
-    public Toggle PatientInfoManagerToggle;
+    //public Toggle PatientInfoManagerToggle;
 
     public Text PlanMakingButtonText;
 
@@ -34,6 +34,8 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     private Selectable NextInput;   // 目标Input
 
     public GameObject PatientInfo;
+
+    public GameObject TrainingStart;
 
     // Use this for initialization
     void Start() {
@@ -60,9 +62,9 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
         PlanDeleteFail = transform.Find("PlanDeleteFail").gameObject;
         PlanDeleteFail.SetActive(false);
 
-        PatientInfoManagerToggle = transform.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
+        //PatientInfoManagerToggle = transform.parent.parent.parent.parent.parent.Find("FunctionManager/PatentInfoManagerItem").GetComponent<Toggle>();
 
-        NoEvaluationData = transform.parent.Find("NoEvaluationData").gameObject;
+        //NoEvaluationData = transform.parent.Find("NoEvaluationData").gameObject;
 
         if (DoctorDataManager.instance.doctor.patient.Evaluations == null){
             DoctorDataManager.instance.doctor.patient.Evaluations = DoctorDatabaseManager.instance.ReadPatientEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
@@ -75,7 +77,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
         {
-            NoEvaluationData.SetActive(false);
+            //NoEvaluationData.SetActive(false);
 
             DifficultString2Int = new Dictionary<string, int>();
             DifficultString2Int.Add("请选择难度", 0);
@@ -127,21 +129,25 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
                 PlanDirection.value = DirectionString2Int[DoctorDataManager.instance.doctor.patient.trainingPlan.PlanDirection];
                 PlanTime.text = DoctorDataManager.instance.doctor.patient.trainingPlan.PlanTime.ToString();
 
-                PlanMakingButtonText.text = "修改计划";
+                TrainingStart.SetActive(true);
+
+                PlanMakingButtonText.text = "修  改";
             }
             else
             {
+                TrainingStart.SetActive(false);
+
                 PlanDifficult.value = 0;
                 PlanDirection.value = 0;
                 PlanTime.text = "";
 
-                PlanMakingButtonText.text = "制定计划";
+                PlanMakingButtonText.text = "制  定";
             }
 
         }
         else
         {
-            NoEvaluationData.SetActive(true);
+            //NoEvaluationData.SetActive(true);
         }
 
         //system = EventSystem.current;       // 获取当前的事件
@@ -223,6 +229,8 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
 
                 PlanMakingSuccess.SetActive(true);
 
+                TrainingStart.SetActive(true);
+
                 //StartCoroutine(DelayTime(3));
             }
             else
@@ -281,11 +289,11 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
     }
 
 
-    IEnumerator DelayTime(int time)
-    {
-        yield return new WaitForSeconds(time);
+    //IEnumerator DelayTime(int time)
+    //{
+    //    yield return new WaitForSeconds(time);
 
-        PatientInfoManagerToggle.isOn = true;
-    }
+    //    PatientInfoManagerToggle.isOn = true;
+    //}
 
 }

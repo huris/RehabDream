@@ -76,7 +76,7 @@ public class PatientQueryButtonScript : MonoBehaviour {
             seq = DOTween.Sequence();
             seq.Append(t1);
             seq.Append(t2);
-            seq.SetLoops(-1);
+            seq.SetLoops(3);
         }
         else
         {
