@@ -78,6 +78,68 @@ public class PatientItemScript : MonoBehaviour {
                 {
                     Prefab = Resources.Load("Prefabs/PatientItem") as GameObject;
                     Instantiate(Prefab).transform.SetParent(this.transform);
+
+
+                    // 为button添加监听函数
+                    this.transform.GetChild(i).GetChild(0).GetChild(4).GetChild(0).GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
+                                                                                                                                                                      //this.transform.GetChild(i).GetChild(0).GetChild(4).GetChild(1).GetComponent<Button>().onClick.AddListener(PhysicalConditionsEvaluateButtonOnClick);  // 评估身体状况
+                    //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码
+                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
+                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
+                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
+
+                    //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().ClearOptions();
+
+                    this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> {"动作姿势", "Bobath", "评估类型"});
+                    this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().options.Count - 1;
+
+                    this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().onValueChanged.AddListener(delegate
+                    {
+                        GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+                        if (obj.transform.parent.name == "Content" && obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value < obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1)
+                        {
+                            DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.parent.parent.parent.name));
+
+                            DoctorDataManager.instance.EvaluationType = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value;
+
+                            //print(DoctorDataManager.instance.EvaluationType);
+                            
+                            obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/PatientInfoEvaluateItem").GetComponent<Toggle>().isOn = true;
+
+                            //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+                            //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
+                            obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
+
+                        }
+                    });
+
+                    this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "足球守门", "重心捕鱼", "训练类型" });
+                    this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().options.Count - 1;
+                    
+                    this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().onValueChanged.AddListener(delegate {
+                        GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+                        if (obj.transform.parent.name == "Content" && obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value < obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1)
+                        {
+                            DoctorDataManager.instance.doctor.SetPatientCompleteInformation(int.Parse(obj.transform.parent.parent.parent.parent.parent.parent.name));
+
+                            DoctorDataManager.instance.TrainingType = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value;
+
+                            //print(DoctorDataManager.instance.EvaluationType);
+
+                            obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/TrainingCoditionQueryItem").GetComponent<Toggle>().isOn = true;
+
+                            //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
+                            //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
+                            obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
+
+                        }
+                    });
+
+                    this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
+                    this.transform.GetChild(i).GetChild(0).GetChild(9).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
+
                 }
             }
             // 在将列表中的内容放入
@@ -88,22 +150,11 @@ public class PatientItemScript : MonoBehaviour {
                 this.transform.GetChild(i).name = i.ToString();   // 重新命名使得之后可以调用button不同的方法
 
                 this.transform.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientName;
-                this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientSex;
-                this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientAge.ToString();
-                this.transform.GetChild(i).GetChild(0).GetChild(4).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientID.ToString();
+                this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientID.ToString();
+                this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientSex;
+                this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientAge.ToString();
                 //Doctor doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.Patients[i].PatientDoctorID);
                 this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.PatientDoctorName;
-
-                // 为button添加监听函数
-                this.transform.GetChild(i).GetChild(0).GetChild(3).GetChild(0).GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
-                this.transform.GetChild(i).GetChild(0).GetChild(3).GetChild(1).GetComponent<Button>().onClick.AddListener(PhysicalConditionsEvaluateButtonOnClick);  // 评估身体状况
-
-                this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码
-                this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
-                this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
-                this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
-                this.transform.GetChild(i).GetChild(0).GetChild(8).gameObject.GetComponent<Button>().onClick.AddListener(PatientModifyButtonOnClick);  // 查询身体状况
-                this.transform.GetChild(i).GetChild(0).GetChild(9).gameObject.GetComponent<Button>().onClick.AddListener(PatientDeleteButtonOnClick);  // 查询身体状况
 
             }
 
