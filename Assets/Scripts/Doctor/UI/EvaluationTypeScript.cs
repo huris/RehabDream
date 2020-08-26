@@ -21,6 +21,8 @@ public class EvaluationTypeScript : MonoBehaviour {
 
 	void OnEnable()
 	{
+		//print(DoctorDataManager.instance.EvaluationType + "!!!!!");
+
 		if(DoctorDataManager.instance.EvaluationType == 0)
 		{
 			ThroughWallToggle.isOn = true;
