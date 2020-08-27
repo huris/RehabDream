@@ -16,7 +16,7 @@ using System;
 namespace ShipNSea 
 {
     public class UserDAO
-    {
+    {   
         public string username;
         public string password;
         public int experience;
@@ -78,6 +78,7 @@ namespace ShipNSea
         // private SQLiteHelper tempSql;
         public override void Start()
         {
+
             base.Start();
             hintText = GameObject.Find("HintText").GetComponent<Text>();
             if (username == null || username == "")
@@ -97,7 +98,7 @@ namespace ShipNSea
                 avatarGO.SetActive(false);
                 unLog.transform.gameObject.SetActive(false);
             });
-            QuickStartButton_Click();
+            //QuickStartButton_Click();
         }
         private static void ShowHintText(string str)
         {
