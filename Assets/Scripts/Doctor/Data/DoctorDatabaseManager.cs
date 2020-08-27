@@ -39,7 +39,8 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string EvaluationSoccerTableName = "EvaluationSoccer";
     private string EvaluationPointsTableName = "EvaluationPoints";
     private string BobathGravityCenterTableName = "BobathGravityCenter";
-
+    private string FishTrainingRecordTableName = "FishTrainingRecord";
+    private string FishTrainingGravityCenterTableName = "FishGravityCenter";
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -529,6 +530,69 @@ public class DoctorDatabaseManager : MonoBehaviour
                     }
                 );
             Debug.Log("@DatabaseManager: Create EvaluationPoints");
+        }
+
+        if (!this.PatientDatabase.IsTableExists(FishTrainingRecordTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                FishTrainingRecordTableName,   //table name
+                new String[] {
+                    "TrainingID",
+                    "PatientID",
+                    "TrainingStartTime",
+                    "TrainingEndTime",
+                    "TrainingDirection",
+                    "Bonus",
+                    "StaticFishSuccessCount",
+                    "StaticFishAllCount",
+                    "DynamicFishSuccessCount",
+                    "DynamicFishAllCount",
+                    "FishCaptureTime",
+                    "Experience",
+                    "Distance",
+                    "TrainingScore",
+                    "" },
+
+                new String[] {
+                    "INTEGER UNIQUE NOT NULL",
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "PRIMARY KEY(TrainingID)" }
+                );
+            Debug.Log("@DatabaseManager: Create FishTrainingRecordTable");
+        }
+
+        //check GravityCenterTable
+        if (!this.PatientDatabase.IsTableExists(FishTrainingGravityCenterTableName))  //check PatientInfoTableName table
+        {
+            this.PatientDatabase.CreateTable(
+                FishTrainingGravityCenterTableName,   //table name
+                new String[] {
+                    "TrainingID",
+                    "X",
+                    "Y",
+                    "Z",
+                    "Time" },
+
+                new String[] {
+                    "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "FLOAT NOT NULL",
+                    "TEXT NOT NULL" }
+                );
+            Debug.Log("@DatabaseManager: Create FishTrainingGravityCenterTable");
         }
 
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
