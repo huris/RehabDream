@@ -58,7 +58,7 @@ namespace ShipNSea
 
             //提供USERDAO
             var temp = PlayerPrefs.GetString(name);
-            print(temp);
+            //print(temp);
             var tempstring = temp.Split('|');
             outUserDAO.username = tempstring[0];
             outUserDAO.password = tempstring[1];

@@ -1963,6 +1963,53 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read GravityCenterRecord
+    public List<GravityCenter> ReadFishGravityCenterRecord(long TrainingID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<GravityCenter> result = new List<GravityCenter>(); //返回值
+        string QueryString = "SELECT * FROM FishGravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //result = new List<GravityCenter>();
+                //存在用户训练任务
+                do
+                {
+                    //string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
+                    //string[] XYZ = Coordinate.Split(',');
+                    //Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+                    Vector3 CoordinateVector3 = new Vector3(reader.GetFloat(reader.GetOrdinal("X")), reader.GetFloat(reader.GetOrdinal("Y")), reader.GetFloat(reader.GetOrdinal("Z")));
+
+                    var res = new GravityCenter(
+                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    CoordinateVector3,
+                    reader.GetString(reader.GetOrdinal("Time"))
+                    );
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read FishGravityCenter Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read FishGravityCenter Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read FishGravityCenter SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
+    }
+
     // read Angle
     public List<Angle> ReadAngleRecord(long TrainingID)
     {
@@ -2465,6 +2512,57 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         sql?.CloseConnection();
         return results;
+    }
+
+    public List<FishTrainingPlay> ReadPatientFishTrainings(long PatientID)
+    {
+        SqliteDataReader reader;    //sql读取器
+        List<FishTrainingPlay> result = new List<FishTrainingPlay>(); //返回值
+        string QueryString = "SELECT * FROM FishTrainingRecord where PatientID=" + PatientID.ToString() + " order by TrainingEndTime";
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.HasRows)
+            {
+                //result = new List<Angle>();
+                //存在用户训练任务
+                do
+                {
+                    var res = new FishTrainingPlay(
+                    reader.GetInt64(reader.GetOrdinal("TrainingID")),
+                    reader.GetString(reader.GetOrdinal("TrainingStartTime")),
+                    reader.GetString(reader.GetOrdinal("TrainingEndTime")),
+                    reader.GetInt64(reader.GetOrdinal("TrainingDirection")),
+                    reader.GetInt64(reader.GetOrdinal("Bonus")),
+                    reader.GetInt64(reader.GetOrdinal("StaticFishSuccessCount")),
+                    reader.GetInt64(reader.GetOrdinal("StaticFishAllCount")),
+                    reader.GetInt64(reader.GetOrdinal("DynamicFishSuccessCount")),
+                    reader.GetInt64(reader.GetOrdinal("DynamicFishAllCount")),
+                    // 捕鱼时间: 123,12,42,312,4,5
+                    reader.GetString(reader.GetOrdinal("FishCaptureTime")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList(),
+                    reader.GetInt64(reader.GetOrdinal("Experience")),
+                    reader.GetInt64(reader.GetOrdinal("Distance")),
+                    reader.GetFloat(reader.GetOrdinal("TrainingScore")));
+                    result.Add(res);
+                } while (reader.Read());
+
+                Debug.Log("@UserManager:Read FishTrainingRecord Success" + result);
+                return result;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Read FishTrainingRecord Fail");
+                return result;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Read FishTrainingRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return result;
+        }
     }
 
     // create Data/
