@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/ShipNSea/Z_Panzhenyuan/Scenes/JointDetectionScene.unity
+- path: Assets/Scenes/01-DoctorLogin.unity
   isLoaded: 1
   isActive: 1
