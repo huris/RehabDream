@@ -20,12 +20,13 @@ public class Patient
     public int TrainingPlayIndex { get; private set; } = -1;    // 当前是哪次训练,不是最后一次训练
     public int EvaluationIndex { get; private set; } = -1;
     public int WallEvaluationIndex { get; private set; } = -1;
+    public int FishTrainingIndex { get; private set; } = -1;
 
     public TrainingPlan trainingPlan = null;      // 患者训练计划
     public List<TrainingPlay> TrainingPlays = null;   // 患者训练列表
     public List<Evaluation> Evaluations = null;   // 患者评估列表
     public List<OneTrainingData> WallEvaluations = null;  // 穿墙评估列表
-    //public List<WallEvaluation> WallEvaluations = null; // 穿墙评估列表
+    public List<FishTrainingPlay> FishTrainingPlays = null; // 重心捕鱼
 
     public Patient() { }
 
@@ -96,6 +97,12 @@ public class Patient
         if (this.WallEvaluations != null && this.WallEvaluations.Count > 0)
         {
             this.WallEvaluationIndex = this.WallEvaluations.Count - 1;
+        }
+
+        if (this.FishTrainingPlays == null) this.FishTrainingPlays = DoctorDatabaseManager.instance.ReadPatientFishTrainings(this.PatientID);
+        if (this.FishTrainingPlays != null && this.FishTrainingPlays.Count > 0)
+        {
+            this.FishTrainingIndex = this.FishTrainingPlays.Count - 1;
         }
     }
 

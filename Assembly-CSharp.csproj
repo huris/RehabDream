@@ -272,6 +272,7 @@
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Evaluation.cs" />
+     <Compile Include="Assets\Scripts\Doctor\Data\FishTrainingPlay.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
      <Compile Include="Assets\Scripts\Doctor\Data\Point.cs" />
