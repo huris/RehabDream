@@ -19,7 +19,9 @@ public class FishTrainingPlay
     public long Experience { get; private set; } = 0;   // 至此经验值
     public long Distance { get; private set; } = 0; // 路程
 
-    public List<GravityCenter> gravityCenters = null;   // 患者重心变化
+    public List<float> GCAngles = new List<float>();
+
+    //public List<GravityCenter> gravityCenters = null;   // 患者重心变化
     public float TrainingScore { get; private set; } = 0.0f; // 训练得分
 
     public FishTrainingPlay() { }
@@ -27,7 +29,7 @@ public class FishTrainingPlay
     public FishTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
         long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
         long DynamicFishSuccessCount, long DynamicFishAllCount, List<int> FishCaptureTime,
-        long Experience, long Distance, float TrainingScore)
+        long Experience, long Distance, List<float> GCAngles, float TrainingScore)
     {
         this.TrainingID = TrainingID;
         this.TrainingStartTime = TrainingStartTime;
@@ -41,16 +43,17 @@ public class FishTrainingPlay
         this.FishCaptureTime = FishCaptureTime;
         this.Experience = Experience;
         this.Distance = Distance;
+        this.GCAngles = GCAngles;
         this.TrainingScore = TrainingScore;
 
-        this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
+        //this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
     }
 
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
         long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
         long DynamicFishSuccessCount, long DynamicFishAllCount, List<int> FishCaptureTime,
-        long Experience, long Distance, float TrainingScore)
+        long Experience, long Distance, List<float> GCAngles, float TrainingScore)
     {
         this.TrainingID = TrainingID;
         this.TrainingStartTime = TrainingStartTime;
@@ -64,8 +67,9 @@ public class FishTrainingPlay
         this.FishCaptureTime = FishCaptureTime;
         this.Experience = Experience;
         this.Distance = Distance;
+        this.GCAngles = GCAngles;
         this.TrainingScore = TrainingScore;
 
-        this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
+        //this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
     }
 }

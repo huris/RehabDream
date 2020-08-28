@@ -26,9 +26,6 @@ namespace ShipNSea
 		// Update is called once per frame
 		void Update()
 		{
-			//不能放到update了啊 相当于协程加载了无数个延迟函数
-			//InvokeRepeating("PrintGAngle", 0f,2f);
-			//print(gameState.InGame);
 			if (!gameState.InGame && dis == 0f)
 			{
 				CancelInvoke();
@@ -37,8 +34,14 @@ namespace ShipNSea
 					dis += (boatPosList[i + 1] - boatPosList[i]).sqrMagnitude;
 				}
 				//print("移动总距离:"+dis);
+				GameState.outUserDAO.distance = Mathf.Round(dis).ToString();
 			}
 		}
+
+		public List<string> SQLStringList = new List<string>();
+
+
+
 		private float GAngle()
 		{
 			characterGpos = characterHelper.GetBoneTransform(HumanBodyBones.Neck).position;
@@ -50,7 +53,6 @@ namespace ShipNSea
 		private void PrintGAngle()
 		{
 			GAngle();
-			//print("当前重心角度:"+GAngle());
 		}
 		private void AddBoatPos()
 		{
@@ -60,7 +62,7 @@ namespace ShipNSea
 		public void StartDataCollenctionFunc()
 		{
 			InvokeRepeating("PrintGAngle", 0f, 2f);
-			InvokeRepeating("AddBoatPos", 0f, 1f);
+			InvokeRepeating("AddBoatPos", 0f, 0.2f);
 		}
 	}
 }

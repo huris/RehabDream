@@ -12,7 +12,7 @@ namespace ShipNSea
     }
     public class BodySetting : MonoBehaviour
     {
-        public BodySettingEnum setBody = 0;
+        public static BodySettingEnum setBody = 0;
     }
 
 }

@@ -74,14 +74,14 @@ MonoBehaviour:
   displayColorMap: 0
   displaySkeletonLines: 0
   DisplayMapsWidthPercent: 20
-  useMultiSourceReader: 0
+  useMultiSourceReader: 1
   minUserDistance: 0.5
   maxUserDistance: 0
   maxLeftRightDistance: 0
   maxTrackedUsers: 6
   showTrackedUsersOnly: 1
   userDetectionOrder: 0
-  ignoreInferredJoints: 0
+  ignoreInferredJoints: 1
   ignoreZCoordinates: 0
   lateUpdateAvatars: 0
   skipRemoteAvatars: 0

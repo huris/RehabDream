@@ -21,13 +21,25 @@ namespace ShipNSea
         public string password;
         public int experience;
 
+
         public string dataGather;
         public string trainTime;
         public string catchFishCount;
         public string distance;
         public string gotExp;
 
+        public string gotStaticFishCount;
+        public string gotDynamicFishCount;
+        public string startDateTime;//开始时间
+        public string endDateTime;//结束时间
+        public List<float> eachFishGotCastTime;
         public List<float> gList;
+
+
+        public int fishCount;
+        public int staticFishCount;
+        public int dynamicFishCount;
+
         public UserDAO(string username, string password, int experience)
         {
             this.username = username;
@@ -70,9 +82,9 @@ namespace ShipNSea
         public static bool isConnectToMySql = false;
 
         [HideInInspector]
-        public static string outName = "myname";
+        public static string pPwd = "myid";
         [HideInInspector]
-        public static string outPwd = "myPwd";
+        public static string pName = "myName";
 
         // private SQLiteHelper sql;
         // private SQLiteHelper tempSql;
@@ -98,7 +110,7 @@ namespace ShipNSea
                 avatarGO.SetActive(false);
                 unLog.transform.gameObject.SetActive(false);
             });
-            //QuickStartButton_Click();
+            QuickStartButton_Click();
         }
         private static void ShowHintText(string str)
         {
@@ -207,7 +219,7 @@ namespace ShipNSea
             //提供快捷进入接口
             else
             {
-                string temp = PlayerPrefs.GetString(outName);
+                string temp = PlayerPrefs.GetString(pPwd);
 
                 if (temp != null && temp != "")
                 {
@@ -227,12 +239,12 @@ namespace ShipNSea
                 }
                 else
                 {
-                    UserDAO userDAO = new UserDAO(outName, outPwd, 0);
-                    PlayerPrefs.SetString(outName, userDAO.dataGather);
+                    UserDAO userDAO = new UserDAO(pPwd, pName, 0);
+                    PlayerPrefs.SetString(pPwd, userDAO.dataGather);
                     print("注册成功");
                     ShowHintText("注册新用户成功");
 
-                    string temp1 = PlayerPrefs.GetString(outName);
+                    string temp1 = PlayerPrefs.GetString(pPwd);
                     string[] strArr = temp1.Split('|');
                     print("登录成功");
                     ShowHintText("登录成功");

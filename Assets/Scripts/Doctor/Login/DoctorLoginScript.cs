@@ -30,8 +30,6 @@ public class DoctorLoginScript : MonoBehaviour {
         ErrorInformation.SetActive(false);     // 设置语句刚开始处于未激活状态
 
         system = EventSystem.current;       // 获取当前的事件
-
-        print(ShipNSea.GameState.outUserDAO);
     }
 
     // Update is called once per frame

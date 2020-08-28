@@ -50,6 +50,10 @@ namespace ShipNSea
 
         //记录产生鱼群的总数fishCount
         public static int fishCount = 0;
+        public static int staticFishCount = 0;
+        public static int dynamicFishCount = 0;
+
+
         private float time = .5f;
 
 #if UNITY_EDITOR
@@ -172,9 +176,18 @@ namespace ShipNSea
                     }
                 }
             }
-            Instantiate(go, globalPosition, Quaternion.identity, transform);
+            var fish = Instantiate(go, globalPosition, Quaternion.identity, transform);
             (GameManager.instance.currentLevel as GameState).gameController.AddFlock(go);
             fishCount++;
+            if (fish.GetComponent<FishFlock>().type == FlockType.Moving) 
+            {
+                dynamicFishCount++;
+            }
+            else 
+            {
+                staticFishCount++;
+            }
+
         }
 
         public bool DetectCollision(Vector3 p)
