@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.CodeDom.Compiler;
 using UnityEngine.Events;
+using System.Linq;
+using System;
 
 namespace ShipNSea 
 {
@@ -265,6 +267,9 @@ namespace ShipNSea
         public void FinishGame()
         {
             PauseGame();
+
+            DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetTrainingEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+
             gameoverGO.SetActive(true);
 
             string totalTimeString = ((int)gameController.CurrentTime).ToString();

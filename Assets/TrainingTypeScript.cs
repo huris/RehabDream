@@ -23,6 +23,7 @@ public class TrainingTypeScript : MonoBehaviour
 	void OnEnable()
 	{
 		//print(DoctorDataManager.instance.EvaluationType + "!!!!!");
+		DoctorDataManager.instance.FunctionManager = 3;
 
 		if (DoctorDataManager.instance.TrainingType == 0)
 		{

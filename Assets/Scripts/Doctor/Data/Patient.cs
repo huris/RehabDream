@@ -17,12 +17,14 @@ public class Patient
     public string PatientPinyin { get; private set; } = "";
     public long MaxSuccessCount { get; private set; } = 0;
     public bool PlanIsMaking { get; private set; } = false;
+    public bool FishPlanIsMaking { get; private set; } = false;
     public int TrainingPlayIndex { get; private set; } = -1;    // 当前是哪次训练,不是最后一次训练
     public int EvaluationIndex { get; private set; } = -1;
     public int WallEvaluationIndex { get; private set; } = -1;
     public int FishTrainingIndex { get; private set; } = -1;
 
-    public TrainingPlan trainingPlan = null;      // 患者训练计划
+    public TrainingPlan trainingPlan = null;      // 患者足球守门员训练计划
+    public FishTrainingPlan fishTrainingPlan = null;    // 患者重心捕鱼计划
     public List<TrainingPlay> TrainingPlays = null;   // 患者训练列表
     public List<Evaluation> Evaluations = null;   // 患者评估列表
     public List<OneTrainingData> WallEvaluations = null;  // 穿墙评估列表
@@ -44,6 +46,11 @@ public class Patient
         this.PatientPinyin = Pinyin.GetPinyin(PatientName);
 
         //SetPatientData();
+    }
+
+    public void SetFishTrainingPlayIndex(int FishTrainingIndex)
+    {
+        this.FishTrainingIndex = FishTrainingIndex;
     }
 
     public void SetTrainingPlayIndex(int TrainingPlayIndex)
@@ -191,5 +198,10 @@ public class Patient
     public void SetPlanIsMaking(bool PlanIsMaking)
     {
         this.PlanIsMaking = PlanIsMaking;
+    }
+
+    public void SetFishPlanIsMaking(bool FishPlanIsMaking)
+    {
+        this.FishPlanIsMaking = FishPlanIsMaking;
     }
 }

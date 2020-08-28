@@ -44,6 +44,7 @@ public class DoctorDatabaseManager : MonoBehaviour
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
+    private string FishTrainingPlanTableName = "FishTrainingPlan";
 
     public enum DatabaseReturn
     {
@@ -207,6 +208,25 @@ public class DoctorDatabaseManager : MonoBehaviour
             Debug.Log("@DatabaseManager: Create TrainingPlanTable");
         }
 
+        //check FishTrainingPlanTable
+        if (!this.DoctorDatabase.IsTableExists(FishTrainingPlanTableName))  //check FishTrainingPlanTable table
+        {
+            this.DoctorDatabase.CreateTable(
+                FishTrainingPlanTableName,   //table name
+                new String[] {
+                    "PatientID",
+                    "TrainingDirection",
+                    "TrainingDuration",
+                    ""},
+
+                new String[] {
+                    "INTEGER UNIQUE NOT NULL",
+                    "INTEGER UNIQUE NOT NULL",
+                    "INTEGER UNIQUE NOT NULL",
+                    "PRIMARY KEY(PatientID)" }
+                );
+            Debug.Log("@DatabaseManager: Create FishTrainingPlanTableName");
+        }
 
         Debug.Log("@DatabaseManager: Connect DoctorDatabase.db");
     }
@@ -1052,6 +1072,46 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // read Patient's Fish Training Plan
+    public FishTrainingPlan ReadPatientFishTrainingPlan(long PatientID)
+    {
+
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
+
+        FishTrainingPlan FishTrainingPlan = null;
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                FishTrainingPlan = new FishTrainingPlan(
+                    reader.GetInt64(reader.GetOrdinal("TrainingDirection")),
+                    reader.GetInt64(reader.GetOrdinal("TrainingDuration")));
+
+                //trainingPlan.SetPlanIsMaking(true);
+
+                return FishTrainingPlan;
+            }
+            else
+            {
+                //trainingPlan.SetPlanIsMaking(false);
+                return FishTrainingPlan;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: ReadPatientTrainingPlan SqliteException");
+            DoctorDatabase?.CloseConnection();
+
+            //trainingPlan.SetPlanIsMaking(false);
+            return FishTrainingPlan;
+        }
+    }
+
 
 
     // make Patient's Training Plan
@@ -1105,12 +1165,63 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // make Patient's Training Plan
+    public DatabaseReturn MakePatientFishTrainingPlan(long PatientID, FishTrainingPlan fishTrainingPlan)
+    {
+        if (PatientID <= 0)   // input Null
+        {
+            Debug.Log("@UserManager: Make Patient's Training Plan NullInput");
+            return DatabaseReturn.NullInput;
+        }
+
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM PatientInfo where PatientID=" + PatientID.ToString();
+
+        try
+        {
+
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                //print(QueryString);
+
+
+                //write PatientID-PlanDifficulty-GameCount-PlanCount to DoctorDataBase.db
+                DoctorDatabase.InsertValues("FishTrainingPlan", //table name
+                                            new String[] {
+                                                PatientID.ToString(),
+                                                fishTrainingPlan.TrainingDirection.ToString(),
+                                                fishTrainingPlan.TrainingDuration.ToString()
+                                                }
+                                            );
+                Debug.Log("@UserManager: MakePatientFishTrainingPlan Success");
+                return DatabaseReturn.Success;
+            }
+            else
+            {
+                Debug.Log("@UserManager: MakePatientFishTrainingPlan Fail");
+                return DatabaseReturn.Fail;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: MakePatientFishTrainingPlan SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+
+
+
     // modify Patient's Training Plan
     public DatabaseReturn ModifyPatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)
     {
         if (PatientID <= 0)   // input Null
         {
-            Debug.Log("@UserManager: Modify Patient's Training Plan NullInput");
+            Debug.Log("@UserManager: Modify Patient's Fish Training Plan NullInput");
             return DatabaseReturn.NullInput;
         }
 
@@ -1147,6 +1258,48 @@ public class DoctorDatabaseManager : MonoBehaviour
         }
     }
 
+    // modify Patient's Training Plan
+    public DatabaseReturn ModifyPatientFishTrainingPlan(long PatientID, FishTrainingPlan fishTrainingPlan)
+    {
+        if (PatientID <= 0)   // input Null
+        {
+            Debug.Log("@UserManager: Modify Patient's Training Plan NullInput");
+            return DatabaseReturn.NullInput;
+        }
+
+        SqliteDataReader reader;    //sql读取器
+        string QueryString = "SELECT * FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
+
+        try
+        {
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                QueryString = "UPDATE FishTrainingPlan SET TrainingDirection=" + fishTrainingPlan.TrainingDirection.ToString() + " , TrainingDuration=" + fishTrainingPlan.TrainingDuration.ToString() +
+                    " where PatientID=" + PatientID.ToString();
+                DoctorDatabase.ExecuteQuery(QueryString);
+
+                Debug.Log("@UserManager: Modify Patient FishTrainingPlan Success");
+                return DatabaseReturn.Success;
+            }
+            else
+            {
+                Debug.Log("@UserManager: Modify Patient FishTrainingPlan Fail");
+                return DatabaseReturn.Fail;
+            }
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Modify Patient FishTrainingPlan SqliteException");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+
+
     // Delete Patient's Training Plan
     public DatabaseReturn DeletePatientTrainingPlan(long PatientID)  // Delete
     {
@@ -1176,6 +1329,40 @@ public class DoctorDatabaseManager : MonoBehaviour
         catch (SqliteException e)
         {
             Debug.Log("@UserManager: Delete Patient's Training Plan Fail");
+            DoctorDatabase?.CloseConnection();
+            return DatabaseReturn.Fail;
+        }
+    }
+
+    // Delete Patient's Training Plan
+    public DatabaseReturn DeletePatientFishTrainingPlan(long PatientID)  // Delete
+    {
+        if (PatientID <= 0)   // input Null
+        {
+            Debug.Log("@UserManager: Delete Patient's Fish Training Plan NullInput");
+            return DatabaseReturn.NullInput;
+        }
+
+        try
+        {
+            SqliteDataReader reader;    //sql读取器
+            string QueryString = "SELECT * FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
+
+            reader = DoctorDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                QueryString = "DELETE FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
+                DoctorDatabase.ExecuteQuery(QueryString);
+            }
+
+            Debug.Log("@UserManager: Delete Patient's Fish Training Plan Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@UserManager: Delete Patient's Fish Training Plan Fail");
             DoctorDatabase?.CloseConnection();
             return DatabaseReturn.Fail;
         }
@@ -1280,6 +1467,12 @@ public class DoctorDatabaseManager : MonoBehaviour
                 // 删除患者训练计划
                 QueryString = "DELETE FROM TrainingPlan where PatientID=" + PatientID.ToString();
                 DoctorDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者捕鱼训练计划
+                QueryString = "DELETE FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
+                DoctorDatabase.ExecuteQuery(QueryString);
+
+                PlayerPrefs.DeleteKey(PatientID.ToString());
 
                 // 删除患者角度数据
                 QueryString = "DELETE FROM Angles where Angles.TrainingID in (select PatientRecord.TrainingID from PatientRecord where PatientRecord.PatientID=" + PatientID.ToString() + ")";
@@ -1821,6 +2014,67 @@ public class DoctorDatabaseManager : MonoBehaviour
             return 0;
         }
     }
+
+    public long ReadPatientFishRecordCount()   // 返回训练或者评估的数目
+    {
+        SqliteDataReader reader;    //sql读取器
+        //List<TrainingPlay> result = null; //返回值
+        string QueryString = "SELECT max(TrainingID) FROM FishTrainingRecord";
+
+        //long PatientRecordCount = 0;
+        //print(QueryString);
+
+        try
+        {
+            reader = PatientDatabase.ExecuteQuery(QueryString);
+            reader.Read();
+            if (reader.IsDBNull(0))
+            {
+                return 0;
+            }
+            else
+            {
+                return reader.GetInt64(0) + 1;
+            }
+            //{
+            //    //存在用户训练任务
+            //    do
+            //    {
+            //        PatientRecordCount++;
+            //        //var res = new TrainingPlay(
+            //        //   reader.GetInt64(reader.GetOrdinal("TrainingID")),
+            //        //   reader.GetString(reader.GetOrdinal("TrainingStartTime")),
+            //        //   reader.GetString(reader.GetOrdinal("TrainingEndTime")),
+            //        //   reader.GetString(reader.GetOrdinal("TrainingDifficulty")),
+            //        //   reader.GetInt64(reader.GetOrdinal("SuccessCount")),
+            //        //   reader.GetInt64(reader.GetOrdinal("GameCount")),
+            //        //   reader.GetString(reader.GetOrdinal("TrainingDirection")),
+            //        //   reader.GetInt64(reader.GetOrdinal("TrainingTime"))
+            //        //   );
+            //        ////res.angles = this.ReadAngleRecord(res.TrainingID);
+            //        ////res.direction = this.ReadDirectionRecord(res.TrainingID);
+            //        ////res.gravityCenters = this.ReadGravityCenterRecord(res.TrainingID);
+            //        //result.Add(res);
+            //    } while (reader.Read());
+
+            //    //Debug.Log("@UserManager:Read PatientRecord Success" + result);
+            //    return PatientRecordCount;
+            //}
+            //else
+            //{
+            //    //Debug.Log("@UserManager: Read PatientRecord Fail");
+            //    return PatientRecordCount;
+            //}
+
+        }
+        catch (SqliteException e)
+        {
+            //Debug.Log("@UserManager: Read PatientRecord SqliteException");
+            PatientDatabase?.CloseConnection();
+            return 0;
+        }
+    }
+
 
     //public long ReadPatientEvaluationCount()   // 返回训练或者评估的数目
     //{
@@ -2543,7 +2797,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetInt64(reader.GetOrdinal("DynamicFishSuccessCount")),
                     reader.GetInt64(reader.GetOrdinal("DynamicFishAllCount")),
                     // 捕鱼时间: 123,12,42,312,4,5
-                    reader.GetString(reader.GetOrdinal("FishCaptureTime")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList(),
+                    reader.GetString(reader.GetOrdinal("FishCaptureTime")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(float.Parse).ToList(),
                     reader.GetInt64(reader.GetOrdinal("Experience")),
                     reader.GetInt64(reader.GetOrdinal("Distance")),
                     reader.GetString(reader.GetOrdinal("GCAngles")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(float.Parse).ToList(),
