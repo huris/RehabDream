@@ -15,7 +15,7 @@ public class FishTrainingPlay
     public long DynamicFishSuccessCount { get; private set; } = 0;   // 动态捕获鱼
     public long DynamicFishAllCount { get; private set; } = 0;   // 动态总鱼
     
-    public List<int> FishCaptureTime = new List<int>(); // 捕鱼花费时长
+    public List<float> FishCaptureTime = new List<float>(); // 捕鱼花费时长
     public long Experience { get; private set; } = 0;   // 至此经验值
     public long Distance { get; private set; } = 0; // 路程
 
@@ -24,11 +24,46 @@ public class FishTrainingPlay
     //public List<GravityCenter> gravityCenters = null;   // 患者重心变化
     public float TrainingScore { get; private set; } = 0.0f; // 训练得分
 
-    public FishTrainingPlay() { }
+
+    public void SetFishTrainingPlay(long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
+         long DynamicFishSuccessCount, long DynamicFishAllCount, List<float> FishCaptureTime,
+         long Experience, long Distance, List<float> GCAngles, float TrainingScore)
+    {
+        this.Bonus = Bonus;
+        this.StaticFishSuccessCount = StaticFishSuccessCount;
+        this.StaticFishAllCount = StaticFishAllCount;
+        this.DynamicFishSuccessCount = DynamicFishSuccessCount;
+        this.DynamicFishAllCount = DynamicFishAllCount;
+        this.FishCaptureTime = FishCaptureTime;
+        this.Experience = Experience;
+        this.Distance = Distance;
+        this.GCAngles = GCAngles;
+        this.TrainingScore = TrainingScore;
+        //this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
+    }
+
+
+    public void SetTrainingDirection(long TrainingDirection)
+    {
+        this.TrainingDirection = TrainingDirection;
+    }
+
+    public void SetTrainingStartTime(string TrainingStartTime)
+    {
+        this.TrainingStartTime = TrainingStartTime;
+    }
+
+    public void SetTrainingEndTime(string TrainingEndTime)
+    {
+        this.TrainingEndTime = TrainingEndTime;
+    }
+
+
+    public FishTrainingPlay() { this.TrainingID = DoctorDatabaseManager.instance.ReadPatientFishRecordCount(); }
 
     public FishTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
         long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
-        long DynamicFishSuccessCount, long DynamicFishAllCount, List<int> FishCaptureTime,
+        long DynamicFishSuccessCount, long DynamicFishAllCount, List<float> FishCaptureTime,
         long Experience, long Distance, List<float> GCAngles, float TrainingScore)
     {
         this.TrainingID = TrainingID;
@@ -52,7 +87,7 @@ public class FishTrainingPlay
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
         long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
-        long DynamicFishSuccessCount, long DynamicFishAllCount, List<int> FishCaptureTime,
+        long DynamicFishSuccessCount, long DynamicFishAllCount, List<float> FishCaptureTime,
         long Experience, long Distance, List<float> GCAngles, float TrainingScore)
     {
         this.TrainingID = TrainingID;

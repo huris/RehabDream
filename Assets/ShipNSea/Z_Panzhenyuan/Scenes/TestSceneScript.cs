@@ -41,8 +41,8 @@ namespace ShipNSea
 			var password = GameState.outUserDAO.password;
 			var trainTime = GameState.outUserDAO.trainTime;
 			var glist = GameState.outUserDAO.gList;
-			var exp = GameState.outUserDAO.experience;
-			var gotExp = GameState.outUserDAO.gotExp;
+			var exp = GameState.outUserDAO.experience;	// 总的经验值
+			var gotExp = GameState.outUserDAO.gotExp;	// 本次经验值
 
 			var gotstaticFishCount = GameState.outUserDAO.gotStaticFishCount;
 			var gotdyFishC = GameState.outUserDAO.gotDynamicFishCount;

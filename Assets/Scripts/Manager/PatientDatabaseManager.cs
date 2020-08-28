@@ -28,6 +28,9 @@ public class PatientDatabaseManager : MonoBehaviour
     private string EvaluationSoccerTableName = "EvaluationSoccer";
     private string EvaluationPointsTableName = "EvaluationPoints";
 
+    // 捕鱼数据表
+    private string FishTrainingRecordTableName = "FishTrainingRecord";
+
     // .db is in data/
 
     public enum DatabaseReturn
@@ -522,6 +525,46 @@ public class PatientDatabaseManager : MonoBehaviour
             return DatabaseReturn.Exception;
         }
     }
+
+    //write patient record
+    public DatabaseReturn WritePatientFishRecord(long PatientID, FishTrainingPlay fishTrainingPlay)
+    {
+
+        try
+        {
+            PatientDatabase.InsertValues(
+            FishTrainingRecordTableName, //table name
+            new string[] {
+                    fishTrainingPlay.TrainingID.ToString(),
+                    PatientID.ToString(),
+                    AddSingleQuotes(fishTrainingPlay.TrainingStartTime),
+                    AddSingleQuotes(fishTrainingPlay.TrainingEndTime),
+                    fishTrainingPlay.TrainingDirection.ToString(),
+                    fishTrainingPlay.Bonus.ToString(),
+                    fishTrainingPlay.StaticFishSuccessCount.ToString(),
+                    fishTrainingPlay.StaticFishAllCount.ToString(),
+                    fishTrainingPlay.DynamicFishSuccessCount.ToString(),
+                    fishTrainingPlay.DynamicFishAllCount.ToString(),
+                    AddSingleQuotes(string.Join(",", fishTrainingPlay.FishCaptureTime)),
+                    fishTrainingPlay.Experience.ToString(),
+                    fishTrainingPlay.Distance.ToString(),
+                    AddSingleQuotes(string.Join(",", fishTrainingPlay.GCAngles)),
+                    fishTrainingPlay.TrainingScore.ToString()
+            }
+        );
+
+            Debug.Log("@DatabaseManager: WritePatientFishRecord Success");
+            return DatabaseReturn.Success;
+        }
+        catch (SqliteException e)
+        {
+            Debug.Log("@DatabaseManager: WritePatientFishRecord SqliteException");
+            //this.PatientDatabase.CloseConnection();
+            return DatabaseReturn.Exception;
+        }
+    }
+
+
 
     //write patient record
     public DatabaseReturn WriteMaxDirection(long TrainingID, float[] MaxDirections)
