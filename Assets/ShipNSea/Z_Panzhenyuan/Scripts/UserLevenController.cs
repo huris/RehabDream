@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,8 +41,8 @@ namespace ShipNSea
 				exp = 10000;
 			}
 			ChangeLv();
-			print("当前玩家: " + IntroState.username);
-			username.text = "当前玩家: " + IntroState.username;
+			print("当前玩家: " + IntroState.pName);
+			username.text = "当前玩家: " + IntroState.pName;
 		}
 
 		public void GetLevel()

@@ -40,7 +40,7 @@ public class DoctorDatabaseManager : MonoBehaviour
     private string EvaluationPointsTableName = "EvaluationPoints";
     private string BobathGravityCenterTableName = "BobathGravityCenter";
     private string FishTrainingRecordTableName = "FishTrainingRecord";
-    private string FishTrainingGravityCenterTableName = "FishGravityCenter";
+    //private string FishTrainingGravityCenterTableName = "FishGravityCenter";
 
     private string DoctorInfoTableName = "DoctorInfo";
     private string TrainingPlanTableName = "TrainingPlan";
@@ -550,6 +550,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "FishCaptureTime",
                     "Experience",
                     "Distance",
+                    "GCAngles",
                     "TrainingScore",
                     "" },
 
@@ -568,32 +569,33 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "FLOAT NOT NULL",
+                    "TEXT NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create FishTrainingRecordTable");
         }
 
-        //check GravityCenterTable
-        if (!this.PatientDatabase.IsTableExists(FishTrainingGravityCenterTableName))  //check PatientInfoTableName table
-        {
-            this.PatientDatabase.CreateTable(
-                FishTrainingGravityCenterTableName,   //table name
-                new String[] {
-                    "TrainingID",
-                    "X",
-                    "Y",
-                    "Z",
-                    "Time" },
+        ////check GravityCenterTable
+        //if (!this.PatientDatabase.IsTableExists(FishTrainingGravityCenterTableName))  //check PatientInfoTableName table
+        //{
+        //    this.PatientDatabase.CreateTable(
+        //        FishTrainingGravityCenterTableName,   //table name
+        //        new String[] {
+        //            "TrainingID",
+        //            "X",
+        //            "Y",
+        //            "Z",
+        //            "Time" },
 
-                new String[] {
-                    "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "FLOAT NOT NULL",
-                    "TEXT NOT NULL" }
-                );
-            Debug.Log("@DatabaseManager: Create FishTrainingGravityCenterTable");
-        }
+        //        new String[] {
+        //            "INTEGER NOT NULL",
+        //            "FLOAT NOT NULL",
+        //            "FLOAT NOT NULL",
+        //            "FLOAT NOT NULL",
+        //            "TEXT NOT NULL" }
+        //        );
+        //    Debug.Log("@DatabaseManager: Create FishTrainingGravityCenterTable");
+        //}
 
         Debug.Log("@DatabaseManager: Connect PatientAccount.db");
     }
@@ -1964,51 +1966,51 @@ public class DoctorDatabaseManager : MonoBehaviour
     }
 
     // read GravityCenterRecord
-    public List<GravityCenter> ReadFishGravityCenterRecord(long TrainingID)
-    {
-        SqliteDataReader reader;    //sql读取器
-        List<GravityCenter> result = new List<GravityCenter>(); //返回值
-        string QueryString = "SELECT * FROM FishGravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
+    //public List<GravityCenter> ReadFishGravityCenterRecord(long TrainingID)
+    //{
+    //    SqliteDataReader reader;    //sql读取器
+    //    List<GravityCenter> result = new List<GravityCenter>(); //返回值
+    //    string QueryString = "SELECT * FROM FishGravityCenter where TrainingID=" + TrainingID.ToString() + "  order by Time";
 
-        try
-        {
-            reader = PatientDatabase.ExecuteQuery(QueryString);
-            reader.Read();
-            if (reader.HasRows)
-            {
-                //result = new List<GravityCenter>();
-                //存在用户训练任务
-                do
-                {
-                    //string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
-                    //string[] XYZ = Coordinate.Split(',');
-                    //Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
-                    Vector3 CoordinateVector3 = new Vector3(reader.GetFloat(reader.GetOrdinal("X")), reader.GetFloat(reader.GetOrdinal("Y")), reader.GetFloat(reader.GetOrdinal("Z")));
+    //    try
+    //    {
+    //        reader = PatientDatabase.ExecuteQuery(QueryString);
+    //        reader.Read();
+    //        if (reader.HasRows)
+    //        {
+    //            //result = new List<GravityCenter>();
+    //            //存在用户训练任务
+    //            do
+    //            {
+    //                //string Coordinate = reader.GetString(reader.GetOrdinal("Coordinate"));
+    //                //string[] XYZ = Coordinate.Split(',');
+    //                //Vector3 CoordinateVector3 = new Vector3(Convert.ToSingle(XYZ[0]), Convert.ToSingle(XYZ[1]), Convert.ToSingle(XYZ[2]));
+    //                Vector3 CoordinateVector3 = new Vector3(reader.GetFloat(reader.GetOrdinal("X")), reader.GetFloat(reader.GetOrdinal("Y")), reader.GetFloat(reader.GetOrdinal("Z")));
 
-                    var res = new GravityCenter(
-                    //reader.GetInt64(reader.GetOrdinal("TrainingID")),
-                    CoordinateVector3,
-                    reader.GetString(reader.GetOrdinal("Time"))
-                    );
-                    result.Add(res);
-                } while (reader.Read());
+    //                var res = new GravityCenter(
+    //                //reader.GetInt64(reader.GetOrdinal("TrainingID")),
+    //                CoordinateVector3,
+    //                reader.GetString(reader.GetOrdinal("Time"))
+    //                );
+    //                result.Add(res);
+    //            } while (reader.Read());
 
-                Debug.Log("@UserManager:Read FishGravityCenter Success" + result);
-                return result;
-            }
-            else
-            {
-                Debug.Log("@UserManager: Read FishGravityCenter Fail");
-                return result;
-            }
-        }
-        catch (SqliteException e)
-        {
-            Debug.Log("@UserManager: Read FishGravityCenter SqliteException");
-            PatientDatabase?.CloseConnection();
-            return result;
-        }
-    }
+    //            Debug.Log("@UserManager:Read FishGravityCenter Success" + result);
+    //            return result;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("@UserManager: Read FishGravityCenter Fail");
+    //            return result;
+    //        }
+    //    }
+    //    catch (SqliteException e)
+    //    {
+    //        Debug.Log("@UserManager: Read FishGravityCenter SqliteException");
+    //        PatientDatabase?.CloseConnection();
+    //        return result;
+    //    }
+    //}
 
     // read Angle
     public List<Angle> ReadAngleRecord(long TrainingID)
@@ -2544,6 +2546,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetString(reader.GetOrdinal("FishCaptureTime")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList(),
                     reader.GetInt64(reader.GetOrdinal("Experience")),
                     reader.GetInt64(reader.GetOrdinal("Distance")),
+                    reader.GetString(reader.GetOrdinal("GCAngles")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(float.Parse).ToList(),
                     reader.GetFloat(reader.GetOrdinal("TrainingScore")));
                     result.Add(res);
                 } while (reader.Read());

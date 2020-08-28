@@ -6,7 +6,7 @@ namespace ShipNSea
 {
     public class GameTime : MonoBehaviour
     {
-        public int gameTimeTotal = 300;
+        public static int gameTimeTotal = 300;
         private void Start()
         {
             DontDestroyOnLoad(gameObject);

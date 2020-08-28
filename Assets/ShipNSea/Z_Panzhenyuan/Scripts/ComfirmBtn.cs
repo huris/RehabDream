@@ -45,28 +45,28 @@ namespace ShipNSea
             {
                 gameTime = 300;
             }
-            gameTimeScript.gameTimeTotal = gameTime;
+            //gameTimeScript.gameTimeTotal = gameTime;
             selecttimeGO.SetActive(false);
             characterGO.SetActive(true);
         }
 
         public void SubmitBodySet()
         {
-            switch (seletBodyText.text)
-            {
-                case "两侧一致":
-                    bodySettingScript.setBody = BodySettingEnum.center;
-                    break;
-                case "左侧重点":
-                    bodySettingScript.setBody = BodySettingEnum.left;
-                    break;
-                case "右侧重点":
-                    bodySettingScript.setBody = BodySettingEnum.right;
-                    break;
-                default:
-                    break;
-            }
-            selectBodyGO.SetActive(false);
+            //switch (seletBodyText.text)
+            //{
+            //    case "两侧一致":
+            //        bodySettingScript.setBody = BodySettingEnum.center;
+            //        break;
+            //    case "左侧重点":
+            //        bodySettingScript.setBody = BodySettingEnum.left;
+            //        break;
+            //    case "右侧重点":
+            //        bodySettingScript.setBody = BodySettingEnum.right;
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //selectBodyGO.SetActive(false);
         }
 
         IEnumerator LoadSceneAsync()

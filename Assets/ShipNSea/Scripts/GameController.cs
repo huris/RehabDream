@@ -131,9 +131,9 @@ namespace ShipNSea
             // Reset();
             _gameState = GameManager.instance.currentLevel as GameState;
             //改变时间
-            totalTime = GameObject.Find("KinectManager").GetComponent<GameTime>().gameTimeTotal;
+            totalTime = GameTime.gameTimeTotal;
             //改变身体侧重方向
-            switch (GameObject.Find("KinectManager").GetComponent<BodySetting>().setBody)
+            switch (BodySetting.setBody)
             {
                 case BodySettingEnum.center:
                     centerFGO.SetActive(true);
@@ -170,10 +170,7 @@ namespace ShipNSea
             if (kinect && KinectManager.Instance.IsInitialized())
             {
 
-                if (KinectManager.Instance.GetPrimaryUserID() == 0)
-                {
-                    _gameState.FinishGame();
-                }
+
                 //脖子节点
                 Vector3 center = gravityCenterScript.GetGravityCenter();
                 //原点0,0,0

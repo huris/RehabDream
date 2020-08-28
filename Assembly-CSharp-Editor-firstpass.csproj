@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{C1C39AAB-BB04-F0E8-E743-CEC98E3C4464}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,262 +52,264 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\Editor\HighlightingBaseEditor.cs" />
-     <Compile Include="Assets\Plugins\Editor\HighlightingRendererEditor.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\KinectCopyPluginDataHelper.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\KinectFacePostBuildCopyPluginData.cs" />
-     <Compile Include="Assets\Standard Assets\Editor\KinectVisualGestureBuilderPostBuildCopyPluginData.cs" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
-     <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
-     <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
-     <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
-     <None Include="Assets\ShipNSea\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
-     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
-     <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-     <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
-     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_WaterfallFoam.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
-     <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
-     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
-     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\DepthOfField.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Resources\AmbientOcclusion.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
-     <None Include="Assets\printer\LCPrinter\Readme.txt" />
-     <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\FXAA\Resources\FXAA.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramRender.shader" />
-     <None Include="Assets\WallTrainingResources\Breakable Objects\Breakable Window\Shaders\Unluck Reflective Glass SDR.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeTrunk.shader" />
-     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
-     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
-     <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
-     <None Include="Assets\Plugins\UWP\Attribution.txt" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\SMAA\Resources\SMAA.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBillboard.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBranch.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_SunshaftParticle.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
-     <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
-     <None Include="Assets\Demigiant\DOTween\readme.txt" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
-     <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
-     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Grass.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
-     <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_Waterfall.shader" />
-     <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
-     <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\MedianFilter.shader" />
-     <None Include="Assets\Shader\ArrowShader.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
-     <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\BokehSplatting.shader" />
-     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
-     <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
-     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
-     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
-     <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\LensAberrations\Resources\LensAberrations.shader" />
-     <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
-     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
-     <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramCompute.compute" />
-     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
-     <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
-     <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
-     <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Networking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="nunit.framework">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Timeline">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Timeline">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TreeEditor">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UIAutomation">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UIAutomation">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.GoogleAudioSpatializer">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.GoogleAudioSpatializer">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.HoloLens">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.HoloLens">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.SpatialTracking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.VR">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Graphs">
- <HintPath>C:/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>C:/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="DemiLib">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
- </Reference>
- <Reference Include="DemiEditor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/Editor/DemiEditor.dll</HintPath>
- </Reference>
- <Reference Include="DOTween">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
- </Reference>
- <Reference Include="DOTweenEditor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
- </Reference>
- <Reference Include="DOTweenPro">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
- </Reference>
- <Reference Include="DOTweenProEditor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
- </Reference>
- <Reference Include="I18N.CJK">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
- </Reference>
- <Reference Include="I18N">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
- </Reference>
- <Reference Include="itextsharp">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.Sqlite">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.Tds">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
- </Reference>
- <Reference Include="NPinyin">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
- </Reference>
- <Reference Include="System.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="LCPrinter">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
- </Reference>
- <Reference Include="LZ4Sharp">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
- </Reference>
- <Reference Include="TextMeshPro-2017.2-1.0.56-Editor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
- </Reference>
- <Reference Include="TextMeshPro-2017.2-1.0.56-Runtime">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Poly2Tri">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
- </Reference>
- <Reference Include="Vectrosity">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
- </Reference>
- <Reference Include="VectrosityEditor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Editor/VectrosityEditor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Advertisements">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/Editor/UnityEditor.Advertisements.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Analytics">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/Editor/UnityEditor.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Purchasing">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/Editor/UnityEditor.Purchasing.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Plugins\Editor\HighlightingBaseEditor.cs" />
+    <Compile Include="Assets\Plugins\Editor\HighlightingRendererEditor.cs" />
+    <Compile Include="Assets\Standard Assets\Editor\KinectCopyPluginDataHelper.cs" />
+    <Compile Include="Assets\Standard Assets\Editor\KinectFacePostBuildCopyPluginData.cs" />
+    <Compile Include="Assets\Standard Assets\Editor\KinectVisualGestureBuilderPostBuildCopyPluginData.cs" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeCircularBand.compute" />
+    <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Fog.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\LutGen.shader" />
+    <None Include="Assets\Shooting\VolumeGrass\__quickstart info.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
+    <None Include="Assets\ShipNSea\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
+    <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassSurfaceShader(no zwrite).shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
+    <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ACES.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_WaterfallFoam.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
+    <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
+    <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\VG_Base.cginc" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\DepthOfField.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Blit.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Resources\AmbientOcclusion.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
+    <None Include="Assets\printer\LCPrinter\Readme.txt" />
+    <None Include="Assets\KinectDemos\BackgroundRemovalDemo\Resources\ForegroundBlendShader.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\FXAA\Resources\FXAA.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA3.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\MotionBlur.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramRender.shader" />
+    <None Include="Assets\WallTrainingResources\Breakable Objects\Breakable Window\Shaders\Unluck Reflective Glass SDR.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeTrunk.shader" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
+    <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
+    <None Include="Assets\Graph_Maker\Shaders\AreaShading_SF.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
+    <None Include="Assets\Plugins\UWP\Attribution.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\SMAA\Resources\SMAA.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBillboard.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Common.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBranch.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\UI\Trackball.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_SunshaftParticle.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.cginc" />
+    <None Include="Assets\Shooting\VolumeGrass\_Shaders and Materials\resources\GrassRenderDepth.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.shader" />
+    <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
+    <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\TAA.cginc" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Grass.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\GrainGen.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\FXAA.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
+    <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration-empty.xml" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+    <None Include="Assets\Graph_Maker\ReadMe-1.5.8.txt" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_Waterfall.shader" />
+    <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\KinectDemos\ProjectorDemo\Resources\calibration.xml" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Bloom.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\MedianFilter.shader" />
+    <None Include="Assets\Shader\ArrowShader.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
+    <None Include="Assets\KinectDemos\FittingRoomDemo\Resources\Shaders\UserBlendShader.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\BokehSplatting.shader" />
+    <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
+    <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
+    <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
+    <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\LensAberrations\Resources\LensAberrations.shader" />
+    <None Include="Assets\Graph_Maker\Shaders\ComputeLineGraph.compute" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
+    <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramCompute.compute" />
+    <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
+    <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
+    <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Timeline">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIAutomation">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.GoogleAudioSpatializer">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiEditor">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/Editor/DemiEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenProEditor">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.CJK">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Tds">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPinyin">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="LCPrinter">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+    </Reference>
+    <Reference Include="LZ4Sharp">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.2-1.0.56-Editor">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.2-1.0.56-Runtime">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Poly2Tri">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+    </Reference>
+    <Reference Include="Vectrosity">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
+    </Reference>
+    <Reference Include="VectrosityEditor">
+      <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Editor/VectrosityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/Editor/UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/Editor/UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{AD14E5E0-21B7-44B3-CD66-EB6F2852D84B}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{AD14E5E0-21B7-44B3-CD66-EB6F2852D84B}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -316,5 +319,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

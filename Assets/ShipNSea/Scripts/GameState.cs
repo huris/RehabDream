@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.CodeDom.Compiler;
+using UnityEngine.Events;
 
 namespace ShipNSea 
 {
@@ -48,26 +49,31 @@ namespace ShipNSea
         private DataCollection dataCollectionScript;
         public int photoCaptureInterval = 3;
 
+        public static UnityAction CloseFunc;
+
         private bool _inGame = false;
         public static float time = 0f;
 
         public static UserDAO outUserDAO = new UserDAO();
 
-        private static void GetUserDAO(string name) 
+        public static string returnScene = "";
+
+        private static void GetUserDAO(string id) 
         {
 
             //提供USERDAO
-            var temp = PlayerPrefs.GetString(name);
+            var temp = PlayerPrefs.GetString(id);
             //print(temp);
             var tempstring = temp.Split('|');
-            outUserDAO.username = tempstring[0];
-            outUserDAO.password = tempstring[1];
+            outUserDAO.username = IntroState.pName;
+            outUserDAO.password = tempstring[0];
             outUserDAO.experience = int.Parse(tempstring[2]);
             outUserDAO.trainTime = Mathf.Round(GameController._currentTime).ToString();
             outUserDAO.catchFishCount = FishFlock.catchFishCount.ToString();
-            outUserDAO.distance = Mathf.Round(DataCollection.dis).ToString();
             outUserDAO.gotExp = (FishFlock.catchFishCount * 100).ToString();
             outUserDAO.gList = DataCollection.gAngleList;
+            
+            
         }
 
         public bool InGame
@@ -165,13 +171,18 @@ namespace ShipNSea
 
         public void RestartButton_Click()
         {
+
+
+            MapDetectionController.mapOccupyDis.Clear();
             SceneManager.LoadScene("BalanceFishing");
         }
 
         public void ReturnButton_Click()
         {
+            MapDetectionController.mapOccupyDis.Clear();
+            CloseFunc();
             SoundManager.instance.StopSounds();
-            SceneManager.LoadScene("Intro");
+            SceneManager.LoadScene(returnScene);
         }
 
         public void PauseButton_Click()
@@ -275,6 +286,13 @@ namespace ShipNSea
             totalStaticFlockCount.text = totalStaticFlockCountString;
             totalMovingFlockCount.text = totalMovingFlockCountString;
 
+            outUserDAO.gotStaticFishCount = totalStaticFlockCountString;
+            outUserDAO.gotDynamicFishCount = totalMovingFlockCountString;
+            outUserDAO.eachFishGotCastTime = FishFlock.fishFlockTimeList;
+            outUserDAO.fishCount = SpawnRange.fishCount;
+            outUserDAO.staticFishCount = SpawnRange.staticFishCount;
+            outUserDAO.dynamicFishCount = SpawnRange.dynamicFishCount;
+
             var userLevenController = GameObject.Find("Canvas/InGame/UserLv").GetComponent<UserLevenController>();
             // SAVE TO DB
             if (IntroState.isConnectToMySql)
@@ -302,7 +320,7 @@ namespace ShipNSea
             }
             GetUserDAO(IntroState.username);
             //开启数据展示
-            Invoke("OpenDataPanel", 2f);
+            //Invoke("OpenDataPanel", 2f);
         }
 
         public GameObject crartsPanel;
