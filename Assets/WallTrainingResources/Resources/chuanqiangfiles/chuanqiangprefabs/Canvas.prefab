@@ -848,7 +848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1204507302719280
 GameObject:
   m_ObjectHideFlags: 1
@@ -3725,6 +3725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c4647506677204f9f55e1866d7f35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  progressbar: {fileID: 0}
+  avatar: {fileID: 0}
 --- !u!114 &114265499449574582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4905,6 +4907,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b092c2418a9dca4d80b11448629ebc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  username: {fileID: 0}
+  pwd: {fileID: 0}
+  NotChange: {fileID: 0}
+  Change: {fileID: 0}
+  circle: {fileID: 0}
+  yesCircle: {fileID: 0}
+  noCircle: {fileID: 0}
 --- !u!114 &114452547738308284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4943,6 +4952,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a048fb5df4a6bdf43b8fe4e10444b19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userId: 0
+  wallGoList: []
+  parent: {fileID: 0}
+  time: 0
+  name: {fileID: 0}
+  leftTime: {fileID: 0}
+  wallprogress: {fileID: 0}
+  wallProgressItems: {fileID: 0}
+  personFront: {fileID: 0}
+  personSide: {fileID: 0}
+  CompleteScoreImg: {fileID: 0}
+  OverallMeritScoreImg: {fileID: 0}
+  lastscore: {fileID: 0}
+  actionnum: {fileID: 0}
+  duration: {fileID: 0}
+  perfectOffset: 0.08
+  greatOffset: 0.12
+  goodOffset: 0.15
+  performance: {fileID: 0}
+  performanceTimes: {fileID: 0}
+  redScreen: {fileID: 0}
+  restartText: {fileID: 0}
+  overmitCircle: {fileID: 0}
+  overYesCircle: {fileID: 0}
+  overNoCircle: {fileID: 0}
+  debug_text: {fileID: 0}
 --- !u!114 &114474396184634288
 MonoBehaviour:
   m_ObjectHideFlags: 1

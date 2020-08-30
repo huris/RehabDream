@@ -54,6 +54,7 @@ public class PatientDataManager : MonoBehaviour
         AnyDirection           //任意方向
     }
 
+    #region 足球训练数据
 
     //Read Only
     //[Header("TrainingPlan")]
@@ -66,23 +67,38 @@ public class PatientDataManager : MonoBehaviour
     public long PlanTime { get; private set; } = 20;
     public long TrainingTime => PlanTime;
     public long IsEvaluated { get; private set; } = 0;  //1-评估,0-训练
-
-
     public float LaunchSpeed => _LaunchSpeedList[(int)TrainingDifficulty];
     public float BallSpeed => _BallSpeedList[(int)TrainingDifficulty];
-
 
     //[Header("GameData")]
     public long SuccessCount { get; private set; } = 0;
     public float TimeCount { get; private set; } = 0;       //训练总时间
-    public DateTime TrainingStartTime { get; private set; }
-    public DateTime TrainingEndTime { get; private set; }
 
     //[Header("PatientRecord")]
-    public long TrainingID { get; private set; } = 0;
     public long MaxSuccessCount { get; private set; } = 0;
     public float[] MaxDirection { get; private set; } = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
     public float[] NewMaxDirection { get; private set; } = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+
+    #endregion
+
+
+
+    #region 日常生活训练数据
+
+    public float OpenDoorTimeCount { get; private set; } = 0;       //开门耗时
+    public float SitTimeCount { get; private set; } = 0;    //坐下耗时
+    public float StandTimeCount { get; private set; } = 0;    //站起耗时
+    public float CookTimeCount { get; private set; } = 0;    //烹饪耗时
+    public float ADLTimeCount => OpenDoorTimeCount + SitTimeCount + StandTimeCount + CookTimeCount;       //完成所有项目总耗时
+
+    #endregion
+
+
+
+    #region 训练共用数据
+    public long TrainingID { get; private set; } = 0;
+    public DateTime TrainingStartTime { get; private set; }
+    public DateTime TrainingEndTime { get; private set; }
 
     //[Header("MusicSetting")]
     public float bgmVolume { get; private set; } = 0.5f;
@@ -98,6 +114,8 @@ public class PatientDataManager : MonoBehaviour
     public string PatientName { get; private set; } = "PatientName";
     public long PatientID { get; private set; } = 0;
     public string PatientSex { get; private set; } = "男";
+
+    #endregion
 
 
 
@@ -294,6 +312,26 @@ public class PatientDataManager : MonoBehaviour
         this.PlanDirection = PlanDirection;
     }
 
+    public void SetOpenDoorTimeCount(float OpenDoorTimeCount)
+    {
+        this.OpenDoorTimeCount = OpenDoorTimeCount;
+    }
+
+    public void SetSitTimeCount(float SitTimeCount)
+    {
+        this.SitTimeCount = SitTimeCount;
+    }
+
+    public void SetStandTimeCount(float StandTimeCount)
+    {
+        this.StandTimeCount = StandTimeCount;
+    }
+
+    public void SetCookTimeCount(float CookTimeCount)
+    {
+        this.CookTimeCount = CookTimeCount;
+    }
+
     // reset game data when restart game
     public void ResetGameData()
     {
@@ -303,6 +341,10 @@ public class PatientDataManager : MonoBehaviour
         this.SETips = true;
         this.GameCount = 0;
         this.TimeCount = 0f;
+        this.OpenDoorTimeCount = 0f;
+        this.SitTimeCount = 0f;
+        this.StandTimeCount = 0f;
+        this.CookTimeCount = 0f;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
@@ -315,6 +357,10 @@ public class PatientDataManager : MonoBehaviour
         this.SETips = true;
         this.GameCount = 0;
         this.TimeCount = 0f;
+        this.OpenDoorTimeCount = 0f;
+        this.SitTimeCount = 0f;
+        this.StandTimeCount = 0f;
+        this.CookTimeCount = 0f;
         SetTrainingStartTime();
         SetTrainingEndTime();
     }
