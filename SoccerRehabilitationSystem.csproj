@@ -48,190 +48,190 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\mscorlib.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.dll</HintPath>
     </Reference>
     <Reference Include="System.XML">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.XML.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.XML.dll</HintPath>
     </Reference>
     <Reference Include="System.Core">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Core.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\Microsoft.CSharp.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Runtime.Serialization.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Runtime.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
-      <HintPath>D:\unity2017\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Xml.Linq.dll</HintPath>
+      <HintPath>F:\Unity2017\Editor\Data\MonoBleedingEdge\lib\mono\4.6-api\System.Xml.Linq.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UNETModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WebModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StyleSheetsModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GridModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticlesLegacyModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WindModule">
-      <HintPath>D:/unity2017/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceTesting">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/PerformanceTesting/UnityEngine.PerformanceTesting.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Timeline">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>D:/unity2017/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>F:/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="DemiLib">
       <HintPath>Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
@@ -241,6 +241,12 @@
     </Reference>
     <Reference Include="DOTweenPro">
       <HintPath>Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.CJK">
+      <HintPath>Assets/Plugins/I18N.CJK.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>Assets/Plugins/I18N.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
       <HintPath>Assets/Plugins/itextsharp.dll</HintPath>
@@ -254,6 +260,9 @@
     <Reference Include="Mono.Data.Tds">
       <HintPath>Assets/Plugins/Mono.Data.Tds.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NPinyin">
       <HintPath>Assets/Plugins/NPinyin.dll</HintPath>
     </Reference>
@@ -266,6 +275,12 @@
     <Reference Include="LZ4Sharp">
       <HintPath>Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
     </Reference>
+    <Reference Include="TextMeshPro-2017.2-1.0.56-Editor">
+      <HintPath>Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-2017.2-1.0.56-Runtime">
+      <HintPath>Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Poly2Tri">
       <HintPath>Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
     </Reference>
@@ -273,10 +288,10 @@
       <HintPath>Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/China/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Users/98109/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/China/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +362,8 @@
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
+    <Compile Include="Assets\FishTrainingInitScript.cs" />
+    <Compile Include="Assets\FishTrainingPlanScript.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -478,128 +495,19 @@
     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\SceneMeshVisualizer.cs" />
     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserHandVisualizer.cs" />
     <Compile Include="Assets\KinectDemos\VisualizerDemo\Scripts\UserMeshVisualizer.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\07 - Inputs\Example07LengthValidation.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\07 - Inputs\Example07LetterValidation.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\08 - Sliders\Example08.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\09 - Progress Indicators\Example09.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\10 - Vector Images\Example10.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\13 - Toasts &amp; Snackbars\Example13.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\14 - Dialogs\Example14.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\15 - Pickers\Example15.cs" />
-    <Compile Include="Assets\MaterialUI\Examples\Scripts\19 - Animation\Example19.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Animation\AutoTween.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Animation\EasyTween.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Animation\Tween.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\ColorCopier.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\DragEventSender.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Interfaces.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\MaterialUIScaler.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\RectTransformSnap.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Ripples\MaterialRipple.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Ripples\Ripple.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Ripples\RippleManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Shadows\AnimatedShadow.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Shadows\MaterialShadow.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\Shadows\ShadowGenerator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\SpriteSwapper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\ToggleBase.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Common\VerticalScrollLayoutElement.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Buttons\MaterialButton.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Buttons\MaterialMovableFab.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogAlert.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogAnimator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogBackground.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogCheckboxList.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogCheckboxOption.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogClickableItem.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogProgress.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogPrompt.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogRadioList.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogRadioOption.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogSections.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogSimpleList.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\DialogSimpleOption.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\MaterialDialog.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\DatePicker\DialogDatePicker.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\DatePicker\DialogDatePickerDayItem.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\DatePicker\DialogDatePickerYearItem.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\DatePicker\DialogDatePickerYearList.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\TimePicker\DialogTimePicker.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Dialogs\Pickers\TimePicker\DialogTimePickerClock.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialCheckbox.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialDropdown.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialInputField.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialNavDrawer.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialSlider.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\MaterialSwitch.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Menus\DropdownTrigger.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\OptionData.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\OverscrollConfig.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Progress\CircularProgressIndicator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Progress\LinearProgressIndicator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Progress\ProgressIndicator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\RadioGroups\MaterialRadio.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\RadioGroups\MaterialRadioGroup.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Screens\MaterialScreen.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Screens\ScreenView.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Snackbars\Snackbar.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Snackbars\SnackbarAnimator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Tabs\TabItem.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Tabs\TabPage.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Tabs\TabPagesScrollDetector.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Tabs\TabView.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Toasts\Toast.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\Toasts\ToastAnimator.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\ImageData.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\MaterialIconEnum.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\MaterialIconHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\MaterialUIIconHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\Model\Glyph.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\Model\VectorImageData.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\Model\VectorImageSet.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\VectorImage.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Components\VectorImages\VectorImageManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Managers\DialogManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Managers\PrefabManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Managers\SnackbarManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Managers\ToastManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\Managers\TweenManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\AdaptiveUIGrid.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\ContinuationManager.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\EditorCoroutine.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\EditorUpdate.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\Extensions.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\FPSCounter.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\HSBColor.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\ImageHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InputFieldValidators\TextValidatorUtils.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\ButtonRectInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\ButtonRoundInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\CircleProgressIndicatorInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\DividerInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\EmptyUIObjectInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\InputFieldInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\InstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\MaterialSliderInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\PanelInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\RadioInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\TabViewInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\InstantiationHelpers\ToggleInstantiationHelper.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\MaterialColor.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\MaterialUIVersion.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\TextUnicode.cs" />
-    <Compile Include="Assets\MaterialUI\Scripts\MaterialUtils\TextureUtils.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\IJsonWrapper.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonData.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonException.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonMapper.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonMockWrapper.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonReader.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\JsonWriter.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\Lexer.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\LitJson\ParserToken.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\ObserveAttribute\ObserveAttribute.cs" />
-    <Compile Include="Assets\MaterialUI\Utils\PropertyDrawers\PopupAttribute\PopupAttribute.cs" />
+    <Compile Include="Assets\KinectView\GestureController.cs" />
+    <Compile Include="Assets\KinectView\GestureSourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\BodySourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\BodySourceView.cs" />
+    <Compile Include="Assets\KinectView\Scripts\ColorSourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\ColorSourceView.cs" />
+    <Compile Include="Assets\KinectView\Scripts\DepthSourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\DepthSourceView.cs" />
+    <Compile Include="Assets\KinectView\Scripts\DisableOnStart.cs" />
+    <Compile Include="Assets\KinectView\Scripts\InfraredSourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\InfraredSourceView.cs" />
+    <Compile Include="Assets\KinectView\Scripts\MultiSourceManager.cs" />
+    <Compile Include="Assets\NoUseDoctorTestScript.cs" />
     <Compile Include="Assets\printer\_Scripts\ScreenShot2Pdf.cs" />
     <Compile Include="Assets\printer\_Scripts\ScreenShot2PdfWS.cs" />
     <Compile Include="Assets\printer\_Scripts\Xml.cs" />
@@ -615,12 +523,15 @@
     <Compile Include="Assets\Scripts\Doctor\Data\DoctorDatabaseManager.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\DoctorDataManager.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Evaluation.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\FishTrainingPlan.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\FishTrainingPlay.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\GravityCenter.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Patient.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Point.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\SoccerDistance.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlan.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\TrainingPlay.cs" />
+    <Compile Include="Assets\Scripts\Doctor\Data\Utils.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginExitButton.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginReturnButton.cs" />
     <Compile Include="Assets\Scripts\Doctor\Login\DoctorLoginScript.cs" />
@@ -631,6 +542,8 @@
     <Compile Include="Assets\Scripts\Doctor\Register\DoctorRegisterExitButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\Register\DoctorRegisterScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\Track\Track.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ActionDetailScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ActionItemScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ArmChart.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarChartScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\DirectionRadarTrainingScript.cs" />
@@ -640,8 +553,11 @@
     <Compile Include="Assets\Scripts\Doctor\UI\DoctorUIExitButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluateInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluatePrintScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\EvaluationChartType.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationConditionScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationSceneInit.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\EvaluationScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\EvaluationTypeScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\FunctionManagerInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\GetUsesClrTex.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
@@ -663,9 +579,13 @@
     <Compile Include="Assets\Scripts\Doctor\UI\PatientPasswordModifyButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatientQueryExitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ReportDataChooseScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ReportToggleManagerScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ScaleActionInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\StartTipInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\ThroughWallDataInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainEvaluationInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingCoditionQueryPatientInfoScrip.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingDataInitScript.cs" />
@@ -674,6 +594,8 @@
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPrintScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingStartInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\WallEvaluatePrintScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\WriteBobathGCDataThread.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
     <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
@@ -741,6 +663,113 @@
     <Compile Include="Assets\Scripts\UI\GameUIHandle.cs" />
     <Compile Include="Assets\Scripts\UI\StartUIHandle.cs" />
     <Compile Include="Assets\Scripts\UI\UIHandle.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\BasicButton.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Popup.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\PopupOpener.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\SceneTransition.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\SpriteSwapper.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Tooltip.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Transition.cs" />
+    <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Utils.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Bird\BirdScript.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Cockroach\CockroachLeaderScript.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Cockroach\CockroachScript.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Fish\FishLeaderScript.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Demos\Fish\FishScript.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\AirBoid.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\Boid.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\BoidType.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\Flock.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\FlockFollower.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\FlocksWindow.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\GroundBoid.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Boids\Scripts\WaterBoid.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Demos\Wallpapers\Gravity Clock\Scripts\BillboardCameraPlaneUVFX.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Demos\Wallpapers\Gravity Clock\Scripts\GravityClockInteractivityUVFX.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\DemoManager.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\FPSDisplay.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\FPSTest.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\LoopingParticleSystemsManager.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\MouseFollow.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\MouseRotateCamera.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\OneshotParticleSystemsManager.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\_Demo\ParticleManager.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\AnimatedLight.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\Billboard.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\CameraShake.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyAfterTime.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyOnParticlesDead.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\DestroyOnTrailsDestroyed.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\IgnoreTimeScale.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\ParticleSystems.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\ParticleSystemsSimulationSpeed.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\PerlinNoise.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\RendererSortingOrder.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\Rotator.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\TrailRenderers.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\_Common\Scripts\TransformNoise.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Particle Systems\Ultimate VFX\2 - Expansions\XP - TITLES\Scripts\DemoManager_XPTitles.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\_Common\CreateLUT.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\AttractionParticleAffector.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\MT (EXPERIMENTAL)\ParticleAffectorMT.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\MT (EXPERIMENTAL)\TurbulenceParticleAffectorMT.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\Noise.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\ParticleAffector.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\TurbulenceParticleAffector.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Affectors\Scripts\VortexParticleAffector.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Flocking\ParticleFlocking.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts (DEMO ONLY)\ParticleForceFieldsDemo.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts (DEMO ONLY)\ParticleForceFieldsDemo_CameraRig.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\AttractionParticleForceField.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\Noise2.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\ParticleForceField.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\TurbulenceParticleForceField.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Force Fields\Scripts\VortexParticleForceField.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Lights\Scripts\ParticleLights.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Plexus\Scripts (DEMO ONLY)\ParticlePlexusDemo_CameraRig.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Scripting\Effects\Particle Plexus\Scripts\ParticlePlexus.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Shaders\_Common\IEBase.cs" />
+    <Compile Include="Assets\ShipNSea\PseudoPlugins\Mirza Beig\Shaders\Image Effects\Resources\Sharpen\Sharpen.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\CoinLevel.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\FishFlock.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\FistButton.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\GameController.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\GameManager.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\GameState.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\GravityCenter.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\IntroState.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\LevelControllerBase.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\ManagerLoader.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\PositionIndicator.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\PositionIndicatorLine.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\ProgressRing.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\SkyboxRotator.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\SoundManager.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\SpawnRange.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\UIGravityCenterIndicator.cs" />
+    <Compile Include="Assets\ShipNSea\Scripts\User.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scenes\TestSceneScript.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BarrierScript.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BeingAtk.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\BodySetting.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CameraShackScript.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CharController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\ComfirmBtn.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\CrartsPanelController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\DataCollection.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\DetectionClass.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\FishFlockMoveScript.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GameGradient.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GameTime.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\GravityCenterSegment.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\KinectJointController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\MapDetectionController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\MyGestureController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\QuitGameController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\ReportPanelController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\SceneGestureController.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\TextCoordinate.cs" />
+    <Compile Include="Assets\ShipNSea\Z_Panzhenyuan\Scripts\UserLevenController.cs" />
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -785,7 +814,6 @@
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\Shooting\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
-    <Compile Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Internal\GrassRenderingReservedLayer.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\SetupForGrassRendering.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\_Scripts\VolumeGrass.cs" />
@@ -796,6 +824,8 @@
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
+    <Compile Include="Assets\SkipNSeaBobath.cs" />
+    <Compile Include="Assets\TrainingTypeScript.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
@@ -840,31 +870,91 @@
     <Compile Include="Assets\Vectrosity\Demos\Scripts\Xray\XrayLineData.cs" />
     <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\BloomOptimized.cs" />
     <Compile Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Scripts\PostEffectsBase.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Dynamic.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_LargeData.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_PieChart.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo_Test.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo00_CheatSheet.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo01_UpdateData.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo10_LineChart.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo11_AddSinCurve.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo12_CustomDrawing.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo13_LineSimple.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo20_BarChart.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo30_PieChart.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo40_Radar.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo50_Scatter.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo60_Heatmap.cs" />
-    <Compile Include="Assets\XCharts\Demo\Runtime\Demo70_Gauge.cs" />
+    <Compile Include="Assets\WallTrainingResources\Beans\Beans.cs" />
+    <Compile Include="Assets\WallTrainingResources\Beans\DSTSingleton.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_DemoOrbitCamera.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\CliffAppearance.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\FoliageBender.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\PigmentMapGenerator.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\SubstanceBaker.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\TerrainUVUtil.cs" />
+    <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\WindController.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\AngleCalculator.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\AudiosManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\CheckPosition.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\DataBaseUtil.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\DrawBone.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLoading.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogin.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogout.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\JsonHelper.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\LoadGameDatas.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\Menu.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\ModelManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PlayGame.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PositionCalculator.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\SQLiteDemo.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\Rate.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\SocialMedia.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\BendScript.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\Colour.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\Threat.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\TunnelManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\TunnelSegment.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\AudioManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\EventManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\PlayerController.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\ScoreManager.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\AntiAliasing.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\FXAA\FXAA.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\IAntiAliasing.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\SMAA\SMAA.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\AmbientOcclusion.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Helpers\PropertyObserver.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Helpers\Settings.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Bloom.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Common\ImageEffectHelper.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Common\MinAttribute.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Common\RenderTextureUtility.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\DepthOfField.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\LensAberrations\LensAberrations.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\ScreenSpaceReflection.cs" />
+    <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\TonemappingColorGrading.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example_Dynamic.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example_LargeData.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example_PieChart.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example_Test.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example00_CheatSheet.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example01_UpdateData.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example02_ChartEvent.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example03_ChartAnimation.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example10_LineChart.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example11_AddSinCurve.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example12_CustomDrawing.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example13_LineSimple.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example20_BarChart.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example30_PieChart.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example31_PieUpdateName.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example40_Radar.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example41_RadarUpdate.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example50_Scatter.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example60_Heatmap.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example70_Gauge.cs" />
+    <Compile Include="Assets\XCharts\Examples\Runtime\Example80_Polar.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\BaseGraph_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\LiquidChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\PolarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\RadarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\RingChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\BarChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\ChartComponent.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Axis.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Background.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\DataZoom.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Legend.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Polar.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Radar.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Serie.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Series.cs" />
@@ -872,6 +962,7 @@
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Theme.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Title.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\Tooltip.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Component\Main\Vessel.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\VisualMap.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\Main\XGrid.cs" />
     <Compile Include="Assets\XCharts\Runtime\Component\MainComponent.cs" />
@@ -900,42 +991,56 @@
     <Compile Include="Assets\XCharts\Runtime\Component\SubComponent.cs" />
     <Compile Include="Assets\XCharts\Runtime\GaugeChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\HeatmapChart.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\AxisHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\LegendHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\SerieDataHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Helper\CheckHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Helper\FormatterHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Helper\LayoutHelper.cs" />
     <Compile Include="Assets\XCharts\Runtime\Helper\SerieHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\SerieLabelHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\TitleHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\TitleStyleHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\TooltipHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Helper\VisualMapHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Interface\IJsonData.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Interface\IPropertyChanged.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\APIException.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\AxisPool.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\BaseChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\BaseGraphic.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawBar.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawHeatmap.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawLine.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawScatter.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\LabelObject.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\LegendItem.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\ListPool.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\ObjectPool.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\PropertyUtility.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\SerieLabelPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\AxisHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\ItemStyleHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\LegendHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\PolarHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\SerieHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\SerieLabelHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\SeriesHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\ThemeHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\TitleHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\TitleStyleHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\TooltipHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\VesselHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Helper\VisualMapHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Interface\IJsonData.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Interface\IPropertyChanged.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Object\ChartObject.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Object\LabelObject.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Object\LegendItem.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Pools\AxisPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Pools\ListPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Pools\ObjectPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Pools\SerieDataPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Pools\SerieLabelPool.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartCached.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartDrawer.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartHelper.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\PropertyUtility.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\XChartsMgr.cs" />
     <Compile Include="Assets\XCharts\Runtime\LineChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\LiquidChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\PieChart.cs" />
+    <Compile Include="Assets\XCharts\Runtime\PolarChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\RadarChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\RingChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\ScatterChart.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Utility\ChartCached.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Utility\ChartDrawer.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Utility\ChartHelper.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Utility\XChartsMgr.cs" />
     <Compile Include="Assets\XChartsDemo\Runtime\Demo.cs" />
     <Compile Include="Assets\XChartsDemo\Runtime\Demo_Animation.cs" />
+    <Compile Include="Assets\XChartsDemo\Runtime\Demo_Performance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
@@ -959,16 +1064,14 @@
     <None Include="Assets\KinectDemos\ProjectorDemo\Scripts\RoomAliveToolkit\Attribution.txt" />
     <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
     <None Include="Assets\KinectDemos\VisualizerDemo\Shaders\HoloTriangles.shader" />
-    <None Include="Assets\MaterialUI\CHANGELOG.txt" />
-    <None Include="Assets\MaterialUI\Fonts\Resources\Material Design Icons\LICENSE.txt" />
-    <None Include="Assets\MaterialUI\Fonts\Roboto\NOTICE.txt" />
-    <None Include="Assets\MaterialUI\README.txt" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingCut.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingOpaque.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingTransparent.shader" />
     <None Include="Assets\Plugins\UWP\Attribution.txt" />
+    <None Include="Assets\Shader\ArrowShader.shader" />
+    <None Include="Assets\ShipNSea\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\Shooting\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -1009,7 +1112,6 @@
     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\Shooting\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-    <None Include="Assets\Shooting\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Shooting\VolumeGrass\TerrainShaders\TerrainFirstPass example.shader" />
     <None Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\soccer ball.shader" />
     <None Include="Assets\Shooting\VolumeGrass\_Internal\Poly2Tri_copyright.txt" />
@@ -1020,9 +1122,33 @@
     <None Include="Assets\Vectrosity\Demos\Shaders\DepthMask.shader" />
     <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
     <None Include="Assets\Vectrosity\Plugins\VectrosityDemos\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
-    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
-    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
-    <None Include="Assets\Vectrosity\What to import!.txt" />
+    <None Include="Assets\WallTrainingResources\Breakable Objects\Breakable Window\Shaders\Unluck Reflective Glass SDR.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Grass.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_SunshaftParticle.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBillboard.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeBranch.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_TreeTrunk.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_Waterfall.shader" />
+    <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\_DemoScenes\Resources\FAE_WaterfallFoam.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\FXAA\Resources\FXAA.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\SMAA\Resources\SMAA.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\AmbientOcclusion\Resources\AmbientOcclusion.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\BokehSplatting.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\DepthOfField.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Resources\MedianFilter.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\LensAberrations\Resources\LensAberrations.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramCompute.compute" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramRender.shader" />
+    <None Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
     <None Include="Assets\printer\LCPrinter\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
