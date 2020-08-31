@@ -75,9 +75,6 @@ public class PlayGame : MonoBehaviour
     List<Sprite> sprites;
     public Text debug_text;
 
-
-    private Dictionary<int,int>  PassNum;   //<Action_ID, PassNum>
-
     private void OnEnable()
     {
 
@@ -103,13 +100,6 @@ public class PlayGame : MonoBehaviour
         GameObject.Find("Playing").transform.Find("continue").gameObject.SetActive(true);
 
     }
-
-    public void Quit()
-    {
-        SceneManager.LoadScene("03-DoctorUI");
-    }
-
-
     public void Contin()
     {
         Time.timeScale = 1;
@@ -137,7 +127,6 @@ public class PlayGame : MonoBehaviour
                             {
                                 currentLevel = user.level;
                                 currentUser = user;
-                                PassNum = new Dictionary<int, int>(user.level.actionNum);
                             }
                         }
 
@@ -147,11 +136,6 @@ public class PlayGame : MonoBehaviour
                         actionNum = 0;
                         foreach (var item in currentLevel.actionRates)
                         {
-                            if (!PassNum.ContainsKey(item.Key))
-                            {
-                                PassNum.Add(item.Key, 0);
-                            }
-
                             actionNum += item.Value;
                             for (int i = 0; i < item.Value; i++)
                             {
@@ -188,7 +172,7 @@ public class PlayGame : MonoBehaviour
                         trainingData = new OneTrainingData();   //保存训练的参数
                         trainingData.startTime = DateTime.Now.ToString("yy-MM-dd-HH-mm");
                         trainingData.type = currentUser.trainingTypeId;
-                        trainingData.overrall.duration = currentLevel.wallSpeed * currentLevel.actionNum;
+                        trainingData.overrall.duration = currentLevel.wallSpeed * currentLevel.actionNum / 60;
                         if (AllLoadedActionNum == 0)
                         {//没有加在过图片
                             wallactionSprite = new Dictionary<int, Sprite>();       //墙上的动作图
@@ -465,9 +449,6 @@ public class PlayGame : MonoBehaviour
                                 if (KinectValue < 0)
                                 {
                                     passNum++;
-
-                                    PassNum[standord_action.id]++;  //动作的通过数+1
-
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
                                     performanceTimes.SetActive(false);
@@ -514,8 +495,6 @@ public class PlayGame : MonoBehaviour
                                 if (value < 0)
                                 {
                                     passNum++;
-
-                                    PassNum[standord_action.id]++;  //动作的通过数+1
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
                                     performanceTimes.SetActive(false);
@@ -701,12 +680,12 @@ public class PlayGame : MonoBehaviour
                             lastscore.text = trainingData.overrall.lastScore + "";
                         }
                         actionnum.text = trainingData.overrall.actionNum + "";
-                        duration.text = trainingData.overrall.duration + "s";
-                        //if (trainingData.overrall.duration >= 10)       //两位数显示需要调整UI位置
-                        //{
-                        //    Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
-                        //    duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition = new Vector3(localpostion.x * 2, localpostion.y, localpostion.z);
-                        //}
+                        duration.text = trainingData.overrall.duration + "";
+                        if (trainingData.overrall.duration >= 10)       //两位数显示需要调整UI位置
+                        {
+                            Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
+                            duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition = new Vector3(localpostion.x * 2, localpostion.y, localpostion.z);
+                        }
 
                         // 按成功率给出评分
                         if (rate >= 0.9 && rate <= 1)//S
@@ -882,11 +861,11 @@ public class PlayGame : MonoBehaviour
         rate = trainingData.overrall.passScore / 100f;
 
 
-        //if (trainingData.overrall.duration >= 10)
-        //{
-        //    Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
-        //    duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition = new Vector3(localpostion.x * 2, localpostion.y, localpostion.z);
-        //}
+        if (trainingData.overrall.duration >= 10)
+        {
+            Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;
+            duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition = new Vector3(localpostion.x * 2, localpostion.y, localpostion.z);
+        }
 
         // 根据准确率显示评分: S A B C D
         if (rate >= 0.9 && rate <= 1)//S
@@ -1016,7 +995,7 @@ public class PlayGame : MonoBehaviour
         // 对于特殊需求的动作（双足并拢、双手笔直向前等），需要加入坐标距离检测
         PositionCalculator PC = new PositionCalculator(standord_action, tmpPosition);
         int PCScore = PC.CheckPosition();
-        //Debug.Log(PCScore);
+        Debug.Log(PCScore);
 
         #endregion
         #region 根据角度差判定动作是否标准
@@ -1200,14 +1179,8 @@ public class PlayGame : MonoBehaviour
             for (int i = 0; i < accuracyList.Count; i++)
             {
                 average += accuracyList[i];
-                //passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
+                passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
             }
-            passNum = PassNum[actionData.Key];
-
-            //Debug.Log(actionData.Key + " PassNum: " + passNum);
-
-
-
             totalAccuracy += average;
             totalPassNum += passNum * 100;
             actionNum += accuracyList.Count;

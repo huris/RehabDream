@@ -301,6 +301,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\AutoSnap.cs" />
+    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\Door.cs" />
+    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\LightFlicker.cs" />
+    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\LightOptimize.cs" />
+    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\ObjExporter.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Buffer16BitStereo.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\ABuffer.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\BitReserve.cs" />
@@ -514,6 +519,7 @@
     <Compile Include="Assets\printer\LCPrinter\LCExampleScript.cs" />
     <Compile Include="Assets\Scripts\Avatar\AvatarCaculator.cs" />
     <Compile Include="Assets\Scripts\Avatar\PatientGestureListener.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Database\SqliteHelper.cs" />
     <Compile Include="Assets\Scripts\Database\WriteBodyDataThread.cs" />
     <Compile Include="Assets\Scripts\Doctor\Data\Angle.cs" />
@@ -597,6 +603,8 @@
     <Compile Include="Assets\Scripts\Doctor\UI\WallEvaluatePrintScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WriteBobathGCDataThread.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
+    <Compile Include="Assets\Scripts\Food\FoodCollisionHandle.cs" />
+    <Compile Include="Assets\Scripts\Game\ADLGameState.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
     <Compile Include="Assets\Scripts\Goalkeeper\GoalkeeperMeshCollider.cs" />
     <Compile Include="Assets\Scripts\Kinect\AvatarController.cs" />
@@ -653,10 +661,12 @@
     <Compile Include="Assets\Scripts\Manager\PatientDatabaseManager.cs" />
     <Compile Include="Assets\Scripts\Manager\PatientDataManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+    <Compile Include="Assets\Scripts\OpenDoor\DoorHandle.cs" />
     <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
     <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
     <Compile Include="Assets\Scripts\Soccerball\Shooting.cs" />
     <Compile Include="Assets\Scripts\Soccerball\SoccerballCreate.cs" />
+    <Compile Include="Assets\Scripts\UI\ADLUIHandle.cs" />
     <Compile Include="Assets\Scripts\UI\Animator\DoTweenUIAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\Animator\UIAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\Button\FistButton.cs" />

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class AudiosManager : MonoBehaviour
 {
-    public AudioClip[] Sounds;
-
-
     //------------------------------//
     /// <summary>
     /// 单例模式
@@ -18,21 +15,30 @@ public class AudiosManager : MonoBehaviour
     /// <summary>
     /// 将声音放入字典中，方便管理
     /// </summary>
-    private Dictionary<string, AudioClip> _soundDictionary;
+    private Dictionary<string, AudioClip> _soundDictionary = new Dictionary<string, AudioClip>();
+    private AudioSource[] audioSources;
 
-    public AudioSource bgAudioSource;
-    public AudioSource audioSourceEffect;
-    public AudioSource actionAudio;
+    private AudioSource bgAudioSource;
+    private AudioSource audioSourceEffect;
+    private AudioSource actionAudio;
     void Awake()
     {
         instance = this;
 
         _soundDictionary = new Dictionary<string, AudioClip>();
 
+        //本地加载 
+        AudioClip[] audioArray = Resources.LoadAll<AudioClip>("Audios");
+
+        audioSources = GetComponents<AudioSource>();
+        bgAudioSource = audioSources[0];
+        audioSourceEffect = audioSources[1];
+
+        //Debug
+        actionAudio = audioSources[1];
         //存放到字典
-        foreach (AudioClip item in Sounds)
+        foreach (AudioClip item in audioArray)
         {
-            Debug.Log("@AudioManager: AudioClips " + item.name);
             _soundDictionary.Add(item.name, item);
         }
     }
@@ -57,8 +63,6 @@ public class AudiosManager : MonoBehaviour
     //播放音效
     public void PlayAudioEffect(string audioEffectName)
     {
-        Debug.Log("@AudioManager: audioEffectName: " + audioEffectName);
-
         if (_soundDictionary.ContainsKey(audioEffectName))
         {
             audioSourceEffect.clip = _soundDictionary[audioEffectName];
@@ -76,12 +80,11 @@ public class AudiosManager : MonoBehaviour
     }
     public void PlayActionAudio(string audioEffectName)
     {
-        Debug.Log("@AudioManager: audioEffectName " + audioEffectName);
         if (_soundDictionary.ContainsKey(audioEffectName))
         {
             actionAudio.clip = _soundDictionary[audioEffectName];
             actionAudio.Play(50000);
-            Debug.Log("@AudioManager: audioEffectName111 " + audioEffectName);
+
 
         }
     }
