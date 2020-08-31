@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ADLSources\House_Furniture_Pack\Scripts\Editor\AutoSnap.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenPreviewManager.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\Editor\WMG_X_Plot_Overtime_E.cs" />
@@ -192,6 +193,7 @@
      <Compile Include="Assets\XCharts\Editor\RadarChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\RingChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\ScatterChartEditor.cs" />
+     <Compile Include="Assets\XCharts\Editor\Tools\UpgradeChartColor.cs" />
      <Compile Include="Assets\XCharts\Editor\Utility\ChartEditorHelper.cs" />
      <Compile Include="Assets\XCharts\Editor\XChartEditor.cs" />
      <Compile Include="Assets\XCharts\Editor\XChartMgrEditor.cs" />

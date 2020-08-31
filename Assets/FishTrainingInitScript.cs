@@ -15,6 +15,32 @@ public class FishTrainingInitScript : MonoBehaviour {
 	public Dropdown TrainingDirection;
 	public InputField TrainingDuration;
 
+	public int SingleTraining;
+
+	public Dropdown TrainingSelect;
+	public Dictionary<string, int> TrainingString2Int = new Dictionary<string, int>();
+	public Dictionary<int, string> TrainingInt2String = new Dictionary<int, string>();
+	public List<string> ListTrainingTime = new List<string>();
+
+	// Training Evaluation
+	// Rank
+	public GameObject RankS;
+	public GameObject RankA;
+	public GameObject RankB;
+	public GameObject RankC;
+	public GameObject RankD;
+	public GameObject RankE;
+
+	public Text Direction;
+	public Text Duration;
+	public Text Score;
+	public Text Experience;
+	public Text Distance;
+	public Text StartTime;
+	public Text EndTime;
+
+	
+
 
 	void OnEnable()
 	{
@@ -41,42 +67,33 @@ public class FishTrainingInitScript : MonoBehaviour {
 		{
 			NoTrainingData.SetActive(true);
 
-			//DoctorDataManager.instance.doctor.patient.trainingPlan = DoctorDatabaseManager.instance.ReadPatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
-			//if (DoctorDataManager.instance.doctor.patient.trainingPlan != null) DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(true);
-			//else DoctorDataManager.instance.doctor.patient.SetPlanIsMaking(false);
+			SingleTraining = DoctorDataManager.instance.doctor.patient.FishTrainingIndex;
 
-			//if (DoctorDataManager.instance.doctor.patient.Evaluations == null || DoctorDataManager.instance.doctor.patient.Evaluations.Count == 0)
-			//{
-			//	NoTrainingDataText.text = "该患者目前未进行Bobath评估\n\n请患者评估后再进行训练";
+			TrainingString2Int.Clear();
+			TrainingInt2String.Clear();
+			ListTrainingTime.Clear();
+			TrainingSelect.ClearOptions();
 
-			//	TrainingButton.gameObject.SetActive(false);
-			//}
-			//else
-			//{
-			//	NoTrainingDataText.text = "该患者目前暂未制定训练计划\n\n请制定计划后再进行训练";
-			//	TrainingButton.gameObject.SetActive(true);
-			//}
+			for (int i = DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1; i >= 0; i--)
+			{
+				string tempTrainingTime = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].TrainingStartTime;
+				ListTrainingTime.Add("第" + (i + 1).ToString() + "次 | " + tempTrainingTime.Substring(4, 2) + "." + tempTrainingTime.Substring(6, 2));
+			}
 
+			TrainingSelect.AddOptions(ListTrainingTime);
+			TrainingSelect.value = DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1 - DoctorDataManager.instance.doctor.patient.FishTrainingIndex;
 
-			//TrainingButton.gameObject.SetActive(true);
+			
 
-			//if (DoctorDataManager.instance.doctor.patient.PlanIsMaking)
-			//{
-			//	NoTrainingDataText.text = "抱歉，该患者目前未进行相关训练\n\n请患者训练后再查看数据";
-
-			//	TrainingButton.transform.GetChild(0).GetComponent<Text>().text = "开始训练";
-			//}
-			//else
-			//{
-			//NoTrainingDataText.text = "抱歉，该患者目前暂未制定训练计划\n\n请先制定计划后开始训练";
-
-			//TrainingButton.transform.GetChild(0).GetComponent<Text>().text = "制定计划";
-			//}
 		}
+	}
 
+	public void TrainingChange()
+	{
+		// 刷新评估界面
+		DoctorDataManager.instance.doctor.patient.SetFishTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1 - TrainingSelect.value);
 
-
-
+		OnEnable();
 	}
 
 	// Use this for initialization

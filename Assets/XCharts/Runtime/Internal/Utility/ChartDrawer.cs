@@ -14,6 +14,7 @@ namespace XCharts
 {
     public static class ChartDrawer
     {
+        private static Color32 s_Color32Clear = new Color32(0, 0, 0, 0);
         private static readonly Vector2 zeroVector2 = Vector2.zero;
         private static UIVertex[] vertex = new UIVertex[4];
         private static List<Vector3> s_CurvesPosList = new List<Vector3>();
@@ -47,6 +48,38 @@ namespace XCharts
                 vertex[j].uv0 = zeroVector2;
             }
             vh.AddUIVertexQuad(vertex);
+        }
+
+        public static void DrawLine(VertexHelper vh, Vector3 start, Vector3 middle, Vector3 end, float size, Color32 color)
+        {
+            var dir1 = (middle - start).normalized;
+            var dir2 = (end - middle).normalized;
+            var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized;
+            var dir2v = Vector3.Cross(dir2, Vector3.forward).normalized;
+            var dir3 = (dir1 + dir2).normalized;
+            var isDown = Vector3.Cross(dir1, dir2).z <= 0;
+            var angle = (180 - Vector3.Angle(dir1, dir2)) * Mathf.Deg2Rad / 2;
+            var diff = size / Mathf.Sin(angle);
+            var dirDp = Vector3.Cross(dir3, Vector3.forward).normalized;
+            var dnPos = middle + (isDown ? dirDp : -dirDp) * diff;
+            var upPos1 = middle + (isDown ? -dir1v : dir1v) * size;
+            var upPos2 = middle + (isDown ? -dir2v : dir2v) * size;
+            var startUp = start - dir1v * size;
+            var startDn = start + dir1v * size;
+            var endUp = end - dir2v * size;
+            var endDn = end + dir2v * size;
+            if (isDown)
+            {
+                DrawPolygon(vh, startDn, startUp, upPos1, dnPos, color);
+                DrawPolygon(vh, dnPos, upPos2, endUp, endDn, color);
+                DrawTriangle(vh, dnPos, upPos1, upPos2, color);
+            }
+            else
+            {
+                DrawPolygon(vh, startDn, startUp, dnPos, upPos1, color);
+                DrawPolygon(vh, upPos2, dnPos, endUp, endDn, color);
+                DrawTriangle(vh, dnPos, upPos1, upPos2, color);
+            }
         }
 
         public static void DrawDashLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color,
@@ -219,7 +252,7 @@ namespace XCharts
         }
 
         public static void DrawPolygon(VertexHelper vh, Vector3 p, float xRadius, float yRadius,
-            Color32 color, Color toColor, bool vertical = true)
+            Color32 color, Color32 toColor, bool vertical = true)
         {
             Vector3 p1, p2, p3, p4;
             if (vertical)
@@ -452,13 +485,13 @@ namespace XCharts
                     }
                     else
                     {
-                        var tempLeftColor = Color.Lerp(color, toColor, maxLeft / rectWidth);
-                        var upLeftColor = Color.Lerp(color, tempLeftColor, brLt / maxLeft);
-                        var downLeftColor = Color.Lerp(color, tempLeftColor, brLb / maxLeft);
+                        var tempLeftColor = Color32.Lerp(color, toColor, maxLeft / rectWidth);
+                        var upLeftColor = Color32.Lerp(color, tempLeftColor, brLt / maxLeft);
+                        var downLeftColor = Color32.Lerp(color, tempLeftColor, brLb / maxLeft);
 
-                        var tempRightColor = Color.Lerp(color, toColor, (rectWidth - maxRight) / rectWidth);
-                        var upRightColor = Color.Lerp(tempRightColor, toColor, (maxRight - brRt) / maxRight);
-                        var downRightColor = Color.Lerp(tempRightColor, toColor, (maxRight - brRb) / maxRight);
+                        var tempRightColor = Color32.Lerp(color, toColor, (rectWidth - maxRight) / rectWidth);
+                        var upRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRt) / maxRight);
+                        var downRightColor = Color32.Lerp(tempRightColor, toColor, (maxRight - brRb) / maxRight);
 
                         DrawSector(vh, roundLt, brLt, color, upLeftColor, 270, 360, 1, isYAxis);
                         DrawSector(vh, roundRt, brRt, upRightColor, toColor, 0, 90, 1, isYAxis);
@@ -538,12 +571,12 @@ namespace XCharts
                     }
                     else
                     {
-                        var tempUpColor = Color.Lerp(color, toColor, (rectHeight - maxup) / rectHeight);
-                        var leftUpColor = Color.Lerp(tempUpColor, toColor, (maxup - brLt) / maxup);
-                        var rightUpColor = Color.Lerp(tempUpColor, toColor, (maxup - brRt) / maxup);
-                        var tempDownColor = Color.Lerp(color, toColor, maxdown / rectHeight);
-                        var leftDownColor = Color.Lerp(color, tempDownColor, brLb / maxdown);
-                        var rightDownColor = Color.Lerp(color, tempDownColor, brRb / maxdown);
+                        var tempUpColor = Color32.Lerp(color, toColor, (rectHeight - maxup) / rectHeight);
+                        var leftUpColor = Color32.Lerp(tempUpColor, toColor, (maxup - brLt) / maxup);
+                        var rightUpColor = Color32.Lerp(tempUpColor, toColor, (maxup - brRt) / maxup);
+                        var tempDownColor = Color32.Lerp(color, toColor, maxdown / rectHeight);
+                        var leftDownColor = Color32.Lerp(color, tempDownColor, brLb / maxdown);
+                        var rightDownColor = Color32.Lerp(color, tempDownColor, brRb / maxdown);
 
                         DrawSector(vh, roundLt, brLt, leftUpColor, toColor, 270, 360, 1, isYAxis);
                         DrawSector(vh, roundRt, brRt, rightUpColor, toColor, 0, 90, 1, isYAxis);
@@ -612,7 +645,7 @@ namespace XCharts
                 if (brLt > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLt, center.y + halfHig - brLt);
-                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, Color.clear, 270, 360);
+                    DrawDoughnut(vh, tempCenter, brLt, brLt + borderWidth, color, s_Color32Clear, 270, 360);
                     ltIn = tempCenter + brLt * Vector3.left;
                     ltOt = tempCenter + (brLt + borderWidth) * Vector3.left;
                     ltIn2 = tempCenter + brLt * Vector3.up;
@@ -621,7 +654,7 @@ namespace XCharts
                 if (brRt > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRt, center.y + halfHig - brRt);
-                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, Color.clear, 0, 90);
+                    DrawDoughnut(vh, tempCenter, brRt, brRt + borderWidth, color, s_Color32Clear, 0, 90);
                     rtIn = tempCenter + brRt * Vector3.up;
                     rtOt = tempCenter + (brRt + borderWidth) * Vector3.up;
                     rtIn2 = tempCenter + brRt * Vector3.right;
@@ -630,7 +663,7 @@ namespace XCharts
                 if (brRb > 0)
                 {
                     tempCenter = new Vector3(center.x + halfWid - brRb, center.y - halfHig + brRb);
-                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, Color.clear, 90, 180);
+                    DrawDoughnut(vh, tempCenter, brRb, brRb + borderWidth, color, s_Color32Clear, 90, 180);
                     rbIn = tempCenter + brRb * Vector3.right;
                     rbOt = tempCenter + (brRb + borderWidth) * Vector3.right;
                     rbIn2 = tempCenter + brRb * Vector3.down;
@@ -639,7 +672,7 @@ namespace XCharts
                 if (brLb > 0)
                 {
                     tempCenter = new Vector3(center.x - halfWid + brLb, center.y - halfHig + brLb);
-                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, Color.clear, 180, 270);
+                    DrawDoughnut(vh, tempCenter, brLb, brLb + borderWidth, color, s_Color32Clear, 180, 270);
                     lbIn = tempCenter + brLb * Vector3.left;
                     lbOt = tempCenter + (brLb + borderWidth) * Vector3.left;
                     lbIn2 = tempCenter + brLb * Vector3.down;
@@ -716,13 +749,13 @@ namespace XCharts
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
             float smoothness = 2f)
         {
-            DrawCricle(vh, p, radius, color, color, 0, Color.clear, smoothness);
+            DrawCricle(vh, p, radius, color, color, 0, s_Color32Clear, smoothness);
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
            Color32 toColor, float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, toColor, 0, 360, 0, Color.clear, smoothness);
+            DrawSector(vh, p, radius, color, toColor, 0, 360, 0, s_Color32Clear, smoothness);
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color,
@@ -740,7 +773,7 @@ namespace XCharts
         public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
             Color32 color, Color32 emptyColor, float smoothness = 2f)
         {
-            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, 0, 360, 0, Color.clear, 0, smoothness);
+            DrawDoughnut(vh, p, radius - tickness, radius, color, color, emptyColor, 0, 360, 0, s_Color32Clear, 0, smoothness);
         }
 
         public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
@@ -754,7 +787,7 @@ namespace XCharts
             Color32 color, Color32 toColor, Color32 emptyColor, float smoothness = 2f)
         {
             DrawDoughnut(vh, p, radius - tickness, radius, color, toColor, emptyColor, 0, 360, 0,
-                Color.clear, 0, smoothness);
+                s_Color32Clear, 0, smoothness);
         }
 
         public static void DrawEmptyCricle(VertexHelper vh, Vector3 p, float radius, float tickness,
@@ -768,13 +801,13 @@ namespace XCharts
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
                     float startDegree, float toDegree, float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, color, startDegree, toDegree, 0, Color.clear, smoothness);
+            DrawSector(vh, p, radius, color, color, startDegree, toDegree, 0, s_Color32Clear, smoothness);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color, Color32 toColor,
                     float startDegree, float toDegree, int gradientType = 0, bool isYAxis = false, float smoothness = 2f)
         {
-            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, 0, Color.clear, 0, smoothness, gradientType, isYAxis);
+            DrawSector(vh, p, radius, color, toColor, startDegree, toDegree, 0, s_Color32Clear, 0, smoothness, gradientType, isYAxis);
         }
 
         public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
@@ -885,7 +918,7 @@ namespace XCharts
                     {
                         p4 = new Vector3(p3.x, realCenter.y);
                         var dist = p4.x - realCenter.x;
-                        var tcolor = Color.Lerp(color, toColor, dist >= 0 ? dist / radius : Mathf.Min(radius + dist, radius) / radius);
+                        var tcolor = Color32.Lerp(color, toColor, dist >= 0 ? dist / radius : Mathf.Min(radius + dist, radius) / radius);
                         if (isLeft && (i == segments || i == 0)) tcolor = toColor;
                         DrawPolygon(vh, lastP4, p2, p3, p4, lastColor, tcolor);
                         lastP4 = p4;
@@ -894,7 +927,7 @@ namespace XCharts
                     else
                     {
                         p4 = new Vector3(realCenter.x, p3.y);
-                        var tcolor = Color.Lerp(color, toColor, Mathf.Abs(p4.y - realCenter.y) / radius);
+                        var tcolor = Color32.Lerp(color, toColor, Mathf.Abs(p4.y - realCenter.y) / radius);
                         DrawPolygon(vh, lastP4, p2, p3, p4, lastColor, tcolor);
                         lastP4 = p4;
                         lastColor = tcolor;
@@ -902,7 +935,7 @@ namespace XCharts
                 }
                 else if (gradientType == 2)
                 {
-                    var tcolor = Color.Lerp(color, toColor, i / segments);
+                    var tcolor = Color32.Lerp(color, toColor, i / segments);
                     DrawPolygon(vh, realCenter, p2, p3, realCenter, lastColor, tcolor);
                     lastColor = tcolor;
                 }
@@ -923,7 +956,7 @@ namespace XCharts
                     {
                         var realStartDegree = (realStartAngle - borderAngle) * Mathf.Rad2Deg;
                         var realToDegree = (realToAngle + borderAngle) * Mathf.Rad2Deg;
-                        DrawDoughnut(vh, p, radius, radius + borderWidth, borderColor, Color.clear, realStartDegree,
+                        DrawDoughnut(vh, p, radius, radius + borderWidth, borderColor, s_Color32Clear, realStartDegree,
                             realToDegree, smoothness);
                     }
                 }
@@ -933,7 +966,7 @@ namespace XCharts
 
 
         public static void DrawRoundCap(VertexHelper vh, Vector3 center, float width, float radius, float angle,
-            bool clockwise, Color color, bool end)
+            bool clockwise, Color32 color, bool end)
         {
             var px = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
             var py = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
@@ -941,36 +974,36 @@ namespace XCharts
             if (end)
             {
                 if (clockwise)
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180, 0, Color.clear);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle + 180, 0, s_Color32Clear);
                 else
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180, 0, Color.clear);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle, angle - 180, 0, s_Color32Clear);
             }
             else
             {
                 if (clockwise)
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360, 0, Color.clear);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle + 180, angle + 360, 0, s_Color32Clear);
                 else
-                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360, 0, Color.clear);
+                    ChartDrawer.DrawSector(vh, pos, width, color, angle - 180, angle - 360, 0, s_Color32Clear);
             }
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color emptyColor, float smoothness = 2f)
+            Color32 color, Color32 emptyColor, float smoothness = 2f)
         {
-            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, 0, 360, 0, Color.clear,
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, 0, 360, 0, s_Color32Clear,
                 0, smoothness);
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color emptyColor, float startDegree,
+            Color32 color, Color32 emptyColor, float startDegree,
             float toDegree, float smoothness = 2f)
         {
             DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, startDegree, toDegree,
-                0, Color.clear, 0, smoothness);
+                0, s_Color32Clear, 0, smoothness);
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color emptyColor, float startDegree,
+            Color32 color, Color32 emptyColor, float startDegree,
             float toDegree, float borderWidth, Color32 borderColor, float smoothness = 2f)
         {
             DrawDoughnut(vh, p, insideRadius, outsideRadius, color, color, emptyColor, startDegree, toDegree,
@@ -978,14 +1011,14 @@ namespace XCharts
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color32 toColor, Color emptyColor, float smoothness = 2f)
+            Color32 color, Color32 toColor, Color32 emptyColor, float smoothness = 2f)
         {
-            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, toColor, emptyColor, 0, 360, 0, Color.clear,
+            DrawDoughnut(vh, p, insideRadius, outsideRadius, color, toColor, emptyColor, 0, 360, 0, s_Color32Clear,
                 0, smoothness);
         }
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
-            Color32 color, Color32 toColor, Color emptyColor, float startDegree, float toDegree, float borderWidth,
+            Color32 color, Color32 toColor, Color32 emptyColor, float startDegree, float toDegree, float borderWidth,
             Color32 borderColor, float space, float smoothness, bool roundCap = false, bool clockwise = true)
         {
             if (toDegree - startDegree == 0) return;
@@ -1138,7 +1171,7 @@ namespace XCharts
                 DrawSector(vh, roundCenter, roundRadius, color, sectorStartDegree, sectorToDegree, smoothness / 2);
                 if (needBorder)
                 {
-                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
+                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, s_Color32Clear,
                         sectorStartDegree, sectorToDegree, smoothness / 2);
                 }
                 p1 = ChartHelper.GetPos(p, insideRadius, realStartOutAngle);
@@ -1163,7 +1196,7 @@ namespace XCharts
                 DrawSector(vh, roundCenter, roundRadius, toColor, sectorStartDegree, sectorToDegree, smoothness / 2);
                 if (needBorder)
                 {
-                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, Color.clear,
+                    DrawDoughnut(vh, roundCenter, roundRadius, roundRadius + borderWidth, borderColor, s_Color32Clear,
                         sectorStartDegree, sectorToDegree, smoothness / 2);
                 }
                 e1 = ChartHelper.GetPos(p, insideRadius, realToOutAngle);
@@ -1181,7 +1214,7 @@ namespace XCharts
                 if (!ChartHelper.IsClearColor(emptyColor)) DrawTriangle(vh, p, p1, p4, emptyColor);
                 if (isGradient)
                 {
-                    var tcolor = Color.Lerp(color, toColor, i * 1.0f / segments);
+                    var tcolor = Color32.Lerp(color, toColor, i * 1.0f / segments);
                     DrawPolygon(vh, p2, p3, p4, p1, tcolor, tcolor);
                 }
                 else
@@ -1206,9 +1239,9 @@ namespace XCharts
                         var inStartDegree = roundCap ? realStartDegree : (startAngle + spaceInAngle) * Mathf.Rad2Deg;
                         var inToDegree = roundCap ? realToDegree : (toAngle - spaceInAngle) * Mathf.Rad2Deg;
                         if (inToDegree < inStartDegree) inToDegree = inStartDegree;
-                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, Color.clear,
+                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, s_Color32Clear,
                               inStartDegree, inToDegree, smoothness);
-                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, Color.clear,
+                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, s_Color32Clear,
                             realStartDegree, realToDegree, smoothness);
                     }
                 }
@@ -1224,9 +1257,9 @@ namespace XCharts
                         var inStartDegree = roundCap ? realStartDegree : (startAngle - spaceInAngle) * Mathf.Rad2Deg;
                         var inToDegree = roundCap ? realToDegree : (toAngle + spaceInAngle) * Mathf.Rad2Deg;
                         if (inToDegree > inStartDegree) inToDegree = inStartDegree;
-                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, Color.clear,
+                        if (isInAngleFixed) DrawDoughnut(vh, p, insideRadius - borderWidth, insideRadius, borderColor, s_Color32Clear,
                               inStartDegree, inToDegree, smoothness);
-                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, Color.clear,
+                        DrawDoughnut(vh, p, outsideRadius, outsideRadius + borderWidth, borderColor, s_Color32Clear,
                             realStartDegree, realToDegree, smoothness);
                     }
                 }
@@ -1244,7 +1277,7 @@ namespace XCharts
         /// <param name="lineWidth">曲线宽</param>
         /// <param name="lineColor">曲线颜色</param>
         public static void DrawCurves(VertexHelper vh, Vector3 sp, Vector3 ep, Vector3 cp1, Vector3 cp2,
-            float lineWidth, Color lineColor, float smoothness)
+            float lineWidth, Color32 lineColor, float smoothness)
         {
             var dist = Vector3.Distance(sp, ep);
             var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
@@ -1272,8 +1305,8 @@ namespace XCharts
         }
 
         public static void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-           float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius,
-           Color backgroundColor, float smoothness)
+           float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
+           Color32 backgroundColor, float smoothness)
         {
             switch (type)
             {
@@ -1338,7 +1371,7 @@ namespace XCharts
         }
 
         public static void DrawLineStyle(VertexHelper vh, LineStyle lineStyle,
-            Vector3 startPos, Vector3 endPos, Color color)
+            Vector3 startPos, Vector3 endPos, Color32 color)
         {
             var type = lineStyle.type;
             var width = lineStyle.width;

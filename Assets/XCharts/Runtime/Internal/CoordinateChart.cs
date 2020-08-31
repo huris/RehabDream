@@ -250,111 +250,7 @@ namespace XCharts
             }
             else
             {
-                var isCartesian = IsValue();
-                int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
-                for (int i = 0; i < m_XAxises.Count; i++)
-                {
-                    var xAxis = m_XAxises[i];
-                    var yAxis = m_YAxises[i];
-                    if (!xAxis.show && !yAxis.show) continue;
-                    if (isCartesian && xAxis.show && yAxis.show)
-                    {
-                        var yRate = (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) / m_CoordinateHeight;
-                        var xRate = (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) / m_CoordinateWidth;
-                        var yValue = yRate * (local.y - m_CoordinateY - yAxis.runtimeZeroYOffset);
-                        if (yAxis.runtimeMinValue > 0) yValue += yAxis.runtimeMinValue;
-                        m_Tooltip.runtimeYValues[i] = yValue;
-                        var xValue = xRate * (local.x - m_CoordinateX - xAxis.runtimeZeroXOffset);
-                        if (xAxis.runtimeMinValue > 0) xValue += xAxis.runtimeMinValue;
-                        m_Tooltip.runtimeXValues[i] = xValue;
-
-                        for (int j = 0; j < m_Series.Count; j++)
-                        {
-                            var serie = m_Series.GetSerie(j);
-                            for (int n = 0; n < serie.data.Count; n++)
-                            {
-                                var serieData = serie.data[n];
-                                var xdata = serieData.GetData(0, xAxis.inverse);
-                                var ydata = serieData.GetData(1, yAxis.inverse);
-                                var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                                var symbolSize = symbol.GetSize(serieData == null ? null : serieData.data);
-                                if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
-                                    && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
-                                {
-                                    m_Tooltip.runtimeDataIndex[i] = n;
-                                    serieData.highlighted = true;
-                                }
-                                else
-                                {
-                                    serieData.highlighted = false;
-                                }
-                            }
-                        }
-                    }
-                    else if (IsCategory())
-                    {
-
-                        for (int j = 0; j < xAxis.GetDataNumber(m_DataZoom); j++)
-                        {
-                            float splitWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
-                            float pX = m_CoordinateX + j * splitWid;
-                            if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
-                                (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
-                            {
-                                m_Tooltip.runtimeXValues[i] = j;
-                                m_Tooltip.runtimeDataIndex[i] = j;
-                                break;
-                            }
-                        }
-                        for (int j = 0; j < yAxis.GetDataNumber(m_DataZoom); j++)
-                        {
-                            float splitWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
-                            float pY = m_CoordinateY + j * splitWid;
-                            if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
-                                (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
-                            {
-                                m_Tooltip.runtimeYValues[i] = j;
-                                break;
-                            }
-                        }
-                    }
-                    else if (xAxis.IsCategory())
-                    {
-                        var value = (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * (local.y - m_CoordinateY - yAxis.runtimeZeroYOffset) / m_CoordinateHeight;
-                        if (yAxis.runtimeMinValue > 0) value += yAxis.runtimeMinValue;
-                        m_Tooltip.runtimeYValues[i] = value;
-                        for (int j = 0; j < xAxis.GetDataNumber(m_DataZoom); j++)
-                        {
-                            float splitWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
-                            float pX = m_CoordinateX + j * splitWid;
-                            if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
-                                (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
-                            {
-                                m_Tooltip.runtimeXValues[i] = j;
-                                m_Tooltip.runtimeDataIndex[i] = j;
-                                break;
-                            }
-                        }
-                    }
-                    else if (yAxis.IsCategory())
-                    {
-                        var value = (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * (local.x - m_CoordinateX - xAxis.runtimeZeroXOffset) / m_CoordinateWidth;
-                        if (xAxis.runtimeMinValue > 0) value += xAxis.runtimeMinValue;
-                        m_Tooltip.runtimeXValues[i] = value;
-                        for (int j = 0; j < yAxis.GetDataNumber(m_DataZoom); j++)
-                        {
-                            float splitWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
-                            float pY = m_CoordinateY + j * splitWid;
-                            if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
-                                (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
-                            {
-                                m_Tooltip.runtimeYValues[i] = j;
-                                m_Tooltip.runtimeDataIndex[i] = j;
-                                break;
-                            }
-                        }
-                    }
-                }
+                UpdateTooltipValue(local);
             }
             if (m_Tooltip.IsSelected())
             {
@@ -370,6 +266,115 @@ namespace XCharts
             {
                 m_Tooltip.SetActive(false);
                 RefreshChart();
+            }
+        }
+
+        protected void UpdateTooltipValue(Vector2 local)
+        {
+            var isCartesian = IsValue();
+            int dataCount = m_Series.list.Count > 0 ? m_Series.list[0].GetDataList(dataZoom).Count : 0;
+            for (int i = 0; i < m_XAxises.Count; i++)
+            {
+                var xAxis = m_XAxises[i];
+                var yAxis = m_YAxises[i];
+                if (!xAxis.show && !yAxis.show) continue;
+                if (isCartesian && xAxis.show && yAxis.show)
+                {
+                    var yRate = (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) / m_CoordinateHeight;
+                    var xRate = (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) / m_CoordinateWidth;
+                    var yValue = yRate * (local.y - m_CoordinateY - yAxis.runtimeZeroYOffset);
+                    if (yAxis.runtimeMinValue > 0) yValue += yAxis.runtimeMinValue;
+                    m_Tooltip.runtimeYValues[i] = yValue;
+                    var xValue = xRate * (local.x - m_CoordinateX - xAxis.runtimeZeroXOffset);
+                    if (xAxis.runtimeMinValue > 0) xValue += xAxis.runtimeMinValue;
+                    m_Tooltip.runtimeXValues[i] = xValue;
+
+                    for (int j = 0; j < m_Series.Count; j++)
+                    {
+                        var serie = m_Series.GetSerie(j);
+                        for (int n = 0; n < serie.data.Count; n++)
+                        {
+                            var serieData = serie.data[n];
+                            var xdata = serieData.GetData(0, xAxis.inverse);
+                            var ydata = serieData.GetData(1, yAxis.inverse);
+                            var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                            var symbolSize = symbol.GetSize(serieData == null ? null : serieData.data);
+                            if (Mathf.Abs(xValue - xdata) / xRate < symbolSize
+                                && Mathf.Abs(yValue - ydata) / yRate < symbolSize)
+                            {
+                                m_Tooltip.runtimeDataIndex[i] = n;
+                                serieData.highlighted = true;
+                            }
+                            else
+                            {
+                                serieData.highlighted = false;
+                            }
+                        }
+                    }
+                }
+                else if (IsCategory())
+                {
+
+                    for (int j = 0; j < xAxis.GetDataNumber(m_DataZoom); j++)
+                    {
+                        float splitWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
+                        float pX = m_CoordinateX + j * splitWid;
+                        if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
+                            (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
+                        {
+                            m_Tooltip.runtimeXValues[i] = j;
+                            m_Tooltip.runtimeDataIndex[i] = j;
+                            break;
+                        }
+                    }
+                    for (int j = 0; j < yAxis.GetDataNumber(m_DataZoom); j++)
+                    {
+                        float splitWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
+                        float pY = m_CoordinateY + j * splitWid;
+                        if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
+                            (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
+                        {
+                            m_Tooltip.runtimeYValues[i] = j;
+                            break;
+                        }
+                    }
+                }
+                else if (xAxis.IsCategory())
+                {
+                    var value = (yAxis.runtimeMaxValue - yAxis.runtimeMinValue) * (local.y - m_CoordinateY - yAxis.runtimeZeroYOffset) / m_CoordinateHeight;
+                    if (yAxis.runtimeMinValue > 0) value += yAxis.runtimeMinValue;
+                    m_Tooltip.runtimeYValues[i] = value;
+                    for (int j = 0; j < xAxis.GetDataNumber(m_DataZoom); j++)
+                    {
+                        float splitWid = AxisHelper.GetDataWidth(xAxis, m_CoordinateWidth, dataCount, m_DataZoom);
+                        float pX = m_CoordinateX + j * splitWid;
+                        if ((xAxis.boundaryGap && (local.x > pX && local.x <= pX + splitWid)) ||
+                            (!xAxis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
+                        {
+                            m_Tooltip.runtimeXValues[i] = j;
+                            m_Tooltip.runtimeDataIndex[i] = j;
+                            break;
+                        }
+                    }
+                }
+                else if (yAxis.IsCategory())
+                {
+                    var value = (xAxis.runtimeMaxValue - xAxis.runtimeMinValue) * (local.x - m_CoordinateX - xAxis.runtimeZeroXOffset) / m_CoordinateWidth;
+                    if (xAxis.runtimeMinValue > 0) value += xAxis.runtimeMinValue;
+                    m_Tooltip.runtimeXValues[i] = value;
+                    for (int j = 0; j < yAxis.GetDataNumber(m_DataZoom); j++)
+                    {
+                        float splitWid = AxisHelper.GetDataWidth(yAxis, m_CoordinateHeight, dataCount, m_DataZoom);
+                        float pY = m_CoordinateY + j * splitWid;
+                        if ((yAxis.boundaryGap && (local.y > pY && local.y <= pY + splitWid)) ||
+                            (!yAxis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
+                        {
+                            m_Tooltip.runtimeYValues[i] = j;
+                            m_Tooltip.runtimeDataIndex[i] = j;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -1173,18 +1178,20 @@ namespace XCharts
                 for (int i = 0; i < maxCount; i += rate)
                 {
                     float value = SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis.inverse);
+                    serie.animation.GetUpdateAnimationDuration(), ref dataChanging, axis);
                     float pX = m_CoordinateX + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * hig;
                     np = new Vector3(pX, m_ChartY + m_DataZoom.bottom + dataHig);
                     if (i > 0)
                     {
-                        Color color = m_ThemeInfo.dataZoomLineColor;
+                        var color = m_ThemeInfo.dataZoomLineColor;
                         ChartDrawer.DrawLine(vh, lp, np, xAxis.axisLine.width, color);
                         Vector3 alp = new Vector3(lp.x, lp.y - xAxis.axisLine.width);
                         Vector3 anp = new Vector3(np.x, np.y - xAxis.axisLine.width);
-                        Color areaColor = new Color(color.r, color.g, color.b, color.a * 0.75f);
+
+                        var areaColor = color;
+                        areaColor.a = (byte)(areaColor.a * 0.75f);
                         Vector3 tnp = new Vector3(np.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
                         Vector3 tlp = new Vector3(lp.x, m_ChartY + m_DataZoom.bottom + xAxis.axisLine.width);
                         ChartDrawer.DrawPolygon(vh, alp, anp, tnp, tlp, areaColor);
@@ -1830,7 +1837,7 @@ namespace XCharts
         }
 
         protected void CheckClipAndDrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-            float tickness, Vector3 pos, Color color, Color toColor, float gap, bool clip, float[] cornerRadius)
+            float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, bool clip, float[] cornerRadius)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (IsInCooridate(pos))))
@@ -1845,16 +1852,16 @@ namespace XCharts
             ChartDrawer.DrawZebraLine(vh, p1, p2, size, zebraWidth, zebraGap, color);
         }
 
-        protected Color GetXLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        protected Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos)
         {
-            if (areaColor == areaToColor) return areaColor;
-            return Color.Lerp(areaToColor, areaColor, (pos.y - m_CoordinateY) / m_CoordinateHeight);
+            if (ChartHelper.IsValueEqualsColor(areaColor, areaToColor)) return areaColor;
+            return Color32.Lerp(areaToColor, areaColor, (pos.y - m_CoordinateY) / m_CoordinateHeight);
         }
 
-        protected Color GetYLerpColor(Color areaColor, Color areaToColor, Vector3 pos)
+        protected Color32 GetYLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos)
         {
-            if (areaColor == areaToColor) return areaColor;
-            return Color.Lerp(areaToColor, areaColor, (pos.x - m_CoordinateX) / m_CoordinateWidth);
+            if (ChartHelper.IsValueEqualsColor(areaColor, areaToColor)) return areaColor;
+            return Color32.Lerp(areaToColor, areaColor, (pos.x - m_CoordinateX) / m_CoordinateWidth);
         }
     }
 }
