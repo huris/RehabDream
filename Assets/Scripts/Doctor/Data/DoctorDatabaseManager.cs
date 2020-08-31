@@ -588,8 +588,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
-                    "FLOAT NOT NULL",
                     "TEXT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(TrainingID)" }
                 );
             Debug.Log("@DatabaseManager: Create FishTrainingRecordTable");
