@@ -116,11 +116,16 @@ public class FishTrainingPlanScript : MonoBehaviour
 
     public void TrainingPlanMakingButtonOnClick()
     {
+
+        //print(TrainingDirection.value + "   " + TrainingDuration.text);
+
         PlanMakingFail.SetActive(false);
         PlanMakingSuccess.SetActive(false);
 
         try
         {
+            //print(TrainingDirection.value + "   " + TrainingDuration.text);
+
             FishTrainingPlan fishTrainingPlan = new FishTrainingPlan();
             fishTrainingPlan.SetTrainingPlan(TrainingDirection.value, TrainingDuration.text == "" ? 20 : long.Parse(TrainingDuration.text));
 

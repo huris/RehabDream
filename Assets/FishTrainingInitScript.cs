@@ -113,7 +113,7 @@ public class FishTrainingInitScript : MonoBehaviour {
 			//存放姓名
 			IntroState.pName = DoctorDataManager.instance.doctor.patient.PatientName;
 			//改变训练时间
-			GameTime.gameTimeTotal = int.Parse(TrainingDuration.text);
+			GameTime.gameTimeTotal = int.Parse(TrainingDuration.text) * 60;
 			//改变训练着重侧
 			BodySetting.setBody = (BodySettingEnum)DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().TrainingDirection;
 
