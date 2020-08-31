@@ -1,6 +1,15 @@
 
 # 更新日志
 
+* (2020.08.29) 增加`LineStyle`的`toColor`和`toColor2`设置`LineChart`的水平渐变，取消通过`ItemStyle`设置`LineChart`的水平渐变。
+* (2020.08.29) 增加`PieChart`的`onPointerClickPie`点击扇形图扇区回调
+* (2020.08.29) 增加`BarChart`的`onPointerClickBar`点击柱形图柱条回调
+* (2020.08.24) 发布`v1.6.0`版本
+* (2020.08.23) 重构代码，将与绘制相关的`Color`改为`Color32`，减少隐式转换（更新后会导致自定义的颜色丢失，可参考[问答29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/XCharts问答.md)进行升级）
+* (2020.08.15) 优化`PieChart`绘制表现效果#85
+* (2020.08.11) 增加`LiquidChart`数据变更动画#83
+* (2020.08.11) 优化`PieChart`文本堆叠和引线效果#85
+* (2020.08.08) 优化`LineChart`密集数据的绘制表现效果
 * (2020.07.30) 增加`LineChart`可通过`VisualMap`或`ItemStyle`配置渐变#78
 * (2020.07.25) 修复`LineChart`渐出动画绘制异常的问题#79
 * (2020.07.25) 修复`LiquidChart`在`100%`时渐变色会失效的问题#80
@@ -228,7 +237,7 @@
 * (2019.08.06) 修复`serie`系列数超过调色盘颜色数时获取的颜色异常的问题
 * (2019.08.06) 修复当`Axis`的`minMaxType`为`Custom`时`max`设置为`100`不生效的问题
 * (2019.08.04) 发布`v0.8.1`版本
-* (2019.08.04) 修复从Inspector中修改数据不生效的问题
+* (2019.08.04) 修复`Inspector`中修改数据不生效的问题
 * (2019.08.04) 发布`v0.8.0`版本
 * (2019.08.04) 优化`RadarChart`雷达图，增加多雷达图支持
 * (2019.08.01) 增加代码API注释文档，整理代码

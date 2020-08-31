@@ -1,6 +1,15 @@
 
 # 更新日志
 
+* (2020.08.29) Added `toColor` and `toColor2` of `LineStyle` to set the horizontal gradient of `LineChart`. Cancel `ItemStyle` to set the horizontal gradient of `LineChart`.
+* (2020.08.29) Added the `onPointerClickPie` of `PieChart`, a callback function of click pie area.
+* (2020.08.29) Added the `onPointerClickBar` of `BarChart`, a callback function of click bar.
+* (2020.08.24) Release `V1.6.0` version
+* (2020.08.23) Refactor code, replace `Color` with `Color32` for reduce implicit conversion (Can cause custom colors to lose, reference [Q&A 29](https://github.com/monitor1394/unity-ugui-XCharts/blob/master/Assets/XCharts/Documentation/xcharts-questions-and-answers-EN.md) to upgrade)
+* (2020.08.15) Optimize `PieChart` drawing performance effect #85
+* (2020.08.11) Added `LiquidChart` data change animation#83
+* (2020.08.11) Optimize `PieChart` text stack and lead line effects#85
+* (2020.08.08) Optimize `LineChart` the rendering performance of dense data
 * (2020.07.30) Added `LineChart` to configure gradient through `VisualMap` or `ItemStyle`#78
 * (2020.07.25) Fixed a problem with `LineChart` emerging abnormal in animation drawing#79
 * (2020.07.25) Fixed a problem with gradual discoloration on `LiquidChart` at `100%`#80

@@ -149,8 +149,8 @@ namespace XCharts
             var radius = vessel.runtimeInnerRadius;
             var serieData = serie.GetSerieData(0);
             if (serieData == null) return;
-
-            var value = serieData.GetData(1);
+            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var value = serieData.GetCurrData(1, dataChangeDuration);
             if (serie.runtimeCheckValue != value)
             {
                 serie.runtimeCheckValue = value;
@@ -232,8 +232,8 @@ namespace XCharts
                     {
                         var colorMin = cenPos.y - radius;
                         var colorMax = startY + serie.waveHeight;
-                        var tcolor1 = Color.Lerp(color, toColor, 1 - (lup.y - colorMin) / (colorMax - colorMin));
-                        var tcolor2 = Color.Lerp(color, toColor, 1 - (ldp.y - colorMin) / (colorMax - colorMin));
+                        var tcolor1 = Color32.Lerp(color, toColor, 1 - (lup.y - colorMin) / (colorMax - colorMin));
+                        var tcolor2 = Color32.Lerp(color, toColor, 1 - (ldp.y - colorMin) / (colorMax - colorMin));
                         ChartDrawer.DrawPolygon(vh, lup, nup, ndp, ldp, tcolor1, tcolor2);
                     }
                     else

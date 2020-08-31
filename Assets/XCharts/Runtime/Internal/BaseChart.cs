@@ -727,7 +727,7 @@ namespace XCharts
         }
 
         public void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
-          float tickness, Vector3 pos, Color color, Color toColor, float gap, float[] cornerRadius)
+          float tickness, Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius)
         {
             var backgroundColor = ThemeHelper.GetBackgroundColor(m_ThemeInfo, m_Background);
             var smoothness = m_Settings.cicleSmoothness;
@@ -744,7 +744,11 @@ namespace XCharts
                 && serie.type == SerieType.Line
                 && SerieHelper.IsDownPoint(serie, serieData.index)
                 && !serie.areaStyle.show;
-            var centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
+            var centerPos = Vector3.zero;
+            if (serie.type == SerieType.Pie)
+                centerPos = SerieLabelHelper.GetRealLabelPosition(serieData, serieLabel);
+            else
+                centerPos = serieData.labelPosition + serieLabel.offset * (invert ? -1 : 1);
             var labelHalfWid = serieData.labelObject.GetLabelWidth() / 2;
             var labelHalfHig = serieData.GetLabelHeight() / 2;
             var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
