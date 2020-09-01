@@ -561,6 +561,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "PatientID",
                     "TrainingStartTime",
                     "TrainingEndTime",
+                    "PlanDuration",
                     "TrainingDirection",
                     "Bonus",
                     "StaticFishSuccessCount",
@@ -579,6 +580,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "INTEGER NOT NULL",
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
+                    "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
@@ -1079,27 +1081,30 @@ public class DoctorDatabaseManager : MonoBehaviour
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM FishTrainingPlan where PatientID=" + PatientID.ToString();
 
-        FishTrainingPlan FishTrainingPlan = null;
+        FishTrainingPlan fishTrainingPlan = null;
 
         try
         {
+            //print("!!!");
+
             reader = DoctorDatabase.ExecuteQuery(QueryString);
             reader.Read();
 
             if (reader.HasRows)
             {
-                FishTrainingPlan = new FishTrainingPlan(
+                fishTrainingPlan = new FishTrainingPlan(
                     reader.GetInt64(reader.GetOrdinal("TrainingDirection")),
                     reader.GetInt64(reader.GetOrdinal("TrainingDuration")));
 
+                //print(FishTrainingPlan.TrainingDirection);
                 //trainingPlan.SetPlanIsMaking(true);
 
-                return FishTrainingPlan;
+                return fishTrainingPlan;
             }
             else
             {
                 //trainingPlan.SetPlanIsMaking(false);
-                return FishTrainingPlan;
+                return fishTrainingPlan;
             }
         }
         catch (SqliteException e)
@@ -1108,7 +1113,7 @@ public class DoctorDatabaseManager : MonoBehaviour
             DoctorDatabase?.CloseConnection();
 
             //trainingPlan.SetPlanIsMaking(false);
-            return FishTrainingPlan;
+            return fishTrainingPlan;
         }
     }
 
@@ -1512,6 +1517,10 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                 // 删除患者训练记录
                 QueryString = "DELETE FROM PatientRecord where PatientID=" + PatientID.ToString();
+                PatientDatabase.ExecuteQuery(QueryString);
+
+                // 删除患者捕鱼训练记录
+                QueryString = "DELETE FROM FishTrainingRecord where PatientID=" + PatientID.ToString();
                 PatientDatabase.ExecuteQuery(QueryString);
 
                 // 删除患者评估记录
@@ -2790,13 +2799,13 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     reader.GetString(reader.GetOrdinal("TrainingStartTime")),
                     reader.GetString(reader.GetOrdinal("TrainingEndTime")),
+                    reader.GetInt64(reader.GetOrdinal("PlanDuration")),
                     reader.GetInt64(reader.GetOrdinal("TrainingDirection")),
                     reader.GetInt64(reader.GetOrdinal("Bonus")),
                     reader.GetInt64(reader.GetOrdinal("StaticFishSuccessCount")),
                     reader.GetInt64(reader.GetOrdinal("StaticFishAllCount")),
                     reader.GetInt64(reader.GetOrdinal("DynamicFishSuccessCount")),
                     reader.GetInt64(reader.GetOrdinal("DynamicFishAllCount")),
-                    // 捕鱼时间: 123,12,42,312,4,5
                     reader.GetString(reader.GetOrdinal("FishCaptureTime")).Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries).Select(float.Parse).ToList(),
                     reader.GetInt64(reader.GetOrdinal("Experience")),
                     reader.GetInt64(reader.GetOrdinal("Distance")),

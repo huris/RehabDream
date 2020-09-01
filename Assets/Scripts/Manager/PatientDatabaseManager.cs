@@ -539,6 +539,7 @@ public class PatientDatabaseManager : MonoBehaviour
                     PatientID.ToString(),
                     AddSingleQuotes(fishTrainingPlay.TrainingStartTime),
                     AddSingleQuotes(fishTrainingPlay.TrainingEndTime),
+                    fishTrainingPlay.PlanDuration.ToString(),
                     fishTrainingPlay.TrainingDirection.ToString(),
                     fishTrainingPlay.Bonus.ToString(),
                     fishTrainingPlay.StaticFishSuccessCount.ToString(),

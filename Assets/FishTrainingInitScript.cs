@@ -49,23 +49,31 @@ namespace XCharts
 		public LiquidChart DynamicFishChart;
 		public Text DynamicValue;
 
+		public LineChart FishingTimeChart;
+
+		public RadarChart ResultRadarChart;
+
+		public LineChart GCAnglesChart;
 
 		void OnEnable()
 		{
+
+			if (DoctorDataManager.instance.doctor.patient.fishTrainingPlan == null)
+			{
+				DoctorDataManager.instance.doctor.patient.fishTrainingPlan = DoctorDatabaseManager.instance.ReadPatientFishTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+				
+				print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan);
+				print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration);
+
+				if (DoctorDataManager.instance.doctor.patient.fishTrainingPlan != null) DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(true);
+				else DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(false);
+			}
 
 			if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays == null)
 			{
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays = DoctorDatabaseManager.instance.ReadPatientFishTrainings(DoctorDataManager.instance.doctor.patient.PatientID);
 				if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays != null && DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count > 0)
 				{
-					//foreach (var item in DoctorDataManager.instance.doctor.patient.Fish)
-					//{
-					//	if (DoctorDataManager.instance.doctor.patient.MaxSuccessCount < item.SuccessCount)
-					//	{
-					//		DoctorDataManager.instance.doctor.patient.SetMaxSuccessCount(item.SuccessCount);
-					//	}
-					//}
-
 					DoctorDataManager.instance.doctor.patient.SetFishTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1);
 					//print(DoctorDataManager.instance.doctor.patient.TrainingPlayIndex);
 				}
@@ -96,9 +104,11 @@ namespace XCharts
 				StartTime.text = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].TrainingStartTime;
 				EndTime.text = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].TrainingEndTime;
 
+				long RealityTrainingDuration = (long.Parse(StartTime.text.Substring(9, 2)) * 3600 + long.Parse(EndTime.text.Substring(12, 2)) * 60 + long.Parse(EndTime.text.Substring(15, 2))
+										   - long.Parse(StartTime.text.Substring(9, 2)) * 3600 - long.Parse(StartTime.text.Substring(12, 2)) * 60 - long.Parse(StartTime.text.Substring(15, 2)));
+
 				// 计算有效训练时长
-				Duration.text = (long.Parse(StartTime.text.Substring(9, 2)) * 3600 + long.Parse(EndTime.text.Substring(12, 2)) * 60 + long.Parse(EndTime.text.Substring(15, 2))
-										   - long.Parse(StartTime.text.Substring(9, 2)) * 3600 - long.Parse(StartTime.text.Substring(12, 2)) * 60 - long.Parse(StartTime.text.Substring(15, 2))).ToString() + " 秒";
+				Duration.text = RealityTrainingDuration.ToString() + " 秒";
 
 				Score.text = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].TrainingScore.ToString();
 				Experience.text = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].Experience.ToString();
@@ -131,6 +141,66 @@ namespace XCharts
 				else if(FishingRate >= 0.55f) { RankD.SetActive(true); }
 				else { RankE.SetActive(true); }
 
+				while (FishingTimeChart.series.list[0].data.Count > DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Count)
+				{
+
+					FishingTimeChart.series.list[0].data.RemoveAt(FishingTimeChart.series.list[0].data.Count - 1);
+					FishingTimeChart.xAxis0.data.RemoveAt(FishingTimeChart.xAxis0.data.Count - 1);
+				}
+
+				while (FishingTimeChart.series.list[0].data.Count < DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Count)
+				{
+					FishingTimeChart.series.list[0].AddYData(0f);
+					FishingTimeChart.xAxis0.data.Add("F" + (FishingTimeChart.xAxis0.data.Count + 1).ToString());
+				}
+
+				for (int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Count; i++)
+				{
+					//print(DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime[i] + "!!!!");
+					FishingTimeChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime[i]);
+				}
+
+				FishingTimeChart.title.subText = "整体平均" + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Average().ToString("0.00") + "秒";
+
+				FishingTimeChart.RefreshChart();
+
+				while (GCAnglesChart.series.list[0].data.Count > DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles.Count)
+				{
+
+					GCAnglesChart.series.list[0].data.RemoveAt(GCAnglesChart.series.list[0].data.Count - 1);
+					GCAnglesChart.xAxis0.data.RemoveAt(GCAnglesChart.xAxis0.data.Count - 1);
+				}
+
+				while (GCAnglesChart.series.list[0].data.Count < DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles.Count)
+				{
+					GCAnglesChart.series.list[0].AddYData(0f);
+					GCAnglesChart.xAxis0.data.Add("A" + (GCAnglesChart.xAxis0.data.Count + 1).ToString());
+				}
+
+				for (int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles.Count; i++)
+				{
+					GCAnglesChart.series.UpdateData(0, i, DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles[i]);
+				}
+
+				GCAnglesChart.title.text = "整体平均" + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles.Average().ToString("0.00") + "度, 最大偏移"
+					+ DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].GCAngles.Max().ToString("0.00") + "度";
+
+				GCAnglesChart.RefreshChart();
+
+				ResultRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].PlanDuration));
+				ResultRadarChart.UpdateData(0, 0, 1, Mathf.Min(1f, 5.0f / DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Average()));
+				ResultRadarChart.UpdateData(0, 0, 2, Mathf.Min(1f, 1.0f * DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].Distance / (RealityTrainingDuration * 40)));
+				long HistoryCaptureCount = 0;
+				long HistoryAllCount = 0;
+				for(int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count; i++)
+				{
+					HistoryCaptureCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishSuccessCount;
+					HistoryAllCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishAllCount;
+				}
+				ResultRadarChart.UpdateData(0, 0, 3, 1.0f * HistoryCaptureCount / HistoryAllCount);
+				ResultRadarChart.UpdateData(0, 0, 4, 1.0f * (DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].DynamicFishSuccessCount) / (
+					DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].DynamicFishAllCount));
+				ResultRadarChart.RefreshChart();
 			}
 			else
 			{
@@ -169,6 +239,7 @@ namespace XCharts
 
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Add(new FishTrainingPlay());
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetTrainingDirection(TrainingDirection.value);
+				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetPlanDuration(long.Parse(TrainingDuration.text));
 
 				MapDetectionController.mapOccupyDis.Clear();
 
@@ -211,6 +282,8 @@ namespace XCharts
 
 			PatientDatabaseManager.instance.WritePatientFishRecord(DoctorDataManager.instance.doctor.patient.PatientID,
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last());
+
+			DoctorDataManager.instance.doctor.patient.SetFishTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1);
 		}
 
 
