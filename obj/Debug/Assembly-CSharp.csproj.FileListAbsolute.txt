@@ -113,3 +113,8 @@ E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csprojAssemblyReference.
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.dll
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.pdb
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.CJK.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Editor.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Runtime.dll

@@ -224,7 +224,7 @@ namespace ShipNSea
                 if (temp != null && temp != "")
                 {
                     string[] strArr = temp.Split('|');
-                    print("登录成功");
+                    //print("登录成功");
                     ShowHintText("登录成功");
                     loginRegisterGO.SetActive(false);
                     avatarGO.SetActive(true);

@@ -167,3 +167,7 @@ E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CoreCom
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.dll
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp-firstpass.pdb
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.CJK.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Editor.dll
+F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Runtime.dll
