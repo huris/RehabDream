@@ -8,6 +8,7 @@ public class FishTrainingPlay
     public long TrainingID { get; private set; } = 0;
     public string TrainingStartTime { get; private set; } = "00000000 00:00:00";
     public string TrainingEndTime { get; private set; } = "00000000 00:00:00";
+    public long PlanDuration { get; private set; } = 0;
     public long TrainingDirection { get; private set; } = 0;      // 方位偏向： 0:两侧一致,1:左侧重点,2:右侧重点
     public long Bonus { get; private set; } = 0;    // 奖金
     public long StaticFishSuccessCount { get; private set; } = 0;   // 静态捕获鱼
@@ -42,6 +43,10 @@ public class FishTrainingPlay
         //this.gravityCenters = DoctorDatabaseManager.instance.ReadFishGravityCenterRecord(this.TrainingID);
     }
 
+    public void SetPlanDuration(long PlanDuration)
+    {
+        this.PlanDuration = PlanDuration;
+    }
 
     public void SetTrainingDirection(long TrainingDirection)
     {
@@ -61,7 +66,7 @@ public class FishTrainingPlay
 
     public FishTrainingPlay() { this.TrainingID = DoctorDatabaseManager.instance.ReadPatientFishRecordCount(); }
 
-    public FishTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
+    public FishTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime, long PlanDuration,
         long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
         long DynamicFishSuccessCount, long DynamicFishAllCount, List<float> FishCaptureTime,
         long Experience, long Distance, List<float> GCAngles, float TrainingScore)
@@ -69,6 +74,7 @@ public class FishTrainingPlay
         this.TrainingID = TrainingID;
         this.TrainingStartTime = TrainingStartTime;
         this.TrainingEndTime = TrainingEndTime;
+        this.PlanDuration = PlanDuration;
         this.TrainingDirection = TrainingDirection;
         this.Bonus = Bonus;
         this.StaticFishSuccessCount = StaticFishSuccessCount;
@@ -86,13 +92,14 @@ public class FishTrainingPlay
 
 
     public void SetCompleteTrainingPlay(long TrainingID, string TrainingStartTime, string TrainingEndTime,
-        long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
+        long PlanDuration, long TrainingDirection, long Bonus, long StaticFishSuccessCount, long StaticFishAllCount,
         long DynamicFishSuccessCount, long DynamicFishAllCount, List<float> FishCaptureTime,
         long Experience, long Distance, List<float> GCAngles, float TrainingScore)
     {
         this.TrainingID = TrainingID;
         this.TrainingStartTime = TrainingStartTime;
         this.TrainingEndTime = TrainingEndTime;
+        this.PlanDuration = PlanDuration;
         this.TrainingDirection = TrainingDirection;
         this.Bonus = Bonus;
         this.StaticFishSuccessCount = StaticFishSuccessCount;

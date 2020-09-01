@@ -40,36 +40,44 @@ public class FishTrainingPlanScript : MonoBehaviour
         PlanMakingFail.SetActive(false);
 
 
-        if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+        //if (DoctorDataManager.instance.doctor.patient.Evaluations != null && DoctorDataManager.instance.doctor.patient.Evaluations.Count > 0)
+        //{
+        if(DoctorDataManager.instance.doctor.patient.fishTrainingPlan == null)
         {
             DoctorDataManager.instance.doctor.patient.fishTrainingPlan = DoctorDatabaseManager.instance.ReadPatientFishTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
+
+            print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan);
             if (DoctorDataManager.instance.doctor.patient.fishTrainingPlan != null) DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(true);
             else DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(false);
+        }
 
-            if (DoctorDataManager.instance.doctor.patient.FishPlanIsMaking)
-            {
-                TrainingDirection.value = (int)DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection;
-                TrainingDuration.text = DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration.ToString() + "分钟";
+        print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection);
+        print(DoctorDataManager.instance.doctor.patient.FishPlanIsMaking);
 
-                TrainingStart.SetActive(true);
+        if (DoctorDataManager.instance.doctor.patient.FishPlanIsMaking)
+        {
+            TrainingDirection.value = (int)DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection;
+            TrainingDuration.text = DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration.ToString() + "分钟";
 
-                PlanMakingButtonText.text = "修  改";
-            }
-            else
-            {
-                TrainingStart.SetActive(false);
+            TrainingStart.SetActive(true);
 
-                TrainingDirection.value = TrainingDirection.options.Count - 1;
-                TrainingDuration.text = "";
-
-                PlanMakingButtonText.text = "制  定";
-            }
-
+            PlanMakingButtonText.text = "修  改";
         }
         else
         {
-            //NoEvaluationData.SetActive(true);
+            TrainingStart.SetActive(false);
+
+            TrainingDirection.value = TrainingDirection.options.Count - 1;
+            TrainingDuration.text = "";
+
+            PlanMakingButtonText.text = "制  定";
         }
+
+        //}
+        //else
+        //{
+        //    //NoEvaluationData.SetActive(true);
+        //}
 
         //system = EventSystem.current;       // 获取当前的事件
 
