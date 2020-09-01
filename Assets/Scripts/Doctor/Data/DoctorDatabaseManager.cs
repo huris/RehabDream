@@ -1085,8 +1085,6 @@ public class DoctorDatabaseManager : MonoBehaviour
 
         try
         {
-            //print("!!!");
-
             reader = DoctorDatabase.ExecuteQuery(QueryString);
             reader.Read();
 
@@ -1096,14 +1094,10 @@ public class DoctorDatabaseManager : MonoBehaviour
                     reader.GetInt64(reader.GetOrdinal("TrainingDirection")),
                     reader.GetInt64(reader.GetOrdinal("TrainingDuration")));
 
-                //print(FishTrainingPlan.TrainingDirection);
-                //trainingPlan.SetPlanIsMaking(true);
-
                 return fishTrainingPlan;
             }
             else
             {
-                //trainingPlan.SetPlanIsMaking(false);
                 return fishTrainingPlan;
             }
         }
@@ -1112,12 +1106,9 @@ public class DoctorDatabaseManager : MonoBehaviour
             Debug.Log("@UserManager: ReadPatientTrainingPlan SqliteException");
             DoctorDatabase?.CloseConnection();
 
-            //trainingPlan.SetPlanIsMaking(false);
             return fishTrainingPlan;
         }
     }
-
-
 
     // make Patient's Training Plan
     public DatabaseReturn MakePatientTrainingPlan(long PatientID, TrainingPlan trainingPlan)

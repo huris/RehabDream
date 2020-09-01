@@ -46,13 +46,13 @@ public class FishTrainingPlanScript : MonoBehaviour
         {
             DoctorDataManager.instance.doctor.patient.fishTrainingPlan = DoctorDatabaseManager.instance.ReadPatientFishTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
 
-            print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan);
+            //print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan);
             if (DoctorDataManager.instance.doctor.patient.fishTrainingPlan != null) DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(true);
             else DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(false);
         }
 
-        print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection);
-        print(DoctorDataManager.instance.doctor.patient.FishPlanIsMaking);
+        //print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection);
+        //print(DoctorDataManager.instance.doctor.patient.FishPlanIsMaking);
 
         if (DoctorDataManager.instance.doctor.patient.FishPlanIsMaking)
         {

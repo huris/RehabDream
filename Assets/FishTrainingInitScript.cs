@@ -16,8 +16,8 @@ namespace XCharts
 
 		public GameObject NoTrainingData;
 
-		public Dropdown TrainingDirection;
-		public InputField TrainingDuration;
+		//public Dropdown TrainingDirection;
+		//public InputField TrainingDuration;
 
 		public int SingleTraining;
 
@@ -62,9 +62,6 @@ namespace XCharts
 			{
 				DoctorDataManager.instance.doctor.patient.fishTrainingPlan = DoctorDatabaseManager.instance.ReadPatientFishTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID);
 				
-				print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan);
-				print(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration);
-
 				if (DoctorDataManager.instance.doctor.patient.fishTrainingPlan != null) DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(true);
 				else DoctorDataManager.instance.doctor.patient.SetFishPlanIsMaking(false);
 			}
@@ -238,8 +235,8 @@ namespace XCharts
 				}
 
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Add(new FishTrainingPlay());
-				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetTrainingDirection(TrainingDirection.value);
-				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetPlanDuration(long.Parse(TrainingDuration.text));
+				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetTrainingDirection(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDirection);
+				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetPlanDuration(DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration);
 
 				MapDetectionController.mapOccupyDis.Clear();
 
@@ -253,7 +250,7 @@ namespace XCharts
 				//存放姓名
 				IntroState.pName = DoctorDataManager.instance.doctor.patient.PatientName;
 				//改变训练时间
-				GameTime.gameTimeTotal = int.Parse(TrainingDuration.text) * 60;
+				GameTime.gameTimeTotal = (int)DoctorDataManager.instance.doctor.patient.fishTrainingPlan.TrainingDuration * 60;
 				//改变训练着重侧
 				BodySetting.setBody = (BodySettingEnum)DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().TrainingDirection;
 

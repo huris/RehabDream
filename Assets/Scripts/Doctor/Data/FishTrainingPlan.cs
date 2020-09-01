@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishTrainingPlan : MonoBehaviour
+public class FishTrainingPlan
 {
 
     //  初级 一般 中级 高级

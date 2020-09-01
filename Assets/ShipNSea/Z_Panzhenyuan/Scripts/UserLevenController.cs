@@ -41,7 +41,7 @@ namespace ShipNSea
 				exp = 10000;
 			}
 			ChangeLv();
-			print("当前玩家: " + IntroState.pName);
+			//print("当前玩家: " + IntroState.pName);
 			username.text = "当前玩家: " + IntroState.pName;
 		}
 
