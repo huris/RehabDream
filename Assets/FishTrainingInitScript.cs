@@ -122,7 +122,7 @@ namespace XCharts
 
 				float FishingRate = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].TrainingScore / (
 					DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].StaticFishAllCount * 100 +
-					DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].StaticFishAllCount * 150);
+					DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].DynamicFishAllCount * 150);
 
 				RankS.SetActive(false);
 				RankA.SetActive(false);

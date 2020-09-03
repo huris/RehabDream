@@ -16,6 +16,8 @@ public class ReportDataChooseScript : MonoBehaviour {
 
     public GameObject EvaluationGameobject;
     public GameObject TrainingGameobject;
+    public GameObject WallEvaluationGameobject;
+    public GameObject FishTrainingGameobject;
 
     public GameObject Evaluations;
     public GameObject Trainings;
@@ -71,7 +73,7 @@ public class ReportDataChooseScript : MonoBehaviour {
                 }
             }
 
-            if (DoctorDataManager.instance.doctor.patient.Evaluations.Count == 1)
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations.Count == 1)
             {
                 FirstItem.value = 0;
                 SecondItem.value = 0;
@@ -87,11 +89,13 @@ public class ReportDataChooseScript : MonoBehaviour {
                     string tempEvaluationTime = DoctorDataManager.instance.doctor.patient.WallEvaluations[i].startTime;
                     FirstListEvaluationTime.Add((i + 1).ToString() + "|" + tempEvaluationTime.Substring(3, 2) + tempEvaluationTime.Substring(6, 2));
                 }
-                FirstItem.AddOptions(FirstListEvaluationTime);
+
+                //FirstItem.AddOptions(FirstListEvaluationTime);
                 SecondItem.AddOptions(FirstListEvaluationTime);
                 FirstListEvaluationTime.Clear();
 
-                FirstItem.value = 0;
+                //FirstItem.value = 0;
+                FirstItem.gameObject.SetActive(false);
 
                 SecondItem.value = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
 
@@ -186,8 +190,44 @@ public class ReportDataChooseScript : MonoBehaviour {
         }
         else if (FishTrainingToggle.isOn)
         {
-            FirstItem.gameObject.SetActive(false);
-            SecondItem.gameObject.SetActive(false);
+            if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays == null)
+            {
+                DoctorDataManager.instance.doctor.patient.FishTrainingPlays = DoctorDatabaseManager.instance.ReadPatientFishTrainings(DoctorDataManager.instance.doctor.patient.PatientID);
+
+                if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays != null && DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count > 0)
+                {
+                    DoctorDataManager.instance.doctor.patient.SetFishTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1);
+                }
+            }
+
+            if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count == 1)
+            {
+                FirstItem.value = 0;
+                SecondItem.value = 0;
+
+                FirstItem.gameObject.SetActive(false);
+                SecondItem.gameObject.SetActive(false);
+            }
+            else
+            {
+                ClearDropdown();
+                for (int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count; i++)
+                {
+                    string tempTrainingTime = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].TrainingStartTime;
+                    FirstListEvaluationTime.Add((i + 1).ToString() + "|" + tempTrainingTime.Substring(4, 2) + "." + tempTrainingTime.Substring(6, 2));
+                }
+
+                FirstItem.AddOptions(FirstListEvaluationTime);
+                SecondItem.AddOptions(FirstListEvaluationTime);
+                FirstListEvaluationTime.Clear();
+
+                FirstItem.value = 0;
+                //FirstItem.gameObject.SetActive(false);
+
+                SecondItem.value = DoctorDataManager.instance.doctor.patient.FishTrainingIndex;
+
+                //print(FirstItem.value + "  "  + SecondItem.value);
+            }
         }
     }
 
@@ -202,6 +242,16 @@ public class ReportDataChooseScript : MonoBehaviour {
         {
             TrainingGameobject.SetActive(false);
             TrainingGameobject.SetActive(true);
+        }
+        else if (WallEvaluationToggle.isOn)
+        {
+            WallEvaluationGameobject.SetActive(false);
+            WallEvaluationGameobject.SetActive(true);
+        }
+        else if (FishTrainingToggle.isOn)
+        {
+            FishTrainingGameobject.SetActive(false);
+            FishTrainingGameobject.SetActive(true);
         }
     }
 

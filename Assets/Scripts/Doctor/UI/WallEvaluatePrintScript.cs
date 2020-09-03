@@ -42,6 +42,7 @@ namespace XCharts
 
         public Dictionary<int, int> toggleIndexTojointId;
 
+        public Dropdown SecondItem;
 
         void OnEnable()
         {
@@ -57,7 +58,7 @@ namespace XCharts
 
             if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
             {
-                WallEvaluationIndex = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
+                WallEvaluationIndex = SecondItem.value;
                 WallEvaluation = DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex];
 
                 // Title
