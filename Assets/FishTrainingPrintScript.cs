@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Vectrosity;
 using System.Collections;
+using System.Linq;
 
 namespace XCharts
 {
@@ -13,6 +14,8 @@ namespace XCharts
 
         public int SingleTrainingPlay;
         public FishTrainingPlay fishTrainingPlay;
+        public int LastTrainingPlay;
+        public FishTrainingPlay LastFishTrainingPlay;
 
         // Title
         public Text TrainingTitle;
@@ -28,18 +31,22 @@ namespace XCharts
         public Text InformationPatientDoctor;
 
         // Training
-        public Text TrainingDifficulty;
+        public Text TrainingScore;
         public Text TrainingRank;
+        public long RealityTrainingDuration;
         public Text TrainingDuration;
         public Text TrainingDirection;
+        public List<string> DirectionText = new List<string> { "两侧一致", "左侧重点", "右侧重点" };
         public Text TrainingSuccessRate;
         public Text TrainingTime;
 
         // Chart
-        RadarChart DirectionRadarChart;
-        public long GravityCenterCount;
-        LineChart GravityCenterChart;
-        Serie GravityCenterSerie;
+        public RadarChart DirectionRadarChart;
+        public LineChart GCAnglesChart;
+
+
+        public Dropdown FirstItem;
+        public Dropdown SecondItem;
 
         void OnEnable()
         {
@@ -48,284 +55,164 @@ namespace XCharts
                 DoctorDataManager.instance.doctor.patient.FishTrainingPlays = DoctorDatabaseManager.instance.ReadPatientFishTrainings(DoctorDataManager.instance.doctor.patient.PatientID);
                 if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays != null && DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count > 0)
                 {
-
                     DoctorDataManager.instance.doctor.patient.SetFishTrainingPlayIndex(DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count - 1);
-                    //print(DoctorDataManager.instance.doctor.patient.TrainingPlayIndex);
                 }
             }
 
-            //if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays != null && DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count > 0)
-            //{
-            //    LastSingleTrainingPlay = FirstItem.value;
-            //    SingleTrainingPlay = SecondItem.value;
-            //    trainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[SingleTrainingPlay];
+            if (DoctorDataManager.instance.doctor.patient.FishTrainingPlays != null && DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count > 0)
+            {
+                SingleTrainingPlay = SecondItem.value;
+                fishTrainingPlay = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTrainingPlay];
+                LastTrainingPlay = FirstItem.value;
+                LastFishTrainingPlay = DoctorDataManager.instance.doctor.patient.FishTrainingPlays[LastTrainingPlay];
 
-            //    if (LastSingleTrainingPlay != SingleTrainingPlay)
-            //    {
-            //        LastTrainingPlay = DoctorDataManager.instance.doctor.patient.TrainingPlays[LastSingleTrainingPlay];
-            //    }
+                // Title
+                string PatientNameBlock = "";
+                for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
+                {
+                    PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
+                }
+                TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
+                TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  重  心  捕  鱼  训  练  报  告  表";
 
-            //    // Title
-            //    string PatientNameBlock = "";
-            //    for (int z = 0; z < DoctorDataManager.instance.doctor.patient.PatientName.Length; z++)
-            //    {
-            //        PatientNameBlock += DoctorDataManager.instance.doctor.patient.PatientName[z] + "  ";
-            //    }
-            //    TrainingTitle = transform.Find("TrainingTitle").GetComponent<Text>();
-            //    TrainingTitle.text = PatientNameBlock + "第  " + (SingleTrainingPlay + 1).ToString() + "  次  足  球  守  门  训  练  报  告  表";
+                // Information
+                InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
+                InformationPatientID.text = DoctorDataManager.instance.doctor.patient.PatientID.ToString();
 
-            //    // Information
-            //    InformationPatientID = transform.Find("Information/PatientInfo/ID/PatientID").GetComponent<Text>();
-            //    InformationPatientID.text = DoctorDataManager.instance.doctor.patient.PatientID.ToString();
+                InformationPatientName = transform.Find("Information/PatientInfo/Name/PatientName").GetComponent<Text>();
+                InformationPatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
 
-            //    InformationPatientName = transform.Find("Information/PatientInfo/Name/PatientName").GetComponent<Text>();
-            //    InformationPatientName.text = DoctorDataManager.instance.doctor.patient.PatientName;
+                InformationPatientSex = transform.Find("Information/PatientInfo/Sex/PatientSex").GetComponent<Text>();
+                InformationPatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
 
-            //    InformationPatientSex = transform.Find("Information/PatientInfo/Sex/PatientSex").GetComponent<Text>();
-            //    InformationPatientSex.text = DoctorDataManager.instance.doctor.patient.PatientSex;
+                InformationPatientAge = transform.Find("Information/PatientInfo/Age/PatientAge").GetComponent<Text>();
+                InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString() + " 岁";
 
-            //    InformationPatientAge = transform.Find("Information/PatientInfo/Age/PatientAge").GetComponent<Text>();
-            //    InformationPatientAge.text = DoctorDataManager.instance.doctor.patient.PatientAge.ToString() + " 岁";
+                InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
+                if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
+                {
+                    InformationPatientHeight.text = "未填写";
+                }
+                else
+                {
+                    InformationPatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString() + " CM";
+                }
 
-            //    InformationPatientHeight = transform.Find("Information/PatientInfo/Height/PatientHeight").GetComponent<Text>();
-            //    if (DoctorDataManager.instance.doctor.patient.PatientHeight == -1)
-            //    {
-            //        InformationPatientHeight.text = "未填写";
-            //    }
-            //    else
-            //    {
-            //        InformationPatientHeight.text = DoctorDataManager.instance.doctor.patient.PatientHeight.ToString() + " CM";
-            //    }
+                InformationPatientWeight = transform.Find("Information/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
+                if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
+                {
+                    InformationPatientWeight.text = "未填写";
+                }
+                else
+                {
+                    InformationPatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString() + " KG";
+                }
 
-            //    InformationPatientWeight = transform.Find("Information/PatientInfo/Weight/PatientWeight").GetComponent<Text>();
-            //    if (DoctorDataManager.instance.doctor.patient.PatientWeight == -1)
-            //    {
-            //        InformationPatientWeight.text = "未填写";
-            //    }
-            //    else
-            //    {
-            //        InformationPatientWeight.text = DoctorDataManager.instance.doctor.patient.PatientWeight.ToString() + " KG";
-            //    }
+                InformationPatientSymptom = transform.Find("Information/PatientInfo/Symptom/PatientSymptom").GetComponent<Text>();
+                InformationPatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom;
 
-            //    InformationPatientSymptom = transform.Find("Information/PatientInfo/Symptom/PatientSymptom").GetComponent<Text>();
-            //    InformationPatientSymptom.text = DoctorDataManager.instance.doctor.patient.PatientSymptom;
-
-            //    InformationPatientDoctor = transform.Find("Information/PatientInfo/Doctor/PatientDoctor").GetComponent<Text>();
-            //    InformationPatientDoctor.text = DoctorDataManager.instance.doctor.DoctorName;
+                InformationPatientDoctor = transform.Find("Information/PatientInfo/Doctor/PatientDoctor").GetComponent<Text>();
+                InformationPatientDoctor.text = DoctorDataManager.instance.doctor.DoctorName;
 
 
-            //    // Training
-            //    TrainingDifficulty = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Difficulty/TrainingDifficulty").GetComponent<Text>();
-            //    TrainingDifficulty.text = trainingPlay.TrainingDifficulty;
+                // Training
+                TrainingScore = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Score/TrainingScore").GetComponent<Text>();
+                TrainingScore.text = fishTrainingPlay.TrainingScore.ToString();
 
-            //    TrainingRank = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Rank/TrainingRank").GetComponent<Text>();
-            //    float TrainingEvaluationRate = 1.0f * trainingPlay.SuccessCount / trainingPlay.GameCount;
-            //    if (TrainingEvaluationRate >= 0.8f) { TrainingRank.text = "S 级"; }
-            //    else if (TrainingEvaluationRate >= 0.7f) { TrainingRank.text = "A 级"; }
-            //    else if (TrainingEvaluationRate >= 0.6f) { TrainingRank.text = "B 级"; }
-            //    else if (TrainingEvaluationRate >= 0.5f) { TrainingRank.text = "C 级"; }
-            //    else if (TrainingEvaluationRate >= 0.4f) { TrainingRank.text = "D 级"; }
-            //    else { TrainingRank.text = "E 级"; }
+                TrainingRank = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Rank/TrainingRank").GetComponent<Text>();
+
+                float TrainingEvaluationRate = fishTrainingPlay.TrainingScore / (
+                    fishTrainingPlay.StaticFishAllCount * 100 +
+                    fishTrainingPlay.DynamicFishAllCount * 150);
+
+                if (TrainingEvaluationRate >= 0.95f) { TrainingRank.text = "S 级"; }
+                else if (TrainingEvaluationRate >= 0.85f) { TrainingRank.text = "A 级"; }
+                else if (TrainingEvaluationRate >= 0.75f) { TrainingRank.text = "B 级"; }
+                else if (TrainingEvaluationRate >= 0.65f) { TrainingRank.text = "C 级"; }
+                else if (TrainingEvaluationRate >= 0.55f) { TrainingRank.text = "D 级"; }
+                else { TrainingRank.text = "E 级"; }
+
+                TrainingDuration = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Duration/TrainingDuration").GetComponent<Text>();
+                RealityTrainingDuration = long.Parse(fishTrainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(fishTrainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(fishTrainingPlay.TrainingEndTime.Substring(15, 2))
+                                           - long.Parse(fishTrainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(fishTrainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(fishTrainingPlay.TrainingStartTime.Substring(15, 2));
+                TrainingDuration.text = RealityTrainingDuration.ToString() + "秒";
+
+                TrainingDirection = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Direction/TrainingDirection").GetComponent<Text>();
+                TrainingDirection.text = DirectionText[(int)fishTrainingPlay.TrainingDirection];
+
+                TrainingSuccessRate = transform.Find("TrainingFeedback/TrainingFeedbackInfo/SuccessRate/TrainingSuccessRate").GetComponent<Text>();
+                TrainingSuccessRate.text = (fishTrainingPlay.StaticFishSuccessCount + fishTrainingPlay.DynamicFishSuccessCount).ToString() + "/" 
+                    + (fishTrainingPlay.StaticFishAllCount + fishTrainingPlay.DynamicFishAllCount).ToString();
+
+                TrainingTime = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Time/TrainingTime").GetComponent<Text>();
+                TrainingTime.text = fishTrainingPlay.TrainingStartTime;
+
+                // Chart
+                DrawRadarChart();
+                DrawGravityCenterOffset();
 
 
-            //    TrainingDuration = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Duration/TrainingDuration").GetComponent<Text>();
-            //    TrainingDuration.text = (long.Parse(trainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(trainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(trainingPlay.TrainingEndTime.Substring(15, 2))
-            //                               - long.Parse(trainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(trainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(trainingPlay.TrainingStartTime.Substring(15, 2))).ToString() + " 秒";
+                //    // 初始化对比结果
+                //    for (int m = 0; m < 19; m++)
+                //    {
+                //        for (int n = 1; n < 5; n++)
+                //        {
+                //            SetResultDataText("-", m, n);
+                //        }
+                //    }
 
-            //    TrainingDirection = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Direction/TrainingDirection").GetComponent<Text>();
-            //    TrainingDirection.text = trainingPlay.TrainingDirection;
+                //    DrawRadarChart();
+                //    WriteAngleData();
 
-            //    TrainingSuccessRate = transform.Find("TrainingFeedback/TrainingFeedbackInfo/SuccessRate/TrainingSuccessRate").GetComponent<Text>();
-            //    TrainingSuccessRate.text = trainingPlay.SuccessCount.ToString() + "/" + trainingPlay.GameCount.ToString();
-
-            //    TrainingTime = transform.Find("TrainingFeedback/TrainingFeedbackInfo/Time/TrainingTime").GetComponent<Text>();
-            //    TrainingTime.text = trainingPlay.TrainingStartTime;
-
-
-            //    // Chart
-            //    // 初始化对比结果
-            //    for (int m = 0; m < 19; m++)
-            //    {
-            //        for (int n = 1; n < 5; n++)
-            //        {
-            //            SetResultDataText("-", m, n);
-            //        }
-            //    }
-
-            //    DrawRadarChart();
-            //    DrawGravityCenterOffset();
-            //    WriteAngleData();
-
-            //}
+            }
 
         }
 
         public void DrawRadarChart()
         {
-            //DirectionRadarChart = transform.Find("Chart/RadarChart").GetComponent<RadarChart>();
-            //if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("Chart/RadarChart").gameObject.AddComponent<RadarChart>();
+            DirectionRadarChart = transform.Find("Chart/RadarChart").GetComponent<RadarChart>();
+            if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("Chart/RadarChart").gameObject.AddComponent<RadarChart>();
 
-            //DirectionRadarChart.UpdateData(0, 0, 0, trainingPlay.direction.UponDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 1, trainingPlay.direction.UponRightDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 2, trainingPlay.direction.RightDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 3, trainingPlay.direction.DownRightDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 4, trainingPlay.direction.DownDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 5, trainingPlay.direction.DownLeftDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 6, trainingPlay.direction.LeftDirection);
-            //DirectionRadarChart.UpdateData(0, 0, 7, trainingPlay.direction.UponLeftDirection);
-
-            //DirectionRadarChart.RefreshChart();
-
-            //SetResultDataText(trainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 2);
-
-            //if (LastSingleTrainingPlay != SingleTrainingPlay)
-            //{
-            //    SetResultDataText(LastTrainingPlay.direction.DirectionRadarArea.ToString("0.0000"), 0, 1);
-
-            //    SetResultDataText(GetEvaluationResult(LastTrainingPlay.direction.DirectionRadarArea, trainingPlay.direction.DirectionRadarArea, 4), 0, 3);
-            //    SetResultDataText(GetEvaluationResult(LastTrainingPlay.direction.DirectionRadarArea, trainingPlay.direction.DirectionRadarArea, 2), 0, 4);
-            //}
+            DirectionRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / fishTrainingPlay.PlanDuration));
+            DirectionRadarChart.UpdateData(0, 0, 1, Mathf.Min(1f, 5.0f / fishTrainingPlay.FishCaptureTime.Average()));
+            DirectionRadarChart.UpdateData(0, 0, 2, Mathf.Min(1f, 1.0f * fishTrainingPlay.Distance / (RealityTrainingDuration * 40)));
+            long HistoryCaptureCount = 0;
+            long HistoryAllCount = 0;
+            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count; i++)
+            {
+                HistoryCaptureCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishSuccessCount;
+                HistoryAllCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishAllCount;
+            }
+            DirectionRadarChart.UpdateData(0, 0, 3, 1.0f * HistoryCaptureCount / HistoryAllCount);
+            DirectionRadarChart.UpdateData(0, 0, 4, 1.0f * (fishTrainingPlay.StaticFishSuccessCount + fishTrainingPlay.DynamicFishSuccessCount) / (
+                fishTrainingPlay.StaticFishAllCount + fishTrainingPlay.DynamicFishAllCount));
+            DirectionRadarChart.RefreshChart();
         }
 
         public void DrawGravityCenterOffset()
         {
-            //GravityCenterCount = trainingPlay.gravityCenters.Count;
-            //GravityCenterChart = transform.Find("Chart/GravityCenterChart").GetComponent<LineChart>();
-            //if (GravityCenterChart == null) GravityCenterChart = transform.Find("Chart/GravityCenterChart").gameObject.AddComponent<LineChart>();
+            while (GCAnglesChart.series.list[0].data.Count > fishTrainingPlay.GCAngles.Count)
+            {
 
-            //GravityCenterChart.themeInfo.theme = Theme.Light;
-            ////chart.themeInfo.tooltipBackgroundColor = Color.white;
-            ////chart.themeInfo.backgroundColor = Color.grey;
+                GCAnglesChart.series.list[0].data.RemoveAt(GCAnglesChart.series.list[0].data.Count - 1);
+                GCAnglesChart.xAxis0.data.RemoveAt(GCAnglesChart.xAxis0.data.Count - 1);
+            }
 
-            //GravityCenterChart.title.show = true;
-            //GravityCenterChart.title.text = "重 心 坐 标 偏 移 量";
-            //GravityCenterChart.title.textStyle.fontSize = 14;
-            //GravityCenterChart.title.textStyle.fontStyle = FontStyle.Bold;
-            //GravityCenterChart.title.location.top = 22;
+            while (GCAnglesChart.series.list[0].data.Count < fishTrainingPlay.GCAngles.Count)
+            {
+                GCAnglesChart.series.list[0].AddYData(0f);
+                GCAnglesChart.xAxis0.data.Add("A" + (GCAnglesChart.xAxis0.data.Count + 1).ToString());
+            }
 
-            ////chart.title.subText = "前30s";
-            ////chart.title.subTextFontSize = 18;
+            for (int i = 0; i < fishTrainingPlay.GCAngles.Count; i++)
+            {
+                GCAnglesChart.series.UpdateData(0, i, fishTrainingPlay.GCAngles[i]);
+            }
 
-            //GravityCenterChart.legend.show = false;
-            //GravityCenterChart.legend.location.align = Location.Align.TopRight;
-            //GravityCenterChart.legend.location.top = 2;
-            //GravityCenterChart.legend.location.right = 55;
-            //GravityCenterChart.legend.orient = Orient.Horizonal;  // 图例显示方向
-            //GravityCenterChart.legend.itemGap = 0;       // `图例之间的距离
-            //GravityCenterChart.legend.itemWidth = 25;
-            //GravityCenterChart.legend.itemHeight = 25;
+            GCAnglesChart.title.text = "整体平均" + fishTrainingPlay.GCAngles.Average().ToString("0.00") + "度, 最大偏移"
+                + fishTrainingPlay.GCAngles.Max().ToString("0.00") + "度";
 
-            //GravityCenterChart.tooltip.show = true;
-            //GravityCenterChart.tooltip.type = Tooltip.Type.Line;
-            //GravityCenterChart.tooltip.titleFormatter = "   第{b}秒   ";
-            //GravityCenterChart.tooltip.itemFormatter = "重心距离为{c}";
-
-            //GravityCenterChart.xAxis0.show = true;
-            //GravityCenterChart.xAxis0.type = XAxis.AxisType.Category;
-            //GravityCenterChart.xAxis0.splitNumber = 8;   // 把数据分成多少份
-            //GravityCenterChart.xAxis0.boundaryGap = true;   // 坐标轴两边是否留白
-            //GravityCenterChart.xAxis0.axisLine.width = 1;    // 坐标轴轴线宽
-            //GravityCenterChart.xAxis0.axisLine.symbol = true;    // 坐标轴箭头
-            //GravityCenterChart.xAxis0.axisLine.symbolWidth = 10;
-            //GravityCenterChart.xAxis0.axisLine.symbolHeight = 15;
-            //GravityCenterChart.xAxis0.axisLine.symbolOffset = 0;
-            //GravityCenterChart.xAxis0.axisLine.symbolDent = 3;
-            //GravityCenterChart.xAxis0.axisName.show = true;  // 坐标轴名称
-            //GravityCenterChart.xAxis0.axisName.name = "时间（秒）";
-            //GravityCenterChart.xAxis0.axisName.location = AxisName.Location.Middle;
-            //GravityCenterChart.xAxis0.axisName.offset = new Vector2(0f, 25f);
-            //GravityCenterChart.xAxis0.axisName.rotate = 0;
-            //GravityCenterChart.xAxis0.axisName.color = Color.black;
-            //GravityCenterChart.xAxis0.axisName.fontSize = 13;
-            //GravityCenterChart.xAxis0.axisName.fontStyle = FontStyle.Normal;
-            //GravityCenterChart.xAxis0.axisTick.inside = true;    // 坐标轴是否朝内
-            //GravityCenterChart.xAxis0.axisLabel.fontSize = 12;
-            //GravityCenterChart.xAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-            //GravityCenterChart.xAxis0.splitLine.show = true;
-            ////GravityCenterChart.xAxis0.splitLineType = Axis.SplitLineType.Solid;
-            //GravityCenterChart.xAxis0.splitArea.show = true;
-            //GravityCenterChart.xAxis0.boundaryGap = false;
-
-            //GravityCenterChart.yAxis0.show = true;
-            //GravityCenterChart.yAxis0.type = YAxis.AxisType.Value;
-            //GravityCenterChart.yAxis0.splitNumber = 8;   // 把数据分成多少份
-            //GravityCenterChart.yAxis0.boundaryGap = false;   // 坐标轴两边是否留白
-            //GravityCenterChart.yAxis0.axisLine.width = 1;    // 坐标轴轴线宽
-            //GravityCenterChart.yAxis0.axisLine.symbol = true;    // 坐标轴箭头
-            //GravityCenterChart.yAxis0.axisLine.symbolWidth = 10;
-            //GravityCenterChart.yAxis0.axisLine.symbolHeight = 15;
-            //GravityCenterChart.yAxis0.axisLine.symbolOffset = 0;
-            //GravityCenterChart.yAxis0.axisLine.symbolDent = 3;
-            //GravityCenterChart.yAxis0.axisName.show = true;  // 坐标轴名称
-            //GravityCenterChart.yAxis0.axisName.name = "距离（毫米）";
-            //GravityCenterChart.yAxis0.axisName.location = AxisName.Location.Middle;
-            //GravityCenterChart.yAxis0.axisName.offset = new Vector2(45f, 50f);
-            //GravityCenterChart.yAxis0.axisName.rotate = 90;
-            //GravityCenterChart.yAxis0.axisName.color = Color.black;
-            //GravityCenterChart.yAxis0.axisName.fontSize = 13;
-            //GravityCenterChart.yAxis0.axisName.fontStyle = FontStyle.Normal;
-            //GravityCenterChart.yAxis0.axisTick.inside = true;    // 坐标轴是否朝内
-            //GravityCenterChart.yAxis0.axisLabel.fontSize = 12;
-            //GravityCenterChart.yAxis0.axisLabel.margin = 4;  // 标签与轴线的距离
-            //GravityCenterChart.yAxis0.splitLine.show = true;
-            ////GravityCenterChart.yAxis0.splitLine.lineStyle.show = true;
-            //GravityCenterChart.yAxis0.splitArea.show = true;
-            //GravityCenterChart.yAxis0.axisLabel.formatter = "{value:f1}";
-
-            //GravityCenterChart.RemoveData();
-            //GravityCenterSerie = GravityCenterChart.AddSerie(SerieType.Line, "重心");//添加折线图
-
-            //GravityCenterSerie.areaStyle.show = true;
-            //GravityCenterSerie.areaStyle.opacity = 0.4f;
-            //GravityCenterSerie.areaStyle.toColor = Color.white;
-
-
-            //GravityCenterSerie.symbol.type = SerieSymbolType.None;
-
-            //GravityCenterChart.grid.left = 50;
-            //GravityCenterChart.grid.right = 20;
-            //GravityCenterChart.grid.top = 50;
-            //GravityCenterChart.grid.bottom = 25;
-
-            //GravityCenterChart.dataZoom.enable = true;
-            //GravityCenterChart.dataZoom.supportInside = true;
-            //GravityCenterChart.dataZoom.start = 0;
-            //GravityCenterChart.dataZoom.end = 100;
-            //GravityCenterChart.dataZoom.minShowNum = 30;
-
-            //float MaxGravityCenter = 0f;
-
-            //float tempDistance;
-
-            //for (int i = 0; i < GravityCenterCount; i++)
-            //{
-            //    tempDistance = 1000 * Vector3.Distance(trainingPlay.gravityCenters[i].Coordinate, trainingPlay.gravityCenters[0].Coordinate);
-
-            //    GravityCenterChart.AddXAxisData((i * 0.2f).ToString("0.0"));
-            //    GravityCenterChart.AddData(0, tempDistance);
-
-            //    MaxGravityCenter = Math.Max(MaxGravityCenter, tempDistance);
-            //}
-
-            //SetResultDataText(MaxGravityCenter.ToString("0.0000"), 1, 2);
-
-            //if (LastSingleTrainingPlay != SingleTrainingPlay)
-            //{
-            //    float LastMaxGravityCenter = 0f;
-
-            //    for (int i = 0; i < LastTrainingPlay.gravityCenters.Count; i++)
-            //    {
-            //        tempDistance = 1000 * Vector3.Distance(LastTrainingPlay.gravityCenters[i].Coordinate, LastTrainingPlay.gravityCenters[0].Coordinate);
-
-            //        LastMaxGravityCenter = Math.Max(LastMaxGravityCenter, tempDistance);
-            //    }
-
-
-            //    SetResultDataText(LastMaxGravityCenter.ToString("0.0000"), 1, 1);
-
-            //    SetResultDataText(GetEvaluationResult(LastMaxGravityCenter, MaxGravityCenter, 4), 1, 3);
-            //    SetResultDataText(GetEvaluationResult(LastMaxGravityCenter, MaxGravityCenter, 2), 1, 4);
-            //}
+            GCAnglesChart.RefreshChart();
         }
 
         public void WriteAngleData()
