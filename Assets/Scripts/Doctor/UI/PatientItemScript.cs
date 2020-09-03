@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PatientItemScript : MonoBehaviour {
+public class PatientItemScript : MonoBehaviour
+{
 
     public GameObject Prefab;
 
@@ -41,6 +42,11 @@ public class PatientItemScript : MonoBehaviour {
     public Image PatientAddImage;
     public Image PatientAllImage;
     public Image PatientQueryImage;
+
+    public Toggle PatientInfoEvaluateItem;
+    public Toggle TrainingCoditionQueryItem;
+
+    
 
     void OnEnable()
     {
@@ -83,19 +89,17 @@ public class PatientItemScript : MonoBehaviour {
                     // 为button添加监听函数
                     this.transform.GetChild(i).GetChild(0).GetChild(4).GetChild(0).GetComponent<Button>().onClick.AddListener(PhysicalConditionsQueryButtonOnClick);  // 查询身体状况
                                                                                                                                                                       //this.transform.GetChild(i).GetChild(0).GetChild(4).GetChild(1).GetComponent<Button>().onClick.AddListener(PhysicalConditionsEvaluateButtonOnClick);  // 评估身体状况
-                    //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码
-                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(0).GetComponent<Button>().onClick.AddListener(TrainingConditionQueryButtonOnClick);
-                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(1).GetComponent<Button>().onClick.AddListener(TrainingPlanMakingButtonOnClick);
-                    //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
+                                                                                                                                                                      //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(PatientStartTraining);    // 修改患者密码                                                                                                                                              //this.transform.GetChild(i).GetChild(0).GetChild(6).GetChild(2).GetComponent<Button>().onClick.AddListener(TrainingPlanDeleteButtonOnClick);
 
                     //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().ClearOptions();
 
-                    this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> {"动作姿势", "Bobath", "评估类型"});
+                    this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "动作姿势", "Bobath", "评估类型" });
                     this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().options.Count - 1;
 
                     this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().onValueChanged.AddListener(delegate
                     {
                         GameObject obj = EventSystem.current.currentSelectedGameObject;
+                        //print(obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value);
 
                         if (obj.transform.parent.name == "Content" && obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value < obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1)
                         {
@@ -103,20 +107,20 @@ public class PatientItemScript : MonoBehaviour {
 
                             DoctorDataManager.instance.EvaluationType = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value;
 
+                            StartCoroutine(EvaluateDelayTime(0.15f));   // 经测试，0.15秒刚好使dropdownlist消失
                             //print(DoctorDataManager.instance.EvaluationType);
-                            
-                            obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/PatientInfoEvaluateItem").GetComponent<Toggle>().isOn = true;
 
                             //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
                             //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
-                            obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
+                            //obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
 
+                            //obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/PatientInfoEvaluateItem").GetComponent<Toggle>().isOn = true;
                         }
                     });
-
+                   
                     this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "足球守门", "重心捕鱼", "训练类型" });
                     this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().options.Count - 1;
-                    
+
                     this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().onValueChanged.AddListener(delegate {
                         GameObject obj = EventSystem.current.currentSelectedGameObject;
 
@@ -128,11 +132,13 @@ public class PatientItemScript : MonoBehaviour {
 
                             //print(DoctorDataManager.instance.EvaluationType);
 
-                            obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/TrainingCoditionQueryItem").GetComponent<Toggle>().isOn = true;
+                            StartCoroutine(TrainingDelayTime(0.15f));   // 经测试，0.15秒刚好使dropdownlist消失
+
+                            //obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/TrainingCoditionQueryItem").GetComponent<Toggle>().isOn = true;
 
                             //DoctorDataManager.instance.patient = DoctorDataManager.instance.Patients[int.Parse(obj.transform.parent.parent.parent.name)];
                             //DoctorDataManager.instance.PatientIndex = int.Parse(obj.transform.parent.parent.parent.name);
-                            obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
+                            //obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().value = obj.transform.parent.parent.parent.parent.gameObject.GetComponent<Dropdown>().options.Count - 1;
 
                         }
                     });
@@ -153,6 +159,15 @@ public class PatientItemScript : MonoBehaviour {
                 this.transform.GetChild(i).GetChild(0).GetChild(1).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientID.ToString();
                 this.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientSex;
                 this.transform.GetChild(i).GetChild(0).GetChild(3).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.Patients[i].PatientAge.ToString();
+
+                //if (this.transform.GetChild(i).GetChild(0).GetChild(5).childCount == 4)
+                //{
+                //GameObject.Destroy(this.transform.GetChild(i).GetChild(0).GetChild(5).GetChild(3));
+                this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().options.Count - 1;
+                this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().options.Count - 1;
+                //this.transform.GetChild(i).GetChild(0).GetChild(5).gameObject.GetComponent<Dropdown>().value = 1;
+                //}
+
                 //Doctor doctor = DoctorDatabaseManager.instance.ReadDoctorIDInfo(DoctorDataManager.instance.doctor.Patients[i].PatientDoctorID);
                 this.transform.GetChild(i).GetChild(0).GetChild(7).gameObject.GetComponent<Text>().text = DoctorDataManager.instance.doctor.patient.PatientDoctorName;
 
@@ -208,7 +223,7 @@ public class PatientItemScript : MonoBehaviour {
         {
             NoPatient.SetActive(true);
         }
-        
+
     }
 
     void Start()
@@ -221,10 +236,22 @@ public class PatientItemScript : MonoBehaviour {
         //}
     }
 
-	void Update () {
-      
+    void Update()
+    {
+
     }
-   
+
+    IEnumerator EvaluateDelayTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        PatientInfoEvaluateItem.isOn = true;
+    }
+
+    IEnumerator TrainingDelayTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TrainingCoditionQueryItem.isOn = true;
+    }
 
     void PatientStartTraining()
     {
@@ -241,7 +268,7 @@ public class PatientItemScript : MonoBehaviour {
             //print(DoctorDataManager.instance.patient.PatientID);
             //print(DoctorDataManager.instance.patient.PatientName);
             //print(DoctorDataManager.instance.patient.PatientSex);
-            
+
             PatientDataManager.instance.SetUserMessage(DoctorDataManager.instance.doctor.patient.PatientID, DoctorDataManager.instance.doctor.patient.PatientName, DoctorDataManager.instance.doctor.patient.PatientSex);
             //PatientDataManager.instance.SetTrainingPlan(PatientDataManager.Str2DifficultyType(DoctorDataManager.instance.patient.trainingPlan.PlanDifficulty), DoctorDataManager.instance.patient.trainingPlan.GameCount, DoctorDataManager.instance.patient.trainingPlan.PlanCount);
 
@@ -437,7 +464,7 @@ public class PatientItemScript : MonoBehaviour {
 
         DoctorDataManager.instance.doctor.SetTempPatientCompleteInformation(int.Parse(obj.transform.parent.parent.name));
 
-        PatientInfoDeleteText.text = "是否删除患者（"+ DoctorDataManager.instance.doctor.TempPatient.PatientName+ "）信息?";
+        PatientInfoDeleteText.text = "是否删除患者（" + DoctorDataManager.instance.doctor.TempPatient.PatientName + "）信息?";
 
         PatientInfoDelete.SetActive(true);
         PatientInfo.SetActive(false);
@@ -459,7 +486,7 @@ public class PatientItemScript : MonoBehaviour {
 
         if (DoctorDataManager.instance.doctor.PatientIndex == DoctorDataManager.instance.doctor.TempPatientIndex)
         {
-            if(DoctorDataManager.instance.doctor.Patients.Count > 0)
+            if (DoctorDataManager.instance.doctor.Patients.Count > 0)
             {
                 DoctorDataManager.instance.doctor.SetPatientCompleteInformation(0);
             }
@@ -470,7 +497,7 @@ public class PatientItemScript : MonoBehaviour {
             }
         }
 
-        if(DoctorDataManager.instance.doctor.Patients.Count == 0)
+        if (DoctorDataManager.instance.doctor.Patients.Count == 0)
         {
             DoctorDataManager.instance.doctor.patient = null;
             //print("!!!!!");
@@ -482,6 +509,3 @@ public class PatientItemScript : MonoBehaviour {
         PatientListBG.SetActive(true);
     }
 }
-
-
-

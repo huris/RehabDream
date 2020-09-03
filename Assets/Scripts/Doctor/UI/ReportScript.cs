@@ -20,6 +20,7 @@ public class ReportScript : MonoBehaviour
     public static string WallEvaluationReportPath = "Data/报告/评估报告/动作姿势评估";  //保存路径
     public static string EvaluationReportPath = "Data/报告/评估报告/Bobath评估";  //保存路径
     public static string TrainingReportPath = "Data/报告/训练报告/足球守门训练";  //保存路径
+    public static string FishTrainingReportPath = "Data/报告/训练报告/重心捕鱼训练";  //保存路径
     public string ReportPath = "";  // 报告完整路径
 
     public Rectangle pageSize = PageSize.A4;
@@ -28,6 +29,7 @@ public class ReportScript : MonoBehaviour
     public Toggle WallEvaluationToggle;
     public Toggle EvaluationToggle;
     public Toggle TrainingToggle;
+    public Toggle FishTrainingToggle;
 
     public Toggle DoctorUIThroughWall;
     public Toggle DoctorUIBobath;
@@ -43,6 +45,7 @@ public class ReportScript : MonoBehaviour
         WallEvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/WallEvaluationToggle").GetComponent<Toggle>();
         EvaluationToggle = transform.Find("ReportToggle/EvaluationToggle/Evaluation/Evaluations/EvaluationToggle").GetComponent<Toggle>();
         TrainingToggle = transform.Find("ReportToggle/TrainingToggle/Training/Trainings/Training").GetComponent<Toggle>();
+        FishTrainingToggle = transform.Find("ReportToggle/TrainingToggle/Training/Trainings/FishTraining").GetComponent<Toggle>();
 
         x = 382.5f; y = 119.43f;   // 设置起始点
         width = 595; height = 842;  // 设置大小
@@ -65,6 +68,10 @@ public class ReportScript : MonoBehaviour
         else if (TrainingToggle.isOn)
         {
             SaveTrainingReport();
+        }
+        else if (FishTrainingToggle.isOn)
+        {
+            SaveFishTrainingReport();
         }
     }
 
@@ -133,6 +140,28 @@ public class ReportScript : MonoBehaviour
             StartCoroutine(GetScreenShot(ReportPath));
         }
     }
+
+    public void SaveFishTrainingReport()
+    {
+        ReportPath = FishTrainingReportPath + "/" + DoctorDataManager.instance.doctor.patient.PatientID.ToString() + DoctorDataManager.instance.doctor.patient.PatientName;
+
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.FishTrainingIndex + 1).ToString() + "次"
+            + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[DoctorDataManager.instance.doctor.patient.FishTrainingIndex].TrainingStartTime.Substring(0, 8);
+
+        if (!Directory.Exists(ReportPath))
+        {
+            Directory.CreateDirectory(ReportPath);
+        }
+
+        ReportPath += "/" + "第" + (DoctorDataManager.instance.doctor.patient.FishTrainingIndex + 1).ToString() + "次"
+            + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[DoctorDataManager.instance.doctor.patient.FishTrainingIndex].TrainingStartTime.Substring(0, 8);
+
+        if (File.Exists(ReportPath + pdfName) == false)
+        {
+            StartCoroutine(GetScreenShot(ReportPath));
+        }
+    }
+
 
     IEnumerator GetScreenShot(string ReportPath)
     {
