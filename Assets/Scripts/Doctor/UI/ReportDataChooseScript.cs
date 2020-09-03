@@ -8,6 +8,7 @@ public class ReportDataChooseScript : MonoBehaviour {
 	public Toggle WallEvaluationToggle;
 	public Toggle EvaluationToggle;
 	public Toggle TrainingToggle;
+    public Toggle FishTrainingToggle;
 
 	public Dropdown FirstItem;
 	public Dropdown SecondItem;
@@ -27,6 +28,7 @@ public class ReportDataChooseScript : MonoBehaviour {
         if (EvaluationsToggle.isOn)
         {
             TrainingToggle.isOn = false;
+            FishTrainingToggle.isOn = false;
 
             Evaluations.SetActive(true);
             WallEvaluationToggle.isOn = true;
@@ -59,8 +61,42 @@ public class ReportDataChooseScript : MonoBehaviour {
 
         if (WallEvaluationToggle.isOn)
         {
-            FirstItem.gameObject.SetActive(false);
-            SecondItem.gameObject.SetActive(false);
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations == null)
+            {
+                DoctorDataManager.instance.doctor.patient.WallEvaluations = DoctorDatabaseManager.instance.ReadPatientWallEvaluations(DoctorDataManager.instance.doctor.patient.PatientID);
+
+                if (DoctorDataManager.instance.doctor.patient.WallEvaluations != null && DoctorDataManager.instance.doctor.patient.WallEvaluations.Count > 0)
+                {
+                    DoctorDataManager.instance.doctor.patient.SetWallEvaluationIndex(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count - 1);
+                }
+            }
+
+            if (DoctorDataManager.instance.doctor.patient.Evaluations.Count == 1)
+            {
+                FirstItem.value = 0;
+                SecondItem.value = 0;
+
+                FirstItem.gameObject.SetActive(false);
+                SecondItem.gameObject.SetActive(false);
+            }
+            else
+            {
+                ClearDropdown();
+                for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
+                {
+                    string tempEvaluationTime = DoctorDataManager.instance.doctor.patient.WallEvaluations[i].startTime;
+                    FirstListEvaluationTime.Add((i + 1).ToString() + "|" + tempEvaluationTime.Substring(3, 2) + tempEvaluationTime.Substring(6, 2));
+                }
+                FirstItem.AddOptions(FirstListEvaluationTime);
+                SecondItem.AddOptions(FirstListEvaluationTime);
+                FirstListEvaluationTime.Clear();
+
+                FirstItem.value = 0;
+
+                SecondItem.value = DoctorDataManager.instance.doctor.patient.WallEvaluationIndex;
+
+                //print(FirstItem.value + "  "  + SecondItem.value);
+            }
         }
         else if (EvaluationToggle.isOn)
         {
@@ -147,6 +183,11 @@ public class ReportDataChooseScript : MonoBehaviour {
 
                 SecondItem.value = DoctorDataManager.instance.doctor.patient.TrainingPlayIndex;
             }
+        }
+        else if (FishTrainingToggle.isOn)
+        {
+            FirstItem.gameObject.SetActive(false);
+            SecondItem.gameObject.SetActive(false);
         }
     }
 

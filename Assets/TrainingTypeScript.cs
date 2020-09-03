@@ -8,15 +8,19 @@ public class TrainingTypeScript : MonoBehaviour
 
 	public Toggle SoccerTrainingToggle;
 	public Toggle FishTrainingToggle;
+	public Toggle SimsTrainingToggle;
 
 	public Image SoccerTrainingImage;
 	public Image FishTrainingImage;
+	public Image SimsTrainingImage;
 
 	public Text SoccerTrainingText;
 	public Text FishTrainingText;
+	public Text SimsTrainingText;
 
 	public GameObject Data;
 	public GameObject FishData;
+	public GameObject SimsData;
 
 	// Use this for initialization
 
@@ -32,8 +36,10 @@ public class TrainingTypeScript : MonoBehaviour
 		else if (DoctorDataManager.instance.TrainingType == 1)
 		{
 			FishTrainingToggle.isOn = true;
+		}else if(DoctorDataManager.instance.TrainingType == 2)
+		{
+			SimsTrainingToggle.isOn = true;
 		}
-
 	}
 
 	void Start()
@@ -55,12 +61,15 @@ public class TrainingTypeScript : MonoBehaviour
 
 			SoccerTrainingImage.color = new Color32(107, 125, 247, 255);
 			FishTrainingImage.color = new Color32(233, 239, 244, 255);
+			SimsTrainingImage.color = new Color32(233, 239, 244, 255);
 
 			SoccerTrainingText.color = new Color32(255, 255, 255, 255);
 			FishTrainingText.color = new Color32(165, 165, 165, 255);
+			SimsTrainingText.color = new Color32(165, 165, 165, 255);
 
 			Data.SetActive(true);
 			FishData.SetActive(false);
+			SimsData.SetActive(false);
 		}
 	}
 
@@ -72,12 +81,35 @@ public class TrainingTypeScript : MonoBehaviour
 
 			SoccerTrainingImage.color = new Color32(233, 239, 244, 255);
 			FishTrainingImage.color = new Color32(107, 125, 247, 255);
+			SimsTrainingImage.color = new Color32(233, 239, 244, 255);
 
 			SoccerTrainingText.color = new Color32(165, 165, 165, 255);
 			FishTrainingText.color = new Color32(255, 255, 255, 255);
+			SimsTrainingText.color = new Color32(165, 165, 165, 255);
 
 			Data.SetActive(false);
 			FishData.SetActive(true);
+			SimsData.SetActive(false);
+		}
+	}
+
+	public void SimsTrainingToggleIsOn()
+	{
+		if (SimsTrainingToggle.isOn)
+		{
+			DoctorDataManager.instance.TrainingType = 2;
+
+			SoccerTrainingImage.color = new Color32(233, 239, 244, 255);
+			FishTrainingImage.color = new Color32(233, 239, 244, 255);
+			SimsTrainingImage.color = new Color32(107, 125, 247, 255);
+
+			SoccerTrainingText.color = new Color32(165, 165, 165, 255);
+			FishTrainingText.color = new Color32(165, 165, 165, 255);
+			SimsTrainingText.color = new Color32(255, 255, 255, 255);
+
+			Data.SetActive(false);
+			FishData.SetActive(false);
+			SimsData.SetActive(true);
 		}
 	}
 }
