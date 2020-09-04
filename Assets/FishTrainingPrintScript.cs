@@ -150,35 +150,24 @@ namespace XCharts
                 // Chart
                 DrawRadarChart();
                 DrawGravityCenterOffset();
-
-
-                //    // 初始化对比结果
-                //    for (int m = 0; m < 19; m++)
-                //    {
-                //        for (int n = 1; n < 5; n++)
-                //        {
-                //            SetResultDataText("-", m, n);
-                //        }
-                //    }
-
-                //    DrawRadarChart();
-                //    WriteAngleData();
-
+                WriteTrainingData();
             }
-
         }
 
         public void DrawRadarChart()
         {
-            DirectionRadarChart = transform.Find("Chart/RadarChart").GetComponent<RadarChart>();
-            if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("Chart/RadarChart").gameObject.AddComponent<RadarChart>();
+            DirectionRadarChart = transform.Find("Chart/RadarChartResult").GetComponent<RadarChart>();
+            if (DirectionRadarChart == null) DirectionRadarChart = transform.Find("Chart/RadarChartResult").gameObject.AddComponent<RadarChart>();
 
-            DirectionRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / fishTrainingPlay.PlanDuration));
+            DirectionRadarChart.gameObject.SetActive(false);
+            DirectionRadarChart.gameObject.SetActive(true);
+
+            DirectionRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / 60 / fishTrainingPlay.PlanDuration));
             DirectionRadarChart.UpdateData(0, 0, 1, Mathf.Min(1f, 5.0f / fishTrainingPlay.FishCaptureTime.Average()));
             DirectionRadarChart.UpdateData(0, 0, 2, Mathf.Min(1f, 1.0f * fishTrainingPlay.Distance / (RealityTrainingDuration * 40)));
             long HistoryCaptureCount = 0;
             long HistoryAllCount = 0;
-            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count; i++)
+            for (int i = 0; i <= SingleTrainingPlay; i++)
             {
                 HistoryCaptureCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishSuccessCount;
                 HistoryAllCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishAllCount;
@@ -215,232 +204,82 @@ namespace XCharts
             GCAnglesChart.RefreshChart();
         }
 
-        public void WriteAngleData()
+        public void WriteTrainingData()
         {
-            //float MinLeftSideAngle = trainingPlay.angles[0].LeftSideAngle;
-            //float MinRightSideAngle = trainingPlay.angles[0].RightSideAngle;
-            //float MinUponSideAngle = trainingPlay.angles[0].UponSideAngle;
-            //float MinDownSideAngle = trainingPlay.angles[0].DownSideAngle;
-            //float MinLeftArmAngle = trainingPlay.angles[0].LeftArmAngle;
-            //float MinRightArmAngle = trainingPlay.angles[0].RightArmAngle;
-            //float MinLeftElbowAngle = trainingPlay.angles[0].LeftElbowAngle;
-            //float MinRightElbowAngle = trainingPlay.angles[0].RightElbowAngle;
-            //float MinLeftLegAngle = trainingPlay.angles[0].LeftLegAngle;
-            //float MinRightLegAngle = trainingPlay.angles[0].RightLegAngle;
-            //float MinLeftHipAngle = trainingPlay.angles[0].LeftHipAngle;
-            //float MinRightHipAngle = trainingPlay.angles[0].RightHipAngle;
-            //float MinHipAngle = trainingPlay.angles[0].HipAngle;
-            //float MinLeftKneeAngle = trainingPlay.angles[0].LeftKneeAngle;
-            //float MinRightKneeAngle = trainingPlay.angles[0].RightKneeAngle;
-            //float MinLeftAnkleAngle = trainingPlay.angles[0].LeftAnkleAngle;
-            //float MinRightAnkleAngle = trainingPlay.angles[0].RightAnkleAngle;
+            // 初始化对比结果
+            for (int m = 0; m < 9; m++)
+            {
+                for (int n = 1; n < 5; n++)
+                {
+                    SetResultDataText("-", m, n);
+                }
+            }
 
-            //float MaxLeftSideAngle = trainingPlay.angles[0].LeftSideAngle;
-            //float MaxRightSideAngle = trainingPlay.angles[0].RightSideAngle;
-            //float MaxUponSideAngle = trainingPlay.angles[0].UponSideAngle;
-            //float MaxDownSideAngle = trainingPlay.angles[0].DownSideAngle;
-            //float MaxLeftArmAngle = trainingPlay.angles[0].LeftArmAngle;
-            //float MaxRightArmAngle = trainingPlay.angles[0].RightArmAngle;
-            //float MaxLeftElbowAngle = trainingPlay.angles[0].LeftElbowAngle;
-            //float MaxRightElbowAngle = trainingPlay.angles[0].RightElbowAngle;
-            //float MaxLeftLegAngle = trainingPlay.angles[0].LeftLegAngle;
-            //float MaxRightLegAngle = trainingPlay.angles[0].RightLegAngle;
-            //float MaxLeftHipAngle = trainingPlay.angles[0].LeftHipAngle;
-            //float MaxRightHipAngle = trainingPlay.angles[0].RightHipAngle;
-            //float MaxHipAngle = trainingPlay.angles[0].HipAngle;
-            //float MaxLeftKneeAngle = trainingPlay.angles[0].LeftKneeAngle;
-            //float MaxRightKneeAngle = trainingPlay.angles[0].RightKneeAngle;
-            //float MaxLeftAnkleAngle = trainingPlay.angles[0].LeftAnkleAngle;
-            //float MaxRightAnkleAngle = trainingPlay.angles[0].RightAnkleAngle;
+            for (int i = 0; i < 5; i++)
+            {
+                SetResultDataText(DirectionRadarChart.series.list[0].data[0].data[i].ToString("0.000"), i, 2);
+            }
 
-            //for (int i = 1; i < trainingPlay.angles.Count; i++)
-            //{
-            //    MinLeftSideAngle = Math.Min(MinLeftSideAngle, trainingPlay.angles[i].LeftSideAngle);
-            //    MinRightSideAngle = Math.Min(MinRightSideAngle, trainingPlay.angles[i].RightSideAngle);
-            //    MinUponSideAngle = Math.Min(MinUponSideAngle, trainingPlay.angles[i].UponSideAngle);
-            //    MinDownSideAngle = Math.Min(MinDownSideAngle, trainingPlay.angles[i].DownSideAngle);
-            //    MinLeftArmAngle = Math.Min(MinLeftArmAngle, trainingPlay.angles[i].LeftArmAngle);
-            //    MinRightArmAngle = Math.Min(MinRightArmAngle, trainingPlay.angles[i].RightArmAngle);
-            //    MinLeftElbowAngle = Math.Min(MinLeftElbowAngle, trainingPlay.angles[i].LeftElbowAngle);
-            //    MinRightElbowAngle = Math.Min(MinRightElbowAngle, trainingPlay.angles[i].RightElbowAngle);
-            //    MinLeftLegAngle = Math.Min(MinLeftLegAngle, trainingPlay.angles[i].LeftLegAngle);
-            //    MinRightLegAngle = Math.Min(MinRightLegAngle, trainingPlay.angles[i].RightLegAngle);
-            //    MinLeftHipAngle = Math.Min(MinLeftHipAngle, trainingPlay.angles[i].LeftHipAngle);
-            //    MinRightHipAngle = Math.Min(MinRightHipAngle, trainingPlay.angles[i].RightHipAngle);
-            //    MinHipAngle = Math.Min(MinHipAngle, trainingPlay.angles[i].HipAngle);
-            //    MinLeftKneeAngle = Math.Min(MinLeftKneeAngle, trainingPlay.angles[i].LeftKneeAngle);
-            //    MinRightKneeAngle = Math.Min(MinRightKneeAngle, trainingPlay.angles[i].RightKneeAngle);
-            //    MinLeftAnkleAngle = Math.Min(MinLeftAnkleAngle, trainingPlay.angles[i].LeftAnkleAngle);
-            //    MinRightAnkleAngle = Math.Min(MinRightAnkleAngle, trainingPlay.angles[i].RightAnkleAngle);
+            SetResultDataText(fishTrainingPlay.FishCaptureTime.Average().ToString("0.000"), 5, 2);
+            SetResultDataText(fishTrainingPlay.GCAngles.Average().ToString("0.000") + " | " + fishTrainingPlay.GCAngles.Max().ToString("0.000"), 6, 2);
+            SetResultDataText(fishTrainingPlay.Experience.ToString("0.000"), 7, 2);
+            SetResultDataText(fishTrainingPlay.Distance.ToString("0.000"), 8, 2);
 
-            //    MaxLeftSideAngle = Math.Max(MaxLeftSideAngle, trainingPlay.angles[i].LeftSideAngle);
-            //    MaxRightSideAngle = Math.Max(MaxRightSideAngle, trainingPlay.angles[i].RightSideAngle);
-            //    MaxUponSideAngle = Math.Max(MaxUponSideAngle, trainingPlay.angles[i].UponSideAngle);
-            //    MaxDownSideAngle = Math.Max(MaxDownSideAngle, trainingPlay.angles[i].DownSideAngle);
-            //    MaxLeftArmAngle = Math.Max(MaxLeftArmAngle, trainingPlay.angles[i].LeftArmAngle);
-            //    MaxRightArmAngle = Math.Max(MaxRightArmAngle, trainingPlay.angles[i].RightArmAngle);
-            //    MaxLeftElbowAngle = Math.Max(MaxLeftElbowAngle, trainingPlay.angles[i].LeftElbowAngle);
-            //    MaxRightElbowAngle = Math.Max(MaxRightElbowAngle, trainingPlay.angles[i].RightElbowAngle);
-            //    MaxLeftLegAngle = Math.Max(MaxLeftLegAngle, trainingPlay.angles[i].LeftLegAngle);
-            //    MaxRightLegAngle = Math.Max(MaxRightLegAngle, trainingPlay.angles[i].RightLegAngle);
-            //    MaxLeftHipAngle = Math.Max(MaxLeftHipAngle, trainingPlay.angles[i].LeftHipAngle);
-            //    MaxRightHipAngle = Math.Max(MaxRightHipAngle, trainingPlay.angles[i].RightHipAngle);
-            //    MaxHipAngle = Math.Max(MaxHipAngle, trainingPlay.angles[i].HipAngle);
-            //    MaxLeftKneeAngle = Math.Max(MaxLeftKneeAngle, trainingPlay.angles[i].LeftKneeAngle);
-            //    MaxRightKneeAngle = Math.Max(MaxRightKneeAngle, trainingPlay.angles[i].RightKneeAngle);
-            //    MaxLeftAnkleAngle = Math.Max(MaxLeftAnkleAngle, trainingPlay.angles[i].LeftAnkleAngle);
-            //    MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, trainingPlay.angles[i].RightAnkleAngle);
-            //}
+            if (LastTrainingPlay != SingleTrainingPlay)
+            {
+                long LastRealityTrainingDuration = long.Parse(LastFishTrainingPlay.TrainingEndTime.Substring(9, 2)) * 3600 + long.Parse(LastFishTrainingPlay.TrainingEndTime.Substring(12, 2)) * 60 + long.Parse(LastFishTrainingPlay.TrainingEndTime.Substring(15, 2))
+                                          - long.Parse(LastFishTrainingPlay.TrainingStartTime.Substring(9, 2)) * 3600 - long.Parse(LastFishTrainingPlay.TrainingStartTime.Substring(12, 2)) * 60 - long.Parse(LastFishTrainingPlay.TrainingStartTime.Substring(15, 2));
 
-            //SetResultDataText(MinLeftSideAngle.ToString("0.00") + " | " + MaxLeftSideAngle.ToString("0.00"), 2, 2);
-            //SetResultDataText(MinRightSideAngle.ToString("0.00") + " | " + MaxRightSideAngle.ToString("0.00"), 3, 2);
-            //SetResultDataText(MinUponSideAngle.ToString("0.00") + " | " + MaxUponSideAngle.ToString("0.00"), 4, 2);
-            //SetResultDataText(MinDownSideAngle.ToString("0.00") + " | " + MaxDownSideAngle.ToString("0.00"), 5, 2);
-            //SetResultDataText(MinLeftArmAngle.ToString("0.00") + " | " + MaxLeftArmAngle.ToString("0.00"), 6, 2);
-            //SetResultDataText(MinRightArmAngle.ToString("0.00") + " | " + MaxRightArmAngle.ToString("0.00"), 7, 2);
-            //SetResultDataText(MinLeftElbowAngle.ToString("0.00") + " | " + MaxLeftElbowAngle.ToString("0.00"), 8, 2);
-            //SetResultDataText(MinRightElbowAngle.ToString("0.00") + " | " + MaxRightElbowAngle.ToString("0.00"), 9, 2);
-            //SetResultDataText(MinLeftLegAngle.ToString("0.00") + " | " + MaxLeftLegAngle.ToString("0.00"), 10, 2);
-            //SetResultDataText(MinRightLegAngle.ToString("0.00") + " | " + MaxRightLegAngle.ToString("0.00"), 11, 2);
-            //SetResultDataText(MinLeftHipAngle.ToString("0.00") + " | " + MaxLeftHipAngle.ToString("0.00"), 12, 2);
-            //SetResultDataText(MinRightHipAngle.ToString("0.00") + " | " + MaxRightHipAngle.ToString("0.00"), 13, 2);
-            //SetResultDataText(MinHipAngle.ToString("0.00") + " | " + MaxHipAngle.ToString("0.00"), 14, 2);
-            //SetResultDataText(MinLeftKneeAngle.ToString("0.00") + " | " + MaxLeftKneeAngle.ToString("0.00"), 15, 2);
-            //SetResultDataText(MinRightKneeAngle.ToString("0.00") + " | " + MaxRightKneeAngle.ToString("0.00"), 16, 2);
-            //SetResultDataText(MinLeftAnkleAngle.ToString("0.00") + " | " + MaxLeftAnkleAngle.ToString("0.00"), 17, 2);
-            //SetResultDataText(MinRightAnkleAngle.ToString("0.00") + " | " + MaxRightAnkleAngle.ToString("0.00"), 18, 2);
+                SetResultDataText(Mathf.Min(1f, 1.0f * LastRealityTrainingDuration / 60 / LastFishTrainingPlay.PlanDuration).ToString("0.000"), 0, 1);
+                SetResultDataText(Mathf.Min(1f, 5.0f / LastFishTrainingPlay.FishCaptureTime.Average()).ToString("0.000"), 1, 1);
+                SetResultDataText(Mathf.Min(1f, 1.0f * LastFishTrainingPlay.Distance / (LastRealityTrainingDuration * 40)).ToString("0.000"), 2, 1);
 
-            //if (LastSingleTrainingPlay != SingleTrainingPlay)
-            //{
-            //    float LastMinLeftSideAngle = LastTrainingPlay.angles[0].LeftSideAngle;
-            //    float LastMinRightSideAngle = LastTrainingPlay.angles[0].RightSideAngle;
-            //    float LastMinUponSideAngle = LastTrainingPlay.angles[0].UponSideAngle;
-            //    float LastMinDownSideAngle = LastTrainingPlay.angles[0].DownSideAngle;
-            //    float LastMinLeftArmAngle = LastTrainingPlay.angles[0].LeftArmAngle;
-            //    float LastMinRightArmAngle = LastTrainingPlay.angles[0].RightArmAngle;
-            //    float LastMinLeftElbowAngle = LastTrainingPlay.angles[0].LeftElbowAngle;
-            //    float LastMinRightElbowAngle = LastTrainingPlay.angles[0].RightElbowAngle;
-            //    float LastMinLeftLegAngle = LastTrainingPlay.angles[0].LeftLegAngle;
-            //    float LastMinRightLegAngle = LastTrainingPlay.angles[0].RightLegAngle;
-            //    float LastMinLeftHipAngle = LastTrainingPlay.angles[0].LeftHipAngle;
-            //    float LastMinRightHipAngle = LastTrainingPlay.angles[0].RightHipAngle;
-            //    float LastMinHipAngle = LastTrainingPlay.angles[0].HipAngle;
-            //    float LastMinLeftKneeAngle = LastTrainingPlay.angles[0].LeftKneeAngle;
-            //    float LastMinRightKneeAngle = LastTrainingPlay.angles[0].RightKneeAngle;
-            //    float LastMinLeftAnkleAngle = LastTrainingPlay.angles[0].LeftAnkleAngle;
-            //    float LastMinRightAnkleAngle = LastTrainingPlay.angles[0].RightAnkleAngle;
+                long HistoryCaptureCount = 0;
+                long HistoryAllCount = 0;
+                for (int i = 0; i <= LastTrainingPlay; i++)
+                {
+                    HistoryCaptureCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishSuccessCount;
+                    HistoryAllCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishAllCount;
+                }
+                SetResultDataText((1.0f * HistoryCaptureCount / HistoryAllCount).ToString("0.000"), 3, 1);
 
-            //    float LastMaxLeftSideAngle = LastTrainingPlay.angles[0].LeftSideAngle;
-            //    float LastMaxRightSideAngle = LastTrainingPlay.angles[0].RightSideAngle;
-            //    float LastMaxUponSideAngle = LastTrainingPlay.angles[0].UponSideAngle;
-            //    float LastMaxDownSideAngle = LastTrainingPlay.angles[0].DownSideAngle;
-            //    float LastMaxLeftArmAngle = LastTrainingPlay.angles[0].LeftArmAngle;
-            //    float LastMaxRightArmAngle = LastTrainingPlay.angles[0].RightArmAngle;
-            //    float LastMaxLeftElbowAngle = LastTrainingPlay.angles[0].LeftElbowAngle;
-            //    float LastMaxRightElbowAngle = LastTrainingPlay.angles[0].RightElbowAngle;
-            //    float LastMaxLeftLegAngle = LastTrainingPlay.angles[0].LeftLegAngle;
-            //    float LastMaxRightLegAngle = LastTrainingPlay.angles[0].RightLegAngle;
-            //    float LastMaxLeftHipAngle = LastTrainingPlay.angles[0].LeftHipAngle;
-            //    float LastMaxRightHipAngle = LastTrainingPlay.angles[0].RightHipAngle;
-            //    float LastMaxHipAngle = LastTrainingPlay.angles[0].HipAngle;
-            //    float LastMaxLeftKneeAngle = LastTrainingPlay.angles[0].LeftKneeAngle;
-            //    float LastMaxRightKneeAngle = LastTrainingPlay.angles[0].RightKneeAngle;
-            //    float LastMaxLeftAnkleAngle = LastTrainingPlay.angles[0].LeftAnkleAngle;
-            //    float LastMaxRightAnkleAngle = LastTrainingPlay.angles[0].RightAnkleAngle;
 
-            //    for (int i = 1; i < LastTrainingPlay.angles.Count; i++)
-            //    {
-            //        MinLeftSideAngle = Math.Min(MinLeftSideAngle, LastTrainingPlay.angles[i].LeftSideAngle);
-            //        MinRightSideAngle = Math.Min(MinRightSideAngle, LastTrainingPlay.angles[i].RightSideAngle);
-            //        MinUponSideAngle = Math.Min(MinUponSideAngle, LastTrainingPlay.angles[i].UponSideAngle);
-            //        MinDownSideAngle = Math.Min(MinDownSideAngle, LastTrainingPlay.angles[i].DownSideAngle);
-            //        MinLeftArmAngle = Math.Min(MinLeftArmAngle, LastTrainingPlay.angles[i].LeftArmAngle);
-            //        MinRightArmAngle = Math.Min(MinRightArmAngle, LastTrainingPlay.angles[i].RightArmAngle);
-            //        MinLeftElbowAngle = Math.Min(MinLeftElbowAngle, LastTrainingPlay.angles[i].LeftElbowAngle);
-            //        MinRightElbowAngle = Math.Min(MinRightElbowAngle, LastTrainingPlay.angles[i].RightElbowAngle);
-            //        MinLeftLegAngle = Math.Min(MinLeftLegAngle, LastTrainingPlay.angles[i].LeftLegAngle);
-            //        MinRightLegAngle = Math.Min(MinRightLegAngle, LastTrainingPlay.angles[i].RightLegAngle);
-            //        MinLeftHipAngle = Math.Min(MinLeftHipAngle, LastTrainingPlay.angles[i].LeftHipAngle);
-            //        MinRightHipAngle = Math.Min(MinRightHipAngle, LastTrainingPlay.angles[i].RightHipAngle);
-            //        MinHipAngle = Math.Min(MinHipAngle, LastTrainingPlay.angles[i].HipAngle);
-            //        MinLeftKneeAngle = Math.Min(MinLeftKneeAngle, LastTrainingPlay.angles[i].LeftKneeAngle);
-            //        MinRightKneeAngle = Math.Min(MinRightKneeAngle, LastTrainingPlay.angles[i].RightKneeAngle);
-            //        MinLeftAnkleAngle = Math.Min(MinLeftAnkleAngle, LastTrainingPlay.angles[i].LeftAnkleAngle);
-            //        MinRightAnkleAngle = Math.Min(MinRightAnkleAngle, LastTrainingPlay.angles[i].RightAnkleAngle);
+                SetResultDataText((1.0f * (LastFishTrainingPlay.StaticFishSuccessCount + LastFishTrainingPlay.DynamicFishSuccessCount) / (
+                    LastFishTrainingPlay.StaticFishAllCount + LastFishTrainingPlay.DynamicFishAllCount)).ToString("0.000"), 4, 1);
 
-            //        MaxLeftSideAngle = Math.Max(MaxLeftSideAngle, LastTrainingPlay.angles[i].LeftSideAngle);
-            //        MaxRightSideAngle = Math.Max(MaxRightSideAngle, LastTrainingPlay.angles[i].RightSideAngle);
-            //        MaxUponSideAngle = Math.Max(MaxUponSideAngle, LastTrainingPlay.angles[i].UponSideAngle);
-            //        MaxDownSideAngle = Math.Max(MaxDownSideAngle, LastTrainingPlay.angles[i].DownSideAngle);
-            //        MaxLeftArmAngle = Math.Max(MaxLeftArmAngle, LastTrainingPlay.angles[i].LeftArmAngle);
-            //        MaxRightArmAngle = Math.Max(MaxRightArmAngle, LastTrainingPlay.angles[i].RightArmAngle);
-            //        MaxLeftElbowAngle = Math.Max(MaxLeftElbowAngle, LastTrainingPlay.angles[i].LeftElbowAngle);
-            //        MaxRightElbowAngle = Math.Max(MaxRightElbowAngle, LastTrainingPlay.angles[i].RightElbowAngle);
-            //        MaxLeftLegAngle = Math.Max(MaxLeftLegAngle, LastTrainingPlay.angles[i].LeftLegAngle);
-            //        MaxRightLegAngle = Math.Max(MaxRightLegAngle, LastTrainingPlay.angles[i].RightLegAngle);
-            //        MaxLeftHipAngle = Math.Max(MaxLeftHipAngle, LastTrainingPlay.angles[i].LeftHipAngle);
-            //        MaxRightHipAngle = Math.Max(MaxRightHipAngle, LastTrainingPlay.angles[i].RightHipAngle);
-            //        MaxHipAngle = Math.Max(MaxHipAngle, LastTrainingPlay.angles[i].HipAngle);
-            //        MaxLeftKneeAngle = Math.Max(MaxLeftKneeAngle, LastTrainingPlay.angles[i].LeftKneeAngle);
-            //        MaxRightKneeAngle = Math.Max(MaxRightKneeAngle, LastTrainingPlay.angles[i].RightKneeAngle);
-            //        MaxLeftAnkleAngle = Math.Max(MaxLeftAnkleAngle, LastTrainingPlay.angles[i].LeftAnkleAngle);
-            //        MaxRightAnkleAngle = Math.Max(MaxRightAnkleAngle, LastTrainingPlay.angles[i].RightAnkleAngle);
-            //    }
+                SetResultDataText(LastFishTrainingPlay.FishCaptureTime.Average().ToString("0.000"), 5, 1);
+                SetResultDataText(LastFishTrainingPlay.GCAngles.Average().ToString("0.000") + " | " + LastFishTrainingPlay.GCAngles.Max().ToString("0.000"), 6, 1);
+                SetResultDataText(LastFishTrainingPlay.Experience.ToString("0.000"), 7, 1);
+                SetResultDataText(LastFishTrainingPlay.Distance.ToString("0.000"), 8, 1);
 
-            //    SetResultDataText(LastMinLeftSideAngle.ToString("0.00") + " | " + LastMaxLeftSideAngle.ToString("0.00"), 2, 1);
-            //    SetResultDataText(LastMinRightSideAngle.ToString("0.00") + " | " + LastMaxRightSideAngle.ToString("0.00"), 3, 1);
-            //    SetResultDataText(LastMinUponSideAngle.ToString("0.00") + " | " + LastMaxUponSideAngle.ToString("0.00"), 4, 1);
-            //    SetResultDataText(LastMinDownSideAngle.ToString("0.00") + " | " + LastMaxDownSideAngle.ToString("0.00"), 5, 1);
-            //    SetResultDataText(LastMinLeftArmAngle.ToString("0.00") + " | " + LastMaxLeftArmAngle.ToString("0.00"), 6, 1);
-            //    SetResultDataText(LastMinRightArmAngle.ToString("0.00") + " | " + LastMaxRightArmAngle.ToString("0.00"), 7, 1);
-            //    SetResultDataText(LastMinLeftElbowAngle.ToString("0.00") + " | " + LastMaxLeftElbowAngle.ToString("0.00"), 8, 1);
-            //    SetResultDataText(LastMinRightElbowAngle.ToString("0.00") + " | " + LastMaxRightElbowAngle.ToString("0.00"), 9, 1);
-            //    SetResultDataText(LastMinLeftLegAngle.ToString("0.00") + " | " + LastMaxLeftLegAngle.ToString("0.00"), 10, 1);
-            //    SetResultDataText(LastMinRightLegAngle.ToString("0.00") + " | " + LastMaxRightLegAngle.ToString("0.00"), 11, 1);
-            //    SetResultDataText(LastMinLeftHipAngle.ToString("0.00") + " | " + LastMaxLeftHipAngle.ToString("0.00"), 12, 1);
-            //    SetResultDataText(LastMinRightHipAngle.ToString("0.00") + " | " + LastMaxRightHipAngle.ToString("0.00"), 13, 1);
-            //    SetResultDataText(LastMinHipAngle.ToString("0.00") + " | " + LastMaxHipAngle.ToString("0.00"), 14, 1);
-            //    SetResultDataText(LastMinLeftKneeAngle.ToString("0.00") + " | " + LastMaxLeftKneeAngle.ToString("0.00"), 15, 1);
-            //    SetResultDataText(LastMinRightKneeAngle.ToString("0.00") + " | " + LastMaxRightKneeAngle.ToString("0.00"), 16, 1);
-            //    SetResultDataText(LastMinLeftAnkleAngle.ToString("0.00") + " | " + LastMaxLeftAnkleAngle.ToString("0.00"), 17, 1);
-            //    SetResultDataText(LastMinRightAnkleAngle.ToString("0.00") + " | " + LastMaxRightAnkleAngle.ToString("0.00"), 18, 1);
 
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 4), 2, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle, LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 4), 3, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle, LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 4), 4, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle, LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 4), 5, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle, LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 4), 6, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle, LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 4), 7, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle, LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 4), 8, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle, LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 4), 9, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle, LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 4), 10, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle, LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 4), 11, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle, LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 4), 12, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle, LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 4), 13, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle, LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 4), 14, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle, LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 4), 15, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle, LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 4), 16, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle, LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 4), 17, 3);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 4), 18, 3);
+                print(1.0f * LastRealityTrainingDuration / 60 / LastFishTrainingPlay.PlanDuration);
 
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftSideAngle, LastMaxLeftSideAngle), new Vector2(MinLeftSideAngle, MaxLeftSideAngle), 2), 2, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightSideAngle, LastMaxRightSideAngle), new Vector2(MinRightSideAngle, MaxRightSideAngle), 2), 3, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinUponSideAngle, LastMaxUponSideAngle), new Vector2(MinUponSideAngle, MaxUponSideAngle), 2), 4, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinDownSideAngle, LastMaxDownSideAngle), new Vector2(MinDownSideAngle, MaxDownSideAngle), 2), 5, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftArmAngle, LastMaxLeftArmAngle), new Vector2(MinLeftArmAngle, MaxLeftArmAngle), 2), 6, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightArmAngle, LastMaxRightArmAngle), new Vector2(MinRightArmAngle, MaxRightArmAngle), 2), 7, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftElbowAngle, LastMaxLeftElbowAngle), new Vector2(MinLeftElbowAngle, MaxLeftElbowAngle), 2), 8, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightElbowAngle, LastMaxRightElbowAngle), new Vector2(MinRightElbowAngle, MaxRightElbowAngle), 2), 9, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftLegAngle, LastMaxLeftLegAngle), new Vector2(MinLeftLegAngle, MaxLeftLegAngle), 2), 10, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightLegAngle, LastMaxRightLegAngle), new Vector2(MinRightLegAngle, MaxRightLegAngle), 2), 11, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftHipAngle, LastMaxLeftHipAngle), new Vector2(MinLeftHipAngle, MaxLeftHipAngle), 2), 12, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightHipAngle, LastMaxRightHipAngle), new Vector2(MinRightHipAngle, MaxRightHipAngle), 2), 13, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinHipAngle, LastMaxHipAngle), new Vector2(MinHipAngle, MaxHipAngle), 2), 14, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftKneeAngle, LastMaxLeftKneeAngle), new Vector2(MinLeftKneeAngle, MaxLeftKneeAngle), 2), 15, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightKneeAngle, LastMaxRightKneeAngle), new Vector2(MinRightKneeAngle, MaxRightKneeAngle), 2), 16, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinLeftAnkleAngle, LastMaxLeftAnkleAngle), new Vector2(MinLeftAnkleAngle, MaxLeftAnkleAngle), 2), 17, 4);
-            //    SetResultDataText(GetEvaluationResult(new Vector2(LastMinRightAnkleAngle, LastMaxRightAnkleAngle), new Vector2(MinRightAnkleAngle, MaxRightAnkleAngle), 2), 18, 4);
-            //}
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 1.0f * LastRealityTrainingDuration / 60 / LastFishTrainingPlay.PlanDuration), DirectionRadarChart.series.list[0].data[0].data[0], 4), 0, 3);
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 5.0f / LastFishTrainingPlay.FishCaptureTime.Average()), DirectionRadarChart.series.list[0].data[0].data[1], 4), 1, 3);
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 1.0f * LastFishTrainingPlay.Distance / (LastRealityTrainingDuration * 40)), DirectionRadarChart.series.list[0].data[0].data[2], 4), 2, 3);
+                SetResultDataText(GetEvaluationResult(1.0f * HistoryCaptureCount / HistoryAllCount, DirectionRadarChart.series.list[0].data[0].data[3], 4), 3, 3);
+                SetResultDataText(GetEvaluationResult(1.0f * (LastFishTrainingPlay.StaticFishSuccessCount + LastFishTrainingPlay.DynamicFishSuccessCount) / (
+                    LastFishTrainingPlay.StaticFishAllCount + LastFishTrainingPlay.DynamicFishAllCount), DirectionRadarChart.series.list[0].data[0].data[4], 4), 4, 3);
+
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.FishCaptureTime.Average(), fishTrainingPlay.FishCaptureTime.Average(), 4), 5, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastFishTrainingPlay.GCAngles.Average(), LastFishTrainingPlay.GCAngles.Max()), new Vector2(fishTrainingPlay.GCAngles.Average(), fishTrainingPlay.GCAngles.Max()), 4), 6, 3);
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.Experience, fishTrainingPlay.Experience, 4), 7, 3);
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.Distance, fishTrainingPlay.Distance, 4), 8, 3);
+
+
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 1.0f * LastRealityTrainingDuration / 60 / LastFishTrainingPlay.PlanDuration), DirectionRadarChart.series.list[0].data[0].data[0], 2), 0, 4);
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 5.0f / LastFishTrainingPlay.FishCaptureTime.Average()), DirectionRadarChart.series.list[0].data[0].data[1], 2), 1, 4);
+                SetResultDataText(GetEvaluationResult(Mathf.Min(1f, 1.0f * LastFishTrainingPlay.Distance / (LastRealityTrainingDuration * 40)), DirectionRadarChart.series.list[0].data[0].data[2], 2), 2, 4);
+                SetResultDataText(GetEvaluationResult(1.0f * HistoryCaptureCount / HistoryAllCount, DirectionRadarChart.series.list[0].data[0].data[3], 2), 3, 4);
+                SetResultDataText(GetEvaluationResult(1.0f * (LastFishTrainingPlay.StaticFishSuccessCount + LastFishTrainingPlay.DynamicFishSuccessCount) / (
+                    LastFishTrainingPlay.StaticFishAllCount + LastFishTrainingPlay.DynamicFishAllCount), DirectionRadarChart.series.list[0].data[0].data[4], 2), 4, 4);
+
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.FishCaptureTime.Average(), fishTrainingPlay.FishCaptureTime.Average(), 2), 5, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastFishTrainingPlay.GCAngles.Average(), LastFishTrainingPlay.GCAngles.Max()), new Vector2(fishTrainingPlay.GCAngles.Average(), fishTrainingPlay.GCAngles.Max()), 2), 6, 4);
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.Experience, fishTrainingPlay.Experience, 2), 7, 4);
+                SetResultDataText(GetEvaluationResult(LastFishTrainingPlay.Distance, fishTrainingPlay.Distance, 2), 8, 4);
+            }
         }
 
         // 修改结果对比的数据

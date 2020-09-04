@@ -55,6 +55,10 @@ namespace XCharts
 
 		public LineChart GCAnglesChart;
 
+		public GameObject Report;
+		public Toggle TrainingToggle;
+		public Toggle FishTrainingToggle;
+
 		void OnEnable()
 		{
 
@@ -184,12 +188,12 @@ namespace XCharts
 
 				GCAnglesChart.RefreshChart();
 
-				ResultRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].PlanDuration));
+				ResultRadarChart.UpdateData(0, 0, 0, Mathf.Min(1f, 1.0f * RealityTrainingDuration / 60 / DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].PlanDuration));
 				ResultRadarChart.UpdateData(0, 0, 1, Mathf.Min(1f, 5.0f / DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].FishCaptureTime.Average()));
 				ResultRadarChart.UpdateData(0, 0, 2, Mathf.Min(1f, 1.0f * DoctorDataManager.instance.doctor.patient.FishTrainingPlays[SingleTraining].Distance / (RealityTrainingDuration * 40)));
 				long HistoryCaptureCount = 0;
 				long HistoryAllCount = 0;
-				for(int i = 0; i < DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Count; i++)
+				for(int i = 0; i <= SingleTraining; i++)
 				{
 					HistoryCaptureCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishSuccessCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishSuccessCount;
 					HistoryAllCount += DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].StaticFishAllCount + DoctorDataManager.instance.doctor.patient.FishTrainingPlays[i].DynamicFishAllCount;
@@ -297,9 +301,9 @@ namespace XCharts
 
 		public void ReadFishReportButtonOnclick()
 		{
-			//Report.SetActive(true);
-			//TrainingToggle.isOn = true;
-			//Training.isOn = true;
+			Report.SetActive(true);
+			TrainingToggle.isOn = true;
+			FishTrainingToggle.isOn = true;
 		}
 
 	}

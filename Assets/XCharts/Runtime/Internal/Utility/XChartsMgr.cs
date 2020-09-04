@@ -256,7 +256,7 @@ namespace XCharts
             if (sameNameChart != null)
             {
                 var path = ChartHelper.GetFullName(sameNameChart.transform);
-                Debug.LogError("A chart named `" + chart.chartName + "` already exists:" + path);
+                //Debug.LogError("A chart named `" + chart.chartName + "` already exists:" + path);
             }
             if (!ContainsChart(chart))
             {
