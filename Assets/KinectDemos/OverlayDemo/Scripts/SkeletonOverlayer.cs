@@ -203,7 +203,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Image TipsImage;
     public Text Tips;
-    public Sequence seq;
+    //public Sequence seq;
 
     //public static SkeletonOverlayer instance = null;
 
@@ -385,6 +385,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
         SQLStringList = new List<string>();
 
+        ShutTips();
     }
 
     void FixedUpdate()
@@ -708,16 +709,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public void ShowTips(string tip)
     {
-        Tweener t1 = TipsImage.GetComponent<Image>().DOColor(new Color32(255, 255, 255, 170), 0.4f);
-        Tweener t2 = Tips.GetComponent<Text>().DOText(tip, 3f);
-        Tweener t3 = TipsImage.GetComponent<Image>().DOColor(new Color32(255, 255, 255, 0), 0.1f);
-        Tweener t4 = Tips.GetComponent<Text>().DOText("", 0.1f);
-        seq = DOTween.Sequence();
-        seq.Append(t1);
-        seq.Append(t2);
-        seq.Append(t3);
-        seq.Append(t4);
-        seq.SetLoops(3);
+        TipsImage.gameObject.SetActive(true);
+        Tips.GetComponent<Text>().text = tip;
+    }
+
+    public void ShutTips()
+    {
+        TipsImage.gameObject.SetActive(false);
     }
 
     private bool RecordTimeOver()
@@ -1117,6 +1115,7 @@ public class SkeletonOverlayer : MonoBehaviour
                         IsFirstGreen = true;
                     }
                     Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
+                    ShutTips();
                 }
             }
             else if (Soccerball != hit.collider.gameObject)
@@ -1130,6 +1129,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 if (Soccerball.GetComponent<Highlighter>() != null)
                 {
                     Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
+                    ShutTips();
                 }
             }
             else if (Soccerball.GetComponent<Highlighter>() != null)
@@ -1137,6 +1137,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 SoccerHighlightTime++;  // 每次加1
 
                 Soccerball.GetComponent<Highlighter>().ConstantOn(Color.green);
+                ShutTips();
 
                 WaitPeopleTouchBall(InterruptedBallWaitFrame);
 
@@ -1920,7 +1921,8 @@ public class SkeletonOverlayer : MonoBehaviour
             evaluation.EvaluationScore += evaluation.soccerDistance.BehindSoccerDistance * 6f;
             evaluation.EvaluationScore += CalSoccerConvexHullArea();
             evaluation.EvaluationScore += CalGCConvexHullArea();
-            
+            evaluation.EvaluationScore /= 10000;
+
             PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
 
             DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
