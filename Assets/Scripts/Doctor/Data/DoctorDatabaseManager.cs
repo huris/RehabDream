@@ -440,6 +440,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "EvaluationHeight",
                     "EvaluationStartTime",
                     "EvaluationEndTime",
+                    "EvaluationScore",
                     ""},
 
                 new String[] {
@@ -448,6 +449,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     "FLOAT NOT NULL",
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
+                    "FLOAT NOT NULL",
                     "PRIMARY KEY(EvaluationID)" 
                     }
                 );
@@ -2391,7 +2393,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                     //reader.GetFloat(reader.GetOrdinal("EvaluationWidth")),
                     reader.GetFloat(reader.GetOrdinal("EvaluationHeight")),
                     reader.GetString(reader.GetOrdinal("EvaluationStartTime")),
-                    reader.GetString(reader.GetOrdinal("EvaluationEndTime")));
+                    reader.GetString(reader.GetOrdinal("EvaluationEndTime")),
+                    reader.GetFloat(reader.GetOrdinal("EvaluationScore"))                    );
                     result.Add(res);
                 } while (reader.Read());
 

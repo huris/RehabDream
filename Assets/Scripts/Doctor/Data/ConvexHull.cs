@@ -10,7 +10,7 @@ public class ConvexHull
 {
     public Point[] pointArray;  //坐标数组
     public int PointNum;
-    public float ConvexHullArea;  // 凸包面积
+    public float ConvexHullArea = 0f;  // 凸包面积
     public Point[] TwoTable; // 数组索引，双向表
     public Point[] ConvexHullSet;  // 凸包集
     public int ConvexHullNum;  // 凸包点的个数

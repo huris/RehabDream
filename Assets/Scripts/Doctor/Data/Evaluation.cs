@@ -31,12 +31,6 @@ public class Evaluation
         this.EvaluationHeight = EvaluationHeight;
     }
 
-    public void SetEvaluationScore()    // 求评估分数
-    {
-        this.EvaluationScore = 0.0f;
-        this.EvaluationScore += this.soccerDistance.SumScore();
-    }
-
     public void SetEvaluationStartTime(string EvaluationStartTime)
     {
         this.EvaluationStartTime = EvaluationStartTime;
@@ -49,19 +43,20 @@ public class Evaluation
 
     public Evaluation() { soccerDistance = new SoccerDistance(); }
 
-    public Evaluation(long EvaluationID, float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime)
+    public Evaluation(long EvaluationID, float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime, float EvaluationScore)
     {
         this.EvaluationID = EvaluationID;
         //this.EvaluationWidth = EvaluationWidth;
         this.EvaluationHeight = EvaluationHeight;
         this.EvaluationStartTime = EvaluationStartTime;
         this.EvaluationEndTime = EvaluationEndTime;
+        this.EvaluationScore = EvaluationScore;
 
         this.soccerDistance = DoctorDatabaseManager.instance.ReadEvaluationSoccerDistanceRecord(this.EvaluationID);
         this.Points = DoctorDatabaseManager.instance.ReadEvaluationPointsRecord(this.EvaluationID);
         this.GravityCenters = DoctorDatabaseManager.instance.ReadEvaluationGravityCenterRecord(this.EvaluationID);
 
-        this.SetEvaluationScore();
+        //this.SetEvaluationScore();
     }
 
     // set EvaluationID, Max_SuccessCount

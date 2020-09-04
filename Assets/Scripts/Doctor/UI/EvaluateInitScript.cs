@@ -328,13 +328,16 @@ namespace XCharts
                 //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 3f);
                 //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 4f);
 
+                //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore);
 
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 6f;
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 5f;
-                DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 6f;
-
-                if (DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore > 100) DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore = 100f;
                 float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore;
+
+                //TrainingEvaluationRate += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.SumScore();
+                //TrainingEvaluationRate += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 6f;
+                //TrainingEvaluationRate += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 5f;
+                //TrainingEvaluationRate += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.FrontSoccerDistance * 6f;
+
+                if (TrainingEvaluationRate > 100) TrainingEvaluationRate = 100f;
 
                 if (TrainingEvaluationRate >= 80f) { Rank1.SetActive(true); EvaluationRank.text = "1 级"; }
                 else if (TrainingEvaluationRate >= 70f) { Rank2.SetActive(true); EvaluationRank.text = "2 级"; }

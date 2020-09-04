@@ -75,7 +75,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Evaluation evaluation;   // 新建一个评估测试
     public List<Point> tempPoints;  // 临时用于画凸包的点集
-    public ConvexHull convexHull;   // 新建一个凸包
+    public ConvexHull convexHull = null;   // 新建一个凸包
 
     private VectorLine ColorFistLine;   // 彩色手势线
     private VectorLine ConvexHullLine;   // 凸包线
@@ -191,6 +191,7 @@ public class SkeletonOverlayer : MonoBehaviour
     public Vector2 GravityDiff;
 
     public List<Point> tempGCPoints;  // 临时用于画凸包的点集
+    public List<Point> CalTempGCPoints;
     public ConvexHull GCconvexHull;   // 新建一个凸包
 
     private VectorLine GCConvexHullLine;   // 凸包线
@@ -380,6 +381,7 @@ public class SkeletonOverlayer : MonoBehaviour
         GCConvexHullIsDraw = false;
 
         tempGCPoints = new List<Point>();
+        CalTempGCPoints = new List<Point>();
 
         SQLStringList = new List<string>();
 
@@ -1037,6 +1039,7 @@ public class SkeletonOverlayer : MonoBehaviour
             GCLine.points2.Add(RadarPos);
 
             tempGCPoints.Add(new Point(RadarPos.x, RadarPos.y));
+            CalTempGCPoints.Add(new Point(RadarPos.x, RadarPos.y));
         }
         else
         {
@@ -1051,6 +1054,7 @@ public class SkeletonOverlayer : MonoBehaviour
                 GCLine.points2.Add(new Vector2(UIGravityCenter.x, UIGravityCenter.y));
 
                 tempGCPoints.Add(new Point(UIGravityCenter.x, UIGravityCenter.y));
+                CalTempGCPoints.Add(new Point(UIGravityCenter.x, UIGravityCenter.y));
 
                 int DeltaColorR = 0, DeltaColorG = 0;
 
@@ -1910,6 +1914,13 @@ public class SkeletonOverlayer : MonoBehaviour
 
         if(evaluation.Points.Count > 0)
         {
+            evaluation.EvaluationScore = 0f;
+            evaluation.EvaluationScore += evaluation.soccerDistance.SumScore();
+            evaluation.EvaluationScore += evaluation.soccerDistance.FrontSoccerDistance * 5f;
+            evaluation.EvaluationScore += evaluation.soccerDistance.BehindSoccerDistance * 6f;
+            evaluation.EvaluationScore += CalSoccerConvexHullArea();
+            evaluation.EvaluationScore += CalGCConvexHullArea();
+            
             PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
 
             DoctorDataManager.instance.doctor.patient.Evaluations.Add(evaluation);
@@ -1924,6 +1935,57 @@ public class SkeletonOverlayer : MonoBehaviour
 
         SceneManager.LoadScene("03-DoctorUI");
     }
+
+    public float CalGCConvexHullArea()
+    {
+        ConvexHull CalGCconvexHull = new ConvexHull(CalTempGCPoints);
+
+        CalGCconvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+        CalGCconvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+        for (int i = 1; i < CalGCconvexHull.ConvexHullNum - 1; i++)
+        {
+            if (CalGCconvexHull.ConvexHullSet[i].x > 1919) CalGCconvexHull.ConvexHullSet[i].x = 1919;
+            else if (CalGCconvexHull.ConvexHullSet[i].x < 0) CalGCconvexHull.ConvexHullSet[i].x = 0;
+
+            if (CalGCconvexHull.ConvexHullSet[i].y > 1079) CalGCconvexHull.ConvexHullSet[i].y = 1079;
+            else if (CalGCconvexHull.ConvexHullSet[i].y < 0) CalGCconvexHull.ConvexHullSet[i].y = 0;
+
+            CalGCconvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(CalGCconvexHull.ConvexHullSet[0], CalGCconvexHull.ConvexHullSet[i], CalGCconvexHull.ConvexHullSet[i + 1]));
+        }
+
+        return CalGCconvexHull.ConvexHullArea;
+    }
+
+
+    public float CalSoccerConvexHullArea()
+    {
+        List<Point> CalPoints = new List<Point>();
+
+        foreach (var point in evaluation.Points)
+        {
+            CalPoints.Add(new Point(point.x, point.y));
+        }
+
+        ConvexHull CalConvexHull = new ConvexHull(CalPoints);
+
+        CalConvexHull.ConvexHullArea = 0f;   // 令凸包面积初始为0
+
+        for (int i = 1; i < CalConvexHull.ConvexHullNum - 1; i++)
+        {
+            if (CalConvexHull.ConvexHullSet[i].x > 1919) CalConvexHull.ConvexHullSet[i].x = 1919;
+            else if (CalConvexHull.ConvexHullSet[i].x < 0) CalConvexHull.ConvexHullSet[i].x = 0;
+
+            if (CalConvexHull.ConvexHullSet[i].y > 1079) CalConvexHull.ConvexHullSet[i].y = 1079;
+            else if (CalConvexHull.ConvexHullSet[i].y < 0) CalConvexHull.ConvexHullSet[i].y = 0;
+
+            CalConvexHull.ConvexHullArea += Math.Abs(ConvexHull.isLeft(CalConvexHull.ConvexHullSet[0], CalConvexHull.ConvexHullSet[i], CalConvexHull.ConvexHullSet[i + 1]));
+        }
+
+        return CalConvexHull.ConvexHullArea;
+    }
+
 
     //IEnumerator WriteEvaluationData()
     //{
