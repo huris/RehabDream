@@ -152,7 +152,7 @@ public class GestureSourceManager : MonoBehaviour
             foreach(var gesture in gesturesList)
             {
 
-                Debug.Log("@GestureSourceManager: Model name is: " + gesture.Name);
+                //Debug.Log("@GestureSourceManager: Model name is: " + gesture.Name);
 
 
                 try { 
