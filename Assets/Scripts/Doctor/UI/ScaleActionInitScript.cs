@@ -72,6 +72,9 @@ public class ScaleActionInitScript : MonoBehaviour
     public GameObject NoEvaluateData;
 
     public GameObject LoadScene;
+    public Text LoadSceneText;
+    public AsyncOperation async;
+    public float progressValue = 0f;
 
     public List<int> ActionSequence;
 
@@ -81,8 +84,8 @@ public class ScaleActionInitScript : MonoBehaviour
 
         ActionSequence = null;
 
-        toggleJointId2Index = new Dictionary<int, int>() { {2, 0}, {4, 1}, {8, 2}, {5, 3}, {9, 4}, {12, 5}, {16, 6}, {13, 7}, {17, 8}, {14, 9}, {18, 10} };
-        toggleIndex2JointId = new Dictionary<int, int>() { {0, 2}, {1, 4}, {2, 8}, {3, 5}, {4, 9}, {5, 12}, {6, 16}, {7, 13}, {8, 17}, {9, 14}, {10, 18} };
+        toggleJointId2Index = new Dictionary<int, int>() { { 2, 0 }, { 4, 1 }, { 8, 2 }, { 5, 3 }, { 9, 4 }, { 12, 5 }, { 16, 6 }, { 13, 7 }, { 17, 8 }, { 14, 9 }, { 18, 10 } };
+        toggleIndex2JointId = new Dictionary<int, int>() { { 0, 2 }, { 1, 4 }, { 2, 8 }, { 3, 5 }, { 4, 9 }, { 5, 12 }, { 6, 16 }, { 7, 13 }, { 8, 17 }, { 9, 14 }, { 10, 18 } };
 
         ActionID2Index = new Dictionary<int, int>();
 
@@ -115,12 +118,12 @@ public class ScaleActionInitScript : MonoBehaviour
             }
         }
 
-        if(UserID == -1)
+        if (UserID == -1)
         {
             ScaleSelect.value = 0;
             ActionSpeedDropdown.value = 2;
-            
-            for(int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
+
+            for (int i = 0; i < DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]].Count; i++)
             {
                 ScaleActionID2Num[DATA.TrainingProgramIDToActionIDs[ScaleInt2Type[ScaleSelect.value]][i]] = 3;
             }
@@ -162,12 +165,13 @@ public class ScaleActionInitScript : MonoBehaviour
 
             //print(DoctorDataManager.instance.Actions[i].id + "    " + i);
 
-            if (ScaleActionID2Num.ContainsKey(DoctorDataManager.instance.Actions[i].id)) 
+            if (ScaleActionID2Num.ContainsKey(DoctorDataManager.instance.Actions[i].id))
             {
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(3).GetChild(0).GetChild(0));
 
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
-                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
+                this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(ScaleActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate
+                {
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
                     ModifyActionID = int.Parse(obj.transform.parent.name);
 
@@ -253,7 +257,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
                     obj.transform.parent.SetSiblingIndex(TempID - 1);
 
-                    for(int z = 0; z < obj.transform.parent.parent.childCount; z++)
+                    for (int z = 0; z < obj.transform.parent.parent.childCount; z++)
                     {
                         obj.transform.parent.parent.GetChild(z).GetChild(7).GetComponent<InputField>().text = (z + 1).ToString();
                     }
@@ -298,7 +302,8 @@ public class ScaleActionInitScript : MonoBehaviour
                 Instantiate(ActionPrefab).transform.SetParent(this.transform.GetChild(4).GetChild(0).GetChild(0));
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().group = this.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<ToggleGroup>();
-                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate {
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(0).GetComponent<Toggle>().onValueChanged.AddListener(delegate
+                {
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
                     ModifyActionID = int.Parse(obj.transform.parent.name);
 
@@ -314,7 +319,8 @@ public class ScaleActionInitScript : MonoBehaviour
                 });
 
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().text = "0";
-                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate{
+                this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(3).GetComponent<InputField>().onEndEdit.AddListener(delegate
+                {
 
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
 
@@ -379,7 +385,7 @@ public class ScaleActionInitScript : MonoBehaviour
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(AllActionChildNum).GetChild(7).GetComponent<InputField>().onEndEdit.AddListener(delegate
                 {
                     GameObject obj = EventSystem.current.currentSelectedGameObject;
-                    
+
                     int TempID = int.Parse(obj.GetComponent<InputField>().text);
 
                     obj.transform.parent.SetSiblingIndex(TempID - 1);
@@ -440,7 +446,7 @@ public class ScaleActionInitScript : MonoBehaviour
         // 计算动作个数
         int ScaleActionNum = 0;
 
-        for(int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
         {
             ScaleActionNum += int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text);
         }
@@ -453,7 +459,7 @@ public class ScaleActionInitScript : MonoBehaviour
         FindActionInputField.GetComponent<InputField>().onValueChanged.AddListener(delegate
         {
             int TempAllActionNum = 0;
-            for(int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
+            for (int i = 0; i < this.transform.GetChild(4).GetChild(0).GetChild(0).childCount; i++)
             {
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponent<Toggle>().isOn = false;
 
@@ -489,7 +495,7 @@ public class ScaleActionInitScript : MonoBehaviour
             JointToggles[i].onValueChanged.AddListener(delegate
             {
                 int TempJointNum = 0;
-                for(int j = 0; j < JointToggles.Count; j++)
+                for (int j = 0; j < JointToggles.Count; j++)
                 {
                     if (JointToggles[j].isOn)
                     {
@@ -502,7 +508,7 @@ public class ScaleActionInitScript : MonoBehaviour
         }
 
 
-        if(UserID != -1)
+        if (UserID != -1)
         {
             List<int> TempActionSequenceList = new List<int>(DoctorDataManager.instance.users[UserID].level.actionRates.Keys);
 
@@ -532,7 +538,7 @@ public class ScaleActionInitScript : MonoBehaviour
         LoadScene.SetActive(false);
 
         //print("AAAAAAAA");
-        
+
     }
 
 
@@ -646,7 +652,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
         int TempID = int.Parse(obj.transform.parent.GetChild(7).GetComponent<InputField>().text);
 
-        if(TempID > 1)
+        if (TempID > 1)
         {
             obj.transform.parent.SetSiblingIndex(TempID - 2);
             obj.transform.parent.GetChild(7).GetComponent<InputField>().text = (TempID - 1).ToString();
@@ -735,7 +741,7 @@ public class ScaleActionInitScript : MonoBehaviour
             //print(i + "!!!!");
             PersonToggles[i].isOn = false;
         }
-        
+
         //print("!!!!!!@@@1");
 
         //print(DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints.Count);
@@ -754,7 +760,7 @@ public class ScaleActionInitScript : MonoBehaviour
     public void ActionModifySaveButtonOnClick()
     {
         List<int> TempActionJointsId = new List<int>();
-        for(int i = 0; i < JointToggles.Count; i++)
+        for (int i = 0; i < JointToggles.Count; i++)
         {
             if (JointToggles[i].isOn)
             {
@@ -769,15 +775,15 @@ public class ScaleActionInitScript : MonoBehaviour
         DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].describe = ActionModifyDescription.text;
         DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].checkJoints = TempActionJointsId;
 
-        for(int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
         {
-            if(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name == ModifyActionID.ToString())
+            if (this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name == ModifyActionID.ToString())
             {
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(1).GetComponent<Text>().text = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].name;
 
                 string CreatTime = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].createTime;
                 this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(2).GetComponent<Text>().text = CreatTime.Substring(0, 4) + CreatTime.Substring(5, 2) + CreatTime.Substring(8, 2);
-                
+
                 break;
             }
         }
@@ -790,7 +796,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
                 string CreatTime = DoctorDataManager.instance.Actions[ActionID2Index[ModifyActionID]].createTime;
                 this.transform.GetChild(4).GetChild(0).GetChild(0).GetChild(i).GetChild(2).GetComponent<Text>().text = CreatTime.Substring(0, 4) + CreatTime.Substring(5, 2) + CreatTime.Substring(8, 2);
-                
+
                 break;
             }
         }
@@ -826,31 +832,67 @@ public class ScaleActionInitScript : MonoBehaviour
 
         //print(ActionNumText);
 
-        if(ActionNumText.text == "0")
+        if (ActionNumText.text == "0")
         {
             NoActionNum.SetActive(true);
         }
         else
         {
-            SaveButtonOnClick();
+            SaveButtonOnClickNoExit();
 
             PatientDataManager.instance.SetPatientID(DoctorDataManager.instance.doctor.patient.PatientID);
 
             LoadScene.SetActive(true);
-            
+
             DoctorDataManager.instance.FunctionManager = 1;
             DoctorDataManager.instance.EvaluationType = 0;
 
-            SceneManager.LoadScene("08-WallEvaluation");
+            progressValue = 0f;
+
+            //async = SceneManager.LoadSceneAsync("08-WallEvaluation");
+
+
+            StartCoroutine(StartLoading());
         }
     }
 
-    public void SaveButtonOnClick()
+    private IEnumerator StartLoading()
     {
+        int displayProgress = 0;
+        int toProgress = 0;
+        AsyncOperation op = SceneManager.LoadSceneAsync("08-WallEvaluation");
+        op.allowSceneActivation = false;
+        while (op.progress < 0.9f)
+        {
+            toProgress = (int)op.progress * 100;
+            while (displayProgress < toProgress)
+            {
+                displayProgress++;
+                SetLoadingPercentage(displayProgress);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        toProgress = 100;
+        while (displayProgress < toProgress)
+        {
+            displayProgress++;
+            SetLoadingPercentage(displayProgress);
+            yield return new WaitForEndOfFrame();
+        }
 
+        op.allowSceneActivation = true;
+    }
+
+    void SetLoadingPercentage(float value)
+    {
+        LoadSceneText.text = "场景加载\n\n" + value.ToString() + "%";
+    }
+
+    public void SaveButtonOnClickNoExit()
+    {
         Dictionary<int, int> TempSingleActionNum = new Dictionary<int, int>();
 
-        for(int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
         {
             TempSingleActionNum.Add(int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name), int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text));
         }
@@ -860,7 +902,41 @@ public class ScaleActionInitScript : MonoBehaviour
 
         //print(UserID);
 
-        if(UserID == -1)
+        if (UserID == -1)
+        {
+            DoctorDatabaseManager.instance.InsertWallEvaluationScaleInfo(DoctorDataManager.instance.doctor.patient.PatientID,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientName,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientSex,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientAge,
+                                                                         DoctorDataManager.instance.doctor.patient.PatientWeight,
+                                                                          ScaleInt2Type[ScaleSelect.value],
+                                                                          "123456",
+                                                                          JsonHelper.SerializeObject(TempLevel));
+        }
+        else
+        {
+            DoctorDatabaseManager.instance.ModifyWallEvaluationScaleInfo(DoctorDataManager.instance.doctor.patient.PatientID, ScaleInt2Type[ScaleSelect.value], JsonHelper.SerializeObject(TempLevel));
+        }
+
+        IsUserSave = true;
+    }
+
+    public void SaveButtonOnClick()
+    {
+
+        Dictionary<int, int> TempSingleActionNum = new Dictionary<int, int>();
+
+        for (int i = 0; i < this.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        {
+            TempSingleActionNum.Add(int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).name), int.Parse(this.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).GetChild(3).GetComponent<InputField>().text));
+        }
+
+        Level TempLevel = new Level(ActionSpeedDropdown.value + 7, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), 100000, false, int.Parse(ActionNumText.text), TempSingleActionNum);
+
+
+        //print(UserID);
+
+        if (UserID == -1)
         {
             DoctorDatabaseManager.instance.InsertWallEvaluationScaleInfo(DoctorDataManager.instance.doctor.patient.PatientID,
                                                                          DoctorDataManager.instance.doctor.patient.PatientName,
@@ -884,7 +960,7 @@ public class ScaleActionInitScript : MonoBehaviour
     // TODO: 量表改变，动作库改变
     public void ScaleValueChanged()
     {
-        if (ScaleSelectValueChangedFirst &&　(UserID != -1))
+        if (ScaleSelectValueChangedFirst && (UserID != -1))
         {
             ScaleSelectValueChangedFirst = false;
         }
@@ -959,7 +1035,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
     public void ExitButtonOnClick()
     {
-        if(IsUserSave == false)
+        if (IsUserSave == false)
         {
             if (UserID == -1)
             {
@@ -1021,7 +1097,7 @@ public class ScaleActionInitScript : MonoBehaviour
 
         ActionResource.SetActive(false);
 
-        if(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count == 0)
+        if (DoctorDataManager.instance.doctor.patient.WallEvaluations.Count == 0)
         {
             NoEvaluateData.SetActive(true);
         }

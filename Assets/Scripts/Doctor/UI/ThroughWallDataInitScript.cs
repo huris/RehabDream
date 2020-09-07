@@ -5,7 +5,8 @@ using Mono.Data.Sqlite;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ThroughWallDataInitScript : MonoBehaviour {
+public class ThroughWallDataInitScript : MonoBehaviour
+{
 
     public List<GameObject> Ranks;
 
@@ -40,8 +41,10 @@ public class ThroughWallDataInitScript : MonoBehaviour {
     public Toggle WallEvaluateToggle;
 
     public GameObject LoadScene;
+    public Text LoadSceneText;
+
     void OnEnable()
-	{
+    {
 
         //print(DoctorDataManager.instance.doctor.patient.WallEvaluations.Count);
 
@@ -59,9 +62,9 @@ public class ThroughWallDataInitScript : MonoBehaviour {
             // 写一下量表选择
 
             int NumID = 0;
-            for(int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
+            for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
             {
-                if(ScaleType2Int.ContainsKey(DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type) == false)
+                if (ScaleType2Int.ContainsKey(DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type) == false)
                 {
                     ScaleType2Int.Add(DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type, NumID);
                     ScaleInt2Type.Add(NumID, DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type);
@@ -74,12 +77,12 @@ public class ThroughWallDataInitScript : MonoBehaviour {
             ScaleSelect.AddOptions(ListScaleEvaluation);
 
             ScaleSelect.value = ScaleType2Int[DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].type];
-            
-            if(ScaleSelect.value == 0)
+
+            if (ScaleSelect.value == 0)
             {
                 ScaleChange();
             }
-            
+
         }
         else
         {
@@ -103,7 +106,7 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         int NumIndex = 0;
         for (int i = 0; i < DoctorDataManager.instance.doctor.patient.WallEvaluations.Count; i++)
         {
-            if(DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type == ScaleInt2Type[ScaleSelect.value])
+            if (DoctorDataManager.instance.doctor.patient.WallEvaluations[i].type == ScaleInt2Type[ScaleSelect.value])
             {
                 //print(i+"   "+NumIndex);
                 NumberID2Int.Add(i, NumIndex);
@@ -164,8 +167,8 @@ public class ThroughWallDataInitScript : MonoBehaviour {
         }
 
         WallEvaluationScore.text = "评分: " + DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.score.ToString();
-        
-        if(DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.lastScore == -1)
+
+        if (DoctorDataManager.instance.doctor.patient.WallEvaluations[WallEvaluationIndex].overrall.lastScore == -1)
         {
             LastWallEvaluationScore.text = "";
         }
@@ -204,9 +207,43 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
         DoctorDataManager.instance.FunctionManager = 1;
         DoctorDataManager.instance.EvaluationType = 0;
+        //progressValue = 0f;
 
-        SceneManager.LoadScene("08-WallEvaluation");
+        StartCoroutine(StartLoading());
     }
+
+    private IEnumerator StartLoading()
+    {
+        int displayProgress = 0;
+        int toProgress = 0;
+        AsyncOperation op = SceneManager.LoadSceneAsync("08-WallEvaluation");
+        op.allowSceneActivation = false;
+        while (op.progress < 0.9f)
+        {
+            toProgress = (int)op.progress * 100;
+            while (displayProgress < toProgress)
+            {
+                displayProgress++;
+                SetLoadingPercentage(displayProgress);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        toProgress = 100;
+        while (displayProgress < toProgress)
+        {
+            displayProgress++;
+            SetLoadingPercentage(displayProgress);
+            yield return new WaitForEndOfFrame();
+        }
+
+        op.allowSceneActivation = true;
+    }
+
+    void SetLoadingPercentage(float value)
+    {
+        LoadSceneText.text = "场景加载\n\n" + value.ToString() + "%";
+    }
+
 
     public void ReadWallEvaluateReportButtonOnclick()
     {
@@ -218,15 +255,15 @@ public class ThroughWallDataInitScript : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
 
+    }
 
-   
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
 }

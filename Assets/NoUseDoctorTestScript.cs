@@ -3,30 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class NoUseDoctorTestScript : MonoBehaviour {
 
 	public Text Tips;
 	public Sequence seq;
 
-	// Use this for initialization
-	void Start () {
-		ShowTips("保持Bobath握拳");
-	}
+    private IEnumerator StartLoading_4()
+    {
+        int displayProgress = 0;
+        int toProgress = 0;
+        AsyncOperation op = SceneManager.LoadSceneAsync("08-WallEvaluation");
+        op.allowSceneActivation = false;
+        while (op.progress < 0.9f)
+        {
+            toProgress = (int)op.progress * 100;
+            while (displayProgress < toProgress)
+            {
+                ++displayProgress;
+                SetLoadingPercentage(displayProgress);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        toProgress = 100;
+        while (displayProgress < toProgress)
+        {
+            ++displayProgress;
+            SetLoadingPercentage(displayProgress);
+            yield return new WaitForEndOfFrame();
+        }
+        op.allowSceneActivation = true;
+    }
 
-	public void ShowTips(string tip)
-	{
-		Tweener t1 = Tips.GetComponent<Text>().DOText(tip, 3f);
-		Tweener t2 = Tips.GetComponent<Text>().DOText("", 0.5f);
-		seq = DOTween.Sequence();
-		seq.Append(t1);
-		seq.Append(t2);
-		seq.SetLoops(-1);
-	}
+    void SetLoadingPercentage(float value)
+    {
+        Tips.text = "场景加载\n\n" + value.ToString() + "%";
+    }
+    // Use this for initialization
+    void Start () {
+        StartCoroutine(StartLoading_4());
+
+    }
 
 
-	// Update is called once per frame
-	void Update () {
+
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
