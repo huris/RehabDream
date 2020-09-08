@@ -470,13 +470,41 @@ public class SkeletonOverlayer : MonoBehaviour
 
             if(!IsFindPatient)
             {
+                if(manager.GetTrackedBodyIndices().Count > 0)
+                {
+                    for (int i = 0; i < manager.GetTrackedBodyIndices().Count; i++)
+                    {
+                        //print("loop");
+                        //print(manager.GetUserIdByIndex(i));
+                        //print(manager.GetTrackedBodyIndices()[i]);
+                        //print(manager.IsJointTracked(manager.GetUserIdByIndex(i), 21));
+                        //print(manager.IsJointTracked(manager.GetUserIdByIndex(i), 23));
 
+                        if (manager.IsJointTracked(manager.GetUserIdByIndex(i), 21) && manager.IsJointTracked(manager.GetUserIdByIndex(i), 23) &&
+                            ((manager.GetJointPosColorOverlay(manager.GetUserIdByIndex(i), 21, foregroundCamera, backgroundRect) -
+                            manager.GetJointPosColorOverlay(manager.GetUserIdByIndex(i), 23, foregroundCamera, backgroundRect)
+                            ).magnitude < 0.13f))
+                        {
+                            playerIndex = i;
+
+                            if (WaitTime < 4f)
+                            {
+                                WaitTime += Time.deltaTime;
+                                KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                            }
+                            else
+                            {
+                                IsFindPatient = true;
+                            }
+                        }
+                    }
+                }
             }
-            print(manager.GetTrackedBodyIndices().Count);
+            //print(manager.GetTrackedBodyIndices().Count);
 
 
             // overlay all joints in the skeleton
-            if (manager.IsUserDetected(playerIndex))
+            if (IsFindPatient &&　manager.IsUserDetected(playerIndex))
             {
                 long userId = manager.GetUserIdByIndex(playerIndex);
                 int jointsCount = manager.GetJointCount();
@@ -518,10 +546,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 //if (i == 23 && GestureSourceManager.instance.CheckGesture(KinectGestures.Gestures.Bobath))
                                 {
-                                    if (WaitTime < 3.0f)
+                                    if (WaitTime < 5.0f)
                                     {
                                         WaitTime += Time.deltaTime;
-                                        KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
+                                        KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
                                     }
                                     else
                                     {
