@@ -5298,6 +5298,7 @@ MonoBehaviour:
   RandomYmax: 0.2
   RandomZmin: -0.2
   RandomZmax: 0.2
+  SQLStringList: []
 --- !u!4 &479743390
 Transform:
   m_ObjectHideFlags: 0
@@ -12709,6 +12710,8 @@ MonoBehaviour:
   Introduction: {fileID: 273710880}
   Buttons: {fileID: 1305739228}
   IsOver: 0
+  IsFindPatient: 0
+  _GoalkeeperController: {fileID: 1244090878}
 --- !u!4 &1129169901
 Transform:
   m_ObjectHideFlags: 0
