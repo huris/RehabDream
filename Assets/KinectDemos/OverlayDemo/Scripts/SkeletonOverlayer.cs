@@ -203,6 +203,8 @@ public class SkeletonOverlayer : MonoBehaviour
 
     public Image TipsImage;
     public Text Tips;
+
+    public bool IsFindPatient;
     //public Sequence seq;
 
     //public static SkeletonOverlayer instance = null;
@@ -386,6 +388,8 @@ public class SkeletonOverlayer : MonoBehaviour
         SQLStringList = new List<string>();
 
         ShutTips();
+
+        IsFindPatient = false;
     }
 
     void FixedUpdate()
@@ -464,6 +468,13 @@ public class SkeletonOverlayer : MonoBehaviour
                 backgroundRect = portraitBack.GetBackgroundRect();
             }
 
+            if(!IsFindPatient)
+            {
+
+            }
+            print(manager.GetTrackedBodyIndices().Count);
+
+
             // overlay all joints in the skeleton
             if (manager.IsUserDetected(playerIndex))
             {
@@ -495,13 +506,13 @@ public class SkeletonOverlayer : MonoBehaviour
                                 //// 获取肩宽
                                 //if(i == 4) { ShoulderLeftX = Kinect2UIPosition(posJoint).x; }
                                 //if(i == 8) { ShoulderRightX = Kinect2UIPosition(posJoint).x; }
-                                
+
                                 // 获取身高段
-                                if(i == 20) { SpineShoulderY = Kinect2UIPosition(posJoint).y; }
+                                if (i == 20) { SpineShoulderY = Kinect2UIPosition(posJoint).y; }
 
                                 if (i == 21) { HandTipLeft = posJoint; }
 
-                                if (i == 1) { SpineMid = posJoint; SpineMidY = Kinect2UIPosition(posJoint).y;}
+                                if (i == 1) { SpineMid = posJoint; SpineMidY = Kinect2UIPosition(posJoint).y; }
 
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
@@ -593,7 +604,7 @@ public class SkeletonOverlayer : MonoBehaviour
                                 {
                                     SoccerHighlightTime = 100;  // 变回100
 
-                                    if(evaluation.Points.Count > 0 && NowSoccerIndex == 8)
+                                    if (evaluation.Points.Count > 0 && NowSoccerIndex == 8)
                                     {
                                         if (Soccerball != null && Soccerball.GetComponent<Highlighter>() != null)
                                         {
@@ -699,7 +710,7 @@ public class SkeletonOverlayer : MonoBehaviour
 
                 // 更新身高段
                 SpineShoulderY = Math.Abs(SpineShoulderY - SpineMidY);
-                if(SpineShoulderY > evaluation.EvaluationHeight)
+                if (SpineShoulderY > evaluation.EvaluationHeight)
                 {
                     evaluation.SetEvaluationHeight(SpineShoulderY);
                 }
