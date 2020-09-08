@@ -95,10 +95,7 @@ public class GameUIHandle : UIHandle
 
 
     void FixedUpdate()
-    {
-
-
-        
+    {   
         if (!IsOver)
         {
             KinectManager manager = KinectManager.Instance;
@@ -131,18 +128,25 @@ public class GameUIHandle : UIHandle
                                 ((manager.GetJointKinectPosition(manager.GetUserIdByIndex(i), 21) -
                                 manager.GetJointKinectPosition(manager.GetUserIdByIndex(i), 23)).magnitude < 0.13f))
                             {
-                                playerIndex = i;
-                                KinectAvatarID = manager.GetUserIdByIndex(i);
-
-                                if (WaitTime < 4f)
+                                if (playerIndex == i)
                                 {
-                                    WaitTime += Time.deltaTime;
-                                    KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                                    if (WaitTime < 4f)
+                                    {
+                                        KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                                    }
+                                    else
+                                    {
+                                        IsFindPatient = true;
+                                    }
                                 }
                                 else
                                 {
-                                    IsFindPatient = true;
-                                }
+                                    playerIndex = i;
+                                    KinectAvatarID = manager.GetUserIdByIndex(i);
+
+                                    WaitTime = 0f;
+                                }           
+                                WaitTime += Time.deltaTime;
                             }
                         }
                     }
@@ -183,9 +187,9 @@ public class GameUIHandle : UIHandle
 
                                         IsOver = true;
 
-                                        print(KinectManager.Instance.GetPrimaryUserID());
-                                        print(playerIndex);
-                                        print(KinectAvatarID);
+                                        //print(KinectManager.Instance.GetPrimaryUserID());
+                                        //print(playerIndex);
+                                        //print(KinectAvatarID);
 
                                         _GoalkeeperController.playerId = KinectAvatarID;
                                         //_GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();

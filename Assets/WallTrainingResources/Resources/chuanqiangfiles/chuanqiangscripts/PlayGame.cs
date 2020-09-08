@@ -384,7 +384,7 @@ public class PlayGame : MonoBehaviour
                         GameObject newWall = Instantiate(go);       //实例化墙
                         Animation animation = newWall.GetComponent<Animation>();    //实例墙的动画
                         string output = "";
-                        print("当前速度为:" + currentLevel.wallSpeed);
+                        //print("当前速度为:" + currentLevel.wallSpeed);
                         foreach (AnimationState state in animation)     //调整动画速度
                         {
                             state.speed = 12f / currentLevel.wallSpeed;

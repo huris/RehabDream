@@ -485,17 +485,24 @@ public class SkeletonOverlayer : MonoBehaviour
                             manager.GetJointPosColorOverlay(manager.GetUserIdByIndex(i), 23, foregroundCamera, backgroundRect)
                             ).magnitude < 0.13f))
                         {
-                            playerIndex = i;
-
-                            if (WaitTime < 4f)
+                            if(playerIndex == i)
                             {
-                                WaitTime += Time.deltaTime;
-                                KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                                if (WaitTime < 4f)
+                                {
+                                    KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                                }
+                                else
+                                {
+                                    IsFindPatient = true;
+                                }
+
                             }
                             else
                             {
-                                IsFindPatient = true;
+                                playerIndex = i;
+                                WaitTime = 0f;
                             }
+                            WaitTime += Time.deltaTime;
                         }
                     }
                 }
