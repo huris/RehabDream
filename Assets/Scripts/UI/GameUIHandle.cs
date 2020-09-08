@@ -63,11 +63,13 @@ public class GameUIHandle : UIHandle
 
     public float WaitTime;
     public int playerIndex = 0;
+    public long KinectAvatarID = 0;
     private Vector3 HandTipLeft;
     public Image Introduction;
     public Image Buttons;   // 下面三个button的背景
     public bool IsOver;
-
+    public bool IsFindPatient;
+    public AvatarController _GoalkeeperController;
 
 
     // Use this for initialization
@@ -87,12 +89,15 @@ public class GameUIHandle : UIHandle
 
         WaitTime = 0f;
         IsOver = false;
+        IsFindPatient = false;
     }
 
 
 
     void FixedUpdate()
     {
+
+
         
         if (!IsOver)
         {
@@ -109,8 +114,42 @@ public class GameUIHandle : UIHandle
 
             if (manager && manager.IsInitialized())
             {
+                if (!IsFindPatient)
+                {
+                    if (manager.GetTrackedBodyIndices().Count > 0)
+                    {
+                        for (int i = 0; i < manager.GetTrackedBodyIndices().Count; i++)
+                        {
+                            //print("loop");
+                            //print(manager.GetUserIdByIndex(i));
+                            //print(manager.GetTrackedBodyIndices()[i]);
+                            //print(manager.IsJointTracked(manager.GetUserIdByIndex(i), 21));
+                            //print(manager.IsJointTracked(manager.GetUserIdByIndex(i), 23));
+
+                            if (manager.IsJointTracked(manager.GetUserIdByIndex(i), 21) && 
+                                manager.IsJointTracked(manager.GetUserIdByIndex(i), 23) &&
+                                ((manager.GetJointKinectPosition(manager.GetUserIdByIndex(i), 21) -
+                                manager.GetJointKinectPosition(manager.GetUserIdByIndex(i), 23)).magnitude < 0.13f))
+                            {
+                                playerIndex = i;
+                                KinectAvatarID = manager.GetUserIdByIndex(i);
+
+                                if (WaitTime < 4f)
+                                {
+                                    WaitTime += Time.deltaTime;
+                                    KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
+                                }
+                                else
+                                {
+                                    IsFindPatient = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // overlay all joints in the skeleton
-                if (manager.IsUserDetected(playerIndex))
+                if (IsFindPatient && manager.IsUserDetected(playerIndex))
                 {
                     long userId = manager.GetUserIdByIndex(playerIndex);
                     int jointsCount = manager.GetJointCount();
@@ -132,18 +171,28 @@ public class GameUIHandle : UIHandle
                                 // 当左右手距离小于0.1f的时候画线
                                 if (i == 23 && (HandTipLeft - posJoint).magnitude < 0.13f)   // 患者开始握拳了
                                 {
-                                    if (WaitTime < 3.0f)
+                                    if (WaitTime < 5.0f)
                                     {
                                         WaitTime += Time.deltaTime;
-                                        KinectDetectUIProgressSlider.value = WaitTime / 3.0f;
+                                        KinectDetectUIProgressSlider.value = WaitTime / 5.0f;
                                     }
                                     else
                                     {
-
                                         Introduction.transform.DOLocalMove(new Vector3(0f, 978f, 0), 0.5f);
                                         Buttons.transform.DOLocalMove(new Vector3(0f, -620f, 0), 0.5f);
 
                                         IsOver = true;
+
+                                        print(KinectManager.Instance.GetPrimaryUserID());
+                                        print(playerIndex);
+                                        print(KinectAvatarID);
+
+                                        _GoalkeeperController.playerId = KinectAvatarID;
+                                        //_GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
+                                        if (!KinectManager.Instance.avatarControllers.Contains(_GoalkeeperController))
+                                        {
+                                            KinectManager.Instance.avatarControllers.Add(_GoalkeeperController);
+                                        }
 
                                         this.OpenUIAnimation(GameUI);
                                         GameState.StateShoot2SessionOver();
@@ -156,10 +205,6 @@ public class GameUIHandle : UIHandle
             }
         }
 
-
-    
-        //this.OpenUIAnimation(GameUI);
-        //GameState.StateShoot2SessionOver();
     }
 
 

@@ -70,7 +70,7 @@ public class GameState : MonoBehaviour
     private Shooting _Shooting;
     private CollisionHandle _CollisionHandle;   // handle collision
     private AvatarCaculator _Caculator;         // caculate gravity,angles...
-    private AvatarController _GoalkeeperController;
+    //private AvatarController _GoalkeeperController;
 
     // record of last shoot
     private int _FailCount = 0;      //number of failures
@@ -138,11 +138,11 @@ public class GameState : MonoBehaviour
 
 
         // 保证切换场景时kinect 与 AvatarController不会失效
-        _GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
-        if (!KinectManager.Instance.avatarControllers.Contains(_GoalkeeperController))
-        {
-            KinectManager.Instance.avatarControllers.Add(_GoalkeeperController);
-        }
+        //_GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
+        //if (!KinectManager.Instance.avatarControllers.Contains(_GoalkeeperController))
+        //{
+        //    KinectManager.Instance.avatarControllers.Add(_GoalkeeperController);
+        //}
     }
 
     // Update is called once per frame
@@ -1106,7 +1106,7 @@ public class GameState : MonoBehaviour
         _Shooting = Soccer.GetComponent<Shooting>();
         _CollisionHandle = Soccer.GetComponent<CollisionHandle>();
         _Track = TrackRoot.GetComponent<Track>();
-        _GoalkeeperController = GoalKeeper.GetComponent<AvatarController>();
+        //_GoalkeeperController = GoalKeeper.GetComponent<AvatarController>();
         _Caculator = GoalKeeper.GetComponent<AvatarCaculator>();
 
         GenerateGate();
