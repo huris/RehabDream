@@ -191,7 +191,7 @@ public class GameUIHandle : UIHandle
                                         //print(playerIndex);
                                         //print(KinectAvatarID);
 
-                                        _GoalkeeperController.playerId = KinectAvatarID;
+                                        _GoalkeeperController.playerId = manager.GetUserIdByIndex(playerIndex);
                                         //_GoalkeeperController.playerId = KinectManager.Instance.GetPrimaryUserID();
                                         if (!KinectManager.Instance.avatarControllers.Contains(_GoalkeeperController))
                                         {
