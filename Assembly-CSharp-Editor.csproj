@@ -54,6 +54,7 @@
      <Compile Include="Assets\ADLSources\House_Furniture_Pack\Scripts\Editor\AutoSnap.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenPreviewManager.cs" />
+     <Compile Include="Assets\Editor\ObjExporter.cs" />
      <Compile Include="Assets\Graph_Maker\Examples\X_Plot_Overtime\Editor\WMG_X_Plot_Overtime_E.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Axis_Graph_E.cs" />
      <Compile Include="Assets\Graph_Maker\Scripts\Editor\WMG_Bezier_Band_Graph_E.cs" />
