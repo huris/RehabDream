@@ -301,11 +301,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\AutoSnap.cs" />
     <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\Door.cs" />
     <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\LightFlicker.cs" />
     <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\LightOptimize.cs" />
-    <Compile Include="Assets\ADLSources\SuburbNeighborhoodHousePack\Scripts\ObjExporter.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Buffer16BitStereo.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\ABuffer.cs" />
     <Compile Include="Assets\BaiduAip\MP3Sharp\Decoding\BitReserve.cs" />
@@ -367,8 +365,6 @@
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenProShortcuts.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTextMeshPro.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenTk2d.cs" />
-    <Compile Include="Assets\FishTrainingInitScript.cs" />
-    <Compile Include="Assets\FishTrainingPlanScript.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Data_Provider.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Dynamic\WMG_X_Dynamic.cs" />
     <Compile Include="Assets\Graph_Maker\Examples\X_Equation_Plotter\WMG_X_Equation_Plotter.cs" />
@@ -512,7 +508,6 @@
     <Compile Include="Assets\KinectView\Scripts\InfraredSourceManager.cs" />
     <Compile Include="Assets\KinectView\Scripts\InfraredSourceView.cs" />
     <Compile Include="Assets\KinectView\Scripts\MultiSourceManager.cs" />
-    <Compile Include="Assets\NoUseDoctorTestScript.cs" />
     <Compile Include="Assets\printer\_Scripts\ScreenShot2Pdf.cs" />
     <Compile Include="Assets\printer\_Scripts\ScreenShot2PdfWS.cs" />
     <Compile Include="Assets\printer\_Scripts\Xml.cs" />
@@ -564,6 +559,9 @@
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationSceneInit.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\EvaluationTypeScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\FishTrainingInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\FishTrainingPlanScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\FishTrainingPrintScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\FunctionManagerInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\GetUsesClrTex.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\GravityCenterEvaluationScript.cs" />
@@ -571,6 +569,7 @@
     <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackEvaluationScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\JointFeedbackInit.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\LogoutButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\NoUseDoctorTestScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatienPhysicalConditionsQueryExitButtonScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatienPhysicalConditionsQueryScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\PatientAddButtonScript.cs" />
@@ -589,6 +588,7 @@
     <Compile Include="Assets\Scripts\Doctor\UI\ReportScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ReportToggleManagerScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ScaleActionInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\SkipNSeaBobath.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\SoccerBarTest.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\StartTipInitScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\ThroughWallDataInitScript.cs" />
@@ -600,6 +600,7 @@
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPlayItemScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingPrintScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\TrainingStartInitScript.cs" />
+    <Compile Include="Assets\Scripts\Doctor\UI\TrainingTypeScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WallEvaluatePrintScript.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WriteBobathGCDataThread.cs" />
     <Compile Include="Assets\Scripts\Doctor\UI\WritePointDataThread.cs" />
@@ -834,8 +835,6 @@
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\MouseOrbitCS.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\Soccer\SoccerBall.cs" />
     <Compile Include="Assets\Shooting\VolumeGrass\VolumeGrass Sample Assets\SteerCamTarget.cs" />
-    <Compile Include="Assets\SkipNSeaBobath.cs" />
-    <Compile Include="Assets\TrainingTypeScript.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\Line.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\ReallyBasicLine.cs" />
     <Compile Include="Assets\Vectrosity\Demos\Scripts\_Simple2DLine\UniformTexturedLine.cs" />
@@ -951,10 +950,12 @@
     <Compile Include="Assets\XCharts\Examples\Runtime\Example60_Heatmap.cs" />
     <Compile Include="Assets\XCharts\Examples\Runtime\Example70_Gauge.cs" />
     <Compile Include="Assets\XCharts\Examples\Runtime\Example80_Polar.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\BarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\BaseChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\BaseGraph_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\CoordinateChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\LiquidChart_API.cs" />
+    <Compile Include="Assets\XCharts\Runtime\API\PieChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\PolarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\RadarChart_API.cs" />
     <Compile Include="Assets\XCharts\Runtime\API\RingChart_API.cs" />
@@ -1007,7 +1008,7 @@
     <Compile Include="Assets\XCharts\Runtime\Helper\SerieHelper.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\APIException.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\BaseChart.cs" />
-    <Compile Include="Assets\XCharts\Runtime\Internal\BaseGraphic.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\BaseGraph.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawBar.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\CoordinateChart_DrawHeatmap.cs" />
@@ -1037,6 +1038,7 @@
     <Compile Include="Assets\XCharts\Runtime\Internal\Pools\SerieDataPool.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\Pools\SerieLabelPool.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartCached.cs" />
+    <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartConst.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartDrawer.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\Utility\ChartHelper.cs" />
     <Compile Include="Assets\XCharts\Runtime\Internal\Utility\PropertyUtility.cs" />
