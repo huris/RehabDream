@@ -641,6 +641,10 @@ public class PatientDatabaseManager : MonoBehaviour
         try
         {
             //print(EvaluationID + " " + PatientID + " " + EvaluationHeight + " " + EvaluationStartTime + " " + EvaluationEndTime);
+            if (float.IsNaN(EvaluationScore))
+            {
+                EvaluationScore = 0f;
+            }
 
             PatientDatabase.InsertValues(
             PatientEvaluationTableName, //table name
