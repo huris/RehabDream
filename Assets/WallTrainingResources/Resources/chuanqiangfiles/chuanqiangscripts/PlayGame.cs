@@ -7,6 +7,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
+
 public class PlayGame : MonoBehaviour
 {
     User currentUser;
@@ -31,6 +33,11 @@ public class PlayGame : MonoBehaviour
     public GameObject wallProgressItems;
     public Image personFront;
     public Image personSide;
+
+    public VideoPlayer personFrontVideoPlayer;    //动作的正面视频
+    public VideoPlayer personSideVideoPlayer;     //动作的侧面视频
+
+
     int passNum = 0;
     int perfectNum = 0;
     int greatNum = 0;
@@ -40,6 +47,11 @@ public class PlayGame : MonoBehaviour
     Dictionary<int, Sprite> wallactionSprite;
     Dictionary<int, Sprite> remindactionSprite;
     Dictionary<int, Sprite> remindactionSpriteSide;
+
+    Dictionary<int, string> remindactionVideo;
+    Dictionary<int, string> remindactionVideoSide;
+
+
     int actionNum = 0;      //墙的总数
     float rate = 0f;
     public GameObject CompleteScoreImg;
@@ -178,6 +190,10 @@ public class PlayGame : MonoBehaviour
                             wallactionSprite = new Dictionary<int, Sprite>();       //墙上的动作图
                             remindactionSprite = new Dictionary<int, Sprite>();    //正面演示图
                             remindactionSpriteSide = new Dictionary<int, Sprite>(); //侧面演示图
+
+                            remindactionVideo = new Dictionary<int, string>();   //正面演示视频
+                            remindactionVideoSide = new Dictionary<int, string>();//侧面演示视频
+
                             AllLoadedActionNum = 0;
                             tmpActionNum = -1;
                             foreach (var item in currentUser.level.actionRates)     //为每种动作加载图片
@@ -187,6 +203,9 @@ public class PlayGame : MonoBehaviour
                                     wallactionSprite.Add(item.Key, new Sprite());
                                     remindactionSprite.Add(item.Key, new Sprite());
                                     remindactionSpriteSide.Add(item.Key, new Sprite());
+
+                                    remindactionVideo.Add(item.Key, "");
+                                    remindactionVideoSide.Add(item.Key, "");
                                 }
                             }
                         }
@@ -205,7 +224,7 @@ public class PlayGame : MonoBehaviour
                     }
 
 
-                    #region 加载图片
+                    #region 加载图片、视频
                     if (AllLoadedActionNum > tmpActionNum)
                     {
                         //AllLoadedActionNum 初始值为0
@@ -217,6 +236,7 @@ public class PlayGame : MonoBehaviour
 
                             // 加载墙上的人物图案
                             StartCoroutine(LoadImage(key, Environment.CurrentDirectory + DATA.actionForGameSavePath + key + ".png", 0));
+
                             GameObject go1 = transform.Find("Playing").Find("loading").gameObject;
                             go1.SetActive(true);
 
@@ -229,6 +249,10 @@ public class PlayGame : MonoBehaviour
 
                             // 加载正面动作演示图案
                             StartCoroutine(LoadImage(key, Environment.CurrentDirectory + DATA.actionSavePath + key + ".png", 1));
+
+                            // 加载正面动作演示视频
+                            StartCoroutine(LoadVideo(key, Environment.CurrentDirectory + DATA.actionVideoSavePath + key + ".mp4", 1));
+
                             GameObject go1 = transform.Find("Playing").Find("loading").gameObject;
                             go1.SetActive(true);
                             go1.transform.Find("percent").gameObject.GetComponent<Text>().text = AllLoadedActionNum * 100 / (wallactionSprite.Count + remindactionSprite.Count + remindactionSpriteSide.Count) + "%";
@@ -240,6 +264,10 @@ public class PlayGame : MonoBehaviour
 
                             // 加载侧面动作演示图案
                             StartCoroutine(LoadImage(key, Environment.CurrentDirectory + DATA.sideactionSavePath + key + ".png", 2));
+
+                            // 加载侧面动作演示视频
+                            StartCoroutine(LoadVideo(key, Environment.CurrentDirectory + DATA.sideactionVideoSavePath + key + ".mp4", 2));
+
                             GameObject go1 = transform.Find("Playing").Find("loading").gameObject;
                             go1.SetActive(true);
                             go1.transform.Find("percent").gameObject.GetComponent<Text>().text = AllLoadedActionNum * 100 / (wallactionSprite.Count + remindactionSprite.Count + remindactionSpriteSide.Count) + "%";
@@ -394,8 +422,19 @@ public class PlayGame : MonoBehaviour
                         //debug_text.text = output;
                         newWall.transform.parent = parent.transform;    //为实例化墙制定父物体
                         walls.Add(newWall);     //将墙加入墙实例化列表
-                        personFront.sprite = remindactionSprite[actionId];      //展示正面、侧面示意图
-                        personSide.sprite = remindactionSpriteSide[actionId];
+
+                        //personFront.sprite = remindactionSprite[actionId];      //展示正面、侧面示意图
+                       // personSide.sprite = remindactionSpriteSide[actionId];
+
+                        #region 展示正面，侧面示意视频
+
+
+                        personFrontVideoPlayer.url = remindactionVideo[actionId];
+                        personFrontVideoPlayer.Play();
+
+                        personSideVideoPlayer.url = remindactionVideoSide[actionId];
+                        personSideVideoPlayer.Play();
+                        #endregion
 
                         actionIds.RemoveAt(index);      //删除一个动作
 
@@ -627,8 +666,17 @@ public class PlayGame : MonoBehaviour
                             wallActionIds.RemoveAt(0);      //删除已完成的动作
                             if (wallActionIds.Count > 0)
                             {
-                                personFront.sprite = remindactionSprite[wallActionIds[0]];      //展示下一个动作的正面、侧面图片
-                                personSide.sprite = remindactionSpriteSide[wallActionIds[0]];
+                                //personFront.sprite = remindactionSprite[wallActionIds[0]];      //展示下一个动作的正面、侧面图片
+                                //personSide.sprite = remindactionSpriteSide[wallActionIds[0]];
+
+                                #region 展示正面，侧面示意视频
+
+                                personFrontVideoPlayer.url = remindactionVideo[wallActionIds[0]];
+                                personFrontVideoPlayer.Play();
+
+                                personSideVideoPlayer.url = remindactionVideoSide[wallActionIds[0]];
+                                personSideVideoPlayer.Play();
+                                #endregion
                             }
 
 
@@ -1743,6 +1791,27 @@ public class PlayGame : MonoBehaviour
         //    go.transform.Find("percent").gameObject.GetComponent<Text>().text = AllLoadedActionNum * 100 / (wallactionSprite.Count + remindactionSprite.Count + remindactionSpriteSide.Count) + "%";
 
         //}
+
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="path"></param>
+    /// <param name="label"></param>
+    /// <returns></returns>
+
+    public IEnumerator LoadVideo(int key, string path, int label)
+    {
+        yield return 1;
+        if (label == 1)
+        {
+            remindactionVideo[key] = path;
+        }
+        else
+        {
+            remindactionVideoSide[key] = path;
+        }
 
     }
 }

@@ -212,6 +212,10 @@ public static class DATA
     
     public static string actionSavePath = "/ActionImages/screenshot/action/";
     public static string sideactionSavePath = "/ActionImages/screenshot/sideaction/";
+
+    public static string actionVideoSavePath = "/ActionVideos/action/";
+    public static string sideactionVideoSavePath = "/ActionVideos/sideaction/";
+
     public static string preactionSavePath = "/ActionImages/screenshot/preaction/";
     public static string sidepreactionSavePath = "/ActionImages/screenshot/sidepreaction/";
     public static string actionForGameSavePath =  "/ActionImages/gameimage/";
