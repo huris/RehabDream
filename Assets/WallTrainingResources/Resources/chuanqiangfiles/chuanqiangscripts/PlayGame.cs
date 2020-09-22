@@ -184,7 +184,7 @@ public class PlayGame : MonoBehaviour
                         trainingData = new OneTrainingData();   //保存训练的参数
                         trainingData.startTime = DateTime.Now.ToString("yy-MM-dd-HH-mm");
                         trainingData.type = currentUser.trainingTypeId;
-                        trainingData.overrall.duration = currentLevel.wallSpeed * currentLevel.actionNum / 60;
+                        trainingData.overrall.duration = currentLevel.wallSpeed * currentLevel.actionNum;
                         if (AllLoadedActionNum == 0)
                         {//没有加在过图片
                             wallactionSprite = new Dictionary<int, Sprite>();       //墙上的动作图
@@ -728,7 +728,7 @@ public class PlayGame : MonoBehaviour
                             lastscore.text = trainingData.overrall.lastScore + "";
                         }
                         actionnum.text = trainingData.overrall.actionNum + "";
-                        duration.text = trainingData.overrall.duration + "";
+                        duration.text = trainingData.overrall.duration + "s";
                         if (trainingData.overrall.duration >= 10)       //两位数显示需要调整UI位置
                         {
                             Vector3 localpostion = duration.transform.GetChild(0).gameObject.GetComponent<RectTransform>().localPosition;

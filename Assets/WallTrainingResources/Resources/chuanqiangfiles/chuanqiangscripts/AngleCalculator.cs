@@ -521,7 +521,7 @@ public class AngleCalculator : MonoBehaviour {
             data.jointDatas.Add(joint, jointData);      //记录关节-jointData对
         }
         data.actionId = standardAction.id;
-        print("动作"+data.actionId + "最小准确率为" + lowestAccuracy+"节点id"+jointid);       //打印准确率最低的关节 和 最低的准确率
+        //print("动作"+data.actionId + "最小准确率为" + lowestAccuracy+"节点id"+jointid);       //打印准确率最低的关节 和 最低的准确率
         if (SaveToDatabse)
         {
             trainingData.actionDatas.Add(data);     //记录当前动作的结果
