@@ -423,20 +423,19 @@ public class PlayGame : MonoBehaviour
                         newWall.transform.parent = parent.transform;    //为实例化墙制定父物体
                         walls.Add(newWall);     //将墙加入墙实例化列表
 
-                        //personFront.sprite = remindactionSprite[actionId];      //展示正面、侧面示意图
-                       // personSide.sprite = remindactionSpriteSide[actionId];
+                       personFront.sprite = remindactionSprite[actionId];      //展示正面、侧面示意图
+                       personSide.sprite = remindactionSpriteSide[actionId];
 
-                        #region 展示正面，侧面示意视频
+                        //#region 展示正面，侧面示意视频
 
+                        //personFrontVideoPlayer.url = remindactionVideo[actionId];
+                        //personFrontVideoPlayer.Play();
 
-                        personFrontVideoPlayer.url = remindactionVideo[actionId];
-                        personFrontVideoPlayer.Play();
+                        //personSideVideoPlayer.url = remindactionVideoSide[actionId];
+                        //personSideVideoPlayer.Play();
+                        //#endregion
 
-                        personSideVideoPlayer.url = remindactionVideoSide[actionId];
-                        personSideVideoPlayer.Play();
-                        #endregion
-
-                        actionIds.RemoveAt(index);      //删除一个动作
+                        //actionIds.RemoveAt(index);      //删除一个动作
 
                     }
 
@@ -666,17 +665,17 @@ public class PlayGame : MonoBehaviour
                             wallActionIds.RemoveAt(0);      //删除已完成的动作
                             if (wallActionIds.Count > 0)
                             {
-                                //personFront.sprite = remindactionSprite[wallActionIds[0]];      //展示下一个动作的正面、侧面图片
-                                //personSide.sprite = remindactionSpriteSide[wallActionIds[0]];
+                                personFront.sprite = remindactionSprite[wallActionIds[0]];      //展示下一个动作的正面、侧面图片
+                                personSide.sprite = remindactionSpriteSide[wallActionIds[0]];
 
-                                #region 展示正面，侧面示意视频
+                                //#region 展示正面，侧面示意视频
 
-                                personFrontVideoPlayer.url = remindactionVideo[wallActionIds[0]];
-                                personFrontVideoPlayer.Play();
+                                //personFrontVideoPlayer.url = remindactionVideo[wallActionIds[0]];
+                                //personFrontVideoPlayer.Play();
 
-                                personSideVideoPlayer.url = remindactionVideoSide[wallActionIds[0]];
-                                personSideVideoPlayer.Play();
-                                #endregion
+                                //personSideVideoPlayer.url = remindactionVideoSide[wallActionIds[0]];
+                                //personSideVideoPlayer.Play();
+                                //#endregion
                             }
 
 
