@@ -116,6 +116,8 @@ public class AvatarCaculator : MonoBehaviour
     }
 
 
+
+    // 已废弃
     public Vector3 GetGravityCenter()       //return Gravity Center
     {
 
@@ -223,11 +225,16 @@ public class AvatarCaculator : MonoBehaviour
     // caculator LeftArmAngle
     public float LeftArmAngle()
     {
+        Vector3 LeftArmVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.ElbowLeft) -
+                            GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft);
 
-        Vector3 LeftArmVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
-        Vector3 BodyVector = _Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                             //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                            GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
+                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
         return CaculateAngle(BodyVector, LeftArmVector, 180);
 
@@ -236,10 +243,16 @@ public class AvatarCaculator : MonoBehaviour
     public float RightArmAngle()
     {
 
-        Vector3 RightArmVector = _Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
-        Vector3 BodyVector = _Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+        Vector3 RightArmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position -
+                                 // _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
+                           GetKinectJointPosition(KinectInterop.JointType.ElbowRight) -
+                            GetKinectJointPosition(KinectInterop.JointType.ShoulderRight);
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                            //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+
+                             GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
+                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
         return CaculateAngle(RightArmVector, BodyVector, 180);
 
@@ -248,10 +261,16 @@ public class AvatarCaculator : MonoBehaviour
     public float LeftLegAngle()
     {
 
-        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position;
-        Vector3 BodyVector = _Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+        Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
+                            //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position;
+                            GetKinectJointPosition(KinectInterop.JointType.KneeLeft) -
+                            GetKinectJointPosition(KinectInterop.JointType.HipLeft);
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                            //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+
+                            GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
+                           GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
         return CaculateAngle(BodyVector, LeftLegVector, 180);
 
@@ -260,10 +279,15 @@ public class AvatarCaculator : MonoBehaviour
     public float RightLegAngle()
     {
 
-        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
-        Vector3 BodyVector = _Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+        Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
+                             GetKinectJointPosition(KinectInterop.JointType.KneeRight) -
+                            GetKinectJointPosition(KinectInterop.JointType.HipRight);
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                             //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                            GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
+                           GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
         return CaculateAngle(RightLegVector, BodyVector, 180);
 
@@ -272,11 +296,15 @@ public class AvatarCaculator : MonoBehaviour
     // 左肘关节角度
     public float LeftElbowAngle()
     {
-        Vector3 LeftForearmVector = _Animator.GetBoneTransform(HumanBodyBones.LeftHand).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
+        Vector3 LeftForearmVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftHand).position -
+                                    //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
+                                    GetKinectJointPosition(KinectInterop.JointType.WristLeft) -
+                                   GetKinectJointPosition(KinectInterop.JointType.ElbowLeft);
 
-        Vector3 LeftArmVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
+        Vector3 LeftArmVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
+                                GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.ElbowLeft);
 
         return CaculateAngle(LeftForearmVector, LeftArmVector, 180);
 
@@ -285,11 +313,15 @@ public class AvatarCaculator : MonoBehaviour
     // 右肘关节角度
     public float RightElbowAngle()
     {
-        Vector3 RightForearmVector = _Animator.GetBoneTransform(HumanBodyBones.RightHand).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
+        Vector3 RightForearmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightHand).position -
+                                     //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
+                                    GetKinectJointPosition(KinectInterop.JointType.WristRight) -
+                                   GetKinectJointPosition(KinectInterop.JointType.ElbowRight);
 
-        Vector3 RightArmVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
+        Vector3 RightArmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
+                                GetKinectJointPosition(KinectInterop.JointType.ShoulderRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.ElbowRight);
 
         return CaculateAngle(RightArmVector, RightForearmVector, 180);
     }
@@ -297,10 +329,15 @@ public class AvatarCaculator : MonoBehaviour
     // 左膝关节角度
     public float LeftKneeAngle()
     {
-        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
-        Vector3 LeftShankVector = _Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+        Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+                                GetKinectJointPosition(KinectInterop.JointType.HipLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeLeft);
+
+        Vector3 LeftShankVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position -
+                                  //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+                                GetKinectJointPosition(KinectInterop.JointType.AnkleLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeLeft);
 
         return CaculateAngle(LeftLegVector, LeftShankVector, 180);
     }
@@ -308,10 +345,15 @@ public class AvatarCaculator : MonoBehaviour
     // 右膝关节角度
     public float RightKneeAngle()
     {
-        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
-        Vector3 RightShankVector = _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+        Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+                                GetKinectJointPosition(KinectInterop.JointType.HipRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeRight);
+
+        Vector3 RightShankVector = //_Animator.GetBoneTransform(HumanBodyBones.RightFoot).position -
+                                   //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+                                 GetKinectJointPosition(KinectInterop.JointType.AnkleRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeRight);
 
         return CaculateAngle(RightLegVector, RightShankVector, 180);
     }
@@ -319,10 +361,15 @@ public class AvatarCaculator : MonoBehaviour
     // 左踝关节角度
     public float LeftAnkleAngle()
     {
-        Vector3 LeftShankVector = _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
-        Vector3 LeftFootVector = _Animator.GetBoneTransform(HumanBodyBones.LeftToes).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+        Vector3 LeftShankVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
+                                  //_Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+                                GetKinectJointPosition(KinectInterop.JointType.KneeLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.AnkleLeft);
+
+        Vector3 LeftFootVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftToes).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+                                GetKinectJointPosition(KinectInterop.JointType.FootLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.AnkleLeft);
 
         return CaculateAngle(LeftShankVector, LeftFootVector, 180);
     }
@@ -330,10 +377,15 @@ public class AvatarCaculator : MonoBehaviour
     // 右踝关节角度
     public float RightAnkleAngle()
     {
-        Vector3 RightShankVector = _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
-        Vector3 RightFootVector = _Animator.GetBoneTransform(HumanBodyBones.RightToes).position -
-                            _Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
+        Vector3 RightShankVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
+                                   //_Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
+                                GetKinectJointPosition(KinectInterop.JointType.KneeRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.AnkleRight);
+
+        Vector3 RightFootVector = //_Animator.GetBoneTransform(HumanBodyBones.RightToes).position -
+                                  //_Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
+                                GetKinectJointPosition(KinectInterop.JointType.FootRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.AnkleRight);
 
         return CaculateAngle(RightShankVector, RightFootVector, 180);
     }
@@ -386,11 +438,15 @@ public class AvatarCaculator : MonoBehaviour
     // 胯部夹角
     public float HipAngle()
     {
-        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+        Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+                                GetKinectJointPosition(KinectInterop.JointType.HipRight) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeRight);
 
-        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
-                          _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+        Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
+                                GetKinectJointPosition(KinectInterop.JointType.HipLeft) -
+                               GetKinectJointPosition(KinectInterop.JointType.KneeLeft);
 
         return CaculateAngle(LeftLegVector, RightLegVector, 180);
     }
@@ -442,6 +498,20 @@ public class AvatarCaculator : MonoBehaviour
         Vector3 Down = new Vector3(0, -1, 0);
 
         return CaculateAngle(SpineVector, Down, 180);
+    }
+
+
+    //// 将动画骨骼 转换成 Kinect关节
+    //public KinectInterop.JointType AnimatorBones2KinectJoints(HumanBodyBones Bone)
+    //{
+        
+    //}
+
+
+    // 获取对应的kinect关节点坐标
+    public static Vector3 GetKinectJointPosition(KinectInterop.JointType joint)
+    {
+        return KinectManager.Instance.GetJointKinectPosition(KinectManager.Instance.GetPrimaryUserID(), (int)joint);
     }
 
 

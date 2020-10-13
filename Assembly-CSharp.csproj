@@ -44,10 +44,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>C:\Users\81567\Desktop\Unity2017\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -907,91 +907,91 @@
      <None Include="Assets\Vectrosity\Demos\Shaders\SolidColor.shader" />
      <None Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\Editor\SubstanceBakerShader.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Timeline">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UIAutomation">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.GoogleAudioSpatializer">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ <HintPath>C:/Users/81567/Desktop/Unity2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="DemiLib">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
  </Reference>
  <Reference Include="DOTween">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="DOTweenPro">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
  <Reference Include="I18N.CJK">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/I18N.CJK.dll</HintPath>
  </Reference>
  <Reference Include="I18N">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/I18N.dll</HintPath>
  </Reference>
  <Reference Include="itextsharp">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/itextsharp.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Sqlite">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Tds">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Mono.Data.Tds.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="NPinyin">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/NPinyin.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="LCPrinter">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
  </Reference>
  <Reference Include="LZ4Sharp">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Scripts/Kinect/LZ4Sharp/LZ4Sharp.dll</HintPath>
  </Reference>
  <Reference Include="TextMeshPro-2017.2-1.0.56-Editor">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Editor.dll</HintPath>
  </Reference>
  <Reference Include="TextMeshPro-2017.2-1.0.56-Runtime">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/ShipNSea/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.2-1.0.56-Runtime.dll</HintPath>
  </Reference>
  <Reference Include="Poly2Tri">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Shooting/VolumeGrass/_Internal/Poly2Tri.dll</HintPath>
  </Reference>
  <Reference Include="Vectrosity">
- <HintPath>F:/underground/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Vectrosity/Plugins/Vectrosity.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/Admin/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+ <HintPath>C:/Users/81567/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
