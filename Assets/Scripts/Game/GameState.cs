@@ -84,7 +84,7 @@ public class GameState : MonoBehaviour
     private float _RecordTimeCount = 0;
 
     private float _WriteRecordTimeCount = 0;
-    public static float WriteRecordTime = 0.2f;           // record gravity,angles... each 0.2s 
+    public static float WriteRecordTime = 0.02f;           // record gravity,angles... each 0.02s 
 
     // tips
     private string _Tips = "";

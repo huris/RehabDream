@@ -412,6 +412,12 @@
      <Compile Include="Assets\Scripts\Manager\PatientDatabaseManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PatientDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseChart.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\EEGMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\WaveBandMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\NewBehaviourScript.cs" />
+     <Compile Include="Assets\Scripts\Muse\OSC\OSCMonitor.cs" />
      <Compile Include="Assets\Scripts\OpenDoor\DoorHandle.cs" />
      <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
@@ -424,6 +430,21 @@
      <Compile Include="Assets\Scripts\UI\GameUIHandle.cs" />
      <Compile Include="Assets\Scripts\UI\StartUIHandle.cs" />
      <Compile Include="Assets\Scripts\UI\UIHandle.cs" />
+     <Compile Include="Assets\Scripts\Wall\AngleCalculator.cs" />
+     <Compile Include="Assets\Scripts\Wall\AudiosManager.cs" />
+     <Compile Include="Assets\Scripts\Wall\CheckPosition.cs" />
+     <Compile Include="Assets\Scripts\Wall\DataBaseUtil.cs" />
+     <Compile Include="Assets\Scripts\Wall\DrawBone.cs" />
+     <Compile Include="Assets\Scripts\Wall\GameLoading.cs" />
+     <Compile Include="Assets\Scripts\Wall\GameLogin.cs" />
+     <Compile Include="Assets\Scripts\Wall\GameLogout.cs" />
+     <Compile Include="Assets\Scripts\Wall\JsonHelper.cs" />
+     <Compile Include="Assets\Scripts\Wall\LoadGameDatas.cs" />
+     <Compile Include="Assets\Scripts\Wall\Menu.cs" />
+     <Compile Include="Assets\Scripts\Wall\ModelManager.cs" />
+     <Compile Include="Assets\Scripts\Wall\PlayGame.cs" />
+     <Compile Include="Assets\Scripts\Wall\PositionCalculator.cs" />
+     <Compile Include="Assets\Scripts\Wall\SQLiteDemo.cs" />
      <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\BasicButton.cs" />
      <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\Popup.cs" />
      <Compile Include="Assets\ShipNSea\GUIPack-Clean&amp;Minimalist\Demo\Scripts\PopupOpener.cs" />
@@ -638,21 +659,6 @@
      <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\SubstanceBaker.cs" />
      <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\TerrainUVUtil.cs" />
      <Compile Include="Assets\WallTrainingResources\Fantasy Adventure Environment\Scripts\WindController.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\AngleCalculator.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\AudiosManager.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\CheckPosition.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\DataBaseUtil.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\DrawBone.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLoading.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogin.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\GameLogout.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\JsonHelper.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\LoadGameDatas.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\Menu.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\ModelManager.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PlayGame.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\PositionCalculator.cs" />
-     <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\chuanqiangscripts\SQLiteDemo.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\Rate.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\_Utility\SocialMedia.cs" />
      <Compile Include="Assets\WallTrainingResources\Resources\chuanqiangfiles\Contrast\_Scripts\_Tunnel Scripts\BendScript.cs" />
@@ -968,6 +974,9 @@
  </Reference>
  <Reference Include="System.Data">
  <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="SharpOSC">
+ <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/MuseOSC/SharpOSC.dll</HintPath>
  </Reference>
  <Reference Include="LCPrinter">
  <HintPath>E:/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>
