@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,18 +35,18 @@ namespace Muse
         // Muse信息的类型
         public enum MuseDataType
         {
+            // 五种波段
+            alpha_absolute,
+            beta_absolute,
+            gamma_absolute,
+            theta_absolute,
+            delta_absolute,
             // 脑电原始信号
             eeg,
             // 陀螺仪
             gyro,
             // 加速度
             acc,
-            // 五种波段
-            alpha_absolute,
-            beta_absolute,
-            delta_absolute,
-            theta_absolute,
-            gamma_absolute,
             //
             horseshoe,
             //
@@ -60,6 +60,17 @@ namespace Muse
 
             DefaultType,
         }
+
+        // 是否为5种脑波
+        public bool IsWaveBand()
+        {
+            return (this.DataType == MuseDataType.alpha_absolute) ||
+                    (this.DataType == MuseDataType.beta_absolute) ||
+                    (this.DataType == MuseDataType.gamma_absolute) ||
+                    (this.DataType == MuseDataType.theta_absolute) ||
+                    (this.DataType == MuseDataType.delta_absolute);
+        }
+
 
         //将信息的类型由字符串转为枚举类型
         public MuseDataType String2DataType(string RawName)
