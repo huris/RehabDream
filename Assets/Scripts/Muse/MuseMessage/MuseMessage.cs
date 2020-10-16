@@ -144,7 +144,7 @@ namespace Muse
         {
             // 展示数据
             String text;
-            text = this.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss.fff tt") + " UTC";
+            text = this.TimeStamp.AddHours(8).ToString("yyyy-MM-dd HH:mm:ss.fff tt") + " UTC-8";    //UTC-8即北京时间
 
             text += "," + DataType2String(this.DataType);  //即Packet包含的信息类型：/muse/eeg 或 //muse/gyro 或 /muse/acc 等
 

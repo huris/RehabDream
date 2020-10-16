@@ -43,7 +43,7 @@ class SingleWaveBandChart
         }
         else
         {
-            LineSerie.AddYData(Value * 10); // 由Bels 转为 deciBels（分贝）
+            LineSerie.AddYData(Value); // 由Bels 转为 deciBels（分贝）
             //Debug.Log("Update " + MuseMessage.DataType2String(Type));
             _Count = 0;
         }
@@ -146,7 +146,7 @@ public class MuseChart : MonoBehaviour {
 
     public void WriteCSVString(MuseMessage StandardMessage)
     {
-        CSVUtil.WriteCSVString("Muse.csv", true, StandardMessage.ToString());
+        CSVUtil.WriteCSVString("/Data/Muse.csv", true, StandardMessage.ToString());
     }
 
 
