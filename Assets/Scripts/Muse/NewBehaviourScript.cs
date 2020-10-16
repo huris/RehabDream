@@ -11,7 +11,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		OSCMonitor o = new OSCMonitor(5000, (MuseMessage m)=> { });
         Debug.Log(o.port);
 
-        o.StartUDPLstener();
+        o.ResetOSC();
 
         Debug.Log(2);
 	}

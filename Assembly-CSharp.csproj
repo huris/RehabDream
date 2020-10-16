@@ -413,11 +413,15 @@
      <Compile Include="Assets\Scripts\Manager\PatientDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseChart.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\CSVUtil.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\EEGMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\HandleMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseFrameMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\WaveBandMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\Muse\OSC\OSCMonitor.cs" />
+     <Compile Include="Assets\Scripts\Muse\OSC\OSCReceiver.cs" />
      <Compile Include="Assets\Scripts\OpenDoor\DoorHandle.cs" />
      <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />

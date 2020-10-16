@@ -17,6 +17,14 @@ namespace Muse
         public readonly List<object> Data;
 
         // 构造函数
+        public MuseMessage()
+        {
+            TimeStamp = DateTime.Now;
+            DataType = MuseDataType.DefaultType;
+            Data = new List<object>();
+        }
+
+        // 构造函数
         public MuseMessage(DateTime TimeStamp, MuseDataType DataType, List<object> Data)
         {
             this.TimeStamp = TimeStamp;
@@ -73,7 +81,7 @@ namespace Muse
 
 
         //将信息的类型由字符串转为枚举类型
-        public MuseDataType String2DataType(string RawName)
+        public static MuseDataType String2DataType(string RawName)
         {
             string[] temp = RawName.Split('/');
 
@@ -126,7 +134,7 @@ namespace Muse
         }
 
         // 将枚举转为字符串
-        public string DataType2String(MuseDataType Datatype)
+        public static string DataType2String(MuseDataType Datatype)
         {
             return Enum.GetName(typeof(MuseDataType), Datatype);
         }
@@ -138,11 +146,11 @@ namespace Muse
             String text;
             text = this.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss.fff tt") + " UTC";
 
-            text += " " + DataType2String(this.DataType);  //即Packet包含的信息类型：/muse/eeg 或 //muse/gyro 或 /muse/acc 等
+            text += "," + DataType2String(this.DataType);  //即Packet包含的信息类型：/muse/eeg 或 //muse/gyro 或 /muse/acc 等
 
-            if (this.Data.Count > 0)    //得到[]包裹的数据
+            if (this.Data.Count > 0)    //得到数据
             {
-                text += " [" + Data.First().ToString() + "]";
+                text += "," + Data.First().ToString();
             }
             else
             {
@@ -153,7 +161,7 @@ namespace Muse
             {
                 foreach (object obj in this.Data.Skip(1))
                 {
-                    text += ", [" + obj.ToString() + "]";
+                    text += "," + obj.ToString();
                 }
             }
 

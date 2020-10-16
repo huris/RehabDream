@@ -5,76 +5,67 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Muse { 
 
-    public partial class OSCMonitor
+    public class OSCMonitor
     {
-        private UDPListener listener;   //UDP监听器
-        public Boolean stream = false; //当前是否正在传输
-        public readonly int port;    //监听本地端口
-        MuseMessage StandardMessage;
+        private OSCReceiver _Receiver;
 
-         // 得到标准Muse数据后调用
-        private Action<MuseMessage> _Callback;
+        public readonly int port;
+        public readonly HandleMessage<MuseMessage> MuseHandle;
+        public static float Time = 0.1f;
 
 
         // 构造函数
-        public OSCMonitor(int UDPPort, Action<MuseMessage> callback)
+        public OSCMonitor(int port, HandleMessage<MuseMessage> MuseHandle)
         {
-            this.port = UDPPort;
-            this._Callback = callback;
+            _Receiver = new OSCReceiver();
+            this.port = port;
+            this.MuseHandle = MuseHandle;
         }
 
-        // 开始监听端口的UDP报文
-        public void StartUDPLstener()
-        {
-            OSCMonitor_Load(new object(), new EventArgs());
+        // 从port端口接收OSCPacket，得到MuseMessage后使用MuseHandle处理
+        public void ReceiveOSC(){
+
+            _Receiver.StartOSCListener(this.port, this.OscPacketHandle);
         }
 
-        // 监听端口
-        private void OSCMonitor_Load(object sender, EventArgs e)
+        public void ResetOSC()
         {
-            HandleOscPacket callback = (OscPacket packet) => { OscPacketHandle(packet); };
-
-            //传入 端口号port、回调函数callback，当UDP监听到数据时，将调用callback处理packet
-            listener = new UDPListener(port, callback);
+            _Receiver.ResetOSC();
         }
 
         // UDPListener调用OscPacketHandle处理OscPacket
         private async void OscPacketHandle(OscPacket packet)
         {
+
             Debug.Log("Transmitting...");
+
             //OSCBundle为OSCPacket的子类
             OscBundle bundle = (OscBundle)packet;
 
             //得到Packet的时间戳
             DateTime dt = SharpOSC.Utils.TimetagToDateTime(bundle.Timetag);
 
-
             foreach (OscMessage message in bundle.Messages)
             {
-                // 得到标准格式的Muse数据
-                StandardMessage = new MuseMessage(dt, message.Address, message.Arguments);
-                //Console.WriteLine(StandardMessage.ToString());
+                MuseMessage StandardMessage = new MuseMessage(dt, message.Address, message.Arguments);
+                //Debug.Log(StandardMessage.ToString());
 
-                // 此处调用委托传出Muse数据
-
-                if (StandardMessage.IsWaveBand())
-                {
-                    Thread t = new Thread(callback);
-                    Debug.Log("Callback1...");
-                    t.Start();
-                }
-                
+                // 此处另开线程处理得到的MuseMessage
+                await Task.Run(
+                    () => Callback(StandardMessage)
+                    );
             }
 
         }
 
-        private void callback()
+        // 得到MuseMessage后调用
+        private void Callback(MuseMessage StandardMessage)
         {
-            Debug.Log("Callback2...");
-            _Callback?.Invoke(StandardMessage);
+            MuseHandle?.Invoke(StandardMessage);
         }
 
 
@@ -91,21 +82,6 @@ namespace Muse {
                 }
             }
             return ips;
-        }
-
-
-        void OnApplicationQuit()
-        {
-            listener.Close();
-        }
-
-        void OnDestroy()
-        {
-            listener.Close();
-        }
-        public void Dispose()
-        {
-            listener.Close();
         }
     }
 
