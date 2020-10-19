@@ -60,6 +60,7 @@ public class MuseChart : MonoBehaviour {
     public OSCMonitor osc;
 
     private Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart> _WaveBands;
+    private string _FileName;
 
 
 
@@ -111,10 +112,13 @@ public class MuseChart : MonoBehaviour {
     void Awake()
     {
         InitWaveBandChart();
+        _FileName = "Data/" + PatientDataManager.instance.PatientName + ".csv";
+
 
         // 接收UDP
         osc = new OSCMonitor(5000, UpdateWaveBandChart);
         osc.ReceiveOSC();
+
     }
 
     void Update()
@@ -146,7 +150,7 @@ public class MuseChart : MonoBehaviour {
 
     public void WriteCSVString(MuseMessage StandardMessage)
     {
-        CSVUtil.WriteCSVString("/Data/Muse.csv", true, StandardMessage.ToString());
+        CSVUtil.WriteCSVString(_FileName, true, StandardMessage.ToString());
     }
 
 

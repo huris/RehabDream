@@ -419,7 +419,6 @@
      <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseFrameMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\WaveBandMessage.cs" />
-     <Compile Include="Assets\Scripts\Muse\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\Muse\OSC\OSCMonitor.cs" />
      <Compile Include="Assets\Scripts\Muse\OSC\OSCReceiver.cs" />
      <Compile Include="Assets\Scripts\OpenDoor\DoorHandle.cs" />
