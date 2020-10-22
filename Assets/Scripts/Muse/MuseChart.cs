@@ -112,7 +112,18 @@ public class MuseChart : MonoBehaviour {
     void Awake()
     {
         InitWaveBandChart();
-        _FileName = "Data/" + PatientDataManager.instance.PatientName + ".csv";
+        string temp;
+
+        if(PatientDataManager.instance == null)
+        {
+            temp = "PatientName";
+        }
+        else
+        {
+            temp = PatientDataManager.instance.PatientName;
+        }
+
+        _FileName = "Data/" + temp + ".csv";
 
 
         // 接收UDP
