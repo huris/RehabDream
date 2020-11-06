@@ -10,8 +10,12 @@ namespace Muse
     public class WaveBandMessage : MuseMessage
     {
         // 当波段的值
-        public readonly float WaveData;
+        public float WaveData;
 
+        public WaveBandMessage():base()
+        {
+            WaveData = (float)(0);
+        }
 
         public WaveBandMessage(DateTime TimeStamp, MuseDataType DataType, List<object> Data) : base(TimeStamp, DataType, Data)
         {

@@ -5,6 +5,7 @@ using Muse;
 using XCharts;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 // 存储单个波段的折线图信息
 class SingleWaveBandChart
@@ -55,51 +56,49 @@ public class MuseChart : MonoBehaviour {
 	
     // 单个折线图最多同时展示多少数据
     public int maxCacheDataNumber = 50;
+    public float FatigueUpdateTime = 0.1f;
 
     public CoordinateChart WaveBandChart;
+    public Text Fatigue;
     public OSCMonitor osc;
 
-    private Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart> _WaveBands;
+    private Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart> _WaveGraph;
     private string _FileName;
-
-
-
-
-    private float updateTime;
-    private DateTime timeNow;
+    private Dictionary<MuseMessage.MuseDataType, WaveBandMessage> _BandValues;
+    private float TimeCout = 0f;
 
     // 初始化折线图
     private void InitWaveBandChart()
     {
-        _WaveBands = new Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart>();
+        _WaveGraph = new Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart>();
 
         WaveBandChart.RemoveData();
 
-        _WaveBands.Add(
+        _WaveGraph.Add(
             MuseMessage.MuseDataType.alpha_absolute,
             new SingleWaveBandChart(MuseMessage.MuseDataType.alpha_absolute, WaveBandChart.AddSerie(SerieType.Line, "Alpha"))
             );
 
-        _WaveBands.Add(
+        _WaveGraph.Add(
             MuseMessage.MuseDataType.beta_absolute, 
             new SingleWaveBandChart(MuseMessage.MuseDataType.beta_absolute, WaveBandChart.AddSerie(SerieType.Line, "Beta"))
             );
 
-        _WaveBands.Add
+        _WaveGraph.Add
             (MuseMessage.MuseDataType.gamma_absolute, 
             new SingleWaveBandChart(MuseMessage.MuseDataType.gamma_absolute, WaveBandChart.AddSerie(SerieType.Line, "Gamma"))
             );
 
-        _WaveBands.Add(
+        _WaveGraph.Add(
             MuseMessage.MuseDataType.delta_absolute, 
             new SingleWaveBandChart(MuseMessage.MuseDataType.delta_absolute, WaveBandChart.AddSerie(SerieType.Line, "Delta"))
             );
 
-        _WaveBands.Add(
+        _WaveGraph.Add(
             MuseMessage.MuseDataType.theta_absolute, 
             new SingleWaveBandChart(MuseMessage.MuseDataType.theta_absolute, WaveBandChart.AddSerie(SerieType.Line, "Theta"))
             );
-        
+
 
         WaveBandChart.legend.show = true;
         WaveBandChart.legend.itemWidth = 15f;
@@ -112,6 +111,30 @@ public class MuseChart : MonoBehaviour {
     void Awake()
     {
         InitWaveBandChart();
+
+        _BandValues =  new Dictionary<MuseMessage.MuseDataType, WaveBandMessage>();
+        _BandValues.Add(
+    MuseMessage.MuseDataType.alpha_absolute,
+    new WaveBandMessage()
+    );
+        _BandValues.Add(
+            MuseMessage.MuseDataType.beta_absolute,
+            new WaveBandMessage()
+            );
+        _BandValues.Add(
+            MuseMessage.MuseDataType.gamma_absolute,
+            new WaveBandMessage()
+            );
+        _BandValues.Add(
+            MuseMessage.MuseDataType.delta_absolute,
+            new WaveBandMessage()
+            );
+        _BandValues.Add(
+            MuseMessage.MuseDataType.theta_absolute,
+            new WaveBandMessage()
+            );
+
+
         string temp;
 
         if(PatientDataManager.instance == null)
@@ -135,7 +158,25 @@ public class MuseChart : MonoBehaviour {
     void Update()
     {
 
-       
+        TimeCout += Time.deltaTime;
+        if (TimeCout > FatigueUpdateTime)
+        {
+            TimeCout = 0f;
+
+            // 疲劳值
+            if ((_BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData - 0) > float.Epsilon)
+            {
+                // (Alpha + Thelta) / Belta
+                Fatigue.text = "Fatigue: " + (
+                    (_BandValues[MuseMessage.MuseDataType.alpha_absolute].WaveData +
+                    _BandValues[MuseMessage.MuseDataType.theta_absolute].WaveData) /
+                    _BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData).ToString(".#2");
+            }
+        }
+
+
+        
+
     }
 
 
@@ -149,13 +190,17 @@ public class MuseChart : MonoBehaviour {
             WaveBandMessage WaveBand = new WaveBandMessage(StandardMessage);
 
             // 更新对应波段的折线图
-            _WaveBands[WaveBand.DataType].UpdateSerie(WaveBand.WaveData);
+            _WaveGraph[WaveBand.DataType].UpdateSerie(WaveBand.WaveData);
+
+            //记录波段值
+            _BandValues[WaveBand.DataType].WaveData = WaveBand.WaveData;
         }
     
 
         await Task.Run(
                     () => WriteCSVString(StandardMessage)
                     );
+
 
     }
 
