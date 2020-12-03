@@ -165,16 +165,28 @@ public class SoccerDistance
         float a2 = 6f;
         float a3 = 7f;
 
-        return a1 * this.UponSoccerDistance * this.UponSoccerScore / this.UponSoccerTime 
-             + a1 * this.UponRightSoccerDistance * this.UponRightSoccerScore / this.UponRightSoccerTime
-             + a1 * this.RightSoccerDistance * this.RightSoccerScore / this.RightSoccerTime 
-             + a1 * this.DownRightSoccerDistance * this.DownRightSoccerScore / this.DownRightSoccerTime
-             + a1 * this.DownSoccerDistance * this.DownSoccerScore / this.DownSoccerTime 
-             + a1 * this.DownLeftSoccerDistance * this.DownLeftSoccerScore / this.DownLeftSoccerTime
-             + a1 * this.LeftSoccerDistance * this.LeftSoccerScore / this.LeftSoccerTime 
-             + a1 * this.UponLeftSoccerDistance * this.UponLeftSoccerScore / this.UponLeftSoccerTime
-             + a2 * this.FrontSoccerDistance * this.FrontSoccerScore / this.FrontSoccerTime 
-             + a3 * this.BehindSoccerDistance * this.BehindSoccerScore / this.BehindSoccerTime;
+        //return a1 * this.UponSoccerDistance * this.UponSoccerScore / this.UponSoccerTime 
+        //     + a1 * this.UponRightSoccerDistance * this.UponRightSoccerScore / this.UponRightSoccerTime
+        //     + a1 * this.RightSoccerDistance * this.RightSoccerScore / this.RightSoccerTime 
+        //     + a1 * this.DownRightSoccerDistance * this.DownRightSoccerScore / this.DownRightSoccerTime
+        //     + a1 * this.DownSoccerDistance * this.DownSoccerScore / this.DownSoccerTime 
+        //     + a1 * this.DownLeftSoccerDistance * this.DownLeftSoccerScore / this.DownLeftSoccerTime
+        //     + a1 * this.LeftSoccerDistance * this.LeftSoccerScore / this.LeftSoccerTime 
+        //     + a1 * this.UponLeftSoccerDistance * this.UponLeftSoccerScore / this.UponLeftSoccerTime
+        //     + a2 * this.FrontSoccerDistance * this.FrontSoccerScore / this.FrontSoccerTime 
+        //     + a3 * this.BehindSoccerDistance * this.BehindSoccerScore / this.BehindSoccerTime;
+
+
+        return this.UponSoccerScore +
+             this.UponRightSoccerScore 
+             +  this.RightSoccerScore 
+             +  this.DownRightSoccerScore 
+             +  this.DownSoccerScore 
+             +  this.DownLeftSoccerScore 
+             +  this.LeftSoccerScore 
+             +  this.UponLeftSoccerScore 
+             +  this.FrontSoccerScore 
+             +  this.BehindSoccerScore ;
     }
 
     //public float[] GetMaxSoccerDistances()

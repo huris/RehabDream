@@ -29,9 +29,10 @@ namespace ShipNSea
         }
         public void ComfirmBtnFunc()
         {
-            loadSceneIE = LoadSceneAsync();
-            loadScenceSliderGO.SetActive(true);
-            StartCoroutine(loadSceneIE);
+            //loadSceneIE = LoadSceneAsync();
+            //loadScenceSliderGO.SetActive(true);
+            //StartCoroutine(loadSceneIE);
+            SceneManager.LoadScene("BalanceFishing");
         }
 
         public void SubmitGameTime()
@@ -71,10 +72,11 @@ namespace ShipNSea
 
         IEnumerator LoadSceneAsync()
         {
+            yield return new WaitForSeconds(1f);
             async = SceneManager.LoadSceneAsync("BalanceFishing");
             //async.allowSceneActivation = false;
             yield return async;
-            StopCoroutine(loadSceneIE);
+            //StopCoroutine(loadSceneIE);
         }
         private void Update()
         {
@@ -82,7 +84,7 @@ namespace ShipNSea
             if (async != null)
             {
                 // print(async.progress);
-                loadScenceSlider.value = async.progress;
+                //loadScenceSlider.value = async.progress;
             }
             if (userID == 0)
             {

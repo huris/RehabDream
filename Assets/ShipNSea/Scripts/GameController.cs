@@ -28,14 +28,14 @@ namespace ShipNSea
         public bool kinect = false;
         //叫什么Kinect敏感度 默认值给80 就是一个系数
         public float kinectSensitivity;
-        public GravityCenter gravityCenterScript;
+        public AvatarCaculator gravityCenterScript;
 
         [Header("Control Simulation")]
         public SimulationType simulationType;
         public float relativeSensitivity = 10f;
 
         [Header("Game Settings")]
-        public int totalTime; // s
+        public int totalTime = 60; // s
         public GameObject centerFGO;
         public GameObject leftFGO;
         public GameObject rightFGO;
@@ -45,7 +45,7 @@ namespace ShipNSea
         public Vector2 pitchRange = new Vector2(0.5f, 1f);
 
         [Header("我的加分Prefab")]
-        public GameObject gotPointTextMeshPro;
+        //public GameObject gotPointTextMeshPro;
         [Header("我的Canvas")]
         public Canvas canvas;
 
@@ -172,11 +172,21 @@ namespace ShipNSea
 
 
                 //脖子节点
-                Vector3 center = gravityCenterScript.GetGravityCenter();
+                Vector3 center;
+                if (DoctorDataManager.instance.doctor.patient.PatientSex != "女")
+                {
+                    center = gravityCenterScript.CalculateGravityCenter(true);
+                }
+                else
+                {
+                    center = gravityCenterScript.CalculateGravityCenter(false);
+                }
+
+                    
                 //原点0,0,0
                 Vector3 footCenter = centerPoint.position;
                 //脖子节点->v.zero
-                Vector3 diff = center - footCenter;
+                Vector3 diff = (center - footCenter) * 1.5f;
 
                 _relativeGravityCenter = new Vector2(diff.x, diff.z);
 
@@ -256,13 +266,13 @@ namespace ShipNSea
             _currentTime += Time.deltaTime;
             if (_currentTime > totalTime)
             {
-                _gameState.FinishGame();
+                _gameState.FinishGame(); Reset();
             }
 
             // Cheating
             if (Input.GetKey(KeyCode.Delete))
             {
-                _gameState.FinishGame();
+                _gameState.FinishGame(); Reset();
             }
         }
 

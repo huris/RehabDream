@@ -266,6 +266,7 @@ namespace ShipNSea
 
         public void FinishGame()
         {
+
             PauseGame();
 
             DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last().SetTrainingEndTime(DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));

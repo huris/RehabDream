@@ -113,6 +113,7 @@ public class AvatarCaculator : MonoBehaviour
     private void Start()
     {
         this._Animator = GetComponent<Animator>(); ;
+        print("Get animator");
     }
 
 
@@ -121,32 +122,33 @@ public class AvatarCaculator : MonoBehaviour
     public Vector3 GetGravityCenter()       //return Gravity Center
     {
 
-
-        if (fakeGravityCenter)
-        {
-            return _Animator.GetBoneTransform(HumanBodyBones.Neck).position; //取脖子位置 
-        }
-
+        //if (fakeGravityCenter)
+        //{
+        //    return _Animator.GetBoneTransform(HumanBodyBones.Neck).position; //取脖子位置 
+        //}
 
 
-        if (usingProfile > profiles.Count)
-        {        //如果没有一套肢体信息
-            return Vector3.zero;
-        }
 
-        GravityCenterProfile profile = profiles[usingProfile];
-        Vector3 com = Vector3.zero;
-        foreach (GravityCenterSegment segment in profile.segments)
-        {
+        //if (usingProfile > profiles.Count)
+        //{        //如果没有一套肢体信息
+        //    return Vector3.zero;
+        //}
 
-            Transform transformD = _Animator.GetBoneTransform(segment.boneD);
-            Transform transformP = _Animator.GetBoneTransform(segment.boneP);
+        //GravityCenterProfile profile = profiles[usingProfile];
+        //Vector3 com = Vector3.zero;
+        //foreach (GravityCenterSegment segment in profile.segments)
+        //{
 
-            com += (((transformD.position - transformP.position) * segment.com + transformP.position) * segment.mi * segment.weight);
-        }
-        com /= profile.segments.Count;
+        //    Transform transformD = _Animator.GetBoneTransform(segment.boneD);
+        //    Transform transformP = _Animator.GetBoneTransform(segment.boneP);
 
-        return com;
+        //    com += (((transformD.position - transformP.position) * segment.com + transformP.position) * segment.mi * segment.weight);
+        //}
+        //com /= profile.segments.Count;
+
+        //return com;
+
+        return Vector3.zero;
     }
 
     // 新增节段法计算人体重心

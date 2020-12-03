@@ -163,14 +163,15 @@ namespace XCharts
 
                 // Evaluation
                 EvaluationScore = transform.Find("Evaluation/EvaluationInfo/Score/EvaluationScore").GetComponent<Text>();
-                EvaluationScore.text = evaluation.EvaluationScore.ToString("0.00") + " 分";
+                //EvaluationScore.text = evaluation.EvaluationScore.ToString("0.00") + " 分";
+                EvaluationScore.text = evaluation.EvaluationScore.ToString() + " 分";
 
                 EvaluationDuration = transform.Find("Evaluation/EvaluationInfo/Duration/EvaluationDuration").GetComponent<Text>();
                 EvaluationDuration.text = (long.Parse(evaluation.EvaluationEndTime.Substring(9, 2)) * 3600 + long.Parse(evaluation.EvaluationEndTime.Substring(12, 2)) * 60 + long.Parse(evaluation.EvaluationEndTime.Substring(15, 2))
                                            - long.Parse(evaluation.EvaluationStartTime.Substring(9, 2)) * 3600 - long.Parse(evaluation.EvaluationStartTime.Substring(12, 2)) * 60 - long.Parse(evaluation.EvaluationStartTime.Substring(15, 2))).ToString() + " 秒";
 
                 EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
-                float TrainingEvaluationRate = evaluation.EvaluationScore;
+                float TrainingEvaluationRate = evaluation.EvaluationScore/40;
                 if (TrainingEvaluationRate >= 80f) { EvaluationRank.text = "1 级"; }
                 else if (TrainingEvaluationRate >= 70f) { EvaluationRank.text = "2 级"; }
                 else if (TrainingEvaluationRate >= 60f) { EvaluationRank.text = "3 级"; }

@@ -87,6 +87,11 @@ public class PlayGame : MonoBehaviour
     List<Sprite> sprites;
     public Text debug_text;
 
+    public MuseChart chart;
+
+    private List<int> ActualAction;
+    private List<bool> IsPass;
+
     private void OnEnable()
     {
 
@@ -146,12 +151,17 @@ public class PlayGame : MonoBehaviour
                         //生成游戏中以此出现的动作序列
                         actionIds = new List<int>();
                         actionNum = 0;
+
+                        ActualAction = new List<int>(); ;
+                        IsPass = new List<bool>(); ;
+
                         foreach (var item in currentLevel.actionRates)
                         {
                             actionNum += item.Value;
                             for (int i = 0; i < item.Value; i++)
                             {
                                 actionIds.Add(item.Key);
+
                             }
                         }//以上是生成该关卡所包含的动作的index,关卡内该动作出现几次生成几次。
 
@@ -399,6 +409,9 @@ public class PlayGame : MonoBehaviour
                         int index = 0;
                         if (currentLevel.isWallRandom) index = UnityEngine.Random.Range(0, actionIds.Count);    //随机选取动作，如果不随机，则每次选取index=0的动作，玩成后从列表中删除
                         int actionId = actionIds[index];
+
+                        ActualAction.Add(actionId); //记录动作顺序
+
                         foreach (var item in DATA.actionList)
                         {
                             if (actionId == item.id)
@@ -469,8 +482,27 @@ public class PlayGame : MonoBehaviour
                             // 存在该动作的Kinect模型
                             if (DATA.Name2Gesture.ContainsKey(standord_action.name))
                             {
-                                KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
-                                Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
+                                if(standord_action.name.Equals("左脚单脚站立") || standord_action.name.Equals("右脚单脚站立"))
+                                {
+                                    Debug.Log(1);
+                                    if (GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) > 0.2f)
+                                    {
+                                        KinectScore = 81;
+                                        Debug.Log(2);
+                                    }
+                                    else
+                                    {
+                                        KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                                        Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
+                                        Debug.Log(3);
+                                    }
+                                 
+                                }
+                                else
+                                {
+                                    KinectScore = (int)(GestureSourceManager.instance.GetGestureConfidence(DATA.Name2Gesture[standord_action.name]) * 100);
+                                    Debug.Log("Gesture " + DATA.Name2Gesture[standord_action.name] + " : " + KinectScore);
+                                }
                             }
                             else
                             {
@@ -487,6 +519,7 @@ public class PlayGame : MonoBehaviour
                                 #region 按照Kinect模型评分在屏幕上显示结果
                                 if (KinectValue < 0)
                                 {
+                                    IsPass.Add(true);
                                     passNum++;
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
@@ -521,6 +554,10 @@ public class PlayGame : MonoBehaviour
                                 }
                                 else
                                 {
+                                    perfectNum = 0;
+                                    greatNum = 0;
+                                    goodNum = 0;
+                                    IsPass.Add(false);
                                     StartCoroutine(RedScreenForNotPass());  //红屏1.5s
                                     performance.SetActive(false);
                                     performanceTimes.SetActive(false);
@@ -533,6 +570,7 @@ public class PlayGame : MonoBehaviour
                                 #region 按照角度检测评分
                                 if (value < 0)
                                 {
+                                    IsPass.Add(true);
                                     passNum++;
                                     //AudiosManager.instance.PlayAudioEffect("pass");
                                     performance.SetActive(true);
@@ -567,7 +605,7 @@ public class PlayGame : MonoBehaviour
                                 }
                                 else
                                 {
-
+                                    IsPass.Add(false);
                                     StartCoroutine(RedScreenForNotPass());  //红屏1.5s
                                     performance.SetActive(false);
                                     performanceTimes.SetActive(false);
@@ -1228,8 +1266,11 @@ public class PlayGame : MonoBehaviour
             for (int i = 0; i < accuracyList.Count; i++)
             {
                 average += accuracyList[i];
-                passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
+               // passNum += accuracyList[i] > DATA.ActionMatchThreshold["GOOD"] ? 1 : 0;
             }
+
+            passNum += CountSuccess(actionData.Key);
+
             totalAccuracy += average;
             totalPassNum += passNum * 100;
             actionNum += accuracyList.Count;
@@ -1609,6 +1650,11 @@ public class PlayGame : MonoBehaviour
     }
     public void ClickYes()
     {
+        if (chart != null)
+        {
+            chart.Reset();
+        }
+
         AudiosManager.instance.PlayAudioEffect("click_button");
         transform.root.Find("Game/Over").gameObject.SetActive(false);
         state = "ready";
@@ -1619,6 +1665,12 @@ public class PlayGame : MonoBehaviour
     }
     public void ClickNo()
     {
+        if (chart != null)
+        {
+            chart.Reset();
+        }
+
+
         // 训练结束后退出游戏
         AudiosManager.instance.PlayAudioEffect("click_button");
         //transform.root.Find("Login").gameObject.SetActive(true);
@@ -1816,5 +1868,20 @@ public class PlayGame : MonoBehaviour
             Debug.Log("2: "+ path);
         }
 
+    }
+
+
+
+    private int CountSuccess(int actionID)
+    {
+        int count = 0;
+        for(int i = 0; i < ActualAction.Count; i++)
+        {
+            if((ActualAction[i] == actionID) && IsPass[i]==true)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }

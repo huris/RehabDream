@@ -199,8 +199,8 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
                     "TEXT NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
                     "TEXT NOT NULL",
                     "INTEGER NOT NULL",
                     "PRIMARY KEY(PatientID)" }
@@ -221,8 +221,8 @@ public class DoctorDatabaseManager : MonoBehaviour
 
                 new String[] {
                     "INTEGER UNIQUE NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
-                    "INTEGER UNIQUE NOT NULL",
+                    "INTEGER NOT NULL",
+                    "INTEGER NOT NULL",
                     "PRIMARY KEY(PatientID)" }
                 );
             Debug.Log("@DatabaseManager: Create FishTrainingPlanTableName");
@@ -437,6 +437,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "EvaluationID",
                     "PatientID",
+                    "EvaluationRatio",
                     "EvaluationHeight",
                     "EvaluationStartTime",
                     "EvaluationEndTime",
@@ -446,6 +447,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                 new String[] {
                     "INTEGER NOT NULL",
                     "INTEGER NOT NULL",
+                    "FLOAT NOT NULL",
                     "FLOAT NOT NULL",
                     "TEXT NOT NULL",
                     "TEXT NOT NULL",
@@ -1124,8 +1126,8 @@ public class DoctorDatabaseManager : MonoBehaviour
         SqliteDataReader reader;    //sql读取器
         string QueryString = "SELECT * FROM PatientInfo where PatientID=" + PatientID.ToString();
 
-        try
-        {
+        //try
+        //{
 
             reader = PatientDatabase.ExecuteQuery(QueryString);
             reader.Read();
@@ -1134,9 +1136,15 @@ public class DoctorDatabaseManager : MonoBehaviour
             {
                 print(QueryString);
 
+            print(PatientID.ToString());
+            print(AddSingleQuotes(trainingPlan.PlanDifficulty));
+            print(trainingPlan.GameCount.ToString());
+            print(trainingPlan.PlanCount.ToString());
+            print(AddSingleQuotes(trainingPlan.PlanDirection));
+            print(trainingPlan.PlanTime.ToString());
 
-                //write PatientID-PlanDifficulty-GameCount-PlanCount to DoctorDataBase.db
-                DoctorDatabase.InsertValues("TrainingPlan", //table name
+            //write PatientID-PlanDifficulty-GameCount-PlanCount to DoctorDataBase.db
+            DoctorDatabase.InsertValues("TrainingPlan", //table name
                                             new String[] {
                                                 PatientID.ToString(),
                                                 AddSingleQuotes(trainingPlan.PlanDifficulty),
@@ -1154,13 +1162,13 @@ public class DoctorDatabaseManager : MonoBehaviour
                 Debug.Log("@UserManager: MakePatientTrainingPlan Fail");
                 return DatabaseReturn.Fail;
             }
-        }
-        catch (SqliteException e)
-        {
+        //}
+        //catch (SqliteException e)
+        //{
             Debug.Log("@UserManager: MakePatientTrainingPlan SqliteException");
             DoctorDatabase?.CloseConnection();
             return DatabaseReturn.Fail;
-        }
+        //}
     }
 
     // make Patient's Training Plan
@@ -2391,6 +2399,7 @@ public class DoctorDatabaseManager : MonoBehaviour
                     //reader.GetInt64(reader.GetOrdinal("TrainingID")),
                     reader.GetInt64(reader.GetOrdinal("EvaluationID")),
                     //reader.GetFloat(reader.GetOrdinal("EvaluationWidth")),
+                    reader.GetFloat(reader.GetOrdinal("EvaluationRatio")),
                     reader.GetFloat(reader.GetOrdinal("EvaluationHeight")),
                     reader.GetString(reader.GetOrdinal("EvaluationStartTime")),
                     reader.GetString(reader.GetOrdinal("EvaluationEndTime")),

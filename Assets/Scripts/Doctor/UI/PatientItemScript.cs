@@ -117,8 +117,9 @@ public class PatientItemScript : MonoBehaviour
                             //obj.transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.Find("FunctionManager/PatientInfoEvaluateItem").GetComponent<Toggle>().isOn = true;
                         }
                     });
-                   
-                    this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "足球守门", "重心捕鱼", "模拟人生", "训练类型" });
+
+                    //this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "足球守门", "重心捕鱼", "模拟人生", "训练类型" });
+                    this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().AddOptions(new List<string> { "足球守门", "重心捕鱼", "训练类型" });
                     this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().value = this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().options.Count - 1;
 
                     this.transform.GetChild(i).GetChild(0).GetChild(6).gameObject.GetComponent<Dropdown>().onValueChanged.AddListener(delegate {

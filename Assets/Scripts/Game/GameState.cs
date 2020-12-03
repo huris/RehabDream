@@ -48,7 +48,7 @@ public class GameState : MonoBehaviour
     public float PrepareTime => PatientDataManager.instance.LaunchSpeed;          // prepare for shoot
 
     [Header("Distance Paraments")]
-    public static float AddDistancePercent = 0.2f;
+    public static float AddDistancePercent = 0.1f;
     public static float MaxDistancePercent = 1.1f;
     public static float MinDistancePercent = 0.8f;
 
@@ -84,7 +84,7 @@ public class GameState : MonoBehaviour
     private float _RecordTimeCount = 0;
 
     private float _WriteRecordTimeCount = 0;
-    public static float WriteRecordTime = 0.02f;           // record gravity,angles... each 0.02s 
+    public static float WriteRecordTime = 0.2f;           // record gravity,angles... each 0.02s 
 
     // tips
     private string _Tips = "";
@@ -192,7 +192,7 @@ public class GameState : MonoBehaviour
 
         GameUIHandle.SetTrainingProgress(PatientDataManager.instance.TimeCount, PatientDataManager.Minute2Second(PatientDataManager.instance.TrainingTime));
         //}
-        
+
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             _OnSessionOver2GameOver?.Invoke();
@@ -366,13 +366,13 @@ public class GameState : MonoBehaviour
         if (_Caculator.CloseEnough(Soccer.transform.position, "左手", 0.3f) &&
             _Caculator.CloseEnough(Soccer.transform.position, "右手", 0.3f))
         {
-        
+
             this._Win?.Invoke();
         }
         else
         {
-              this.ShowWrongLimb();
-               this._Fail?.Invoke();
+            this.ShowWrongLimb();
+            this._Fail?.Invoke();
         }
     }
 
@@ -468,7 +468,7 @@ public class GameState : MonoBehaviour
     // write Database after game over
     private void GameOverWriteDatabase()
     {
-        
+
         //write Patient Record
         PatientDatabaseManager.instance.WritePatientRecord(
             PatientDataManager.instance.TrainingID,
@@ -529,23 +529,25 @@ public class GameState : MonoBehaviour
     }
 
     // Shoot
-    private void Shoot() {
+    private void Shoot()
+    {
         StartCoroutine(StartShoot());
     }
 
     //Shooter run and shoot
-    private IEnumerator StartShoot() {
+    private IEnumerator StartShoot()
+    {
         Animator animator = Shooter.GetComponent<Animator>();
         // distance between shooter and soccer
         float Distance = Mathf.Abs(SoccerStart.transform.position.x - ShooterStart.transform.position.x);
         animator.CrossFade("BlendTree", 0.2f, 0);
         animator.SetFloat("Blend", 0.5f);
-        
-        
+
+
         // play animation
         while (true)
         {
-            if(this._state != State.Pause)  //pause
+            if (this._state != State.Pause)  //pause
             {
                 float Percent = 1.0f - Mathf.Abs(Shooter.transform.position.x - SoccerStart.transform.position.x) / Distance;
                 //Debug.Log(animator.GetFloat("Blend"));
@@ -562,9 +564,10 @@ public class GameState : MonoBehaviour
                 // Update Animation parament
                 animator.SetFloat("Blend", Percent > 0.5f ? Percent : 0.5f);
             }
-            else{
+            else
+            {
 
-                
+
             }
             yield return null;
         }
@@ -577,7 +580,7 @@ public class GameState : MonoBehaviour
         _Shooting.ShootOver();
     }
 
-    private  IEnumerator Coroutine2()
+    private IEnumerator Coroutine2()
     {
         yield return new WaitForSeconds(0.2f);
     }
@@ -607,7 +610,7 @@ public class GameState : MonoBehaviour
     // encourage
     private void Encourage()
     {
-        StartCoroutine(GameUIHandle.ShowEncouragePicture(UnityEngine.Random.Range(0,3), 3.0f));
+        StartCoroutine(GameUIHandle.ShowEncouragePicture(UnityEngine.Random.Range(0, 3), 3.0f));
         SoundManager.instance.Play(CheerUpSE, SoundManager.SoundType.SE, PatientDataManager.instance.seVolume);
     }
 
@@ -627,7 +630,7 @@ public class GameState : MonoBehaviour
     private AudioClip Word2Se(string Tip)
     {
         string[] Tips = new string[] { "正上方", "右上方", "正右方", "右下方", "正下方", "左下方", "正左方", "左上方" };
-        AudioClip[] SeTips = new AudioClip[]{UponSeTip, UponRightSeTip, RightSeTip, DownRightSeTip, DownSeTip, DownLeftSeTip,LeftSeTip,UponLeftSeTip};
+        AudioClip[] SeTips = new AudioClip[] { UponSeTip, UponRightSeTip, RightSeTip, DownRightSeTip, DownSeTip, DownLeftSeTip, LeftSeTip, UponLeftSeTip };
         if (System.Array.IndexOf(Tips, Tip) != -1)
         {
             return SeTips[System.Array.IndexOf(Tips, Tip)];
@@ -734,7 +737,7 @@ public class GameState : MonoBehaviour
                 _TargetDistance += _TargetDistance * AddDistancePercent;   //+5%
             }
         }
-        else if(FailTooMuch())
+        else if (FailTooMuch())
         {
             ResetFailCount();
             _TargetDistance = _Caculator.InitDistance();
@@ -742,7 +745,7 @@ public class GameState : MonoBehaviour
         }
         else
         {
-                //nothing
+            //nothing
         }
 
         //Target = Target + Distance * e_Direction
@@ -753,11 +756,12 @@ public class GameState : MonoBehaviour
 
 
     // Target is near(left shoulder, right shoulder)
-    private Vector3 GenerateEntryTarget(){
+    private Vector3 GenerateEntryTarget()
+    {
         Vector3 Target = _Caculator.GetSpinePosition(); //default target
         if (NoFail())
         {
-            if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)       
+            if (_OutOfRange && PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
             {
                 //已经最大，但是患者仍然成功
                 //如果训练方向为任意方向，则切换方向
@@ -768,23 +772,23 @@ public class GameState : MonoBehaviour
             {
                 _TargetDistance += _TargetDistance * AddDistancePercent;   //+5%
             }
-            
+
         }
         else if (FailTooMuch())
         {
-            if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+            if (PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
             {
                 // 如果训练方向为任意方向，则切换方向
                 ResetFailCount();
                 _Direction = PatientDataManager.ChangeDirection(_Direction);    //change direction  
-                _TargetDistance= PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
+                _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
             }
             else
             {
                 // 否则，保持方向，重新开始
                 ResetFailCount();
                 _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * MinDistancePercent;
-            } 
+            }
         }
         else
         {
@@ -848,11 +852,11 @@ public class GameState : MonoBehaviour
     private Vector3 GenerateGeneralTarget()
     {
         Vector3 Target = _Caculator.GetSpinePosition(); //default target
-        if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+        if (PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
         {
             _Direction = (PatientDataManager.DirectionType)((int)Random.Range(0f, 8f));
         }
-        _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] * 
+        _TargetDistance = PatientDataManager.instance.MaxDirection[(int)_Direction] *
             Random.Range(MinDistancePercent, MaxDistancePercent);   //80% ~ 110%
 
         //Target = Target + Distance * e_Direction
@@ -899,14 +903,14 @@ public class GameState : MonoBehaviour
     private Vector3 Distance2Vector3(float Distance, PatientDataManager.DirectionType Direction, Vector3 InitTarget)
     {
         Vector3 e = new Vector3(0f, 0f, 1f);
-        Vector3 Target ;
-        float HalfSqrt2= 0.5f * Mathf.Sqrt(2);
+        Vector3 Target;
+        float HalfSqrt2 = 0.5f * Mathf.Sqrt(2);
 
         // get e_Direction
         switch (Direction)
         {
             case PatientDataManager.DirectionType.UponDirection:    //上
-                e= new Vector3(0f, 1f, 0f);
+                e = new Vector3(0f, 1f, 0f);
                 break;
             case PatientDataManager.DirectionType.UponLeftDirection:    //左上
                 e = new Vector3(0f, HalfSqrt2, -HalfSqrt2);
@@ -950,7 +954,7 @@ public class GameState : MonoBehaviour
         Vector3 result = Target;
 
         //Restrict x
-        result.x = TopLeft.position.x + Random.Range(0,RandomXmax) * 2;
+        result.x = TopLeft.position.x + Random.Range(0, RandomXmax) * 2;
 
         // Restrict y
         if (result.y > TopLeft.position.y)
@@ -958,7 +962,7 @@ public class GameState : MonoBehaviour
             result.y = TopLeft.position.y - Random.Range(0, RandomYmax);
             _OutOfRange = true;
         }
-        else if(result.y < BottomLeft.position.y)
+        else if (result.y < BottomLeft.position.y)
         {
             result.y = BottomLeft.position.y + Random.Range(0, RandomYmin);
             _OutOfRange = true;
@@ -970,7 +974,7 @@ public class GameState : MonoBehaviour
             result.z = TopRight.position.z - Random.Range(0, RandomZmax);
             _OutOfRange = true;
         }
-        else if(result.z < TopLeft.position.z)
+        else if (result.z < TopLeft.position.z)
         {
             result.z = TopLeft.position.z + Random.Range(0, RandomZmax);
             _OutOfRange = true;
@@ -1065,11 +1069,12 @@ public class GameState : MonoBehaviour
     {
         ControlPoint.position = (SoccerStart.position + SoccerTarget.position) / 2;
         float RandomX = Random.Range(RandomXmin, RandomXmax);
-        float RandomY = Random.Range(RandomYmin, RandomYmax) + Random.Range(1, 2) * (TopLeft.position.y-BottomLeft.position.y);
+        float RandomY = Random.Range(RandomYmin, RandomYmax) + Random.Range(1, 2) * (TopLeft.position.y - BottomLeft.position.y);
         float RandomZ;
 
         // 目标在左侧，则曲线向左侧弯曲，右侧同理
-        if (SoccerTarget.position.z > (TopRight.position.z+TopLeft.position.z)/2) {
+        if (SoccerTarget.position.z > (TopRight.position.z + TopLeft.position.z) / 2)
+        {
             RandomZ = Random.Range(RandomZmin, RandomZmax) + Random.Range(0, 1) * (TopRight.position.z - TopLeft.position.z) / 2;
         }
         else
@@ -1119,7 +1124,7 @@ public class GameState : MonoBehaviour
             this._Direction = PatientDataManager.DirectionType.UponDirection;   //direction of shoot
             this._TargetDistance = _Caculator.InitDistance();   //distance of shoot
         }
-        else if(PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
+        else if (PatientDataManager.instance.TrainingDirection == PatientDataManager.DirectionType.AnyDirection)
         {
             this._Direction = PatientDataManager.DirectionType.UponDirection;   //direction of shoot
             this._TargetDistance = PatientDataManager.instance.MaxDirection[0] * MinDistancePercent;   //distance of shoot
@@ -1169,7 +1174,7 @@ public class GameState : MonoBehaviour
     // evaluate over
     private bool EvaluateOver()
     {
-        if(_Direction == PatientDataManager.DirectionType.RightDirection && FailTooMuch())
+        if (PatientDataManager.instance.IsEvaluated==1 && FailTooMuch())
         {
             return true;
         }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1745812086}
-  m_IndirectSpecularColor: {r: 0.20225817, g: 0.27467826, b: 0.4096553, a: 0.5}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ RectTransform:
   - {fileID: 2045783152}
   - {fileID: 113050159}
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -738,6 +738,7 @@ GameObject:
   - component: {fileID: 59541635}
   - component: {fileID: 59541634}
   - component: {fileID: 59541638}
+  - component: {fileID: 59541639}
   m_Layer: 0
   m_Name: CharacterHelper
   m_TagString: Untagged
@@ -840,6 +841,21 @@ MonoBehaviour:
   com: 0.5
   mi: 0
   weight: 1
+--- !u!114 &59541639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 59541633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8784356c45b77eb49b05700f4cbfa3c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profiles: []
+  usingProfile: 0
+  visualize: 1
+  fakeGravityCenter: 0
 --- !u!1001 &61099986
 Prefab:
   m_ObjectHideFlags: 0
@@ -1056,7 +1072,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2067,7 +2083,7 @@ Prefab:
     - target: {fileID: 224916883599903910, guid: 7447b717282dd4d48a37cd019531cc40,
         type: 2}
       propertyPath: m_RootOrder
-      value: 24
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 224916883599903910, guid: 7447b717282dd4d48a37cd019531cc40,
         type: 2}
@@ -4013,7 +4029,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4227,7 +4243,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -4487,7 +4503,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -4931,6 +4947,11 @@ Prefab:
         type: 2}
       propertyPath: m_FontData.m_MaxSize
       value: 73
+      objectReference: {fileID: 0}
+    - target: {fileID: 114777694559135114, guid: 7447b717282dd4d48a37cd019531cc40,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7447b717282dd4d48a37cd019531cc40, type: 2}
@@ -5992,7 +6013,7 @@ RectTransform:
   m_LocalScale: {x: 0.46566913, y: 0.46566913, z: 0.46566913}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -6674,7 +6695,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7469,7 +7490,7 @@ RectTransform:
   m_LocalScale: {x: 0.46566913, y: 0.46566913, z: 0.46566913}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -7551,7 +7572,7 @@ MonoBehaviour:
   rangeSize: {x: 150, y: 150}
   kinect: 1
   kinectSensitivity: 360
-  gravityCenterScript: {fileID: 59541634}
+  gravityCenterScript: {fileID: 59541639}
   simulationType: 0
   relativeSensitivity: 30
   totalTime: 300
@@ -7560,8 +7581,6 @@ MonoBehaviour:
   rightFGO: {fileID: 420665766}
   volumeRange: {x: 0.1, y: 1}
   pitchRange: {x: 0.5, y: 1}
-  gotPointTextMeshPro: {fileID: 1606736532354286, guid: 2bf6c926f55243a488d7dce6342bc083,
-    type: 2}
   canvas: {fileID: 856861055}
 --- !u!4 &626844683
 Transform:
@@ -7826,6 +7845,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 98c781f0052be457abb30ce42dd3d098,
         type: 3}
+    - target: {fileID: 114777694559135114, guid: 7447b717282dd4d48a37cd019531cc40,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7447b717282dd4d48a37cd019531cc40, type: 2}
   m_IsPrefabParent: 0
@@ -10001,7 +10025,15 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 1
       m_Type: 0
-      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_Color:
+        serializedVersion: 2
+        rgba: 0
+      m_ToColor:
+        serializedVersion: 2
+        rgba: 0
+      m_ToColor2:
+        serializedVersion: 2
+        rgba: 0
       m_Width: 0.7
       m_Opacity: 1
   m_Series:
@@ -10025,12 +10057,20 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 0
         m_Origin: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
         m_Opacity: 1
         m_TooltipHighlight: 0
-        m_HighlightColor: {r: 0, g: 0, b: 0, a: 0}
-        m_HighlightToColor: {r: 0, g: 0, b: 0, a: 0}
+        m_HighlightColor:
+          serializedVersion: 2
+          rgba: 0
+        m_HighlightToColor:
+          serializedVersion: 2
+          rgba: 0
       m_Symbol:
         m_JsonData: 
         m_DataFromJson: 0
@@ -10055,7 +10095,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.8
         m_Opacity: 1
       m_BarType: 0
@@ -10082,15 +10130,25 @@ MonoBehaviour:
           m_Show: 1
           m_Width: 15
           m_Opacity: 1
-          m_BarColor: {r: 0, g: 0, b: 0, a: 0}
-          m_BarBackgroundColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+          m_BarColor:
+            serializedVersion: 2
+            rgba: 0
+          m_BarBackgroundColor:
+            serializedVersion: 2
+            rgba: 4291348680
           m_StageColor:
           - m_Percent: 0.2
-            m_Color: {r: 0.5686275, g: 0.78039217, b: 0.68235296, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4289644433
           - m_Percent: 0.8
-            m_Color: {r: 0.3882353, g: 0.5254902, b: 0.61960787, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4288579171
           - m_Percent: 1
-            m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4281415106
         m_SplitLine:
           m_Show: 1
           m_Length: 15
@@ -10099,7 +10157,15 @@ MonoBehaviour:
             m_DataFromJson: 0
             m_Show: 1
             m_Type: 0
-            m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4293848814
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
             m_Width: 1.5
             m_Opacity: 1
         m_AxisTick:
@@ -10111,7 +10177,15 @@ MonoBehaviour:
             m_DataFromJson: 0
             m_Show: 1
             m_Type: 0
-            m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4293848814
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
             m_Width: 1
             m_Opacity: 1
         m_AxisLabel:
@@ -10126,20 +10200,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_AxisLabelText: []
@@ -10172,20 +10252,26 @@ MonoBehaviour:
         m_PaddingLeftRight: 2
         m_PaddingTopBottom: 2
         m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        m_BackgroundColor:
+          serializedVersion: 2
+          rgba: 0
         m_BackgroundWidth: 0
         m_BackgroundHeight: 0
         m_FontSize: 18
         m_FontStyle: 0
         m_Line: 1
         m_LineType: 0
-        m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+        m_LineColor:
+          serializedVersion: 2
+          rgba: 0
         m_LineWidth: 1
         m_LineLength1: 25
         m_LineLength2: 15
         m_Border: 1
         m_BorderWidth: 0.5
-        m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        m_BorderColor:
+          serializedVersion: 2
+          rgba: 4286611584
         m_NumericFormatter: 
         m_AutoOffset: 0
       m_Animation:
@@ -10216,16 +10302,28 @@ MonoBehaviour:
         m_JsonData: 
         m_DataFromJson: 0
         m_Show: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-        m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
+        m_BackgroundColor:
+          serializedVersion: 2
+          rgba: 0
         m_BackgroundWidth: 0
-        m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+        m_CenterColor:
+          serializedVersion: 2
+          rgba: 0
         m_CenterGap: 0
         m_BorderType: 0
         m_BorderWidth: 0
-        m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+        m_BorderColor:
+          serializedVersion: 2
+          rgba: 0
         m_Opacity: 1
         m_TooltipFormatter: 
         m_NumericFormatter: 
@@ -10250,36 +10348,54 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_ItemStyle:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10347,20 +10463,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -10368,16 +10490,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10403,36 +10537,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -10488,20 +10640,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -10509,16 +10667,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10544,36 +10714,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -10629,20 +10817,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -10650,16 +10844,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10685,36 +10891,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -10770,20 +10994,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -10791,16 +11021,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10826,36 +11068,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -10911,20 +11171,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -10932,16 +11198,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -10967,36 +11245,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -11128,7 +11424,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -11136,8 +11440,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   - m_JsonData: 
     m_DataFromJson: 0
     m_Show: 0
@@ -11217,7 +11523,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -11225,8 +11539,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   m_YAxises:
   - m_JsonData: 
     m_DataFromJson: 0
@@ -11307,7 +11623,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -11315,8 +11639,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   - m_JsonData: 
     m_DataFromJson: 0
     m_Show: 0
@@ -11396,7 +11722,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -11404,8 +11738,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   m_DataZoom:
     m_JsonData: 
     m_DataFromJson: 0
@@ -11772,8 +12108,8 @@ RectTransform:
   - {fileID: 1107504111}
   - {fileID: 1568724836}
   - {fileID: 602417130}
-  - {fileID: 1034252765}
   - {fileID: 945923407}
+  - {fileID: 1034252765}
   - {fileID: 387048380}
   m_Father: {fileID: 0}
   m_RootOrder: 18
@@ -12655,7 +12991,7 @@ RectTransform:
   - {fileID: 807872326}
   - {fileID: 1011377062}
   m_Father: {fileID: 856861056}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -13053,7 +13389,7 @@ RectTransform:
   m_LocalScale: {x: 0.3478453, y: 0.34784544, z: 0.34784544}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -13762,7 +14098,7 @@ Prefab:
     - target: {fileID: 224371787749988182, guid: 439ea80cfcbd8fe4dac2943e1898687f,
         type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224371787749988182, guid: 439ea80cfcbd8fe4dac2943e1898687f,
         type: 2}
@@ -14200,6 +14536,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1994488204164004, guid: 7447b717282dd4d48a37cd019531cc40, type: 2}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114777694559135114, guid: 7447b717282dd4d48a37cd019531cc40,
+        type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -15344,7 +15685,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15607,7 +15948,7 @@ RectTransform:
   m_LocalScale: {x: 0.46567377, y: 0.46567377, z: 0.46567377}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -15892,7 +16233,7 @@ RectTransform:
   m_LocalScale: {x: 0.4631951, y: 0.46319538, z: 0.46319538}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -16336,7 +16677,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -16888,6 +17229,80 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1245038538}
+--- !u!1 &1247591446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1247591447}
+  - component: {fileID: 1247591449}
+  - component: {fileID: 1247591448}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1247591447
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1247591446}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5999985, y: -0.8000002, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2039829461}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -2.6, y: -0.79999995}
+  m_SizeDelta: {x: -22.34, y: -5.93}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1247591448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1247591446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 5
+    m_MaxSize: 60
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u9000\u51FA"
+--- !u!222 &1247591449
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1247591446}
 --- !u!1 &1248654670
 GameObject:
   m_ObjectHideFlags: 0
@@ -17230,7 +17645,7 @@ Prefab:
     - target: {fileID: 224916883599903910, guid: 7447b717282dd4d48a37cd019531cc40,
         type: 2}
       propertyPath: m_RootOrder
-      value: 25
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 224916883599903910, guid: 7447b717282dd4d48a37cd019531cc40,
         type: 2}
@@ -17981,7 +18396,7 @@ RectTransform:
   m_LocalScale: {x: 0.999994, y: 0.999994, z: 0.999994}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -18544,7 +18959,7 @@ RectTransform:
   m_LocalScale: {x: 0.34785384, y: 0.34785384, z: 0.34785384}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -19495,7 +19910,15 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 1
       m_Type: 0
-      m_Color: {r: 0, g: 0, b: 0, a: 0}
+      m_Color:
+        serializedVersion: 2
+        rgba: 0
+      m_ToColor:
+        serializedVersion: 2
+        rgba: 0
+      m_ToColor2:
+        serializedVersion: 2
+        rgba: 0
       m_Width: 0.7
       m_Opacity: 1
   m_Series:
@@ -19519,12 +19942,20 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 0
         m_Origin: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
         m_Opacity: 1
         m_TooltipHighlight: 0
-        m_HighlightColor: {r: 0, g: 0, b: 0, a: 0}
-        m_HighlightToColor: {r: 0, g: 0, b: 0, a: 0}
+        m_HighlightColor:
+          serializedVersion: 2
+          rgba: 0
+        m_HighlightToColor:
+          serializedVersion: 2
+          rgba: 0
       m_Symbol:
         m_JsonData: 
         m_DataFromJson: 0
@@ -19549,7 +19980,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.8
         m_Opacity: 1
       m_BarType: 0
@@ -19576,15 +20015,25 @@ MonoBehaviour:
           m_Show: 1
           m_Width: 15
           m_Opacity: 1
-          m_BarColor: {r: 0, g: 0, b: 0, a: 0}
-          m_BarBackgroundColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+          m_BarColor:
+            serializedVersion: 2
+            rgba: 0
+          m_BarBackgroundColor:
+            serializedVersion: 2
+            rgba: 4291348680
           m_StageColor:
           - m_Percent: 0.2
-            m_Color: {r: 0.5686275, g: 0.78039217, b: 0.68235296, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4289644433
           - m_Percent: 0.8
-            m_Color: {r: 0.3882353, g: 0.5254902, b: 0.61960787, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4288579171
           - m_Percent: 1
-            m_Color: {r: 0.7607843, g: 0.20784314, b: 0.19215687, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4281415106
         m_SplitLine:
           m_Show: 1
           m_Length: 15
@@ -19593,7 +20042,15 @@ MonoBehaviour:
             m_DataFromJson: 0
             m_Show: 1
             m_Type: 0
-            m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4293848814
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
             m_Width: 1.5
             m_Opacity: 1
         m_AxisTick:
@@ -19605,7 +20062,15 @@ MonoBehaviour:
             m_DataFromJson: 0
             m_Show: 1
             m_Type: 0
-            m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+            m_Color:
+              serializedVersion: 2
+              rgba: 4293848814
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
             m_Width: 1
             m_Opacity: 1
         m_AxisLabel:
@@ -19620,20 +20085,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_AxisLabelText: []
@@ -19666,20 +20137,26 @@ MonoBehaviour:
         m_PaddingLeftRight: 2
         m_PaddingTopBottom: 2
         m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        m_BackgroundColor:
+          serializedVersion: 2
+          rgba: 0
         m_BackgroundWidth: 0
         m_BackgroundHeight: 0
         m_FontSize: 18
         m_FontStyle: 0
         m_Line: 1
         m_LineType: 0
-        m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+        m_LineColor:
+          serializedVersion: 2
+          rgba: 0
         m_LineWidth: 1
         m_LineLength1: 25
         m_LineLength2: 15
         m_Border: 1
         m_BorderWidth: 0.5
-        m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        m_BorderColor:
+          serializedVersion: 2
+          rgba: 4286611584
         m_NumericFormatter: 
         m_AutoOffset: 0
       m_Animation:
@@ -19710,16 +20187,28 @@ MonoBehaviour:
         m_JsonData: 
         m_DataFromJson: 0
         m_Show: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-        m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-        m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
+        m_BackgroundColor:
+          serializedVersion: 2
+          rgba: 0
         m_BackgroundWidth: 0
-        m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+        m_CenterColor:
+          serializedVersion: 2
+          rgba: 0
         m_CenterGap: 0
         m_BorderType: 0
         m_BorderWidth: 0
-        m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+        m_BorderColor:
+          serializedVersion: 2
+          rgba: 0
         m_Opacity: 1
         m_TooltipFormatter: 
         m_NumericFormatter: 
@@ -19744,36 +20233,54 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_ItemStyle:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -19841,20 +20348,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -19862,16 +20375,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -19897,36 +20422,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -19982,20 +20525,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -20003,16 +20552,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -20038,36 +20599,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -20123,20 +20702,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -20144,16 +20729,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -20179,36 +20776,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -20264,20 +20879,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -20285,16 +20906,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -20320,36 +20953,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -20405,20 +21056,26 @@ MonoBehaviour:
           m_PaddingLeftRight: 2
           m_PaddingTopBottom: 2
           m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
           m_BackgroundHeight: 0
           m_FontSize: 18
           m_FontStyle: 0
           m_Line: 1
           m_LineType: 0
-          m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+          m_LineColor:
+            serializedVersion: 2
+            rgba: 0
           m_LineWidth: 1
           m_LineLength1: 25
           m_LineLength2: 15
           m_Border: 1
           m_BorderWidth: 0.5
-          m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 4286611584
           m_NumericFormatter: 
           m_AutoOffset: 0
         m_EnableItemStyle: 0
@@ -20426,16 +21083,28 @@ MonoBehaviour:
           m_JsonData: 
           m_DataFromJson: 0
           m_Show: 0
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-          m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-          m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+          m_Color:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor:
+            serializedVersion: 2
+            rgba: 0
+          m_ToColor2:
+            serializedVersion: 2
+            rgba: 0
+          m_BackgroundColor:
+            serializedVersion: 2
+            rgba: 0
           m_BackgroundWidth: 0
-          m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+          m_CenterColor:
+            serializedVersion: 2
+            rgba: 0
           m_CenterGap: 0
           m_BorderType: 0
           m_BorderWidth: 0
-          m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+          m_BorderColor:
+            serializedVersion: 2
+            rgba: 0
           m_Opacity: 1
           m_TooltipFormatter: 
           m_NumericFormatter: 
@@ -20461,36 +21130,54 @@ MonoBehaviour:
             m_PaddingLeftRight: 2
             m_PaddingTopBottom: 2
             m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
             m_BackgroundHeight: 0
             m_FontSize: 18
             m_FontStyle: 0
             m_Line: 1
             m_LineType: 0
-            m_LineColor: {r: 0, g: 0, b: 0, a: 0}
+            m_LineColor:
+              serializedVersion: 2
+              rgba: 0
             m_LineWidth: 1
             m_LineLength1: 25
             m_LineLength2: 15
             m_Border: 0
             m_BorderWidth: 0.5
-            m_BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 4286611584
             m_NumericFormatter: 
             m_AutoOffset: 0
           m_ItemStyle:
             m_JsonData: 
             m_DataFromJson: 0
             m_Show: 0
-            m_Color: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor: {r: 0, g: 0, b: 0, a: 0}
-            m_ToColor2: {r: 0, g: 0, b: 0, a: 0}
-            m_BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+            m_Color:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor:
+              serializedVersion: 2
+              rgba: 0
+            m_ToColor2:
+              serializedVersion: 2
+              rgba: 0
+            m_BackgroundColor:
+              serializedVersion: 2
+              rgba: 0
             m_BackgroundWidth: 0
-            m_CenterColor: {r: 0, g: 0, b: 0, a: 0}
+            m_CenterColor:
+              serializedVersion: 2
+              rgba: 0
             m_CenterGap: 0
             m_BorderType: 0
             m_BorderWidth: 0
-            m_BorderColor: {r: 0, g: 0, b: 0, a: 0}
+            m_BorderColor:
+              serializedVersion: 2
+              rgba: 0
             m_Opacity: 1
             m_TooltipFormatter: 
             m_NumericFormatter: 
@@ -20622,7 +21309,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -20630,8 +21325,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   - m_JsonData: 
     m_DataFromJson: 0
     m_Show: 0
@@ -20711,7 +21408,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -20719,8 +21424,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   m_YAxises:
   - m_JsonData: 
     m_DataFromJson: 0
@@ -20801,7 +21508,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -20809,8 +21524,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   - m_JsonData: 
     m_DataFromJson: 0
     m_Show: 0
@@ -20890,7 +21607,15 @@ MonoBehaviour:
         m_DataFromJson: 0
         m_Show: 1
         m_Type: 0
-        m_Color: {r: 0, g: 0, b: 0, a: 0}
+        m_Color:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor:
+          serializedVersion: 2
+          rgba: 0
+        m_ToColor2:
+          serializedVersion: 2
+          rgba: 0
         m_Width: 0.7
         m_Opacity: 1
     m_SplitArea:
@@ -20898,8 +21623,10 @@ MonoBehaviour:
       m_DataFromJson: 0
       m_Show: 0
       m_Color:
-      - {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 0.3019608}
-      - {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3019608}
+      - serializedVersion: 2
+        rgba: 1090279880
+      - serializedVersion: 2
+        rgba: 0
   m_DataZoom:
     m_JsonData: 
     m_DataFromJson: 0
@@ -21507,7 +22234,7 @@ RectTransform:
   - {fileID: 1052240312}
   - {fileID: 126104192}
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21911,7 +22638,7 @@ RectTransform:
   m_LocalScale: {x: 0.35423535, y: 0.35423532, z: 0.35423532}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -22274,6 +23001,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2039829461}
   - {fileID: 1209867050}
   - {fileID: 87395278}
   - {fileID: 1754687015}
@@ -24073,7 +24801,7 @@ RectTransform:
   m_Children:
   - {fileID: 1858137723}
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24141,7 +24869,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000068, y: 1.0000068, z: 1.0000068}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24382,7 +25110,7 @@ RectTransform:
   m_LocalScale: {x: 0.46567377, y: 0.46567377, z: 0.46567377}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -25581,7 +26309,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25680,7 +26408,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26654,7 +27382,7 @@ RectTransform:
   m_LocalScale: {x: 1.000016, y: 1.000016, z: 1.000016}
   m_Children: []
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28490,7 +29218,7 @@ RectTransform:
   - {fileID: 1124429506}
   - {fileID: 1048574919}
   m_Father: {fileID: 1499436624}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28555,6 +29283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1977197820}
   - component: {fileID: 1977197819}
+  - component: {fileID: 1977197821}
   m_Layer: 0
   m_Name: _xcharts_
   m_TagString: Untagged
@@ -28589,6 +29318,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1977197821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1977197818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bf22237d6480b41878b97ad7da9de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NowVersion: 1.6.0_20200824
+  m_NewVersion: 
+  m_ChartList:
+  - {fileID: 1445062401}
+  - {fileID: 807872327}
+  - {fileID: 2095935013}
+  - {fileID: 1285742282}
+  - {fileID: 952453761}
 --- !u!1 &1988743028
 GameObject:
   m_ObjectHideFlags: 0
@@ -28891,6 +29639,11 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 218840519645833736, guid: 77a84ca97d3117644bfcbfbc9dce0d89,
+        type: 2}
+      propertyPath: m_TerrainData
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 154538961774433254, guid: 77a84ca97d3117644bfcbfbc9dce0d89, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 77a84ca97d3117644bfcbfbc9dce0d89, type: 2}
@@ -29067,6 +29820,141 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2028397374}
+--- !u!1 &2039829460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2039829461}
+  - component: {fileID: 2039829464}
+  - component: {fileID: 2039829463}
+  - component: {fileID: 2039829462}
+  - component: {fileID: 2039829465}
+  m_Layer: 5
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2039829461
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2039829460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -577.17, y: 89.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1247591447}
+  m_Father: {fileID: 1499436624}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -577.17, y: 89.7}
+  m_SizeDelta: {x: 93.23, y: 26.17}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2039829462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2039829460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2039829463}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2039829465}
+        m_MethodName: OnclickQuit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &2039829463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2039829460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.3529412, g: 0.3529412, b: 0.3529412, a: 0.216}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &2039829464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2039829460}
+--- !u!114 &2039829465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2039829460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a875eccec7929438051793821ca1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gc: {fileID: 626844682}
 --- !u!1 &2041245463
 GameObject:
   m_ObjectHideFlags: 0
@@ -30159,7 +31047,7 @@ Prefab:
     - target: {fileID: 224958102280578864, guid: 0261a08e9368c334bbfc00a14f2bafcb,
         type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 224958102280578864, guid: 0261a08e9368c334bbfc00a14f2bafcb,
         type: 2}

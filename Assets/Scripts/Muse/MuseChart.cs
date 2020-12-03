@@ -56,16 +56,22 @@ public class MuseChart : MonoBehaviour {
 	
     // 单个折线图最多同时展示多少数据
     public int maxCacheDataNumber = 50;
-    public float FatigueUpdateTime = 0.1f;
+    public GameObject LineChart;
+    //public float FatigueUpdateTime = 0.1f;
 
     public CoordinateChart WaveBandChart;
-    public Text Fatigue;
-    public OSCMonitor osc;
+    //public Text Fatigue;
+    public OSCMonitor oscM;
+    public OSCDirect oscD;
+
+    // 数据来源
+    public static MuseMessage.ReceiveType receive = MuseMessage.ReceiveType.MuseMonitor;
 
     private Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart> _WaveGraph;
     private string _FileName;
-    private Dictionary<MuseMessage.MuseDataType, WaveBandMessage> _BandValues;
+    private Dictionary<MuseMessage.MuseDataType, WaveBandMonitor> _BandValues;
     private float TimeCout = 0f;
+    private bool IsTransmit = false;
 
     // 初始化折线图
     private void InitWaveBandChart()
@@ -101,7 +107,6 @@ public class MuseChart : MonoBehaviour {
 
 
         WaveBandChart.legend.show = true;
-        WaveBandChart.legend.itemWidth = 15f;
         WaveBandChart.SetMaxCache(maxCacheDataNumber);
 
     }
@@ -112,31 +117,15 @@ public class MuseChart : MonoBehaviour {
     {
         InitWaveBandChart();
 
-        _BandValues =  new Dictionary<MuseMessage.MuseDataType, WaveBandMessage>();
-        _BandValues.Add(
-    MuseMessage.MuseDataType.alpha_absolute,
-    new WaveBandMessage()
-    );
-        _BandValues.Add(
-            MuseMessage.MuseDataType.beta_absolute,
-            new WaveBandMessage()
-            );
-        _BandValues.Add(
-            MuseMessage.MuseDataType.gamma_absolute,
-            new WaveBandMessage()
-            );
-        _BandValues.Add(
-            MuseMessage.MuseDataType.delta_absolute,
-            new WaveBandMessage()
-            );
-        _BandValues.Add(
-            MuseMessage.MuseDataType.theta_absolute,
-            new WaveBandMessage()
-            );
-
+        _BandValues = new Dictionary<MuseMessage.MuseDataType, WaveBandMonitor> {
+            { MuseMessage.MuseDataType.alpha_absolute, new WaveBandMonitor()},
+            {MuseMessage.MuseDataType.beta_absolute, new WaveBandMonitor()},
+            {MuseMessage.MuseDataType.gamma_absolute,new WaveBandMonitor()},
+            {MuseMessage.MuseDataType.delta_absolute,new WaveBandMonitor()},
+            {MuseMessage.MuseDataType.theta_absolute,new WaveBandMonitor()}
+        };
 
         string temp;
-
         if(PatientDataManager.instance == null)
         {
             temp = "PatientName";
@@ -150,8 +139,17 @@ public class MuseChart : MonoBehaviour {
 
 
         // 接收UDP
-        osc = new OSCMonitor(5000, UpdateWaveBandChart);
-        osc.ReceiveOSC();
+        if(receive == MuseMessage.ReceiveType.MuseMonitor)
+        {
+            oscM = new OSCMonitor(5000, UpdateWaveBandChartMonitor);
+            oscM.ReceiveOSC();
+        }
+        else
+        {
+            oscD = new OSCDirect(5000, UpdateWaveBandChartDirect);
+            oscD.ReceiveOSC();
+        }
+
 
     }
 
@@ -159,41 +157,50 @@ public class MuseChart : MonoBehaviour {
     {
 
         TimeCout += Time.deltaTime;
-        if (TimeCout > FatigueUpdateTime)
+        //if (TimeCout > FatigueUpdateTime)
+        //{
+        //    TimeCout = 0f;
+
+        //    // 疲劳值
+        //    if ((_BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData - 0) > float.Epsilon)
+        //    {
+        //        // (Alpha + Thelta) / Belta
+        //        Fatigue.text = "Fatigue: " + (
+        //            (_BandValues[MuseMessage.MuseDataType.alpha_absolute].WaveData +
+        //            _BandValues[MuseMessage.MuseDataType.theta_absolute].WaveData) /
+        //            _BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData).ToString(".#2");
+        //    }
+        //}
+
+        if (LineChart.activeSelf == false && IsTransmit == true)
         {
-            TimeCout = 0f;
-
-            // 疲劳值
-            if ((_BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData - 0) > float.Epsilon)
-            {
-                // (Alpha + Thelta) / Belta
-                Fatigue.text = "Fatigue: " + (
-                    (_BandValues[MuseMessage.MuseDataType.alpha_absolute].WaveData +
-                    _BandValues[MuseMessage.MuseDataType.theta_absolute].WaveData) /
-                    _BandValues[MuseMessage.MuseDataType.beta_absolute].WaveData).ToString(".#2");
-            }
+            LineChart.SetActive(true);
         }
-
-
-        
 
     }
 
 
 
-    public async void UpdateWaveBandChart(MuseMessage StandardMessage)
+    public async void UpdateWaveBandChartMonitor(MuseMessage StandardMessage)
     {
-
+        IsTransmit = true;
         if (StandardMessage.IsWaveBand())
         {
-            // 由父类构造子类
-            WaveBandMessage WaveBand = new WaveBandMessage(StandardMessage);
 
-            // 更新对应波段的折线图
-            _WaveGraph[WaveBand.DataType].UpdateSerie(WaveBand.WaveData);
+            if (receive == MuseMessage.ReceiveType.MuseMonitor)
+            {
+                // 由父类构造子类
+                WaveBandMonitor WaveBand = new WaveBandMonitor(StandardMessage);
+                // 更新对应波段的折线图
+                _WaveGraph[WaveBand.DataType].UpdateSerie(WaveBand.WaveData);
 
-            //记录波段值
-            _BandValues[WaveBand.DataType].WaveData = WaveBand.WaveData;
+                //记录波段值
+                _BandValues[WaveBand.DataType].WaveData = WaveBand.WaveData;
+            }
+            else
+            {
+                Debug.LogError("No such Muse data!");
+            }
         }
     
 
@@ -204,15 +211,56 @@ public class MuseChart : MonoBehaviour {
 
     }
 
+
+    public async void UpdateWaveBandChartDirect(MuseMessage StandardMessage)
+    {
+        IsTransmit = true;
+        if (StandardMessage.IsWaveBand())
+        {
+
+            // 数据来自Muse Monitor
+            if (receive == MuseMessage.ReceiveType.MuseDirect)
+            {
+
+                // 由父类构造子类
+                WaveBandDirect WaveBand = new WaveBandDirect(StandardMessage);
+
+                Debug.Log(WaveBand.DataType + WaveBand.WaveData.ToString());
+
+                // 更新对应波段的折线图
+                _WaveGraph[WaveBand.DataType].UpdateSerie((float)WaveBand.WaveData);
+                //记录波段值
+                _BandValues[WaveBand.DataType].WaveData = (float)WaveBand.WaveData;
+            }// 数据来自Muse Direct
+           
+            else
+            {
+                Debug.LogError("No such Muse data!");
+            }
+        }
+        await Task.Run(
+                    () => WriteCSVString(StandardMessage)
+                    );
+
+
+    }
+
     public void WriteCSVString(MuseMessage StandardMessage)
     {
-        CSVUtil.WriteCSVString(_FileName, true, StandardMessage.ToString());
+        //print(GameData.current_user_id.ToString());
+        CSVUtil.WriteCSVString("Data/" + GameData.current_user_id.ToString() + ".csv", true, StandardMessage.ToString());
     }
 
 
     void OnApplicationQuit()
     {
-        osc.ResetOSC();
+        Reset();
+    }
+
+    public void Reset()
+    {
+        oscD?.ResetOSC();
+        oscM?.ResetOSC();
     }
 
 

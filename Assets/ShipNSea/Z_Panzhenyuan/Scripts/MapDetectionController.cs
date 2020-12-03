@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ShipNSea 
+namespace ShipNSea
 {
 	public class MapDetectionController : MonoBehaviour
 	{
@@ -72,6 +72,7 @@ namespace ShipNSea
 			var playerList = new List<Transform>();
 			playerList.Add(playerBoat.transform);
 			mapOccupyDis.Add(playerBoat.tag, playerList);
+			Debug.Log("初始化完成");
 			//TODO鱼群位置也要加上
 			//InvokeRepeating("TextAbout", 2, .5f);
 			//Invoke("Func",30);
@@ -128,7 +129,7 @@ namespace ShipNSea
 			//判断是否与玩家位置重叠,给一定的安全区域,不会产生障碍物
 			if (mapOccupyDis.ContainsKey("Player"))
 			{
-				var dis = Vector3.Distance(pos, mapOccupyDis["Player"][0].position);
+				var dis = Vector3.Distance(pos, playerBoat.transform.position);
 				if (dis - 8 <= 15)
 				{
 					//print("安全距离不够,不会产生障碍物:"+(dis-8));
@@ -227,4 +228,3 @@ namespace ShipNSea
 		}
 	}
 }
-

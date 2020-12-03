@@ -28,7 +28,7 @@ namespace ShipNSea
                 fishFlock = GetComponent<FishFlock>();
                 fishFlock.type = FlockType.Moving;
                 fishFlock.score = 150;
-                speed = Random.Range(-0.5f, 0.5f);
+                speed = Random.Range(-.3f, .3f);
             }
         }
         void Move(bool flag)

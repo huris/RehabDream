@@ -614,7 +614,7 @@ public class PatientDatabaseManager : MonoBehaviour
             //    evaluation.EvaluationStartTime + " " + evaluation.EvaluationEndTime);
 
             this.WriteEvaluationInfo(evaluation.EvaluationID, DoctorDataManager.instance.doctor.patient.PatientID,
-                evaluation.EvaluationHeight, evaluation.EvaluationStartTime, evaluation.EvaluationEndTime, evaluation.EvaluationScore);
+                evaluation.EvaluationRatio, evaluation.EvaluationHeight, evaluation.EvaluationStartTime, evaluation.EvaluationEndTime, evaluation.EvaluationScore);
 
             //print("1");
 
@@ -635,7 +635,7 @@ public class PatientDatabaseManager : MonoBehaviour
 
     //write patient record
     public DatabaseReturn WriteEvaluationInfo(long EvaluationID, long PatientID,
-        float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime, float EvaluationScore)
+        float EvaluationRatio, float EvaluationHeight, string EvaluationStartTime, string EvaluationEndTime, float EvaluationScore)
     {
 
         try
@@ -652,6 +652,7 @@ public class PatientDatabaseManager : MonoBehaviour
                     EvaluationID.ToString(),
                     PatientID.ToString(),
                     //EvaluationWidth.ToString(),
+                    EvaluationRatio.ToString(),
                     EvaluationHeight.ToString(),
                     AddSingleQuotes(EvaluationStartTime),
                     AddSingleQuotes(EvaluationEndTime),

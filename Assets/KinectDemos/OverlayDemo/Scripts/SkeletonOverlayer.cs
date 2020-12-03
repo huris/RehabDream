@@ -666,6 +666,10 @@ public class SkeletonOverlayer : MonoBehaviour
                                         evaluation.soccerDistance.LeftSoccerDistance = (transform.GetChild(7).position - transform.GetChild(0).position).magnitude;
                                         evaluation.soccerDistance.UponLeftSoccerDistance = (transform.GetChild(8).position - transform.GetChild(0).position).magnitude;
 
+                                        // 记录比例系数
+                                        float UIDistance= (Kinect2UIPosition(transform.GetChild(1).position) - Kinect2UIPosition(transform.GetChild(0).position)).magnitude;
+                                        evaluation.SetEvaluationRatio(UIDistance/ evaluation.EvaluationHeight);
+
                                         IsOver = true;
 
                                         _instance.PlayMusicByName("EvaluationOver");
@@ -1963,11 +1967,11 @@ public class SkeletonOverlayer : MonoBehaviour
         {
             evaluation.EvaluationScore = 0f;
             evaluation.EvaluationScore += evaluation.soccerDistance.SumScore();
-            evaluation.EvaluationScore += evaluation.soccerDistance.FrontSoccerDistance * 5f;
-            evaluation.EvaluationScore += evaluation.soccerDistance.BehindSoccerDistance * 6f;
-            evaluation.EvaluationScore += CalSoccerConvexHullArea();
-            evaluation.EvaluationScore += CalGCConvexHullArea();
-            evaluation.EvaluationScore /= 10000;
+            //evaluation.EvaluationScore += evaluation.soccerDistance.FrontSoccerDistance * 5f;
+            //evaluation.EvaluationScore += evaluation.soccerDistance.BehindSoccerDistance * 6f;
+            //evaluation.EvaluationScore += CalSoccerConvexHullArea();
+            //evaluation.EvaluationScore += CalGCConvexHullArea();
+            //evaluation.EvaluationScore /= 10000;
 
             PatientDatabaseManager.instance.WriteEvaluationData(evaluation);
 

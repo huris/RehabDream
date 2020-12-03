@@ -16,28 +16,35 @@ namespace Muse
         // 信息的数值
         public readonly List<object> Data;
 
+        // 是从MuseDirect 还是 MuseMonitor 收到的数据
+        public readonly ReceiveType Receive;
+
+
         // 构造函数
         public MuseMessage()
         {
             TimeStamp = DateTime.Now;
             DataType = MuseDataType.DefaultType;
             Data = new List<object>();
+            Receive = ReceiveType.MuseDirect;
         }
 
         // 构造函数
-        public MuseMessage(DateTime TimeStamp, MuseDataType DataType, List<object> Data)
+        public MuseMessage(DateTime TimeStamp, MuseDataType DataType, List<object> Data, ReceiveType Receive)
         {
             this.TimeStamp = TimeStamp;
             this.DataType = DataType;
             this.Data = Data;
+            this.Receive = Receive;
         }
 
         // 构造函数
-        public MuseMessage(DateTime TimeStamp, string StringDataType, List<object> Data)
+        public MuseMessage(DateTime TimeStamp, string StringDataType, List<object> Data, ReceiveType Receive)
         {
             this.TimeStamp = TimeStamp;
             this.DataType = String2DataType(StringDataType);
             this.Data = Data;
+            this.Receive = Receive;
         }
 
         // Muse信息的类型
@@ -49,6 +56,12 @@ namespace Muse
             gamma_absolute,
             theta_absolute,
             delta_absolute,
+
+            alpha_relative,
+            beta_relative,
+            gamma_relative,
+            theta_relative,
+            delta_relative,
             // 脑电原始信号
             eeg,
             // 陀螺仪
@@ -66,7 +79,14 @@ namespace Muse
             // 
             jaw_clench,
 
-            DefaultType,
+            DefaultType
+        }
+
+        // 数据来源
+        public enum ReceiveType
+        {
+            MuseMonitor,
+            MuseDirect
         }
 
         // 是否为5种脑波
@@ -111,6 +131,20 @@ namespace Muse
                     break;
                 case "gamma_absolute":
                     return MuseDataType.gamma_absolute;
+                case "alpha_relative":
+                    return MuseDataType.alpha_relative;
+                    break;
+                case "beta_relative":
+                    return MuseDataType.beta_relative;
+                    break;
+                case "delta_relative":
+                    return MuseDataType.delta_relative;
+                    break;
+                case "theta_relative":
+                    return MuseDataType.theta_relative;
+                    break;
+                case "gamma_relative":
+                    return MuseDataType.gamma_relative;
                     break;
                 case "horseshoe":
                     return MuseDataType.horseshoe;
@@ -144,8 +178,8 @@ namespace Muse
         {
             // 展示数据
             string text;
-            //text = this.TimeStamp.AddHours(8).ToString("yyyy-MM-dd HH:mm:ss.fff tt") + " UTC-8";    //UTC-8即北京时间
-            text = this.TimeStamp.AddHours(8).ToString("HH:mm:ss.fff tt");
+            text = this.TimeStamp.AddHours(8).ToString("yyyy-MM-dd HH:mm:ss.fff tt") + " UTC-8";    //UTC-8即北京时间
+            //text = this.TimeStamp.AddHours(8).ToString("HH:mm:ss.fff tt");
 
             text += "," + DataType2String(this.DataType);  //即Packet包含的信息类型：/muse/eeg 或 //muse/gyro 或 /muse/acc 等
 

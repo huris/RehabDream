@@ -16,6 +16,8 @@ public class GameLoading : MonoBehaviour
 
     private Vector3 HandTipLeft;
 
+    public MuseChart chart;
+
 
     // Use this for initialization
     void Start()
@@ -188,6 +190,11 @@ public class GameLoading : MonoBehaviour
 
     public void Quit()
     {
+        if (chart != null)
+        {
+            chart.Reset();
+        }
+
         SceneManager.LoadScene("03-DoctorUI");
     }
 

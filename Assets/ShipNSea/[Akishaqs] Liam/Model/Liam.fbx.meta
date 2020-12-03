@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 3e20eab569c7c2640b5d3359b8591355
-timeCreated: 1505039849
-licenseType: Store
+timeCreated: 1606728388
+licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Blade
     100002: chest
@@ -163,10 +163,12 @@ ModelImporter:
     4300002: LiamMesh
     9500000: //RootNode
     13700000: LiamMesh
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -179,12 +181,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -192,7 +196,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -208,6 +215,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -613,6 +621,14 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: chest
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
     - name: Liam(Clone)
       parentName: 
@@ -692,7 +708,7 @@ ModelImporter:
     - name: f_index.02.L
       parentName: f_index.01.L
       position: {x: 0.00000005681067, y: 0.15195216, z: 0.00000049173826}
-      rotation: {x: 0.035176348, y: -0.031328257, z: 0.021676568, w: 0.9986547}
+      rotation: {x: 0.03517635, y: -0.03132826, z: 0.02167657, w: 0.9986548}
       scale: {x: 0.99999994, y: 1.0000005, z: 1.0000004}
     - name: f_index.03.L
       parentName: f_index.02.L
@@ -807,7 +823,7 @@ ModelImporter:
     - name: upper_arm.R
       parentName: shoulder.R
       position: {x: 0.11800373, y: 0.5553459, z: -0.03215893}
-      rotation: {x: -0.12319209, y: -0.7155396, z: 0.14557433, w: -0.67203784}
+      rotation: {x: -0.123192094, y: -0.71553963, z: 0.14557435, w: -0.6720379}
       scale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
     - name: forearm.R
       parentName: upper_arm.R
@@ -822,7 +838,7 @@ ModelImporter:
     - name: palm.01.R
       parentName: hand.R
       position: {x: -0.06970864, y: 0.15239976, z: -0.024368417}
-      rotation: {x: -0.004353552, y: 0.010674027, z: 0.056641214, w: 0.99832803}
+      rotation: {x: -0.0043535526, y: 0.010674027, z: 0.056641217, w: 0.99832803}
       scale: {x: 1.0000001, y: 1.0000006, z: 1}
     - name: f_index.01.R
       parentName: palm.01.R
@@ -882,7 +898,7 @@ ModelImporter:
     - name: f_middle.03.R
       parentName: f_middle.02.R
       position: {x: -0.000000059604638, y: 0.14650582, z: -0.000000119209275}
-      rotation: {x: 0.039826993, y: -0.06460436, z: 0.0070428234, w: 0.997091}
+      rotation: {x: 0.039826997, y: -0.06460436, z: 0.007042824, w: 0.997091}
       scale: {x: 1.0000005, y: 0.99999934, z: 0.9999997}
     - name: f_middle.03.R_end
       parentName: f_middle.03.R
@@ -902,7 +918,7 @@ ModelImporter:
     - name: f_ring.02.R
       parentName: f_ring.01.R
       position: {x: -0.00000008940695, y: 0.13900818, z: -0.00000032782552}
-      rotation: {x: 0.03552901, y: -0.025383499, z: 0.020759726, w: 0.9988305}
+      rotation: {x: 0.035529014, y: -0.0253835, z: 0.020759728, w: 0.99883056}
       scale: {x: 0.99999994, y: 0.9999997, z: 0.9999993}
     - name: f_ring.03.R
       parentName: f_ring.02.R

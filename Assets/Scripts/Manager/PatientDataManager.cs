@@ -77,6 +77,9 @@ public class PatientDataManager : MonoBehaviour
     //[Header("PatientRecord")]
     public long MaxSuccessCount { get; private set; } = 0;
     public float[] MaxDirection { get; private set; } = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+
+    public float EvaluationRatio = 1.0f;
+
     public float[] NewMaxDirection { get; private set; } = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
 
     #endregion
@@ -151,18 +154,19 @@ public class PatientDataManager : MonoBehaviour
         SetPlanTime(trainingPlan.PlanTime);
         SetIsEvaluated(0);
         SetNewMaxDiretion(soccerDistance);
+        SetMaxDirection(NewMaxDirection);
     }
 
     public void SetNewMaxDiretion(SoccerDistance soccerDistance)
     {
-        NewMaxDirection[0] = soccerDistance.UponSoccerDistance;
-        NewMaxDirection[1] = soccerDistance.UponRightSoccerDistance;
-        NewMaxDirection[2] = soccerDistance.RightSoccerDistance;
-        NewMaxDirection[3] = soccerDistance.DownRightSoccerDistance;
-        NewMaxDirection[4] = soccerDistance.DownSoccerDistance;
-        NewMaxDirection[5] = soccerDistance.DownLeftSoccerDistance;
-        NewMaxDirection[6] = soccerDistance.LeftSoccerDistance;
-        NewMaxDirection[7] = soccerDistance.UponLeftSoccerDistance;
+        NewMaxDirection[0] = (soccerDistance.UponSoccerDistance < NewMaxDirection[0])? NewMaxDirection[0]: soccerDistance.UponSoccerDistance;
+        NewMaxDirection[1] = (soccerDistance.UponRightSoccerDistance < NewMaxDirection[1]) ? NewMaxDirection[1] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[2] = (soccerDistance.RightSoccerDistance < NewMaxDirection[2]) ? NewMaxDirection[2] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[3] = (soccerDistance.DownRightSoccerDistance < NewMaxDirection[3]) ? NewMaxDirection[3] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[4] = (soccerDistance.DownSoccerDistance < NewMaxDirection[4]) ? NewMaxDirection[4] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[5] = (soccerDistance.DownLeftSoccerDistance < NewMaxDirection[5]) ? NewMaxDirection[5] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[6] = (soccerDistance.LeftSoccerDistance < NewMaxDirection[6]) ? NewMaxDirection[6] : soccerDistance.UponSoccerDistance;
+        NewMaxDirection[7] = (soccerDistance.UponLeftSoccerDistance < NewMaxDirection[7]) ? NewMaxDirection[7] : soccerDistance.UponSoccerDistance;
     }
 
 
@@ -213,6 +217,11 @@ public class PatientDataManager : MonoBehaviour
         {
             this.MaxDirection[i] = MaxDirection[i];
         }
+    }
+
+    public void SetEvaluationRatio(float EvaluationRatio)
+    {
+        this.EvaluationRatio = EvaluationRatio;
     }
 
     // update NewMaxDirection[i]

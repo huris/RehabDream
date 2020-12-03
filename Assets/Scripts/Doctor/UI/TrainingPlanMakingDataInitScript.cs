@@ -213,6 +213,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             else
             {
                 RETURN = DoctorDatabaseManager.instance.MakePatientTrainingPlan(DoctorDataManager.instance.doctor.patient.PatientID, trainingPlan);
+                Debug.Log(RETURN);
             }
 
             if (RETURN == DoctorDatabaseManager.DatabaseReturn.Success)

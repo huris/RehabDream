@@ -244,9 +244,19 @@ Prefab:
       propertyPath: m_FontData.m_MinSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114633109029382916, guid: ed6bdd9525cf64e4e91ee357c59695fa,
+        type: 2}
+      propertyPath: LineChart
+      value: 
+      objectReference: {fileID: 257402927}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed6bdd9525cf64e4e91ee357c59695fa, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &257402927 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1963443101867936, guid: ed6bdd9525cf64e4e91ee357c59695fa,
+    type: 2}
+  m_PrefabInternal: {fileID: 257402926}
 --- !u!224 &257402928 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224600223273737972, guid: ed6bdd9525cf64e4e91ee357c59695fa,

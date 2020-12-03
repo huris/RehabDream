@@ -40,9 +40,6 @@ namespace Muse {
         // UDPListener调用OscPacketHandle处理OscPacket
         private async void OscPacketHandle(OscPacket packet)
         {
-
-            Debug.Log("Transmitting...");
-
             //OSCBundle为OSCPacket的子类
             OscBundle bundle = (OscBundle)packet;
 
@@ -51,8 +48,10 @@ namespace Muse {
 
             foreach (OscMessage message in bundle.Messages)
             {
-                MuseMessage StandardMessage = new MuseMessage(dt, message.Address, message.Arguments);
+                MuseMessage StandardMessage = new MuseMessage(dt, message.Address, message.Arguments,MuseMessage.ReceiveType.MuseMonitor);
                 //Debug.Log(StandardMessage.ToString());
+
+                //Debug.Log(message.Address);
 
                 // 此处另开线程处理得到的MuseMessage
                 await Task.Run(

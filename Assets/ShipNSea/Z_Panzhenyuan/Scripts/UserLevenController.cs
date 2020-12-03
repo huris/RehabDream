@@ -36,7 +36,8 @@ namespace ShipNSea
 		// Use this for initialization
 		void Start()
 		{
-			if ((exp = int.Parse(IntroState.experience)) >= 10000)
+
+			if (IntroState.experience != null && (exp = int.Parse(IntroState.experience)) >= 10000)
 			{
 				exp = 10000;
 			}
