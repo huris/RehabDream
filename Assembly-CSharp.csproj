@@ -414,13 +414,26 @@
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseChart.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\CSVUtil.cs" />
-     <Compile Include="Assets\Scripts\Muse\MuseMessage\EEGMessage.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\HandleMessage.cs" />
-     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseFrameMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseDirectMessage\EEGDirect.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseDirectMessage\WaveBandDirect.cs" />
      <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMessage.cs" />
-     <Compile Include="Assets\Scripts\Muse\MuseMessage\WaveBandMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMonitorMessage\EEGMonitor.cs" />
+     <Compile Include="Assets\Scripts\Muse\MuseMessage\MuseMonitorMessage\WaveBandMonitor.cs" />
+     <Compile Include="Assets\Scripts\Muse\OSC\OSCDirect.cs" />
      <Compile Include="Assets\Scripts\Muse\OSC\OSCMonitor.cs" />
      <Compile Include="Assets\Scripts\Muse\OSC\OSCReceiver.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\Extensions.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\Midi.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\OscBundle.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\OscMessage.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\OscPacket.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\RGBA.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\Symbol.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\Timetag.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\UDPListener.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\UDPSender.cs" />
+     <Compile Include="Assets\Scripts\Muse\SharpOSC\Utils.cs" />
      <Compile Include="Assets\Scripts\OpenDoor\DoorHandle.cs" />
      <Compile Include="Assets\Scripts\Soccerball\BezierUtils.cs" />
      <Compile Include="Assets\Scripts\Soccerball\CollisionHandle.cs" />
@@ -528,6 +541,7 @@
      <Compile Include="Assets\ShipNSea\Scripts\PositionIndicator.cs" />
      <Compile Include="Assets\ShipNSea\Scripts\PositionIndicatorLine.cs" />
      <Compile Include="Assets\ShipNSea\Scripts\ProgressRing.cs" />
+     <Compile Include="Assets\ShipNSea\Scripts\Quit.cs" />
      <Compile Include="Assets\ShipNSea\Scripts\SkyboxRotator.cs" />
      <Compile Include="Assets\ShipNSea\Scripts\SoundManager.cs" />
      <Compile Include="Assets\ShipNSea\Scripts\SpawnRange.cs" />
@@ -977,9 +991,6 @@
  </Reference>
  <Reference Include="System.Data">
  <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="SharpOSC">
- <HintPath>E:/SoccerRehabilitationSystem/Assets/Plugins/MuseOSC/SharpOSC.dll</HintPath>
  </Reference>
  <Reference Include="LCPrinter">
  <HintPath>E:/SoccerRehabilitationSystem/Assets/printer/LCPrinter/Plugins/LCPrinter.dll</HintPath>

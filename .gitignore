@@ -72,3 +72,9 @@ crashlytics-build.properties
 
 *.resS
 *.asset
+/Data/报告/训练报告
+/Data/报告/评估报告
+/Data
+/Data/-1.csv
+/Data/111.csv
+/康复_Data
