@@ -258,7 +258,7 @@ public class AvatarCaculator : MonoBehaviour
         else
         {
             // 内收
-            return -1f * CaculateAngle(BodyVector, LeftArmVectorP, 180);
+            return 1f * CaculateAngle(BodyVector, LeftArmVectorP, 180);
         }
 
     }
@@ -292,7 +292,7 @@ public class AvatarCaculator : MonoBehaviour
         else
         {
             // 内收
-            return -1f * CaculateAngle(BodyVector, RightArmVectorP, 180);
+            return 1f * CaculateAngle(BodyVector, RightArmVectorP, 180);
         }
 
     }
@@ -327,7 +327,7 @@ public class AvatarCaculator : MonoBehaviour
         else
         {
             // 后伸
-            return -1f * CaculateAngle(BodyDownVector, LeftArmVectorP, 180);
+            return 1f * CaculateAngle(BodyDownVector, LeftArmVectorP, 180);
         }
 
     }
@@ -363,7 +363,7 @@ public class AvatarCaculator : MonoBehaviour
         else
         {
             // 后伸
-            return -1f * CaculateAngle(BodyDownVector, RightArmVectorP, 180);
+            return 1f * CaculateAngle(BodyDownVector, RightArmVectorP, 180);
         }
 
     }
