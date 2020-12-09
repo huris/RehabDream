@@ -171,6 +171,5 @@ F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.CJK.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\I18N.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Editor.dll
 F:\underground\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Runtime.dll
-E:\SoccerRehabilitationSystem\Temp\bin\Debug\SharpOSC.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Editor.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Runtime.dll

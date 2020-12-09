@@ -330,7 +330,7 @@ namespace XCharts
 
                 //print(DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore);
 
-                float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore /45;
+                float TrainingEvaluationRate = DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].EvaluationScore /25;
 
                 //TrainingEvaluationRate += DoctorDataManager.instance.doctor.patient.Evaluations[SingleEvaluation].soccerDistance.SumScore();
                 //TrainingEvaluationRate += NowConvexHull.ConvexHullArea / SideCoefficient / SideCoefficient * 6f;

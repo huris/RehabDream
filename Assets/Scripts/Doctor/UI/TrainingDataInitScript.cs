@@ -120,7 +120,7 @@ public class TrainingDataInitScript : MonoBehaviour {
 	{
 		if(DoctorDataManager.instance.doctor.patient.PlanIsMaking == false)
 		{
-			PlanIsNoMaking.SetActive(true);
+			//PlanIsNoMaking.SetActive(true);
 			return;
 		}
 

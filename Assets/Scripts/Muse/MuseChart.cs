@@ -65,7 +65,7 @@ public class MuseChart : MonoBehaviour {
     public OSCDirect oscD;
 
     // 数据来源
-    public static MuseMessage.ReceiveType receive = MuseMessage.ReceiveType.MuseMonitor;
+    public static MuseMessage.ReceiveType receive = MuseMessage.ReceiveType.MuseDirect;
 
     private Dictionary<MuseMessage.MuseDataType, SingleWaveBandChart> _WaveGraph;
     private string _FileName;

@@ -1126,11 +1126,11 @@ public class SkeletonOverlayer : MonoBehaviour
         List<Vector3> PositionOffset = new List<Vector3> {		// 8个方向的偏移量
             new Vector3(0f, 0.5f, 0f),
             new Vector3(-0.32f, 0.32f, 0f),
-            new Vector3(-0.5f, 0f, 0f),
+            new Vector3(-0.64f, 0f, 0f),
             new Vector3(-0.32f, -0.32f, 0f),
             new Vector3(0f, -0.5f, 0f),
             new Vector3(0.32f, -0.32f, 0f),
-            new Vector3(0.5f, 0f, 0f),
+            new Vector3(0.64f, 0f, 0f),
             new Vector3(0.32f, 0.32f, 0f),
         };
         for (int i = 1; i <= 8; i++)

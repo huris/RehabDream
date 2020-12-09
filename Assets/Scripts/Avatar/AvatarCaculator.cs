@@ -38,6 +38,11 @@ public class GravityCenterProfile
 [RequireComponent(typeof(Animator))]
 public class AvatarCaculator : MonoBehaviour
 {
+    // 在kinect坐标系下，人面对Kinect时，人体的前方向、右方向、上方向
+    public static Vector3 ManForward = new Vector3(0, 0, -1);
+    public static Vector3 ManRight = new Vector3(-1, 0, 0);
+    public static Vector3 ManUp = new Vector3(0, 1, 0);
+
     private Animator _Animator;
     public List<GravityCenterProfile> profiles;
     public int usingProfile = 0;
@@ -224,79 +229,147 @@ public class AvatarCaculator : MonoBehaviour
 
     }
 
-    // caculator LeftArmAngle
-    public float LeftArmAngle()
+    // 肩关节外展（内收）
+    public float LeftArmAbductionAngle()
     {
+        // 人体胳膊向量
         Vector3 LeftArmVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
                                 //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
                             GetKinectJointPosition(KinectInterop.JointType.ElbowLeft) -
                             GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft);
 
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
+
+        // 投影到冠状面
+        Vector3 LeftArmVectorP = Vector3.ProjectOnPlane(LeftArmVector, CoronalNormal);
+
 
         Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
                              //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
                             GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
                             GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
-        return CaculateAngle(BodyVector, LeftArmVector, 180);
+        if (Vector3.Dot(Vector3.Cross(LeftArmVectorP, BodyVector), CoronalNormal) > 0)
+        {
+            // 外展
+            return CaculateAngle(BodyVector, LeftArmVectorP, 180);
+        }
+        else
+        {
+            // 内收
+            return -1f * CaculateAngle(BodyVector, LeftArmVectorP, 180);
+        }
 
     }
 
-    public float RightArmAngle()
+    public float RightArmAbductionAngle()
     {
 
+        // 人体胳膊向量
         Vector3 RightArmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position -
-                                 // _Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
-                           GetKinectJointPosition(KinectInterop.JointType.ElbowRight) -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.ElbowRight) -
                             GetKinectJointPosition(KinectInterop.JointType.ShoulderRight);
 
-        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
 
-                             GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
-                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+        // 投影到冠状面
+        Vector3 RightArmVectorP = Vector3.ProjectOnPlane(RightArmVector, CoronalNormal);
 
-        return CaculateAngle(RightArmVector, BodyVector, 180);
-
-    }
-
-    public float LeftLegAngle()
-    {
-
-        Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
-                            //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position;
-                            GetKinectJointPosition(KinectInterop.JointType.KneeLeft) -
-                            GetKinectJointPosition(KinectInterop.JointType.HipLeft);
-
-        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
-                            //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
-
-                            GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
-                           GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
-
-        return CaculateAngle(BodyVector, LeftLegVector, 180);
-
-    }
-
-    public float RightLegAngle()
-    {
-
-        Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position -
-                                 //_Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
-                             GetKinectJointPosition(KinectInterop.JointType.KneeRight) -
-                            GetKinectJointPosition(KinectInterop.JointType.HipRight);
 
         Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
                              //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
                             GetKinectJointPosition(KinectInterop.JointType.SpineMid) -
-                           GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
 
-        return CaculateAngle(RightLegVector, BodyVector, 180);
+        if (Vector3.Dot(Vector3.Cross(RightArmVectorP, BodyVector), CoronalNormal) < 0)
+        {
+            // 外展
+            return CaculateAngle(BodyVector, RightArmVectorP, 180);
+        }
+        else
+        {
+            // 内收
+            return -1f * CaculateAngle(BodyVector, RightArmVectorP, 180);
+        }
 
     }
 
-    // 左肘关节角度
-    public float LeftElbowAngle()
+    // 左肩关节前屈（后伸）
+    public float LeftArmFlexionAngle()
+    {
+
+        // 人体胳膊向量
+        Vector3 LeftArmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.ElbowLeft) -
+                            GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft);
+
+        // 人体矢状面法向量（向左）
+        Vector3 SagittalNormal = GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft) - GetKinectJointPosition(KinectInterop.JointType.ShoulderRight);
+
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
+
+        // 将胳膊向量投影到矢状面
+        Vector3 LeftArmVectorP = Vector3.ProjectOnPlane(LeftArmVector, SagittalNormal);
+
+        Vector3 BodyDownVector = GetKinectJointPosition(KinectInterop.JointType.SpineMid) - GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+
+
+        if (Vector3.Dot(LeftArmVectorP, CoronalNormal) > 0)
+        {
+            // 前屈
+            return CaculateAngle(BodyDownVector, LeftArmVectorP, 180);
+        }
+        else
+        {
+            // 后伸
+            return -1f * CaculateAngle(BodyDownVector, LeftArmVectorP, 180);
+        }
+
+    }
+
+
+    // 右肩关节前屈（后伸）
+    public float RightFlexionAngle()
+    {
+
+        // 人体胳膊向量
+        Vector3 RightArmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position -
+                                 //_Animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.ElbowRight) -
+                            GetKinectJointPosition(KinectInterop.JointType.ShoulderRight);
+
+        // 人体矢状面法向量（向右）
+        Vector3 SagittalNormal = GetKinectJointPosition(KinectInterop.JointType.ShoulderRight) - GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft);
+
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
+
+        // 将胳膊向量投影到矢状面
+        Vector3 RightArmVectorP = Vector3.ProjectOnPlane(RightArmVector, SagittalNormal);
+
+        Vector3 BodyDownVector = GetKinectJointPosition(KinectInterop.JointType.SpineMid) - GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+
+
+        if (Vector3.Dot(RightArmVectorP, CoronalNormal) > 0)
+        {
+            // 前屈
+            return CaculateAngle(BodyDownVector, RightArmVectorP, 180);
+        }
+        else
+        {
+            // 后伸
+            return -1f * CaculateAngle(BodyDownVector, RightArmVectorP, 180);
+        }
+
+    }
+
+    // 左肘屈曲
+    public float LeftElbowFlexionAngle()
     {
         Vector3 LeftForearmVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftHand).position -
                                     //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
@@ -312,8 +385,8 @@ public class AvatarCaculator : MonoBehaviour
 
     }
 
-    // 右肘关节角度
-    public float RightElbowAngle()
+    // 右肘屈曲
+    public float RightElbowFlexionAngle()
     {
         Vector3 RightForearmVector = //_Animator.GetBoneTransform(HumanBodyBones.RightHand).position -
                                      //_Animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
@@ -328,8 +401,8 @@ public class AvatarCaculator : MonoBehaviour
         return CaculateAngle(RightArmVector, RightForearmVector, 180);
     }
 
-    // 左膝关节角度
-    public float LeftKneeAngle()
+    // 左膝屈曲
+    public float LeftKneeFlexionAngle()
     {
         Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
                                 //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
@@ -344,8 +417,8 @@ public class AvatarCaculator : MonoBehaviour
         return CaculateAngle(LeftLegVector, LeftShankVector, 180);
     }
 
-    // 右膝关节角度
-    public float RightKneeAngle()
+    // 右膝屈曲
+    public float RightKneeFlexionAngle()
     {
         Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
                                  //_Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
@@ -360,7 +433,7 @@ public class AvatarCaculator : MonoBehaviour
         return CaculateAngle(RightLegVector, RightShankVector, 180);
     }
 
-    // 左踝关节角度
+    // 左踝背屈（90-踝关节角度），或跖屈（踝关节角度-90）
     public float LeftAnkleAngle()
     {
         Vector3 LeftShankVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position -
@@ -373,7 +446,7 @@ public class AvatarCaculator : MonoBehaviour
                                 GetKinectJointPosition(KinectInterop.JointType.FootLeft) -
                                GetKinectJointPosition(KinectInterop.JointType.AnkleLeft);
 
-        return CaculateAngle(LeftShankVector, LeftFootVector, 180);
+        return 90 - CaculateAngle(LeftShankVector, LeftFootVector, 180);
     }
 
     // 右踝关节角度
@@ -389,49 +462,76 @@ public class AvatarCaculator : MonoBehaviour
                                 GetKinectJointPosition(KinectInterop.JointType.FootRight) -
                                GetKinectJointPosition(KinectInterop.JointType.AnkleRight);
 
-        return CaculateAngle(RightShankVector, RightFootVector, 180);
+        return 90 - CaculateAngle(RightShankVector, RightFootVector, 180);
     }
 
-    // 左腿与竖直平面夹角
+    // 左髋外展
     public float LeftHipAngle()
     {
-        Vector3 LeftLegVector = _Animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position;
 
-        if (LeftLegVector.x < 0)    // LeftLegVector与-x同向
+        // 人体大腿向量
+        Vector3 LeftLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.HipLeft) -
+                            GetKinectJointPosition(KinectInterop.JointType.KneeLeft);
+
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
+
+        // 投影到冠状面
+        Vector3 LeftLegVectorP = Vector3.ProjectOnPlane(LeftLegVector, CoronalNormal);
+
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                             //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                            GetKinectJointPosition(KinectInterop.JointType.SpineBase) -
+                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+
+        if (Vector3.Dot(Vector3.Cross(LeftLegVectorP, BodyVector), CoronalNormal) > 0)
         {
-            //竖直平面法向量
-            Vector3 NormalVector = new Vector3(-1, 0, 0);
-            return -1 * (90.0f - CaculateAngle(LeftLegVector, NormalVector, 180));
+            // 外展
+            return CaculateAngle(BodyVector, LeftLegVectorP, 180);
         }
-        else    // LeftLegVector与+x同向
+        else
         {
-            //竖直平面法向量
-            Vector3 NormalVector = new Vector3(+1, 0, 0);
-            return 90.0f - CaculateAngle(LeftLegVector, NormalVector, 180);
+            // 内收
+            return CaculateAngle(BodyVector, LeftLegVectorP, 180);
         }
 
     }
 
 
 
-    // 右腿与竖直平面夹角
+    // 右髋外展
     public float RightHipAngle()
     {
-        Vector3 RightLegVector = _Animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position -
-                           _Animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position;
+        // 人体大腿向量
+        Vector3 RightLegVector = //_Animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position -
+                                //_Animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
+                            GetKinectJointPosition(KinectInterop.JointType.HipRight) -
+                            GetKinectJointPosition(KinectInterop.JointType.KneeRight);
 
-        if (RightLegVector.x < 0)    // RightLegVector与-x同向
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = GetCoronalNormal();
+
+        // 投影到冠状面
+        Vector3 RightLegVectorP = Vector3.ProjectOnPlane(RightLegVector, CoronalNormal);
+
+
+        Vector3 BodyVector = //_Animator.GetBoneTransform(HumanBodyBones.Hips).position -
+                             //_Animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                            GetKinectJointPosition(KinectInterop.JointType.SpineBase) -
+                            GetKinectJointPosition(KinectInterop.JointType.SpineShoulder);
+
+        if (Vector3.Dot(Vector3.Cross(RightLegVectorP, BodyVector), CoronalNormal) < 0)
         {
-            //竖直平面法向量
-            Vector3 NormalVector = new Vector3(-1, 0, 0);
-            return -1 * (90.0f - CaculateAngle(RightLegVector, NormalVector, 180));
+            // 外展
+            return CaculateAngle(BodyVector, RightLegVectorP, 180);
         }
-        else    // RightLegVector与+x同向
+        else
         {
-            //竖直平面法向量
-            Vector3 NormalVector = new Vector3(+1, 0, 0);
-            return 90.0f - CaculateAngle(RightLegVector, NormalVector, 180);
+            // 内收
+            return CaculateAngle(BodyVector, RightLegVectorP, 180);
         }
 
     }
@@ -486,7 +586,7 @@ public class AvatarCaculator : MonoBehaviour
         Vector3 SpineVector = _Animator.GetBoneTransform(HumanBodyBones.Spine).position -
                            _Animator.GetBoneTransform(HumanBodyBones.Hips).position;
 
-        Vector3 Up = new Vector3(0,1,0);
+        Vector3 Up = new Vector3(0, 1, 0);
 
         return CaculateAngle(SpineVector, Up, 180);
     }
@@ -506,7 +606,7 @@ public class AvatarCaculator : MonoBehaviour
     //// 将动画骨骼 转换成 Kinect关节
     //public KinectInterop.JointType AnimatorBones2KinectJoints(HumanBodyBones Bone)
     //{
-        
+
     //}
 
 
@@ -702,6 +802,18 @@ public class AvatarCaculator : MonoBehaviour
 
         Debug.Log(HandLength);
         return HandLength;
+    }
+
+    // 冠状面法向量
+    public Vector3 GetCoronalNormal()
+    {
+        // 人体冠状面法向量（向前）
+        Vector3 CoronalNormal = Vector3.Cross(
+            GetKinectJointPosition(KinectInterop.JointType.ShoulderLeft) - GetKinectJointPosition(KinectInterop.JointType.ShoulderRight),
+            GetKinectJointPosition(KinectInterop.JointType.SpineBase) - GetKinectJointPosition(KinectInterop.JointType.SpineShoulder)
+            );
+
+        return CoronalNormal;
     }
 
 }

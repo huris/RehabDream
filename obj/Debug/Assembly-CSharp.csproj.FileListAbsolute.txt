@@ -135,7 +135,6 @@ E:\SoccerRehabilitationSystem\Temp\bin\Debug\Newtonsoft.Json.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\NPinyin.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\nunit.framework.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\Poly2Tri.dll
-E:\SoccerRehabilitationSystem\Temp\bin\Debug\SharpOSC.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Editor.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\TextMeshPro-2017.2-1.0.56-Runtime.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEditor.dll
@@ -160,7 +159,6 @@ E:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.UNetWeaver.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.CecilTools.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.Cecil.Pdb.dll
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\Unity.Cecil.Mdb.dll
-E:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.xml
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEditor.xml
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\UnityEngine.UI.xml
@@ -176,3 +174,4 @@ E:\SoccerRehabilitationSystem\Temp\bin\Debug\DemiLib.xml
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTween.xml
 E:\SoccerRehabilitationSystem\Temp\bin\Debug\DOTweenPro.xml
 E:\SoccerRehabilitationSystem\obj\Debug\Assembly-CSharp.csproj.CopyComplete
+E:\SoccerRehabilitationSystem\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb

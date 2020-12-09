@@ -7582,6 +7582,7 @@ MonoBehaviour:
   volumeRange: {x: 0.1, y: 1}
   pitchRange: {x: 0.5, y: 1}
   canvas: {fileID: 856861055}
+  _Animator: {fileID: 59541636}
 --- !u!4 &626844683
 Transform:
   m_ObjectHideFlags: 0
@@ -14680,7 +14681,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1052240311}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -443.90002, y: 4.200001, z: 0}
+  m_LocalPosition: {x: -443.9001, y: 4.200001, z: 0}
   m_LocalScale: {x: 0.61213136, y: 0.6121314, z: 0.6121314}
   m_Children: []
   m_Father: {fileID: 1470119753}
@@ -14688,7 +14689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -758.7001, y: -7.4}
+  m_AnchoredPosition: {x: -758.7, y: -7.4}
   m_SizeDelta: {x: 357.72, y: 114.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1052240313
@@ -29331,12 +29332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NowVersion: 1.6.0_20200824
   m_NewVersion: 
-  m_ChartList:
-  - {fileID: 1445062401}
-  - {fileID: 807872327}
-  - {fileID: 2095935013}
-  - {fileID: 1285742282}
-  - {fileID: 952453761}
+  m_ChartList: []
 --- !u!1 &1988743028
 GameObject:
   m_ObjectHideFlags: 0

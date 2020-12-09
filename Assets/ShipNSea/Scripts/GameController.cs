@@ -49,6 +49,8 @@ namespace ShipNSea
         [Header("我的Canvas")]
         public Canvas canvas;
 
+        public Animator _Animator;
+
         public bool Speeding { get { return _isSpeeding; } }
         public List<GameObject> StaticFlocks { get { return _staticFlocks; } }
         public int StaticCounter { get { return _staticCounter; } }
@@ -173,16 +175,20 @@ namespace ShipNSea
 
                 //脖子节点
                 Vector3 center;
-                if (DoctorDataManager.instance.doctor.patient.PatientSex != "女")
-                {
-                    center = gravityCenterScript.CalculateGravityCenter(true);
-                }
-                else
-                {
-                    center = gravityCenterScript.CalculateGravityCenter(false);
-                }
 
-                    
+                center = _Animator.GetBoneTransform(HumanBodyBones.Neck).position;
+
+
+                //if (DoctorDataManager.instance.doctor.patient.PatientSex != "女")
+                //{
+                //    center = gravityCenterScript.CalculateGravityCenter(true);
+                //}
+                //else
+                //{
+                //    center = gravityCenterScript.CalculateGravityCenter(false);
+                //}
+
+
                 //原点0,0,0
                 Vector3 footCenter = centerPoint.position;
                 //脖子节点->v.zero

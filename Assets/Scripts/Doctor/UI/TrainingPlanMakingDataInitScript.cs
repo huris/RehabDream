@@ -137,6 +137,7 @@ public class TrainingPlanMakingDataInitScript : MonoBehaviour {
             {
                 TrainingStart.SetActive(false);
 
+
                 PlanDifficult.value = 0;
                 PlanDirection.value = 0;
                 PlanTime.text = "";

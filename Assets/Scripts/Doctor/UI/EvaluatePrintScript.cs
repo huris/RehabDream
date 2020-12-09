@@ -167,11 +167,12 @@ namespace XCharts
                 EvaluationScore.text = evaluation.EvaluationScore.ToString() + " 分";
 
                 EvaluationDuration = transform.Find("Evaluation/EvaluationInfo/Duration/EvaluationDuration").GetComponent<Text>();
+
                 EvaluationDuration.text = (long.Parse(evaluation.EvaluationEndTime.Substring(9, 2)) * 3600 + long.Parse(evaluation.EvaluationEndTime.Substring(12, 2)) * 60 + long.Parse(evaluation.EvaluationEndTime.Substring(15, 2))
                                            - long.Parse(evaluation.EvaluationStartTime.Substring(9, 2)) * 3600 - long.Parse(evaluation.EvaluationStartTime.Substring(12, 2)) * 60 - long.Parse(evaluation.EvaluationStartTime.Substring(15, 2))).ToString() + " 秒";
 
                 EvaluationRank = transform.Find("Evaluation/EvaluationInfo/Rank/EvaluationRank").GetComponent<Text>();
-                float TrainingEvaluationRate = evaluation.EvaluationScore/40;
+                float TrainingEvaluationRate = evaluation.EvaluationScore/25;
                 if (TrainingEvaluationRate >= 80f) { EvaluationRank.text = "1 级"; }
                 else if (TrainingEvaluationRate >= 70f) { EvaluationRank.text = "2 级"; }
                 else if (TrainingEvaluationRate >= 60f) { EvaluationRank.text = "3 级"; }
@@ -342,84 +343,95 @@ namespace XCharts
             SoccerBar.series.UpdateData(0, 8, NowSoccerDistance.FrontSoccerDistance);
             SoccerBar.series.UpdateData(0, 9, NowSoccerDistance.BehindSoccerDistance);
 
-            SoccerBar.series.UpdateData(1, 0, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime);
-            SoccerBar.series.UpdateData(1, 1, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime);
-            SoccerBar.series.UpdateData(1, 2, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime);
-            SoccerBar.series.UpdateData(1, 3, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime);
-            SoccerBar.series.UpdateData(1, 4, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime);
-            SoccerBar.series.UpdateData(1, 5, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 6, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 7, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime);
-            SoccerBar.series.UpdateData(1, 8, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime);
-            SoccerBar.series.UpdateData(1, 9, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime);
+            //SoccerBar.series.UpdateData(1, 0, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime);
+            //SoccerBar.series.UpdateData(1, 1, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime);
+            //SoccerBar.series.UpdateData(1, 2, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime);
+            //SoccerBar.series.UpdateData(1, 3, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime);
+            //SoccerBar.series.UpdateData(1, 4, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime);
+            //SoccerBar.series.UpdateData(1, 5, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime);
+            //SoccerBar.series.UpdateData(1, 6, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime);
+            //SoccerBar.series.UpdateData(1, 7, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime);
+            //SoccerBar.series.UpdateData(1, 8, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime);
+            //SoccerBar.series.UpdateData(1, 9, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime);
+
+            SoccerBar.series.UpdateData(1, 0, 1.0f * NowSoccerDistance.UponSoccerScore);
+            SoccerBar.series.UpdateData(1, 1, 1.0f * NowSoccerDistance.UponRightSoccerScore);
+            SoccerBar.series.UpdateData(1, 2, 1.0f * NowSoccerDistance.RightSoccerScore);
+            SoccerBar.series.UpdateData(1, 3, 1.0f * NowSoccerDistance.DownRightSoccerScore);
+            SoccerBar.series.UpdateData(1, 4, 1.0f * NowSoccerDistance.DownSoccerScore);
+            SoccerBar.series.UpdateData(1, 5, 1.0f * NowSoccerDistance.DownLeftSoccerScore);
+            SoccerBar.series.UpdateData(1, 6, 1.0f * NowSoccerDistance.LeftSoccerScore);
+            SoccerBar.series.UpdateData(1, 7, 1.0f * NowSoccerDistance.UponLeftSoccerScore);
+            SoccerBar.series.UpdateData(1, 8, 1.0f * NowSoccerDistance.FrontSoccerScore);
+            SoccerBar.series.UpdateData(1, 9, 1.0f * NowSoccerDistance.BehindSoccerScore);
 
             SoccerBar.RefreshChart();
 
-            SetResultDataText(NowSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 2);
-            SetResultDataText(NowSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 2);
-            SetResultDataText(NowSoccerDistance.RightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime).ToString("0.0000"), 5, 2);
-            SetResultDataText(NowSoccerDistance.DownRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime).ToString("0.0000"), 6, 2);
-            SetResultDataText(NowSoccerDistance.DownSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime).ToString("0.0000"), 7, 2);
-            SetResultDataText(NowSoccerDistance.DownLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime).ToString("0.0000"), 8, 2);
-            SetResultDataText(NowSoccerDistance.LeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime).ToString("0.0000"), 9, 2);
-            SetResultDataText(NowSoccerDistance.UponLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime).ToString("0.0000"), 10, 2);
-            SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 2);
-            SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 2);
+            SetResultDataText(NowSoccerDistance.UponSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.UponSoccerScore).ToString(), 3, 2);
+            SetResultDataText(NowSoccerDistance.UponRightSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.UponRightSoccerScore).ToString(), 4, 2);
+            SetResultDataText(NowSoccerDistance.RightSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.RightSoccerScore).ToString(), 5, 2);
+            SetResultDataText(NowSoccerDistance.DownRightSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.DownRightSoccerScore).ToString(), 6, 2);
+            SetResultDataText(NowSoccerDistance.DownSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.DownSoccerScore).ToString(), 7, 2);
+            SetResultDataText(NowSoccerDistance.DownLeftSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.DownLeftSoccerScore).ToString(), 8, 2);
+            SetResultDataText(NowSoccerDistance.LeftSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.LeftSoccerScore).ToString(), 9, 2);
+            SetResultDataText(NowSoccerDistance.UponLeftSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.UponLeftSoccerScore).ToString(), 10, 2);
+            SetResultDataText(NowSoccerDistance.FrontSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.FrontSoccerScore).ToString(), 11, 2);
+            SetResultDataText(NowSoccerDistance.BehindSoccerDistance.ToString() + " | " + (1.0f * NowSoccerDistance.BehindSoccerScore).ToString(), 12, 2);
 
             if (LastSingleEvaluation != SingleEvaluation)
             {
-                SetResultDataText(LastSoccerDistance.UponSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime).ToString("0.0000"), 3, 1);
-                SetResultDataText(LastSoccerDistance.UponRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime).ToString("0.0000"), 4, 1);
-                SetResultDataText(LastSoccerDistance.RightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime).ToString("0.0000"), 5, 1);
-                SetResultDataText(LastSoccerDistance.DownRightSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime).ToString("0.0000"), 6, 1);
-                SetResultDataText(LastSoccerDistance.DownSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime).ToString("0.0000"), 7, 1);
-                SetResultDataText(LastSoccerDistance.DownLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime).ToString("0.0000"), 8, 1);
-                SetResultDataText(LastSoccerDistance.LeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime).ToString("0.0000"), 9, 1);
-                SetResultDataText(LastSoccerDistance.UponLeftSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime).ToString("0.0000"), 10, 1);
-                SetResultDataText(LastSoccerDistance.FrontSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime).ToString("0.0000"), 11, 1);
-                SetResultDataText(LastSoccerDistance.BehindSoccerDistance.ToString("0.0000") + " | " + (1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime).ToString("0.0000"), 12, 1);
+                SetResultDataText(LastSoccerDistance.UponSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.UponSoccerScore).ToString(), 3, 1);
+                SetResultDataText(LastSoccerDistance.UponRightSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.UponRightSoccerScore).ToString(), 4, 1);
+                SetResultDataText(LastSoccerDistance.RightSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.RightSoccerScore).ToString(), 5, 1);
+                SetResultDataText(LastSoccerDistance.DownRightSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.DownRightSoccerScore).ToString(), 6, 1);
+                SetResultDataText(LastSoccerDistance.DownSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.DownSoccerScore).ToString(), 7, 1);
+                SetResultDataText(LastSoccerDistance.DownLeftSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.DownLeftSoccerScore).ToString(), 8, 1);
+                SetResultDataText(LastSoccerDistance.LeftSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.LeftSoccerScore).ToString(), 9, 1);
+                SetResultDataText(LastSoccerDistance.UponLeftSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.UponLeftSoccerScore).ToString(), 10, 1);
+                SetResultDataText(LastSoccerDistance.FrontSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.FrontSoccerScore).ToString(), 11, 1);
+                SetResultDataText(LastSoccerDistance.BehindSoccerDistance.ToString() + " | " + (1.0f * LastSoccerDistance.BehindSoccerScore).ToString(), 12, 1);
 
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime),
-                               new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime), 4), 3, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime),
-                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime), 4), 4, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime),
-                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime), 4), 5, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime),
-                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime), 4), 6, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime),
-                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime), 4), 7, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime), 4), 8, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime),
-                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime), 4), 9, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime), 4), 10, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime),
-                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime), 4), 11, 3);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime),
-                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime), 4), 12, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore),
+                               new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore), 4), 3, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore),
+                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore), 4), 4, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore),
+                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore), 4), 5, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore),
+                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore), 4), 6, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore),
+                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore), 4), 7, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore),
+                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore), 4), 8, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore),
+                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore), 4), 9, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore),
+                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore), 4), 10, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore),
+                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore), 4), 11, 3);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore),
+                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore), 4), 12, 3);
 
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore / LastSoccerDistance.UponSoccerTime),
-                                new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore / NowSoccerDistance.UponSoccerTime), 2), 3, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore / LastSoccerDistance.UponRightSoccerTime),
-                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore / NowSoccerDistance.UponRightSoccerTime), 2), 4, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore / LastSoccerDistance.RightSoccerTime),
-                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore / NowSoccerDistance.RightSoccerTime), 2), 5, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore / LastSoccerDistance.DownRightSoccerTime),
-                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore / NowSoccerDistance.DownRightSoccerTime), 2), 6, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore / LastSoccerDistance.DownSoccerTime),
-                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore / NowSoccerDistance.DownSoccerTime), 2), 7, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore / LastSoccerDistance.DownLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore / NowSoccerDistance.DownLeftSoccerTime), 2), 8, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore / LastSoccerDistance.LeftSoccerTime),
-                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore / NowSoccerDistance.LeftSoccerTime), 2), 9, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore / LastSoccerDistance.UponLeftSoccerTime),
-                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore / NowSoccerDistance.UponLeftSoccerTime), 2), 10, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore / LastSoccerDistance.FrontSoccerTime),
-                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore / NowSoccerDistance.FrontSoccerTime), 2), 11, 4);
-                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore / LastSoccerDistance.BehindSoccerTime),
-                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore / NowSoccerDistance.BehindSoccerTime), 2), 12, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponSoccerDistance, 1.0f * LastSoccerDistance.UponSoccerScore),
+                                new Vector2(NowSoccerDistance.UponSoccerDistance, 1.0f * NowSoccerDistance.UponSoccerScore), 2), 3, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponRightSoccerDistance, 1.0f * LastSoccerDistance.UponRightSoccerScore),
+                                new Vector2(NowSoccerDistance.UponRightSoccerDistance, 1.0f * NowSoccerDistance.UponRightSoccerScore), 2), 4, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.RightSoccerDistance, 1.0f * LastSoccerDistance.RightSoccerScore),
+                                new Vector2(NowSoccerDistance.RightSoccerDistance, 1.0f * NowSoccerDistance.RightSoccerScore), 2), 5, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownRightSoccerDistance, 1.0f * LastSoccerDistance.DownRightSoccerScore),
+                                new Vector2(NowSoccerDistance.DownRightSoccerDistance, 1.0f * NowSoccerDistance.DownRightSoccerScore), 2), 6, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownSoccerDistance, 1.0f * LastSoccerDistance.DownSoccerScore),
+                                new Vector2(NowSoccerDistance.DownSoccerDistance, 1.0f * NowSoccerDistance.DownSoccerScore), 2), 7, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.DownLeftSoccerDistance, 1.0f * LastSoccerDistance.DownLeftSoccerScore),
+                                new Vector2(NowSoccerDistance.DownLeftSoccerDistance, 1.0f * NowSoccerDistance.DownLeftSoccerScore), 2), 8, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.LeftSoccerDistance, 1.0f * LastSoccerDistance.LeftSoccerScore),
+                                new Vector2(NowSoccerDistance.LeftSoccerDistance, 1.0f * NowSoccerDistance.LeftSoccerScore), 2), 9, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.UponLeftSoccerDistance, 1.0f * LastSoccerDistance.UponLeftSoccerScore),
+                                new Vector2(NowSoccerDistance.UponLeftSoccerDistance, 1.0f * NowSoccerDistance.UponLeftSoccerScore), 2), 10, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.FrontSoccerDistance, 1.0f * LastSoccerDistance.FrontSoccerScore),
+                                new Vector2(NowSoccerDistance.FrontSoccerDistance, 1.0f * NowSoccerDistance.FrontSoccerScore), 2), 11, 4);
+                SetResultDataText(GetEvaluationResult(new Vector2(LastSoccerDistance.BehindSoccerDistance, 1.0f * LastSoccerDistance.BehindSoccerScore),
+                                new Vector2(NowSoccerDistance.BehindSoccerDistance, 1.0f * NowSoccerDistance.BehindSoccerScore), 2), 12, 4);
 
             }
 

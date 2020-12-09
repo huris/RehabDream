@@ -67,8 +67,8 @@ namespace ShipNSea
 				levelStr = "等级 0";
 				levelETemp = LevelE.zero;
 				levelE = LevelE.one;
-				MapDetectionController.barrierNum = 3;
-				FishFlock.captureTime = .5f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 			}
 			else if (exp < (int)LevelE.two)
 			{
@@ -76,8 +76,8 @@ namespace ShipNSea
 				levelStr = "等级 1";
 				levelETemp = LevelE.one;
 				levelE = LevelE.two;
-				MapDetectionController.barrierNum = 4;
-				FishFlock.captureTime = 1f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 
 			}
 			else if (exp < (int)LevelE.three)
@@ -86,8 +86,8 @@ namespace ShipNSea
 				levelStr = "等级 2";
 				levelETemp = LevelE.two;
 				levelE = LevelE.three;
-				MapDetectionController.barrierNum = 5;
-				FishFlock.captureTime = 1.5f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 
 			}
 			else if (exp < (int)LevelE.four)
@@ -96,8 +96,8 @@ namespace ShipNSea
 				levelStr = "等级 3";
 				levelETemp = LevelE.three;
 				levelE = LevelE.four;
-				MapDetectionController.barrierNum = 6;
-				FishFlock.captureTime = 2f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 
 			}
 			else if (exp < (int)LevelE.five)
@@ -106,8 +106,8 @@ namespace ShipNSea
 				levelStr = "等级 4";
 				levelETemp = LevelE.four;
 				levelE = LevelE.five;
-				MapDetectionController.barrierNum = 7;
-				FishFlock.captureTime = 2.5f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 
 			}
 			else if (exp < (int)LevelE.six)
@@ -116,8 +116,8 @@ namespace ShipNSea
 				levelStr = "等级 5";
 				levelETemp = LevelE.five;
 				levelE = LevelE.six;
-				MapDetectionController.barrierNum = 8;
-				FishFlock.captureTime = 3f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 
 			}
 			else
@@ -126,8 +126,8 @@ namespace ShipNSea
 				levelStr = "等级 6";
 				levelETemp = LevelE.six;
 				levelE = LevelE.six;
-				MapDetectionController.barrierNum = 9;
-				FishFlock.captureTime = 3.5f;
+				MapDetectionController.barrierNum = 0;
+				FishFlock.captureTime = .1f;
 			}
 			if (levelETemp == LevelE.six)
 			{
