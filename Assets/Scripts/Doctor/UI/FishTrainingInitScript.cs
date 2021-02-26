@@ -280,6 +280,10 @@ namespace XCharts
 				ShipNSea.GameState.outUserDAO.gList,
 				long.Parse(ShipNSea.GameState.outUserDAO.gotStaticFishCount) * 100 + long.Parse(ShipNSea.GameState.outUserDAO.gotDynamicFishCount) * 150
 				);
+			ShipNSea.GameState.outUserDAO.staticFishCount = 0;
+			ShipNSea.GameState.outUserDAO.dynamicFishCount = 0;
+			SpawnRange.staticFishCount = 0;
+			SpawnRange.dynamicFishCount = 0;
 
 			PatientDatabaseManager.instance.WritePatientFishRecord(DoctorDataManager.instance.doctor.patient.PatientID,
 				DoctorDataManager.instance.doctor.patient.FishTrainingPlays.Last());
