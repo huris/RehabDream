@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Scenes/07-DoctorTest.unity
-  isLoaded: 1
-  isActive: 1
